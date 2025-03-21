@@ -171,6 +171,16 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/contabilidad/paginas/documento/depreciacion/depreciacion-formulario/depreciacion-formulario.component'
       ),
   },
+  603: {
+    detalle: async () =>
+      await import(
+        '../../../modules/contabilidad/paginas/documento/cierre/cierre-detalle/cierre-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/contabilidad/paginas/documento/cierre/cierre-formulario/cierre-formulario.component'
+      ),
+  },
   701: {
     detalle: async () =>
       await import(

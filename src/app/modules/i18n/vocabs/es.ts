@@ -118,6 +118,7 @@ export const locale = {
         AUXILIARGENERAL: 'Auxiliar general',
         CERTIFICADORETENCION: 'Certificado retención',
         BASE: 'Base',
+        CIERRE: 'Cierre',
       },
     },
     FORMULARIOS: {
@@ -169,6 +170,7 @@ export const locale = {
           IMPUESTOS: 'Impuestos',
           CARGARACTIVOS: 'Cargar activos',
           VERINCONSISTENCIAS: 'Ver inconsistencias',
+          RESULTADOS: 'Resultados'
         },
         CONTENEDOR: {
           CONECTAR: 'Conectar',
@@ -1033,7 +1035,7 @@ export const locale = {
         ACTIVOCODIGO: 'Activo código',
         ACTIVONOMBRE: 'Activo Nombre',
         CIERRE: 'Cierre',
-        COMPROBANTE_ID: 'Comprobante id'
+        COMPROBANTE_ID: 'Comprobante id',
       },
       ITEM: {
         ID: 'ID',

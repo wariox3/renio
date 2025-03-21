@@ -328,6 +328,19 @@ export const initialState: MenuItem = {
               visualiazarIconoDeracha: true,
               consultaHttp: true,
             },
+            {
+              nombre: 'CIERRE',
+              documentacionId: 1020,
+              tipo: 'documento',
+              modulo: 'contabilidad',
+              data: {
+                documento_clase: 603,
+                ordenamiento: 'estado_aprobado, -fecha, -numero, -id',
+                visualizarBtnImportar: 'no',
+              },
+              visualiazarIconoDeracha: true,
+              consultaHttp: true,
+            },
             // {
             //   nombre: 'MOVIMIENTO',
             //   tipo: 'documento',

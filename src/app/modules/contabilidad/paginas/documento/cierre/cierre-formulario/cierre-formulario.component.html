@@ -1,0 +1,595 @@
+<form [formGroup]="formularioCierre" (ngSubmit)="formSubmit()">
+  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+    @if (detalle) {
+      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+        <app-importar-detalles
+          [estadoHabilitado]="estado_aprobado"
+          (emitirDetallesAgregados)="consultardetalle()"
+        ></app-importar-detalles>
+      </div>
+    }
+  </app-comun-encabezado-formulario-nuevo>
+  <app-card>
+    <section card-titulo>
+      <app-comun-titulo-accion></app-comun-titulo-accion>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CONTACTO"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="contactoNombre"
+              (focus)="consultarCliente($event); ClienteDropdown.open()"
+              (keyup)="consultarCliente($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioCierre.controls['contacto'].touched &&
+                  formularioCierre.controls['contacto'].invalid,
+                'is-valid':
+                  formularioCierre.controls['contacto'].touched &&
+                  formularioCierre.controls['contacto'].valid,
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let contacto of arrContactos">
+              <span
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contacto', contacto)"
+                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
+              >
+                {{ contacto.contacto_nombre_corto }}
+              </span>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <span
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModalContactoNuevo(content)"
+            >
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+              <ng-template #content let-modal>
+                <div class="modal-body">
+                  <app-contacto-formulario
+                    [ocultarBtnAtras]="true"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
+                    [tituloFijo]="true"
+                  />
+                </div>
+              </ng-template>
+            </span>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarModelo]="'GenContacto'"
+                [consultarTipo]="'Administrador'"
+                (emitirRegistroSeleccionado)="
+                  modificarCampoFormulario('contacto-ver-mas', $event)
+                "
+                [campoLista]="campoListaContacto"
+              >
+              </app-comun-buscar-avanzado>
+            </button>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioCierre.controls['contacto'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
+          ></label>
+          <input
+            formControlName="fecha"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioCierre.controls['fecha'].touched &&
+                formularioCierre.controls['fecha'].invalid,
+              'is-valid':
+                formularioCierre.controls['fecha'].touched &&
+                formularioCierre.controls['fecha'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioCierre.controls['fecha'],
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioCierre.controls.fecha?.touched &&
+              formularioCierre.controls.fecha?.hasError('fechaSuperiorNoValida')
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="grupo_contabilidad"
+            [ngClass]="{
+              'is-invalid':
+                formularioCierre.controls['grupo_contabilidad'].touched &&
+                formularioCierre.controls['grupo_contabilidad'].invalid,
+              'is-valid':
+                formularioCierre.controls['grupo_contabilidad'].touched &&
+                formularioCierre.controls['grupo_contabilidad'].valid,
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option *ngFor="let grupo of arrGrupo" [value]="grupo.grupo_id">
+              {{ grupo.grupo_nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-6 col-sm-12">
+          <label class="form-label required"> Cuenta</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaCodigo"
+            [cuentaNombre]="cuentaNombre"
+            [campoInvalido]="
+              formularioCierre.get('cuenta')?.touched &&
+              formularioCierre.get('cuenta')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaCobrarSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+          ></label>
+          <textarea
+            formControlName="comentario"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            (blur)="modificarCampoFormulario('comentario', null)"
+            rows="3"
+            [ngClass]="{
+              'is-invalid':
+                formularioCierre.controls['comentario'].touched &&
+                formularioCierre.controls['comentario'].invalid,
+              'is-valid':
+                formularioCierre.controls['comentario'].touched &&
+                formularioCierre.controls['comentario'].valid,
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '500',
+              control: formularioCierre.controls['comentario'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+
+      <div class="row mb-5">
+        <div class="col-12">
+          <ul
+            ngbNav
+            #nav="ngbNav"
+            [(activeId)]="active"
+            class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+          >
+            <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ 'text-primary': active === 1 }"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+              ></a>
+              <ng-template ngbNavContent>
+                <div class="d-flex justify-content-end my-3">
+                  <div class="btn-group contenedor-btn-group">
+                    <button
+                      (click)="abrirModalResultados(modalResultadosContent)"
+                      class="btn btn-sm btn-primary"
+                      type="button"
+                      translate="FORMULARIOS.BOTONES.COMUNES.RESULTADOS"
+                    ></button>
+                  </div>
+                </div>
+                <div class="table-responsive-sm">
+                  <table
+                    id="tableDetalles"
+                    class="table table-bordered table-sm"
+                  >
+                    <thead>
+                      <tr class="bg-gray-100">
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.ID'"
+                          style="width: 50px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.NUMERO'"
+                          style="width: 100px"
+                        ></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.GRUPO'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.BASE'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.VALOR'"
+                          style="width: 100px"
+                        ></th>
+                        <th
+                          [translate]="'LISTAS.DOCUMENTO.DETALLE'"
+                          style="width: 100px"
+                        ></th>
+                        <th class="text-center" style="width: 50px"></th>
+                      </tr>
+                    </thead>
+                    <tbody formArrayName="detalles">
+                      <ng-container
+                        *ngFor="let detalle of detalles.controls; let i = index"
+                        [formGroupName]="i"
+                      >
+                        <tr>
+                          <td class="w-40px">{{ detalle.value.id }}</td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="numero"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'numero', $event)"
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('numero')?.touched &&
+                                  detalle.get('numero')?.invalid,
+                                'is-valid':
+                                  detalle.get('numero')?.touched &&
+                                  detalle.get('numero')?.invalid,
+                              }"
+                            />
+                            <ng-container
+                              [ngTemplateOutlet]="formError"
+                              [ngTemplateOutletContext]="{
+                                validation: 'required',
+                                message:
+                                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                  | translate,
+                                control: detalle.get('numero'),
+                              }"
+                            ></ng-container>
+                          </td>
+                          <td>
+                            <app-comun-contactos
+                              [contactoNombre]="
+                                detalle.value.contacto_nombre_corto
+                              "
+                              (emitirContacto)="
+                                agregarContactoSeleccionado($event, i)
+                              "
+                            >
+                            </app-comun-contactos>
+                          </td>
+                          <td class="p-1">
+                            <app-comun-cuentas
+                              [documentoEnlazado]="
+                                detalle.value.documento_afectado !== null
+                              "
+                              [cuentaCodigo]="detalle.value.cuenta_codigo"
+                              [cuentaNombre]="detalle.value.cuenta_nombre"
+                              [campoInvalido]="
+                                detalle.get('cuenta')?.touched &&
+                                detalle.get('cuenta')?.invalid
+                              "
+                              (emitirArrCuentas)="
+                                agregarCuentaSeleccionado($event, i)
+                              "
+                            ></app-comun-cuentas>
+                          </td>
+                          <td>
+                            <select
+                              formControlName="grupo"
+                              class="form-select form-select-sm"
+                            >
+                              <option value="">
+                                {{
+                                  "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR"
+                                    | translate
+                                }}
+                              </option>
+                              <option
+                                *ngFor="let grupo of arrGrupo"
+                                [value]="grupo.grupo_id"
+                              >
+                                {{ grupo.grupo_nombre }}
+                              </option>
+                            </select>
+                          </td>
+                          <td>
+                            <ng-container
+                              *ngIf="
+                                detalle.value.documento_afectado === null;
+                                else selectDisabled
+                              "
+                            >
+                              <select
+                                formControlName="naturaleza"
+                                class="form-select form-select-sm"
+                                (change)="calcularTotales()"
+                              >
+                                <option value="D">Débito</option>
+                                <option value="C">Crédito</option>
+                              </select>
+                            </ng-container>
+                            <ng-template #selectDisabled>
+                              <select
+                                disabled
+                                class="form-select form-select-sm"
+                              >
+                                <option value="C">Crédito</option>
+                              </select>
+                            </ng-template>
+                          </td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="base"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'base', $event)"
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid,
+                                'is-valid':
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid,
+                              }"
+                            />
+                          </td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="precio"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'precio', $event)"
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.invalid,
+                                'is-valid':
+                                  detalle.get('precio')?.touched &&
+                                  detalle.get('precio')?.invalid,
+                              }"
+                            />
+                            <ng-container
+                              [ngTemplateOutlet]="formError"
+                              [ngTemplateOutletContext]="{
+                                validation: 'required',
+                                message:
+                                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
+                                  | translate,
+                                control: detalle.get('precio'),
+                              }"
+                            ></ng-container>
+                          </td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="detalle"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'detalle', $event)"
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('detalle')?.touched &&
+                                  detalle.get('detalle')?.invalid,
+                                'is-valid':
+                                  detalle.get('detalle')?.touched &&
+                                  detalle.get('detalle')?.invalid,
+                              }"
+                            />
+                          </td>
+                          <td class="text-center" *ngIf="!estado_aprobado">
+                            <i
+                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
+                              (click)="eliminarDocumento(i, detalle.value.id)"
+                            ></i>
+                          </td>
+                        </tr>
+                      </ng-container>
+                    </tbody>
+                  </table>
+                </div>
+                <div class="d-flex justify-content-end mb-5">
+                  <table>
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
+                      ></td>
+                      <td class="text-end">
+                        {{ totalCredito | currency: "$" }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
+                      ></td>
+                      <td class="text-end">
+                        {{ totalDebito | currency: "$" }}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td
+                        class="text-end"
+                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
+                      ></td>
+                      <td class="text-end">{{ total | currency: "$" }}</td>
+                    </tr>
+                  </table>
+                </div>
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ 'text-primary': active === 2 }"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+              ></a>
+              <ng-template ngbNavContent> </ng-template>
+            </li>
+          </ul>
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+
+<ng-template #modalResultadosContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Resultados</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioResultado">
+      <section class="row mb-5">
+        <div class="col-sm-12">
+          <label class="form-label">Cuenta desde</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaDesdeCodigo"
+            [cuentaNombre]="cuentaDesdeNombre"
+            [campoInvalido]="
+              formularioCierre.get('cuenta_desde_id')?.touched &&
+              formularioCierre.get('cuenta_desde_id')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaDesdeSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaDesdeSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </section>
+      <section class="row mb-5">
+        <div class="col-sm-12">
+          <label class="form-label">Cuenta hasta</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaHastaCodigo"
+            [cuentaNombre]="cuentaHastaNombre"
+            [campoInvalido]="
+              formularioCierre.get('cuenta_hasta_id')?.touched &&
+              formularioCierre.get('cuenta_hasta_id')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaHastaSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </section>
+      <section class="d-flex justify-content-end">
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary"
+          (click)="enviarFormularioResultados()"
+          [disabled]="formularioResultado.invalid || cargandoResultados()"
+        >
+          @if (cargandoResultados()) {
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+            Cargando...
+          } @else {
+            Cargar
+          }
+        </button>
+      </section>
+    </form>
+  </div>
+</ng-template>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
