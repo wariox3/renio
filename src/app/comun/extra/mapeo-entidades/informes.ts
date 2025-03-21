@@ -1235,22 +1235,47 @@ export const documentos: MapeoDocumentos = {
   ],
   balance_prueba: [
     {
-      nombre: 'ANIO',
-      campoTipo: 'IntegerField',
-      visibleTabla: true,
-      visibleFiltro: true,
-      ordenable: false,
-    },
-    {
-      nombre: 'FECHA_DESDE',
+      nombre: 'FECHA',
       campoTipo: 'DateField',
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
     },
     {
-      nombre: 'FECHA_HASTA',
+      nombre: 'CIERRE',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+  ],
+  balance_prueba_contacto: [
+    {
+      nombre: 'FECHA',
       campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'CIERRE',
+      campoTipo: 'Booleano',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+  ],
+  auxiliar_cuenta: [
+    {
+      nombre: 'FECHA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'CIERRE',
+      campoTipo: 'Booleano',
       visibleTabla: true,
       visibleFiltro: true,
       ordenable: false,
