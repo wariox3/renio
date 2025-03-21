@@ -1005,6 +1005,7 @@ export const locale = {
         CONTRATO_ID_FILTRO: '[Contrato] id',
         CUENTA_CODIGO_FILTRO: '[Cuenta] código',
         COMPROBANTE_NOMBRE_FILTRO: '[Comprobante] nombre',
+        COMPROBANTE_ID_FILTRO: '[Comprobante] id',
         DOCUMENTO_NUMERO_FILTRO: '[Documento] número',
         DOCUMENTO_FECHA_FILTRO: '[Documento] fecha',
         TOTAL_BRUTO: 'Total',
