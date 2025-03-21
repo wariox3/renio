@@ -1290,6 +1290,13 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
+      nombre: 'CODIGO',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
       nombre: 'CIERRE',
       campoTipo: 'Booleano',
       visibleTabla: true,
