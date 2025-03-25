@@ -75,19 +75,47 @@
       >
         <section botones-extra-derecha>
           @if (documento?.estado_contabilizado) {
-            <button
-              (click)="descontabilizar()"
-              class="btn btn-sm bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-            >
-              Descontabilizar
-            </button>
+            @if (cargandoAccion()) {
+              <button
+                class="btn btn-sm btn-bg-primary btn-color-white"
+                type="button"
+                disabled
+              >
+                <span
+                  class="spinner-border spinner-border-sm me-1"
+                  aria-hidden="true"
+                ></span>
+                <span role="status">Cargando...</span>
+              </button>
+            } @else {
+              <button
+                (click)="descontabilizar()"
+                class="btn btn-sm bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+              >
+                Descontabilizar
+              </button>
+            }
           } @else {
-            <button
-              (click)="contabilizar()"
-              class="btn btn-sm bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-            >
-              Contabilizar
-            </button>
+            @if (cargandoAccion()) {
+              <button
+                class="btn btn-sm btn-bg-primary btn-color-white"
+                type="button"
+                disabled
+              >
+                <span
+                  class="spinner-border spinner-border-sm me-1"
+                  aria-hidden="true"
+                ></span>
+                <span role="status">Cargando...</span>
+              </button>
+            } @else {
+              <button
+                (click)="contabilizar()"
+                class="btn btn-sm bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+              >
+                Contabilizar
+              </button>
+            }
           }
         </section>
       </app-comun-tabla>

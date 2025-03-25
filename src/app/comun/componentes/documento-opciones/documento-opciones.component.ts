@@ -27,7 +27,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BehaviorSubject, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, finalize, switchMap, tap } from 'rxjs';
 import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.component';
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
 import { PaginadorComponent } from '../paginador/paginador.component';
@@ -68,6 +68,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public documentoId: number;
   public totalDebito = 0;
   public totalCredito = 0;
+  public cargandoAccion = signal<boolean>(false);
 
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
   public parametrosConsulta: ParametrosFiltros = {
@@ -185,8 +186,14 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   contabilizar() {
+    this.cargandoAccion.set(true);
     this._documentoService
       .contabilizar({ ids: [this.documento.id] })
+      .pipe(
+        finalize(() => {
+          this.cargandoAccion.set(false);
+        }),
+      )
       .subscribe({
         next: () => {
           this.itemDesaprobadoEvent.emit();
@@ -203,8 +210,14 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   descontabilizar() {
+    this.cargandoAccion.set(true);
     this._documentoService
       .descontabilizar({ ids: [this.documento.id] })
+      .pipe(
+        finalize(() => {
+          this.cargandoAccion.set(false);
+        }),
+      )
       .subscribe({
         next: () => {
           this.itemDesaprobadoEvent.emit();
