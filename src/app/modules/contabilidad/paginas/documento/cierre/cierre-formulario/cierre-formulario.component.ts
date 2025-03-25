@@ -30,7 +30,7 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, finalize, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
@@ -79,12 +79,12 @@ export default class CierreFormularioComponent
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
   arrGrupo: RegistroAutocompletarConGrupo[] = [];
-  cuentaCodigo = '';
-  cuentaNombre = '';
   cuentaDesdeCodigo = '';
   cuentaDesdeNombre = '';
   cuentaHastaCodigo = '';
   cuentaHastaNombre = '';
+  cuentaUtilidadCodigo = '';
+  cuentaUtilidadNombre = '';
   cargandoResultados = signal<boolean>(false);
 
   public campoListaContacto: CampoLista[] = [
@@ -130,8 +130,9 @@ export default class CierreFormularioComponent
   initFormularioResultados() {
     this.formularioResultado = this.formBuilder.group({
       id: this.detalle,
-      cuenta_desde_id: [],
-      cuenta_hasta_id: [],
+      cuenta_desde_id: [null, Validators.required],
+      cuenta_hasta_id: [null, Validators.required],
+      cuenta_cierre_id: [null, Validators.required],
     });
   }
 
@@ -159,7 +160,6 @@ export default class CierreFormularioComponent
       comentario: [null],
       total: [0],
       grupo_contabilidad: [''],
-      cuenta: [null, Validators.required],
       grupo_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
@@ -182,9 +182,6 @@ export default class CierreFormularioComponent
             respuesta.documento.grupo_contabilidad_nombre,
         });
 
-        this.cuentaNombre = respuesta.documento.cuenta_nombre;
-        this.cuentaCodigo = respuesta.documento.cuenta_codigo;
-
         this.detalles.clear();
         respuesta.documento.detalles.forEach((detalle: any) => {
           const detalleFormGroup = this.formBuilder.group({
@@ -204,9 +201,6 @@ export default class CierreFormularioComponent
             ],
             precio: [detalle.precio],
             seleccionado: [false],
-            cuenta: detalle.cuenta,
-            cuenta_codigo: detalle.cuenta_codigo,
-            cuenta_nombre: detalle.cuenta_nombre,
             grupo: detalle.grupo_id,
             naturaleza: detalle.naturaleza,
             base: detalle.base,
@@ -513,20 +507,6 @@ export default class CierreFormularioComponent
     });
   }
 
-  agregarCuentaCobrarSeleccionado(cuenta: any) {
-    this.formularioCierre.get('cuenta')?.setValue(cuenta.cuenta_id);
-    this.cuentaNombre = cuenta.cuenta_nombre;
-    this.cuentaCodigo = cuenta.cuenta_codigo;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  limpiarCuentaCobrarSeleccionado() {
-    this.formularioCierre.get('cuenta')?.setValue(null);
-    this.cuentaNombre = '';
-    this.cuentaCodigo = '';
-    this.changeDetectorRef.detectChanges();
-  }
-
   abrirModalResultados(content: any) {
     this._abrirModal(content);
   }
@@ -541,9 +521,15 @@ export default class CierreFormularioComponent
   enviarFormularioResultados() {
     this.facturaService
       .cargarResultados(this.formularioResultado.value)
+      .pipe(finalize(() => {
+        this.limpiarCuentaDesdeSeleccionado()
+        this.limpiarCuentaHastaSeleccionado()
+        this.limpiarCuentaUtilidadSeleccionado()
+        this.modalService.dismissAll()
+      }))
       .subscribe((response) => {
         this.consultardetalle();
-      this.alertaService.mensajaExitoso('Resultados cargados con exito!');
+        this.alertaService.mensajaExitoso('Resultados cargados con exito!');
       });
   }
 
@@ -572,6 +558,22 @@ export default class CierreFormularioComponent
     this.formularioResultado.get('cuenta_hasta_id')?.setValue(null);
     this.cuentaHastaNombre = '';
     this.cuentaHastaCodigo = '';
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarCuentaUtilidadSeleccionado(cuenta: any) {
+    this.formularioResultado
+      .get('cuenta_cierre_id')
+      ?.setValue(cuenta.cuenta_id);
+    this.cuentaUtilidadNombre = cuenta.cuenta_nombre;
+    this.cuentaUtilidadCodigo = cuenta.cuenta_codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarCuentaUtilidadSeleccionado() {
+    this.formularioResultado.get('cuenta_cierre_id')?.setValue(null);
+    this.cuentaUtilidadNombre = '';
+    this.cuentaUtilidadCodigo = '';
     this.changeDetectorRef.detectChanges();
   }
 }

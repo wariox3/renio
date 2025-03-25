@@ -48,7 +48,7 @@ export class FacturaService {
 
   cargarResultados(data: any) {
     return this.httpService.post<any>(
-      'general/documento/cargar-resultado/',
+      'general/documento/cargar-cierre/',
       data,
     );
   }

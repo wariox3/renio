@@ -166,56 +166,6 @@
           </select>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-md-6 col-sm-12">
-          <label class="form-label required"> Cuenta</label>
-          <app-comun-cuentas
-            [iniciarFocusInputBusqueda]="false"
-            [style]="'height: 3.4rem;'"
-            [cuentaCodigo]="cuentaCodigo"
-            [cuentaNombre]="cuentaNombre"
-            [campoInvalido]="
-              formularioCierre.get('cuenta')?.touched &&
-              formularioCierre.get('cuenta')?.invalid
-            "
-            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
-            (emitirLineaVacia)="limpiarCuentaCobrarSeleccionado()"
-          ></app-comun-cuentas>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-          ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            (blur)="modificarCampoFormulario('comentario', null)"
-            rows="3"
-            [ngClass]="{
-              'is-invalid':
-                formularioCierre.controls['comentario'].touched &&
-                formularioCierre.controls['comentario'].invalid,
-              'is-valid':
-                formularioCierre.controls['comentario'].touched &&
-                formularioCierre.controls['comentario'].valid,
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '500',
-              control: formularioCierre.controls['comentario'],
-            }"
-          ></ng-container>
-        </div>
-      </div>
 
       <div class="row mb-5">
         <div class="col-12">
@@ -240,8 +190,10 @@
                       (click)="abrirModalResultados(modalResultadosContent)"
                       class="btn btn-sm btn-primary"
                       type="button"
-                      translate="FORMULARIOS.BOTONES.COMUNES.RESULTADOS"
-                    ></button>
+                      [disabled]="!this.detalle"
+                    >
+                      Cargar
+                    </button>
                   </div>
                 </div>
                 <div class="table-responsive-sm">
@@ -334,6 +286,7 @@
                               [documentoEnlazado]="
                                 detalle.value.documento_afectado !== null
                               "
+                              [iniciarFocusInputBusqueda]="false"
                               [cuentaCodigo]="detalle.value.cuenta_codigo"
                               [cuentaNombre]="detalle.value.cuenta_nombre"
                               [campoInvalido]="
@@ -497,9 +450,44 @@
                 [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+                translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
               ></a>
-              <ng-template ngbNavContent> </ng-template>
+              <ng-template ngbNavContent>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioCierre.controls['comentario'].touched &&
+                          formularioCierre.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioCierre.controls['comentario'].touched &&
+                          formularioCierre.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioCierre.controls['comentario'],
+                      }"
+                    ></ng-container>
+                  </div>
+                </div>
+              </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
@@ -523,7 +511,7 @@
     <form [formGroup]="formularioResultado">
       <section class="row mb-5">
         <div class="col-sm-12">
-          <label class="form-label">Cuenta desde</label>
+          <label class="form-label required">Cuenta desde</label>
           <app-comun-cuentas
             [iniciarFocusInputBusqueda]="false"
             [style]="'height: 3.4rem;'"
@@ -540,7 +528,7 @@
       </section>
       <section class="row mb-5">
         <div class="col-sm-12">
-          <label class="form-label">Cuenta hasta</label>
+          <label class="form-label required">Cuenta hasta</label>
           <app-comun-cuentas
             [iniciarFocusInputBusqueda]="false"
             [style]="'height: 3.4rem;'"
@@ -552,6 +540,23 @@
             "
             (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
             (emitirLineaVacia)="limpiarCuentaHastaSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </section>
+      <section class="row mb-5">
+        <div class="col-sm-12">
+          <label class="form-label required">Cuenta cierre</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaUtilidadCodigo"
+            [cuentaNombre]="cuentaUtilidadNombre"
+            [campoInvalido]="
+              formularioCierre.get('cuenta_cierre_id')?.touched &&
+              formularioCierre.get('cuenta_cierre_id')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaUtilidadSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaUtilidadSeleccionado()"
           ></app-comun-cuentas>
         </div>
       </section>
