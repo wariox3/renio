@@ -222,47 +222,40 @@ export default class CierreFormularioComponent
 
   formSubmit() {
     if (this.formularioCierre.valid) {
-      if (this.formularioCierre.get('total')?.value >= 0) {
-        if (this.detalle == undefined) {
-          this.facturaService
-            .guardarFactura({
-              ...this.formularioCierre.value,
-              ...{
-                numero: null,
-                documento_tipo: 25,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              }),
-            )
-            .subscribe();
-        } else {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioCierre.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
-            .subscribe((respuesta) => {
+      if (this.detalle == undefined) {
+        this.facturaService
+          .guardarFactura({
+            ...this.formularioCierre.value,
+            ...{
+              numero: null,
+              documento_tipo: 25,
+            },
+          })
+          .pipe(
+            tap((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
                   ...this.parametrosUrl,
                   detalle: respuesta.documento.id,
                 },
               });
-            });
-        }
+            }),
+          )
+          .subscribe();
       } else {
-        this.alertaService.mensajeError(
-          'Error',
-          'El total no puede ser negativo',
-        );
+        this.facturaService
+          .actualizarDatosFactura(this.detalle, {
+            ...this.formularioCierre.value,
+            ...{ detalles_eliminados: this.arrDetallesEliminado },
+          })
+          .subscribe((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          });
       }
     } else {
       this.formularioCierre.markAllAsTouched();
@@ -521,12 +514,14 @@ export default class CierreFormularioComponent
   enviarFormularioResultados() {
     this.facturaService
       .cargarResultados(this.formularioResultado.value)
-      .pipe(finalize(() => {
-        this.limpiarCuentaDesdeSeleccionado()
-        this.limpiarCuentaHastaSeleccionado()
-        this.limpiarCuentaUtilidadSeleccionado()
-        this.modalService.dismissAll()
-      }))
+      .pipe(
+        finalize(() => {
+          this.limpiarCuentaDesdeSeleccionado();
+          this.limpiarCuentaHastaSeleccionado();
+          this.limpiarCuentaUtilidadSeleccionado();
+          this.modalService.dismissAll();
+        }),
+      )
       .subscribe((response) => {
         this.consultardetalle();
         this.alertaService.mensajaExitoso('Resultados cargados con exito!');
