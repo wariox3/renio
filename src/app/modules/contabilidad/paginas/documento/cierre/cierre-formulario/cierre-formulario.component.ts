@@ -129,6 +129,7 @@ export default class CierreFormularioComponent
 
   initFormularioResultados() {
     this.formularioResultado = this.formBuilder.group({
+      id: this.detalle,
       cuenta_desde_id: [],
       cuenta_hasta_id: [],
     });
