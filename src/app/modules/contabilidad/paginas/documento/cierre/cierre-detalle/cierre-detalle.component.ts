@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
@@ -8,9 +8,9 @@ import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { EMPTY, switchMap, tap } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
-import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
+import { EMPTY, finalize, switchMap, tap } from 'rxjs';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
 
 @Component({
   selector: 'app-cierre-detalle',
@@ -24,11 +24,12 @@ import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/
     NgbDropdownModule,
     BaseEstadosComponent,
     TituloAccionComponent,
-    DocumentoOpcionesComponent
-],
+    DocumentoOpcionesComponent,
+  ],
   templateUrl: './cierre-detalle.component.html',
 })
 export default class CierreDetalleComponent extends General {
+  cargandoTabla = signal<boolean>(false);
   cierre: any = {
     contacto_id: '',
     descuento: '',
@@ -44,21 +45,27 @@ export default class CierreDetalleComponent extends General {
     detalles: [],
     impuestos: [],
     comprobante: 0,
-    comprobante_nombre: ''
+    comprobante_nombre: '',
   };
   detalles: any[] = [];
   tabActive = 1;
   constructor(
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
   ) {
     super();
     this.consultardetalle();
   }
 
   consultardetalle() {
+    this.cargandoTabla.set(true);
     this.facturaService
       .consultarDetalle(this.detalle)
+      .pipe(
+        finalize(() => {
+          this.cargandoTabla.set(false);
+        }),
+      )
       .subscribe((respuesta: any) => {
         this.cierre = respuesta.documento;
         this.detalles = this.cierre.detalles;
@@ -79,17 +86,19 @@ export default class CierreDetalleComponent extends General {
           return EMPTY;
         }),
         switchMap((respuesta) =>
-          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+          respuesta
+            ? this.facturaService.consultarDetalle(this.detalle)
+            : EMPTY,
         ),
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.cierre = respuestaConsultaDetalle.documento;
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -124,10 +133,10 @@ export default class CierreDetalleComponent extends General {
           if (respuesta) {
             this.consultardetalle();
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO'),
             );
           }
-        })
+        }),
       )
       .subscribe();
   }

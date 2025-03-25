@@ -97,6 +97,7 @@ export default class CierreFormularioComponent
   cargandoResultados = signal<boolean>(false);
   registrosSeleccionados = this._cierreService.registrosSeleccionados;
   cargandoTabla = signal<boolean>(false);
+  guardando = signal<boolean>(false);
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
   public campoListaContacto: CampoLista[] = [
@@ -239,6 +240,7 @@ export default class CierreFormularioComponent
 
   formSubmit() {
     if (this.formularioCierre.valid) {
+      this.guardando.set(true);
       if (this.detalle == undefined) {
         this.facturaService
           .guardarFactura({
@@ -249,6 +251,7 @@ export default class CierreFormularioComponent
             },
           })
           .pipe(
+            finalize(() => this.guardando.set(false)),
             tap((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
@@ -265,6 +268,7 @@ export default class CierreFormularioComponent
             ...this.formularioCierre.value,
             ...{ detalles_eliminados: this.arrDetallesEliminado },
           })
+          .pipe(finalize(() => this.guardando.set(false)))
           .subscribe((respuesta) => {
             this.router.navigate(['documento/detalle'], {
               queryParams: {
@@ -544,10 +548,12 @@ export default class CierreFormularioComponent
   }
 
   enviarFormularioResultados() {
+    this.cargandoResultados.set(true);
     this.facturaService
       .cargarResultados(this.formularioResultado.value)
       .pipe(
         finalize(() => {
+          this.cargandoResultados.set(false);
           this.limpiarCuentaDesdeSeleccionado();
           this.limpiarCuentaHastaSeleccionado();
           this.limpiarCuentaUtilidadSeleccionado();

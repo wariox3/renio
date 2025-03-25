@@ -127,6 +127,7 @@ export const locale = {
           NUEVO: 'Nuevo',
           EDITAR: 'Editar',
           GUARDAR: 'Guardar',
+          GUARDANDO: 'Guardando',
           CANCELAR: 'Cancelar',
           ELIMINAR: 'Eliminar',
           ATRAS: 'Atrás',
