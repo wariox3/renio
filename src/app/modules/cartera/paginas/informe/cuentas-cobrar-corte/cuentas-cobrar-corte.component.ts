@@ -95,7 +95,7 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
           impuesto: documento.impuesto,
           total: documento.total,
           afectado: documento.afectado,
-          pendiente: documento.pendiente,
+          saldo: documento.saldo,
         }));
         this.changeDetectorRef.detectChanges();
       });

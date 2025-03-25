@@ -457,6 +457,14 @@ export const documentos: MapeoDocumentos = {
       aplicaFormatoNumerico: true,
     },
     {
+      nombre: 'SALDO',
+      campoTipo: 'FloatField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+      aplicaFormatoNumerico: true,
+    },
+    {
       nombre: 'afectado',
       campoTipo: 'IntegerField',
       visibleFiltro: false,
@@ -468,7 +476,7 @@ export const documentos: MapeoDocumentos = {
       nombre: 'PENDIENTE',
       campoTipo: 'FloatField',
       visibleFiltro: false,
-      visibleTabla: true,
+      visibleTabla: false,
       ordenable: false,
       aplicaFormatoNumerico: true,
     },
