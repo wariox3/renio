@@ -355,9 +355,9 @@ export default class CierreFormularioComponent
     }
 
     // Actualizar el estado
-    this.calcularTotales();
-    this.agregarDocumentoSeleccionarTodos =
-      !this.agregarDocumentoSeleccionarTodos;
+    // this.calcularTotales();
+    // this.agregarDocumentoSeleccionarTodos =
+    //   !this.agregarDocumentoSeleccionarTodos;
     this.changeDetectorRef.detectChanges();
   }
 

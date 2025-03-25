@@ -11,7 +11,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { ArchivosService } from '@comun/services/archivos/archivos.service';
 import { ProcesadorArchivosService } from '@comun/services/archivos/procesador-archivos.service';
@@ -41,7 +40,6 @@ import { TablaComponent } from '../tabla/tabla.component';
     CommonModule,
     NgbDropdownModule,
     TablaComponent,
-    AnimationFadeInUpDirective,
     PaginadorComponent,
     TranslateModule,
     SeleccionarContactoComponent,
@@ -73,7 +71,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
   public parametrosConsulta: ParametrosFiltros = {
-    limite: 10000,
+    limite: 51,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 0,
@@ -251,16 +249,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           credito: documento.credito,
           detalle: documento.detalle,
         }));
-
-        this.totalDebito = this.arrDocumentos.reduce(
-          (total, doc) => total + (doc.debito || 0),
-          0,
-        );
-        this.totalCredito = this.arrDocumentos.reduce(
-          (total, doc) => total + (doc.credito || 0),
-          0,
-        );
-
         this.changeDetectorRef.detectChanges();
       });
   }
