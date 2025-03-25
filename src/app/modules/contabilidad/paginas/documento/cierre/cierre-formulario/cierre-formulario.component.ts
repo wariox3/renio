@@ -96,6 +96,7 @@ export default class CierreFormularioComponent
   cuentaUtilidadNombre = '';
   cargandoResultados = signal<boolean>(false);
   registrosSeleccionados = this._cierreService.registrosSeleccionados;
+  cargandoTabla = signal<boolean>(false);
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
   public campoListaContacto: CampoLista[] = [
@@ -177,8 +178,10 @@ export default class CierreFormularioComponent
   }
 
   consultardetalle() {
+    this.cargandoTabla.set(true);
     this.facturaService
       .consultarDetalle(this.detalle)
+      .pipe(finalize(() => this.cargandoTabla.set(false)))
       .subscribe((respuesta) => {
         this.estado_aprobado = respuesta.documento.estado_aprobado;
         this.formularioCierre.patchValue({

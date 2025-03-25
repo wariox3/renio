@@ -204,7 +204,15 @@
                     </button>
                   </div>
                 </div>
-                <div class="table-responsive-sm">
+                <div
+                  class="table-responsive-sm"
+                  [ngClass]="{ 'table-loading': cargandoTabla() }"
+                >
+                  @if (cargandoTabla()) {
+                    <div class="table-loading-message" style="margin-top: 6rem">
+                      Cargando...
+                    </div>
+                  }
                   <table
                     id="tableDetalles"
                     class="table table-bordered table-sm"
