@@ -73,7 +73,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
   public parametrosConsulta: ParametrosFiltros = {
-    limite: 50,
+    limite: 10000,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 0,
