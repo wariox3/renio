@@ -535,8 +535,8 @@
             [cuentaCodigo]="cuentaHastaCodigo"
             [cuentaNombre]="cuentaHastaNombre"
             [campoInvalido]="
-              formularioCierre.get('cuenta_hasta_id')?.touched &&
-              formularioCierre.get('cuenta_hasta_id')?.invalid
+              formularioCierre.get('cuenta_hasta_codigo')?.touched &&
+              formularioCierre.get('cuenta_hasta_codigo')?.invalid
             "
             (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
             (emitirLineaVacia)="limpiarCuentaHastaSeleccionado()"
@@ -552,8 +552,8 @@
             [cuentaCodigo]="cuentaUtilidadCodigo"
             [cuentaNombre]="cuentaUtilidadNombre"
             [campoInvalido]="
-              formularioCierre.get('cuenta_cierre_id')?.touched &&
-              formularioCierre.get('cuenta_cierre_id')?.invalid
+              formularioCierre.get('cuenta_cierre_codigo')?.touched &&
+              formularioCierre.get('cuenta_cierre_codigo')?.invalid
             "
             (emitirArrCuentas)="agregarCuentaUtilidadSeleccionado($event)"
             (emitirLineaVacia)="limpiarCuentaUtilidadSeleccionado()"

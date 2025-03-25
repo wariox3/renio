@@ -130,8 +130,8 @@ export default class CierreFormularioComponent
   initFormularioResultados() {
     this.formularioResultado = this.formBuilder.group({
       id: this.detalle,
-      cuenta_desde_id: [null, Validators.required],
-      cuenta_hasta_id: [null, Validators.required],
+      cuenta_desde_codigo: [null, Validators.required],
+      cuenta_hasta_codigo: [null, Validators.required],
       cuenta_cierre_id: [null, Validators.required],
     });
   }
@@ -529,28 +529,28 @@ export default class CierreFormularioComponent
   }
 
   agregarCuentaDesdeSeleccionado(cuenta: any) {
-    this.formularioResultado.get('cuenta_desde_id')?.setValue(cuenta.cuenta_id);
+    this.formularioResultado.get('cuenta_desde_codigo')?.setValue(cuenta.cuenta_codigo);
     this.cuentaDesdeNombre = cuenta.cuenta_nombre;
     this.cuentaDesdeCodigo = cuenta.cuenta_codigo;
     this.changeDetectorRef.detectChanges();
   }
 
   limpiarCuentaDesdeSeleccionado() {
-    this.formularioResultado.get('cuenta_desde_id')?.setValue(null);
+    this.formularioResultado.get('cuenta_desde_codigo')?.setValue(null);
     this.cuentaDesdeNombre = '';
     this.cuentaDesdeCodigo = '';
     this.changeDetectorRef.detectChanges();
   }
 
   agregarCuentaHastaSeleccionado(cuenta: any) {
-    this.formularioResultado.get('cuenta_hasta_id')?.setValue(cuenta.cuenta_id);
+    this.formularioResultado.get('cuenta_hasta_codigo')?.setValue(cuenta.cuenta_codigo);
     this.cuentaHastaNombre = cuenta.cuenta_nombre;
     this.cuentaHastaCodigo = cuenta.cuenta_codigo;
     this.changeDetectorRef.detectChanges();
   }
 
   limpiarCuentaHastaSeleccionado() {
-    this.formularioResultado.get('cuenta_hasta_id')?.setValue(null);
+    this.formularioResultado.get('cuenta_hasta_codigo')?.setValue(null);
     this.cuentaHastaNombre = '';
     this.cuentaHastaCodigo = '';
     this.changeDetectorRef.detectChanges();
