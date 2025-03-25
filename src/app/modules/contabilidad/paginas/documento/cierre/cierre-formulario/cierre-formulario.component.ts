@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -30,8 +37,9 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, finalize, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { CierreService } from './services/cierre.service';
 
 @Component({
   selector: 'app-cierre-formulario',
@@ -60,6 +68,7 @@ export default class CierreFormularioComponent
   implements OnInit
 {
   private readonly _modalService = inject(NgbModal);
+  private readonly _cierreService = inject(CierreService);
 
   formularioCierre: FormGroup;
   formularioResultado: FormGroup;
@@ -79,13 +88,17 @@ export default class CierreFormularioComponent
   totalSeleccionado: number = 0;
   theme_value = localStorage.getItem('kt_theme_mode_value');
   arrGrupo: RegistroAutocompletarConGrupo[] = [];
-  cuentaCodigo = '';
-  cuentaNombre = '';
   cuentaDesdeCodigo = '';
   cuentaDesdeNombre = '';
   cuentaHastaCodigo = '';
   cuentaHastaNombre = '';
+  cuentaUtilidadCodigo = '';
+  cuentaUtilidadNombre = '';
   cargandoResultados = signal<boolean>(false);
+  registrosSeleccionados = this._cierreService.registrosSeleccionados;
+  cargandoTabla = signal<boolean>(false);
+  guardando = signal<boolean>(false);
+  @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
   public campoListaContacto: CampoLista[] = [
     {
@@ -129,8 +142,10 @@ export default class CierreFormularioComponent
 
   initFormularioResultados() {
     this.formularioResultado = this.formBuilder.group({
-      cuenta_desde_id: [],
-      cuenta_hasta_id: [],
+      id: this.detalle,
+      cuenta_desde_codigo: [null, Validators.required],
+      cuenta_hasta_codigo: [null, Validators.required],
+      cuenta_cierre_id: [null, Validators.required],
     });
   }
 
@@ -158,15 +173,16 @@ export default class CierreFormularioComponent
       comentario: [null],
       total: [0],
       grupo_contabilidad: [''],
-      cuenta: [null, Validators.required],
       grupo_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
   }
 
   consultardetalle() {
+    this.cargandoTabla.set(true);
     this.facturaService
       .consultarDetalle(this.detalle)
+      .pipe(finalize(() => this.cargandoTabla.set(false)))
       .subscribe((respuesta) => {
         this.estado_aprobado = respuesta.documento.estado_aprobado;
         this.formularioCierre.patchValue({
@@ -180,9 +196,6 @@ export default class CierreFormularioComponent
           grupo_contabilidad_nombre:
             respuesta.documento.grupo_contabilidad_nombre,
         });
-
-        this.cuentaNombre = respuesta.documento.cuenta_nombre;
-        this.cuentaCodigo = respuesta.documento.cuenta_codigo;
 
         this.detalles.clear();
         respuesta.documento.detalles.forEach((detalle: any) => {
@@ -227,47 +240,43 @@ export default class CierreFormularioComponent
 
   formSubmit() {
     if (this.formularioCierre.valid) {
-      if (this.formularioCierre.get('total')?.value >= 0) {
-        if (this.detalle == undefined) {
-          this.facturaService
-            .guardarFactura({
-              ...this.formularioCierre.value,
-              ...{
-                numero: null,
-                documento_tipo: 25,
-              },
-            })
-            .pipe(
-              tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
-                  },
-                });
-              }),
-            )
-            .subscribe();
-        } else {
-          this.facturaService
-            .actualizarDatosFactura(this.detalle, {
-              ...this.formularioCierre.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
-            })
-            .subscribe((respuesta) => {
+      this.guardando.set(true);
+      if (this.detalle == undefined) {
+        this.facturaService
+          .guardarFactura({
+            ...this.formularioCierre.value,
+            ...{
+              numero: null,
+              documento_tipo: 25,
+            },
+          })
+          .pipe(
+            finalize(() => this.guardando.set(false)),
+            tap((respuesta) => {
               this.router.navigate(['documento/detalle'], {
                 queryParams: {
                   ...this.parametrosUrl,
                   detalle: respuesta.documento.id,
                 },
               });
-            });
-        }
+            }),
+          )
+          .subscribe();
       } else {
-        this.alertaService.mensajeError(
-          'Error',
-          'El total no puede ser negativo',
-        );
+        this.facturaService
+          .actualizarDatosFactura(this.detalle, {
+            ...this.formularioCierre.value,
+            ...{ detalles_eliminados: this.arrDetallesEliminado },
+          })
+          .pipe(finalize(() => this.guardando.set(false)))
+          .subscribe((respuesta) => {
+            this.router.navigate(['documento/detalle'], {
+              queryParams: {
+                ...this.parametrosUrl,
+                detalle: respuesta.documento.id,
+              },
+            });
+          });
       }
     } else {
       this.formularioCierre.markAllAsTouched();
@@ -322,22 +331,37 @@ export default class CierreFormularioComponent
       .subscribe();
   }
 
-  eliminarDocumento(index: number, id: number | null) {
-    this.formularioCierre?.markAsDirty();
-    this.formularioCierre?.markAsTouched();
+  eliminarDocumento(id: number | null) {
+    if (!this.formularioCierre) return;
+
+    // Marcar el formulario como modificado
+    this.formularioCierre.markAsDirty();
+    this.formularioCierre.markAsTouched();
+
     const detallesArray = this.formularioCierre.get('detalles') as FormArray;
-    // Iterar de manera inversa
-    const detalleControl = detallesArray.controls[index];
-    if (id === null) {
-      this.detalles.removeAt(index);
-    } else {
-      this.arrDetallesEliminado.push(id);
-      this.detalles.removeAt(index);
+
+    // Buscar el índice del documento por ID
+    const index = detallesArray.controls.findIndex(
+      (control) => control.get('id')?.value === id,
+    );
+
+    if (index === -1) {
+      console.warn(`No se encontró el documento con ID ${id}`);
+      return;
     }
 
-    this.calcularTotales();
-    this.agregarDocumentoSeleccionarTodos =
-      !this.agregarDocumentoSeleccionarTodos;
+    // Eliminar el documento
+    if (id === null) {
+      detallesArray.removeAt(index);
+    } else {
+      this.arrDetallesEliminado.push(id);
+      detallesArray.removeAt(index);
+    }
+
+    // Actualizar el estado
+    // this.calcularTotales();
+    // this.agregarDocumentoSeleccionarTodos =
+    //   !this.agregarDocumentoSeleccionarTodos;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -512,20 +536,6 @@ export default class CierreFormularioComponent
     });
   }
 
-  agregarCuentaCobrarSeleccionado(cuenta: any) {
-    this.formularioCierre.get('cuenta')?.setValue(cuenta.cuenta_id);
-    this.cuentaNombre = cuenta.cuenta_nombre;
-    this.cuentaCodigo = cuenta.cuenta_codigo;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  limpiarCuentaCobrarSeleccionado() {
-    this.formularioCierre.get('cuenta')?.setValue(null);
-    this.cuentaNombre = '';
-    this.cuentaCodigo = '';
-    this.changeDetectorRef.detectChanges();
-  }
-
   abrirModalResultados(content: any) {
     this._abrirModal(content);
   }
@@ -538,39 +548,119 @@ export default class CierreFormularioComponent
   }
 
   enviarFormularioResultados() {
+    this.cargandoResultados.set(true);
     this.facturaService
       .cargarResultados(this.formularioResultado.value)
+      .pipe(
+        finalize(() => {
+          this.cargandoResultados.set(false);
+          this.limpiarCuentaDesdeSeleccionado();
+          this.limpiarCuentaHastaSeleccionado();
+          this.limpiarCuentaUtilidadSeleccionado();
+          this.modalService.dismissAll();
+        }),
+      )
       .subscribe((response) => {
         this.consultardetalle();
-      this.alertaService.mensajaExitoso('Resultados cargados con exito!');
+        this.alertaService.mensajaExitoso('Resultados cargados con exito!');
       });
   }
 
   agregarCuentaDesdeSeleccionado(cuenta: any) {
-    this.formularioResultado.get('cuenta_desde_id')?.setValue(cuenta.cuenta_id);
+    this.formularioResultado
+      .get('cuenta_desde_codigo')
+      ?.setValue(cuenta.cuenta_codigo);
     this.cuentaDesdeNombre = cuenta.cuenta_nombre;
     this.cuentaDesdeCodigo = cuenta.cuenta_codigo;
     this.changeDetectorRef.detectChanges();
   }
 
   limpiarCuentaDesdeSeleccionado() {
-    this.formularioResultado.get('cuenta_desde_id')?.setValue(null);
+    this.formularioResultado.get('cuenta_desde_codigo')?.setValue(null);
     this.cuentaDesdeNombre = '';
     this.cuentaDesdeCodigo = '';
     this.changeDetectorRef.detectChanges();
   }
 
   agregarCuentaHastaSeleccionado(cuenta: any) {
-    this.formularioResultado.get('cuenta_hasta_id')?.setValue(cuenta.cuenta_id);
+    this.formularioResultado
+      .get('cuenta_hasta_codigo')
+      ?.setValue(cuenta.cuenta_codigo);
     this.cuentaHastaNombre = cuenta.cuenta_nombre;
     this.cuentaHastaCodigo = cuenta.cuenta_codigo;
     this.changeDetectorRef.detectChanges();
   }
 
   limpiarCuentaHastaSeleccionado() {
-    this.formularioResultado.get('cuenta_hasta_id')?.setValue(null);
+    this.formularioResultado.get('cuenta_hasta_codigo')?.setValue(null);
     this.cuentaHastaNombre = '';
     this.cuentaHastaCodigo = '';
     this.changeDetectorRef.detectChanges();
+  }
+
+  agregarCuentaUtilidadSeleccionado(cuenta: any) {
+    this.formularioResultado
+      .get('cuenta_cierre_id')
+      ?.setValue(cuenta.cuenta_id);
+    this.cuentaUtilidadNombre = cuenta.cuenta_nombre;
+    this.cuentaUtilidadCodigo = cuenta.cuenta_codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarCuentaUtilidadSeleccionado() {
+    this.formularioResultado.get('cuenta_cierre_id')?.setValue(null);
+    this.cuentaUtilidadNombre = '';
+    this.cuentaUtilidadCodigo = '';
+    this.changeDetectorRef.detectChanges();
+  }
+
+  manejarCheckItem(event: any, id: number) {
+    if (event.target.checked) {
+      this._agregarItemAListaEliminar(id);
+    } else {
+      this._removerItemDeListaEliminar(id);
+    }
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  manejarCheckGlobal(event: any) {
+    if (event.target.checked) {
+      this._agregarTodosLosItemsAListaEliminar();
+    } else {
+      this._removerTodosLosItemsAListaEliminar();
+    }
+
+    this.changeDetectorRef.detectChanges();
+  }
+
+  estoyEnListaEliminar(id: number): boolean {
+    return this._cierreService.idEstaEnLista(id);
+  }
+
+  private _agregarTodosLosItemsAListaEliminar() {
+    this._cierreService.agregarTodosARegistrosSeleccionados(
+      this.formularioCierre.controls.detalles.value,
+    );
+  }
+
+  private _removerTodosLosItemsAListaEliminar() {
+    this._cierreService.reiniciarRegistrosSeleccionados();
+  }
+
+  private _agregarItemAListaEliminar(id: number) {
+    this._cierreService.agregarIdARegistrosSeleccionados(id);
+  }
+
+  private _removerItemDeListaEliminar(id: number) {
+    this._cierreService.removerIdRegistrosSeleccionados(id);
+  }
+
+  eliminarItems() {
+    this.registrosSeleccionados().forEach((id) => {
+      this.eliminarDocumento(id);
+    });
+    this._removerTodosLosItemsAListaEliminar();
+    this.checkboxAll.nativeElement.checked = false;
   }
 }

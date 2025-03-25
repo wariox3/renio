@@ -1,5 +1,9 @@
 <form [formGroup]="formularioCierre" (ngSubmit)="formSubmit()">
-  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+  <app-comun-encabezado-formulario-nuevo
+    [btnNuevoCargando]="guardando()"
+    [btnNuevoDisabled]="cargandoTabla()"
+    [estadoAprobado]="estado_aprobado"
+  >
     @if (detalle) {
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
         <app-importar-detalles
@@ -166,56 +170,6 @@
           </select>
         </div>
       </div>
-      <div class="row mb-3">
-        <div class="col-md-6 col-sm-12">
-          <label class="form-label required"> Cuenta</label>
-          <app-comun-cuentas
-            [iniciarFocusInputBusqueda]="false"
-            [style]="'height: 3.4rem;'"
-            [cuentaCodigo]="cuentaCodigo"
-            [cuentaNombre]="cuentaNombre"
-            [campoInvalido]="
-              formularioCierre.get('cuenta')?.touched &&
-              formularioCierre.get('cuenta')?.invalid
-            "
-            (emitirArrCuentas)="agregarCuentaCobrarSeleccionado($event)"
-            (emitirLineaVacia)="limpiarCuentaCobrarSeleccionado()"
-          ></app-comun-cuentas>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-          ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            (blur)="modificarCampoFormulario('comentario', null)"
-            rows="3"
-            [ngClass]="{
-              'is-invalid':
-                formularioCierre.controls['comentario'].touched &&
-                formularioCierre.controls['comentario'].invalid,
-              'is-valid':
-                formularioCierre.controls['comentario'].touched &&
-                formularioCierre.controls['comentario'].valid,
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '500',
-              control: formularioCierre.controls['comentario'],
-            }"
-          ></ng-container>
-        </div>
-      </div>
 
       <div class="row mb-5">
         <div class="col-12">
@@ -240,11 +194,29 @@
                       (click)="abrirModalResultados(modalResultadosContent)"
                       class="btn btn-sm btn-primary"
                       type="button"
-                      translate="FORMULARIOS.BOTONES.COMUNES.RESULTADOS"
-                    ></button>
+                      [disabled]="!this.detalle"
+                    >
+                      Cargar
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-danger"
+                      (click)="eliminarItems()"
+                      [disabled]="registrosSeleccionados().length <= 0"
+                    >
+                      Eliminar
+                    </button>
                   </div>
                 </div>
-                <div class="table-responsive-sm">
+                <div
+                  class="table-responsive-sm"
+                  [ngClass]="{ 'table-loading': cargandoTabla() }"
+                >
+                  @if (cargandoTabla()) {
+                    <div class="table-loading-message" style="margin-top: 6rem">
+                      Cargando...
+                    </div>
+                  }
                   <table
                     id="tableDetalles"
                     class="table table-bordered table-sm"
@@ -281,7 +253,24 @@
                           [translate]="'LISTAS.DOCUMENTO.DETALLE'"
                           style="width: 100px"
                         ></th>
-                        <th class="text-center" style="width: 50px"></th>
+                        <th class="text-center bg-gray-100" style="width: 20px">
+                          <label>
+                            <i
+                              class="fa-regular fs-2x cursor-pointer"
+                              [ngClass]="
+                                checkboxSelectAll.checked
+                                  ? 'fa-solid fa-square-check text-danger'
+                                  : 'fa-regular fa-square text-gray-500'
+                              "
+                            ></i>
+                            <input
+                              class="d-none"
+                              type="checkbox"
+                              #checkboxSelectAll
+                              (click)="manejarCheckGlobal($event)"
+                            />
+                          </label>
+                        </th>
                       </tr>
                     </thead>
                     <tbody formArrayName="detalles">
@@ -334,6 +323,7 @@
                               [documentoEnlazado]="
                                 detalle.value.documento_afectado !== null
                               "
+                              [iniciarFocusInputBusqueda]="false"
                               [cuentaCodigo]="detalle.value.cuenta_codigo"
                               [cuentaNombre]="detalle.value.cuenta_nombre"
                               [campoInvalido]="
@@ -449,11 +439,29 @@
                               }"
                             />
                           </td>
-                          <td class="text-center" *ngIf="!estado_aprobado">
-                            <i
-                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                              (click)="eliminarDocumento(i, detalle.value.id)"
-                            ></i>
+                          <td class="w-20px" *ngIf="!estado_aprobado">
+                            <label>
+                              <i
+                                class="fa-regular fs-2x cursor-pointer"
+                                [ngClass]="
+                                  checked.checked
+                                    ? 'fa-solid fa-square-check text-danger'
+                                    : 'fa-regular fa-square text-gray-500'
+                                "
+                              >
+                              </i>
+                              <input
+                                #checked
+                                class="d-none"
+                                type="checkbox"
+                                (change)="
+                                  manejarCheckItem($event, detalle.value.id)
+                                "
+                                [checked]="
+                                  estoyEnListaEliminar(detalle.value.id)
+                                "
+                              />
+                            </label>
                           </td>
                         </tr>
                       </ng-container>
@@ -461,33 +469,7 @@
                   </table>
                 </div>
                 <div class="d-flex justify-content-end mb-5">
-                  <table>
-                    <tr>
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalCredito | currency: "$" }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
-                      ></td>
-                      <td class="text-end">
-                        {{ totalDebito | currency: "$" }}
-                      </td>
-                    </tr>
-                    <tr>
-                      <td
-                        class="text-end"
-                        translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
-                      ></td>
-                      <td class="text-end">{{ total | currency: "$" }}</td>
-                    </tr>
-                  </table>
+                  <table></table>
                 </div>
               </ng-template>
             </li>
@@ -497,9 +479,44 @@
                 [ngClass]="{ 'text-primary': active === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
+                translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
               ></a>
-              <ng-template ngbNavContent> </ng-template>
+              <ng-template ngbNavContent>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioCierre.controls['comentario'].touched &&
+                          formularioCierre.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioCierre.controls['comentario'].touched &&
+                          formularioCierre.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioCierre.controls['comentario'],
+                      }"
+                    ></ng-container>
+                  </div>
+                </div>
+              </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
@@ -523,7 +540,7 @@
     <form [formGroup]="formularioResultado">
       <section class="row mb-5">
         <div class="col-sm-12">
-          <label class="form-label">Cuenta desde</label>
+          <label class="form-label required">Cuenta desde</label>
           <app-comun-cuentas
             [iniciarFocusInputBusqueda]="false"
             [style]="'height: 3.4rem;'"
@@ -540,18 +557,35 @@
       </section>
       <section class="row mb-5">
         <div class="col-sm-12">
-          <label class="form-label">Cuenta hasta</label>
+          <label class="form-label required">Cuenta hasta</label>
           <app-comun-cuentas
             [iniciarFocusInputBusqueda]="false"
             [style]="'height: 3.4rem;'"
             [cuentaCodigo]="cuentaHastaCodigo"
             [cuentaNombre]="cuentaHastaNombre"
             [campoInvalido]="
-              formularioCierre.get('cuenta_hasta_id')?.touched &&
-              formularioCierre.get('cuenta_hasta_id')?.invalid
+              formularioCierre.get('cuenta_hasta_codigo')?.touched &&
+              formularioCierre.get('cuenta_hasta_codigo')?.invalid
             "
             (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
             (emitirLineaVacia)="limpiarCuentaHastaSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </section>
+      <section class="row mb-5">
+        <div class="col-sm-12">
+          <label class="form-label required">Cuenta cierre</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaUtilidadCodigo"
+            [cuentaNombre]="cuentaUtilidadNombre"
+            [campoInvalido]="
+              formularioCierre.get('cuenta_cierre_codigo')?.touched &&
+              formularioCierre.get('cuenta_cierre_codigo')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaUtilidadSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaUtilidadSeleccionado()"
           ></app-comun-cuentas>
         </div>
       </section>

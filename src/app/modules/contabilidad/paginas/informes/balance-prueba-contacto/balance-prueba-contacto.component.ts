@@ -26,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+  import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 
 @Component({
   selector: 'app-balance-prueba',
@@ -46,6 +47,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 export class BalancePruebaContactoComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
+  private _filtrosPermanentes: Filtros[] = [];
   private _parametrosConsulta: any = {
     modelo: 'ConMovimiento',
     serializador: 'Informe',
@@ -173,6 +175,7 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
     this.totalCredito = 0;
     this.totalDebito = 0;
   }
+
   private _construirFiltros() {
     this._limpiarFiltros();
 
@@ -184,6 +187,7 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
         filtros: [...JSON.parse(filtroGuardado)],
       };
 
+      this._filtrosPermanentes = parametrosConsulta.filtros;
       this._parametrosConsulta = parametrosConsulta;
     }
   }
@@ -197,7 +201,8 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
       this._parametrosConsulta.filtros = arrfiltros;
       this.changeDetectorRef.detectChanges();
     } else {
-      this._parametrosConsulta.filtros = [];
+      this._cargarFiltrosPredeterminados();
+      this._parametrosConsulta.filtros = this._filtrosPermanentes;
     }
 
     this.changeDetectorRef.detectChanges();

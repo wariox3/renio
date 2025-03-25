@@ -15,7 +15,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="navegarEditar(cierre.id)"
-        [disabled]="cierre.estado_aprobado"
+        [disabled]="cierre.estado_aprobado || !cierre.id"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
@@ -146,7 +146,15 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
             ></a>
             <ng-template ngbNavContent>
-              <div class="table-responsive-sm">
+              <div
+                class="table-responsive-sm"
+                [ngClass]="{ 'table-loading': cargandoTabla() }"
+              >
+                @if (cargandoTabla()) {
+                  <div class="table-loading-message" style="margin-top: 6rem">
+                    Cargando...
+                  </div>
+                }
                 <table
                   id="tableDetalles"
                   class="table table-bordered table-row-gray-500"
@@ -215,7 +223,7 @@
                       {{ getTotalCredito() | currency: "$" }}
                     </td>
                   </tr>
-                  <tr>
+                  <!-- <tr>
                     <td
                       class="text-end"
                       translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
@@ -223,7 +231,7 @@
                     <td class="text-end">
                       {{ cierre.total | currency: "$" }}
                     </td>
-                  </tr>
+                  </tr> -->
                 </table>
               </div>
             </ng-template>

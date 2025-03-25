@@ -18,12 +18,13 @@
           class="spinner-border spinner-border-sm me-1"
           aria-hidden="true"
         ></span>
-        <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+        <span role="status" translate="FORMULARIOS.BOTONES.COMUNES.GUARDANDO"></span>
       </button>
       } @else {
       <button
         type="submit"
         class="btn btn-sm btn-flex btn-primary"
+        [disabled]="btnNuevoDisabled"
         #btnGuardar
         translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
       ></button>

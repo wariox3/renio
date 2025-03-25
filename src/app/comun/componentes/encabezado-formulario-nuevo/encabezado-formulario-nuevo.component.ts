@@ -13,4 +13,5 @@ export class EncabezadoFormularioNuevoComponent {
   @Input() estadoAprobado: boolean = false;
   @Input() ocultarBtnAtras: boolean = false;
   @Input() btnNuevoCargando: boolean | null = false;
+  @Input() btnNuevoDisabled: boolean | null = false;
 }

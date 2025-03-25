@@ -1272,6 +1272,25 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
+      nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+      nombreFiltroRelacion: 'CONTACTO__NUMERO_IDENTIFICACION',
+      campoTipo: 'CharField',
+      visibleTabla: false,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'CONTACTO_NOMBRE_CORTO',
+      nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+      nombreFiltroRelacion: 'CONTACTO__NOMBRE_CORTO',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
   ],
   balance_prueba_contacto: [
     {
