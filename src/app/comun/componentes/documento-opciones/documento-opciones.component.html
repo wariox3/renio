@@ -44,14 +44,16 @@
     ></button>
   </div>
   <div class="modal-body">
-    @if (totalDebito !== totalCredito) {
-      <div class="row">
-        <div class="col-12">
-          <div class="alert alert-danger" role="alert">
-            El registro contable esta descuadrado
+    @if(cantidadRegistros <= 50){
+      @if (totalDebito !== totalCredito) {
+        <div class="row">
+          <div class="col-12">
+            <div class="alert alert-danger" role="alert">
+              El registro contable esta descuadrado
+            </div>
           </div>
         </div>
-      </div>
+      }
     }
     <div class="row">
       <app-comun-tabla
