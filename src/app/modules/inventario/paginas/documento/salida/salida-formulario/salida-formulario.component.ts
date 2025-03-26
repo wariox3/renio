@@ -168,8 +168,7 @@ export default class SalidaFormularioComponent
       precio: [
         0,
         [
-          validarPrecio(),
-          Validators.min(0.1),
+          Validators.min(0),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
       ],
@@ -230,7 +229,7 @@ export default class SalidaFormularioComponent
       .get('precio')
       ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
       .subscribe((valor: string) => {
-        if (valor) {
+        if (Number(valor) >= 0) {
           this._actualizarPrecioItem(i, Number(valor));
         }
       });
@@ -474,8 +473,7 @@ export default class SalidaFormularioComponent
         precio: [
           detalle.precio,
           [
-            validarPrecio(),
-            Validators.min(0.1),
+            Validators.min(0),
             Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
           ],
         ],
