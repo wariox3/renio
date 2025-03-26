@@ -17,14 +17,20 @@ import { HttpService } from '@comun/services/http.service';
 import { MenuReducerService } from '@comun/services/menu-reducer.service';
 import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
 import { ImportarDetalles } from '@interfaces/comunes/importar/importar-detalles.interface';
-import { informacionMenuItem, Maestros } from '@interfaces/menu/menu';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { informacionMenuItem } from '@interfaces/menu/menu';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { obtenerArchivoImportacionLista } from '@redux/selectors/archivo-importacion.selectors';
 import { saveAs } from 'file-saver';
 import { catchError, mergeMap, of, Subject, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { obtenerArchivoImportacionDetalle } from '../../../redux/selectors/archivo-importacion.selectors';
+import { maestros } from './constants/maestros.constant';
+
 @Component({
   selector: 'app-importar-administrador',
   standalone: true,
@@ -35,6 +41,7 @@ import { obtenerArchivoImportacionDetalle } from '../../../redux/selectors/archi
     AnimationFadeInLeftDirective,
     FormsModule,
     NgbDropdownModule,
+    NgbNavModule,
   ],
   templateUrl: './importar-administrador.component.html',
   styleUrl: './importar-administrador.component.scss',
@@ -43,6 +50,7 @@ export class ImportarAdministradorComponent
   extends General
   implements OnDestroy, OnInit
 {
+  active: number = 1
   archivoNombre: string = '';
   archivo_base64: string = '';
   archivoPeso: string = '';
@@ -53,7 +61,7 @@ export class ImportarAdministradorComponent
   soloNuevos: boolean;
   habilitarBtnEjemploImportar: boolean = false;
   cantidadErrores: number = 0;
-  public maestros: Maestros[] = [];
+  public maestros = maestros;
   public alias: string;
   public moduloNombre: string;
   @Input() estadoHabilitado: boolean = false;
@@ -68,7 +76,7 @@ export class ImportarAdministradorComponent
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
+    private descargarArchivosService: DescargarArchivosService,
   ) {
     super();
   }
@@ -84,7 +92,7 @@ export class ImportarAdministradorComponent
     this.descargarArchivosService._construirNombreArchivo(
       this.parametrosUrl,
       this.ubicacion,
-      this.detalle
+      this.detalle,
     );
     if (this.detalle) {
       this.store
@@ -100,7 +108,7 @@ export class ImportarAdministradorComponent
             }
           }),
           tap(() => {
-            this._cargarMaestros();
+            // this._cargarMaestros();
             this.importarSoloNuevos =
               this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
             (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
@@ -111,7 +119,7 @@ export class ImportarAdministradorComponent
               backdrop: 'static',
               size: 'xl',
             });
-          })
+          }),
         )
         .subscribe()
         .unsubscribe();
@@ -129,7 +137,7 @@ export class ImportarAdministradorComponent
             }
           }),
           tap(() => {
-            this._cargarMaestros();
+            // this._cargarMaestros();
             this.importarSoloNuevos =
               this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
             (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
@@ -140,7 +148,7 @@ export class ImportarAdministradorComponent
               backdrop: 'static',
               size: 'xl',
             });
-          })
+          }),
         )
         .subscribe()
         .unsubscribe();
@@ -148,28 +156,28 @@ export class ImportarAdministradorComponent
   }
 
   // maestros son los botones del dropdown que permiten descargar acrhivos del S3
-  private _cargarMaestros() {
-    this._menuReducerService
-      .getModuloItemInformacion(this.moduloNombre, this.alias)
-      .subscribe({
-        next: (categoriaItem) => {
-          // con esto obtenemos la informacion precisa del item en el que estemos parados
-          this._cargarInformacionMaestros(categoriaItem);
-        },
-      });
-  }
+  // private _cargarMaestros() {
+  //   this._menuReducerService
+  //     .getModuloItemInformacion(this.moduloNombre, this.alias)
+  //     .subscribe({
+  //       next: (categoriaItem) => {
+  //         // con esto obtenemos la informacion precisa del item en el que estemos parados
+  //         this._cargarInformacionMaestros(categoriaItem);
+  //       },
+  //     });
+  // }
 
-  //
-  private _cargarInformacionMaestros(
-    categoriaItem: informacionMenuItem | undefined | null
-  ) {
-    if (!categoriaItem || !categoriaItem.maestros) {
-      this.maestros = [];
-      return;
-    }
+  // //
+  // private _cargarInformacionMaestros(
+  //   categoriaItem: informacionMenuItem | undefined | null,
+  // ) {
+  //   if (!categoriaItem || !categoriaItem.maestros) {
+  //     this.maestros = [];
+  //     return;
+  //   }
 
-    this.maestros = categoriaItem.maestros;
-  }
+  //   this.maestros = categoriaItem.maestros;
+  // }
 
   cerrarModal() {
     this.modalService.dismissAll();
@@ -253,7 +261,7 @@ export class ImportarAdministradorComponent
         }
 
         const filtroPermanenteStr = localStorage.getItem(
-          `${nombreFiltro}_filtro_importar_fijo`
+          `${nombreFiltro}_filtro_importar_fijo`,
         );
         if (filtroPermanenteStr !== null) {
           filtroPermamente = JSON.parse(filtroPermanenteStr);
@@ -282,7 +290,7 @@ export class ImportarAdministradorComponent
           .pipe(
             tap((respuesta) => {
               this.alertaService.mensajaExitoso(
-                `Se guardo la información registros importados: ${respuesta.registros_importados}`
+                `Se guardo la información registros importados: ${respuesta.registros_importados}`,
               );
               this.soloNuevos = false;
               this.modalService.dismissAll();
@@ -299,7 +307,7 @@ export class ImportarAdministradorComponent
               this.cargardoDocumento = false;
               this.changeDetectorRef.detectChanges();
               return of(null);
-            })
+            }),
           )
           .subscribe();
       })
@@ -310,7 +318,7 @@ export class ImportarAdministradorComponent
     let nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
       this.parametrosUrl,
       this.ubicacion,
-      this.detalle
+      this.detalle,
     );
     if (this.exportarArchivoFijo) {
       nombreArchivo = this.exportarArchivoFijo;
@@ -338,11 +346,11 @@ export class ImportarAdministradorComponent
             .toLowerCase()
             .substring(
               0,
-              3
+              3,
             )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
         }
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-          this.errorImportar
+          this.errorImportar,
         );
         const workbook: XLSX.WorkBook = {
           Sheets: { data: worksheet },
@@ -370,12 +378,12 @@ export class ImportarAdministradorComponent
                 fila: errorItem.fila,
                 campo: campo,
                 error: mensajes.join(', '),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
         take(100), // Limita la cantidad de errores procesados a 100
-        toArray()
+        toArray(),
       )
       .subscribe((result) => {
         this.errorImportar = result;
