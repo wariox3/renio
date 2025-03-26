@@ -34,6 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
 
 @Component({
   selector: 'app-nota-ajuste-formulario',
@@ -54,7 +55,8 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-  ],
+    SeleccionarGrupoComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -929,5 +931,9 @@ export default class FacturaDetalleComponent
         documento_referencia_numero: null,
         documento_referencia: null,
       });
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
 }
