@@ -436,6 +436,13 @@ export default class AsientoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  limpiarContacto(index: number) {
+    this.detalles.controls[index].patchValue({
+      contacto: null,
+      contacto_nombre_corto: '',
+    });
+  }
+
   abrirModalContactoNuevo(content: any) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
