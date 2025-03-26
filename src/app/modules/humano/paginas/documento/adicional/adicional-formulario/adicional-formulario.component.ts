@@ -76,7 +76,6 @@ export default class AdicionalFormularioComponent
       horas: [0],
       aplica_dia_laborado: [false],
       inactivo: [false],
-      inactivo_periodo: [false],
       permanente: [true],
       valor: [
         0,
@@ -173,7 +172,6 @@ export default class AdicionalFormularioComponent
           valor: respuesta.valor,
           aplica_dia_laborado: respuesta.aplica_dia_laborado,
           inactivo: respuesta.inactivo,
-          inactivo_periodo: respuesta.inactivo_periodo,
         });
         this.changeDetectorRef.detectChanges();
       });

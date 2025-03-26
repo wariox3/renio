@@ -77,7 +77,6 @@ export default class CreditoFormularioComponent
       concepto_nombre: [''],
       validar_cuotas: [false],
       inactivo: [false],
-      inactivo_periodo: [false],
       aplica_prima: [false],
       aplica_cesantia: [false],
     });
@@ -137,7 +136,6 @@ export default class CreditoFormularioComponent
           cantidad_cuotas: respuesta.cantidad_cuotas,
           validar_cuotas: respuesta.validar_cuotas,
           inactivo: respuesta.inactivo,
-          inactivo_periodo: respuesta.inactivo_periodo,
           concepto: respuesta.concepto_id,
           concepto_nombre: respuesta.concepto_nombre,
           aplica_prima: respuesta.aplica_prima,
