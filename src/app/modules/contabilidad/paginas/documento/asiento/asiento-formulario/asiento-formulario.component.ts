@@ -33,6 +33,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -60,6 +61,8 @@ export default class AsientoFormularioComponent
   extends General
   implements OnInit
 {
+  private _operacionesService = inject(OperacionesService)
+
   formularioAsiento: FormGroup;
   active: Number;
   arrContactos: any[] = [];
@@ -344,9 +347,9 @@ export default class AsientoFormularioComponent
       const pago = detalleControl.get('precio')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
-        this.totalCredito += parseInt(pago);
+        this.totalCredito += this._operacionesService.redondear(Number(pago), 2)
       } else {
-        this.totalDebito += parseInt(pago);
+        this.totalDebito += this._operacionesService.redondear(Number(pago), 2)
       }
       this.changeDetectorRef.detectChanges();
     });
