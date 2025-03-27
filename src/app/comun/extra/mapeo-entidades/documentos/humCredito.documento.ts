@@ -111,11 +111,4 @@ export const documentoHumCredito: MapeoDocumento[] = [
     visibleFiltro: true,
     ordenable: false,
   },
-  {
-    nombre: 'INACTIVO_PERIODO',
-    campoTipo: 'Booleano',
-    visibleTabla: true,
-    visibleFiltro: true,
-    ordenable: false,
-  },
 ];
