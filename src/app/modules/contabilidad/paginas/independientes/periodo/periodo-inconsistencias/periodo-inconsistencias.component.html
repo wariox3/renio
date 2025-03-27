@@ -2,17 +2,19 @@
   <table id="tableDetalles" class="table table-bordered table-row-gray-500">
     <thead>
       <tr>
-        <th class="bg-gray-100" style="width: 50px">Número</th>
-        <th class="bg-gray-100">inconsistencia</th>
-        <th class="bg-gray-100">Documento tipo nombre</th>
+        <th class="bg-gray-100">Comprobante</th>
+        <th class="bg-gray-100">Número</th>
+        <th class="bg-gray-100">Cuenta</th>
+        <th class="bg-gray-100">Inconsistencia</th>
       </tr>
     </thead>
     <tbody>
-      @for (item of inconsistencias(); track $index) {
+      @for (inconsistencia of inconsistencias(); track $index) {
         <tr>
-          <td style="width: 50px">{{ item.numero }}</td>
-          <td>{{ item.documento_tipo_nombre }}</td>
-          <td>{{ item.inconsistencia }}</td>
+          <td>{{ inconsistencia.comprobante_id }}</td>
+          <td>{{ inconsistencia.numero }}</td>
+          <td>{{ inconsistencia.cuenta_id }}</td>
+          <td>{{ inconsistencia.inconsistencia }}</td>
         </tr>
       }
     </tbody>
