@@ -1,63 +1,49 @@
-import { Injectable } from '@angular/core';
-import { environment } from '@env/environment';
+import { inject, Injectable } from '@angular/core';
+import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
+import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ContenedorActionBorrarInformacion, ContenedorActionInit } from '@redux/actions/contenedor.actions';
+import {
+  ContenedorActionBorrarInformacion,
+  ContenedorActionInit,
+} from '@redux/actions/contenedor.actions';
 import { tap } from 'rxjs/operators';
-import { setCookie } from 'typescript-cookie';
-import { removeCookie } from 'typescript-cookie';
 
 @Injectable()
 export class ContenedorEffects {
+  private readonly _cookieService = inject(CookieService);
+
+  constructor(private actions$: Actions) {}
+
   guardarConenedor$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(ContenedorActionInit),
-        tap((action) => {
-          let calcularTresHoras = new Date(
-            new Date().getTime() + 3 * 60 * 60 * 1000
+        tap(({ contenedor }) => {
+          const tiempo = this._cookieService.calcularTiempoCookie(3);
+          this._cookieService.set(
+            cookieKey.CONTENEDOR,
+            JSON.stringify(contenedor),
+            {
+              expires: tiempo,
+              path: '/',
+            },
           );
-
-          if (environment.production) {
-            setCookie(
-              `contenedor-${action.contenedor.subdominio}`,
-              JSON.stringify(action.contenedor),
-              {
-                expires: calcularTresHoras,
-                path: '/',
-                domain: environment.dominioApp,
-              }
-            );
-          } else {
-            setCookie(
-              `contenedor-${environment.EMPRESA_LOCALHOST}`,
-              JSON.stringify(action.contenedor),
-              {
-                expires: calcularTresHoras,
-                path: '/',
-              }
-            );
-          }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
-  eliminarContenedor$ = createEffect(() => this.actions$.pipe(
-    ofType(ContenedorActionBorrarInformacion),
-    tap(() => {
-      const patrones = ['contenedor-'];
-      document.cookie.split(';').forEach(function (cookie) {
-        const cookieNombre = cookie.split('=')[0].trim();
-        patrones.forEach(function (patron) {
-          if (cookieNombre.startsWith(patron)) {
-            removeCookie(cookieNombre);
-            removeCookie(cookieNombre, { path: '/', domain: environment.dominioApp });
-          }
-        });
-      });
-    })
-
-  ), { dispatch: false });
-
-  constructor(private actions$: Actions) {}
+  limpiarCookieContenedor$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ContenedorActionBorrarInformacion),
+        tap(() => {
+          const cookieKeysLimpiar = [cookieKey.CONTENEDOR];
+          cookieKeysLimpiar.map((cookieKey) => {
+            this._cookieService.delete(cookieKey, '/');
+          });
+        }),
+      ),
+    { dispatch: false },
+  );
 }

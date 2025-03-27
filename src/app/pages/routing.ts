@@ -3,17 +3,17 @@ import { validarRutaGuard } from '@guardias/validar-ruta.guard';
 
 let redirectToValue: string = '/inicio';
 
-function getRedirectTo(): string {
-  // Aquí puedes agregar tu lógica para determinar el valor de redirección
-  // basado en la variable o cualquier otra condición
-  let dominioActual = window.location.host;
-  let esSubdominio = dominioActual.split('.').length > 2;
+// function getRedirectTo(): string {
+//   // Aquí puedes agregar tu lógica para determinar el valor de redirección
+//   // basado en la variable o cualquier otra condición
+//   let dominioActual = window.location.host;
+//   let esSubdominio = dominioActual.split('.').length > 2;
 
-  if (esSubdominio) {
-    redirectToValue = '/dashboard';
-  }
-  return redirectToValue;
-}
+//   if (esSubdominio) {
+//     redirectToValue = '/dashboard';
+//   }
+//   return redirectToValue;
+// }
 
 const Routing: Routes = [
   {
@@ -195,11 +195,11 @@ const Routing: Routes = [
     ],
     data: { layout: 'dark-header' },
   },
-  {
-    path: '',
-    redirectTo: getRedirectTo(),
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '',
+  //   redirectTo: getRedirectTo(),
+  //   pathMatch: 'full',
+  // },
   {
     path: '**',
     redirectTo: 'error/404',

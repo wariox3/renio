@@ -16,42 +16,42 @@ export class HttpService extends Subdominio {
 
   // Método GET detalle
   public getDetalle<T>(endpoint: string): Observable<T> {
-    const url = `${this.urlSubDominio}/${endpoint}`;
+    const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     return this.http.get<T>(url);
   }
 
   // Método GET para listas
   public get<T>(endpoint: string): Observable<T[]> {
-    const url = `${this.urlSubDominio}/${endpoint}`;
+    const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     return this.http.get<T[]>(url);
   }
 
   // Método POST
   public post<T>(endpoint: string, data: any): Observable<T> {
-    const url = `${this.urlSubDominio}/${endpoint}`;
+    const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     return this.http.post<T>(url, data);
   }
 
   // Método PUT
   public put<T>(endpoint: string, data: any): Observable<T> {
-    const url = `${this.urlSubDominio}/${endpoint}`;
+    const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     return this.http.put<T>(url, data);
   }
 
   // Método PUT
   public patch<T>(endpoint: string, data: any): Observable<T> {
-    const url = `${this.urlSubDominio}/${endpoint}`;
+    const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     return this.http.patch<T>(url, data);
   }
 
   // Método DELETE
   public delete(endpoint: string, data: any): Observable<any> {
-    const url = `${this.urlSubDominio}/${endpoint}`;
+    const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     return this.http.delete(url, data);
   }
 
   public descargarArchivo(endpoint: string, data: any): void {
-    const url = `${this.urlSubDominio}/${endpoint}`;
+    const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     this.alertaService.mensajaEspera('Cargando');
     this.http
       .post<HttpResponse<Blob>>(url, data, {
