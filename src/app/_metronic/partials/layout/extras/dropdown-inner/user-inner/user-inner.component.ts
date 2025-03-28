@@ -26,22 +26,16 @@ import { ContenedorActionBorrarInformacion } from '@redux/actions/contenedor.act
 import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 
 @Component({
-    selector: 'app-user-inner',
-    templateUrl: './user-inner.component.html',
-    styleUrls: ['user-inner.scss'],
-    standalone: true,
-    imports: [
-        RouterLink,
-        NgIf,
-        NgFor,
-        NgClass,
-        AsyncPipe,
-        TranslateModule,
-    ],
+  selector: 'app-user-inner',
+  templateUrl: './user-inner.component.html',
+  styleUrls: ['user-inner.scss'],
+  standalone: true,
+  imports: [RouterLink, NgIf, NgFor, NgClass, AsyncPipe, TranslateModule],
 })
 export class UserInnerComponent extends General implements OnInit, OnDestroy {
   @HostBinding('class')
-  class = `menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px`;
+  class =
+    `menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px`;
   @HostBinding('attr.data-kt-menu') dataKtMenu = 'true';
 
   language: LanguageFlag;
@@ -60,7 +54,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   constructor(
     private auth: AuthService,
     private translationService: TranslationService,
-    private subdominioService: SubdominioService
+    private subdominioService: SubdominioService,
   ) {
     super();
   }
@@ -70,7 +64,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
     this.setLanguage(this.translationService.getSelectedLanguage());
     combineLatest(
       this.store.select(obtenerUsuarioidioma),
-      this.store.select(obtenerConfiguracionVisualizarApp)
+      this.store.select(obtenerConfiguracionVisualizarApp),
     ).subscribe(([idioma, VisualizarApp]) => {
       this.selectLanguage(idioma);
       this.visualizarMenuApps = VisualizarApp;
@@ -89,7 +83,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
     this.store.dispatch(
       usuarioActionActualizarIdioma({
         idioma: lang,
-      })
+      }),
     );
   }
 
@@ -106,9 +100,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   navegarAmiContenedor() {
     this.store.select(obtenerContenedorId).subscribe((contenedor_id) => {
-      this.router.navigate([
-        `/contenedor/detalle/${contenedor_id}/`,
-      ]);
+      this.router.navigate([`/contenedor/detalle/${contenedor_id}/`]);
     });
   }
 
@@ -118,13 +110,13 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
     });
   }
 
-  navegarAmiEmpresaConfiguracion(){
+  navegarAmiEmpresaConfiguracion() {
     this.store.dispatch(
       configuracionVisualizarBreadCrumbsAction({
         configuracion: {
           visualizarBreadCrumbs: false,
         },
-      })
+      }),
     );
     this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
       this.router.navigate([`/empresa/configuracion_modulos/${empresa_id}/`]);
@@ -132,16 +124,9 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarAmisContenedores() {
+    this.store.dispatch(ContenedorActionBorrarInformacion());
 
-    this.store.dispatch(ContenedorActionBorrarInformacion())
-
-    if (this.esSubdominio) {
-      location.href = `${
-        environment.dominioHttp
-      }://${environment.dominioApp.slice(1)}/contenedor/lista`;
-    } else {
-      this.router.navigate([`/contenedor/lista`]);
-    }
+    this.router.navigate([`/contenedor/lista`]);
   }
 
   ngOnDestroy() {

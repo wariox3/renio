@@ -15,7 +15,7 @@ export const validarRutaGuard: CanActivateChildFn = (childRoute, state) => {
   let fechaActual = new Date();
   let usuarioFechaLimitePago: Date;
   let usuarioSaldo = 0;
-  let persimsos = true;
+  let permisos = true;
   zip([
     store.select(obtenerUsuarioFechaLimitePago),
     store.select(obtenerUsuarioVrSaldo),
@@ -25,21 +25,17 @@ export const validarRutaGuard: CanActivateChildFn = (childRoute, state) => {
     usuarioFechaLimitePago.setDate(usuarioFechaLimitePago.getDate() + 1);
     usuarioSaldo = respuesta[1];
     if (usuarioSaldo > 0 && usuarioFechaLimitePago < fechaActual) {
-      persimsos = false;
+      permisos = false;
     } else {
       if (respuesta[2] === false) {
-        persimsos = false;
+        permisos = false;
       }
     }
   });
 
-  if (!persimsos) {
-    //router.navigate(['/contenedor/lista']);
-    location.href = `${
-      environment.dominioHttp
-    }://${environment.dominioApp.slice(1)}/contenedor/lista`;
-
+  if (!permisos) {
+    router.navigate(['/contenedor/lista']);
   }
 
-  return persimsos;
+  return permisos;
 };
