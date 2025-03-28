@@ -160,12 +160,15 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           tap((respuesta) => {
             if (respuesta?.acceso_restringido) {
-              location.href = `${
-                environment.dominioHttp
-              }://${environment.dominioApp.slice(1)}/contenedor/lista`;
+              this.store.dispatch(
+                configutacionActionInit({
+                  configuracion: {
+                    visualizarApps: false,
+                    visualizarBreadCrumbs: false,
+                  },
+                }),
+              );
               this.router.navigate(['/contenedor/lista']);
-            } else {
-              this.validarSubdominioYrediccionar(respuesta);
             }
           }),
           switchMap(() => {
@@ -194,58 +197,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         .subscribe();
     } else {
       this.loginForm.markAllAsTouched();
-    }
-  }
-
-  validarSubdominioYrediccionar(respuesta: Contenedor | null) {
-    if (this.subdominioService.esSubdominioActual()) {
-      if (respuesta) {
-        this.contenedorServices.detalle(respuesta.id).subscribe((respuesta) => {
-          const contenedor: Contenedor = {
-            nombre: respuesta.nombre,
-            imagen: respuesta.imagen,
-            contenedor_id: respuesta.id,
-            subdominio: respuesta.subdominio,
-            id: respuesta.id,
-            usuario_id: 1,
-            seleccion: true,
-            rol: respuesta.rol,
-            plan_id: respuesta.plan_id,
-            plan_nombre: respuesta.plan_nombre,
-            usuarios: 1,
-            usuarios_base: 0,
-            ciudad: 0,
-            correo: '',
-            direccion: '',
-            identificacion: 0,
-            nombre_corto: '',
-            numero_identificacion: 0,
-            telefono: '',
-            acceso_restringido: respuesta.acceso_restringido,
-          };
-          this.store.dispatch(ContenedorActionInit({ contenedor }));
-          this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
-          this.store.dispatch(
-            configutacionActionInit({
-              configuracion: {
-                visualizarApps: true,
-                visualizarBreadCrumbs: true,
-              },
-            }),
-          );
-          this.router.navigate(['/dashboard']);
-        });
-      }
-    } else {
-      this.store.dispatch(
-        configutacionActionInit({
-          configuracion: {
-            visualizarApps: false,
-            visualizarBreadCrumbs: false,
-          },
-        }),
-      );
-      this.router.navigate(['/contenedor/lista']);
     }
   }
 
