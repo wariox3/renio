@@ -36,7 +36,7 @@ import { AuthService } from '../../services/auth.service';
     NgClass,
     NgTemplateOutlet,
     RouterLink,
-    InputValueCaseDirective
+    InputValueCaseDirective,
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
@@ -58,7 +58,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private authService: AuthService,
     private subdominioService: SubdominioService,
-    private contenedorServices: ContenedorService
+    private contenedorServices: ContenedorService,
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
@@ -107,8 +107,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         ]),
       ],
     });
-
-
   }
 
   submit() {
@@ -137,7 +135,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   idioma: respuestaLogin.user.idioma,
                   dominio: respuestaLogin.user.dominio,
                   fecha_limite_pago: new Date(
-                    respuestaLogin.user.fecha_limite_pago
+                    respuestaLogin.user.fecha_limite_pago,
                   ),
                   vr_saldo: respuestaLogin.user.vr_saldo,
                   fecha_creacion: new Date(respuestaLogin.user.fecha_creacion),
@@ -145,16 +143,17 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   es_socio: respuestaLogin.user.es_socio,
                   socio_id: respuestaLogin.user.socio_id,
                   is_active: respuestaLogin.user.is_active,
-                  numero_identificacion: respuestaLogin.user.numero_identificacion,
-                  cargo: respuestaLogin.user.cargo
+                  numero_identificacion:
+                    respuestaLogin.user.numero_identificacion,
+                  cargo: respuestaLogin.user.cargo,
                 },
-              })
+              }),
             );
           }),
           switchMap(() => {
             if (this.subdominioService.esSubdominioActual()) {
               return this.contenedorServices.contenedorConectar(
-                this.subdominioService.subdominioNombre()
+                this.subdominioService.subdominioNombre(),
               );
             }
             return of(null);
@@ -164,6 +163,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
               location.href = `${
                 environment.dominioHttp
               }://${environment.dominioApp.slice(1)}/contenedor/lista`;
+              this.router.navigate(['/contenedor/lista']);
             } else {
               this.validarSubdominioYrediccionar(respuesta);
             }
@@ -179,8 +179,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
               if (respuestaConfirmarInivitacion.confirmar) {
                 this.alertaService.mensajaExitoso(
                   this.translateService.instant(
-                    'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA'
-                  )
+                    'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA',
+                  ),
                 );
               }
             }
@@ -189,7 +189,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             this.visualizarLoader = false;
             this.changeDetectorRef.detectChanges();
             return of(null);
-          })
+          }),
         )
         .subscribe();
     } else {
@@ -199,8 +199,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   validarSubdominioYrediccionar(respuesta: Contenedor | null) {
     if (this.subdominioService.esSubdominioActual()) {
-      if(respuesta){
-        this.contenedorServices.detalle(respuesta.id).subscribe((respuesta)=> {
+      if (respuesta) {
+        this.contenedorServices.detalle(respuesta.id).subscribe((respuesta) => {
           const contenedor: Contenedor = {
             nombre: respuesta.nombre,
             imagen: respuesta.imagen,
@@ -229,22 +229,21 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
             configutacionActionInit({
               configuracion: {
                 visualizarApps: true,
-                visualizarBreadCrumbs: true
-              }
-            })
+                visualizarBreadCrumbs: true,
+              },
+            }),
           );
           this.router.navigate(['/dashboard']);
-        })
+        });
       }
-
     } else {
       this.store.dispatch(
         configutacionActionInit({
           configuracion: {
             visualizarApps: false,
-            visualizarBreadCrumbs: false
-          }
-        })
+            visualizarBreadCrumbs: false,
+          },
+        }),
       );
       this.router.navigate(['/contenedor/lista']);
     }

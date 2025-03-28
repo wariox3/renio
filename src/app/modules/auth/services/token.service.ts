@@ -1,60 +1,46 @@
-import { Injectable } from '@angular/core';
-import { getCookie, setCookie, removeCookie } from 'typescript-cookie';
+import { inject, Injectable } from '@angular/core';
+import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
+import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import jwt_decode, { JwtPayload } from 'jwt-decode';
-import { environment } from '@env/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TokenService {
+  private _cookieService = inject(CookieService);
+
   constructor() {}
 
-  guardarToken(token: string, calcularTresHoras: Date) {
-    //para calcular las 3 horas la formula es fechaActual * horas * minutos * segundos * milisegundos
-    if (environment.production) {
-      setCookie('token', token, {
-        expires: calcularTresHoras,
-        path: '/',
-        domain: environment.dominioApp,
-      });
-    } else {
-      setCookie('token', token, { expires: calcularTresHoras, path: '/' });
-    }
+  guardarToken(token: string, tiempo: Date) {
+    this._cookieService.set(cookieKey.ACCESS_TOKEN, token, {
+      expires: tiempo,
+      path: '/',
+    });
   }
 
   obtenerToken() {
-    const token = getCookie('token');
+    const token = this._cookieService.get(cookieKey.ACCESS_TOKEN);
     return token;
   }
 
   eliminarToken() {
-    removeCookie('token', { path: '/', domain: environment.dominioApp });
-    removeCookie('token', { path: '/' });
+    this._cookieService.delete(cookieKey.ACCESS_TOKEN, '/');
   }
 
-  guardarRefreshToken(RefreshToken: string, calcularTresHoras: Date) {
-    if (environment.production) {
-      setCookie('RefreshToken', RefreshToken, {
-        expires: calcularTresHoras,
-        path: '/',
-        domain: environment.dominioApp,
-      });
-    } else {
-      setCookie('RefreshToken', RefreshToken, {
-        expires: calcularTresHoras,
-        path: '/',
-      });
-    }
+  guardarRefreshToken(refreshToken: string, tiempo: Date) {
+    this._cookieService.set(cookieKey.REFRESH_TOKEN, refreshToken, {
+      expires: tiempo,
+      path: '/',
+    });
   }
 
   obtenerRefreshToken() {
-    const refreshToken = getCookie('RefreshToken');
+    const refreshToken = this._cookieService.get(cookieKey.REFRESH_TOKEN);
     return refreshToken;
   }
 
   eliminarRefreshToken() {
-    removeCookie('RefreshToken', { path: '/', domain: environment.dominioApp });
-    removeCookie('RefreshToken', { path: '/' });
+    this._cookieService.delete(cookieKey.REFRESH_TOKEN, '/');
   }
 
   validarToken() {

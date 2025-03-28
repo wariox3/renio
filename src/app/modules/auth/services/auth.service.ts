@@ -2,20 +2,17 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subdominio } from '@comun/clases/subdomino';
+import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
+import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import { noRequiereToken } from '@interceptores/token.interceptor';
 import { Usuario } from '@interfaces/usuario/usuario';
 import { Token } from '@modulos/auth/interfaces/token.interface';
 import { Store } from '@ngrx/store';
-import {
-  configuracionVisualizarAppsAction,
-  configuracionVisualizarBreadCrumbsAction,
-} from '@redux/actions/configuracion.actions';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { removeCookie } from 'typescript-cookie';
 import { ConfirmarInivitacion } from '../interfaces/confirmar-inivitacion.interface';
 import { ConsultarEstadoVerificado } from '../interfaces/consultar-estado-verificado';
 import { RecuperarClaveVerificacion } from '../interfaces/recuperacion-clave-verificacion.interface';
@@ -37,6 +34,7 @@ export class AuthService extends Subdominio implements OnDestroy {
   private router = inject(Router);
   private tokenService = inject(TokenService);
   private store = inject(Store);
+  private _cookieService = inject(CookieService);
 
   currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
@@ -68,9 +66,7 @@ export class AuthService extends Subdominio implements OnDestroy {
       )
       .pipe(
         tap((respuesta: Token) => {
-          let calcularTresHoras = new Date(
-            new Date().getTime() + 3 * 60 * 60 * 1000,
-          );
+          let calcularTresHoras = this._cookieService.calcularTiempoCookie(3);
           this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
           this.tokenService.guardarRefreshToken(
             respuesta['refresh-token'],
@@ -86,28 +82,19 @@ export class AuthService extends Subdominio implements OnDestroy {
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
     this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
-    removeCookie('usuario', { path: '/', domain: environment.dominioApp });
-    removeCookie('usuario', { path: '/' });
-    const patrones = ['empresa-', 'contenedor-', 'configuracion'];
-    document.cookie.split(';').forEach(function (cookie) {
-      const cookieNombre = cookie.split('=')[0].trim();
-      patrones.forEach(function (patron) {
-        if (cookieNombre.startsWith(patron)) {
-          removeCookie(cookieNombre);
-          removeCookie(cookieNombre, {
-            path: '/',
-            domain: environment.dominioApp,
-          });
-        }
-      });
+    this._cookieService.delete(cookieKey.USUARIO, '/');
+
+    const cookieKeysLimpiar = [
+      cookieKey.EMPRESA,
+      cookieKey.CONTENEDOR,
+      cookieKey.CONFIGURACION,
+    ];
+
+    cookieKeysLimpiar.map((cookieKey) => {
+      this._cookieService.delete(cookieKey, '/');
     });
-    if (environment.production) {
-      window.location.href = `${
-        environment.dominioHttp
-      }://${environment.dominioApp.slice(1)}/inicio`;
-    } else {
-      this.router.navigate(['/inicio']);
-    }
+
+    this.router.navigate(['/inicio']);
   }
 
   registration(data: any) {
@@ -150,10 +137,7 @@ export class AuthService extends Subdominio implements OnDestroy {
   refreshToken(refreshToken: string) {
     return this.http.post<Token>(`${this.URL_API_BASE}`, { refreshToken }).pipe(
       tap((respuesta: Token) => {
-        let calcularTresHoras = new Date(
-          new Date().getTime() + 3 * 60 * 60 * 1000,
-        );
-
+        let calcularTresHoras = this._cookieService.calcularTiempoCookie(3);
         this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
         this.tokenService.guardarRefreshToken(
           respuesta['refresh-token'],
@@ -214,27 +198,8 @@ export class AuthService extends Subdominio implements OnDestroy {
         },
       }),
     );
-    if (window.location.host.includes(environment.dominioApp)) {
-      this.store.dispatch(
-        configuracionVisualizarAppsAction({
-          configuracion: {
-            visualizarApps: true,
-          },
-        }),
-      );
-      this.store.dispatch(
-        configuracionVisualizarBreadCrumbsAction({
-          configuracion: {
-            visualizarBreadCrumbs: true,
-          },
-        }),
-      );
-      this.router.navigate(['/dashboard']);
-    } else {
-      location.href = `${
-        environment.dominioHttp
-      }://${environment.dominioApp.slice(1)}/contenedor/lista`;
-    }
+
+    this.router.navigate(['/contenedor/lista']);
   }
 
   consultarEstadoVerificado(usuario_id: string) {
