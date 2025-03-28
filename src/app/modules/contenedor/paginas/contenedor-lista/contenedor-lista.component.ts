@@ -82,12 +82,6 @@ export class ContenedorListaComponent extends General implements OnInit {
     this.cargandoContederes = true;
     this.changeDetectorRef.detectChanges();
 
-    if (this.subdominioService.esSubdominioActual()) {
-      location.href = `${
-        environment.dominioHttp
-      }://${environment.dominioApp.slice(1)}/contenedor/lista`;
-    }
-
     this.store.dispatch(
       asignarDocumentacion({ id: 666, nombre: 'CONTENEDORES' }),
     );
@@ -197,11 +191,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
           this.visualizarLoader[i] = false;
           this.changeDetectorRef.detectChanges();
-          if (environment.production) {
-            window.location.href = `${environment.dominioHttp}://${respuesta.subdominio}${environment.dominioApp}/dashboard`;
-          } else {
-            this.router.navigateByUrl('/dashboard');
-          }
+          this.router.navigateByUrl('/dashboard');
         }),
         catchError(() => {
           this.visualizarLoader[i] = false;
