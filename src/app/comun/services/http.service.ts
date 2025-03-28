@@ -106,7 +106,7 @@ export class HttpService extends Subdominio {
   }
 
   public descargarArchivoDominio(endpoint: string, data: any): void {
-    const url = `${this.urlMuup}/${endpoint}`;
+    const url = `${this.URL_API_BASE}/${endpoint}`;
     this.alertaService.mensajaEspera('Cargando');
     this.http
       .post<HttpResponse<Blob>>(url, data, {
