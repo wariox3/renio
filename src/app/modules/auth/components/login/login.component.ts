@@ -150,26 +150,16 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
               }),
             );
           }),
-          switchMap(() => {
-            if (this.subdominioService.esSubdominioActual()) {
-              return this.contenedorServices.contenedorConectar(
-                this.subdominioService.subdominioNombre(),
-              );
-            }
-            return of(null);
-          }),
-          tap((respuesta) => {
-            if (respuesta?.acceso_restringido) {
-              this.store.dispatch(
-                configutacionActionInit({
-                  configuracion: {
-                    visualizarApps: false,
-                    visualizarBreadCrumbs: false,
-                  },
-                }),
-              );
-              this.router.navigate(['/contenedor/lista']);
-            }
+          tap(() => {
+            this.store.dispatch(
+              configutacionActionInit({
+                configuracion: {
+                  visualizarApps: false,
+                  visualizarBreadCrumbs: false,
+                },
+              }),
+            );
+            this.router.navigate(['/contenedor/lista']);
           }),
           switchMap(() => {
             if (tokenUrl) {
