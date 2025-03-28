@@ -1,5 +1,13 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subscription, combineLatest, tap, zip } from 'rxjs';
+import {
+  Observable,
+  Subject,
+  Subscription,
+  combineLatest,
+  takeUntil,
+  tap,
+  zip,
+} from 'rxjs';
 import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
@@ -48,8 +56,10 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   obtenerEmpresaNombre$ = this.store.select(obtenerEmpresaNombre);
   obtenerEsSocio$ = this.store.select(obtenerUsuarioSocio);
   private unsubscribe: Subscription[] = [];
-  esSubdominio = this.subdominioService.esSubdominioActual();
   visualizarMenuApps = false;
+  private destroy$ = new Subject<void>();
+  public contenedorId: string;
+  public empresaId: string;
 
   constructor(
     private auth: AuthService,
@@ -71,6 +81,24 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
       this.changeDetectorRef.detectChanges();
     });
     this.changeDetectorRef.detectChanges();
+
+    this._initStoreSuscripciones();
+  }
+
+  private _initStoreSuscripciones() {
+    this.store
+      .select(obtenerContenedorId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((contenedor_id) => {
+        this.contenedorId = contenedor_id;
+      });
+
+    this.store
+      .select(obtenerEmpresaId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((empresa_id) => {
+        this.empresaId = empresa_id;
+      });
   }
 
   logout() {
@@ -99,15 +127,11 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarAmiContenedor() {
-    this.store.select(obtenerContenedorId).subscribe((contenedor_id) => {
-      this.router.navigate([`/contenedor/detalle/${contenedor_id}/`]);
-    });
+    this.router.navigate([`/contenedor/detalle/${this.contenedorId}/`]);
   }
 
   navegarAmiEmpresa() {
-    this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
-      this.router.navigate([`/empresa/detalle/${empresa_id}/`]);
-    });
+    this.router.navigate([`/empresa/detalle/${this.empresaId}/`]);
   }
 
   navegarAmiEmpresaConfiguracion() {
@@ -118,9 +142,8 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
         },
       }),
     );
-    this.store.select(obtenerEmpresaId).subscribe((empresa_id) => {
-      this.router.navigate([`/empresa/configuracion_modulos/${empresa_id}/`]);
-    });
+
+    this.router.navigate([`/empresa/configuracion_modulos/${this.empresaId}/`]);
   }
 
   navegarAmisContenedores() {
@@ -131,6 +154,8 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    this.destroy$.next();
+    this.destroy$.unsubscribe();
   }
 }
 
