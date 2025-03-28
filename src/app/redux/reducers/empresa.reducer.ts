@@ -1,25 +1,18 @@
-import { environment } from '@env/environment';
+import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { createReducer, on } from '@ngrx/store';
 import {
   empresaActionInit,
   empresaActualizacionAction,
-  empresaActualizacionImangenAction,
-  empresaLimpiarAction,
-  empresaActualizacionRededocIdAction,
   empresaActualizacionAsisteneElectronico,
-  empresaActualizacionAsistenePredeterminado
+  empresaActualizacionAsistenePredeterminado,
+  empresaActualizacionImangenAction,
+  empresaActualizacionRededocIdAction,
+  empresaLimpiarAction,
 } from '@redux/actions/empresa.actions';
 import { getCookie } from 'typescript-cookie';
 
-let ContenedorDatos: any;
-
-if (environment.production) {
-  let dominioActual = window.location.host;
-  ContenedorDatos = getCookie(`empresa-${dominioActual.split('.')[0]}`);
-} else {
-  ContenedorDatos = getCookie(`empresa-${environment.EMPRESA_LOCALHOST}`);
-}
+let datosEmpresa = getCookie(cookieKey.EMPRESA);
 
 let estadoInicializado: Empresa = {
   id: 0,
@@ -30,24 +23,22 @@ let estadoInicializado: Empresa = {
   telefono: '',
   correo: '',
   imagen: '',
-  ciudad: 0,
-  identificacion: 0,
-  identificacion_nombre: '',
-  regimen: 0,
-  regimen_nombre: '',
-  tipo_persona: 0,
-  tipo_persona_nombre: '',
-  suscriptor: 0,
   ciudad_id: 0,
   identificacion_id: 0,
+  identificacion_nombre: '',
+  regimen_id: 0,
+  regimen_nombre: '',
+  tipo_persona_id: 0,
+  tipo_persona_nombre: '',
+  suscriptor: 0,
   rededoc_id: '',
   ciudad_nombre: '',
   asistente_electronico: false,
-  asistente_predeterminado: false
+  asistente_predeterminado: false,
 };
 
-const initialState: Empresa = ContenedorDatos
-  ? JSON.parse(ContenedorDatos)
+const initialState: Empresa = datosEmpresa
+  ? JSON.parse(datosEmpresa)
   : estadoInicializado;
 
 export const empresaReducer = createReducer(
@@ -70,22 +61,28 @@ export const empresaReducer = createReducer(
     ...state,
     ...estadoInicializado,
   })),
-  on(empresaActualizacionRededocIdAction, (state, {rededoc_id}) => ({
+  on(empresaActualizacionRededocIdAction, (state, { rededoc_id }) => ({
     ...state,
     ...{
       rededoc_id,
     },
   })),
-  on(empresaActualizacionAsisteneElectronico, (state, {asistente_electronico}) => ({
-    ...state,
-    ...{
-      asistente_electronico,
-    },
-  })),
-  on(empresaActualizacionAsistenePredeterminado, (state, {asistente_predeterminado}) => ({
-    ...state,
-    ...{
-      asistente_predeterminado,
-    },
-  })),
+  on(
+    empresaActualizacionAsisteneElectronico,
+    (state, { asistente_electronico }) => ({
+      ...state,
+      ...{
+        asistente_electronico,
+      },
+    }),
+  ),
+  on(
+    empresaActualizacionAsistenePredeterminado,
+    (state, { asistente_predeterminado }) => ({
+      ...state,
+      ...{
+        asistente_predeterminado,
+      },
+    }),
+  ),
 );

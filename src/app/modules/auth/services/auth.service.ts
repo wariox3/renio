@@ -1,31 +1,32 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { Subdominio } from '@comun/clases/subdomino';
+import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
+import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import { noRequiereToken } from '@interceptores/token.interceptor';
 import { Usuario } from '@interfaces/usuario/usuario';
 import { Token } from '@modulos/auth/interfaces/token.interface';
 import { Store } from '@ngrx/store';
-import { configuracionVisualizarAppsAction, configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { removeCookie } from 'typescript-cookie';
+import { ConfirmarInivitacion } from '../interfaces/confirmar-inivitacion.interface';
+import { ConsultarEstadoVerificado } from '../interfaces/consultar-estado-verificado';
 import { RecuperarClaveVerificacion } from '../interfaces/recuperacion-clave-verificacion.interface';
 import { TokenReenviarValidacion } from '../interfaces/token-reenviar-validacion.interface';
 import { TokenVerificacion } from '../interfaces/token-verificacion.interface';
 import { ConfimarcionClaveReinicio } from '../models/confimarcion-clave-reinicio';
 import { UserModel } from '../models/user.model';
 import { TokenService } from './token.service';
-import { ConfirmarInivitacion } from '../interfaces/confirmar-inivitacion.interface';
-import { ConsultarEstadoVerificado } from '../interfaces/consultar-estado-verificado';
 export type UserType = UserModel | undefined;
 
 @Injectable({
   providedIn: 'root',
 })
-export class AuthService implements OnDestroy {
+export class AuthService extends Subdominio implements OnDestroy {
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
   private authLocalStorageToken = `${environment.appVersion}-${environment.USERDATA_KEY}`;
@@ -33,6 +34,7 @@ export class AuthService implements OnDestroy {
   private router = inject(Router);
   private tokenService = inject(TokenService);
   private store = inject(Store);
+  private _cookieService = inject(CookieService);
 
   currentUser$: Observable<UserType>;
   isLoading$: Observable<boolean>;
@@ -48,6 +50,7 @@ export class AuthService implements OnDestroy {
   }
 
   constructor() {
+    super();
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<UserType>(undefined);
     this.currentUser$ = this.currentUserSubject.asObservable();
@@ -57,21 +60,19 @@ export class AuthService implements OnDestroy {
   login(email: string, password: string) {
     return this.http
       .post<Token>(
-        `${environment.URL_API_MUUP}/seguridad/login/`,
+        `${this.URL_API_BASE}/seguridad/login/`,
         { username: email, password: password },
-        { context: noRequiereToken() }
+        { context: noRequiereToken() },
       )
       .pipe(
         tap((respuesta: Token) => {
-          let calcularTresHoras = new Date(
-            new Date().getTime() + 3 * 60 * 60 * 1000
-          );
+          let calcularTresHoras = this._cookieService.calcularTiempoCookie(3);
           this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
           this.tokenService.guardarRefreshToken(
             respuesta['refresh-token'],
-            calcularTresHoras
+            calcularTresHoras,
           );
-        })
+        }),
       );
   }
 
@@ -81,107 +82,93 @@ export class AuthService implements OnDestroy {
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
     this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
-    removeCookie('usuario', { path: '/', domain: environment.dominioApp });
-    removeCookie('usuario', { path: '/' });
-    const patrones = ['empresa-', 'contenedor-', 'configuracion'];
-    document.cookie.split(';').forEach(function (cookie) {
-      const cookieNombre = cookie.split('=')[0].trim();
-      patrones.forEach(function (patron) {
-        if (cookieNombre.startsWith(patron)) {
-          removeCookie(cookieNombre);
-          removeCookie(cookieNombre, {
-            path: '/',
-            domain: environment.dominioApp,
-          });
-        }
-      });
+    this._cookieService.delete(cookieKey.USUARIO, '/');
+
+    const cookieKeysLimpiar = [
+      cookieKey.EMPRESA,
+      cookieKey.CONTENEDOR,
+      cookieKey.CONFIGURACION,
+    ];
+
+    cookieKeysLimpiar.map((cookieKey) => {
+      this._cookieService.delete(cookieKey, '/');
     });
-    if (environment.production) {
-      window.location.href = `${
-        environment.dominioHttp
-      }://${environment.dominioApp.slice(1)}/inicio`;
-    } else {
-      this.router.navigate(['/inicio']);
-    }
+
+    this.router.navigate(['/inicio']);
   }
 
   registration(data: any) {
     return this.http.post<Usuario>(
-      `${environment.URL_API_MUUP}/seguridad/usuario/`,
+      `${this.URL_API_BASE}/seguridad/usuario/`,
       {
         username: data.usuario,
         password: data.clave,
       },
       {
         context: noRequiereToken(),
-      }
+      },
     );
   }
 
   recuperarClave(email: string) {
     return this.http.post<RecuperarClaveVerificacion>(
-      `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-solicitar/`,
+      `${this.URL_API_BASE}/seguridad/usuario/cambio-clave-solicitar/`,
       { username: email, accion: 'clave' },
-      { context: noRequiereToken() }
+      { context: noRequiereToken() },
     );
   }
 
   validacion(token: string) {
     return this.http.post<TokenVerificacion>(
-      `${environment.URL_API_MUUP}/seguridad/usuario/verificar/`,
+      `${this.URL_API_BASE}/seguridad/usuario/verificar/`,
       { token },
-      { context: noRequiereToken() }
+      { context: noRequiereToken() },
     );
   }
 
   reenviarValidacion(codigoUsuario: number) {
     return this.http.post<TokenReenviarValidacion>(
-      `${environment.URL_API_MUUP}/seguridad/verificacion/`,
+      `${this.URL_API_BASE}/seguridad/verificacion/`,
       { codigoUsuario },
-      { context: noRequiereToken() }
+      { context: noRequiereToken() },
     );
   }
 
   refreshToken(refreshToken: string) {
-    return this.http
-      .post<Token>(`${environment.URL_API_MUUP}`, { refreshToken })
-      .pipe(
-        tap((respuesta: Token) => {
-          let calcularTresHoras = new Date(
-            new Date().getTime() + 3 * 60 * 60 * 1000
-          );
-
-          this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
-          this.tokenService.guardarRefreshToken(
-            respuesta['refresh-token'],
-            calcularTresHoras
-          );
-        })
-      );
+    return this.http.post<Token>(`${this.URL_API_BASE}`, { refreshToken }).pipe(
+      tap((respuesta: Token) => {
+        let calcularTresHoras = this._cookieService.calcularTiempoCookie(3);
+        this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
+        this.tokenService.guardarRefreshToken(
+          respuesta['refresh-token'],
+          calcularTresHoras,
+        );
+      }),
+    );
   }
 
   reiniciarClave(password: string, token: string) {
     return this.http.post<ConfimarcionClaveReinicio>(
-      `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave-verificar/`,
+      `${this.URL_API_BASE}/seguridad/usuario/cambio-clave-verificar/`,
       { password, token },
-      { context: noRequiereToken() }
+      { context: noRequiereToken() },
     );
   }
 
   cambiarClave(usuario_id: number, password: string) {
     return this.http.post<ConfimarcionClaveReinicio>(
-      `${environment.URL_API_MUUP}/seguridad/usuario/cambio-clave/`,
+      `${this.URL_API_BASE}/seguridad/usuario/cambio-clave/`,
       { usuario_id, password },
-      { context: noRequiereToken() }
+      { context: noRequiereToken() },
     );
   }
 
   confirmarInivitacion(token: string) {
     return this.http.post<ConfirmarInivitacion>(
-      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/confirmar/`,
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/confirmar/`,
       {
         token,
-      }
+      },
     );
   }
 
@@ -207,39 +194,20 @@ export class AuthService implements OnDestroy {
           socio_id: usuario.socio_id,
           is_active: usuario.is_active,
           numero_identificacion: usuario.numero_identificacion,
-          cargo: usuario.cargo
+          cargo: usuario.cargo,
         },
-      })
+      }),
     );
-    if (window.location.host.includes(environment.dominioApp)) {
-      this.store.dispatch(
-        configuracionVisualizarAppsAction({
-          configuracion: {
-            visualizarApps: true,
-          },
-        })
-      );
-      this.store.dispatch(
-        configuracionVisualizarBreadCrumbsAction({
-          configuracion: {
-            visualizarBreadCrumbs: true,
-          },
-        })
-      );
-      this.router.navigate(['/dashboard']);
-    } else {
-      location.href = `${
-        environment.dominioHttp
-      }://${environment.dominioApp.slice(1)}/contenedor/lista`;
-    }
+
+    this.router.navigate(['/contenedor/lista']);
   }
 
   consultarEstadoVerificado(usuario_id: string) {
     return this.http.post<ConsultarEstadoVerificado>(
-      `${environment.URL_API_MUUP}/seguridad/usuario/estado-verificado/`,
+      `${this.URL_API_BASE}/seguridad/usuario/estado-verificado/`,
       {
         usuario_id,
-      }
+      },
     );
   }
 
@@ -249,10 +217,10 @@ export class AuthService implements OnDestroy {
 
   listaSocio(socio_id: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/seguridad/usuario/lista-socio/`,
+      `${this.URL_API_BASE}/seguridad/usuario/lista-socio/`,
       {
         socio_id,
-      }
+      },
     );
   }
 }
