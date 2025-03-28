@@ -279,6 +279,7 @@ export class ContenedorListaComponent extends General implements OnInit {
         },
       }),
     );
+    
     this.store.dispatch(empresaLimpiarAction());
   }
 

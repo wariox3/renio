@@ -65,7 +65,7 @@ export class EmpresaEffects {
         tap(({ empresa }) => {
           this._cookieService.set(cookieKey.EMPRESA, JSON.stringify(empresa), {
             path: '/',
-          });
+          }); 
           // let empresaJson = this._cookieService.get(cookieKey.EMPRESA);
 
           // if (empresaJson) {
