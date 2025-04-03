@@ -191,7 +191,7 @@ export class ContenedorListaComponent extends General implements OnInit {
           this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
           this.visualizarLoader[i] = false;
           this.changeDetectorRef.detectChanges();
-          this.router.navigateByUrl('/dashboard');
+          this.router.navigateByUrl('/general');
         }),
         catchError(() => {
           this.visualizarLoader[i] = false;

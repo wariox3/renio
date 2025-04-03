@@ -60,10 +60,10 @@ export class General {
           const prefijo: AplicacionPrefijoModulo = this.modelo
             .toLowerCase()
             .substring(0, 3) as AplicacionPrefijoModulo;
-  
+
           // Verificar si el prefijo existe en las claves de moduloAplicacion
           const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
-  
+
           if (posicion !== -1) {
             // Si el prefijo es válido, mostrar la posición
             this.modulo = this.moduloAplicacion[prefijo];
@@ -79,7 +79,7 @@ export class General {
           this.ubicacion = 'independiente';
           break;
       }
-  
+
       switch (true) {
         case this.router.url.includes('/nuevo'):
           this.accion = 'nuevo';

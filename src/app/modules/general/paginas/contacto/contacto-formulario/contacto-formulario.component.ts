@@ -273,13 +273,13 @@ export default class ContactDetalleComponent
   }
 
   iniciarFormulario() {
-    if (this.parametrosUrl?.dataPersonalizada !== undefined) {
-      let dataPersonalizada = JSON.parse(this.parametrosUrl?.dataPersonalizada);
-      if (dataPersonalizada) {
-        this.esProvedor = dataPersonalizada?.proveedor === 'si';
-        this.esCliente = dataPersonalizada?.cliente === 'si';
-      }
-    }
+    // if (this.parametrosUrl?.dataPersonalizada !== undefined) {
+    //   let dataPersonalizada = JSON.parse(this.parametrosUrl?.dataPersonalizada);
+    //   if (dataPersonalizada) {
+    //     this.esProvedor = dataPersonalizada?.proveedor === 'si';
+    //     this.esCliente = dataPersonalizada?.cliente === 'si';
+    //   }
+    // }
 
     this.formularioContacto = this.formBuilder.group(
       {

@@ -14,6 +14,39 @@ export const routes: Route[] = [
       ),
   },
   {
+    path: 'administracion',
+    children: [
+      {
+        path: 'lista',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-lista/base-lista.component'
+          ).then((c) => c.BaseListaComponent),
+      },
+      {
+        path: 'nuevo',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'editar',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'detalle',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-detalle/base-detalle.component'
+          ).then((c) => c.BaseDetalleComponent),
+      },
+    ],
+  },
+  {
     path: 'informe',
     children: [
       {

@@ -35,6 +35,7 @@ import { ImportarAdministradorComponent } from '../importar-administrador/import
 import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
 import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
 import { ModalDocumentoDetallesComponent } from './components/modal-documento-detalles/modal-documento-detalles.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -59,6 +60,7 @@ import { ModalDocumentoDetallesComponent } from './components/modal-documento-de
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
   private _modalService = inject(NgbModal);
+  private _configModuleService = inject(ConfigModuleService);
 
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
@@ -74,10 +76,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   columnasVibles: any[] = [];
   datosFiltrados: any[] = [];
   claveLocalStore: string;
-  tipo: string;
   btnGrupoResponsive = false;
   public registroSeleccionadoId = signal<number>(0);
   @Input() encabezado: any;
+  @Input() _tipo: string;
   @Input() cargando: boolean | null = false;
   @Input() modelo: string;
   @Input() datos: any[] = [];
@@ -117,7 +119,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this._reiniciarPaginador();
       this.claveLocalStore = `itemNombre_tabla`;
-      this.tipo = parametro.itemTipo;
+      // this.tipo = this._configModuleService.itemTipoSignal();
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -139,6 +141,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     }
     this.construirTabla();
   }
+  
 
   private _reiniciarPaginador() {
     this.lado = 0;

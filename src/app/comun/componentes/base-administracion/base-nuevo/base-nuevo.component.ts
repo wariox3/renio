@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  inject,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import { General } from '@comun/clases/general';
 import { Componentes } from '@comun/extra/imports/administradores';
 import { HttpService } from '@comun/services/http.service';
 import { Modelo } from '@comun/type/modelo.type';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-comun-base-nuevo',
@@ -20,6 +22,8 @@ import { Modelo } from '@comun/type/modelo.type';
   templateUrl: './base-nuevo.component.html',
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private key: Modelo | undefined;
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -34,14 +38,14 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
 
   async loadComponente() {
     this.componenteDinamico.clear();
-    this.activatedRoute.queryParams.subscribe((parametros) => {
-      this.modelo = parametros.itemNombre;
-      if (parametros.submodelo) {
-        this.modelo = parametros.submodelo;
-        this.changeDetectorRef.detectChanges();
-      }
-    });
-    let posicion: keyof typeof Componentes = this.modelo as Modelo;
+    // this.activatedRoute.queryParams.subscribe((parametros) => {
+      this.key = this._configModuleService.modelo;
+      // if (parametros.submodelo) {
+      //   this.modelo = parametros.submodelo;
+      //   this.changeDetectorRef.detectChanges();
+      // }
+    // });
+    let posicion: keyof typeof Componentes = this.key as Modelo;
     let componete = await (await Componentes[posicion]!.formulario()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();

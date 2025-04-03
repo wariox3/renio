@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -8,12 +8,17 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { mapeo } from '@comun/extra/mapeo-entidades/administradores';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BehaviorSubject, finalize, forkJoin } from 'rxjs';
-import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
+import { UrlService } from '@comun/services/infrastructure/url.service';
+import { Modelo } from '@comun/type/modelo.type';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ModeloConfig } from '@modulos/compra/domain/constantes/configuracion.constant';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
@@ -29,15 +34,19 @@ import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interfa
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
-export class BaseListaComponent extends General implements OnInit {
-  arrParametrosConsulta: any = {
+export class BaseListaComponent extends General implements OnInit, OnDestroy {
+  private readonly _configModule = inject(ConfigModuleService);
+  private readonly _generalService = inject(GeneralService);
+
+  arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
+    modelo: 'GenItem',
     limite: 50,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 10000,
   };
-  arrPropiedades: Listafiltros[];
+
   arrItems: any[];
   cantidad_registros!: number;
   nombreFiltro = ``;
@@ -48,116 +57,196 @@ export class BaseListaComponent extends General implements OnInit {
   confirmacionRegistrosEliminado = false;
   urlEliminar = '';
   documento_clase_id: string;
-  visualizarBtnNuevo = true;
+  visualizarBtnNuevo: boolean = true;
   visualizarColumnaEditar = true;
   submodelo: string | undefined;
   cargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  moduloConfiguracion: ModeloConfig | undefined;
 
   private _filtrosModuloPermanentes: Filtros[] = [];
+  private _urlService = inject(UrlService);
+  public _modelo: Modelo | undefined;
+  private _modulo: string | null;
+  private _destroy$ = new Subject<void>();
+  public ordenamientoFijo = '';
+  public modeloCofig: ModeloConfig | null;
+  private _endpoint: string | undefined;
+  public nombreModelo: string | undefined;
 
   constructor(
     private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
+    private descargarArchivosService: DescargarArchivosService,
   ) {
     super();
   }
 
   ngOnInit(): void {
+    this._setupConfigModuleListener();
+
+    // TODO: preguntar pa que cerrar mensajes
     this.alertaService.cerrarMensajes();
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.arrParametrosConsulta.desplazar = 0
-      this.arrParametrosConsulta.ordenamientos = [];
-      this.visualizarColumnaEditar =
-        parametro.visualizarColumnaEditar === 'no' ? false : true;
-      this.visualizarBtnNuevo =
-        parametro.visualizarBtnNuevo === 'no' ? false : true;
-      this.changeDetectorRef.detectChanges();
-      this.nombreFiltro = `administrador_${parametro.itemNombre.toLowerCase()}`;
-      this.modelo = parametro.itemNombre!;
-      let posicion: keyof typeof mapeo = this.modelo;
-      this.modulo = mapeo[posicion].modulo;
-
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: mapeo[posicion].datos })
-      );
-      if (parametro.submodelo) {
-        this.submodelo = parametro.submodelo!;
-        const filtro = [
-          {
-            propiedad: 'empleado',
-            valor1: true,
-          },
-        ];
-        this.arrParametrosConsulta.filtros = filtro;
-        this._filtrosModuloPermanentes = filtro;
-      } else {
-        this.submodelo = undefined;
-
-        this.arrParametrosConsulta.filtros = [];
-      }
-      if (parametro.resoluciontipo) {
-        const filtro = [
-          {
-            propiedad: parametro.resoluciontipo,
-            valor1: true,
-          },
-        ];
-        this.arrParametrosConsulta.filtros = filtro;
-        this._filtrosModuloPermanentes = filtro;
-      }
-      this.changeDetectorRef.detectChanges();
-
-      this.consultarLista();
-    });
-    this.changeDetectorRef.detectChanges();
   }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
+  // private _setupQueryParamsListener() {
+  // this.activatedRoute.queryParams.subscribe(() => {
+  // console.log(this.nombreFiltro, this._modelo, this._modulo);
+  // if (parametro.submodelo) {
+  //   this.submodelo = parametro.submodelo!; // esto no va
+  //   const filtro = [
+  //     // estos son filtros permanentes
+  //     {
+  //       propiedad: 'empleado',
+  //       valor1: true,
+  //     },
+  //   ];
+  //   this.arrParametrosConsulta.filtros = filtro;
+  //   this._filtrosModuloPermanentes = filtro;
+  // } else {
+  //   this.submodelo = undefined;
+  //   this.arrParametrosConsulta.filtros = [];
+  // }
+  // if (parametro.resoluciontipo) {
+  //   const filtro = [
+  //     {
+  //       propiedad: parametro.resoluciontipo,
+  //       valor1: true,
+  //     },
+  //   ];
+  //   this.arrParametrosConsulta.filtros = filtro;
+  //   this._filtrosModuloPermanentes = filtro;
+  // }
+  //   });
+  // }
+
+  private _setupConfigModuleListener() {
+    this._configModule.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((value) => {
+        this._loadModuleConfiguration(value);
+        this._reiniciarParametrosConsulta();
+        this._configurarTabla(value);
+        this._configurarParametrosConsulta(value);
+        this.consultarLista();
+      });
+  }
+
+  private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
+    this.modeloCofig = modeloConfig;
+    this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
+    this.nombreModelo = modeloConfig?.nombreModelo;
+    this._modulo = this._configModule.modulo();
+    this._endpoint = modeloConfig?.ajustes.endpoint;
+    this.nombreFiltro = `administrador_${this._modelo?.toLowerCase()}`;
+    console.log(this.nombreModelo);
+  }
+
+  private _configurarTabla(modeloConfig: ModeloConfig | null) {
+    // this.visualizarColumnaEditar =
+    //   this.moduloConfiguracion?.data?.visualizarColumnaEditar === 'no'
+    //     ? false
+    //     : true;
+
+    // this.visualizarBtnNuevo =
+    //   this.moduloConfiguracion?.data?.visualizarBtnNuevo === 'no'
+    //     ? false
+    //     : true;
+    const verColumnaEditar = modeloConfig?.ajustes.ui?.verColumnaEditar;
+    const verBtnNuevo = modeloConfig?.ajustes.ui?.verBotonNuevo;
+
+    this.visualizarColumnaEditar = !!verColumnaEditar;
+    this.visualizarBtnNuevo = !!verBtnNuevo;
+
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: mapeo[this._modelo!].datos }),
+    );
+  }
+
+  private _reiniciarParametrosConsulta() {
+    this.arrParametrosConsulta.desplazar = 0;
+    this.arrParametrosConsulta.ordenamientos = [];
+  }
+
+  private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
+    const ordenamientos =
+      modeloConfig?.ajustes.parametrosHttpConfig?.ordenamientos;
+
+    if (ordenamientos) {
+      this.arrParametrosConsulta.ordenamientos.push(ordenamientos);
+    }
+
+    if (this._modelo) {
+      this.arrParametrosConsulta = {
+        ...this.arrParametrosConsulta,
+        modelo: this._modelo,
+      };
+    }
+    // 1. Obtener el ordenamiento de forma segura
+    // const ordenamientoActual = this.parametrosUrl?.ordenamiento;
+    // // 2. Validar y preparar nuevos ordenamientos (inmutabilidad)
+    // const ordenamientosExistentes =
+    //   this.arrParametrosConsulta.ordenamientos ?? [];
+    // const nuevosOrdenamientos =
+    //   ordenamientoActual &&
+    //   !ordenamientosExistentes.includes(ordenamientoActual)
+    //     ? [...ordenamientosExistentes, ordenamientoActual]
+    //     : ordenamientosExistentes;
+    // // 3. Crear nuevo objeto de parámetros (totalmente inmutable)
+    // this.arrParametrosConsulta = {
+    //   ...this.arrParametrosConsulta,
+    //   ordenamientos: nuevosOrdenamientos,
+    //   modelo: this._modelo, // Asumiendo que _modelo siempre existe
+    // };
+  }
+
+  // private _obtenerFuncionalidadURL() {
+  //   this._basePath = this._urlService.obtenerModuloPath(this.router.url);
+  // }
 
   consultarLista() {
     this.cargando$.next(true);
     this.arrItems = [];
-    let filtroPermamente: any = [];
-    let baseUrl = 'general/funcionalidad/lista/';
+    // let filtroPermamente: any = [];
+    // let baseUrl = 'general/funcionalidad/lista/';
 
-    if (this.parametrosUrl?.dataPersonalizada) {
-      filtroPermamente = this._adaptadorDataFiltrosPermanente(
-        JSON.parse(this.parametrosUrl?.dataPersonalizada)
-      );
-      this.arrParametrosConsulta.filtros = [
-        ...this.arrParametrosConsulta.filtros,
-        ...filtroPermamente,
-      ];
-    }
+    // let ordenamientoFijo = this.parametrosUrl?.ordenamiento;
 
-    let ordenamientoFijo = this.parametrosUrl?.ordenamiento;
-    if (
-      ordenamientoFijo !== undefined &&
-      !this.arrParametrosConsulta.ordenamientos.includes(ordenamientoFijo)
-    ) {
-      this.arrParametrosConsulta.ordenamientos.push(ordenamientoFijo);
-    }
-    this.arrParametrosConsulta = {
-      ...this.arrParametrosConsulta,
-      ...{
-        modelo: this.modelo,
-      },
-    };
+    // if (
+    //   ordenamientoFijo !== undefined &&
+    //   !this.arrParametrosConsulta.ordenamientos.includes(ordenamientoFijo)
+    // ) {
+    //   this.arrParametrosConsulta.ordenamientos.push(ordenamientoFijo);
+    // }
 
-    this.httpService
-      .post<{
-        cantidad_registros: number;
-        registros: any[];
-        propiedades: any[];
-      }>(baseUrl, this.arrParametrosConsulta)
+    this._generalService
+      .consultarDatosLista(this.arrParametrosConsulta)
       .pipe(finalize(() => this.cargando$.next(false)))
       .subscribe((respuesta: any) => {
         this.cantidad_registros = respuesta.cantidad_registros;
         this.arrItems = respuesta.registros;
-        this.arrPropiedades = respuesta.propiedades;
         this.changeDetectorRef.detectChanges();
       });
+
+    // this.httpService
+    //   .post<{
+    //     cantidad_registros: number;
+    //     registros: any[];
+    //     propiedades: any[];
+    //   }>(baseUrl, this.arrParametrosConsulta)
+    //   .pipe(finalize(() => this.cargando$.next(false)))
+    //   .subscribe((respuesta: any) => {
+    //     this.cantidad_registros = respuesta.cantidad_registros;
+    //     this.arrItems = respuesta.registros;
+    //     this.arrPropiedades = respuesta.propiedades;
+    //     this.changeDetectorRef.detectChanges();
+    //   });
   }
 
-  obtenerFiltros(arrfiltros: any[]) {
+  obtenerFiltros(arrfiltros: Filtros[]) {
     if (arrfiltros.length >= 1) {
       this.arrParametrosConsulta.filtros = arrfiltros;
     } else {
@@ -195,23 +284,25 @@ export class BaseListaComponent extends General implements OnInit {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      let modelo = this.modelo
-      let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
-      if (
-        eliminarPrefijos.includes(this.modelo.toLowerCase().substring(0, 3))
-      ) {
-        modelo = this._camelASnake(this.modelo.substring(3, this.modelo.length))
-      }
+      // let modelo = this._modelo;
+      // let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
+      // if (
+      //   eliminarPrefijos.includes(this._modelo!.toLowerCase().substring(0, 3))
+      // ) {
+      //   modelo = this._camelASnake(
+      //     this.modelo.substring(3, this.modelo.length),
+      //   );
+      // }
       this.cargando$.next(true);
       const eliminarSolicitudes = data.map((id) => {
-        return this.httpService.delete(`${this.modulo}/${modelo}/${id}/`, {});
+        return this.httpService.delete(`${this._endpoint}/${id}/`, {});
       });
       forkJoin(eliminarSolicitudes)
         .pipe(
           finalize(() => {
             this.cargando$.next(false);
             this.consultarLista();
-          })
+          }),
         )
         .subscribe((respuesta: any) => {
           this.alertaService.mensajaExitoso('Registro eliminado');
@@ -221,40 +312,34 @@ export class BaseListaComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se han seleccionado registros para eliminar'
+        'No se han seleccionado registros para eliminar',
       );
     }
   }
 
   navegarNuevo() {
-    this.activatedRoute.queryParams.subscribe((parametros) => {
-      this.router.navigate([`/administrador/nuevo`], {
-        queryParams: {
-          ...parametros,
-        },
-      });
+    this.router.navigate([`${this._modulo}/administracion/nuevo`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 
   navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/administrador/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    this.router.navigate([`${this._modulo}/administracion/editar`], {
+      queryParams: {
+        ...this.parametrosUrl,
+        detalle: id,
+      },
     });
   }
 
   navegarDetalle(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/administrador/detalle`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    this.router.navigate([`${this._modulo}/administracion/detalle`], {
+      queryParams: {
+        ...this.parametrosUrl,
+        detalle: id,
+      },
     });
   }
 
@@ -273,26 +358,26 @@ export class BaseListaComponent extends General implements OnInit {
       .unsubscribe();
   }
 
-  private _adaptadorDataFiltrosPermanente(data: any): any[] {
-    return Object.keys(data).map((key) => {
-      let valorAdaptado: any;
+  // private _adaptadorDataFiltrosPermanente(data: any): any[] {
+  //   return Object.keys(data).map((key) => {
+  //     let valorAdaptado: any;
 
-      if (data[key] === 'si') {
-        valorAdaptado = true;
-      } else if (data[key] === 'no') {
-        valorAdaptado = false;
-      } else {
-        valorAdaptado = data[key]; // Mantén el valor original si no es 'si' o 'no'
-      }
+  //     if (data[key] === 'si') {
+  //       valorAdaptado = true;
+  //     } else if (data[key] === 'no') {
+  //       valorAdaptado = false;
+  //     } else {
+  //       valorAdaptado = data[key]; // Mantén el valor original si no es 'si' o 'no'
+  //     }
 
-      return {
-        propiedad: key,
-        valor1: valorAdaptado,
-      };
-    });
-  }
+  //     return {
+  //       propiedad: key,
+  //       valor1: valorAdaptado,
+  //     };
+  //   });
+  // }
 
-  private _camelASnake(value: string) {
-    return value.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-  }
+  // private _camelASnake(value: string) {
+  //   return value.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
+  // }
 }

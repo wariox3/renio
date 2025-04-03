@@ -16,6 +16,7 @@ interface Filtro {
 
 export interface informacionMenuItem {
   nombre: string;
+  modelo?: string;
   documentacionId?: number;
   archivoImportacionLista?: string;
   archivoImportacionNuevo?: string;
