@@ -23,7 +23,7 @@ import { ConfigModuleService } from '@comun/services/application/config-modulo.s
 })
 export class BaseNuevoComponent extends General implements AfterViewInit {
   private readonly _configModuleService = inject(ConfigModuleService);
-  private key: Modelo | undefined;
+  private key: number | Modelo | null | undefined;
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -39,11 +39,11 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   async loadComponente() {
     this.componenteDinamico.clear();
     // this.activatedRoute.queryParams.subscribe((parametros) => {
-      this.key = this._configModuleService.modelo;
-      // if (parametros.submodelo) {
-      //   this.modelo = parametros.submodelo;
-      //   this.changeDetectorRef.detectChanges();
-      // }
+    this.key = this._configModuleService.key;
+    // if (parametros.submodelo) {
+    //   this.modelo = parametros.submodelo;
+    //   this.changeDetectorRef.detectChanges();
+    // }
     // });
     let posicion: keyof typeof Componentes = this.key as Modelo;
     let componete = await (await Componentes[posicion]!.formulario()).default;

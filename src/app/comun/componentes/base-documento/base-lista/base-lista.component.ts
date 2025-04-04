@@ -435,49 +435,57 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      this.activatedRoute.queryParams
-        .subscribe((parametro) => {
-          this.mostrarVentanaCargando$.next(true);
+      // this.activatedRoute.queryParams
+      // .subscribe((parametro) => {
+      this.mostrarVentanaCargando$.next(true);
+      // const consultaHttp = parametro.consultaHttp;
+      // if (consultaHttp === 'si') {
+      if (this._modelo === 'GenDocumento') {
+        this.httpService
+          .post(`${this._endpoint}/eliminar/`, { documentos: data })
+          .pipe(
+            finalize(() => {
+              this.mostrarVentanaCargando$.next(false);
+              this.consultarLista();
+            }),
+          )
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso(respuesta.mensaje);
+          });
+      } else {
+        const eliminarSolicitudes = data.map((id) => {
+          return this.httpService.delete(`${this._endpoint}/${id}/`, {});
+        });
 
-          const consultaHttp = parametro.consultaHttp;
-          if (consultaHttp === 'si') {
-            this.httpService
-              .post('general/documento/eliminar/', { documentos: data })
-              .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-              .subscribe((respuesta: any) => {
-                this.alertaService.mensajaExitoso(respuesta.mensaje);
-                this.consultarLista();
-              });
-          } else {
-            let modelo = this.modelo.toLowerCase();
-            let modulo = localStorage.getItem('ruta');
-            let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
-            if (
-              eliminarPrefijos.includes(
-                this.modelo.toLowerCase().substring(0, 3),
-              )
-            ) {
-              modelo = this.modelo
-                .toLowerCase()
-                .substring(3, this.modelo.length);
-            }
-            const eliminarSolicitudes = data.map((id) => {
-              return this.httpService.delete(
-                `${modulo?.toLocaleLowerCase()}/${modelo}/${id}/`,
-                {},
-              );
-            });
-            combineLatest(eliminarSolicitudes)
-              .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-              .subscribe((respuesta: any) => {
-                this.alertaService.mensajaExitoso('Registro eliminado');
-                this.confirmacionRegistrosEliminado = true;
-                this.changeDetectorRef.detectChanges();
-                this.consultarLista();
-              });
-          }
-        })
-        .unsubscribe();
+        combineLatest(eliminarSolicitudes)
+          .pipe(
+            finalize(() => {
+              this.mostrarVentanaCargando$.next(false);
+              this.consultarLista();
+            }),
+          )
+          .subscribe((respuesta: any) => {
+            this.alertaService.mensajaExitoso('Registro eliminado');
+            this.confirmacionRegistrosEliminado = true;
+            this.changeDetectorRef.detectChanges();
+          });
+      }
+      // } else {
+      // let modelo = this.modelo.toLowerCase();
+      // let modulo = localStorage.getItem('ruta');
+      // let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
+      // if (
+      //   eliminarPrefijos.includes(
+      //     this.modelo.toLowerCase().substring(0, 3),
+      //   )
+      // ) {
+      //   modelo = this.modelo
+      //     .toLowerCase()
+      //     .substring(3, this.modelo.length);
+      // }
+      // }
+      // })
+      // .unsubscribe();
     } else {
       this.alertaService.mensajeError(
         'Error',
