@@ -115,6 +115,10 @@ export class ConfigModuleService {
     return this._currentModelConfig.value?.ajustes.parametrosHttpConfig?.modelo;
   }
 
+  get key() {
+    return this._currentModelConfig.value?.key;
+  }
+
   get modeloConfig() {
     return this._currentModelConfig.value;
   }

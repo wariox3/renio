@@ -10,10 +10,11 @@
     </app-card>
   </div>
   <div class="tabla">
-    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (nombreModelo | uppercase)">
       <section card-body>
         <app-comun-tabla
-          [modelo]="modelo"
+          [modelo]="_modelo!"
+          [_tipo]="_tipo"
           [datos]="arrItems"
           [cargando]="mostrarVentanaCargando$ | async"
           [encabezado]="titulos"

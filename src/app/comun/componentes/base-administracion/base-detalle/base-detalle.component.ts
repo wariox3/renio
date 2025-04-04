@@ -21,7 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class BaseDetalleComponent extends General implements OnInit {
   private readonly _configModuleService = inject(ConfigModuleService);
-  private key: Modelo | undefined;
+  private key: number | Modelo | null | undefined;
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -37,13 +37,13 @@ export class BaseDetalleComponent extends General implements OnInit {
 
   async loadComponente() {
     // this.activatedRoute.queryParams.subscribe((parametros) => {
-    this.key = this._configModuleService.modelo;
+    this.key = this._configModuleService.key;
     // if (parametros.submodelo) {
     //   this.modelo = parametros.submodelo;
     //   this.changeDetectorRef.detectChanges();
     // }
     // });
-    
+
     let posicion: keyof typeof Componentes = this.key as Modelo;
     let componete = await (await Componentes[posicion]!.detalle()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);

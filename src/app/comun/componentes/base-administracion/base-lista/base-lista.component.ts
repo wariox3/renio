@@ -142,7 +142,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._modulo = this._configModule.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
     this.nombreFiltro = `administrador_${this._modelo?.toLowerCase()}`;
-    console.log(this.nombreModelo);
   }
 
   private _configurarTabla(modeloConfig: ModeloConfig | null) {
@@ -175,8 +174,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     const ordenamientos =
       modeloConfig?.ajustes.parametrosHttpConfig?.ordenamientos;
 
-    if (ordenamientos) {
-      this.arrParametrosConsulta.ordenamientos.push(ordenamientos);
+    if (ordenamientos?.length) {
+      this.arrParametrosConsulta.ordenamientos.push(...ordenamientos);
     }
 
     if (this._modelo) {

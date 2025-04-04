@@ -31,14 +31,14 @@ export const routes: Route[] = [
           ).then((c) => c.BaseNuevoComponent),
       },
       {
-        path: 'editar',
+        path: 'editar/:id',
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
           ).then((c) => c.BaseNuevoComponent),
       },
       {
-        path: 'detalle',
+        path: 'detalle/:id',
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-detalle/base-detalle.component'

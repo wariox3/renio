@@ -176,7 +176,7 @@ export default class FacturaDetalleComponent
     }
 
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+      // this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.modoEdicion.set(true);
       // this.consultardetalle();
     } else {

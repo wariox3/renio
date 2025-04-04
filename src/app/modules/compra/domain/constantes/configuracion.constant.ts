@@ -44,7 +44,7 @@ export interface ModeloDocumentacion {
 
 export interface ParametrosHttpConfig {
   modelo: Modelo;
-  ordenamientos?: string;
+  ordenamientos?: string[];
   serializador?: Serializador;
   filtros?: ModeloFiltro;
 }
@@ -86,7 +86,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/documento',
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: 'estado_aprobado, -fecha, -numero, -id',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
                 lista: [
                   {
@@ -97,7 +97,11 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               },
             },
             ui: {
-              verBotonImportar: true,
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
             },
           },
         },
@@ -115,7 +119,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/documento',
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: 'estado_aprobado, -fecha, -numero, -id',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
                 lista: [
                   {
@@ -127,6 +131,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             ui: {
               verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
             },
           },
         },
@@ -144,7 +152,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/documento',
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: 'estado_aprobado, -fecha, -numero, -id',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
                 lista: [
                   {
@@ -156,6 +164,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             ui: {
               verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
             },
           },
         },
@@ -173,7 +185,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/documento',
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: 'estado_aprobado, -fecha, -numero, -id',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
                 lista: [
                   {
@@ -185,6 +197,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             ui: {
               verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
             },
           },
         },
@@ -202,7 +218,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/documento',
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: 'estado_aprobado, -fecha, -numero, -id',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
                 lista: [
                   {
@@ -214,6 +230,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             ui: {
               verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
             },
           },
         },
@@ -233,7 +253,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/item',
             parametrosHttpConfig: {
               modelo: 'GenItem',
-              ordenamientos: '-id',
+              ordenamientos: ['-id'],
             },
             archivos: {
               importar: 'GenItem.xlsx',
@@ -278,7 +298,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/resolucion',
             parametrosHttpConfig: {
               modelo: 'GenResolucion',
-              ordenamientos: '-id',
+              ordenamientos: ['-id'],
             },
             archivos: {
               importar: 'GenContacto.xlsx',
@@ -309,7 +329,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/forma_pago',
             parametrosHttpConfig: {
               modelo: 'GenFormaPago',
-              ordenamientos: 'id',
+              ordenamientos: ['id'],
             },
             ui: {
               verBotonImportar: true,
