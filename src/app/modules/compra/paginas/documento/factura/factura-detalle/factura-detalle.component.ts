@@ -1,22 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';
 import { HttpService } from '@comun/services/http.service';
+import { DocumentoFacturaDetalleRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap } from 'rxjs';
 import { BtnAnularComponent } from '../../../../../../comun/componentes/btn-anular/btn-anular.component';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
-import { DocumentoFacturaDetalleRespuesta } from '@interfaces/comunes/factura/factura.interface';
-import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -206,18 +206,28 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    // this.activatedRoute.queryParams.subscribe((parametro) => {
+    //   this.router.navigate([`/documento/editar`], {
+    //     queryParams: {
+    //       ...parametro,
+    //       detalle: id,
+    //     },
+    //   });
+    // });
+    this.router.navigate([`compra/documento/editar/${id}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo();
+    // this.navegarDocumentoNuevo();
+    this.router.navigate([`compra/documento/nuevo`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
+    });
   }
 
   private _reniciarTotales() {

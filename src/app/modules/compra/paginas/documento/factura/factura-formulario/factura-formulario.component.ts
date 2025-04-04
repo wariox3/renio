@@ -266,12 +266,14 @@ export default class FacturaDetalleComponent
         })
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`compra/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
         )
         .subscribe();
@@ -281,6 +283,7 @@ export default class FacturaDetalleComponent
   private _actualizarFactura() {
     if (this.validarCamposDetalles() === false) {
       this._formularioFacturaService.submitActualizarFactura(
+        'compra',
         this.detalle,
         this.parametrosUrl,
       );

@@ -34,7 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-nota-ajuste-formulario',
@@ -55,8 +55,8 @@ import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/f
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    SeleccionarGrupoComponent
-],
+    SeleccionarGrupoComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -253,6 +253,7 @@ export default class FacturaDetalleComponent
       } else {
         if (this.validarCamposDetalles() === false) {
           this._formularioFacturaService.submitActualizarFactura(
+            'compra',
             this.detalle,
             this.parametrosUrl,
           );

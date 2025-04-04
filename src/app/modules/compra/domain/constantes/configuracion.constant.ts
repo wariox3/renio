@@ -310,6 +310,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        // TODO: averiguar lo de resoluciontipo
         // {
         //   nombre: 'RESOLUCION',
         //   modelo: 'GenResolucion',

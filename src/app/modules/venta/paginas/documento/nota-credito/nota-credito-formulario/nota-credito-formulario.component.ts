@@ -246,6 +246,7 @@ export default class FacturaDetalleComponent
   private _actualizarFactura() {
     if (this.validarCamposDetalles() === false) {
       this._formularioFacturaService.submitActualizarFactura(
+        'venta',
         this.detalle,
         this.parametrosUrl,
       );

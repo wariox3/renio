@@ -39,8 +39,8 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
-import { DocumentoSoporteInformacionExtraComponent } from "../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component";
-import { SeleccionarResolucionComponent } from "../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component";
+import { DocumentoSoporteInformacionExtraComponent } from '../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component';
+import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -64,8 +64,8 @@ import { SeleccionarResolucionComponent } from "../../../../../../comun/componen
     SeleccionarGrupoComponent,
     SeleccionarAlmacenComponent,
     DocumentoSoporteInformacionExtraComponent,
-    SeleccionarResolucionComponent
-],
+    SeleccionarResolucionComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -251,6 +251,7 @@ export default class FacturaDetalleComponent
       } else {
         if (this.validarCamposDetalles() === false) {
           this._formularioFacturaService.submitActualizarFactura(
+            'compra',
             this.detalle,
             this.parametrosUrl,
           );

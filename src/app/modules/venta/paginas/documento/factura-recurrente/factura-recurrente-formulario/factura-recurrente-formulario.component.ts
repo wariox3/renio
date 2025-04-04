@@ -298,6 +298,7 @@ export default class FacturaRecurrenteFormularioComponent
         } else {
           if (this.validarCamposDetalles() === false) {
             this._formularioFacturaService.submitActualizarFactura(
+              'venta',
               this.detalle,
               this.parametrosUrl,
             );
