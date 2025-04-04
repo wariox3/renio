@@ -45,11 +45,17 @@ export class General {
   consultarParametros() {
     this.activatedRoute.queryParams.subscribe((parametros) => {
       this.parametrosUrl = parametros;
-      if (parametros.itemNombre) {
-        this.modelo = parametros.itemNombre;
-      }
-      this.detalle = parametros.detalle;
+      // if (parametros.itemNombre) {
+      //   this.modelo = parametros.itemNombre;
+      // }
 
+      const detalleId = this.activatedRoute.snapshot.paramMap.get('id');
+
+      if (detalleId) {
+        this.detalle = Number(detalleId);
+      }
+
+      // TODO: Fumarse esto
       switch (true) {
         case this.router.url.includes('documento'):
           this.ubicacion = 'documento';
@@ -57,17 +63,17 @@ export class General {
         case this.router.url.includes('administrador'):
           this.ubicacion = 'administrador';
           // Obtener el prefijo a partir del modelo
-          const prefijo: AplicacionPrefijoModulo = this.modelo
-            .toLowerCase()
-            .substring(0, 3) as AplicacionPrefijoModulo;
+          // const prefijo: AplicacionPrefijoModulo = this.modelo
+          //   .toLowerCase()
+          //   .substring(0, 3) as AplicacionPrefijoModulo;
 
-          // Verificar si el prefijo existe en las claves de moduloAplicacion
-          const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
+          // // Verificar si el prefijo existe en las claves de moduloAplicacion
+          // const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
 
-          if (posicion !== -1) {
-            // Si el prefijo es válido, mostrar la posición
-            this.modulo = this.moduloAplicacion[prefijo];
-          }
+          // if (posicion !== -1) {
+          //   // Si el prefijo es válido, mostrar la posición
+          //   this.modulo = this.moduloAplicacion[prefijo];
+          // }
           break;
         case this.router.url.includes('utilidad'):
           this.ubicacion = 'utilidad';
@@ -80,6 +86,7 @@ export class General {
           break;
       }
 
+      // TODO: buscar la manera de fumarse esto
       switch (true) {
         case this.router.url.includes('/nuevo'):
           this.accion = 'nuevo';

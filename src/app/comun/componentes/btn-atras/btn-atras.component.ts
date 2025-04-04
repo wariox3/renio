@@ -1,10 +1,11 @@
 import { Subdominio } from '@comun/clases/subdomino';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, EventEmitter, inject, OnInit, Output } from '@angular/core';
+import { Params, RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 
 import { TranslateModule } from '@ngx-translate/core';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-comun-btn-atras',
@@ -25,41 +26,59 @@ import { TranslateModule } from '@ngx-translate/core';
     </div>
   `,
 })
-export class BtnAtrasComponent extends General {
-  navegarAtras() {
-    let tipo = window.location.pathname.split('/')[1];
-    let parametrosParaRemover: string[] = ['detalle'];
+export class BtnAtrasComponent extends General implements OnInit {
+  private _configModuleService = inject(ConfigModuleService);
+  private _rutaLista: string | undefined;
+  private _parametrosActuales: Params;
 
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this._configModuleService.currentModelConfig$.subscribe((model) => {
+      this._rutaLista = model?.ajustes.rutas.lista;
+    });
     this.activatedRoute.queryParams.subscribe((parametros) => {
-      let parametrosActuales = { ...parametros };
+      this._parametrosActuales = parametros;
+    });
+  }
+
+  navegarAtras() {
+    this.router.navigate([`${this._rutaLista}`], {
+      queryParams: this._parametrosActuales,
+    });
+    // let tipo = window.location.pathname.split('/')[1];
+    // let parametrosParaRemover: string[] = ['detalle'];
+
+    // this.activatedRoute.queryParams.subscribe((parametros) => {
+    //   let parametrosActuales = { ...parametros };
 
       // Eliminar los parámetros especificados en `parametrosParaRemover`
-      parametrosParaRemover.forEach((param: any) => {
-        if (parametrosActuales[param]) {
-          delete parametrosActuales[param];
-        }
-      });
+      // parametrosParaRemover.forEach((param: any) => {
+      //   if (parametrosActuales[param]) {
+      //     delete parametrosActuales[param];
+      //   }
+      // });
 
-      switch (tipo) {
-        case 'administrador':
-          this.activatedRoute.queryParams.subscribe((parametro) => {
-            if (parametro.parametro || parametro.submodelo) {
-              this.router.navigate([`/administrador/lista`], {
-                queryParams: { ...parametrosActuales },
-              });
-            } else {
-              this.router.navigate([`/administrador/lista`], {
-                queryParams: { ...parametrosActuales },
-              });
-            }
-          });
-          break;
-        case 'documento':
-          this.router.navigate([`/documento/lista`], {
-            queryParams: { ...parametrosActuales },
-          });
-          break;
-      }
-    });
+      // switch (tipo) {
+      //   case 'administrador':
+      //     this.activatedRoute.queryParams.subscribe((parametro) => {
+      //       if (parametro.parametro || parametro.submodelo) {
+      //         this.router.navigate([`/administrador/lista`], {
+      //           queryParams: { ...parametrosActuales },
+      //         });
+      //       } else {
+      //         this.router.navigate([`/administrador/lista`], {
+      //           queryParams: { ...parametrosActuales },
+      //         });
+      //       }
+      //     });
+      //     break;
+      //   case 'documento':
+      //     this.router.navigate([`/documento/lista`], {
+      //       queryParams: { ...parametrosActuales },
+      //     });
+      //     break;
+      // }
+    // });
   }
 }

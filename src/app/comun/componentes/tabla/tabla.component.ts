@@ -1,3 +1,4 @@
+import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
@@ -11,31 +12,29 @@ import {
   inject,
   signal,
 } from '@angular/core';
-import { CommonModule, CurrencyPipe, DecimalPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import {
   NgbDropdownModule,
   NgbModal,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { KeysPipe } from '@pipe/keys.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { KeysPipe } from '@pipe/keys.pipe';
 
-import { ImportarComponent } from '../importar/importar.component';
 import { General } from '@comun/clases/general';
-import { interval, take } from 'rxjs';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
+import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
+import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
 import {
   obtenerMenuDataMapeo,
   obtenerMenuDataMapeoBuscarCampo,
   obtenerMenuDataMapeoCamposVisibleTabla,
 } from '@redux/selectors/menu.selectors';
-import { ActualizarCampoMapeo } from '@redux/actions/menu.actions';
+import { interval, take } from 'rxjs';
 import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
-import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
+import { ImportarComponent } from '../importar/importar.component';
 import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
 import { ModalDocumentoDetallesComponent } from './components/modal-documento-detalles/modal-documento-detalles.component';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-comun-tabla',
@@ -60,7 +59,6 @@ import { ConfigModuleService } from '@comun/services/application/config-modulo.s
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
   private _modalService = inject(NgbModal);
-  private _configModuleService = inject(ConfigModuleService);
 
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];

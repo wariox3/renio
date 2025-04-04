@@ -140,40 +140,40 @@ const Routing: Routes = [
   //     },
   //   ],
   // },
-  {
-    path: 'documento',
-    canActivateChild: [validarRutaGuard],
-    children: [
-      {
-        path: 'lista',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-lista/base-lista.component'
-          ).then((c) => c.BaseListaComponent),
-      },
-      {
-        path: 'nuevo',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
-          ).then((c) => c.BaseNuevoComponent),
-      },
-      {
-        path: 'editar',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
-          ).then((c) => c.BaseNuevoComponent),
-      },
-      {
-        path: 'detalle',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-detalle/base-detalle.component'
-          ).then((c) => c.BaseDetalleComponent),
-      },
-    ],
-  },
+  // {
+  //   path: 'documento',
+  //   canActivateChild: [validarRutaGuard],
+  //   children: [
+  //     {
+  //       path: 'lista',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-lista/base-lista.component'
+  //         ).then((c) => c.BaseListaComponent),
+  //     },
+  //     {
+  //       path: 'nuevo',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+  //         ).then((c) => c.BaseNuevoComponent),
+  //     },
+  //     {
+  //       path: 'editar',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+  //         ).then((c) => c.BaseNuevoComponent),
+  //     },
+  //     {
+  //       path: 'detalle',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-detalle/base-detalle.component'
+  //         ).then((c) => c.BaseDetalleComponent),
+  //     },
+  //   ],
+  // },
   {
     path: 'estado',
     loadComponent: () =>

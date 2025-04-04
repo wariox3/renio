@@ -326,19 +326,19 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarEditar(id: number) {
-    this.router.navigate([`${this._modulo}/administracion/editar`], {
+    this.router.navigate([`${this._modulo}/administracion/editar/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
-        detalle: id,
+        // detalle: id,
       },
     });
   }
 
   navegarDetalle(id: number) {
-    this.router.navigate([`${this._modulo}/administracion/detalle`], {
+    this.router.navigate([`${this._modulo}/administracion/detalle/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
-        detalle: id,
+        // detalle: id,
       },
     });
   }
