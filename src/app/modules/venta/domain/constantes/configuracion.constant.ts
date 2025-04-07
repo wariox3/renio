@@ -1,22 +1,22 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
-export const COMPRA_CONFIGURACION: ModuloConfig = {
-  nombreModulo: 'compra',
+export const VENTA_CONFIGURACION: ModuloConfig = {
+  nombreModulo: 'venta',
   funcionalidades: [
     {
       nombreFuncionalidad: 'documento',
       isMenuExpanded: true,
       modelos: [
         {
-          key: 300,
-          nombreModelo: 'FACTURACOMPRA',
+          key: 103,
+          nombreModelo: 'FACTURARECURRENTE',
           documentacion: {
-            id: 1007,
+            id: 1013,
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: 'venta/documento/lista',
+              nuevo: 'venta/documento/nuevo',
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -26,7 +26,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                 lista: [
                   {
                     propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 300,
+                    valor1: 103,
                   },
                 ],
               },
@@ -41,15 +41,15 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
         },
         {
-          key: 301,
-          nombreModelo: 'NOTACREDITO',
+          key: 100,
+          nombreModelo: 'FACTURAVENTA',
           documentacion: {
-            id: 1007,
+            id: 1014,
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: 'venta/documento/lista',
+              nuevo: 'venta/documento/nuevo',
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -59,7 +59,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                 lista: [
                   {
                     propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 301,
+                    valor1: 100,
                   },
                 ],
               },
@@ -70,19 +70,20 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               verColumnaEditar: true,
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
+              verBotonExportarZip: true,
             },
           },
         },
         {
-          key: 302,
-          nombreModelo: 'NOTADEBITO',
+          key: 105,
+          nombreModelo: 'FACTURAPOS',
           documentacion: {
             id: 1009,
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: 'venta/documento/lista',
+              nuevo: 'venta/documento/nuevo',
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -92,7 +93,41 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                 lista: [
                   {
                     propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 302,
+                    valor1: 105,
+                  },
+                ],
+              },
+            },
+            ui: {
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
+              verBotonExportarZip: true,
+            },
+          },
+        },
+        {
+          key: 101,
+          nombreModelo: 'NOTACREDITO',
+          documentacion: {
+            id: 1015,
+          },
+          ajustes: {
+            rutas: {
+              lista: 'venta/documento/lista',
+              nuevo: 'venta/documento/nuevo',
+            },
+            endpoint: 'general/documento',
+            parametrosHttpConfig: {
+              modelo: 'GenDocumento',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
+              filtros: {
+                lista: [
+                  {
+                    propiedad: 'documento_tipo__documento_clase_id',
+                    valor1: 101,
                   },
                 ],
               },
@@ -107,15 +142,15 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
         },
         {
-          key: 303,
-          nombreModelo: 'documentoSOPORTE',
+          key: 102,
+          nombreModelo: 'NOTADEBITO',
           documentacion: {
-            id: 1010,
+            id: 1016,
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: 'venta/documento/lista',
+              nuevo: 'venta/documento/nuevo',
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -125,7 +160,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                 lista: [
                   {
                     propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 303,
+                    valor1: 102,
                   },
                 ],
               },
@@ -140,15 +175,15 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
         },
         {
-          key: 304,
-          nombreModelo: 'NOTAAJUSTE',
+          key: 200,
+          nombreModelo: 'PAGO',
           documentacion: {
-            id: 1011,
+            id: 1017,
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: 'venta/documento/lista',
+              nuevo: 'venta/documento/nuevo',
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -158,7 +193,40 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                 lista: [
                   {
                     propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 304,
+                    valor1: 200,
+                  },
+                ],
+              },
+            },
+            ui: {
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
+            },
+          },
+        },
+        {
+          key: 104,
+          nombreModelo: 'CUENTADECOBRO',
+          documentacion: {
+            id: 1018,
+          },
+          ajustes: {
+            rutas: {
+              lista: 'venta/documento/lista',
+              nuevo: 'venta/documento/nuevo',
+            },
+            endpoint: 'general/documento',
+            parametrosHttpConfig: {
+              modelo: 'GenDocumento',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
+              filtros: {
+                lista: [
+                  {
+                    propiedad: 'documento_tipo__documento_clase_id',
+                    valor1: 104,
                   },
                 ],
               },
@@ -178,35 +246,12 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
       nombreFuncionalidad: 'administracion',
       modelos: [
         {
-          key: 'GenItem',
-          nombreModelo: 'Item',
-          ajustes: {
-            rutas: {
-              lista: 'compra/administracion/lista',
-              nuevo: 'compra/administracion/nuevo',
-            },
-            endpoint: 'general/item',
-            parametrosHttpConfig: {
-              modelo: 'GenItem',
-              ordenamientos: ['-id'],
-            },
-            archivos: {
-              importar: 'GenItem.xlsx',
-            },
-            ui: {
-              verBotonImportar: true,
-              verBotonNuevo: true,
-              verColumnaEditar: true,
-            },
-          },
-        },
-        {
           key: 'GenContacto',
           nombreModelo: 'Contacto',
           ajustes: {
             rutas: {
-              lista: 'compra/administracion/lista',
-              nuevo: 'compra/administracion/nuevo',
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
@@ -223,12 +268,110 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
         },
         {
+          key: 'GenItem',
+          nombreModelo: 'ITEM',
+          ajustes: {
+            rutas: {
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
+            },
+            endpoint: 'general/item',
+            parametrosHttpConfig: {
+              modelo: 'GenItem',
+            },
+            archivos: {
+              importar: 'GenItem.xlsx',
+            },
+            ui: {
+              verBotonImportar: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
+        {
+          key: 'InvAlmacen',
+          nombreModelo: 'Almacen',
+          ajustes: {
+            rutas: {
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
+            },
+            endpoint: 'general/precio',
+            parametrosHttpConfig: {
+              modelo: 'InvAlmacen',
+            },
+            ui: {
+              verBotonImportar: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
+        {
+          key: 'GenSede',
+          nombreModelo: 'Sede',
+          ajustes: {
+            rutas: {
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
+            },
+            endpoint: 'general/sede',
+            parametrosHttpConfig: {
+              modelo: 'GenSede',
+            },
+            ui: {
+              verBotonImportar: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
+        {
+          key: 'GenPrecio',
+          nombreModelo: 'PRECIO',
+          ajustes: {
+            rutas: {
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
+            },
+            endpoint: 'general/precio',
+            parametrosHttpConfig: {
+              modelo: 'GenPrecio',
+            },
+            ui: {
+              verBotonImportar: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
+        {
+          key: 'GenAsesor',
+          nombreModelo: 'ASESOR',
+          ajustes: {
+            rutas: {
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
+            },
+            endpoint: 'general/asesor',
+            parametrosHttpConfig: {
+              modelo: 'GenAsesor',
+            },
+            ui: {
+              verBotonImportar: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
+        {
           key: 'GenResolucion',
           nombreModelo: 'RESOLUCION',
           ajustes: {
             rutas: {
-              lista: 'compra/administracion/lista',
-              nuevo: 'compra/administracion/nuevo',
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
             },
             endpoint: 'general/resolucion',
             parametrosHttpConfig: {
@@ -236,7 +379,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               filtros: {
                 lista: [
                   {
-                    propiedad: 'compra',
+                    propiedad: 'venta',
                     valor1: true,
                   },
                 ],
@@ -253,17 +396,16 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
         },
         {
-          key: 'GenFormaPago',
-          nombreModelo: 'FORMAPAGO',
+          key: 'GenCuentaBanco',
+          nombreModelo: 'CuentaBanco',
           ajustes: {
             rutas: {
-              lista: 'compra/administracion/lista',
-              nuevo: 'compra/administracion/nuevo',
+              lista: 'venta/administracion/lista',
+              nuevo: 'venta/administracion/nuevo',
             },
-            endpoint: 'general/forma_pago',
+            endpoint: 'general/cuenta_banco',
             parametrosHttpConfig: {
-              modelo: 'GenFormaPago',
-              ordenamientos: ['id'],
+              modelo: 'GenCuentaBanco',
             },
             ui: {
               verBotonImportar: true,
@@ -279,20 +421,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
       modelos: [
         {
           key: null,
-          nombreModelo: 'documentoELECTRONICO',
+          nombreModelo: 'FACTURAELECTRONICA',
           ajustes: {
             rutas: {
-              lista: 'compra/utilidad/documento_electronico',
-              nuevo: '',
-            },
-          },
-        },
-        {
-          key: null,
-          nombreModelo: 'EVENTOSDIAN',
-          ajustes: {
-            rutas: {
-              lista: 'compra/utilidad/eventos_dian',
+              lista: 'venta/utilidad/factura_electronica',
               nuevo: '',
             },
           },
@@ -304,10 +436,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
       modelos: [
         {
           key: null,
-          nombreModelo: 'CUENTASPAGAR',
+          nombreModelo: 'VENTASITEM',
           ajustes: {
             rutas: {
-              lista: 'compra/informe/cuentas_pagar',
+              lista: 'venta/informe/cuentas_pagar',
               nuevo: '',
             },
           },

@@ -171,11 +171,12 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
-    const ordenamientos =
-      modeloConfig?.ajustes.parametrosHttpConfig?.ordenamientos;
+    const parametrosConfig = modeloConfig?.ajustes.parametrosHttpConfig;
 
-    if (ordenamientos?.length) {
-      this.arrParametrosConsulta.ordenamientos.push(...ordenamientos);
+    if (parametrosConfig?.ordenamientos?.length) {
+      this.arrParametrosConsulta.ordenamientos.push(
+        ...parametrosConfig?.ordenamientos,
+      );
     }
 
     if (this._modelo) {
@@ -184,6 +185,17 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         modelo: this._modelo,
       };
     }
+
+    if (parametrosConfig?.filtros?.lista) {
+      this.arrParametrosConsulta = {
+        ...this.arrParametrosConsulta,
+        filtros: [
+          ...this.arrParametrosConsulta.filtros,
+          ...parametrosConfig.filtros.lista,
+        ],
+      };
+    }
+    
     // 1. Obtener el ordenamiento de forma segura
     // const ordenamientoActual = this.parametrosUrl?.ordenamiento;
     // // 2. Validar y preparar nuevos ordenamientos (inmutabilidad)
