@@ -9,7 +9,9 @@
         {{ "MENU.FUNCIONALIDAD.RESOLUCION" | translate | lowercase }}
       </ng-container>
       <ng-template #tituliNoFijo>
-        <app-comun-titulo-accion [nombreModelo]="''"></app-comun-titulo-accion>
+        <app-comun-titulo-accion
+          [nombreModelo]="'resolucion'"
+        ></app-comun-titulo-accion>
       </ng-template>
     </section>
     <section card-body>
@@ -30,7 +32,7 @@
                 formularioResolucion.controls['prefijo'].invalid,
               'is-valid':
                 formularioResolucion.controls['prefijo'].touched &&
-                formularioResolucion.controls['prefijo'].valid
+                formularioResolucion.controls['prefijo'].valid,
             }"
           />
           <ng-container
@@ -38,7 +40,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['prefijo']
+              control: formularioResolucion.controls['prefijo'],
             }"
           ></ng-container>
           <ng-container
@@ -48,7 +50,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '10',
-              control: formularioResolucion.controls['prefijo']
+              control: formularioResolucion.controls['prefijo'],
             }"
           ></ng-container>
         </div>
@@ -68,7 +70,7 @@
                 formularioResolucion.controls['numero'].invalid,
               'is-valid':
                 formularioResolucion.controls['numero'].touched &&
-                formularioResolucion.controls['numero'].valid
+                formularioResolucion.controls['numero'].valid,
             }"
           />
           <ng-container
@@ -76,7 +78,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['numero']
+              control: formularioResolucion.controls['numero'],
             }"
           ></ng-container>
           <ng-container
@@ -86,7 +88,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioResolucion.controls['numero']
+              control: formularioResolucion.controls['numero'],
             }"
           ></ng-container>
           <ng-container
@@ -94,7 +96,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioResolucion.controls['numero']
+              control: formularioResolucion.controls['numero'],
             }"
           ></ng-container>
         </div>
@@ -117,7 +119,7 @@
                 formularioResolucion.controls['consecutivo_desde'].invalid,
               'is-valid':
                 formularioResolucion.controls['consecutivo_desde'].touched &&
-                formularioResolucion.controls['consecutivo_desde'].valid
+                formularioResolucion.controls['consecutivo_desde'].valid,
             }"
           />
           <ng-container
@@ -127,7 +129,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.VALORMAXIMO' | translate,
               cantidadCaracteres: '2147483647',
-              control: formularioResolucion.controls['consecutivo_desde']
+              control: formularioResolucion.controls['consecutivo_desde'],
             }"
           ></ng-container>
           <ng-container
@@ -137,7 +139,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '200',
-              control: formularioResolucion.controls['consecutivo_desde']
+              control: formularioResolucion.controls['consecutivo_desde'],
             }"
           ></ng-container>
           <ng-container
@@ -145,7 +147,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['consecutivo_desde']
+              control: formularioResolucion.controls['consecutivo_desde'],
             }"
           ></ng-container>
           <ng-container
@@ -153,7 +155,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioResolucion.controls['consecutivo_desde']
+              control: formularioResolucion.controls['consecutivo_desde'],
             }"
           ></ng-container>
         </div>
@@ -175,18 +177,18 @@
                 formularioResolucion.errors?.consecutivosInvalidos,
               'is-valid':
                 formularioResolucion.controls['consecutivo_hasta'].touched &&
-                formularioResolucion.controls['consecutivo_hasta'].valid
+                formularioResolucion.controls['consecutivo_hasta'].valid,
             }"
           />
-          @if(formularioResolucion.errors?.consecutivosInvalidos){
-          <div class="fv-plugins-message-container">
-            <div class="fv-help-block">
-              <span role="alert">
-                "Consecutivo hasta" debe ser mayor o igual a "Consecutivo
-                desde".
-              </span>
+          @if (formularioResolucion.errors?.consecutivosInvalidos) {
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  "Consecutivo hasta" debe ser mayor o igual a "Consecutivo
+                  desde".
+                </span>
+              </div>
             </div>
-          </div>
           }
           <ng-container
             [ngTemplateOutlet]="formError"
@@ -195,7 +197,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.VALORMAXIMO' | translate,
               cantidadCaracteres: '2147483647',
-              control: formularioResolucion.controls['consecutivo_hasta']
+              control: formularioResolucion.controls['consecutivo_hasta'],
             }"
           ></ng-container>
           <ng-container
@@ -203,7 +205,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['consecutivo_hasta']
+              control: formularioResolucion.controls['consecutivo_hasta'],
             }"
           ></ng-container>
           <ng-container
@@ -213,7 +215,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '200',
-              control: formularioResolucion.controls['consecutivo_hasta']
+              control: formularioResolucion.controls['consecutivo_hasta'],
             }"
           ></ng-container>
           <ng-container
@@ -221,7 +223,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioResolucion.controls['consecutivo_hasta']
+              control: formularioResolucion.controls['consecutivo_hasta'],
             }"
           ></ng-container>
         </div>
@@ -244,7 +246,7 @@
                 formularioResolucion.controls['fecha_desde'].invalid,
               'is-valid':
                 formularioResolucion.controls['fecha_desde'].touched &&
-                formularioResolucion.controls['fecha_desde'].valid
+                formularioResolucion.controls['fecha_desde'].valid,
             }"
           />
           <ng-container
@@ -252,7 +254,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['fecha_desde']
+              control: formularioResolucion.controls['fecha_desde'],
             }"
           ></ng-container>
           <ng-container
@@ -262,7 +264,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioResolucion.controls['fecha_desde']
+              control: formularioResolucion.controls['fecha_desde'],
             }"
           ></ng-container>
           <ng-container
@@ -270,7 +272,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioResolucion.controls['fecha_desde']
+              control: formularioResolucion.controls['fecha_desde'],
             }"
           ></ng-container>
         </div>
@@ -290,7 +292,7 @@
                 formularioResolucion.controls['fecha_hasta'].invalid,
               'is-valid':
                 formularioResolucion.controls['fecha_hasta'].touched &&
-                formularioResolucion.controls['fecha_hasta'].valid
+                formularioResolucion.controls['fecha_hasta'].valid,
             }"
           />
           <ng-container
@@ -300,7 +302,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.RANGOFECHASDESDEHASTA'
                 | translate,
-              control: formularioResolucion.controls['fecha_hasta']
+              control: formularioResolucion.controls['fecha_hasta'],
             }"
           ></ng-container>
           <ng-container
@@ -308,7 +310,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioResolucion.controls['fecha_hasta']
+              control: formularioResolucion.controls['fecha_hasta'],
             }"
           ></ng-container>
           <ng-container
@@ -318,7 +320,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioResolucion.controls['fecha_hasta']
+              control: formularioResolucion.controls['fecha_hasta'],
             }"
           ></ng-container>
           <ng-container
@@ -326,7 +328,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioResolucion.controls['fecha_hasta']
+              control: formularioResolucion.controls['fecha_hasta'],
             }"
           ></ng-container>
         </div>
