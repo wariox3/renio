@@ -20,11 +20,36 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               lista: 'humano/proceso/lista',
               nuevo: 'humano/proceso/nuevo',
               detalle: 'humano/proceso/detalle',
-              editar: 'humano/proceso/editar'
+              editar: 'humano/proceso/editar',
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
               modelo: 'HumProgramacion',
+              ordenamientos: ['-fecha_desde'],
+            },
+            ui: {
+              verBotonEliminar: true,
+              verBotonNuevo: true,
+              verColumnaSeleccionar: true,
+              verBotonExportarZip: true,
+              verColumnaEditar: true,
+              verIconoDerecha: true,
+            },
+          },
+        },
+        {
+          key: 'HumAporte',
+          nombreModelo: 'seguridadSocial',
+          ajustes: {
+            rutas: {
+              lista: 'humano/proceso/lista',
+              nuevo: 'humano/proceso/nuevo',
+              detalle: 'humano/proceso/detalle',
+              editar: 'humano/proceso/editar',
+            },
+            endpoint: 'general/documento',
+            parametrosHttpConfig: {
+              modelo: 'HumAporte',
               ordenamientos: ['-fecha_desde'],
             },
             ui: {
