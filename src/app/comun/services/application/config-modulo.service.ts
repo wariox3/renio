@@ -10,6 +10,7 @@ import { TESORERIA_CONFIGURACION } from '@modulos/tesoreria/domain/constantes/co
 import { CARTERA_CONFIGURACION } from '@modulos/cartera/domain/constantes/configuracion.constant';
 import { INVENTARIO_CONFIGURACION } from '@modulos/inventario/domain/constantes/configuracion.constant';
 import { VENTA_CONFIGURACION } from '@modulos/venta/domain/constantes/configuracion.constant';
+import { CONTABILIDAD_CONFIGURACION } from '@modulos/contabilidad/domain/constantes/configuracion.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -115,6 +116,9 @@ export class ConfigModuleService {
       case 'inventario':
             this._currentConfig.next(INVENTARIO_CONFIGURACION);
             break;
+      case 'contabilidad':
+              this._currentConfig.next(CONTABILIDAD_CONFIGURACION);
+              break;
       case 'venta':
         this._currentConfig.next(VENTA_CONFIGURACION);
         break;
