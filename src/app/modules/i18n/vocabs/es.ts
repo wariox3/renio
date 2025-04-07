@@ -1347,7 +1347,7 @@ export const locale = {
         CANTIDAD_CUOTAS: 'Cantidad cuotas',
         ABONO: 'Abonos',
         SALDO: 'Saldo',
-        VALIDAR_CUOTAS: 'Validar cuotas',
+        VALIDAR_CUOTAS_ABREVIATURA: 'Validar cuotas',
         PAGADO: 'Pagado',
         INACTIVO: 'Inactivo'
       }
