@@ -1313,8 +1313,16 @@ export const locale = {
       },
       NOVEDAD: {
         ID: 'Id',
-        FECHADESDE: 'Fecha desde',
-        FECHAHASTA: 'Fecha hasta',
+        DESDE: 'Fecha desde',
+        HASTA: 'Fecha hasta',
+        TIPO: 'Tipo',
+        CODIGO: 'Cód',
+        CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
+        CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
+        CONTRATO: 'Contrato',
+        DIAS: 'Dias',
+        TOTAL: 'Total'
+
       },
       SUCURSAL: {
         ID: 'ID',
