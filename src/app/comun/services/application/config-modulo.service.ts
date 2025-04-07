@@ -7,6 +7,8 @@ import { BehaviorSubject, filter } from 'rxjs';
 import { UrlService } from '../infrastructure/url.service';
 import { FuncionalidadConfig, ModeloConfig, ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { TESORERIA_CONFIGURACION } from '@modulos/tesoreria/domain/constantes/configuracion.constant';
+import { CARTERA_CONFIGURACION } from '@modulos/cartera/domain/constantes/configuracion.constant';
+import { INVENTARIO_CONFIGURACION } from '@modulos/inventario/domain/constantes/configuracion.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -106,6 +108,12 @@ export class ConfigModuleService {
       case 'tesoreria':
         this._currentConfig.next(TESORERIA_CONFIGURACION);
         break;
+      case 'cartera':
+          this._currentConfig.next(CARTERA_CONFIGURACION);
+          break;
+      case 'inventario':
+            this._currentConfig.next(INVENTARIO_CONFIGURACION);
+            break;
       case 'venta':
         this._currentConfig.next(null);
         break;
