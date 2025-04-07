@@ -12,6 +12,8 @@ import { TESORERIA_CONFIGURACION } from '@modulos/tesoreria/domain/constantes/co
 import { CARTERA_CONFIGURACION } from '@modulos/cartera/domain/constantes/configuracion.constant';
 import { INVENTARIO_CONFIGURACION } from '@modulos/inventario/domain/constantes/configuracion.constant';
 import { VENTA_CONFIGURACION } from '@modulos/venta/domain/constantes/configuracion.constant';
+import { CONTABILIDAD_CONFIGURACION } from '@modulos/contabilidad/domain/constantes/configuracion.constant';
+import { GENERAL_CONFIGURACION } from '@modulos/general/domain/constantes/configuracion.constant';
 import { HUMANO_CONFIGURACION } from '@modulos/humano/domain/constantes/configuracion.constant';
 
 @Injectable({
@@ -106,6 +108,9 @@ export class ConfigModuleService {
     this.funcionalidad.set(funcionalidad);
 
     switch (modulo) {
+      case 'general':
+        this._currentConfig.next(GENERAL_CONFIGURACION);
+        break;
       case 'compra':
         this._currentConfig.next(COMPRA_CONFIGURACION);
         break;
@@ -118,11 +123,11 @@ export class ConfigModuleService {
       case 'inventario':
         this._currentConfig.next(INVENTARIO_CONFIGURACION);
         break;
+      case 'contabilidad':
+        this._currentConfig.next(CONTABILIDAD_CONFIGURACION);
+        break;
       case 'venta':
         this._currentConfig.next(VENTA_CONFIGURACION);
-        break;
-      case 'contabilidad':
-        this._currentConfig.next(null);
         break;
       case 'humano':
         this._currentConfig.next(HUMANO_CONFIGURACION);
