@@ -6,6 +6,7 @@ import {
 import { BehaviorSubject, filter } from 'rxjs';
 import { UrlService } from '../infrastructure/url.service';
 import { FuncionalidadConfig, ModeloConfig, ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { TESORERIA_CONFIGURACION } from '@modulos/tesoreria/domain/constantes/configuracion.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -101,6 +102,9 @@ export class ConfigModuleService {
     switch (modulo) {
       case 'compra':
         this._currentConfig.next(COMPRA_CONFIGURACION);
+        break;
+      case 'tesoreria':
+        this._currentConfig.next(TESORERIA_CONFIGURACION);
         break;
       case 'venta':
         this._currentConfig.next(null);
