@@ -200,8 +200,8 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
           nombreModelo: 'CONTRATO',
           ajustes: {
             rutas: {
-              lista: 'compra/administracion/lista',
-              nuevo: 'compra/administracion/nuevo',
+              lista: 'humano/administracion/lista',
+              nuevo: 'humano/administracion/nuevo',
             },
             endpoint: 'humano/contrato',
             parametrosHttpConfig: {
@@ -318,7 +318,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'humano/novedad',
             parametrosHttpConfig: {
-              modelo: 'HumNovedad',
+              modelo: 'HumCredito',
               ordenamientos: ['-id'],
             },
             ui: {

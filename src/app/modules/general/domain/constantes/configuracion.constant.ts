@@ -223,7 +223,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
           nombreModelo: 'VENTASITEM',
           ajustes: {
             rutas: {
-              lista: 'general/informe/ventas_items',
+              lista: 'venta/informe/ventas_items',
               nuevo: '',
             },
           },

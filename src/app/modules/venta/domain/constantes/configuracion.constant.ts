@@ -458,7 +458,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           nombreModelo: 'VENTASITEM',
           ajustes: {
             rutas: {
-              lista: 'venta/informe/cuentas_pagar',
+              lista: 'venta/informe/ventas_items',
               nuevo: '',
             },
           },
