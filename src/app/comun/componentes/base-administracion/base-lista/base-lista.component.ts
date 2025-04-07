@@ -166,8 +166,14 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   private _reiniciarParametrosConsulta() {
-    this.arrParametrosConsulta.desplazar = 0;
-    this.arrParametrosConsulta.ordenamientos = [];
+    this.arrParametrosConsulta = {
+      filtros: [],
+      modelo: 'GenItem',
+      limite: 50,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+    };
   }
 
   private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
@@ -195,7 +201,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         ],
       };
     }
-    
+
     // 1. Obtener el ordenamiento de forma segura
     // const ordenamientoActual = this.parametrosUrl?.ordenamiento;
     // // 2. Validar y preparar nuevos ordenamientos (inmutabilidad)

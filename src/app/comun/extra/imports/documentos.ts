@@ -219,36 +219,6 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/humano/paginas/documento/programacion/programacion-formulario/programacion-formulario.component'
       ),
   },
-  HumAdicional: {
-    detalle: async () =>
-      await import(
-        '../../../modules/humano/paginas/documento/adicional/adicional-detalle/adicional-detalle.component'
-      ),
-    formulario: async () =>
-      await import(
-        '../../../modules/humano/paginas/documento/adicional/adicional-formulario/adicional-formulario.component'
-      ),
-  },
-  HumCredito: {
-    detalle: async () =>
-      await import(
-        '../../../modules/humano/paginas/documento/credito/credito-detalle/credito-detalle.component'
-      ),
-    formulario: async () =>
-      await import(
-        '../../../modules/humano/paginas/documento/credito/credito-formulario/credito-formulario.component'
-      ),
-  },
-  HumNovedad: {
-    detalle: async () =>
-      await import(
-        '../../../modules/humano/paginas/documento/novedad/novedad-detalle/novedad-detalle.component'
-      ),
-    formulario: async () =>
-      await import(
-        '../../../modules/humano/paginas/documento/novedad/novedad-formulario/novedad-formulario.component'
-      ),
-  },
   HumAporte: {
     detalle: async () =>
       await import(

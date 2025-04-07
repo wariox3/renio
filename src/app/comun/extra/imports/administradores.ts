@@ -230,4 +230,34 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/inventario/paginas/administrador/almacen/almacen-formulario/almacen-formulario.component'
       ),
   },
+  HumAdicional: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/adicional/adicional-detalle/adicional-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/adicional/adicional-formulario/adicional-formulario.component'
+      ),
+  },
+  HumCredito: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/credito/credito-detalle/credito-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/credito/credito-formulario/credito-formulario.component'
+      ),
+  },
+  HumNovedad: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/novedad/novedad-detalle/novedad-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/novedad/novedad-formulario/novedad-formulario.component'
+      ),
+  },
 };

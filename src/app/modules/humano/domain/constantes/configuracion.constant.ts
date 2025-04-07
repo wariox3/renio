@@ -66,7 +66,6 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
     },
     {
       nombreFuncionalidad: 'documento',
-      isMenuExpanded: true,
       modelos: [
         {
           key: 701,
@@ -283,6 +282,25 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
                   },
                 ],
               },
+            },
+            ui: {
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
+        {
+          key: 'HumCredito',
+          nombreModelo: 'CREDITO',
+          ajustes: {
+            rutas: {
+              lista: 'humano/administracion/lista',
+              nuevo: 'humano/administracion/nuevo',
+            },
+            endpoint: 'humano/credito',
+            parametrosHttpConfig: {
+              modelo: 'HumCredito',
+              ordenamientos: ['-id'],
             },
             ui: {
               verBotonNuevo: true,
