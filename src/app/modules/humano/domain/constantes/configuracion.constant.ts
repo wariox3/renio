@@ -257,6 +257,39 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: 'HumAdicional',
+          nombreModelo: 'ADICIONAL',
+          ajustes: {
+            rutas: {
+              lista: 'humano/administracion/lista',
+              nuevo: 'humano/administracion/nuevo',
+            },
+            endpoint: 'humano/adicional',
+            parametrosHttpConfig: {
+              modelo: 'HumAdicional',
+              ordenamientos: ['-id'],
+              filtros: {
+                lista: [
+                  {
+                    propiedad: 'permanente',
+                    valor1: true,
+                  },
+                ],
+                importar: [
+                  {
+                    propiedad: 'permanente',
+                    valor1: true,
+                  },
+                ],
+              },
+            },
+            ui: {
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
       ],
     },
     {
