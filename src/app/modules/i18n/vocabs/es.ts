@@ -26,6 +26,7 @@ export const locale = {
         INFORME: 'Informe',
         NOMINA: 'Nomina',
         SEGURIDADSOCIAL: 'Seguridad social',
+        ESPECIAL: 'Especial'
       },
       FUNCIONALIDAD: {
         PERIODO: 'Periodo',

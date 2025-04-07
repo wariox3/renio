@@ -211,6 +211,8 @@ export class SidebarMenuComponent implements OnInit {
         return 'people';
       case 'proceso':
         return 'abstract-26'
+      case 'especial':
+        return 'abstract-25'
     }
   }
 

@@ -14,18 +14,23 @@ export const routes: Route[] = [
       ),
   },
   {
-    path: 'movimiento',
-    loadComponent: () =>
-      import(
-        './paginas/independientes/movimiento/movimiento-lista/movimiento-lista.component'
-      ).then((c) => c.MovimientoListaComponent),
-  },
-  {
-    path: 'periodo',
-    loadComponent: () =>
-      import(
-        './paginas/independientes/periodo/periodo-detalle/periodo-detalle.component'
-      ).then((c) => c.PeriodoDetalleComponent),
+    path: 'especial',
+    children: [
+      {
+        path: 'movimiento',
+        loadComponent: () =>
+          import(
+            './paginas/independientes/movimiento/movimiento-lista/movimiento-lista.component'
+          ).then((c) => c.MovimientoListaComponent),
+      },
+      {
+        path: 'periodo',
+        loadComponent: () =>
+          import(
+            './paginas/independientes/periodo/periodo-detalle/periodo-detalle.component'
+          ).then((c) => c.PeriodoDetalleComponent),
+      },
+    ],
   },
   {
     path: 'documento',

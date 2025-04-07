@@ -1,4 +1,4 @@
-import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
+import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
 const DocLista = 'contabilidad/documento/lista';
 const DocNuevo = 'contabilidad/documento/nuevo';
@@ -8,6 +8,31 @@ const DocDetalle = 'contabilidad/documento/detalle';
 export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
   nombreModulo: 'contabilidad',
   funcionalidades: [
+    {
+      nombreFuncionalidad: 'especial',
+      modelos: [
+        {
+          key: null,
+          nombreModelo: 'PERIODO',
+          ajustes: {
+            rutas: {
+              lista: 'contabilidad/especial/periodo',
+              nuevo: '',
+            },
+          },
+        },
+        {
+          key: null,
+          nombreModelo: 'MOVIMIENTO',
+          ajustes: {
+            rutas: {
+              lista: 'contabilidad/especial/movimiento',
+              nuevo: '',
+            },
+          },
+        },
+      ],
+    },
     {
       nombreFuncionalidad: 'documento',
       isMenuExpanded: true,
@@ -227,7 +252,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               nuevo: '',
             },
           },
-        }
+        },
       ],
     },
     {
