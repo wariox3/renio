@@ -308,6 +308,25 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: 'HumNovedad',
+          nombreModelo: 'NOVEDAD',
+          ajustes: {
+            rutas: {
+              lista: 'humano/administracion/lista',
+              nuevo: 'humano/administracion/nuevo',
+            },
+            endpoint: 'humano/novedad',
+            parametrosHttpConfig: {
+              modelo: 'HumNovedad',
+              ordenamientos: ['-id'],
+            },
+            ui: {
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
       ],
     },
     {
