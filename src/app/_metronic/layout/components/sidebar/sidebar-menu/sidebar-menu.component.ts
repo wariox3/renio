@@ -8,22 +8,20 @@ import {
 import { Component, inject, OnInit } from '@angular/core';
 import {
   ActivatedRoute,
-  NavigationEnd,
   Router,
   RouterLink,
-  RouterLinkActive,
+  RouterLinkActive
 } from '@angular/router';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
-import { informacionMenuItem } from '@interfaces/menu/menu';
+import { } from '@modulos/compra/domain/constantes/configuracion.constant';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { asignarArchivoImportacionLista } from '@redux/actions/archivo-importacion.actions';
 import { configuracionVisualizarAppsAction } from '@redux/actions/configuracion.actions';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import {
-  ActualizarDataItem,
-  selecionModuloAction,
+  selecionModuloAction
 } from '@redux/actions/menu.actions';
 import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
 import {
@@ -31,13 +29,9 @@ import {
   obtenerMenuModulos,
   obtenerMenuSeleccion,
 } from '@redux/selectors/menu.selectors';
-import { filter, switchMap, tap, withLatestFrom } from 'rxjs';
+import { switchMap, tap, withLatestFrom } from 'rxjs';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import {
-  FuncionalidadConfig,
-  ModeloConfig,
-} from '@modulos/compra/domain/constantes/configuracion.constant';
+import { FuncionalidadConfig, ModeloConfig } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-sidebar-menu',

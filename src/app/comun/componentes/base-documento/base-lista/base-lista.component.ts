@@ -24,10 +24,10 @@ import {
 } from 'rxjs';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { ModeloConfig } from '@modulos/compra/domain/constantes/configuracion.constant';
 import { Modelo } from '@comun/type/modelo.type';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { GeneralService } from '@comun/services/general.service';
+import { ModeloConfig } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-comun-base-lista-documento',

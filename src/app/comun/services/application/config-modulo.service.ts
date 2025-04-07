@@ -2,12 +2,10 @@ import { inject, Injectable, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
   COMPRA_CONFIGURACION,
-  FuncionalidadConfig,
-  ModeloConfig,
-  ModuloConfig,
 } from '@modulos/compra/domain/constantes/configuracion.constant';
 import { BehaviorSubject, filter } from 'rxjs';
 import { UrlService } from '../infrastructure/url.service';
+import { FuncionalidadConfig, ModeloConfig, ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
 @Injectable({
   providedIn: 'root',

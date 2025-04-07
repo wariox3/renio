@@ -16,9 +16,9 @@ import { UrlService } from '@comun/services/infrastructure/url.service';
 import { Modelo } from '@comun/type/modelo.type';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { ModeloConfig } from '@modulos/compra/domain/constantes/configuracion.constant';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
+import { ModeloConfig } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
