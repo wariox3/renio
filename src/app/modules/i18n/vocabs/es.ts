@@ -1340,16 +1340,16 @@ export const locale = {
         CODIGO: 'Código',
         CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
         CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
-        INICIO: 'Inicio',
+        FECHA_INICIO: 'Inicio',
         TOTAL: 'Total',
-        VALORCUOTA: 'Valor cuota',
-        CUOTAACTUAL: 'Cuota actual',
-        CANTIDADCUOTAS: 'Cantidad cuotas',
-        ABONOS: 'Abonos',
+        VALOR_CUOTA: 'Valor cuota',
+        CUOTA_ACTUAL: 'Cuota actual',
+        CANTIDAD_CUOTAS: 'Cantidad cuotas',
+        ABONO: 'Abonos',
         SALDO: 'Saldo',
-        VALIDARCUOTAS: 'Validar cuotas',
+        VALIDAR_CUOTAS: 'Validar cuotas',
         PAGADO: 'Pagado',
-        Inactivo: 'Inactivo'
+        INACTIVO: 'Inactivo'
       }
     },
     TEMA: {
