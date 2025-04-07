@@ -7,6 +7,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-adicional-detalle',
@@ -17,7 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     CardComponent,
     BtnAtrasComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './adicional-detalle.component.html',
   styleUrl: './adicional-detalle.component.scss',
 })

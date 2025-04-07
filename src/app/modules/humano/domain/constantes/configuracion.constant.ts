@@ -131,6 +131,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
               verBotonExportarZip: true,
+              verBotonGenerar: true //Esto actualmente es configuracionExtra en el menu reducer
             },
           },
         },

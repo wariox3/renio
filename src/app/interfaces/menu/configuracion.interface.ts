@@ -65,4 +65,5 @@ export interface OpcionesVista {
   verBotonExportarExcel?: boolean;
   verBotonExportarZip?: boolean;
   verIconoDerecha?: boolean;
+  verBotonGenerar?: boolean;
 }
