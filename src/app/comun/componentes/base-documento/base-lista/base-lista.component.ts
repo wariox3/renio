@@ -1,8 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Params, RouterModule } from '@angular/router';
-import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -10,10 +8,18 @@ import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/configuracion-extra-documento';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
+import { Modelo } from '@comun/type/modelo.type';
+import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
+import { ModeloConfig, Rutas } from '@interfaces/menu/configuracion.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import {
   BehaviorSubject,
@@ -22,12 +28,6 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
-import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { Modelo } from '@comun/type/modelo.type';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { GeneralService } from '@comun/services/general.service';
-import { ModeloConfig } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -49,6 +49,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private readonly _generalService = inject(GeneralService);
 
   private _modulo: string | null;
+  private _rutas: Rutas | undefined;
   private _destroy$ = new Subject<void>();
   private _endpoint: string | undefined;
   private _key: null | number | Modelo | undefined;
@@ -166,14 +167,21 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._key = modeloConfig?.key;
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
     this.nombreModelo = modeloConfig?.nombreModelo;
+    this._rutas = modeloConfig?.ajustes.rutas;
     this._modulo = this._configModule.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
     this.nombreFiltro = `documento_${this._modelo?.toLowerCase()}`;
   }
 
   private _reiniciarParametrosConsulta() {
-    this.arrParametrosConsulta.desplazar = 0;
-    this.arrParametrosConsulta.ordenamientos = [];
+    this.arrParametrosConsulta = {
+      filtros: [],
+      modelo: 'GenDocumento',
+      limite: 50,
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+    };
   }
 
   private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
@@ -496,7 +504,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   navegarNuevo() {
     // this.navegarDocumentoNuevo();
-    this.router.navigate([`${this._modulo}/documento/nuevo`], {
+    this.router.navigate([`${this._rutas?.nuevo}`], {
       queryParams: {
         ...this.parametrosUrl,
       },
@@ -504,7 +512,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarEditar(id: number) {
-    this.router.navigate([`${this._modulo}/documento/editar/${id}`], {
+    this.router.navigate([`${this._rutas?.editar}/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
         // detalle: id,
@@ -513,7 +521,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarDetalle(id: number) {
-    this.router.navigate([`${this._modulo}/documento/detalle/${id}`], {
+    this.router.navigate([`${this._rutas?.detalle}/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
         // detalle: id,

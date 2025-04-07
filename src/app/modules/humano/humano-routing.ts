@@ -7,10 +7,76 @@ export const routes: Route[] = [
     pathMatch: 'full',
   },
   {
+    path: 'documento',
+    children: [
+      {
+        path: 'lista',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-lista/base-lista.component'
+          ).then((c) => c.BaseListaComponent),
+      },
+      {
+        path: 'nuevo',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'editar/:id',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'detalle/:id',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-detalle/base-detalle.component'
+          ).then((c) => c.BaseDetalleComponent),
+      },
+    ],
+  },
+  {
+    path: 'administracion',
+    children: [
+      {
+        path: 'lista',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-lista/base-lista.component'
+          ).then((c) => c.BaseListaComponent),
+      },
+      {
+        path: 'nuevo',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'editar/:id',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'detalle/:id',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-administracion/base-detalle/base-detalle.component'
+          ).then((c) => c.BaseDetalleComponent),
+      },
+    ],
+  },
+  {
     path: '',
     loadChildren: () =>
       import('../../pages/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
+        (m) => m.DashboardModule,
       ),
   },
   {
@@ -19,9 +85,9 @@ export const routes: Route[] = [
       {
         path: 'nomina',
         loadComponent: () =>
-          import(
-            './paginas/informes/nomina/nomina.component'
-          ).then((c) => c.NominaComponent),
+          import('./paginas/informes/nomina/nomina.component').then(
+            (c) => c.NominaComponent,
+          ),
       },
       {
         path: 'nomina_detalle',
@@ -36,6 +102,39 @@ export const routes: Route[] = [
           import(
             './paginas/informes/nomina-electronica/nomina-electronica.component'
           ).then((c) => c.NominaElectronicaComponent),
+      },
+    ],
+  },
+  {
+    path: 'proceso',
+    children: [
+      {
+        path: 'lista',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-lista/base-lista.component'
+          ).then((c) => c.BaseListaComponent),
+      },
+      {
+        path: 'nuevo',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'editar/:id',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+          ).then((c) => c.BaseNuevoComponent),
+      },
+      {
+        path: 'detalle/:id',
+        loadComponent: () =>
+          import(
+            '../../comun/componentes/base-documento/base-detalle/base-detalle.component'
+          ).then((c) => c.BaseDetalleComponent),
       },
     ],
   },

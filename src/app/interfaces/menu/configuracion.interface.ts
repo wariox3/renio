@@ -22,16 +22,18 @@ export interface ModeloConfig {
 }
 
 export interface ModeloAjustes {
-  rutas: Routes;
+  rutas: Rutas;
   endpoint?: string;
   parametrosHttpConfig?: ParametrosHttpConfig;
   archivos?: Importacion;
   ui?: OpcionesVista;
 }
 
-export interface Routes {
+export interface Rutas {
   lista: string;
   nuevo: string;
+  detalle?: string;
+  editar?: string;
 }
 
 export interface Importacion {

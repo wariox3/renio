@@ -195,8 +195,8 @@ export class SidebarMenuComponent implements OnInit {
         return 'folder';
       case 'informe':
         return 'document';
-      case 'proceso':
-        return 'setting-3';
+      // case 'proceso':
+      //   return 'setting-3';
       case 'utilidad':
         return 'share';
       case 'MOVIMIENTO':
@@ -209,6 +209,8 @@ export class SidebarMenuComponent implements OnInit {
         return 'dollar';
       case 'seguridadSocial':
         return 'people';
+      case 'proceso':
+        return 'abstract-26'
     }
   }
 

@@ -1,15 +1,18 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import {
-  COMPRA_CONFIGURACION,
-} from '@modulos/compra/domain/constantes/configuracion.constant';
+import { COMPRA_CONFIGURACION } from '@modulos/compra/domain/constantes/configuracion.constant';
 import { BehaviorSubject, filter } from 'rxjs';
 import { UrlService } from '../infrastructure/url.service';
-import { FuncionalidadConfig, ModeloConfig, ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import {
+  FuncionalidadConfig,
+  ModeloConfig,
+  ModuloConfig,
+} from '@interfaces/menu/configuracion.interface';
 import { TESORERIA_CONFIGURACION } from '@modulos/tesoreria/domain/constantes/configuracion.constant';
 import { CARTERA_CONFIGURACION } from '@modulos/cartera/domain/constantes/configuracion.constant';
 import { INVENTARIO_CONFIGURACION } from '@modulos/inventario/domain/constantes/configuracion.constant';
 import { VENTA_CONFIGURACION } from '@modulos/venta/domain/constantes/configuracion.constant';
+import { HUMANO_CONFIGURACION } from '@modulos/humano/domain/constantes/configuracion.constant';
 
 @Injectable({
   providedIn: 'root',
@@ -110,16 +113,19 @@ export class ConfigModuleService {
         this._currentConfig.next(TESORERIA_CONFIGURACION);
         break;
       case 'cartera':
-          this._currentConfig.next(CARTERA_CONFIGURACION);
-          break;
+        this._currentConfig.next(CARTERA_CONFIGURACION);
+        break;
       case 'inventario':
-            this._currentConfig.next(INVENTARIO_CONFIGURACION);
-            break;
+        this._currentConfig.next(INVENTARIO_CONFIGURACION);
+        break;
       case 'venta':
         this._currentConfig.next(VENTA_CONFIGURACION);
         break;
       case 'contabilidad':
         this._currentConfig.next(null);
+        break;
+      case 'humano':
+        this._currentConfig.next(HUMANO_CONFIGURACION);
         break;
       default:
         this._currentConfig.next(null);
