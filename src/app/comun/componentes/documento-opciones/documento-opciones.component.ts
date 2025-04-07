@@ -105,7 +105,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.documentoId = parametro.detalle;
+      this.documentoId = this.detalle;
       this.parametrosConsulta.filtros = [
         {
           propiedad: 'documento_id',

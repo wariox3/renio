@@ -21,7 +21,7 @@ export class General {
   protected tipo = '';
   protected formulario = '';
   protected accion: AplicacionAccion = null;
-  protected detalle = 0;
+  protected detalle: number = 0;
   protected parametrosUrl: Partial<informacionMenuItem['data']>;
   protected ubicacion: AplicacionUbicaciones;
   protected moduloAplicacion: Record<
@@ -53,6 +53,8 @@ export class General {
 
       if (detalleId) {
         this.detalle = Number(detalleId);
+      } else {
+        this.detalle = 0
       }
 
       // TODO: Fumarse esto

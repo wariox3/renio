@@ -294,7 +294,7 @@ export default class FacturaDetalleComponent
     console.log(this.eliminarDetallesIds());
 
     if (this.formularioFactura.valid) {
-      if (this.detalle !== undefined) {
+      if (this.detalle !== 0) {
         this._actualizarFactura();
       } else {
         this._guardarFactura();
