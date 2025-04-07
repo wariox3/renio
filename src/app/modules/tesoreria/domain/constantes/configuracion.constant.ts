@@ -1,7 +1,13 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
 
+const DocLista = 'tesoreria/documento/lista';
+const DocNuevo = 'tesoreria/documento/nuevo';
+const DocEditar = 'tesoreria/documento/editar';
+const DocDetalle = 'tesoreria/documento/detalle';
+
+
 export const TESORERIA_CONFIGURACION: ModuloConfig = {
-  nombreModulo: 'compra',
+  nombreModulo: 'tesoreria',
   funcionalidades: [
     {
       nombreFuncionalidad: 'documento',
@@ -15,8 +21,10 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'tesoreria/documento/lista',
-              nuevo: 'tesoreria/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -48,8 +56,10 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
           // },
           ajustes: {
             rutas: {
-              lista: 'tesoreria/documento/lista',
-              nuevo: 'tesoreria/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {

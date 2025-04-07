@@ -1,7 +1,13 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
+const DocLista = 'general/documento/lista';
+const DocNuevo = 'general/documento/nuevo';
+const DocEditar = 'general/documento/editar';
+const DocDetalle = 'general/documento/detalle';
+
+
 export const GENERAL_CONFIGURACION: ModuloConfig = {
-  nombreModulo: 'compra',
+  nombreModulo: 'general',
   funcionalidades: [
     {
       nombreFuncionalidad: 'documento',
@@ -15,8 +21,10 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'general/documento/lista',
-              nuevo: 'general/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -48,8 +56,10 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'general/documento/lista',
-              nuevo: 'general/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -81,8 +91,10 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'general/documento/lista',
-              nuevo: 'general/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {

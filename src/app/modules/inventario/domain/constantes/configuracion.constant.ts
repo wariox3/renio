@@ -1,7 +1,12 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
 
+const DocLista = 'inventario/documento/lista';
+const DocNuevo = 'inventario/documento/nuevo';
+const DocEditar = 'inventario/documento/editar';
+const DocDetalle = 'inventario/documento/detalle';
+
 export const INVENTARIO_CONFIGURACION: ModuloConfig = {
-  nombreModulo: 'compra',
+  nombreModulo: 'inventario',
   funcionalidades: [
     {
       nombreFuncionalidad: 'documento',
@@ -15,8 +20,10 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
           // },
           ajustes: {
             rutas: {
-              lista: 'inventario/documento/lista',
-              nuevo: 'inventario/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -48,8 +55,10 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
           // },
           ajustes: {
             rutas: {
-              lista: 'inventario/documento/lista',
-              nuevo: 'inventario/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {

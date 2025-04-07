@@ -1,7 +1,12 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
 
+const DocLista = 'contabilidad/documento/lista';
+const DocNuevo = 'contabilidad/documento/nuevo';
+const DocEditar = 'contabilidad/documento/editar';
+const DocDetalle = 'contabilidad/documento/detalle';
+
 export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
-  nombreModulo: 'compra',
+  nombreModulo: 'contabilidad',
   funcionalidades: [
     {
       nombreFuncionalidad: 'documento',
@@ -15,8 +20,10 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'contabilidad/documento/lista',
-              nuevo: 'contabilidad/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -48,8 +55,10 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
           // },
           ajustes: {
             rutas: {
-              lista: 'contabilidad/documento/lista',
-              nuevo: 'contabilidad/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -81,8 +90,10 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'contabilidad/documento/lista',
-              nuevo: 'contabilidad/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {

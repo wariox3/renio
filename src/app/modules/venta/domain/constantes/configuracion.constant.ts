@@ -1,5 +1,10 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
+const DocLista = 'venta/documento/lista';
+const DocNuevo = 'venta/documento/nuevo';
+const DocEditar = 'venta/documento/editar';
+const DocDetalle = 'venta/documento/detalle';
+
 export const VENTA_CONFIGURACION: ModuloConfig = {
   nombreModulo: 'venta',
   funcionalidades: [
@@ -15,8 +20,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'venta/documento/lista',
-              nuevo: 'venta/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -48,8 +55,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'venta/documento/lista',
-              nuevo: 'venta/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -82,8 +91,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'venta/documento/lista',
-              nuevo: 'venta/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -116,8 +127,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'venta/documento/lista',
-              nuevo: 'venta/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -149,8 +162,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'venta/documento/lista',
-              nuevo: 'venta/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -182,8 +197,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'venta/documento/lista',
-              nuevo: 'venta/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -215,8 +232,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'venta/documento/lista',
-              nuevo: 'venta/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {

@@ -1,5 +1,10 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
+const DocLista = 'compra/documento/lista';
+const DocNuevo = 'compra/documento/nuevo';
+const DocEditar = 'compra/documento/editar';
+const DocDetalle = 'compra/documento/detalle';
+
 export const COMPRA_CONFIGURACION: ModuloConfig = {
   nombreModulo: 'compra',
   funcionalidades: [
@@ -15,8 +20,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -48,8 +55,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -81,8 +90,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -114,8 +125,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -147,8 +160,10 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           },
           ajustes: {
             rutas: {
-              lista: 'compra/documento/lista',
-              nuevo: 'compra/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {

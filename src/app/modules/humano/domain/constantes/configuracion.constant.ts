@@ -1,5 +1,10 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
+const DocLista = 'humano/documento/lista';
+const DocNuevo = 'humano/documento/nuevo';
+const DocEditar = 'humano/documento/editar';
+const DocDetalle = 'humano/documento/detalle';
+
 export const HUMANO_CONFIGURACION: ModuloConfig = {
   nombreModulo: 'humano',
   funcionalidades: [
@@ -46,8 +51,10 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
           // },
           ajustes: {
             rutas: {
-              lista: 'humano/documento/lista',
-              nuevo: 'humano/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -77,8 +84,10 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
           // },
           ajustes: {
             rutas: {
-              lista: 'humano/documento/lista',
-              nuevo: 'humano/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -109,8 +118,10 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
           // },
           ajustes: {
             rutas: {
-              lista: 'humano/documento/lista',
-              nuevo: 'humano/documento/nuevo',
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
