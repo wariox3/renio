@@ -119,6 +119,9 @@ export const locale = {
         CERTIFICADORETENCION: 'Certificado retención',
         BASE: 'Base',
         CIERRE: 'Cierre',
+        HUMADICIONAL: 'Adicional',
+        HUMCREDITO: 'Credito',
+        HUMNOVEDAD: 'Novedad'
       },
     },
     FORMULARIOS: {
@@ -1318,6 +1321,36 @@ export const locale = {
         NOMBRE: 'Nombre',
         CODIGO: 'Código',
       },
+      ADICIONAL:{
+        ID: 'Id',
+        CODIGO: 'Código',
+        CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
+        CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
+        CONT: 'Cont',
+        CONTRATO: 'Contrato',
+        CONCEPTO_ID: 'Cod',
+        CONCEPTO_NOMBRE: 'Concepto',
+        VALOR: 'Valor',
+        DETALLE: 'Detalle',
+        APLICA_DIA_LABORADO_ABREVIATURA: 'Día laborado',
+        INACTIVO: 'Inactivo'
+      },
+      CREDITO:{
+        ID: 'Id',
+        CODIGO: 'Código',
+        CONTRATO_CONTACTO_NOMBRE_CORTO: 'Nombre',
+        CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
+        INICIO: 'Inicio',
+        TOTAL: 'Total',
+        VALORCUOTA: 'Valor cuota',
+        CUOTAACTUAL: 'Cuota actual',
+        CANTIDADCUOTAS: 'Cantidad cuotas',
+        ABONOS: 'Abonos',
+        SALDO: 'Saldo',
+        VALIDARCUOTAS: 'Validar cuotas',
+        PAGADO: 'Pagado',
+        Inactivo: 'Inactivo'
+      }
     },
     TEMA: {
       CLARO: 'Claro',
