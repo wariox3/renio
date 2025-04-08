@@ -45,11 +45,6 @@ export default class HistorialMovimientosComponent extends General implements On
 
   ngOnInit(): void {
     this.consultarLista();
-
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.modelo = parametro.itemNombre!;
-    });
-
     this.store.dispatch(
       ActualizarMapeo({ dataMapeo: documentos['historial_movimientos'] }),
     );
