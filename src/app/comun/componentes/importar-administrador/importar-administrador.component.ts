@@ -223,7 +223,7 @@ export class ImportarAdministradorComponent
           modelo = 'movimiento';
           ruta = localStorage.getItem('ruta')!;
         } else {
-          if (esIndependiente == 'no') {
+          if ('no' == 'no') {
             if (this.accion === 'detalle') {
               modelo = this.modelo
                 .toLowerCase()
