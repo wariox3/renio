@@ -187,8 +187,6 @@ export default class FacturaDetalleComponent
       this.dataUrl = this.parametrosUrl;
     }
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      // this.consultardetalle();
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
