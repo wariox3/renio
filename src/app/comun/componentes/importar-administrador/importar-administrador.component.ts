@@ -50,7 +50,7 @@ export class ImportarAdministradorComponent
   extends General
   implements OnDestroy, OnInit
 {
-  active: number = 1
+  active: number = 1;
   archivoNombre: string = '';
   archivo_base64: string = '';
   archivoPeso: string = '';
@@ -63,7 +63,6 @@ export class ImportarAdministradorComponent
   cantidadErrores: number = 0;
   public maestros = maestros;
   public alias: string;
-  public moduloNombre: string;
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
@@ -81,12 +80,7 @@ export class ImportarAdministradorComponent
     super();
   }
 
-  ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((parametros) => {
-      this.alias = parametros.alias;
-      this.moduloNombre = parametros.modulo;
-    });
-  }
+  ngOnInit(): void {}
 
   abrirModalContactoNuevo(content: any) {
     this.descargarArchivosService._construirNombreArchivo(
@@ -219,7 +213,6 @@ export class ImportarAdministradorComponent
   subirArchivo(archivo_base64: string) {
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
-        let esIndependiente = parametros.esIndependiente!;
         let nombreFiltro = `documento_${parametros.itemNombre?.toLowerCase()}`;
         let filtroPermamente: any = [];
 
