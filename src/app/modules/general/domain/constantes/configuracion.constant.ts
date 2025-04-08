@@ -5,7 +5,6 @@ const DocNuevo = 'general/documento/nuevo';
 const DocEditar = 'general/documento/editar';
 const DocDetalle = 'general/documento/detalle';
 
-
 export const GENERAL_CONFIGURACION: ModuloConfig = {
   nombreModulo: 'general',
   funcionalidades: [
@@ -179,14 +178,6 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/sede',
             parametrosHttpConfig: {
               modelo: 'GenSede',
-              filtros: {
-                lista: [
-                  {
-                    propiedad: 'compra',
-                    valor1: true,
-                  },
-                ],
-              },
             },
             ui: {
               verBotonNuevo: true,
@@ -223,7 +214,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
           nombreModelo: 'VENTASITEM',
           ajustes: {
             rutas: {
-              lista: 'venta/informe/ventas_items',
+              lista: 'general/informe/ventas_items',
               nuevo: '',
             },
           },

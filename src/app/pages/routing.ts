@@ -20,7 +20,7 @@ const Routing: Routes = [
     path: 'general',
     canActivate: [validarRutaGuard],
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/general/general-routing').then((m) => m.routes),
   },
   {
     path: 'profile',
@@ -44,7 +44,9 @@ const Routing: Routes = [
     path: 'contabilidad',
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
-      import('../modules/contabilidad/contabilidad-routing').then((r) => r.routes),
+      import('../modules/contabilidad/contabilidad-routing').then(
+        (r) => r.routes,
+      ),
   },
   {
     path: 'humano',
@@ -91,7 +93,9 @@ const Routing: Routes = [
   {
     path: 'facturacion',
     loadChildren: () =>
-      import('../modules/facturacion/facturacion-routing').then((r) => r.routes),
+      import('../modules/facturacion/facturacion-routing').then(
+        (r) => r.routes,
+      ),
     data: { layout: 'dark-header' },
   },
   {
@@ -177,9 +181,9 @@ const Routing: Routes = [
   {
     path: 'estado',
     loadComponent: () =>
-      import('../comun/componentes/facturacion-mensaje-pago/facturacion-mensaje-pago.component').then(
-        (c) => c.FacturacionMensajePagoComponent
-      ),
+      import(
+        '../comun/componentes/facturacion-mensaje-pago/facturacion-mensaje-pago.component'
+      ).then((c) => c.FacturacionMensajePagoComponent),
     data: { layout: 'dark-header' },
   },
   {
@@ -188,9 +192,9 @@ const Routing: Routes = [
       {
         path: 'graficas',
         loadComponent: () =>
-          import(
-            '../comun/componentes/laboratorio/laboratorio.component'
-          ).then((c) => c.LaboratorioComponent),
+          import('../comun/componentes/laboratorio/laboratorio.component').then(
+            (c) => c.LaboratorioComponent,
+          ),
       },
     ],
     data: { layout: 'dark-header' },
