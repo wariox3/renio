@@ -255,7 +255,7 @@ export default class FacturaDetalleComponent
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
+      if (this.detalle == 0) {
         if (this.validarCamposDetalles() === false) {
           this.facturaService
             .guardarFactura({
