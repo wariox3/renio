@@ -1322,8 +1322,15 @@ export const locale = {
         CONTRATO_CONTACTO_NUMERO_IDENTIFICACION: 'Identificación',
         CONTRATO: 'Contrato',
         DIAS: 'Dias',
-        TOTAL: 'Total'
-
+        TOTAL: 'Total',
+        CONTACTO_ID_FILTRO: '[Contacto] id',
+        CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
+        CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación',
+        NOVEDAD_TIPO_NOMBRE_FILTRO: '[Novedad tipo] nombre',
+        CONTACTO_EMPLEADO_FILTRO: '[Contacto] empleado',
+        CONTRATO_ID_FILTRO: '[Contrato] id',
+        FECHA_DESDE: 'Fecha desde',
+        FECHA_HASTA: 'Fecha hasta',
       },
       SUCURSAL: {
         ID: 'ID',
@@ -1341,8 +1348,15 @@ export const locale = {
         CONCEPTO_NOMBRE: 'Concepto',
         VALOR: 'Valor',
         DETALLE: 'Detalle',
+        APLICA_DIA_LABORADO: 'Día laborado',
         APLICA_DIA_LABORADO_ABREVIATURA: 'Día laborado',
-        INACTIVO: 'Inactivo'
+        INACTIVO: 'Inactivo',
+        CONTACTO_ID_FILTRO: '[Contacto] id',
+        CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
+        CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación',
+        NOVEDAD_TIPO_NOMBRE_FILTRO: '[Novedad tipo] nombre',
+        CONTACTO_EMPLEADO_FILTRO: '[Contacto] empleado',
+        CONTRATO_ID_FILTRO: '[Contrato] id',
       },
       CREDITO:{
         ID: 'Id',
@@ -1358,7 +1372,15 @@ export const locale = {
         SALDO: 'Saldo',
         VALIDAR_CUOTAS_ABREVIATURA: 'Validar cuotas',
         PAGADO: 'Pagado',
-        INACTIVO: 'Inactivo'
+        INACTIVO: 'Inactivo',
+        VALIDAR_CUOTAS: 'Validar cuotas',
+        CONTACTO_ID_FILTRO: '[Contacto] id',
+        CONTACTO_NOMBRE_FILTRO: '[Contacto] nombre',
+        CONTACTO_IDENTIFICACION_FILTRO: '[Contacto] identificación',
+        NOVEDAD_TIPO_NOMBRE_FILTRO: '[Novedad tipo] nombre',
+        CONTACTO_EMPLEADO_FILTRO: '[Contacto] empleado',
+        CONTRATO_ID_FILTRO: '[Contrato] id',
+        CUOTA: 'Valor cuota',
       }
     },
     TEMA: {
