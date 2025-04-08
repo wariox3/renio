@@ -77,11 +77,6 @@ export default class ContabilizarComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.consultarLista();
-
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.modelo = parametro.itemNombre!;
-    });
-
     this.store.dispatch(
       ActualizarMapeo({ dataMapeo: utilidades['contabilizar'] }),
     );

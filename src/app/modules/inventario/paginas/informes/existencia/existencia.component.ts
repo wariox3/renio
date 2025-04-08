@@ -46,11 +46,6 @@ export default class ExistenciaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.consultarLista();
-
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.modelo = parametro.itemNombre!;
-    });
-
     this.store.dispatch(
       ActualizarMapeo({ dataMapeo: documentos['existencia'] }),
     );
