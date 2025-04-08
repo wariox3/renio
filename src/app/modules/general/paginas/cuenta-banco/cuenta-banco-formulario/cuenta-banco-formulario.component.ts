@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -19,7 +20,7 @@ import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.serv
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, Subject, takeUntil, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
 import {
@@ -27,6 +28,8 @@ import {
   RegistroAutocompletarGenCuentaBancoTipo,
 } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-cuenta-banco-formulario',
@@ -49,8 +52,7 @@ import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuent
 })
 export default class CuentaBancoFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   formularioCuentaBanco: FormGroup;
   arrCuentasTipos: any[];
   arrCuentasBancos: any[];
@@ -60,6 +62,9 @@ export default class CuentaBancoFormularioComponent
   public cuentaCobrarNombre = '';
   public ciudadDropdown: NgbDropdown;
   private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -69,6 +74,7 @@ export default class CuentaBancoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.consultarInformacion();
     this.iniciarFormulario();
 
@@ -81,6 +87,19 @@ export default class CuentaBancoFormularioComponent
       ?.valueChanges.subscribe((valor) => {
         this.modificarCampoFormulario('cuenta_banco_tipo', valor);
       });
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   consultarInformacion() {
@@ -133,10 +152,9 @@ export default class CuentaBancoFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -147,10 +165,9 @@ export default class CuentaBancoFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });

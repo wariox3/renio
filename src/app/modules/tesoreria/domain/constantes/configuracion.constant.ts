@@ -99,6 +99,7 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'tesoreria/administracion/lista',
               nuevo: 'tesoreria/administracion/nuevo',
+              detalle: 'tesoreria/administracion/detalle',
             },
             endpoint: 'general/cuenta_banco',
             parametrosHttpConfig: {
@@ -119,6 +120,7 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'tesoreria/administracion/lista',
               nuevo: 'tesoreria/administracion/nuevo',
+              detalle: 'tesoreria/administracion/detalle',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {

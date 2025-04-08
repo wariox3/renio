@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,9 +14,11 @@ import { GeneralService } from '@comun/services/general.service';
 import { GrupoService } from '@modulos/humano/servicios/grupo.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { map, Observable, tap } from 'rxjs';
+import { map, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumPerido } from '@interfaces/comunes/autocompletar/humano/hum-periodo.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-grupo',
@@ -36,12 +38,15 @@ import { RegistroAutocompletarHumPerido } from '@interfaces/comunes/autocompleta
 })
 export default class GrupoFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   formularioGrupo: FormGroup;
   listaPeriodos$: Observable<any> = new Observable();
 
   private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -51,12 +56,26 @@ export default class GrupoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     this.consultarPeriodos();
 
     if (this.detalle) {
       this.consultarDetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -90,10 +109,9 @@ export default class GrupoFormularioComponent
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -106,10 +124,9 @@ export default class GrupoFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
                   },
                 });
               });

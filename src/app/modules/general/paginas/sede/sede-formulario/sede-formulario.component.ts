@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,6 +15,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { SeleccionarGrupoComponent } from '../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { GeneralService } from '@comun/services/general.service';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Subject, takeUntil } from 'rxjs';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-sede-formulario',
@@ -34,9 +38,14 @@ import { SeleccionarGrupoComponent } from '../../../../../comun/componentes/fact
 })
 export default class AsesorFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
+
+  private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
   formularioSede: FormGroup;
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,11 +55,25 @@ export default class AsesorFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
 
     if (this.detalle) {
       this.consultarDetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -78,10 +101,9 @@ export default class AsesorFormularioComponent
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -92,10 +114,9 @@ export default class AsesorFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });

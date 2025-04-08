@@ -199,6 +199,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'compra/administracion/lista',
               nuevo: 'compra/administracion/nuevo',
+              detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/item',
             parametrosHttpConfig: {
@@ -222,6 +223,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'compra/administracion/lista',
               nuevo: 'compra/administracion/nuevo',
+              detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
@@ -244,6 +246,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'compra/administracion/lista',
               nuevo: 'compra/administracion/nuevo',
+              detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/resolucion',
             parametrosHttpConfig: {
@@ -274,6 +277,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'compra/administracion/lista',
               nuevo: 'compra/administracion/nuevo',
+              detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/forma_pago',
             parametrosHttpConfig: {

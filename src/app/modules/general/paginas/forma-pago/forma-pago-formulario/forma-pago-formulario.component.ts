@@ -4,6 +4,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
@@ -22,6 +23,9 @@ import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Subject, takeUntil } from 'rxjs';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-forma-pago-nuevo',
@@ -42,8 +46,7 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
 })
 export default class FormaPagoFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   public cuentaCodigo = '';
   public cuentaNombre = '';
 
@@ -56,16 +59,33 @@ export default class FormaPagoFormularioComponent
   @Input() editarInformacion: Boolean = false;
   @Input() idEditarInformacion: number | null = null;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(private formBuilder: FormBuilder) {
     super();
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     if (this.detalle || this.editarInformacion) {
       this.consultardetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -92,10 +112,9 @@ export default class FormaPagoFormularioComponent
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
                   },
                 });
               });
@@ -112,10 +131,9 @@ export default class FormaPagoFormularioComponent
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
                   },
                 });
               });

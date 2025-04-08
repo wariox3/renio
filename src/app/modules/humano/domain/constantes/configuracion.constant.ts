@@ -180,6 +180,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'humano/administracion/lista',
               nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
@@ -203,6 +204,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'humano/administracion/lista',
               nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/contrato',
             parametrosHttpConfig: {
@@ -226,6 +228,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'humano/administracion/lista',
               nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/grupo',
             parametrosHttpConfig: {
@@ -245,6 +248,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'humano/administracion/lista',
               nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/sucursal',
             parametrosHttpConfig: {
@@ -264,6 +268,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'humano/administracion/lista',
               nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/adicional',
             parametrosHttpConfig: {
@@ -297,6 +302,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'humano/administracion/lista',
               nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/credito',
             parametrosHttpConfig: {
@@ -316,10 +322,11 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'humano/administracion/lista',
               nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/novedad',
             parametrosHttpConfig: {
-              modelo: 'HumCredito',
+              modelo: 'HumNovedad',
               ordenamientos: ['-id'],
             },
             ui: {

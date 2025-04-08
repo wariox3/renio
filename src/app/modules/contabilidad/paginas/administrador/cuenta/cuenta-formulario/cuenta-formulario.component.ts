@@ -4,6 +4,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -33,6 +34,9 @@ import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Subject, takeUntil } from 'rxjs';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-cuenta-formulario',
@@ -50,7 +54,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     SoloNumerosDirective,
   ],
 })
-export default class ItemFormularioComponent extends General implements OnInit {
+export default class ItemFormularioComponent extends General implements OnInit, OnDestroy {
   formularioConCuenta: FormGroup;
   @Input() informacionFormulario: any;
   @Input() ocultarBtnAtras = false;
@@ -65,6 +69,9 @@ export default class ItemFormularioComponent extends General implements OnInit {
   public cuentaCuentaLista: RegistroAutocompletarConCuentaCuenta[] = [];
 
   private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -74,6 +81,7 @@ export default class ItemFormularioComponent extends General implements OnInit {
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this._iniciarFormulario();
     this._consultarInformacionInicial();
     this._formularioListeners();
@@ -85,6 +93,19 @@ export default class ItemFormularioComponent extends General implements OnInit {
       this._habilitarSelect('cuenta_grupo');
       this.consultardetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   private _iniciarFormulario() {
@@ -126,10 +147,9 @@ export default class ItemFormularioComponent extends General implements OnInit {
             next: (respuesta) => {
               this.alertaService.mensajaExitoso('Se actualizó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta?.id,
                   },
                 });
               });
@@ -142,10 +162,9 @@ export default class ItemFormularioComponent extends General implements OnInit {
             next: (respuesta) => {
               this.alertaService.mensajaExitoso('Se actualizó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta?.id,
                   },
                 });
               });

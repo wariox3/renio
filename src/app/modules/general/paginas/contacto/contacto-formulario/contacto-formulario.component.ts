@@ -14,6 +14,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   signal,
@@ -49,9 +50,11 @@ import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
-import { asyncScheduler, debounceTime, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, debounceTime, Subject, takeUntil, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -85,8 +88,7 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
 })
 export default class ContactDetalleComponent
   extends General
-  implements OnInit, AfterViewInit
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   formularioContacto: FormGroup;
   informacionContacto: any;
   arrCiudades: RegistroAutocompletarGenCiudad[];
@@ -126,6 +128,9 @@ export default class ContactDetalleComponent
   inputNombreCorto: ElementRef<HTMLInputElement>;
   private readonly _generalService = inject(GeneralService);
   private readonly _contactoService = inject(ContactoService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   selectedDateIndex: number = -1;
 
@@ -137,12 +142,26 @@ export default class ContactDetalleComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     this.consultarInformacion();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
     this._iniciarSuscripcionesFormularioContacto();
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -525,10 +544,9 @@ export default class ContactDetalleComponent
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -544,10 +562,9 @@ export default class ContactDetalleComponent
                 this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
               } else {
                 this.activatedRoute.queryParams.subscribe((parametro) => {
-                  this.router.navigate([`/administrador/detalle`], {
+                  this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                     queryParams: {
                       ...parametro,
-                      detalle: respuesta.id,
                     },
                   });
                 });
