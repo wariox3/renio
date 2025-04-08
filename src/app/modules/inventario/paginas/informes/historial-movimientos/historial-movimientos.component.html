@@ -14,7 +14,8 @@
     <section card-body>
       <div class="table-responsive-sm table-loading">
         <app-comun-tabla
-          [modelo]="modelo"
+          [modelo]="'HISTORIALMOVIMIENTOS'"
+          [_tipo]="'DOCUMENTO'"
           [datos]="itemsLista()"
           [cantidad_registros]="cantidadRegistros()"
           [visualizarColumnaEditar]="false"

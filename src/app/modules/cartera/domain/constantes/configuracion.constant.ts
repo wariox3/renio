@@ -148,6 +148,16 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: null,
+          nombreModelo: 'CUENTASCOBRARCORTE',
+          ajustes: {
+            rutas: {
+              lista: 'cartera/informe/cuentas_cobrar_corte',
+              nuevo: '',
+            },
+          },
+        },
       ],
     },
   ],
