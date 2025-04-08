@@ -113,11 +113,6 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.initForm();
     this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      if (this.modeloPersonalizado !== '') {
-        this.tipo = this.modeloPersonalizado;
-      } else {
-        this.tipo = parametro.itemTipo!;
-      }
       let tipo = window.location.pathname.split('/')[1];
       this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
 
