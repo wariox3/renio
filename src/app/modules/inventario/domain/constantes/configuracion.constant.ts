@@ -48,7 +48,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
           },
         },
         {
-          key: 201,
+          key: 501,
           nombreModelo: 'SALIDA',
           // documentacion: {
           //   id: 1007,
@@ -68,7 +68,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
                 lista: [
                   {
                     propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 201,
+                    valor1: 501,
                   },
                 ],
               },
