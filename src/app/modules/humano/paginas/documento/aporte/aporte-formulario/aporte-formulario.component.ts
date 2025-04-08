@@ -67,7 +67,7 @@ export default class AporteFormularioComponent
     private formBuilder: FormBuilder,
     private httpService: HttpService,
     private aporteService: AporteService,
-    protected fechasService: FechasService
+    protected fechasService: FechasService,
   ) {
     super();
   }
@@ -113,10 +113,9 @@ export default class AporteFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate(['documento/detalle'], {
+              this.router.navigate([`humano/proceso/detalle/${respuesta.id}`], {
                 queryParams: {
                   ...parametros,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -129,14 +128,16 @@ export default class AporteFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...parametros,
-                    detalle: respuesta.id,
+                this.router.navigate(
+                  [`humano/proceso/detalle/${respuesta.id}`],
+                  {
+                    queryParams: {
+                      ...parametros,
+                    },
                   },
-                });
+                );
               });
-            })
+            }),
           )
           .subscribe();
       }
@@ -164,7 +165,7 @@ export default class AporteFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.get<AutocompletarRegistros<any>>('humano/sucursal/')
+      this.httpService.get<AutocompletarRegistros<any>>('humano/sucursal/'),
     ).subscribe((respuesta: any) => {
       this.arrSucursales = respuesta[0];
       this.changeDetectorRef.detectChanges();
@@ -234,7 +235,7 @@ export default class AporteFormularioComponent
 
   private _sugerirSeleccion(
     registro: RegistroHumEntidadLista,
-    campo: 'entidad_icbf' | 'entidad_sena'
+    campo: 'entidad_icbf' | 'entidad_sena',
   ) {
     if (registro) {
       this.formularioAporte.patchValue({

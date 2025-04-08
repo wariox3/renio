@@ -59,7 +59,7 @@ export default class ContratoFormularioComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private programacionService: ProgramacionService
+    private programacionService: ProgramacionService,
   ) {
     super();
   }
@@ -84,7 +84,7 @@ export default class ContratoFormularioComponent
           });
           if (this.grupoSeleccionado !== undefined) {
             this.actualizarValidacion(
-              this.grupoSeleccionado.grupo_periodo_dias
+              this.grupoSeleccionado.grupo_periodo_dias,
             );
             this.formularioProgramacion.patchValue({
               periodo: this.grupoSeleccionado.grupo_periodo_id,
@@ -111,7 +111,7 @@ export default class ContratoFormularioComponent
           // llamar actualizar validacion
           if (this.grupoSeleccionado) {
             this.actualizarValidacion(
-              this.grupoSeleccionado.grupo_periodo_dias
+              this.grupoSeleccionado.grupo_periodo_dias,
             );
           }
         }
@@ -148,12 +148,12 @@ export default class ContratoFormularioComponent
     const primerDiaMes = new Date(
       fechaActual.getFullYear(),
       fechaActual.getMonth(),
-      1
+      1,
     );
     const ultimoDiaMes = new Date(
       fechaActual.getFullYear(),
       fechaActual.getMonth() + 1,
-      0
+      0,
     );
 
     const fechaDesde = `${primerDiaMes.getFullYear()}-${(
@@ -228,7 +228,7 @@ export default class ContratoFormularioComponent
         validator: [
           this.fechaDesdeMenorQueFechaHasta('fecha_desde', 'fecha_hasta'),
         ],
-      }
+      },
     );
   }
 
@@ -238,15 +238,15 @@ export default class ContratoFormularioComponent
         {
           modelo: 'HumPagoTipo',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumGrupo>(
         {
           limite_conteo: 10000,
           modelo: 'HumGrupo',
           serializador: 'ListaAutocompletar',
-        }
-      )
+        },
+      ),
     ).subscribe((respuesta) => {
       this.arrPagoTipo = respuesta[0].registros;
       this.arrGrupo = respuesta[1].registros;
@@ -266,15 +266,14 @@ export default class ContratoFormularioComponent
         this.programacionService
           .actualizarDatosProgramacion(
             this.detalle,
-            this.formularioProgramacion.value
+            this.formularioProgramacion.value,
           )
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate(['documento/detalle'], {
+              this.router.navigate([`humano/proceso/detalle/${respuesta.id}`], {
                 queryParams: {
                   ...parametros,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -287,14 +286,16 @@ export default class ContratoFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...parametros,
-                    detalle: respuesta.id,
+                this.router.navigate(
+                  [`humano/proceso/detalle/${respuesta.id}`],
+                  {
+                    queryParams: {
+                      ...parametros,
+                    },
                   },
-                });
+                );
               });
-            })
+            }),
           )
           .subscribe();
       }
@@ -362,7 +363,7 @@ export default class ContratoFormularioComponent
 
   fechaDesdeMenorQueFechaHasta(
     fechaDesde: string,
-    fechaHasta: string
+    fechaHasta: string,
   ): ValidatorFn {
     return (formGroup: AbstractControl): { [key: string]: any } | null => {
       const desde = formGroup.get(fechaDesde)?.value;

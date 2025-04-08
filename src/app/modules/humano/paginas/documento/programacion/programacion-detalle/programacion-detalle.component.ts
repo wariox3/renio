@@ -497,7 +497,7 @@ export default class ProgramacionDetalleComponent
   }
 
   navegarEditar(id: number) {
-    this.router.navigate([`humano/documento/editar/${id}`], {
+    this.router.navigate([`humano/proceso/editar/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
       },
@@ -505,7 +505,7 @@ export default class ProgramacionDetalleComponent
   }
 
   navegarNuevo() {
-    this.router.navigate([`humano/documento/nuevo`], {
+    this.router.navigate([`humano/proceso/nuevo`], {
       queryParams: {
         ...this.parametrosUrl,
       },
