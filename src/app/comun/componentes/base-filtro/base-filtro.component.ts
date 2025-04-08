@@ -94,6 +94,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     defecto?: boolean;
   }[][] = [];
   @Input() modeloPersonalizado: string = '';
+  @Input() _tipo: string = '';
   @Input() nombreFiltroCustom: string = '';
   @Input() propiedades: Listafiltros[];
   @Input() persistirFiltros: boolean = true;
