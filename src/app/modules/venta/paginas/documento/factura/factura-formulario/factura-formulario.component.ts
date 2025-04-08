@@ -161,13 +161,7 @@ export default class FacturaDetalleComponent
 
     this.active = 1; // navigation tab
 
-    if (this.parametrosUrl) {
-      this.dataUrl = this.parametrosUrl;
-    }
-
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
@@ -285,12 +279,14 @@ export default class FacturaDetalleComponent
         })
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`venta/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
