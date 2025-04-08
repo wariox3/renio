@@ -134,7 +134,6 @@ export default class CierreFormularioComponent
     this.initForm();
     this.initFormularioResultados();
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
     }
     this.changeDetectorRef.detectChanges();
@@ -253,12 +252,14 @@ export default class CierreFormularioComponent
           .pipe(
             finalize(() => this.guardando.set(false)),
             tap((respuesta) => {
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
+              this.router.navigate(
+                [`contabilidad/documento/detalle/${respuesta.documento.id}`],
+                {
+                  queryParams: {
+                    ...this.parametrosUrl,
+                  },
                 },
-              });
+              );
             }),
           )
           .subscribe();
@@ -270,12 +271,14 @@ export default class CierreFormularioComponent
           })
           .pipe(finalize(() => this.guardando.set(false)))
           .subscribe((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`contabilidad/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           });
       }
     } else {
