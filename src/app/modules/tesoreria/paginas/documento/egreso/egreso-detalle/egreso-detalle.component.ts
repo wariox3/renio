@@ -199,18 +199,19 @@ export default class EgresoDetalleComponent extends General implements OnInit {
       .subscribe();
   }
   
-  navegarNuevo() {
-    this.navegarDocumentoNuevo();
+  navegarEditar(id: number) {
+    this.router.navigate([`tesoreria/documento/editar/${id}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
+    });
   }
 
-  navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+  navegarNuevo() {
+    this.router.navigate([`tesoreria/documento/nuevo`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 }
