@@ -167,15 +167,13 @@ export default class FacturaRecurrenteFormularioComponent
   ngOnInit() {
     this.consultarInformacion();
     this.active = 1;
-    if (this.parametrosUrl) {
-      this.dataUrl = this.parametrosUrl;
-    }
+
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -265,7 +263,7 @@ export default class FacturaRecurrenteFormularioComponent
         }
       }
       if (!errores) {
-        if (this.detalle == undefined) {
+        if (this.detalle == 0) {
           if (this.validarCamposDetalles() === false) {
             this.facturaService
               .guardarFactura({
@@ -277,12 +275,14 @@ export default class FacturaRecurrenteFormularioComponent
               })
               .pipe(
                 tap((respuesta) => {
-                  this.router.navigate(['documento/detalle'], {
-                    queryParams: {
-                      ...this.parametrosUrl,
-                      detalle: respuesta.documento.id,
+                  this.router.navigate(
+                    [`venta/documento/detalle/${respuesta.documento.id}`],
+                    {
+                      queryParams: {
+                        ...this.parametrosUrl,
+                      },
                     },
-                  });
+                  );
                 }),
                 catchError(() => {
                   this.btnGuardarDisabled = false;
