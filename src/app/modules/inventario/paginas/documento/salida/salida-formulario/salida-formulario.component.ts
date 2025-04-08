@@ -56,8 +56,8 @@ import {
     NgbNavModule,
     SoloNumerosDirective,
     SeleccionarProductoComponent,
-    ImportarDetallesComponent
-],
+    ImportarDetallesComponent,
+  ],
   templateUrl: './salida-formulario.component.html',
   styleUrl: './salida-formulario.component.scss',
 })
@@ -101,7 +101,6 @@ export default class SalidaFormularioComponent
   get detallesEliminados(): FormArray {
     return this.formularioSalida.get('detalles_eliminados') as FormArray;
   }
-
 
   consultardetalle() {
     this._cargarFormulario(this.detalle);
@@ -167,10 +166,7 @@ export default class SalidaFormularioComponent
       ],
       precio: [
         0,
-        [
-          Validators.min(0),
-          Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-        ],
+        [Validators.min(0), Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$')],
       ],
       almacen: [almacen, Validators.compose([Validators.required])],
       almacenNombre: [almacenNombre],
@@ -291,12 +287,14 @@ export default class SalidaFormularioComponent
         .actualizarDatos(this.detalle, this.formularioSalida.value)
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`inventario/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
@@ -346,12 +344,14 @@ export default class SalidaFormularioComponent
         })
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`inventario/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
@@ -430,7 +430,6 @@ export default class SalidaFormularioComponent
   private _cargarVista() {
     if (this.detalle) {
       this._modoEdicion = true;
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this._cargarFormulario(this.detalle);
     } else {
       this._modoEdicion = false;
@@ -448,7 +447,7 @@ export default class SalidaFormularioComponent
   }
 
   private _poblarFormulario(documentoFactura: DocumentoInventarioRespuesta) {
-    this.estado_aprobado = documentoFactura.estado_aprobado
+    this.estado_aprobado = documentoFactura.estado_aprobado;
     this._poblarDocumento(documentoFactura);
     this._poblarDocumentoDetalle(documentoFactura.detalles);
     this.changeDetectorRef.detectChanges();
@@ -472,10 +471,7 @@ export default class SalidaFormularioComponent
         id: [detalle.id],
         precio: [
           detalle.precio,
-          [
-            Validators.min(0),
-            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-          ],
+          [Validators.min(0), Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$')],
         ],
         item: [detalle.item],
         item_nombre: [detalle.item_nombre],

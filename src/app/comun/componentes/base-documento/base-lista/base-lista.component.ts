@@ -45,7 +45,7 @@ import {
   styleUrls: ['./base-lista.component.scss'],
 })
 export class BaseListaComponent extends General implements OnInit, OnDestroy {
-  private readonly _configModule = inject(ConfigModuleService);
+  private readonly _configModuleService = inject(ConfigModuleService);
   private readonly _generalService = inject(GeneralService);
 
   private _modulo: string | null;
@@ -151,7 +151,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   private _setupConfigModuleListener() {
-    this._configModule.currentModelConfig$
+    this._configModuleService.currentModelConfig$
       .pipe(takeUntil(this._destroy$))
       .subscribe((value) => {
         this._loadModuleConfiguration(value);
@@ -168,7 +168,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
     this.nombreModelo = modeloConfig?.nombreModelo;
     this._rutas = modeloConfig?.ajustes.rutas;
-    this._modulo = this._configModule.modulo();
+    this._modulo = this._configModuleService.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
     this.nombreFiltro = `documento_${this._modelo?.toLowerCase()}`;
   }
