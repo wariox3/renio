@@ -59,9 +59,10 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
 })
 export default class ItemFormularioComponent
   extends General
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private readonly _generalService = inject(GeneralService);
-  private readonly _configModuleService = inject(ConfigModuleService)
+  private readonly _configModuleService = inject(ConfigModuleService);
 
   arrCuentasLista: any[];
   formularioItem: FormGroup;
@@ -84,8 +85,8 @@ export default class ItemFormularioComponent
   public valorInventarioDefecto = signal<boolean>(false);
   public valorServicioDefecto = signal<boolean>(false);
   public valorProductoDefecto = signal<boolean>(false);
-  public itemEnUso = signal<boolean>(false)
-  private _destroy$ = new Subject<void>()
+  public itemEnUso = signal<boolean>(false);
+  private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
 
   constructor(
@@ -96,7 +97,7 @@ export default class ItemFormularioComponent
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
+    this.configurarModuloListener();
     this.iniciarFormulario();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
@@ -227,13 +228,10 @@ export default class ItemFormularioComponent
 
   enviarFormulario() {
     if (this.formularioItem.valid) {
-      if (
-        this.activatedRoute.snapshot.queryParams['detalle'] &&
-        this.ocultarBtnAtras === false
-      ) {
+      if (this.detalle && this.ocultarBtnAtras === false) {
         this.itemService
           .actualizarDatosItem(
-            this.activatedRoute.snapshot.queryParams['detalle'],
+            this.detalle,
             {
               ...this.formularioItem.value,
               ...{ impuestos_eliminados: this.arrImpuestosEliminado },
