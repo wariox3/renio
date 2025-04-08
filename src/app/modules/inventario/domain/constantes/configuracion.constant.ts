@@ -94,6 +94,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'inventario/administracion/lista',
               nuevo: 'inventario/administracion/nuevo',
+              detalle: 'inventario/administracion/detalle',
             },
             endpoint: 'general/item',
             parametrosHttpConfig: {
@@ -116,6 +117,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'inventario/administracion/lista',
               nuevo: 'inventario/administracion/nuevo',
+              detalle: 'inventario/administracion/detalle',
             },
             endpoint: 'general/almacen',
             parametrosHttpConfig: {

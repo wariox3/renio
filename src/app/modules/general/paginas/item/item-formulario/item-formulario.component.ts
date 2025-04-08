@@ -6,6 +6,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   signal,
@@ -32,8 +33,10 @@ import { ItemService } from '@modulos/general/servicios/item.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-item-formulario',
@@ -56,9 +59,9 @@ import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuent
 })
 export default class ItemFormularioComponent
   extends General
-  implements OnInit, AfterViewInit
-{
+  implements OnInit, AfterViewInit, OnDestroy {
   private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
 
   arrCuentasLista: any[];
   formularioItem: FormGroup;
@@ -82,6 +85,8 @@ export default class ItemFormularioComponent
   public valorServicioDefecto = signal<boolean>(false);
   public valorProductoDefecto = signal<boolean>(false);
   public itemEnUso = signal<boolean>(false)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -91,6 +96,7 @@ export default class ItemFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
@@ -114,6 +120,19 @@ export default class ItemFormularioComponent
     }
 
     this._initCamposReactivos();
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -245,7 +264,8 @@ export default class ItemFormularioComponent
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
               let parametrosActuales = { ...parametro };
-              this.router.navigate([`/administrador/lista`], {
+
+              this.router.navigate([`${this._rutas?.lista}`], {
                 queryParams: { ...parametrosActuales },
               });
             });
@@ -275,7 +295,7 @@ export default class ItemFormularioComponent
               } else {
                 this.activatedRoute.queryParams.subscribe((parametro) => {
                   let parametrosActuales = { ...parametro };
-                  this.router.navigate([`/administrador/lista`], {
+                  this.router.navigate([`${this._rutas?.lista}`], {
                     queryParams: { ...parametrosActuales },
                   });
                 });

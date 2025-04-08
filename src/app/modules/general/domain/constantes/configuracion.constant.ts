@@ -129,6 +129,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'general/administracion/lista',
               nuevo: 'general/administracion/nuevo',
+              detalle: 'general/administracion/detalle',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
@@ -174,6 +175,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'general/administracion/lista',
               nuevo: 'general/administracion/nuevo',
+              detalle: 'general/administracion/detalle',
             },
             endpoint: 'general/sede',
             parametrosHttpConfig: {
@@ -192,6 +194,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'general/administracion/lista',
               nuevo: 'general/administracion/nuevo',
+              detalle: 'general/administracion/detalle',
             },
             endpoint: 'general/cuenta_banco',
             parametrosHttpConfig: {

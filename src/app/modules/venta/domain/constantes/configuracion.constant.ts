@@ -271,6 +271,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
@@ -293,6 +294,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/item',
             parametrosHttpConfig: {
@@ -315,6 +317,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/precio',
             parametrosHttpConfig: {
@@ -334,6 +337,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/sede',
             parametrosHttpConfig: {
@@ -353,6 +357,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/precio',
             parametrosHttpConfig: {
@@ -372,6 +377,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/asesor',
             parametrosHttpConfig: {
@@ -391,6 +397,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/resolucion',
             parametrosHttpConfig: {
@@ -421,6 +428,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'venta/administracion/lista',
               nuevo: 'venta/administracion/nuevo',
+              detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/cuenta_banco',
             parametrosHttpConfig: {

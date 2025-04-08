@@ -98,6 +98,7 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'cartera/administracion/lista',
               nuevo: 'cartera/administracion/nuevo',
+              detalle: 'cartera/administracion/detalle',
             },
             endpoint: 'general/cuenta_banco',
             parametrosHttpConfig: {
@@ -118,6 +119,7 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'cartera/administracion/lista',
               nuevo: 'cartera/administracion/nuevo',
+              detalle: 'cartera/administracion/detalle',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {

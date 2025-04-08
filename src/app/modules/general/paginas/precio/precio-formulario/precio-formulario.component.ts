@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -14,6 +14,9 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { PrecioService } from '@modulos/general/servicios/precio.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Subject, takeUntil } from 'rxjs';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-precio-formulario',
@@ -27,13 +30,15 @@ import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-a
     TranslateModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent
-],
+  ],
 })
 export default class PrecioFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   formularioPrecio: FormGroup;
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -43,10 +48,24 @@ export default class PrecioFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultardetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -82,10 +101,10 @@ export default class PrecioFormularioComponent
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
+
                 },
               });
             });
@@ -96,10 +115,9 @@ export default class PrecioFormularioComponent
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });

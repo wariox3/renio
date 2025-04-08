@@ -154,6 +154,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'contabilidad/administracion/lista',
               nuevo: 'contabilidad/administracion/nuevo',
+              detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
@@ -176,6 +177,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'contabilidad/administracion/lista',
               nuevo: 'contabilidad/administracion/nuevo',
+              detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'contabilidad/cuenta',
             parametrosHttpConfig: {
@@ -199,6 +201,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'contabilidad/administracion/lista',
               nuevo: 'contabilidad/administracion/nuevo',
+              detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'contabilidad/grupo',
             parametrosHttpConfig: {
@@ -222,6 +225,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             rutas: {
               lista: 'contabilidad/administracion/lista',
               nuevo: 'contabilidad/administracion/nuevo',
+              detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'contabilidad/grupo',
             parametrosHttpConfig: {

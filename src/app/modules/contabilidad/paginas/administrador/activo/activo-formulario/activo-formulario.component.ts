@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,12 +13,14 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { FechasService } from '@comun/services/fechas.service';
 import { ActivoService } from '@modulos/contabilidad/servicios/activo.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { CuentasComponent } from '../../../../../../comun/componentes/cuentas/cuentas.component';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { SeleccionarActivoGrupoComponent } from '../../../../../../comun/componentes/selectores/seleccionar-activo-grupo/seleccionar-activo-grupo.component';
 import { SeleccionarMetodoDepreciacionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-metodo-depreciacion/seleccionar-metodo-depreciacion.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-grupo-formulario',
@@ -41,11 +43,13 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 })
 export default class ActivoFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   private _formBuilder = inject(FormBuilder);
   private _fechasService = inject(FechasService);
   private _activoService = inject(ActivoService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   public formularioConActivo: FormGroup;
   public cuentaGastoCodigo: string;
@@ -58,12 +62,27 @@ export default class ActivoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
 
     if (this.detalle) {
       this.consultardetalle();
     }
   }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
 
   iniciarFormulario() {
     const fechaActual = this._fechasService.obtenerFechaActualFormateada();
@@ -96,10 +115,9 @@ export default class ActivoFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -112,10 +130,9 @@ export default class ActivoFormularioComponent
             tap((respuesta) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
                   },
                 });
               });
@@ -179,7 +196,7 @@ export default class ActivoFormularioComponent
     });
   }
 
-  limpiarCuentaGastoSeleccionado() {}
+  limpiarCuentaGastoSeleccionado() { }
 
   agregarCuentaDepreciacionSeleccionado(cuenta: any) {
     this.cuentaDepreciacionNombre = cuenta.cuenta_nombre;
@@ -190,7 +207,7 @@ export default class ActivoFormularioComponent
     });
   }
 
-  limpiarCuentaDepreciacionSeleccionado() {}
+  limpiarCuentaDepreciacionSeleccionado() { }
 
   onSeleccionarGrupoChange(id: number) {
     this.formularioConActivo.patchValue({

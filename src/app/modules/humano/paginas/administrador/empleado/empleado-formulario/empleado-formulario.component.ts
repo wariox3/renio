@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -33,13 +33,17 @@ import {
   debounceTime,
   finalize,
   of,
+  Subject,
   switchMap,
+  takeUntil,
   tap,
   throttleTime,
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -59,8 +63,7 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
 })
 export default class EmpleadoFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   formularioEmpleado: FormGroup;
   informacionEmpleado: any;
   ciudadSeleccionada: string | null;
@@ -74,6 +77,9 @@ export default class EmpleadoFormularioComponent
   arrPagos: RegistroAutocompletarGenPlazoPago[];
   guardando$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   selectedDateIndex: number = -1;
 
@@ -88,6 +94,7 @@ export default class EmpleadoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.consultarInformacion();
     this.iniciarFormulario();
     if (this.detalle) {
@@ -108,6 +115,19 @@ export default class EmpleadoFormularioComponent
       .valueChanges.subscribe((value) => {
         this.validarNumeroIdenficacionExistente();
       });
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -223,11 +243,11 @@ export default class EmpleadoFormularioComponent
       if (this.detalle) {
         if (
           parseInt(this.informacionEmpleado.numero_identificacion) !==
-            parseInt(
-              this.formularioEmpleado.get('numero_identificacion')!.value
-            ) ||
+          parseInt(
+            this.formularioEmpleado.get('numero_identificacion')!.value
+          ) ||
           parseInt(this.informacionEmpleado.identificacion_id) !==
-            parseInt(this.formularioEmpleado.get('identificacion')!.value)
+          parseInt(this.formularioEmpleado.get('identificacion')!.value)
         ) {
           this.contactoService
             .validarNumeroIdentificacion({
@@ -259,10 +279,9 @@ export default class EmpleadoFormularioComponent
                     'Se actualizó la información'
                   );
                   this.activatedRoute.queryParams.subscribe((parametro) => {
-                    this.router.navigate([`/administrador/detalle`], {
+                    this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
                       queryParams: {
                         ...parametro,
-                        detalle: respuestaFormulario.id,
                       },
                     });
                   });
@@ -280,10 +299,9 @@ export default class EmpleadoFormularioComponent
             .subscribe((respuestaFormulario) => {
               this.alertaService.mensajaExitoso('Se actualizó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuestaFormulario.id,
                   },
                 });
               });
@@ -317,10 +335,9 @@ export default class EmpleadoFormularioComponent
               if (respuestaFormulario !== null) {
                 this.alertaService.mensajaExitoso('Se guardó la información');
                 this.activatedRoute.queryParams.subscribe((parametro) => {
-                  this.router.navigate([`/administrador/detalle`], {
+                  this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
                     queryParams: {
                       ...parametro,
-                      detalle: respuestaFormulario.id,
                     },
                   });
                 });
@@ -536,11 +553,11 @@ export default class EmpleadoFormularioComponent
     if (this.detalle) {
       if (
         parseInt(this.informacionEmpleado.numero_identificacion) !==
-          parseInt(
-            this.formularioEmpleado.get('numero_identificacion')!.value
-          ) ||
+        parseInt(
+          this.formularioEmpleado.get('numero_identificacion')!.value
+        ) ||
         parseInt(this.informacionEmpleado.identificacion_id) !==
-          parseInt(this.formularioEmpleado.get('identificacion')!.value)
+        parseInt(this.formularioEmpleado.get('identificacion')!.value)
       ) {
         this.contactoService
           .validarNumeroIdentificacion({
