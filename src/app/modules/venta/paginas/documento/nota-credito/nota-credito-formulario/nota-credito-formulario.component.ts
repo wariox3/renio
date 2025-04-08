@@ -186,11 +186,7 @@ export default class FacturaDetalleComponent
     this._consultarInformacion().subscribe();
     this.active = 1;
     this.mostrarDocumentoReferencia.set(true);
-    if (this.parametrosUrl) {
-      this.dataUrl = this.parametrosUrl;
-    }
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
@@ -208,7 +204,7 @@ export default class FacturaDetalleComponent
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle !== undefined) {
+      if (this.detalle !== 0) {
         this._actualizarFactura();
       } else {
         this._guardarFactura();
@@ -231,12 +227,14 @@ export default class FacturaDetalleComponent
         })
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`venta/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
         )
         .subscribe();
