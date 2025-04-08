@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -48,6 +48,8 @@ import {
   BehaviorSubject,
   catchError,
   of,
+  Subject,
+  takeUntil,
   tap,
   throttleTime,
   zip,
@@ -57,6 +59,8 @@ import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.compo
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -87,6 +91,7 @@ export default class FacturaDetalleComponent
   extends General
   implements OnInit, OnDestroy
 {
+  private _configModuleService = inject(ConfigModuleService);
   private _formBuilder = inject(FormBuilder);
   private _facturaService = inject(FacturaService);
   private _httpService = inject(HttpService);
@@ -94,7 +99,10 @@ export default class FacturaDetalleComponent
   private _modalService = inject(NgbModal);
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _generalService = inject(GeneralService);
+  private _destroy$ = new Subject<void>();
+  private _rutas: Rutas | undefined;
 
+  public _modulo: string;
   public active: Number;
   public dataUrl: any;
   public visualizarCampoDocumentoReferencia = false;
@@ -151,6 +159,7 @@ export default class FacturaDetalleComponent
   }
 
   ngOnInit() {
+    this._configurarModuleListener();
     this._consultarInformacion().subscribe(() => {
       this._actualizarPlazoPago(
         this.formularioFactura.get('plazo_pago')?.value,
@@ -172,6 +181,17 @@ export default class FacturaDetalleComponent
 
   ngOnDestroy(): void {
     this._formularioFacturaService.reiniciarFormulario();
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
+  private _configurarModuleListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+        this._modulo = this._configModuleService.modulo() || '';
+      });
   }
 
   private _actualizarPlazoPago(plazoPagoId: number) {
@@ -260,7 +280,7 @@ export default class FacturaDetalleComponent
   private _actualizarFactura() {
     if (this.validarCamposDetalles() === false) {
       this._formularioFacturaService.submitActualizarFactura(
-        'venta',
+        this._modulo,
         this.detalle,
         this.parametrosUrl,
       );
@@ -280,7 +300,7 @@ export default class FacturaDetalleComponent
         .pipe(
           tap((respuesta) => {
             this.router.navigate(
-              [`venta/documento/detalle/${respuesta.documento.id}`],
+              [`${this._rutas?.detalle}/${respuesta.documento.id}`],
               {
                 queryParams: {
                   ...this.parametrosUrl,

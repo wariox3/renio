@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
@@ -17,8 +17,10 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
-import { EMPTY, switchMap, tap } from 'rxjs';
+import { EMPTY, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -42,7 +44,16 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     TituloAccionComponent,
   ],
 })
-export default class FacturaDetalleComponent extends General {
+export default class FacturaDetalleComponent
+  extends General
+  implements OnInit, OnDestroy
+{
+  private _configModuleService = inject(ConfigModuleService);
+
+  private _rutas: Rutas | undefined;
+  private _destroy$ = new Subject<void>();
+
+  public _modulo: string;
   active: Number;
   documento: any = {
     contacto_id: '',
@@ -86,10 +97,30 @@ export default class FacturaDetalleComponent extends General {
   constructor(
     private httpService: HttpService,
     private facturaService: FacturaService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
     super();
     this.consultardetalle();
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this._configurarModuleListener();
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
+  private _configurarModuleListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+        this._modulo = this._configModuleService.modulo() || '';
+      });
   }
 
   consultardetalle() {
@@ -146,17 +177,19 @@ export default class FacturaDetalleComponent extends General {
           return EMPTY;
         }),
         switchMap((respuesta) =>
-          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+          respuesta
+            ? this.facturaService.consultarDetalle(this.detalle)
+            : EMPTY,
         ),
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.documento = respuestaConsultaDetalle.documento;
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -174,18 +207,20 @@ export default class FacturaDetalleComponent extends General {
           return EMPTY;
         }),
         switchMap((respuesta) =>
-          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+          respuesta
+            ? this.facturaService.consultarDetalle(this.detalle)
+            : EMPTY,
         ),
         tap((respuesta: any) => {
           if (respuesta) {
             this.documento = respuesta.documento;
             this._reniciarTotales();
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -260,7 +295,7 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarEditar(id: number) {
-    this.router.navigate([`venta/documento/editar/${id}`], {
+    this.router.navigate([`${this._rutas?.editar}/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
       },
@@ -268,7 +303,7 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarNuevo() {
-    this.router.navigate([`venta/documento/nuevo`], {
+    this.router.navigate([`${this._rutas?.nuevo}`], {
       queryParams: {
         ...this.parametrosUrl,
       },

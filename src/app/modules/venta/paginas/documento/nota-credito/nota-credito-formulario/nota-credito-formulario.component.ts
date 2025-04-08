@@ -31,10 +31,19 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import {
+  asyncScheduler,
+  Subject,
+  takeUntil,
+  tap,
+  throttleTime,
+  zip,
+} from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -63,6 +72,7 @@ export default class FacturaDetalleComponent
 {
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _generalService = inject(GeneralService);
+  private _configModuleService = inject(ConfigModuleService);
 
   public filtrosPermanentesNotaCredito = {};
   public modoEdicion = this._formularioFacturaService.modoEdicion;
@@ -73,6 +83,10 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.mostrarDocumentoReferencia;
   public formularioFactura = this._formularioFacturaService.form;
   public arrSede: RegistroAutocompletarGenSede[] = [];
+  private _destroy$ = new Subject<void>();
+  private _rutas: Rutas | undefined;
+
+  public _modulo: string;
 
   informacionFormulario: any;
   active: Number;
@@ -183,6 +197,7 @@ export default class FacturaDetalleComponent
   }
 
   ngOnInit() {
+    this._configurarModuleListener();
     this._consultarInformacion().subscribe();
     this.active = 1;
     this.mostrarDocumentoReferencia.set(true);
@@ -196,6 +211,17 @@ export default class FacturaDetalleComponent
 
   ngOnDestroy(): void {
     this._formularioFacturaService.reiniciarFormulario();
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
+  private _configurarModuleListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+        this._modulo = this._configModuleService.modulo() || '';
+      });
   }
 
   get detalles() {
@@ -228,7 +254,7 @@ export default class FacturaDetalleComponent
         .pipe(
           tap((respuesta) => {
             this.router.navigate(
-              [`venta/documento/detalle/${respuesta.documento.id}`],
+              [`${this._rutas?.detalle}/${respuesta.documento.id}`],
               {
                 queryParams: {
                   ...this.parametrosUrl,
@@ -244,7 +270,7 @@ export default class FacturaDetalleComponent
   private _actualizarFactura() {
     if (this.validarCamposDetalles() === false) {
       this._formularioFacturaService.submitActualizarFactura(
-        'venta',
+        this._modulo,
         this.detalle,
         this.parametrosUrl,
       );
