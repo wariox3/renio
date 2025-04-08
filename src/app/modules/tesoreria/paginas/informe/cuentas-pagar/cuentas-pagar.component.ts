@@ -17,6 +17,7 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
 import { GeneralService } from '@comun/services/general.service';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-cuentas-pagar',
@@ -52,6 +53,8 @@ export class CuentasPagarComponent extends General implements OnInit {
 
   private readonly _generalService = inject(GeneralService);
   private readonly descargarArchivosService = inject(DescargarArchivosService);
+  public _modelo = 'CUENTASPAGAR'
+  public _tipo = 'DOCUMENTO'
 
   constructor() {
     super();
@@ -60,7 +63,7 @@ export class CuentasPagarComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['cuentas_pagar'] })
+        ActualizarMapeo({ dataMapeo: documentos['cuentas_pagar'] }),
       );
       this.consultarLista();
     });

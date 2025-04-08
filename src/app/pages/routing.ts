@@ -3,24 +3,24 @@ import { validarRutaGuard } from '@guardias/validar-ruta.guard';
 
 let redirectToValue: string = '/inicio';
 
-function getRedirectTo(): string {
-  // Aquí puedes agregar tu lógica para determinar el valor de redirección
-  // basado en la variable o cualquier otra condición
-  let dominioActual = window.location.host;
-  let esSubdominio = dominioActual.split('.').length > 2;
+// function getRedirectTo(): string {
+//   // Aquí puedes agregar tu lógica para determinar el valor de redirección
+//   // basado en la variable o cualquier otra condición
+//   let dominioActual = window.location.host;
+//   let esSubdominio = dominioActual.split('.').length > 2;
 
-  if (esSubdominio) {
-    redirectToValue = '/dashboard';
-  }
-  return redirectToValue;
-}
+//   if (esSubdominio) {
+//     redirectToValue = '/dashboard';
+//   }
+//   return redirectToValue;
+// }
 
 const Routing: Routes = [
   {
-    path: 'dashboard',
+    path: 'general',
     canActivate: [validarRutaGuard],
     loadChildren: () =>
-      import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
+      import('../modules/general/general-routing').then((m) => m.routes),
   },
   {
     path: 'profile',
@@ -44,7 +44,9 @@ const Routing: Routes = [
     path: 'contabilidad',
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
-      import('../modules/contabilidad/contabilidad-routing').then((r) => r.routes),
+      import('../modules/contabilidad/contabilidad-routing').then(
+        (r) => r.routes,
+      ),
   },
   {
     path: 'humano',
@@ -91,7 +93,9 @@ const Routing: Routes = [
   {
     path: 'facturacion',
     loadChildren: () =>
-      import('../modules/facturacion/facturacion-routing').then((r) => r.routes),
+      import('../modules/facturacion/facturacion-routing').then(
+        (r) => r.routes,
+      ),
     data: { layout: 'dark-header' },
   },
   {
@@ -106,80 +110,80 @@ const Routing: Routes = [
     loadChildren: () =>
       import('../modules/transporte/transporte-routing').then((r) => r.routes),
   },
-  {
-    path: 'administrador',
-    canActivateChild: [validarRutaGuard],
-    children: [
-      {
-        path: 'lista',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-administracion/base-lista/base-lista.component'
-          ).then((c) => c.BaseListaComponent),
-      },
-      {
-        path: 'nuevo',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
-          ).then((c) => c.BaseNuevoComponent),
-      },
-      {
-        path: 'editar',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
-          ).then((c) => c.BaseNuevoComponent),
-      },
-      {
-        path: 'detalle',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-administracion/base-detalle/base-detalle.component'
-          ).then((c) => c.BaseDetalleComponent),
-      },
-    ],
-  },
-  {
-    path: 'documento',
-    canActivateChild: [validarRutaGuard],
-    children: [
-      {
-        path: 'lista',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-lista/base-lista.component'
-          ).then((c) => c.BaseListaComponent),
-      },
-      {
-        path: 'nuevo',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
-          ).then((c) => c.BaseNuevoComponent),
-      },
-      {
-        path: 'editar',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
-          ).then((c) => c.BaseNuevoComponent),
-      },
-      {
-        path: 'detalle',
-        loadComponent: () =>
-          import(
-            '../comun/componentes/base-documento/base-detalle/base-detalle.component'
-          ).then((c) => c.BaseDetalleComponent),
-      },
-    ],
-  },
+  // {
+  //   path: 'administrador',
+  //   canActivateChild: [validarRutaGuard],
+  //   children: [
+  //     {
+  //       path: 'lista',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-administracion/base-lista/base-lista.component'
+  //         ).then((c) => c.BaseListaComponent),
+  //     },
+  //     {
+  //       path: 'nuevo',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
+  //         ).then((c) => c.BaseNuevoComponent),
+  //     },
+  //     {
+  //       path: 'editar',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
+  //         ).then((c) => c.BaseNuevoComponent),
+  //     },
+  //     {
+  //       path: 'detalle',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-administracion/base-detalle/base-detalle.component'
+  //         ).then((c) => c.BaseDetalleComponent),
+  //     },
+  //   ],
+  // },
+  // {
+  //   path: 'documento',
+  //   canActivateChild: [validarRutaGuard],
+  //   children: [
+  //     {
+  //       path: 'lista',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-lista/base-lista.component'
+  //         ).then((c) => c.BaseListaComponent),
+  //     },
+  //     {
+  //       path: 'nuevo',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+  //         ).then((c) => c.BaseNuevoComponent),
+  //     },
+  //     {
+  //       path: 'editar',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
+  //         ).then((c) => c.BaseNuevoComponent),
+  //     },
+  //     {
+  //       path: 'detalle',
+  //       loadComponent: () =>
+  //         import(
+  //           '../comun/componentes/base-documento/base-detalle/base-detalle.component'
+  //         ).then((c) => c.BaseDetalleComponent),
+  //     },
+  //   ],
+  // },
   {
     path: 'estado',
     loadComponent: () =>
-      import('../comun/componentes/facturacion-mensaje-pago/facturacion-mensaje-pago.component').then(
-        (c) => c.FacturacionMensajePagoComponent
-      ),
+      import(
+        '../comun/componentes/facturacion-mensaje-pago/facturacion-mensaje-pago.component'
+      ).then((c) => c.FacturacionMensajePagoComponent),
     data: { layout: 'dark-header' },
   },
   {
@@ -188,18 +192,18 @@ const Routing: Routes = [
       {
         path: 'graficas',
         loadComponent: () =>
-          import(
-            '../comun/componentes/laboratorio/laboratorio.component'
-          ).then((c) => c.LaboratorioComponent),
+          import('../comun/componentes/laboratorio/laboratorio.component').then(
+            (c) => c.LaboratorioComponent,
+          ),
       },
     ],
     data: { layout: 'dark-header' },
   },
-  {
-    path: '',
-    redirectTo: getRedirectTo(),
-    pathMatch: 'full',
-  },
+  // {
+  //   path: '',
+  //   redirectTo: getRedirectTo(),
+  //   pathMatch: 'full',
+  // },
   {
     path: '**',
     redirectTo: 'error/404',

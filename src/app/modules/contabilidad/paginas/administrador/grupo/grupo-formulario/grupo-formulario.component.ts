@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -14,8 +14,10 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.va
 import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.interface';
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
 import { TranslateModule } from '@ngx-translate/core';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-grupo-formulario',
@@ -34,9 +36,13 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 })
 export default class GrupoFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   formularioConGrupo: FormGroup;
+
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,10 +52,24 @@ export default class GrupoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultardetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -73,10 +93,9 @@ export default class GrupoFormularioComponent
           .subscribe((respuesta: ConGrupo) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -89,10 +108,9 @@ export default class GrupoFormularioComponent
             tap((respuesta: ConGrupo) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
                   },
                 });
               });

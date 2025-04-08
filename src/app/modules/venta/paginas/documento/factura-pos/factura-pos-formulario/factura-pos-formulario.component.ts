@@ -158,13 +158,7 @@ export default class FacturaPosFormularioComponent
 
     this.active = 1; // navigation tab
 
-    if (this.parametrosUrl) {
-      this.dataUrl = this.parametrosUrl;
-    }
-
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
@@ -253,7 +247,7 @@ export default class FacturaPosFormularioComponent
       }
     }
 
-    if (this.detalle !== undefined) {
+    if (this.detalle !== 0) {
       this._actualizarFactura();
     } else {
       this._guardarFactura();
@@ -263,6 +257,7 @@ export default class FacturaPosFormularioComponent
   private _actualizarFactura() {
     if (this.validarCamposDetalles() === false) {
       this._formularioFacturaService.submitActualizarFactura(
+        'venta',
         this.detalle,
         this.parametrosUrl,
       );
@@ -281,12 +276,14 @@ export default class FacturaPosFormularioComponent
         })
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`venta/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);

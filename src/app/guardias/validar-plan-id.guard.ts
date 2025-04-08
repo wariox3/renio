@@ -24,7 +24,7 @@ export const ValidarPlanIdGuard: CanActivateFn = (route, state) => {
     .subscribe();
 
   if (!persimsos) {
-    router.navigate(['/dashboard']);
+    router.navigate(['/general']);
     setTimeout(() => {
       alerta.mensajeError(
         'Error',

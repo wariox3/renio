@@ -67,6 +67,7 @@ export class FacturaFormularioDocumentoComponent
     'nombre_corto',
   ];
 
+  // TODO: corregir 
   public campoListaContacto: CampoLista[] = [
     {
       propiedad: 'id',

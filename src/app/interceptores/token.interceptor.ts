@@ -6,7 +6,6 @@ import {
 } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { TokenService } from '../modules/auth/services/token.service';
-import { AuthService } from '../modules/auth/services/auth.service';
 
 const requiereToken = new HttpContextToken<boolean>(() => true);
 

@@ -68,7 +68,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   formularioFiltros: FormGroup;
   formularioFiltrosModal: FormGroup;
   listaFiltros: Listafiltros[] = [];
-  modelo: any = this.modelo;
+  @Input({required : false}) modelo: string = '';
   tituloModal: string;
   arrPropiedades: any = [];
   arrPropiedadBusquedaAvanzada: any = [];
@@ -94,6 +94,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     defecto?: boolean;
   }[][] = [];
   @Input() modeloPersonalizado: string = '';
+  @Input() _tipo: string = '';
   @Input() nombreFiltroCustom: string = '';
   @Input() propiedades: Listafiltros[];
   @Input() persistirFiltros: boolean = true;
@@ -112,11 +113,6 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.initForm();
     this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      if (this.modeloPersonalizado !== '') {
-        this.tipo = this.modeloPersonalizado;
-      } else {
-        this.tipo = parametro.itemTipo!;
-      }
       let tipo = window.location.pathname.split('/')[1];
       this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
 

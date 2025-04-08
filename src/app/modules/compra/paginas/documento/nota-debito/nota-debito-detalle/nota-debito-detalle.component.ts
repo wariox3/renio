@@ -182,13 +182,10 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    this.router.navigate([`compra/documento/editar/${id}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 

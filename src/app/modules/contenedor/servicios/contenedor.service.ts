@@ -1,133 +1,133 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '@env/environment';
+import { Subdominio } from '@comun/clases/subdomino';
+import { FechasService } from '@comun/services/fechas.service';
+import { Consumo } from '@interfaces/contenedor/consumo';
+import { Movimientos } from '@interfaces/facturacion/Facturacion';
+import { Regimen } from '@interfaces/general/regimen.interface';
+import { TipoIdentificacionLista } from '@interfaces/general/tipo-identificacion.interface';
+import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
 import {
   Contenedor,
   ContenedorFormulario,
   ContenedorInvitacion,
   ContenedorLista,
 } from '@interfaces/usuario/contenedor';
-import { FechasService } from '@comun/services/fechas.service';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
-import { Consumo } from '@interfaces/contenedor/consumo';
 import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
-import { TipoIdentificacionLista } from '@interfaces/general/tipo-identificacion.interface';
-import { Regimen } from '@interfaces/general/regimen.interface';
-import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
-import { Movimientos } from '@interfaces/facturacion/Facturacion';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ContenedorService {
-  constructor(private http: HttpClient, private fechaServices: FechasService) {}
+export class ContenedorService extends Subdominio {
+  constructor(
+    private http: HttpClient,
+    private fechaServices: FechasService,
+  ) {
+    super();
+  }
 
   lista(usuario_id: number) {
     return this.http.post<ContenedorLista>(
-      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-usuario/`,
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/consulta-usuario/`,
       {
         usuario_id,
         reddoc: true,
-      }
+      },
     );
   }
 
   nuevo(data: ContenedorFormulario, usuario_id: number) {
-    return this.http.post(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/`,
-      {
-        ...data,
-        usuario_id,
-      }
-    );
+    return this.http.post(`${this.URL_API_BASE}/contenedor/contenedor/`, {
+      ...data,
+      usuario_id,
+    });
   }
 
   detalle(codigoContenedor: number) {
     return this.http.get<Contenedor>(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/${codigoContenedor}/`
+      `${this.URL_API_BASE}/contenedor/contenedor/${codigoContenedor}/`,
     );
   }
 
   consultarNombre(subdominio: string) {
     return this.http.post<{ validar: boolean }>(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/validar/`,
+      `${this.URL_API_BASE}/contenedor/contenedor/validar/`,
       {
         subdominio,
-      }
+      },
     );
   }
 
   consultarInformacion(empresa_id: Number | string) {
     return this.http.get<ContenedorFormulario>(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`
+      `${this.URL_API_BASE}/contenedor/contenedor/${empresa_id}/`,
     );
   }
 
   editar(
     data: ContenedorFormulario,
     codigoUsuario: number,
-    empresa_id: number
+    empresa_id: number,
   ) {
     return this.http.put(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`,
+      `${this.URL_API_BASE}/contenedor/contenedor/${empresa_id}/`,
       {
         nombre: data.nombre,
         subdominio: data.subdominio,
         plan: data.plan_id,
         usuario: codigoUsuario,
-      }
+      },
     );
   }
 
   enviarInvitacion(data: ContenedorInvitacion) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/invitar/`,
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/invitar/`,
       {
         accion: 'invitar',
         contenedor_id: data.contenedor_id,
         usuario_id: data.usuario_id,
         invitado: data.invitado,
-      }
+      },
     );
   }
 
   listaInvitaciones(contenedor_id: number) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/consulta-contenedor/`,
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/consulta-contenedor/`,
       {
         contenedor_id,
-      }
+      },
     );
   }
 
   eliminarEmpresa(empresa_id: Number) {
     return this.http.delete(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/${empresa_id}/`
+      `${this.URL_API_BASE}/contenedor/contenedor/${empresa_id}/`,
     );
   }
 
   eliminarEmpresaUsuario(usuario_id: Number) {
     return this.http.delete(
-      `${environment.URL_API_MUUP}/contenedor/usuariocontenedor/${usuario_id}/`
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/${usuario_id}/`,
     );
   }
 
   listaPlanes() {
-    return this.http.get<Plan[]>(
-      `${environment.URL_API_MUUP}/contenedor/plan/`
-    );
+    return this.http.get<Plan[]>(`${this.URL_API_BASE}/contenedor/plan/`);
   }
 
   listaCiudades(arrFiltros: any) {
     return this.http.post<Ciudad[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
-      arrFiltros
+      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
+      arrFiltros,
     );
   }
 
   listaTipoIdentificacion() {
     return this.http.post<TipoIdentificacionLista[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
       {
         filtros: [],
         limite: 10,
@@ -135,13 +135,13 @@ export class ContenedorService {
         ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'CtnIdentificacion',
-      }
+      },
     );
   }
 
   listaRegimen() {
     return this.http.post<Regimen[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
       {
         filtros: [],
         limite: 10,
@@ -149,13 +149,13 @@ export class ContenedorService {
         ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'CtnRegimen',
-      }
+      },
     );
   }
 
   listaTipoPersona() {
     return this.http.post<TipoPersona[]>(
-      `${environment.URL_API_MUUP}/contenedor/funcionalidad/lista-autocompletar/`,
+      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
       {
         filtros: [],
         limite: 10,
@@ -163,17 +163,17 @@ export class ContenedorService {
         ordenamientos: [],
         limite_conteo: 10000,
         modelo: 'CtnTipoPersona',
-      }
+      },
     );
   }
 
   cargarLogo(empresa_id: Number | string, imagenB64: string) {
     return this.http.post<{ cargar: boolean; imagen: string }>(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/cargar-logo/`,
+      `${this.URL_API_BASE}/contenedor/contenedor/cargar-logo/`,
       {
         empresa_id,
         imagenB64,
-      }
+      },
     );
   }
 
@@ -181,73 +181,73 @@ export class ContenedorService {
     return this.http.post<{
       limpiar: boolean;
       imagen: string;
-    }>(`${environment.URL_API_MUUP}/contenedor/contenedor/limpiar-logo/`, {
+    }>(`${this.URL_API_BASE}/contenedor/contenedor/limpiar-logo/`, {
       empresa_id,
     });
   }
 
   consultarConsumoFecha(empresa_id: Number | string) {
     return this.http.post<Consumo>(
-      `${environment.URL_API_MUUP}/contenedor/consumo/consulta-empresa-fecha/`,
+      `${this.URL_API_BASE}/contenedor/consumo/consulta-empresa-fecha/`,
       {
         empresa_id,
         fechaDesde: this.fechaServices.obtenerPrimerDiaDelMes(new Date()),
         fechaHasta: this.fechaServices.obtenerUltimoDiaDelMes(new Date()),
-      }
+      },
     );
   }
 
   contenedorGenerarIntegridad(data: any) {
     return this.http.post<{ hash: string }>(
-      `${environment.URL_API_MUUP}/contenedor/movimiento/generar-integridad/`,
+      `${this.URL_API_BASE}/contenedor/movimiento/generar-integridad/`,
       {
         ...data,
-      }
+      },
     );
   }
 
   consultaUsuario(usuario_id: number) {
     return this.http.post<Movimientos>(
-      `${environment.URL_API_MUUP}/contenedor/movimiento/consulta-usuario/`,
+      `${this.URL_API_BASE}/contenedor/movimiento/consulta-usuario/`,
       {
         usuario_id,
-      }
+      },
     );
   }
 
   descargarDocumento(documento_id: any) {
     return this.http.post<any>(
-      `${environment.URL_API_MUUP}/contenedor/movimiento/descargar/`,
+      `${this.URL_API_BASE}/contenedor/movimiento/descargar/`,
       {
         id: documento_id,
-      }
+      },
     );
   }
 
   reenviarCorreoVerificacion(usuario_id: string) {
     return this.http.post<Movimientos>(
-      `${environment.URL_API_MUUP}/contenedor/verificacion/reenviar-verificacion/ `,
+      `${this.URL_API_BASE}/contenedor/verificacion/reenviar-verificacion/ `,
       {
         usuario_id,
-      }
+      },
     );
   }
 
   consultarMovimientoSocio(socio_id: string) {
     return this.http.post(
-      `${environment.URL_API_MUUP}/contenedor/movimiento/consulta-socio/`,
+      `${this.URL_API_BASE}/contenedor/movimiento/consulta-socio/`,
       {
         socio_id,
-      }
+      },
     );
   }
 
   contenedorConectar(subdominio: string) {
     return this.http.post<Contenedor>(
-      `${environment.URL_API_MUUP}/contenedor/contenedor/conectar/`,
+      `${this.URL_API_BASE}/contenedor/contenedor/conectar/`,
       {
         subdominio,
-      }
+      },
     );
   }
 

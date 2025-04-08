@@ -63,7 +63,7 @@
         </button>
         <app-comun-documento-opciones
           [opciones]="{
-            modelo: 'ConMovimiento',
+            modelo: 'GenDocumento',
           }"
           (itemDesaprobadoEvent)="itemDesaprobadoEvent()"
           [opcionesDesaprobarBoton]="{
@@ -88,7 +88,7 @@
 </div>
 <app-card>
   <section card-titulo>
-    <app-comun-titulo-accion></app-comun-titulo-accion>
+    <app-comun-titulo-accion [nombreModelo]="'facturapos'"></app-comun-titulo-accion>
   </section>
   <section card-propiedades></section>
   <section card-body>

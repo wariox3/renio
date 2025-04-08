@@ -32,18 +32,18 @@
                 {{
                   propiedad.esFk
                     ? ("LISTAS." +
-                        (tipo | uppercase) +
+                        (_tipo | uppercase) +
                         "." +
                         (propiedad.modeloFk.substring(3) | uppercase)
                       | translate)
                     : propiedad.nombreAbreviadoFiltro
                     ? ("LISTAS." +
-                        (tipo | uppercase) +
+                        (_tipo | uppercase) +
                         "." +
                         (propiedad.nombreAbreviadoFiltro | uppercase)
                       | translate)
                     : ("LISTAS." +
-                        (tipo | uppercase) +
+                        (_tipo | uppercase) +
                         "." +
                         (propiedad.nombre | uppercase) | translate)
                 }}

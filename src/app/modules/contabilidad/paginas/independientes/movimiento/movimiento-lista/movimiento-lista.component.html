@@ -3,6 +3,7 @@
     <app-base-filtro
       (emitirFiltros)="obtenerFiltros($event)"
       [persistirFiltros]="false"
+      [_tipo]="'DOCUMENTO'"
     ></app-base-filtro>
   </section>
 </app-card>
@@ -10,7 +11,7 @@
   <section card-body>
     <div class="table-responsive-sm table-loading">
       <app-comun-tabla
-        [modelo]="modelo"
+        [modelo]="'ConMovimiento'"
         [datos]="arrDocumentos"
         [cantidad_registros]="cantidad_registros"
         [visualizarColumnaEditar]="false"

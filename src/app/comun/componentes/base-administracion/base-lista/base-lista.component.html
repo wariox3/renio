@@ -6,6 +6,7 @@
         <app-base-filtro
           (emitirFiltros)="obtenerFiltros($event)"
           [persistirFiltros]="false"
+          [_tipo]="nombreModelo!"
         ></app-base-filtro>
       </section>
     </app-card>
@@ -15,17 +16,15 @@
       <section card-titulo>
         <ng-container *ngIf="submodelo !== undefined; else elseTemplate">
           {{ "MENU.FUNCIONALIDAD." + (submodelo | uppercase) | translate }}
-
         </ng-container>
         <ng-template #elseTemplate>
-          {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate }}
-
+          {{ "MENU.FUNCIONALIDAD." + (_modelo | uppercase) | translate }}
         </ng-template>
-
       </section>
       <section card-body>
         <app-comun-tabla
-          [modelo]="modelo"
+          [modelo]="_modelo!"
+          [_tipo]="nombreModelo!"
           [datos]="arrItems"
           [encabezado]="titulos"
           [cantidad_registros]="cantidad_registros"

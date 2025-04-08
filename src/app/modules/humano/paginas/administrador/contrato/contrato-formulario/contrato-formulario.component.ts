@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  OnDestroy,
   OnInit,
 } from '@angular/core';
 import {
@@ -29,7 +30,7 @@ import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { asyncScheduler, Subject, takeUntil, tap, throttleTime, zip } from 'rxjs';
 import { BuscarEmpleadoComponent } from '../../../../../../comun/componentes/buscar-empleado/buscar-empleado.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumPension } from '@interfaces/comunes/autocompletar/humano/hum-pension.interface';
@@ -47,6 +48,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 import { RegistroAutocompletarHumTiempo } from '@interfaces/comunes/autocompletar/humano/hum-tiempo.interface';
 import { RegistroAutocompletarHumTipoCosto } from '@interfaces/comunes/autocompletar/humano/hum-tipo-costo.interface';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -71,8 +74,7 @@ import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/f
 })
 export default class ContratoFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   formularioContrato: FormGroup;
   arrEmpleados: any[] = [];
   arrGrupo: any[] = [];
@@ -121,6 +123,10 @@ export default class ContratoFormularioComponent
     valor1: true,
   };
   private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -132,6 +138,7 @@ export default class ContratoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.consultarInformacion();
     this.iniciarFormulario();
     if (this.detalle) {
@@ -140,6 +147,20 @@ export default class ContratoFormularioComponent
       this.consultarSalario();
     }
   }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
 
   iniciarFormulario() {
     const fechaActual = new Date(); // Obtener la fecha actual
@@ -223,10 +244,10 @@ export default class ContratoFormularioComponent
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
-                  detalle: respuesta.id,
+
                 },
               });
             });
@@ -239,10 +260,9 @@ export default class ContratoFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
                   },
                 });
               });

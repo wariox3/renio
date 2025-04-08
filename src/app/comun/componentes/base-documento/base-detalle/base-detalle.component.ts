@@ -1,6 +1,7 @@
 import {
   AfterViewInit,
   Component,
+  inject,
   OnInit,
   ViewChild,
   ViewContainerRef,
@@ -10,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { Componentes } from '@comun/extra/imports/documentos';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Modelo } from '@comun/type/modelo.type';
 
 @Component({
   selector: 'app-comun-base-detalle',
@@ -18,6 +21,9 @@ import { Componentes } from '@comun/extra/imports/documentos';
   imports: [CommonModule, RouterModule, TranslateModule],
 })
 export class BaseDetalleComponent extends General implements OnInit {
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private key: number | Modelo | null | undefined;
+
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -32,7 +38,8 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    const componenteClase = Componentes[this.parametrosUrl?.documento_clase as any];
+    this.key = this._configModuleService.key;
+    const componenteClase = Componentes[this.key!];
     if (componenteClase && componenteClase.detalle) {
       let componete = await (await componenteClase.detalle()).default;
       let componeteCargado = this.componenteDinamico.createComponent(componete);

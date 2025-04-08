@@ -38,7 +38,7 @@ import { OperacionesService } from '@comun/componentes/factura/services/operacio
   ],
 })
 export default class FacturaDetalleComponent extends General {
-  private _operacionesService = inject(OperacionesService)
+  private _operacionesService = inject(OperacionesService);
 
   active: Number;
   documento: any = {
@@ -80,7 +80,7 @@ export default class FacturaDetalleComponent extends General {
 
   constructor(
     private httpService: HttpService,
-    private facturaService: FacturaService
+    private facturaService: FacturaService,
   ) {
     super();
     this.consultardetalle();
@@ -144,17 +144,19 @@ export default class FacturaDetalleComponent extends General {
           return EMPTY;
         }),
         switchMap((respuesta) =>
-          respuesta ? this.facturaService.consultarDetalle(this.detalle) : EMPTY
+          respuesta
+            ? this.facturaService.consultarDetalle(this.detalle)
+            : EMPTY,
         ),
         tap((respuestaConsultaDetalle: any) => {
           if (respuestaConsultaDetalle) {
             this.documento = respuestaConsultaDetalle.documento;
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }
@@ -183,18 +185,19 @@ export default class FacturaDetalleComponent extends General {
   }
 
   navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    this.router.navigate([`compra/documento/editar/${id}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo();
+    this.router.navigate([`compra/documento/nuevo`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
+    });
   }
 
   anular() {
@@ -214,14 +217,14 @@ export default class FacturaDetalleComponent extends General {
             this.consultardetalle();
             this._reniciarTotales();
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOANULADO'),
             );
           }
-        })
+        }),
       )
       .subscribe();
   }
-  
+
   private _reniciarTotales() {
     this.totalCantidad = 0;
     this.subtotalGeneral = 0;

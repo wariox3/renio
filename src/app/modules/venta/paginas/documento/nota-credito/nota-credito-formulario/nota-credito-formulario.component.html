@@ -2,7 +2,7 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion></app-comun-titulo-accion>
+      <app-comun-titulo-accion [nombreModelo]="'notacredito'"></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -88,10 +88,7 @@
       </div>
       <div class="row mb-5">
         <div
-          class="col-12 col-md-3"
-          [ngClass]="
-            dataUrl.documento_clase === '1' ? 'col-12 col-3' : 'col-12 col-md-6'
-          "
+          class="col-12 col-md-6"
         >
           <label
             class="form-label required"

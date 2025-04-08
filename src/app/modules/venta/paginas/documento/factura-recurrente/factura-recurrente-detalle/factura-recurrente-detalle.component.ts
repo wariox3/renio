@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
@@ -15,9 +15,11 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
-import { EMPTY, switchMap, tap } from 'rxjs';
+import { EMPTY, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -40,7 +42,7 @@ import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/
     DocumentoOpcionesComponent,
   ],
 })
-export default class FacturaRecurrenteDetalleComponent extends General {
+export default class FacturaRecurrenteDetalleComponent extends General implements OnInit, OnDestroy {
   active: Number;
   documento: any = {
     contacto_id: '',
@@ -80,14 +82,40 @@ export default class FacturaRecurrenteDetalleComponent extends General {
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
+  private _configModuleService = inject(ConfigModuleService);
+
+  private _rutas: Rutas | undefined;
+  private _destroy$ = new Subject<void>();
+  public _modulo: string;
+
   constructor(
     private httpService: HttpService,
     private facturaService: FacturaService,
     private modalService: NgbModal
   ) {
     super();
+
+  }
+
+  ngOnInit(): void {
+    this._configurarModuleListener();
     this.consultardetalle();
   }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
+  private _configurarModuleListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+        this._modulo = this._configModuleService.modulo() || '';
+      });
+  }
+  
 
   consultardetalle() {
     this.facturaService
@@ -253,18 +281,19 @@ export default class FacturaRecurrenteDetalleComponent extends General {
   }
 
   navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    this.router.navigate([`${this._rutas?.editar}/${id}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo();
+    this.router.navigate([`${this._rutas?.nuevo}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
+    });
   }
 
   private _reniciarTotales() {

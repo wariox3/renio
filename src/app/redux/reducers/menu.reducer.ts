@@ -186,6 +186,7 @@ export const initialState: MenuItem = {
                 ordenamiento: '-id',
               },
               modulo: 'compra',
+              url: 'compra/administracion/lista',
               archivoImportacionLista: 'GenItem.xlsx',
             },
             {
@@ -200,9 +201,9 @@ export const initialState: MenuItem = {
               ],
               data: {
                 modelo: 'GenContacto',
-                importarSoloNuevos: 'si',
               },
               modulo: 'compra',
+              url: 'compra/administracion/lista',
               archivoImportacionLista: 'GenContacto.xlsx',
             },
             {
@@ -210,6 +211,7 @@ export const initialState: MenuItem = {
               tipo: 'administrador',
               modulo: 'compra',
               data: { modelo: 'GenResolucion', resoluciontipo: 'compra' },
+              url: 'compra/administracion/lista',
             },
             {
               nombre: 'FORMAPAGO',
@@ -219,6 +221,7 @@ export const initialState: MenuItem = {
                 modelo: 'GenFormaPago',
                 ordenamiento: 'id',
               },
+              url: 'compra/administracion/lista',
             },
           ],
         },
@@ -359,7 +362,6 @@ export const initialState: MenuItem = {
               modulo: 'contabilidad',
               data: {
                 modelo: 'GenContacto',
-                importarSoloNuevos: 'si',
               },
               maestros: [
                 {
@@ -657,7 +659,6 @@ export const initialState: MenuItem = {
                 modelo: 'GenContacto',
                 submodelo: 'GenEmpleado',
                 ordenamiento: '-id',
-                importarSoloNuevos: 'si',
               },
               archivoImportacionLista: 'GenContacto.xlsx',
             },
@@ -856,7 +857,6 @@ export const initialState: MenuItem = {
               modulo: 'venta',
               data: {
                 modelo: 'GenContacto',
-                importarSoloNuevos: 'si',
               },
               maestros: [
                 {

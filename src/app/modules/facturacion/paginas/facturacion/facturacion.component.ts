@@ -177,6 +177,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   }
 
   habitarBtnWompi(hash: string, referencia: string) {
+    // TODO: pendiente por refactorizar
     let url = 'http://localhost:4200/estado';
     if (environment.production) {
       url = `${environment.dominioHttp}://${environment.dominioApp.slice(

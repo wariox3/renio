@@ -1,8 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { Componentes } from '@comun/extra/imports/administradores';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Modelo } from '@comun/type/modelo.type';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -13,6 +20,8 @@ import { TranslateModule } from '@ngx-translate/core';
   imports: [CommonModule, RouterModule, TranslateModule],
 })
 export class BaseDetalleComponent extends General implements OnInit {
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private key: number | Modelo | null | undefined;
   generarPDF = false;
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
@@ -27,15 +36,15 @@ export class BaseDetalleComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    this.activatedRoute.queryParams.subscribe((parametros) => {
-      this.modelo = parametros.itemNombre!;
-      if (parametros.submodelo) {
-        this.modelo = parametros.submodelo;
-        this.changeDetectorRef.detectChanges();
-      }
-    });
+    // this.activatedRoute.queryParams.subscribe((parametros) => {
+    this.key = this._configModuleService.key;
+    // if (parametros.submodelo) {
+    //   this.modelo = parametros.submodelo;
+    //   this.changeDetectorRef.detectChanges();
+    // }
+    // });
 
-    let posicion: keyof typeof Componentes = this.modelo as Modelo;
+    let posicion: keyof typeof Componentes = this.key as Modelo;
     let componete = await (await Componentes[posicion]!.detalle()).default;
     let componeteCargado = this.componenteDinamico.createComponent(componete);
     componeteCargado.changeDetectorRef.detectChanges();

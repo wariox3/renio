@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -17,6 +17,9 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
 import { validarConsecutivos } from '@comun/validaciones/validar-resolucion-consecutivos.validator';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { validarRangoDeFechas } from '@comun/validaciones/rango-fechas.validator';
+import { Subject, takeUntil } from 'rxjs';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-resolucion-nuevo',
@@ -37,8 +40,7 @@ import { validarRangoDeFechas } from '@comun/validaciones/rango-fechas.validator
 })
 export default class ResolucionFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   formularioResolucion: FormGroup;
   @Input() ocultarBtnAtras: Boolean = false;
   @Input() tipoRolucion: 'compra' | 'venta' | null = null;
@@ -46,6 +48,9 @@ export default class ResolucionFormularioComponent
   @Input() editarInformacion: Boolean = false;
   @Input() idEditarInformacion: number | null = null;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,10 +60,24 @@ export default class ResolucionFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     if (this.detalle || this.editarInformacion) {
       this.consultardetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -148,10 +167,10 @@ export default class ResolucionFormularioComponent
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
+
                   },
                 });
               });
@@ -169,10 +188,9 @@ export default class ResolucionFormularioComponent
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`/administrador/detalle`], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametro,
-                    detalle: respuesta.id,
                   },
                 });
               });

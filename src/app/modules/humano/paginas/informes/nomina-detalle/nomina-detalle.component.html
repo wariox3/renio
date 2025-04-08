@@ -3,14 +3,16 @@
     <app-base-filtro
       (emitirFiltros)="obtenerFiltros($event)"
       [persistirFiltros]="false"
+      [_tipo]="'DOCUMENTO'"
     ></app-base-filtro>
   </section>
 </app-card>
-<app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+<app-card [titulo]="'MENU.FUNCIONALIDAD.NOMINADETALLE'">
   <section card-body>
     <div class="table-responsive-sm table-loading">
       <app-comun-tabla
-        [modelo]="modelo"
+        [modelo]="'NOMINADETALLE'"
+        [_tipo]="'DOCUMENTO'"
         [datos]="arrDocumentos"
         [cantidad_registros]="cantidad_registros"
         [visualizarColumnaEditar]="false"

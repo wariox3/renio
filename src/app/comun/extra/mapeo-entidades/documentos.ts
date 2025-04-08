@@ -4,6 +4,7 @@ import { documento101 } from './documentos/101.documento';
 import { documento102 } from './documentos/102.documento';
 import { documento103 } from './documentos/103.documento';
 import { documento104 } from './documentos/104.documento';
+import { documento105 } from './documentos/105.documento';
 import { documento200 } from './documentos/200.documento';
 import { documento201 } from './documentos/201.documento';
 import { documento300 } from './documentos/300.documento';
@@ -16,17 +17,13 @@ import { documento401 } from './documentos/401.documento';
 import { documento500 } from './documentos/500.documento';
 import { documento501 } from './documentos/501.documento';
 import { documento601 } from './documentos/601.documento';
+import { documento603 } from './documentos/603.documento';
 import { documento701 } from './documentos/701.documento';
 import { documento702 } from './documentos/702.documento';
-import { documentoHumProgramacion } from './documentos/humProgramacion.documento';
-import { documentoHumAdicional } from './documentos/humAdicional.documento';
-import { documentoHumCredito } from './documentos/humCredito.documento';
-import { documentoHumNovedad } from './documentos/humNovedad.documento';
-import { documentoHumAporte } from './documentos/humAporte.documento';
-import { documentoConMovimiento } from './documentos/ConMovimiento.documento';
 import { documento703 } from './documentos/703.documento';
-import { documento105 } from './documentos/105.documento';
-import { documento603 } from './documentos/603.documento';
+import { documentoConMovimiento } from './documentos/ConMovimiento.documento';
+import { documentoHumAporte } from './documentos/humAporte.documento';
+import { documentoHumProgramacion } from './documentos/humProgramacion.documento';
 
 export const documentos: MapeoDocumentos = {
   100: documento100,
@@ -53,9 +50,6 @@ export const documentos: MapeoDocumentos = {
   702: documento702,
   703: documento703,
   HumProgramacion: documentoHumProgramacion,
-  HumAdicional: documentoHumAdicional,
-  HumCredito: documentoHumCredito,
-  HumNovedad: documentoHumNovedad,
   HumAporte: documentoHumAporte,
   ConMovimiento: documentoConMovimiento,
 };

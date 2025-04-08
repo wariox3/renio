@@ -27,7 +27,7 @@
 </div>
 <app-card>
   <section card-titulo>
-    <app-comun-titulo-accion></app-comun-titulo-accion>
+    <app-comun-titulo-accion [nombreModelo]="'item'"></app-comun-titulo-accion>
   </section>
   <section card-body>
     <div
@@ -189,7 +189,7 @@
   <div class="modal-body">
     <app-cargar-archivos
       [archivoTipo]="2"
-      [modeloNombre]="modelo"
+      [modeloNombre]="'item'"
       [codigo]="this.detalle"
     ></app-cargar-archivos>
   </div>

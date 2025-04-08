@@ -38,7 +38,7 @@
           <a
             class="menu-link without-sub"
             routerLinkActive="active"
-            routerLink="/dashboard"
+            routerLink="/general"
             (click)="seleccionarMenu('GENERAL')"
           >
             <span class="menu-bullet">
@@ -70,7 +70,7 @@
       <div class="menu-content pt-8 pb-2">
         <span
           class="menu-heading fw-bold text-uppercase fs-7"
-          [translate]="'MENU.TITULOS.' + (modulo | uppercase)"
+          [translate]="'MENU.TITULOS.' + (modulo() | uppercase)"
         >
         </span>
       </div>
@@ -78,102 +78,106 @@
 
     <!-- Widgets -->
     <div class="menu-item" *ngFor="let menu of arrMenu">
-      @if(menu.esIndependiente) { @for (children of menu.children; track $index)
-      {
-      <span class="menu-link">
-        <span class="menu-icon">
-          <app-keenicon
-            name="{{ obtenerIcono(children.nombre) }}"
-            class="fs-2"
-          ></app-keenicon>
-        </span>
-        <span
-          class="menu-title"
-          [translate]="'MENU.FUNCIONALIDAD.' + (children.nombre | uppercase)"
-          routerLink="{{ children.urlIndependientes.lista }}"
-          routerLink="{{ children.urlIndependientes.lista }}"
-          (click)="navegar(children)"
-        >
-        </span>
+      @if (menu.esIndependiente) {
+        @for (children of menu.modelos; track $index) {
+          <span class="menu-link">
+            <span class="menu-icon">
+              <app-keenicon
+                name="{{ obtenerIcono(children.nombreModelo) }}"
+                class="fs-2"
+              ></app-keenicon>
+            </span>
+            <span
+              class="menu-title"
+              [translate]="
+                'MENU.FUNCIONALIDAD.' + (children.nombreModelo | uppercase)
+              "
+              (click)="navegar(children)"
+            >
+            </span>
 
-        @if(children.visualiazarIconoDeracha){
-        <a
-          routerLink="{{ children.urlIndependientes.nuevo }}"
-          (click)="navegarNuevo(children)"
-          placement="end"
-          ngbTooltip="Tooltip on right"
-        >
-          <span class="">
-            <i class="bi bi-file-earmark-plus"></i>
-          </span>
-        </a>
-
-        }
-      </span>
-      } } @else {
-      <div
-        class="menu-item menu-accordion"
-        [ngClass]="menu.menuOpen ? 'hover show' : ''"
-        data-kt-menu-trigger="click"
-      >
-        <span class="menu-link">
-          <span class="menu-icon">
-            <app-keenicon
-              name="{{ obtenerIcono(menu.nombre) }}"
-              class="fs-2"
-            ></app-keenicon>
-          </span>
-          <span
-            class="menu-title fw-bolder"
-            [translate]="'MENU.COMUNES.' + (menu.nombre | uppercase)"
-          >
-          </span>
-          <span class="menu-arrow"></span>
-        </span>
-        <div
-          class="menu-sub menu-sub-accordion"
-          *ngFor="let item of menu.children"
-        >
-          <div class="d-flex justify-content-between align-items-center w-100">
-            <div class="menu-item flex-grow-1">
+            @if (children.ajustes.ui?.verIconoDerecha) {
+              <!-- TODO: ajustar la URL a nuevo de independientes -->
               <a
-                class="menu-link without-sub"
-                routerLink="{{ item.url }}"
-                (click)="navegar(item)"
-              >
-                <span class="menu-bullet">
-                  <span class="bullet bullet-dot"></span>
-                </span>
-                <span
-                  class="menu-title"
-                  [translate]="
-                    'MENU.FUNCIONALIDAD.' + (item.nombre | uppercase)
-                  "
-                ></span>
-              </a>
-            </div>
-            @if(item.visualiazarIconoDeracha){
-            <a routerLink="{{ item.url }}" (click)="navegarNuevo(item)">
-              <span
-                class="menu-bullet"
+                (click)="navegarNuevo(children)"
                 placement="end"
-                container="body"
-                ngbTooltip="{{
-                  'FORMULARIOS.BOTONES.COMUNES.NUEVO' | translate
-                }}   {{
-                  'MENU.FUNCIONALIDAD.' + (item.nombre | uppercase)
-                    | translate
-                    | lowercase
-                }}"
+                ngbTooltip="Tooltip on right"
               >
-                <i class="bi bi-file-earmark-plus"></i>
-              </span>
-            </a>
+                <span class="">
+                  <i class="bi bi-file-earmark-plus"></i>
+                </span>
+              </a>
             }
+          </span>
+        }
+      } @else {
+        <div
+          class="menu-item menu-accordion"
+          [ngClass]="menu.isMenuExpanded ? 'hover show' : ''"
+          data-kt-menu-trigger="click"
+        >
+          <span class="menu-link">
+            <span class="menu-icon">
+              <app-keenicon
+                name="{{ obtenerIcono(menu.nombreFuncionalidad) }}"
+                class="fs-2"
+              ></app-keenicon>
+            </span>
+            <span
+              class="menu-title fw-bolder"
+              [translate]="
+                'MENU.COMUNES.' + (menu.nombreFuncionalidad | uppercase)
+              "
+            >
+            </span>
+            <span class="menu-arrow"></span>
+          </span>
+          <div
+            class="menu-sub menu-sub-accordion"
+            *ngFor="let item of menu.modelos"
+          >
+            <div
+              class="d-flex justify-content-between align-items-center w-100"
+            >
+              <div class="menu-item flex-grow-1">
+                <a
+                  class="menu-link without-sub"
+                  (click)="navegar(item)"
+                >
+                  <span class="menu-bullet">
+                    <span class="bullet bullet-dot"></span>
+                  </span>
+                  <span
+                    class="menu-title"
+                    [translate]="
+                      'MENU.FUNCIONALIDAD.' + (item.nombreModelo | uppercase)
+                    "
+                  ></span>
+                </a>
+              </div>
+              @if (item.ajustes.ui?.verIconoDerecha) {
+                <a
+                  (click)="navegarNuevo(item)"
+                >
+                  <span
+                    class="menu-bullet"
+                    placement="end"
+                    container="body"
+                    ngbTooltip="{{
+                      'FORMULARIOS.BOTONES.COMUNES.NUEVO' | translate
+                    }}   {{
+                      'MENU.FUNCIONALIDAD.' + (item.nombreModelo | uppercase)
+                        | translate
+                        | lowercase
+                    }}"
+                  >
+                    <i class="bi bi-file-earmark-plus"></i>
+                  </span>
+                </a>
+              }
+            </div>
           </div>
         </div>
-      </div>
-
       }
     </div>
   </div>

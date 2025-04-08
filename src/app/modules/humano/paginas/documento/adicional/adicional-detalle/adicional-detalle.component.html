@@ -9,9 +9,7 @@
 </div>
 <app-card>
   <section card-titulo>
-    {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-    {{ "MENU.FUNCIONALIDAD." + (modelo | uppercase) | translate | lowercase }}
-    {{ adicional.id }}
+    <app-comun-titulo-accion [nombreModelo]="'adicional'"></app-comun-titulo-accion>
   </section>
   <section card-body>
     <div class="table-responsive-sm">

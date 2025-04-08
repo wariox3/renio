@@ -186,13 +186,18 @@ export default class AporteDetalleComponent
   }
 
   navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    this.router.navigate([`humano/proceso/editar/${id}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
+    });
+  }
+
+  navegarNuevo() {
+    this.router.navigate([`humano/proceso/nuevo`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 

@@ -14,6 +14,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   signal,
@@ -49,9 +50,19 @@ import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { provideNgxMask } from 'ngx-mask';
-import { asyncScheduler, debounceTime, tap, throttleTime, zip } from 'rxjs';
+import {
+  asyncScheduler,
+  debounceTime,
+  Subject,
+  takeUntil,
+  tap,
+  throttleTime,
+  zip,
+} from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -64,7 +75,7 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
         'void',
         style({
           opacity: 0,
-        })
+        }),
       ),
       transition(':enter, :leave', [animate(600)]),
     ]),
@@ -85,14 +96,14 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
 })
 export default class ContactDetalleComponent
   extends General
-  implements OnInit, AfterViewInit
+  implements OnInit, AfterViewInit, OnDestroy
 {
   formularioContacto: FormGroup;
   informacionContacto: any;
   arrCiudades: RegistroAutocompletarGenCiudad[];
   arrIdentificacion: RegistroAutocompletarGenIdentificacion[];
   arrIdentificacionSignal = signal<RegistroAutocompletarGenIdentificacion[]>(
-    []
+    [],
   );
   arrTipoPersona: RegistroAutocompletarGenTipoPersona[];
   arrBancos: RegistroAutocompletarGenBanco[];
@@ -109,8 +120,8 @@ export default class ContactDetalleComponent
     this.arrIdentificacionSignal().filter(
       (item) =>
         item.identificacion_tipo_persona_id ===
-        this.filtroIdentificacionSignal()
-    )
+        this.filtroIdentificacionSignal(),
+    ),
   );
 
   @Input() ocultarBtnAtras = false;
@@ -126,23 +137,40 @@ export default class ContactDetalleComponent
   inputNombreCorto: ElementRef<HTMLInputElement>;
   private readonly _generalService = inject(GeneralService);
   private readonly _contactoService = inject(ContactoService);
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _destroy$ = new Subject<void>();
+  private _rutas: Rutas | undefined;
 
   selectedDateIndex: number = -1;
 
   constructor(
     private formBuilder: FormBuilder,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
   ) {
     super();
   }
 
   ngOnInit() {
+    this.configurarModuloListener();
     this.iniciarFormulario();
     this.consultarInformacion();
     if (this.detalle && this.ocultarBtnAtras === false) {
       this.consultardetalle();
     }
     this._iniciarSuscripcionesFormularioContacto();
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -201,10 +229,10 @@ export default class ContactDetalleComponent
 
   private _consultarIdentificacionEnServicio() {
     const identificacionId = parseInt(
-      this.formularioContacto.get('identificacion')?.value
+      this.formularioContacto.get('identificacion')?.value,
     );
     const numeroIdentificacion = this.formularioContacto.get(
-      'numero_identificacion'
+      'numero_identificacion',
     )?.value;
 
     if (!identificacionId || !numeroIdentificacion) {
@@ -247,7 +275,7 @@ export default class ContactDetalleComponent
       if (this.arrCiudades[this.selectedDateIndex]) {
         this.modificarCampoFormulario(
           'ciudad',
-          this.arrCiudades[this.selectedDateIndex]
+          this.arrCiudades[this.selectedDateIndex],
         );
       }
     }
@@ -265,7 +293,7 @@ export default class ContactDetalleComponent
       if (this.arrCiudades[this.selectedDateIndex]) {
         this.modificarCampoFormulario(
           'ciudad',
-          this.arrCiudades[this.selectedDateIndex]
+          this.arrCiudades[this.selectedDateIndex],
         );
       }
     }
@@ -273,13 +301,13 @@ export default class ContactDetalleComponent
   }
 
   iniciarFormulario() {
-    if (this.parametrosUrl?.dataPersonalizada !== undefined) {
-      let dataPersonalizada = JSON.parse(this.parametrosUrl?.dataPersonalizada);
-      if (dataPersonalizada) {
-        this.esProvedor = dataPersonalizada?.proveedor === 'si';
-        this.esCliente = dataPersonalizada?.cliente === 'si';
-      }
-    }
+    // if (this.parametrosUrl?.dataPersonalizada !== undefined) {
+    //   let dataPersonalizada = JSON.parse(this.parametrosUrl?.dataPersonalizada);
+    //   if (dataPersonalizada) {
+    //     this.esProvedor = dataPersonalizada?.proveedor === 'si';
+    //     this.esCliente = dataPersonalizada?.cliente === 'si';
+    //   }
+    // }
 
     this.formularioContacto = this.formBuilder.group(
       {
@@ -375,7 +403,7 @@ export default class ContactDetalleComponent
             'correo_facturacion_electronica',
           ]),
         ],
-      }
+      },
     );
 
     this.formularioContacto
@@ -486,10 +514,7 @@ export default class ContactDetalleComponent
       if (this.formularioContacto.get('tipo_persona')?.value == 2) {
         this.actualizarNombreCorto();
       }
-      if (
-        this.activatedRoute.snapshot.queryParams['detalle'] &&
-        this.ocultarBtnAtras === false
-      ) {
+      if (this.detalle && this.ocultarBtnAtras === false) {
         if (this.formularioContacto.get('tipo_persona')?.value == 1) {
           this.formularioContacto.patchValue({
             nombre1: null,
@@ -525,12 +550,14 @@ export default class ContactDetalleComponent
             });
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`/administrador/detalle`], {
-                queryParams: {
-                  ...parametro,
-                  detalle: respuesta.id,
+              this.router.navigate(
+                [`${this._rutas?.detalle}/${respuesta.id}`],
+                {
+                  queryParams: {
+                    ...parametro,
+                  },
                 },
-              });
+              );
             });
             this.changeDetectorRef.detectChanges();
           });
@@ -544,15 +571,17 @@ export default class ContactDetalleComponent
                 this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
               } else {
                 this.activatedRoute.queryParams.subscribe((parametro) => {
-                  this.router.navigate([`/administrador/detalle`], {
-                    queryParams: {
-                      ...parametro,
-                      detalle: respuesta.id,
+                  this.router.navigate(
+                    [`${this._rutas?.detalle}/${respuesta.id}`],
+                    {
+                      queryParams: {
+                        ...parametro,
+                      },
                     },
-                  });
+                  );
                 });
               }
-            })
+            }),
           )
           .subscribe();
       }
@@ -584,7 +613,7 @@ export default class ContactDetalleComponent
         tap((respuesta) => {
           this.arrCiudades = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -596,50 +625,50 @@ export default class ContactDetalleComponent
           modelo: 'GenIdentificacion',
           serializador: 'ListaAutocompletar',
           ordenamientos: ['orden'],
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
         {
           modelo: 'GenRegimen',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
         {
           modelo: 'GenTipoPersona',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPrecio>(
         {
           modelo: 'GenPrecio',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
         {
           modelo: 'GenAsesor',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
         {
           modelo: 'GenPlazoPago',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenBanco>(
         {
           modelo: 'GenBanco',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
         {
           modelo: 'GenCuentaBancoClase',
           serializador: 'ListaAutocompletar',
-        }
-      )
+        },
+      ),
     ).subscribe((respuesta: any) => {
       this.arrIdentificacionSignal.set(respuesta[0].registros);
       this.arrIdentificacion = respuesta[0].registros;
@@ -730,7 +759,7 @@ export default class ContactDetalleComponent
           numero_cuenta: respuesta.numero_cuenta,
         });
         this.identificacionIdApiDetalleSignal.update(
-          () => respuesta.identificacion_id
+          () => respuesta.identificacion_id,
         );
         this.filtroIdentificacionSignal.update(() => respuesta.tipo_persona_id);
 
@@ -766,7 +795,7 @@ export default class ContactDetalleComponent
 
   calcularDigitoVerificacion() {
     let digito = this.devuelveDigitoVerificacionService.digitoVerificacion(
-      this.formularioContacto.get('numero_identificacion')?.value
+      this.formularioContacto.get('numero_identificacion')?.value,
     );
     this.formularioContacto.patchValue({
       digito_verificacion: digito,

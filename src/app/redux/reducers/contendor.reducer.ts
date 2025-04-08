@@ -1,23 +1,15 @@
+import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
+import { Contenedor } from '@interfaces/usuario/contenedor';
 import { createReducer, on } from '@ngrx/store';
+import { getCookie } from 'typescript-cookie';
 import {
+  ContenedorActionActualizarImagen,
+  ContenedorActionBorrarInformacion,
   ContenedorActionInit,
   ContenedorSeleccionAction,
-  ContenedorActionBorrarInformacion,
-  ContenedorActionActualizarImagen
 } from '../actions/contenedor.actions';
-import { Contenedor } from '@interfaces/usuario/contenedor';
-import { getCookie } from 'typescript-cookie';
-import { environment } from '@env/environment';
 
-let contenedorDatos: any;
-
-if (environment.production) {
-  let dominioActual = window.location.host;
-  contenedorDatos = getCookie(`contenedor-${dominioActual.split('.')[0]}`);
-} else {
-  contenedorDatos = getCookie(`contenedor-${environment.EMPRESA_LOCALHOST}`);
-}
-
+let contenedorDatos = getCookie(cookieKey.CONTENEDOR);
 
 let estadoInicializado: Contenedor = {
   nombre: '',
@@ -39,15 +31,12 @@ let estadoInicializado: Contenedor = {
   nombre_corto: '',
   numero_identificacion: 0,
   telefono: '',
-  acceso_restringido: false
+  acceso_restringido: false,
 };
 
 export const initialState: Contenedor = contenedorDatos
   ? JSON.parse(contenedorDatos)
   : estadoInicializado;
-
-
-
 
 export const contendorReducer = createReducer(
   initialState,
@@ -86,7 +75,7 @@ export const contendorReducer = createReducer(
         nombre_corto: '',
         numero_identificacion: 0,
         telefono: '',
-        acceso_restringido: false
+        acceso_restringido: false,
       },
     };
   }),
