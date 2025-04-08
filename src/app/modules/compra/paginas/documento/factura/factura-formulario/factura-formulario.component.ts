@@ -291,8 +291,6 @@ export default class FacturaDetalleComponent
   }
 
   formSubmit() {
-    console.log(this.eliminarDetallesIds());
-
     if (this.formularioFactura.valid) {
       if (this.detalle !== 0) {
         this._actualizarFactura();

@@ -214,10 +214,10 @@ export default class FacturaDetalleComponent
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
-        this._guardarFactura();
-      } else {
+      if (this.detalle !== 0) {
         this._actualizarFactura();
+      } else {
+        this._guardarFactura();
       }
     } else {
       this.formularioFactura.markAllAsTouched();

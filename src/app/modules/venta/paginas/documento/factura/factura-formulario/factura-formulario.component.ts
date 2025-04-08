@@ -256,7 +256,7 @@ export default class FacturaDetalleComponent
       }
     }
 
-    if (this.detalle !== undefined) {
+    if (this.detalle !== 0) {
       this._actualizarFactura();
     } else {
       this._guardarFactura();

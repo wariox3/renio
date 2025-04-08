@@ -31,8 +31,6 @@ export class ConfigModuleService {
   public modulo = signal<string | null>(null);
   public funcionalidad = signal<string | null>(null);
 
-  public detalleId: number | null;
-
   constructor() {
     this.setupRouterListener();
     this.loadConfigForCurrentRoute();
@@ -73,14 +71,12 @@ export class ConfigModuleService {
   private loadConfigForCurrentRoute(): void {
     const url = this._router.url;
     const queryParams = this._activatedRoute.snapshot.queryParams;
-    const detalleId = this._activatedRoute.snapshot.paramMap.get('id');
 
     const modulo = this._urlService.obtenerModuloPath(url);
     const funcionalidad = this._urlService.obtenerFuncionalidadPath(url);
     const modelo = queryParams['modelo'];
 
     this.setModuleConfig(modulo, funcionalidad);
-    this.detalleId = Number(detalleId) || null;
 
     if (modelo) {
       this._setModeloConfig(modelo);
