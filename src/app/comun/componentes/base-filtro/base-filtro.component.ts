@@ -68,7 +68,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   formularioFiltros: FormGroup;
   formularioFiltrosModal: FormGroup;
   listaFiltros: Listafiltros[] = [];
-  modelo: any = this.modelo;
+  @Input({required : false}) modelo: string = '';
   tituloModal: string;
   arrPropiedades: any = [];
   arrPropiedadBusquedaAvanzada: any = [];
