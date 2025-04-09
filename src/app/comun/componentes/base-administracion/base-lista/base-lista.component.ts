@@ -18,7 +18,7 @@ import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interfa
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   ArchivosImportar,
-  ModeloConfig
+  ModeloConfig,
 } from '@interfaces/menu/configuracion.interface';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
@@ -62,6 +62,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   documento_clase_id: string;
   visualizarBtnNuevo: boolean = true;
   visualizarColumnaEditar = true;
+  visualizarBtnImportar = true;
   submodelo: string | undefined;
   cargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   moduloConfiguracion: ModeloConfig | undefined;
@@ -145,7 +146,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.nombreModelo = modeloConfig?.nombreModelo;
     this._modulo = this._configModule.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
-    this.importarConfig = modeloConfig?.ajustes.archivos?.importar
+    this.importarConfig = modeloConfig?.ajustes.archivos?.importar;
     this.nombreFiltro = `administrador_${this._modelo?.toLowerCase()}`;
   }
 
@@ -161,9 +162,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     //     : true;
     const verColumnaEditar = modeloConfig?.ajustes.ui?.verColumnaEditar;
     const verBtnNuevo = modeloConfig?.ajustes.ui?.verBotonNuevo;
+    const verBtnImportar = modeloConfig?.ajustes.ui?.verBotonNuevo;
 
     this.visualizarColumnaEditar = !!verColumnaEditar;
     this.visualizarBtnNuevo = !!verBtnNuevo;
+    this.visualizarBtnImportar = !!verBtnImportar;
 
     this.store.dispatch(
       ActualizarMapeo({ dataMapeo: mapeo[this._modelo!].datos }),
