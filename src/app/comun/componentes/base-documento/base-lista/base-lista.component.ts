@@ -104,37 +104,34 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._setupConfigModuleListener();
 
     this.alertaService.cerrarMensajes();
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      // this.arrParametrosConsulta.desplazar = 0;
-      // this.arrParametrosConsulta.ordenamientos = [];
-      // this.visualizarColumnaEditar =
-      //   parametro.visualizarColumnaEditar === 'no' ? false : true;
-      // this.visualizarBtnNuevo =
-      //   parametro.visualizarBtnNuevo === 'no' ? false : true;
-      // this.visualizarBtnEliminar =
-      //   parametro.visualizarBtnEliminar === 'no' ? false : true;
-      // this.visualizarColumnaSeleccionar =
-      //   parametro.visualizarColumnaSeleccionar === 'no' ? false : true;
-      // this.visualizarBtnImportar =
-      //   parametro.visualizarBtnImportar === 'no' ? false : true;
-      // this.visualizarBtnExportarZip =
-      //   parametro.visualizarBtnExportarZip === 'si' ? true : false;
+    // this.arrParametrosConsulta.desplazar = 0;
+    // this.arrParametrosConsulta.ordenamientos = [];
+    // this.visualizarColumnaEditar =
+    //   parametro.visualizarColumnaEditar === 'no' ? false : true;
+    // this.visualizarBtnNuevo =
+    //   parametro.visualizarBtnNuevo === 'no' ? false : true;
+    // this.visualizarBtnEliminar =
+    //   parametro.visualizarBtnEliminar === 'no' ? false : true;
+    // this.visualizarColumnaSeleccionar =
+    //   parametro.visualizarColumnaSeleccionar === 'no' ? false : true;
+    // this.visualizarBtnImportar =
+    //   parametro.visualizarBtnImportar === 'no' ? false : true;
+    // this.visualizarBtnExportarZip =
+    //   parametro.visualizarBtnExportarZip === 'si' ? true : false;
 
-      // this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
-      // this.modelo = parametro.itemNombre!;
-      // if (parametro?.ordenamiento) {
-      //   let ordenamientos = parametro.ordenamiento
-      //     .split(',')
-      //     .map((palabra: string) => palabra.trim());
-      //   this.arrParametrosConsulta.ordenamientos = ordenamientos;
-      // } else {
-      //   this.arrParametrosConsulta.ordenamientos = [];
-      // }
-      // let posicion: keyof typeof documentos = parametro.documento_clase;
-      // this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
-      // this.consultarLista();
-      this.construirBotonesExtras(parametro);
-    });
+    // this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
+    // this.modelo = parametro.itemNombre!;
+    // if (parametro?.ordenamiento) {
+    //   let ordenamientos = parametro.ordenamiento
+    //     .split(',')
+    //     .map((palabra: string) => palabra.trim());
+    //   this.arrParametrosConsulta.ordenamientos = ordenamientos;
+    // } else {
+    //   this.arrParametrosConsulta.ordenamientos = [];
+    // }
+    // let posicion: keyof typeof documentos = parametro.documento_clase;
+    // this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
+    // this.consultarLista();
 
     this.modalDinamicoService.event$
       .pipe(takeUntil(this.destroy$))
@@ -269,6 +266,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.visualizarBtnEliminar = !!verBtnEliminar;
     this.visualizarBtnExportarZip = !!verBtnExportarZip;
     this.visualizarColumnaSeleccionar = !!verColumnaSeleccionar;
+    this.construirBotonesExtras(modeloConfig);
 
     this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[this._key!] }));
   }
@@ -385,11 +383,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   //     .unsubscribe();
   // }
 
-  construirBotonesExtras(parametros: Params) {
-    let configuracionExtra: string = parametros.configuracionExtra!;
+  construirBotonesExtras(modeloConfig: ModeloConfig | null) {
+    let verBotonGenerar = modeloConfig?.ajustes.ui?.verBotonGenerar;
 
-    if (configuracionExtra === 'si') {
-      let documentoClase: number = Number(parametros.documento_clase);
+    if (verBotonGenerar) {
+      let documentoClase = modeloConfig?.key!;
       this.botonesExtras =
         configuracionExtraDocumento[documentoClase]?.botones || [];
     } else {

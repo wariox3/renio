@@ -66,13 +66,10 @@ export class ImportarAdministradorComponent
     verBotonImportar: boolean | undefined;
     verBotonEjemplo: boolean | undefined;
   };
-  @Input() habilitarBotonImportar: boolean;
-  @Input() verBotonEjemplo: boolean;
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
   @Input() filtrosExternos: any;
-  @Input() exportarArchivoFijo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
 

@@ -1,29 +1,30 @@
+import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
+  inject,
   Input,
   OnInit,
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { ComponentesExtras } from '@comun/extra/funcionalidades/documento-funcionalidad';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-modal-dinamico',
   standalone: true,
   templateUrl: './modal-dinamico.component.html',
-  imports: [CommonModule, RouterModule, TranslateModule, BtnAtrasComponent],
+  imports: [CommonModule, RouterModule, TranslateModule],
 })
 export class ModalDinamicoComponent extends General implements OnInit {
+  private readonly _configModuleService = inject(ConfigModuleService);
   generarPDF = false;
-  @Input() nombreComponente: string = ''
+  @Input() nombreComponente: string = '';
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
   documentoEstados$: any = {};
@@ -37,15 +38,21 @@ export class ModalDinamicoComponent extends General implements OnInit {
   }
 
   async loadComponente() {
-    const documentoClase = this.parametrosUrl?.documento_clase;
+    const documentoClase = this._configModuleService.key;
     const nombreComponente = this.nombreComponente;
 
-    if (documentoClase && nombreComponente && ComponentesExtras[documentoClase]) {
-      const componenteLoaded = ComponentesExtras[documentoClase][nombreComponente];
+    if (
+      documentoClase &&
+      nombreComponente &&
+      ComponentesExtras[documentoClase]
+    ) {
+      const componenteLoaded =
+        ComponentesExtras[documentoClase][nombreComponente];
 
       if (componenteLoaded) {
         const componente = await (await componenteLoaded.componente()).default;
-        const componenteCargado = this.componenteDinamico.createComponent(componente);
+        const componenteCargado =
+          this.componenteDinamico.createComponent(componente);
         componenteCargado.changeDetectorRef.detectChanges();
       }
     } else {

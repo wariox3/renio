@@ -23,7 +23,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
-              detalle: DocDetalle
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -44,6 +44,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               verColumnaEditar: true,
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
+              verBotonGenerar: true,
             },
           },
         },
@@ -58,7 +59,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
-              detalle: DocDetalle
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -94,7 +95,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
-              detalle: DocDetalle
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -130,7 +131,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
-              detalle: DocDetalle
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -165,7 +166,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
-              detalle: DocDetalle
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -200,7 +201,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
-              detalle: DocDetalle
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
@@ -235,7 +236,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
-              detalle: DocDetalle
+              detalle: DocDetalle,
             },
             endpoint: 'general/documento',
             parametrosHttpConfig: {
