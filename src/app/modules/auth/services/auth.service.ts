@@ -94,7 +94,7 @@ export class AuthService extends Subdominio implements OnDestroy {
       this._cookieService.delete(cookieKey, '/');
     });
 
-    this.router.navigate(['/inicio']);
+    this.router.navigate(['/auth/login']);
   }
 
   registration(data: any) {

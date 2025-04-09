@@ -4,87 +4,87 @@ import { AutentificacionGuard } from '@guardias/auth.guard';
 import { LandingpageComponent } from './pages/landingpage/landingpage.component';
 
 export const routes: Routes = [
-  {
-    path: 'inicio',
-    component: LandingpageComponent,
-  },
-  {
-    path: 'faqs',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'terminos',
-    loadComponent: () =>
-      import('./pages/terminos/terminos.component').then(
-        (c) => c.TerminosComponent
-      ),
-  },
-  {
-    path: 'docs',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'cambios',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'tutoriales',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'ayuda',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'acerca_de',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'comprar',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'soporte',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'caracteristicas',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
-  {
-    path: 'foro',
-    loadComponent: () =>
-      import('./pages/contruccion/contruccion.component').then(
-        (c) => c.ContruccionComponent
-      ),
-  },
+  // {
+  //   path: 'inicio',
+  //   component: LandingpageComponent,
+  // },
+  // {
+  //   path: 'faqs',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'terminos',
+  //   loadComponent: () =>
+  //     import('./pages/terminos/terminos.component').then(
+  //       (c) => c.TerminosComponent
+  //     ),
+  // },
+  // {
+  //   path: 'docs',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'cambios',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'tutoriales',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'ayuda',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'acerca_de',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'comprar',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'soporte',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'caracteristicas',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
+  // {
+  //   path: 'foro',
+  //   loadComponent: () =>
+  //     import('./pages/contruccion/contruccion.component').then(
+  //       (c) => c.ContruccionComponent
+  //     ),
+  // },
   {
     path: 'auth',
     loadChildren: () =>

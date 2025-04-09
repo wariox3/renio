@@ -11,7 +11,6 @@ export const AutentificacionGuard: CanMatchFn = () => {
     return true;
   }
 
-  //redirect a la landing page
-  router.navigate(['/inicio']);
+  router.navigate(['/auth/login']);
   return false;
 };
