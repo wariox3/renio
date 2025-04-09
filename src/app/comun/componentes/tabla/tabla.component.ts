@@ -48,7 +48,6 @@ import { ModalDocumentoDetallesComponent } from './components/modal-documento-de
     NgbDropdownModule,
     KeysPipe,
     TranslateModule,
-    ImportarComponent,
     AnimationFadeInUpDirective,
     ImportarAdministradorComponent,
     NgbTooltipModule,
@@ -79,6 +78,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() encabezado: any;
   @Input() importarConfig: {
     endpoint: string;
+    documentoId?: number;
     nombre: string | undefined;
     rutaEjemplo: string | undefined;
     verBotonImportar: boolean | undefined;

@@ -76,6 +76,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public modeloCofig: ModeloConfig | null;
   public _endpoint: string | undefined;
   public nombreModelo: string | undefined;
+  public documentoId: number | undefined;
   public importarConfig: ArchivosImportar | undefined;
 
   constructor(
@@ -147,6 +148,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._modulo = this._configModule.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
     this.importarConfig = modeloConfig?.ajustes.archivos?.importar;
+    this.documentoId = Number(
+      modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.lista?.[0].valor1,
+    );
     this.nombreFiltro = `administrador_${this._modelo?.toLowerCase()}`;
   }
 

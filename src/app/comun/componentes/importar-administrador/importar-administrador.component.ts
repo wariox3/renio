@@ -61,6 +61,7 @@ export class ImportarAdministradorComponent
   public alias: string;
   @Input() importarConfig: {
     endpoint: string;
+    documentoId?: number;
     nombre: string | undefined;
     rutaEjemplo: string | undefined;
     verBotonImportar: boolean | undefined;
@@ -258,6 +259,10 @@ export class ImportarAdministradorComponent
         let data: any = {
           archivo_base64,
         };
+
+        if (this.importarConfig.documentoId) {
+          data['documento_tipo_id'] = this.importarConfig.documentoId;
+        }
 
         if (this.soloNuevos) {
           data['solo_nuevos'] = this.soloNuevos;
