@@ -222,6 +222,26 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
           },
         },
         {
+          key: 'HumCargo',
+          nombreModelo: 'CARGO',
+          ajustes: {
+            rutas: {
+              lista: 'humano/administracion/lista',
+              nuevo: 'humano/administracion/nuevo',
+              detalle: 'humano/administracion/detalle',
+            },
+            endpoint: 'humano/cargo',
+            parametrosHttpConfig: {
+              modelo: 'HumCargo',
+              ordenamientos: ['-id'],
+            },
+            ui: {
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        },
+        {
           key: 'HumGrupo',
           nombreModelo: 'GRUPO',
           ajustes: {
