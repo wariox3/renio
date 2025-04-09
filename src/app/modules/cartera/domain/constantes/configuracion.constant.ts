@@ -76,6 +76,14 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
             // archivos:{
             //   importar: 'SaldoInicial.xlsx'
             // },
+            archivos: {
+              importar: {
+                nombre: 'SaldoInicial',
+                rutaEjemplo: 'assets/ejemplos/modelo/SaldoInicial.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verIconoDerecha: true,
               verBotonNuevo: true,

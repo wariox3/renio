@@ -17,7 +17,11 @@ import { Modelo } from '@comun/type/modelo.type';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
-import { ModeloConfig, Rutas } from '@interfaces/menu/configuracion.interface';
+import {
+  ArchivosImportar,
+  ModeloConfig,
+  Rutas,
+} from '@interfaces/menu/configuracion.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
@@ -51,13 +55,14 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private _modulo: string | null;
   private _rutas: Rutas | undefined;
   private _destroy$ = new Subject<void>();
-  private _endpoint: string | undefined;
   private _key: null | number | Modelo | undefined;
   public _modelo: Modelo | undefined;
+  public _endpoint: string | undefined;
   public ordenamientoFijo = '';
   public modeloCofig: ModeloConfig | null;
   public nombreModelo: string | undefined;
   public _tipo: string = 'DOCUMENTO';
+  public importarConfig: ArchivosImportar | undefined;
 
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
@@ -167,6 +172,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._rutas = modeloConfig?.ajustes.rutas;
     this._modulo = this._configModuleService.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
+    this.importarConfig = modeloConfig?.ajustes.archivos?.importar;
     this.nombreFiltro = `documento_${this._modelo?.toLowerCase()}`;
   }
 

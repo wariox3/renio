@@ -17,6 +17,13 @@
           [modelo]="_modelo!"
           [_tipo]="_tipo"
           [datos]="arrItems"
+          [importarConfig]="{
+            endpoint: _endpoint!,
+            nombre: importarConfig?.nombre,
+            rutaEjemplo: importarConfig?.rutaEjemplo,
+            verBotonEjemplo: importarConfig?.verBotonEjemplo,
+            verBotonImportar: importarConfig?.verBotonImportar,
+          }"
           [cargando]="mostrarVentanaCargando$ | async"
           [encabezado]="titulos"
           [visualizarBtnExtra]="botonGenerar"
