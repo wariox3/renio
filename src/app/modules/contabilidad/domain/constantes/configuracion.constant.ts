@@ -128,7 +128,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
                 lista: [
                   {
                     propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 602,
+                    valor1: 603,
                   },
                 ],
               },
