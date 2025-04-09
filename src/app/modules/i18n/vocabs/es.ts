@@ -1278,16 +1278,17 @@ export const locale = {
         NOMBRE: 'Nombre',
       },
       MOVIMIENTO: {
-        ID: 'ID',
-        NUMERO: 'NUMERO',
-        FECHA: 'FECHA',
-        CONTACTO_NOMBRE_CORTO: 'CONTACTO',
-        CUENTA: 'CUENTA',
-        BASE: 'BASE',
+        ID: 'Id',
+        NUMERO: 'Número',
+        FECHA: 'Fecha',
+        CONTACTO_NOMBRE_CORTO: 'Contacto',
+        CUENTA: 'Cuenta',
+        BASE: 'Base',
         DEBITO: 'Débito',
         CREDITO: 'Crédito',
         GRUPO: 'Grupo',
         COMPROBANTE: 'Comprobante',
+        DETALLE: 'Detalle'
       },
       GUIA: {
         ID: 'ID',
