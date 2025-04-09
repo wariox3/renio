@@ -16,9 +16,12 @@ import { UrlService } from '@comun/services/infrastructure/url.service';
 import { Modelo } from '@comun/type/modelo.type';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import {
+  ArchivosImportar,
+  ModeloConfig
+} from '@interfaces/menu/configuracion.interface';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
-import { ModeloConfig } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
@@ -70,8 +73,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
   public ordenamientoFijo = '';
   public modeloCofig: ModeloConfig | null;
-  private _endpoint: string | undefined;
+  public _endpoint: string | undefined;
   public nombreModelo: string | undefined;
+  public importarConfig: ArchivosImportar | undefined;
 
   constructor(
     private httpService: HttpService,
@@ -141,6 +145,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.nombreModelo = modeloConfig?.nombreModelo;
     this._modulo = this._configModule.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
+    this.importarConfig = modeloConfig?.ajustes.archivos?.importar
     this.nombreFiltro = `administrador_${this._modelo?.toLowerCase()}`;
   }
 

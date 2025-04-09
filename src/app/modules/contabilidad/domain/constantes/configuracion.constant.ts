@@ -161,7 +161,12 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               modelo: 'GenContacto',
             },
             archivos: {
-              importar: 'GenContacto.xlsx',
+              importar: {
+                nombre: 'GenContacto',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
             },
             ui: {
               verBotonImportar: true,
@@ -185,7 +190,12 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['codigo'],
             },
             archivos: {
-              importar: 'ConCuenta.xlsx',
+              importar: {
+                nombre: 'ConCuenta',
+                rutaEjemplo: 'assets/ejemplos/modelo/ConCuenta.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
             },
             ui: {
               verBotonImportar: true,
@@ -209,7 +219,12 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['-id'],
             },
             archivos: {
-              importar: 'ConGrupo.xlsx',
+              importar: {
+                nombre: 'ConGrupo',
+                rutaEjemplo: 'assets/ejemplos/modelo/ConGrupo.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
             },
             ui: {
               verBotonImportar: true,
@@ -233,7 +248,12 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['-id'],
             },
             archivos: {
-              importar: 'ConActivo.xlsx',
+              importar: {
+                nombre: 'ConActivo',
+                rutaEjemplo: 'assets/ejemplos/modelo/ConActivo.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
             },
             ui: {
               verBotonImportar: true,

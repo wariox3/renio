@@ -77,6 +77,13 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   btnGrupoResponsive = false;
   public registroSeleccionadoId = signal<number>(0);
   @Input() encabezado: any;
+  @Input() importarConfig: {
+    endpoint: string;
+    nombre: string | undefined;
+    rutaEjemplo: string | undefined;
+    verBotonImportar: boolean | undefined;
+    verBotonEjemplo: boolean | undefined;
+  };
   @Input() _tipo: string;
   @Input() cargando: boolean | null = false;
   @Input() modelo: string;
@@ -139,7 +146,6 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     }
     this.construirTabla();
   }
-  
 
   private _reiniciarPaginador() {
     this.lado = 0;

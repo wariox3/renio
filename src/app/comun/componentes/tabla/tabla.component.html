@@ -58,6 +58,7 @@
         }
         @if (ubicacion === "administrador" || ubicacion === "independiente") {
           <app-importar-administrador
+            [importarConfig]="importarConfig"
             role="group"
             (emitirDetallesAgregados)="solicitarConsultarTabla()"
           ></app-importar-administrador>

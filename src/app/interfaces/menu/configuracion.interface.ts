@@ -25,7 +25,7 @@ export interface ModeloAjustes {
   rutas: Rutas;
   endpoint?: string;
   parametrosHttpConfig?: ParametrosHttpConfig;
-  archivos?: Importacion;
+  archivos?: Archivos;
   ui?: OpcionesVista;
 }
 
@@ -36,10 +36,16 @@ export interface Rutas {
   editar?: string;
 }
 
-export interface Importacion {
-  importar: string;
+export interface Archivos {
+  importar: ArchivosImportar;
 }
 
+export interface ArchivosImportar {
+  nombre: string;
+  rutaEjemplo: string;
+  verBotonImportar: boolean;
+  verBotonEjemplo: boolean;
+}
 export interface ModeloDocumentacion {
   id: number;
 }

@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
+  signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
@@ -14,21 +14,17 @@ import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { MenuReducerService } from '@comun/services/menu-reducer.service';
 import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
 import { ImportarDetalles } from '@interfaces/comunes/importar/importar-detalles.interface';
-import { informacionMenuItem } from '@interfaces/menu/menu';
 import {
   NgbDropdownModule,
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { obtenerArchivoImportacionLista } from '@redux/selectors/archivo-importacion.selectors';
 import { saveAs } from 'file-saver';
 import { catchError, mergeMap, of, Subject, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
-import { obtenerArchivoImportacionDetalle } from '../../../redux/selectors/archivo-importacion.selectors';
 import { maestros } from './constants/maestros.constant';
 
 @Component({
@@ -56,13 +52,22 @@ export class ImportarAdministradorComponent
   archivoPeso: string = '';
   errorImportar: any[] = [];
   inputFile: any = null;
-  cargardoDocumento: boolean = false;
+  cargardoDocumento = signal<boolean>(false);
   importarSoloNuevos: boolean = false;
   soloNuevos: boolean;
   habilitarBtnEjemploImportar: boolean = false;
   cantidadErrores: number = 0;
   public maestros = maestros;
   public alias: string;
+  @Input() importarConfig: {
+    endpoint: string;
+    nombre: string | undefined;
+    rutaEjemplo: string | undefined;
+    verBotonImportar: boolean | undefined;
+    verBotonEjemplo: boolean | undefined;
+  };
+  @Input() habilitarBotonImportar: boolean;
+  @Input() verBotonEjemplo: boolean;
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
@@ -70,7 +75,6 @@ export class ImportarAdministradorComponent
   @Input() exportarArchivoFijo: string;
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
-  private _menuReducerService = inject(MenuReducerService);
 
   constructor(
     private modalService: NgbModal,
@@ -83,70 +87,78 @@ export class ImportarAdministradorComponent
   ngOnInit(): void {}
 
   abrirModalContactoNuevo(content: any) {
-    this.descargarArchivosService._construirNombreArchivo(
-      this.parametrosUrl,
-      this.ubicacion,
-      this.detalle,
-    );
-    if (this.detalle) {
-      this.store
-        .select(obtenerArchivoImportacionDetalle)
-        .pipe(
-          tap((archivoImportacionLista) => {
-            if (archivoImportacionLista) {
-              this.habilitarBtnEjemploImportar = true;
-              this.changeDetectorRef.detectChanges();
-            } else {
-              this.habilitarBtnEjemploImportar = false;
-              this.changeDetectorRef.detectChanges();
-            }
-          }),
-          tap(() => {
-            // this._cargarMaestros();
-            this.importarSoloNuevos =
-              this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
-            (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-            this.archivoNombre = '';
-            this.errorImportar = [];
-            this.modalService.open(content, {
-              ariaLabelledBy: 'modal-basic-title',
-              backdrop: 'static',
-              size: 'xl',
-            });
-          }),
-        )
-        .subscribe()
-        .unsubscribe();
-    } else {
-      this.store
-        .select(obtenerArchivoImportacionLista)
-        .pipe(
-          tap((archivoImportacionLista) => {
-            if (archivoImportacionLista) {
-              this.habilitarBtnEjemploImportar = true;
-              this.changeDetectorRef.detectChanges();
-            } else {
-              this.habilitarBtnEjemploImportar = false;
-              this.changeDetectorRef.detectChanges();
-            }
-          }),
-          tap(() => {
-            // this._cargarMaestros();
-            this.importarSoloNuevos =
-              this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
-            (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-            this.archivoNombre = '';
-            this.errorImportar = [];
-            this.modalService.open(content, {
-              ariaLabelledBy: 'modal-basic-title',
-              backdrop: 'static',
-              size: 'xl',
-            });
-          }),
-        )
-        .subscribe()
-        .unsubscribe();
-    }
+    // this.descargarArchivosService._construirNombreArchivo(
+    //   this.parametrosUrl,
+    //   this.ubicacion,
+    //   this.detalle,
+    // );
+
+    this.archivoNombre = '';
+    this.errorImportar = [];
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'xl',
+    });
+    // if (this.detalle) {
+    //   this.store
+    //     .select(obtenerArchivoImportacionDetalle)
+    //     .pipe(
+    //       tap((archivoImportacionLista) => {
+    //         if (archivoImportacionLista) {
+    //           this.habilitarBtnEjemploImportar = true;
+    //           this.changeDetectorRef.detectChanges();
+    //         } else {
+    //           this.habilitarBtnEjemploImportar = false;
+    //           this.changeDetectorRef.detectChanges();
+    //         }
+    //       }),
+    //       tap(() => {
+    //         // this._cargarMaestros();
+    //         // this.importarSoloNuevos =
+    //         //   this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
+    //         // (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+    //         this.archivoNombre = '';
+    //         this.errorImportar = [];
+    //         this.modalService.open(content, {
+    //           ariaLabelledBy: 'modal-basic-title',
+    //           backdrop: 'static',
+    //           size: 'xl',
+    //         });
+    //       }),
+    //     )
+    //     .subscribe()
+    //     .unsubscribe();
+    // } else {
+    //   this.store
+    //     .select(obtenerArchivoImportacionLista)
+    //     .pipe(
+    //       tap((archivoImportacionLista) => {
+    //         if (archivoImportacionLista) {
+    //           this.habilitarBtnEjemploImportar = true;
+    //           this.changeDetectorRef.detectChanges();
+    //         } else {
+    //           this.habilitarBtnEjemploImportar = false;
+    //           this.changeDetectorRef.detectChanges();
+    //         }
+    //       }),
+    //       tap(() => {
+    //         // this._cargarMaestros();
+    //         // this.importarSoloNuevos =
+    //         //   this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
+    //         // (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
+    //         this.archivoNombre = '';
+    //         this.errorImportar = [];
+    //         this.modalService.open(content, {
+    //           ariaLabelledBy: 'modal-basic-title',
+    //           backdrop: 'static',
+    //           size: 'xl',
+    //         });
+    //       }),
+    //     )
+    //     .subscribe()
+    //     .unsubscribe();
+    // }
   }
 
   // maestros son los botones del dropdown que permiten descargar acrhivos del S3
@@ -213,37 +225,38 @@ export class ImportarAdministradorComponent
   subirArchivo(archivo_base64: string) {
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
-        let nombreFiltro = `documento_${parametros.itemNombre?.toLowerCase()}`;
+        let nombreFiltro = `documento_${this.importarConfig.nombre?.toLowerCase()}`;
         let filtroPermamente: any = [];
+        this.cargardoDocumento.set(true);
 
-        let modelo = '';
-        let ruta = '';
+        // let modelo = '';
+        // let ruta = '';
 
-        if (this.modelo === 'MOVIMIENTO') {
-          modelo = 'movimiento';
-          ruta = localStorage.getItem('ruta')!;
-        } else {
-          if ('no' == 'no') {
-            if (this.accion === 'detalle') {
-              modelo = this.modelo
-                .toLowerCase()
-                .substring(3, this.modelo.length);
-              ruta = localStorage.getItem('ruta')!;
-            } else {
-              modelo = this.modelo
-                .toLowerCase()
-                .substring(3, this.modelo.length);
-              ruta = this.modulo;
-            }
-          } else {
-            ruta = localStorage.getItem('ruta')!;
-            modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
-          }
-        }
+        // if (this.modelo === 'MOVIMIENTO') {
+        //   modelo = 'movimiento';
+        //   ruta = localStorage.getItem('ruta')!;
+        // } else {
+        //   if ('no' == 'no') {
+        //     if (this.accion === 'detalle') {
+        //       modelo = this.modelo
+        //         .toLowerCase()
+        //         .substring(3, this.modelo.length);
+        //       ruta = localStorage.getItem('ruta')!;
+        //     } else {
+        //       modelo = this.modelo
+        //         .toLowerCase()
+        //         .substring(3, this.modelo.length);
+        //       ruta = this.modulo;
+        //     }
+        //   } else {
+        //     ruta = localStorage.getItem('ruta')!;
+        //     modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
+        //   }
+        // }
 
-        this.cargardoDocumento = true;
-        this.changeDetectorRef.detectChanges();
-        let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
+        // this.cargardoDocumento = true;
+        // this.changeDetectorRef.detectChanges();
+        // let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
 
         let data: any = {
           archivo_base64,
@@ -279,7 +292,10 @@ export class ImportarAdministradorComponent
         }
 
         this.httpService
-          .post<ImportarDetalles>(url, data)
+          .post<ImportarDetalles>(
+            `${this.importarConfig.endpoint}/importar/`,
+            data,
+          )
           .pipe(
             tap((respuesta) => {
               this.alertaService.mensajaExitoso(
@@ -288,7 +304,7 @@ export class ImportarAdministradorComponent
               this.soloNuevos = false;
               this.modalService.dismissAll();
               this.errorImportar = [];
-              this.cargardoDocumento = false;
+              this.cargardoDocumento.set(false);
               this.changeDetectorRef.detectChanges();
               this.emitirDetallesAgregados.emit(respuesta);
             }),
@@ -297,7 +313,7 @@ export class ImportarAdministradorComponent
                 this.cantidadErrores = respuesta.errores_validador.length;
                 this._adaptarErroresImportar(respuesta.errores_validador);
               }
-              this.cargardoDocumento = false;
+              this.cargardoDocumento.set(false);
               this.changeDetectorRef.detectChanges();
               return of(null);
             }),
@@ -308,17 +324,14 @@ export class ImportarAdministradorComponent
   }
 
   descargarExcelImportar() {
-    let nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
-      this.parametrosUrl,
-      this.ubicacion,
-      this.detalle,
-    );
-    if (this.exportarArchivoFijo) {
-      nombreArchivo = this.exportarArchivoFijo;
-    }
+    // let nombreArchivo = this.importarConfig.nombre;
+
+    // if (this.exportarArchivoFijo) {
+    //   nombreArchivo = this.exportarArchivoFijo;
+    // }
 
     this.descargarArchivosService
-      .descargarArchivoLocal(`assets/ejemplos/modelo/${nombreArchivo}.xlsx`)
+      .descargarArchivoLocal(this.importarConfig.rutaEjemplo || '')
       .subscribe();
   }
 
@@ -330,18 +343,17 @@ export class ImportarAdministradorComponent
   descargarExcelError() {
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
-        let nombreArchivo = `errores_${parametro.modelo}.xlsx`;
+        let nombreArchivo = `errores_${this.importarConfig.nombre}.xlsx`;
 
-        let esIndependite = parametro.esIndependiente!;
-        if (esIndependite == 'si') {
-          nombreArchivo = `errores_${localStorage
-            .getItem('ruta')!
-            .toLowerCase()
-            .substring(
-              0,
-              3,
-            )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
-        }
+        // if (esIndependite == 'si') {
+        //   nombreArchivo = `errores_${localStorage
+        //     .getItem('ruta')!
+        //     .toLowerCase()
+        //     .substring(
+        //       0,
+        //       3,
+        //     )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
+        // }
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
           this.errorImportar,
         );

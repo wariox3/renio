@@ -74,9 +74,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
                 ],
               },
             },
-            archivos:{
-              importar: 'SaldoInicial.xlsx'
-            },
+            // archivos:{
+            //   importar: 'SaldoInicial.xlsx'
+            // },
             ui: {
               verIconoDerecha: true,
               verBotonNuevo: true,
@@ -126,9 +126,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
             },
-            archivos: {
-              importar: 'GenContacto.xlsx',
-            },
+            // archivos: {
+            //   importar: 'GenContacto.xlsx',
+            // },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,

@@ -187,9 +187,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               modelo: 'GenContacto',
               ordenamientos: ['-id'],
             },
-            archivos: {
-              importar: 'GenContacto.xlsx',
-            },
+            // archivos: {
+            //   importar: 'GenContacto.xlsx',
+            // },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -211,9 +211,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               modelo: 'HumContrato',
               ordenamientos: ['-id'],
             },
-            archivos: {
-              importar: 'HumContrato.xlsx',
-            },
+            // archivos: {
+            //   importar: 'HumContrato.xlsx',
+            // },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,

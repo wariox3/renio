@@ -100,9 +100,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenItem',
             },
-            archivos: {
-              importar: 'GenItem.xlsx',
-            },
+            // archivos: {
+            //   importar: 'GenItem.xlsx',
+            // },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,

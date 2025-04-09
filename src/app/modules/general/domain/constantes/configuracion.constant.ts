@@ -135,9 +135,9 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
             },
-            archivos: {
-              importar: 'GenContacto.xlsx',
-            },
+            // archivos: {
+            //   importar: 'GenContacto.xlsx',
+            // },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -158,9 +158,9 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               modelo: 'GenItem',
               ordenamientos: ['-id'],
             },
-            archivos: {
-              importar: 'GenItem.xlsx',
-            },
+            // archivos: {
+            //   importar: 'GenItem.xlsx',
+            // },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,

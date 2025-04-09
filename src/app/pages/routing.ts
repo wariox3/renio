@@ -199,11 +199,11 @@ const Routing: Routes = [
     ],
     data: { layout: 'dark-header' },
   },
-  // {
-  //   path: '',
-  //   redirectTo: getRedirectTo(),
-  //   pathMatch: 'full',
-  // },
+  {
+    path: '',
+    redirectTo: 'contenedor',
+    pathMatch: 'full',
+  },
   {
     path: '**',
     redirectTo: 'error/404',

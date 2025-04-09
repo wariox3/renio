@@ -83,13 +83,13 @@
     <div
       class="d-flex mb-2"
       [ngClass]="
-        habilitarBtnEjemploImportar
+        importarConfig.verBotonEjemplo
           ? 'justify-content-between'
           : 'justify-content-end'
       "
     >
       <div>
-        @if (habilitarBtnEjemploImportar) {
+        @if (importarConfig.verBotonEjemplo) {
           <button
             type="submit"
             class="btn btn-sm btn-primary me-2"
@@ -126,12 +126,14 @@
       </div>
 
       <div>
-        @if (!cargardoDocumento) {
+        @if (!cargardoDocumento()) {
           <button
             translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
             type="submit"
             class="btn btn-sm btn-primary"
-            [disabled]="archivoNombre === '' || !habilitarBtnEjemploImportar"
+            [disabled]="
+              archivoNombre === '' || !importarConfig.verBotonImportar
+            "
             (click)="guardarArchivo()"
           ></button>
         } @else {
@@ -251,7 +253,10 @@
                           [href]="maestro.endpoint"
                           ngbDropdownItem
                         >
-                        <i class="bi bi-cloud-download " style="font-size: 1.4rem;"></i>
+                          <i
+                            class="bi bi-cloud-download"
+                            style="font-size: 1.4rem"
+                          ></i>
                         </a>
                       </td>
                     </tr>
