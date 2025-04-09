@@ -14,6 +14,13 @@
         [modelo]="'ConMovimiento'"
         [datos]="arrDocumentos"
         [cantidad_registros]="cantidad_registros"
+        [importarConfig]="{
+          endpoint: 'contabilidad/movimiento',
+          nombre: 'ConMovmimiento',
+          rutaEjemplo: 'assets/ejemplos/modelo/ConMovimiento.xlsx',
+          verBotonEjemplo: true,
+          verBotonImportar: true,
+        }"
         [visualizarColumnaEditar]="false"
         [visualizarColumnaDetalle]="false"
         [visualizarColumnaSeleccionar]="false"
