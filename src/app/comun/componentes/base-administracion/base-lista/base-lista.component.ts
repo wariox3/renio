@@ -162,7 +162,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     //     : true;
     const verColumnaEditar = modeloConfig?.ajustes.ui?.verColumnaEditar;
     const verBtnNuevo = modeloConfig?.ajustes.ui?.verBotonNuevo;
-    const verBtnImportar = modeloConfig?.ajustes.ui?.verBotonNuevo;
+    const verBtnImportar = modeloConfig?.ajustes.ui?.verBotonImportar;
 
     this.visualizarColumnaEditar = !!verColumnaEditar;
     this.visualizarBtnNuevo = !!verBtnNuevo;
