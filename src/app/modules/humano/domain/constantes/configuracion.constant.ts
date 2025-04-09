@@ -185,11 +185,24 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                lista: [
+                  {
+                    propiedad: 'empleado',
+                    valor1: true,
+                  },
+                ],
+              },
               ordenamientos: ['-id'],
             },
-            // archivos: {
-            //   importar: 'GenContacto.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'GenContacto',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -211,9 +224,14 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               modelo: 'HumContrato',
               ordenamientos: ['-id'],
             },
-            // archivos: {
-            //   importar: 'HumContrato.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'HumContrato',
+                rutaEjemplo: 'assets/ejemplos/modelo/HumContrato.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -236,6 +254,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['-id'],
             },
             ui: {
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -255,7 +274,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               modelo: 'HumGrupo',
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -275,7 +294,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               modelo: 'HumSucursal',
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -310,6 +329,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               },
             },
             ui: {
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -330,6 +350,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['-id'],
             },
             ui: {
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -350,6 +371,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['-id'],
             },
             ui: {
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },

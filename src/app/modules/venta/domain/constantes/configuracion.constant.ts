@@ -278,9 +278,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
             },
-            // archivos: {
-            //   importar: 'GenContacto.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'GenContacto',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -301,9 +306,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenItem',
             },
-            // archivos: {
-            //   importar: 'GenItem.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'GenItem',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenItem.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -325,7 +335,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               modelo: 'InvAlmacen',
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -345,7 +355,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               modelo: 'GenSede',
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -365,7 +375,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               modelo: 'GenPrecio',
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -385,7 +395,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               modelo: 'GenAsesor',
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -412,11 +422,8 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                 ],
               },
             },
-            // archivos: {
-            //   importar: 'GenContacto.xlsx',
-            // },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -436,7 +443,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               modelo: 'GenCuentaBanco',
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },

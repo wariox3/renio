@@ -100,9 +100,14 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenItem',
             },
-            // archivos: {
-            //   importar: 'GenItem.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'GenItem',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenItem.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -125,7 +130,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['-id'],
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },

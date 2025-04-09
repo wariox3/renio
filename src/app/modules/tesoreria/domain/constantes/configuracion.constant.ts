@@ -74,9 +74,14 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
                 ],
               },
             },
-            // archivos:{
-            //   importar: 'SaldoInicial.xlsx'
-            // },
+            archivos: {
+              importar: {
+                nombre: 'SaldoInicial',
+                rutaEjemplo: 'assets/ejemplos/modelo/SaldoInicial.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verIconoDerecha: true,
               verBotonNuevo: true,
@@ -107,7 +112,7 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['-id'],
             },
             ui: {
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -126,9 +131,14 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
             },
-            // archivos: {
-            //   importar: 'GenContacto.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'GenContacto',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
