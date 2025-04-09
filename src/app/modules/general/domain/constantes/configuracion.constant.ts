@@ -135,9 +135,14 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
             },
-            // archivos: {
-            //   importar: 'GenContacto.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'GenContacto',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -158,9 +163,14 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               modelo: 'GenItem',
               ordenamientos: ['-id'],
             },
-            // archivos: {
-            //   importar: 'GenItem.xlsx',
-            // },
+            archivos: {
+              importar: {
+                nombre: 'GenItem',
+                rutaEjemplo: 'assets/ejemplos/modelo/GenItem.xlsx',
+                verBotonEjemplo: true,
+                verBotonImportar: true,
+              },
+            },
             ui: {
               verBotonImportar: true,
               verBotonNuevo: true,
@@ -182,6 +192,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               modelo: 'GenSede',
             },
             ui: {
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
@@ -202,6 +213,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               ordenamientos: ['id'],
             },
             ui: {
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
             },
