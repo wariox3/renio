@@ -22,7 +22,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/proceso/detalle',
               editar: 'humano/proceso/editar',
             },
-            endpoint: 'general/documento',
+            endpoint: 'humano/programacion',
             parametrosHttpConfig: {
               modelo: 'HumProgramacion',
               ordenamientos: ['-fecha_desde'],
@@ -47,7 +47,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/proceso/detalle',
               editar: 'humano/proceso/editar',
             },
-            endpoint: 'general/documento',
+            endpoint: 'humano/aporte',
             parametrosHttpConfig: {
               modelo: 'HumAporte',
               ordenamientos: ['-fecha_desde'],

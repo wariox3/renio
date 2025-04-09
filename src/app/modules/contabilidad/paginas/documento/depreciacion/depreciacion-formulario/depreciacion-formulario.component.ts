@@ -208,7 +208,7 @@ export default class DepreciacionFormularioComponent
 
   formSubmit() {
     if (this.formularioAsiento.valid) {
-      if (this.detalle == undefined) {
+      if (this.detalle == 0) {
         this.facturaService
           .guardarFactura({
             ...this.formularioAsiento.value,

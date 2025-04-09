@@ -240,7 +240,7 @@ export default class CierreFormularioComponent
   formSubmit() {
     if (this.formularioCierre.valid) {
       this.guardando.set(true);
-      if (this.detalle == undefined) {
+      if (this.detalle == 0) {
         this.facturaService
           .guardarFactura({
             ...this.formularioCierre.value,

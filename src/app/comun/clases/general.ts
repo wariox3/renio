@@ -16,8 +16,8 @@ export class General {
   protected alertaService = inject(AlertaService);
   protected translateService = inject(TranslateService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
-  protected modulo = '';
-  protected modelo = '';
+  // protected modulo = '';
+  // protected modelo = '';
   protected tipo = '';
   protected formulario = '';
   protected accion: AplicacionAccion = null;
