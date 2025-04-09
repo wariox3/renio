@@ -63,6 +63,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public nombreModelo: string | undefined;
   public _tipo: string = 'DOCUMENTO';
   public importarConfig: ArchivosImportar | undefined;
+  public documentoId: number | undefined;
 
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
@@ -173,6 +174,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._modulo = this._configModuleService.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
     this.importarConfig = modeloConfig?.ajustes.archivos?.importar;
+    this.documentoId = Number(
+      modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.lista?.[0].valor1,
+    );
     this.nombreFiltro = `documento_${this._modelo?.toLowerCase()}`;
   }
 
