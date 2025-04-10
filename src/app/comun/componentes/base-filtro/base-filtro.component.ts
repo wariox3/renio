@@ -114,22 +114,22 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
       let tipo = window.location.pathname.split('/')[1];
-      this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
+      // this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
 
-      if(this.nombreFiltroCustom !== ''){
-        this.nombreFiltro = `${tipo}_${this.nombreFiltroCustom}`
-      }
+      // if(this.nombreFiltroCustom !== ''){
+      //   this.nombreFiltro = `${tipo}_${this.nombreFiltroCustom}`
+      // }
 
-      if (localStorage.getItem(this.nombreFiltro) !== null) {
-        this.filtrosAplicados = JSON.parse(
-          localStorage.getItem(this.nombreFiltro)!
-        );
-        this.formularioFiltros.reset();
-        this.filtros.clear();
-        this.filtrosAplicados.map((propiedad, index) => {
-          this.filtros.push(this.crearControlFiltros(propiedad, index));
-        });
-      } else {
+      // if (localStorage.getItem(this.nombreFiltro) !== null) {
+        // this.filtrosAplicados = JSON.parse(
+        //   localStorage.getItem(this.nombreFiltro)!
+        // );
+        // this.formularioFiltros.reset();
+        // this.filtros.clear();
+        // this.filtrosAplicados.map((propiedad, index) => {
+        //   this.filtros.push(this.crearControlFiltros(propiedad, index));
+        // });
+      // } else {
         this.formularioFiltros.reset();
         this.filtros.clear();
         this.filtrosAplicados = [
@@ -143,7 +143,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         ];
         this.filtros.push(this.crearControlFiltros(null, 0));
         this.changeDetectorRef.detectChanges();
-      }
+      // }
     });
   }
 

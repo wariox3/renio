@@ -14,6 +14,7 @@ import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
 import { Modelo } from '@comun/type/modelo.type';
+import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { BotonesExtras } from '@interfaces/comunes/configuracion-extra/configuracion-extra.interface';
@@ -73,6 +74,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     ordenamientos: [],
     limite_conteo: 10000,
   };
+  filtrosDocumento: Filtros[] = [];
   arrPropiedades: Listafiltros[];
   arrItems: any;
   cantidad_registros!: number;
@@ -177,7 +179,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.documentoId = Number(
       modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.lista?.[0].valor1,
     );
-    this.nombreFiltro = `documento_${this._modelo?.toLowerCase()}`;
+    this.nombreFiltro = `${this._modulo?.toLocaleLowerCase()}_documento_${this._modelo?.toLowerCase()}`;
   }
 
   private _reiniciarParametrosConsulta() {
@@ -212,6 +214,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         ...this.arrParametrosConsulta,
         filtros: httpConfig?.filtros?.lista,
       };
+      this.filtrosDocumento = httpConfig?.filtros?.lista || [];
     }
 
     if (httpConfig?.serializador) {
@@ -417,11 +420,15 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     });
   }
 
-  obtenerFiltros(arrfiltros: any[]) {
+  obtenerFiltros(arrfiltros: Filtros[]) {
     if (arrfiltros.length >= 1) {
-      this.arrParametrosConsulta.filtros = arrfiltros;
+      this.arrParametrosConsulta.filtros = [
+        ...this.filtrosDocumento,
+        ...arrfiltros,
+      ];
     } else {
       localStorage.removeItem(this.nombreFiltro);
+      this.arrParametrosConsulta.filtros = [...this.filtrosDocumento];
     }
     this.changeDetectorRef.detectChanges();
     this.consultarLista();
