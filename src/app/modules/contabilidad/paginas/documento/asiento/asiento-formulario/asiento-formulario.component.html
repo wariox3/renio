@@ -1,17 +1,17 @@
 <form [formGroup]="formularioAsiento" (ngSubmit)="formSubmit()">
   <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
     @if (detalle) {
-    <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
-      <app-importar-detalles
-        [estadoHabilitado]="estado_aprobado"
-        (emitirDetallesAgregados)="consultardetalle()"
-      ></app-importar-detalles>
-    </div>
+      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+        <app-importar-detalles
+          [estadoHabilitado]="estado_aprobado"
+          (emitirDetallesAgregados)="consultardetalle()"
+        ></app-importar-detalles>
+      </div>
     }
   </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion></app-comun-titulo-accion>
+      <app-comun-titulo-accion [nombreModelo]="'asiento'"></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -34,7 +34,7 @@
                   formularioAsiento.controls['contacto'].invalid,
                 'is-valid':
                   formularioAsiento.controls['contacto'].touched &&
-                  formularioAsiento.controls['contacto'].valid
+                  formularioAsiento.controls['contacto'].valid,
               }"
             />
             <div class="position-absolute translate-middle-y top-50 end-0 me-3">
@@ -90,7 +90,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAsiento.controls['contacto']
+              control: formularioAsiento.controls['contacto'],
             }"
           ></ng-container>
         </div>
@@ -112,7 +112,7 @@
                 formularioAsiento.controls['fecha'].invalid,
               'is-valid':
                 formularioAsiento.controls['fecha'].touched &&
-                formularioAsiento.controls['fecha'].valid
+                formularioAsiento.controls['fecha'].valid,
             }"
           />
           <ng-container
@@ -120,7 +120,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAsiento.controls['fecha']
+              control: formularioAsiento.controls['fecha'],
             }"
           ></ng-container>
           <div
@@ -158,7 +158,7 @@
                 formularioAsiento.controls['soporte'].invalid,
               'is-valid':
                 formularioAsiento.controls['soporte'].touched &&
-                formularioAsiento.controls['soporte'].valid
+                formularioAsiento.controls['soporte'].valid,
             }"
           />
           <ng-container
@@ -166,7 +166,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAsiento.controls['soporte']
+              control: formularioAsiento.controls['soporte'],
             }"
           ></ng-container>
         </div>
@@ -186,7 +186,7 @@
                 formularioAsiento.controls['comprobante'].invalid,
               'is-valid':
                 formularioAsiento.controls['comprobante'].touched &&
-                formularioAsiento.controls['comprobante'].valid
+                formularioAsiento.controls['comprobante'].valid,
             }"
           >
             <option value="">
@@ -204,7 +204,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAsiento.controls['comprobante']
+              control: formularioAsiento.controls['comprobante'],
             }"
           ></ng-container>
         </div>
@@ -222,7 +222,7 @@
                 formularioAsiento.controls['grupo_contabilidad'].invalid,
               'is-valid':
                 formularioAsiento.controls['grupo_contabilidad'].touched &&
-                formularioAsiento.controls['grupo_contabilidad'].valid
+                formularioAsiento.controls['grupo_contabilidad'].valid,
             }"
           >
             <option value="">
@@ -252,7 +252,7 @@
                 formularioAsiento.controls['comentario'].invalid,
               'is-valid':
                 formularioAsiento.controls['comentario'].touched &&
-                formularioAsiento.controls['comentario'].valid
+                formularioAsiento.controls['comentario'].valid,
             }"
           ></textarea>
           <ng-container
@@ -262,7 +262,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '500',
-              control: formularioAsiento.controls['comentario']
+              control: formularioAsiento.controls['comentario'],
             }"
           ></ng-container>
         </div>
@@ -354,7 +354,7 @@
                                   detalle.get('numero')?.invalid,
                                 'is-valid':
                                   detalle.get('numero')?.touched &&
-                                  detalle.get('numero')?.invalid
+                                  detalle.get('numero')?.invalid,
                               }"
                             />
                             <ng-container
@@ -364,7 +364,7 @@
                                 message:
                                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
                                   | translate,
-                                control: detalle.get('numero')
+                                control: detalle.get('numero'),
                               }"
                             ></ng-container>
                           </td>
@@ -376,6 +376,7 @@
                               (emitirContacto)="
                                 agregarContactoSeleccionado($event, i)
                               "
+                              (emitirLineaVacia)="limpiarContacto(i)"
                             >
                             </app-comun-contactos>
                           </td>
@@ -400,9 +401,12 @@
                               formControlName="grupo"
                               class="form-select form-select-sm"
                             >
-                            <option value="">
-                              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-                            </option>
+                              <option value="">
+                                {{
+                                  "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR"
+                                    | translate
+                                }}
+                              </option>
                               <option
                                 *ngFor="let grupo of arrGrupo"
                                 [value]="grupo.grupo_id"
@@ -441,9 +445,7 @@
                               formControlName="base"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
-                              (change)="
-                                actualizarDetalle(i, 'base', $event)
-                              "
+                              (change)="actualizarDetalle(i, 'base', $event)"
                               appSoloNumeros
                               [ngClass]="{
                                 'is-invalid':
@@ -451,8 +453,9 @@
                                   detalle.get('base')?.invalid,
                                 'is-valid':
                                   detalle.get('base')?.touched &&
-                                  detalle.get('base')?.invalid
+                                  detalle.get('base')?.invalid,
                               }"
+                              [permiteDecimales]="true"
                             />
                           </td>
                           <td class="w-100px">
@@ -461,15 +464,18 @@
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
                               (change)="actualizarDetalle(i, 'precio', $event)"
-                              appSoloNumeros
                               [ngClass]="{
                                 'is-invalid':
                                   detalle.get('precio')?.touched &&
                                   detalle.get('precio')?.invalid,
                                 'is-valid':
                                   detalle.get('precio')?.touched &&
-                                  detalle.get('precio')?.invalid
+                                  detalle.get('precio')?.invalid,
                               }"
+                              rows="1"
+                              [permiteDecimales]="true"
+                              type="number"
+                              appSoloNumeros
                             />
                             <ng-container
                               [ngTemplateOutlet]="formError"
@@ -478,7 +484,7 @@
                                 message:
                                   'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO'
                                   | translate,
-                                control: detalle.get('precio')
+                                control: detalle.get('precio'),
                               }"
                             ></ng-container>
                           </td>
@@ -494,7 +500,7 @@
                                   detalle.get('detalle')?.invalid,
                                 'is-valid':
                                   detalle.get('detalle')?.touched &&
-                                  detalle.get('detalle')?.invalid
+                                  detalle.get('detalle')?.invalid,
                               }"
                             />
                           </td>
@@ -517,7 +523,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.CREDITO"
                       ></td>
                       <td class="text-end">
-                        {{ totalCredito | currency : "$" }}
+                        {{ totalCredito | currency: "$" }}
                       </td>
                     </tr>
                     <tr>
@@ -526,7 +532,7 @@
                         translate="FORMULARIOS.TITULOS.FACTURACION.DEBITO"
                       ></td>
                       <td class="text-end">
-                        {{ totalDebito | currency : "$" }}
+                        {{ totalDebito | currency: "$" }}
                       </td>
                     </tr>
                     <tr>
@@ -534,7 +540,7 @@
                         class="text-end"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
                       ></td>
-                      <td class="text-end">{{ total | currency : "$" }}</td>
+                      <td class="text-end">{{ total | currency: "$" }}</td>
                     </tr>
                   </table>
                 </div>

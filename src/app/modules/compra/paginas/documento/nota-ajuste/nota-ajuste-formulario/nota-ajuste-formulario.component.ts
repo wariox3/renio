@@ -34,6 +34,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 
 @Component({
   selector: 'app-nota-ajuste-formulario',
@@ -54,6 +55,7 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
+    SeleccionarGrupoComponent,
   ],
 })
 export default class FacturaDetalleComponent
@@ -185,8 +187,6 @@ export default class FacturaDetalleComponent
       this.dataUrl = this.parametrosUrl;
     }
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
-      // this.consultardetalle();
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
@@ -226,7 +226,7 @@ export default class FacturaDetalleComponent
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
+      if (this.detalle == 0) {
         if (this.validarCamposDetalles() === false) {
           this.facturaService
             .guardarFactura({
@@ -238,12 +238,14 @@ export default class FacturaDetalleComponent
             })
             .pipe(
               tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
+                this.router.navigate(
+                  [`compra/documento/detalle/${respuesta.documento.id}`],
+                  {
+                    queryParams: {
+                      ...this.parametrosUrl,
+                    },
                   },
-                });
+                );
               }),
             )
             .subscribe();
@@ -251,6 +253,7 @@ export default class FacturaDetalleComponent
       } else {
         if (this.validarCamposDetalles() === false) {
           this._formularioFacturaService.submitActualizarFactura(
+            'compra',
             this.detalle,
             this.parametrosUrl,
           );
@@ -929,5 +932,9 @@ export default class FacturaDetalleComponent
         documento_referencia_numero: null,
         documento_referencia: null,
       });
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
 }

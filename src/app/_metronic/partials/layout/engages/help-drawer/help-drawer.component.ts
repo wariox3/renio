@@ -33,11 +33,11 @@ export class HelpDrawerComponent extends General implements OnInit {
     );
     this.activatedRoute.queryParams.subscribe((parametros) => {
       if (this.parametrosUrl?.documento_clase == 301) {
-        this.modelo = 'notacreditocompra';
+        // this.modelo = 'notacreditocompra';
         this.changeDetectorRef.detectChanges();
       }
       if (this.parametrosUrl?.documento_clase == 302) {
-        this.modelo = 'notadebitocompra';
+        // this.modelo = 'notadebitocompra';
         this.changeDetectorRef.detectChanges();
       }
     });

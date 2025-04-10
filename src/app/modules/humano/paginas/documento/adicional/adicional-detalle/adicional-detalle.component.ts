@@ -7,6 +7,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
   selector: 'app-adicional-detalle',
@@ -17,7 +18,8 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     CardComponent,
     BtnAtrasComponent,
-  ],
+    TituloAccionComponent
+],
   templateUrl: './adicional-detalle.component.html',
   styleUrl: './adicional-detalle.component.scss',
 })
@@ -50,17 +52,18 @@ export default class AdicionalDetalleComponent extends General {
   }
 
   navegarEditar(id: number) {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.router.navigate([`/documento/editar`], {
-        queryParams: {
-          ...parametro,
-          detalle: id,
-        },
-      });
+    this.router.navigate([`humano/documento/editar/${id}`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
     });
   }
 
   navegarNuevo() {
-    this.navegarDocumentoNuevo()
+    this.router.navigate([`humano/documento/nuevo`], {
+      queryParams: {
+        ...this.parametrosUrl,
+      },
+    });
   }
 }

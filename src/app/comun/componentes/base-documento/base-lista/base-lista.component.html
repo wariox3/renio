@@ -5,16 +5,26 @@
       <section card-body>
         <app-base-filtro
           (emitirFiltros)="obtenerFiltros($event)"
+          [_tipo]="_tipo"
         ></app-base-filtro>
       </section>
     </app-card>
   </div>
   <div class="tabla">
-    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (modelo | uppercase)">
+    <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (nombreModelo | uppercase)">
       <section card-body>
         <app-comun-tabla
-          [modelo]="modelo"
+          [modelo]="_modelo!"
+          [_tipo]="_tipo"
           [datos]="arrItems"
+          [importarConfig]="{
+            endpoint: _endpoint!,
+            documentoId: documentoId,
+            nombre: importarConfig?.nombre,
+            rutaEjemplo: importarConfig?.rutaEjemplo,
+            verBotonEjemplo: importarConfig?.verBotonEjemplo,
+            verBotonImportar: importarConfig?.verBotonImportar,
+          }"
           [cargando]="mostrarVentanaCargando$ | async"
           [encabezado]="titulos"
           [visualizarBtnExtra]="botonGenerar"

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -27,7 +27,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, Subject, takeUntil, tap, throttleTime } from 'rxjs';
 import { ContactosComponent } from '../../../../../../comun/componentes/contactos/contactos.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
@@ -37,6 +37,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -61,8 +63,12 @@ import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/f
     SeleccionarGrupoComponent,
   ],
 })
-export default class PagoFormularioComponent extends General implements OnInit {
+export default class PagoFormularioComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   private _operacionesService = inject(OperacionesService);
+  private _configModuleService = inject(ConfigModuleService);
 
   formularioFactura: FormGroup;
   active: Number;
@@ -87,6 +93,9 @@ export default class PagoFormularioComponent extends General implements OnInit {
     { propiedad: 'documento_tipo__cobrar', valor1: true },
     { propiedad: 'pendiente__gt', valor1: 0 },
   ];
+
+  private _destroy$ = new Subject<void>();
+  private _rutas: Rutas | undefined;
 
   public campoLista: CampoLista[] = [
     {
@@ -118,13 +127,26 @@ export default class PagoFormularioComponent extends General implements OnInit {
 
   ngOnInit() {
     this.active = 1;
+    this._configurarModuleListener();
     this.consultarInformacion();
     this.inicializarFormulario();
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
+  private _configurarModuleListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
   }
 
   inicializarFormulario() {
@@ -232,7 +254,7 @@ export default class PagoFormularioComponent extends General implements OnInit {
   formSubmit() {
     if (this.formularioFactura.valid) {
       if (this.formularioFactura.get('total')?.value >= 0) {
-        if (this.detalle == undefined) {
+        if (this.detalle == 0) {
           this.facturaService
             .guardarFactura({
               ...this.formularioFactura.value,
@@ -243,12 +265,14 @@ export default class PagoFormularioComponent extends General implements OnInit {
             })
             .pipe(
               tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuesta.documento.id}`],
+                  {
+                    queryParams: {
+                      ...this.parametrosUrl,
+                    },
                   },
-                });
+                );
               }),
             )
             .subscribe();
@@ -259,12 +283,14 @@ export default class PagoFormularioComponent extends General implements OnInit {
               ...{ detalles_eliminados: this.arrDetallesEliminado },
             })
             .subscribe((respuesta) => {
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
+              this.router.navigate(
+                [`${this._rutas?.detalle}/${respuesta.documento.id}`],
+                {
+                  queryParams: {
+                    ...this.parametrosUrl,
+                  },
                 },
-              });
+              );
             });
         }
       } else {

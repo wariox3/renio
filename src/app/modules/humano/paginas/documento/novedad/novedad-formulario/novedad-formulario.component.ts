@@ -6,7 +6,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -29,12 +29,14 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 import { NovedadService } from '@modulos/humano/servicios/novedad.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, Subject, takeUntil, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { BuscarAvanzadoComponent } from '../../../../../../comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-novedad-formulario',
@@ -68,9 +70,12 @@ import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interfa
 })
 export default class CreditoFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   formularioAdicional: FormGroup;
   arrContratos: any[] = [];
@@ -104,6 +109,7 @@ export default class CreditoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.consultarInformacion();
     this.iniciarFormulario();
 
@@ -112,6 +118,19 @@ export default class CreditoFormularioComponent
     }
 
     this._iniciarCamposReactivos();
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   private _iniciarCamposReactivos() {
@@ -188,10 +207,9 @@ export default class CreditoFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate(['documento/detalle'], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametros,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -204,10 +222,9 @@ export default class CreditoFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate(['documento/detalle'], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametros,
-                    detalle: respuesta.id,
                   },
                 });
               });

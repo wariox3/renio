@@ -39,8 +39,8 @@ import ContactoFormulario from '../../../../../general/paginas/contacto/contacto
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
-import { DocumentoSoporteInformacionExtraComponent } from "../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component";
-import { SeleccionarResolucionComponent } from "../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component";
+import { DocumentoSoporteInformacionExtraComponent } from '../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component';
+import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -64,8 +64,8 @@ import { SeleccionarResolucionComponent } from "../../../../../../comun/componen
     SeleccionarGrupoComponent,
     SeleccionarAlmacenComponent,
     DocumentoSoporteInformacionExtraComponent,
-    SeleccionarResolucionComponent
-],
+    SeleccionarResolucionComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -157,11 +157,8 @@ export default class FacturaDetalleComponent
     this.consultarInformacion();
     this.mostrarDocumentoReferencia.set(true);
     this.active = 1;
-    if (this.parametrosUrl) {
-      this.dataUrl = this.parametrosUrl;
-    }
+    
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
@@ -226,7 +223,7 @@ export default class FacturaDetalleComponent
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
+      if (this.detalle == 0) {
         if (this.validarCamposDetalles() === false) {
           this.facturaService
             .guardarFactura({
@@ -238,12 +235,14 @@ export default class FacturaDetalleComponent
             })
             .pipe(
               tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
+                this.router.navigate(
+                  [`compra/documento/detalle/${respuesta.documento.id}`],
+                  {
+                    queryParams: {
+                      ...this.parametrosUrl,
+                    },
                   },
-                });
+                );
               }),
             )
             .subscribe();
@@ -251,6 +250,7 @@ export default class FacturaDetalleComponent
       } else {
         if (this.validarCamposDetalles() === false) {
           this._formularioFacturaService.submitActualizarFactura(
+            'compra',
             this.detalle,
             this.parametrosUrl,
           );

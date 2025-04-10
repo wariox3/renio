@@ -12,7 +12,7 @@
   </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion></app-comun-titulo-accion>
+      <app-comun-titulo-accion [nombreModelo]="'entrada'"></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -200,29 +200,12 @@
                                   theme_value === 'dark' && estado_aprobado,
                                 'is-invalid':
                                   detalle.get('precio')?.touched &&
-                                  detalle.get('precio')?.value === 0,
+                                  detalle.get('precio')?.value < 0,
                               }"
                               rows="1"
                               appSoloNumeros
                               [permiteDecimales]="true"
                             />
-                            <div
-                              *ngIf="
-                                (detalle.get('precio')?.touched &&
-                                  detalle
-                                    .get('precio')
-                                    ?.hasError('valorCero')) ||
-                                detalle.get('precio ')?.invalid
-                              "
-                            >
-                              <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                  <span role="alert">
-                                    Valor no permitido.
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
                           </td>
 
                           <td class="text-center" *ngIf="!estado_aprobado">

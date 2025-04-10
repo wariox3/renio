@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -16,9 +16,11 @@ import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { tap } from 'rxjs';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-adicional-formulario',
@@ -40,14 +42,16 @@ import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocomple
 })
 export default class AdicionalFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   formularioAdicional: FormGroup;
   arrConceptos: any[] = [];
   arrConceptosAdicional: RegistroAutocompletarHumConcepto[] = [];
   arrContratos: any[] = [];
 
   private readonly _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -57,11 +61,25 @@ export default class AdicionalFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.consultarInformacion();
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultarDetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -76,7 +94,6 @@ export default class AdicionalFormularioComponent
       horas: [0],
       aplica_dia_laborado: [false],
       inactivo: [false],
-      inactivo_periodo: [false],
       permanente: [true],
       valor: [
         0,
@@ -125,10 +142,9 @@ export default class AdicionalFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate(['documento/detalle'], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametros,
-                  detalle: respuesta.id,
                 },
               });
             });
@@ -141,10 +157,9 @@ export default class AdicionalFormularioComponent
             tap((respuesta) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate(['documento/detalle'], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametros,
-                    detalle: respuesta.id,
                   },
                 });
               });
@@ -173,7 +188,6 @@ export default class AdicionalFormularioComponent
           valor: respuesta.valor,
           aplica_dia_laborado: respuesta.aplica_dia_laborado,
           inactivo: respuesta.inactivo,
-          inactivo_periodo: respuesta.inactivo_periodo,
         });
         this.changeDetectorRef.detectChanges();
       });

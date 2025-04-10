@@ -3,6 +3,7 @@
     <app-base-filtro
       (emitirFiltros)="obtenerFiltros($event)"
       [persistirFiltros]="false"
+      [_tipo]="'DOCUMENTO'"
     ></app-base-filtro>
   </section>
 </app-card>
@@ -10,9 +11,17 @@
   <section card-body>
     <div class="table-responsive-sm table-loading">
       <app-comun-tabla
-        [modelo]="modelo"
+        [modelo]="'MOVIMIENTO'"
+        [_tipo]="'MOVIMIENTO'"
         [datos]="arrDocumentos"
         [cantidad_registros]="cantidad_registros"
+        [importarConfig]="{
+          endpoint: 'contabilidad/movimiento',
+          nombre: 'ConMovmimiento',
+          rutaEjemplo: 'assets/ejemplos/modelo/ConMovimiento.xlsx',
+          verBotonEjemplo: true,
+          verBotonImportar: true,
+        }"
         [visualizarColumnaEditar]="false"
         [visualizarColumnaDetalle]="false"
         [visualizarColumnaSeleccionar]="false"

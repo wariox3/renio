@@ -3,12 +3,18 @@
     <app-importar-administrador
       [estadoHabilitado]="programacion.estado_generado"
       [modelo]="'HumAdicional'"
-      [exportarArchivoFijo]="'HumAdicional'"
+      [importarConfig]="{
+        endpoint: 'humano/adicional',
+        nombre: 'HumAdicional',
+        rutaEjemplo: 'assets/ejemplos/modelo/HumAdicional.xlsx',
+        verBotonImportar: true,
+        verBotonEjemplo: true,
+      }"
       [detalle]="[
         {
           idNombre: 'programacion_id',
-          idValor: programacion.id
-        }
+          idValor: programacion.id,
+        },
       ]"
       [filtrosExternos]="[{ propiedad: 'permanente', valor1: false }]"
       role="group"
@@ -77,8 +83,8 @@
           </div>
         </th>
 
-        @if(!programacion.estado_generado){
-        <th class="text-center bg-gray-100"></th>
+        @if (!programacion.estado_generado) {
+          <th class="text-center bg-gray-100"></th>
         }
         <th class="text-center bg-gray-100">
           <label for="seleccionarTodos">
@@ -131,25 +137,25 @@
           <td class="text-end">
             {{ programacionAdicional.valor | number }}
           </td>
-          <td style="width: 185px;">
+          <td style="width: 185px">
             {{ programacionAdicional.detalle }}
           </td>
           <td class="text-center">
             {{ programacionAdicional.aplica_dia_laborado ? "SI" : "NO" }}
           </td>
 
-          @if(!programacion.estado_generado){
-          <td class="w-20px">
-            <label
-              class="cursor-pointer"
-              (click)="abrirModalEditar(programacionAdicional.id)"
-            >
-              <i class="ki-duotone ki-notepad-edit hover-primary">
-                <span class="path1"></span>
-                <span class="path2"></span>
-              </i>
-            </label>
-          </td>
+          @if (!programacion.estado_generado) {
+            <td class="w-20px">
+              <label
+                class="cursor-pointer"
+                (click)="abrirModalEditar(programacionAdicional.id)"
+              >
+                <i class="ki-duotone ki-notepad-edit hover-primary">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                </i>
+              </label>
+            </td>
           }
           <td class="w-20px">
             <label [for]="programacionAdicional.id">

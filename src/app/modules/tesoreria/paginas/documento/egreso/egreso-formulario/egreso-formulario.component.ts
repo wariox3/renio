@@ -120,7 +120,6 @@ export default class EgresoFormularioComponent
     this.inicializarFormulario();
     this.consultarInformacion();
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.consultardetalle();
     }
     this.changeDetectorRef.detectChanges();
@@ -252,7 +251,7 @@ export default class EgresoFormularioComponent
   enviar() {
     if (this.formularioEgreso.valid) {
       if (this.formularioEgreso.get('total')?.value >= 0) {
-        if (this.detalle == undefined) {
+        if (this.detalle == 0) {
           this.facturaService
             .guardarFactura({
               ...this.formularioEgreso.value,
@@ -263,12 +262,14 @@ export default class EgresoFormularioComponent
             })
             .pipe(
               tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
+                this.router.navigate(
+                  [`tesoreria/documento/detalle/${respuesta.documento.id}`],
+                  {
+                    queryParams: {
+                      ...this.parametrosUrl,
+                    },
                   },
-                });
+                );
               }),
             )
             .subscribe();
@@ -279,12 +280,14 @@ export default class EgresoFormularioComponent
               ...{ detalles_eliminados: this.arrDetallesEliminado },
             })
             .subscribe((respuesta) => {
-              this.router.navigate(['documento/detalle'], {
-                queryParams: {
-                  ...this.parametrosUrl,
-                  detalle: respuesta.documento.id,
+              this.router.navigate(
+                [`tesoreria/documento/detalle/${respuesta.documento.id}`],
+                {
+                  queryParams: {
+                    ...this.parametrosUrl,
+                  },
                 },
-              });
+              );
             });
         }
       } else {

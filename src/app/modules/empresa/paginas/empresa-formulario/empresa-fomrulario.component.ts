@@ -20,7 +20,7 @@ import { General } from '@comun/clases/general';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
-import { } from '@interfaces/comunes/autocompletar/autocompletar';
+import {} from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
 import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
 import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
@@ -39,7 +39,16 @@ import { TranslateModule } from '@ngx-translate/core';
 import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { provideNgxMask } from 'ngx-mask';
-import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
+import {
+  asyncScheduler,
+  of,
+  Subject,
+  switchMap,
+  takeUntil,
+  tap,
+  throttleTime,
+  zip,
+} from 'rxjs';
 
 @Component({
   selector: 'app-empresa-formulario',
@@ -55,7 +64,7 @@ import { asyncScheduler, of, switchMap, tap, throttleTime, zip } from 'rxjs';
     NgbDropdownMenu,
     NgbDropdownItem,
     CommonModule,
-    InputValueCaseDirective
+    InputValueCaseDirective,
   ],
   providers: [provideNgxMask()],
 })
@@ -75,12 +84,13 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
   @ViewChild('inputBusquedaResolucion', { static: true })
   inputBusquedaResolucion!: ElementRef<HTMLInputElement>;
+  private _destroy$ = new Subject<void>();
 
   constructor(
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
-    private _generalServices: GeneralService
+    private _generalServices: GeneralService,
   ) {
     super();
   }
@@ -99,21 +109,21 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         {
           modelo: 'GenIdentificacion',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
         {
           modelo: 'GenRegimen',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
       this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
         {
           modelo: 'GenTipoPersona',
           serializador: 'ListaAutocompletar',
-        }
+        },
       ),
-      this.empresaService.consultarDetalle(this.empresaId)
+      this.empresaService.consultarDetalle(this.empresaId),
     ).subscribe((respuesta: any) => {
       this.arrIdentificacion = respuesta[0].registros;
       this.arrRegimen = respuesta[1].registros;
@@ -187,47 +197,39 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   }
 
   formSubmit() {
-    this.store
-      .select(obtenerEmpresaId)
-      .subscribe((id) => (this.empresaId = id));
-
-    if (this.formularioEmpresa.valid) {
-      this.empresaService
-        .actualizarDatosEmpresa(1, this.formularioEmpresa.value)
-        .pipe(
-          switchMap((respuestaActualizacion: any) => {
-            if (respuestaActualizacion.actualizacion) {
-              return this.store.select(obtenerEmpresaId);
-            }
-            return of(null);
-          }),
-          switchMap((respuestaEmpresa_id: any) => {
-            this.alertaService.mensajaExitoso(
-              this.translateService.instant(
-                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-              )
-            );
-            return this.empresaService.consultarDetalle(respuestaEmpresa_id);
-          }),
-          tap((respuestaConsultaEmpresa: any) => {
-            this.store.dispatch(
-              empresaActualizacionAction({
-                empresa: respuestaConsultaEmpresa,
-              })
-            );
-            this.changeDetectorRef.detectChanges();
-            return this.emitirRegistroGuardado.emit(true);
-          })
-        )
-        .subscribe();
-    } else {
+    if (!this.formularioEmpresa.valid) {
       this.formularioEmpresa.markAllAsTouched();
+      return;
     }
+
+    this.empresaService
+      .actualizarDatosEmpresa(1, this.formularioEmpresa.value)
+      .pipe(
+        switchMap(() => {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
+            ),
+          );
+          return this.empresaService.consultarDetalle(this.empresaId);
+        }),
+        tap((respuestaConsultaEmpresa: any) => {
+          this.store.dispatch(
+            empresaActualizacionAction({
+              empresa: respuestaConsultaEmpresa,
+            }),
+          );
+          this.changeDetectorRef.detectChanges();
+          return this.emitirRegistroGuardado.emit(true);
+        }),
+        takeUntil(this._destroy$),
+      )
+      .subscribe();
   }
 
   consultarCiudad(event: any) {
-    this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>(
-      {
+    this._generalServices
+      .consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>({
         filtros: [
           {
             propiedad: 'nombre__icontains',
@@ -240,13 +242,13 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         limite_conteo: 10000,
         modelo: 'GenCiudad',
         serializador: 'ListaAutocompletar',
-      }
-    ).pipe(
+      })
+      .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           this.arrCiudades = respuesta.registros;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -283,7 +285,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   calcularDigitoVerificacion() {
     let digito = this.devuelveDigitoVerificacionService.digitoVerificacion(
-      this.formularioEmpresa.get('numero_identificacion')?.value
+      this.formularioEmpresa.get('numero_identificacion')?.value,
     );
     this.formularioEmpresa.patchValue({
       digito_verificacion: digito,

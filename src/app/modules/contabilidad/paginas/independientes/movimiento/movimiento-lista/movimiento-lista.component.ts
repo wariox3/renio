@@ -109,7 +109,7 @@ export class MovimientoListaComponent extends General implements OnInit {
     this.descargarArchivosService.descargarExcelDocumentos({
       ...this.arrParametrosConsulta,
       ...{
-        limite: 5000,
+        limite: this.cantidad_registros,
         excel: true
       },
     });

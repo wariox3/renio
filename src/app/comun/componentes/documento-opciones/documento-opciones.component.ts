@@ -32,6 +32,7 @@ import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.comp
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
 import { PaginadorComponent } from '../paginador/paginador.component';
 import { TablaComponent } from '../tabla/tabla.component';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -43,6 +44,7 @@ import { TablaComponent } from '../tabla/tabla.component';
     PaginadorComponent,
     TranslateModule,
     SeleccionarContactoComponent,
+    AnimationFadeInUpDirective,
     CargarArchivosComponent,
   ],
   templateUrl: './documento-opciones.component.html',
@@ -103,7 +105,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.documentoId = parametro.detalle;
+      this.documentoId = this.detalle;
       this.parametrosConsulta.filtros = [
         {
           propiedad: 'documento_id',
@@ -262,6 +264,16 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           credito: documento.credito,
           detalle: documento.detalle,
         }));
+
+        this.totalDebito = this.arrDocumentos.reduce(
+          (total, doc) => total + (doc.debito || 0),
+          0,
+        );
+        this.totalCredito = this.arrDocumentos.reduce(
+          (total, doc) => total + (doc.credito || 0),
+          0,
+        );
+
         this.changeDetectorRef.detectChanges();
       });
   }

@@ -1,5 +1,5 @@
 <div class="row periodo-section">
-  <div class="col-sm-12">
+  <div class="col-sm-12 col-md-3">
     <app-card titulo="Periodos">
       <section card-propiedades>
         <button
@@ -11,148 +11,144 @@
         </button>
       </section>
       <section card-body>
-        <div ngbAccordion [closeOthers]="true">
-          @for (fecha of fechas; track $index) {
-            <div ngbAccordionItem>
-              <h2 ngbAccordionHeader>
-                <button ngbAccordionButton (click)="seleccionarAnio(fecha)">
-                  {{ fecha }}
-                </button>
-              </h2>
-              <div ngbAccordionCollapse>
-                <div ngbAccordionBody>
-                  <ng-template>
-                    @if ((periodosFiltradosPorAnio$ | async)?.length) {
-                      <div class="table-responsive">
-                        <table
-                          class="table table-hover table-bordered table-rounded border gy-2 gs-2 table-vertical-center"
-                        >
-                          <tbody>
-                            @for (
-                              periodo of periodosFiltradosPorAnio$ | async;
-                              track $index
-                            ) {
-                              <tr>
-                                <td
-                                  class="w-100 py-3"
-                                  [ngClass]="[
-                                    periodo.estado_inconsistencia
-                                      ? 'inconsistencia'
-                                      : periodo.estado_cerrado
-                                        ? 'cerrado'
-                                        : periodo.estado_bloqueado
-                                          ? 'bloqueado'
-                                          : '',
-                                  ]"
-                                >
-                                  <div class="d-flex align-items-center gap-3">
-                                    <div class="mr-2">
-                                      @if (periodo.estado_cerrado) {
-                                        <i class="bi bi-check-lg fs-4"></i>
-                                      } @else if (periodo.estado_bloqueado) {
-                                        <i class="bi bi-lock fs-4"></i>
-                                      } @else {
-                                        <i class="bi bi-unlock fs-4"></i>
-                                      }
-                                    </div>
-                                    <span>{{ deNumeroAMes(periodo.mes) }}</span>
-                                    @if (periodo.estado_inconsistencia) {
-                                      <span class="badge badge-danger badge-sm">
-                                        El periodo tiene inconsistencias
-                                      </span>
-                                    }
-                                  </div>
-                                </td>
-                                <td>
-                                  @if (!periodo.estado_cerrado) {
-                                    <div
-                                      ngbDropdown
-                                      container="body"
-                                      class="d-inline-block"
-                                      display="dynamic"
-                                    >
-                                      <button
-                                        type="button"
-                                        class="btn btn-link text-hover-primary p-0"
-                                        id="dropdownBasic1"
-                                        ngbDropdownToggle
-                                      >
-                                        <i
-                                          class="bi bi-three-dots-vertical fs-lg"
-                                        ></i>
-                                      </button>
-                                      <div
-                                        class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
-                                        ngbDropdownMenu
-                                        aria-labelledby="dropdownBasic1"
-                                      >
-                                        <div class="menu-item px-3">
-                                          <button
-                                            (click)="
-                                              abrirModalInconsistencias(
-                                                verInconsistenciasContent,
-                                                periodo
-                                              )
-                                            "
-                                            translate="FORMULARIOS.BOTONES.COMUNES.VERINCONSISTENCIAS"
-                                            class="menu-link px-3 cursor-pointer"
-                                            ngbDropdownItem
-                                          ></button>
-                                        </div>
-                                        @if (!periodo.estado_bloqueado) {
-                                          <div class="menu-item px-3">
-                                            <button
-                                              (click)="bloquear(periodo.id)"
-                                              translate="FORMULARIOS.BOTONES.COMUNES.BLOQUEAR"
-                                              class="menu-link px-3 cursor-pointer"
-                                              ngbDropdownItem
-                                            ></button>
-                                          </div>
-                                          <div class="separator my-2"></div>
-                                        }
-
-                                        @if (periodo.estado_bloqueado) {
-                                          <div class="menu-item px-3">
-                                            <button
-                                              (click)="desbloquear(periodo.id)"
-                                              class="menu-link px-3 cursor-pointer"
-                                              translate="FORMULARIOS.BOTONES.COMUNES.DESBLOQUEAR"
-                                              ngbDropdownItem
-                                            ></button>
-                                          </div>
-                                          <div class="separator my-2"></div>
-                                        }
-
-                                        <div class="menu-item px-3">
-                                          <button
-                                            [disabled]="
-                                              !periodo.estado_bloqueado
-                                            "
-                                            (click)="cerrar(periodo.id)"
-                                            ngbDropdownItem
-                                            class="menu-link px-3 cursor-pointer"
-                                            translate="FORMULARIOS.BOTONES.COMUNES.CERRAR"
-                                          ></button>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  }
-                                </td>
-                              </tr>
-                            }
-                          </tbody>
-                        </table>
-                      </div>
-                    }
-                  </ng-template>
-                </div>
-              </div>
-            </div>
-          }
-        </div>
+        @for (fecha of fechas; track $index) {
+          <button
+            class="btn btn-light w-100 mb-3"
+            (click)="seleccionarAnio(fecha)"
+          >
+            {{ fecha }}
+          </button>
+        }
       </section>
     </app-card>
   </div>
+  @if ((periodosFiltradosPorAnio$ | async)?.length) {
+    <div class="col-sm-12 col-md-5">
+      <app-card>
+        <section card-titulo>
+          {{ anioSeleccionado }}
+        </section>
+        <section card-body>
+          <div class="table-responsive">
+            <table
+              class="table table-hover table-bordered table-rounded border gy-2 gs-2 table-vertical-center"
+            >
+              <tbody>
+                @for (
+                  periodo of periodosFiltradosPorAnio$ | async;
+                  track $index
+                ) {
+                  <tr>
+                    <td
+                      class="w-100 py-3"
+                      [ngClass]="[
+                        periodo.estado_inconsistencia
+                          ? 'inconsistencia'
+                          : periodo.estado_cerrado
+                            ? 'cerrado'
+                            : periodo.estado_bloqueado
+                              ? 'bloqueado'
+                              : '',
+                      ]"
+                    >
+                      <div class="d-flex align-items-center gap-3">
+                        <div class="mr-2">
+                          @if (periodo.estado_cerrado) {
+                            <i class="bi bi-check-lg fs-4"></i>
+                          } @else if (periodo.estado_bloqueado) {
+                            <i class="bi bi-lock fs-4"></i>
+                          } @else {
+                            <i class="bi bi-unlock fs-4"></i>
+                          }
+                        </div>
+                        <span>{{ deNumeroAMes(periodo.mes) }}</span>
+                        @if (periodo.estado_inconsistencia) {
+                          <span class="badge badge-danger badge-sm">
+                            El periodo tiene inconsistencias
+                          </span>
+                        }
+                      </div>
+                    </td>
+                    <td>
+                      @if (!periodo.estado_cerrado) {
+                        <div
+                          ngbDropdown
+                          container="body"
+                          class="d-inline-block"
+                          display="dynamic"
+                        >
+                          <button
+                            type="button"
+                            class="btn btn-link text-hover-primary p-0"
+                            id="dropdownBasic1"
+                            ngbDropdownToggle
+                          >
+                            <i class="bi bi-three-dots-vertical fs-lg"></i>
+                          </button>
+                          <div
+                            class="menu menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-800 menu-state-bg-light-primary w-200px py-3"
+                            ngbDropdownMenu
+                            aria-labelledby="dropdownBasic1"
+                          >
+                            <div class="menu-item px-3">
+                              <button
+                                (click)="
+                                  abrirModalInconsistencias(
+                                    verInconsistenciasContent,
+                                    periodo
+                                  )
+                                "
+                                translate="FORMULARIOS.BOTONES.COMUNES.VERINCONSISTENCIAS"
+                                class="menu-link px-3 cursor-pointer"
+                                ngbDropdownItem
+                              ></button>
+                            </div>
+                            @if (!periodo.estado_bloqueado) {
+                              <div class="menu-item px-3">
+                                <button
+                                  (click)="bloquear(periodo.id)"
+                                  translate="FORMULARIOS.BOTONES.COMUNES.BLOQUEAR"
+                                  class="menu-link px-3 cursor-pointer"
+                                  ngbDropdownItem
+                                ></button>
+                              </div>
+                              <div class="separator my-2"></div>
+                            }
+
+                            @if (periodo.estado_bloqueado) {
+                              <div class="menu-item px-3">
+                                <button
+                                  (click)="desbloquear(periodo.id)"
+                                  class="menu-link px-3 cursor-pointer"
+                                  translate="FORMULARIOS.BOTONES.COMUNES.DESBLOQUEAR"
+                                  ngbDropdownItem
+                                ></button>
+                              </div>
+                              <div class="separator my-2"></div>
+                            }
+
+                            <div class="menu-item px-3">
+                              <button
+                                [disabled]="!periodo.estado_bloqueado"
+                                (click)="cerrar(periodo.id)"
+                                ngbDropdownItem
+                                class="menu-link px-3 cursor-pointer"
+                                translate="FORMULARIOS.BOTONES.COMUNES.CERRAR"
+                              ></button>
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </app-card>
+    </div>
+  }
 </div>
 
 <!-- Crear periodo -->
@@ -250,7 +246,7 @@
 
 <ng-template #verInconsistenciasContent let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Archivos</h4>
+    <h4 class="modal-title" id="modal-basic-title">Inconsistencias</h4>
     <button
       type="button"
       class="btn-close"

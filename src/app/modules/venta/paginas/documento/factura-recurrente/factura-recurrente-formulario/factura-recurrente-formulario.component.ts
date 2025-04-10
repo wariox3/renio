@@ -167,15 +167,13 @@ export default class FacturaRecurrenteFormularioComponent
   ngOnInit() {
     this.consultarInformacion();
     this.active = 1;
-    if (this.parametrosUrl) {
-      this.dataUrl = this.parametrosUrl;
-    }
+
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
     }
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -217,6 +215,11 @@ export default class FacturaRecurrenteFormularioComponent
       this.arrSede = respuesta[3].registros;
       this.requiereAsesor = respuesta[4].venta_asesor;
       this.requiereSede = respuesta[4].venta_sede;
+
+      if (!this.detalle) {
+        this._initSugerencias();
+      }
+
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -260,7 +263,7 @@ export default class FacturaRecurrenteFormularioComponent
         }
       }
       if (!errores) {
-        if (this.detalle == undefined) {
+        if (this.detalle == 0) {
           if (this.validarCamposDetalles() === false) {
             this.facturaService
               .guardarFactura({
@@ -272,12 +275,14 @@ export default class FacturaRecurrenteFormularioComponent
               })
               .pipe(
                 tap((respuesta) => {
-                  this.router.navigate(['documento/detalle'], {
-                    queryParams: {
-                      ...this.parametrosUrl,
-                      detalle: respuesta.documento.id,
+                  this.router.navigate(
+                    [`venta/documento/detalle/${respuesta.documento.id}`],
+                    {
+                      queryParams: {
+                        ...this.parametrosUrl,
+                      },
                     },
-                  });
+                  );
                 }),
                 catchError(() => {
                   this.btnGuardarDisabled = false;
@@ -293,6 +298,7 @@ export default class FacturaRecurrenteFormularioComponent
         } else {
           if (this.validarCamposDetalles() === false) {
             this._formularioFacturaService.submitActualizarFactura(
+              'venta',
               this.detalle,
               this.parametrosUrl,
             );
@@ -1148,5 +1154,17 @@ export default class FacturaRecurrenteFormularioComponent
 
   get pagosEliminados() {
     return this.formularioFactura.get('pagos_eliminados') as FormArray;
+  }
+
+  private _initSugerencias() {
+    this._sugerirSede(0);
+  }
+
+  private _sugerirSede(posicion: number) {
+    if (this.arrSede.length > 0) {
+      this.formularioFactura.patchValue({
+        sede: this.arrSede?.[posicion].sede_id,
+      });
+    }
   }
 }

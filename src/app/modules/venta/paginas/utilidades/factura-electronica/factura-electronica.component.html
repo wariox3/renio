@@ -24,6 +24,7 @@
             <app-base-filtro
               (emitirFiltros)="obtenerFiltrosEmitir($event)"
               [persistirFiltros]="false"
+              [_tipo]="'DOCUMENTO'"
             ></app-base-filtro>
             <div class="row mb-4 justify-content-between gap-sm-5">
               <div
@@ -195,6 +196,7 @@
             <app-base-filtro
               (emitirFiltros)="obtenerFiltrosNotificar($event)"
               [persistirFiltros]="false"
+              [_tipo]="'DOCUMENTO'"
             ></app-base-filtro>
 
             <div class="row mb-4 justify-content-between gap-sm-5">

@@ -4,7 +4,7 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion></app-comun-titulo-accion>
+      <app-comun-titulo-accion [nombreModelo]="'credito'"></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="mb-5">
@@ -232,25 +232,6 @@
               class="form-check-label text-gray-700"
               for="inactivo"
               translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVO"
-            >
-            </label>
-          </div>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-12 col-md-6">
-          <div class="form-check form-check-custom form-check-solid">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              value="1"
-              id="inactivo_periodo"
-              formControlName="inactivo_periodo"
-            />
-            <label
-              class="form-check-label text-gray-700"
-              for="inactivo_periodo"
-              translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.INACTIVOPERIODO"
             >
             </label>
           </div>

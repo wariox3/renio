@@ -1,24 +1,22 @@
 import { inject } from '@angular/core';
 import { environment } from '@env/environment';
-import { SubdominioService } from '@comun/services/subdominio.service';
+import { Store } from '@ngrx/store';
+import { obtenerContenedorSubdominio } from '@redux/selectors/contenedor.selectors';
 
 export class Subdominio {
-  urlSubDominio: string = environment.URL_API_SUBDOMINIO;
-  empresaLocalhost: string = environment.EMPRESA_LOCALHOST;
-  urlMuup: string = environment.URL_API_MUUP;
-  subdominioService = inject(SubdominioService);
+  private readonly _store = inject(Store);
+  private readonly URL_API_PLANTILLA = environment.URL_API_SUBDOMINIO;
+  protected API_SUBDOMINIO: string = environment.URL_API_SUBDOMINIO;
+  protected URL_API_BASE: string = environment.URL_API_MUUP;
+  protected CONTENEDOR_NOMBRE: string;
 
   constructor() {
-    if (this.subdominioService.esSubdominioActual()) {
-      this.urlSubDominio = this.urlSubDominio.replace(
+    this._store.select(obtenerContenedorSubdominio).subscribe((respuesta) => {
+      this.API_SUBDOMINIO = this.URL_API_PLANTILLA.replace(
         'subdominio',
-        this.subdominioService.subdominioNombre()
+        respuesta,
       );
-    } else {
-      this.urlSubDominio = this.urlSubDominio.replace(
-        'subdominio',
-        this.empresaLocalhost
-      );
-    }
+      this.CONTENEDOR_NOMBRE = respuesta;
+    });
   }
 }

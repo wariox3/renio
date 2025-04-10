@@ -51,7 +51,7 @@ export class EmpresaPasoapasoComponent extends General {
           asistente_electronico: respuesta.asistente_termiando,
         })
       );
-      this.router.navigate(['/dashboard'])
+      this.router.navigate(['/general'])
     });
   }
 }

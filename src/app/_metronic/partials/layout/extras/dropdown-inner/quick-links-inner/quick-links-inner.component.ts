@@ -17,6 +17,6 @@ export class QuickLinksInnerComponent {
 
   navegarPos(){
     let dominioActual = window.location.host;
-    window.open(`${environment.dominioHttp}://POS${environment.dominioApp}/dashboard/facturacion/${dominioActual.split('.')[0]}`, '_blank', 'noopener,noreferrer');
+    window.open(`${environment.dominioHttp}://POS${environment.dominioApp}/general/facturacion/${dominioActual.split('.')[0]}`, '_blank', 'noopener,noreferrer');
   }
 }

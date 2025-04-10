@@ -465,6 +465,7 @@ export class FormularioFacturaService {
   }
 
   submitActualizarFactura(
+    basePath: string,
     detalleId: number,
     parametrosUrl: Partial<informacionMenuItem['data']>,
   ) {
@@ -475,10 +476,9 @@ export class FormularioFacturaService {
       })
       .subscribe((respuesta) => {
         this.eliminarDetallesIds.set([]);
-        this._router.navigate(['documento/detalle'], {
+        this._router.navigate([`${basePath}/documento/detalle/${respuesta.documento.id}`], {
           queryParams: {
             ...parametrosUrl,
-            detalle: respuesta.documento.id,
           },
         });
       });

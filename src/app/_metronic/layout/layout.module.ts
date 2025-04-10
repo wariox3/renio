@@ -40,10 +40,15 @@ import { ClassicComponent } from './components/toolbar/classic/classic.component
 import { ExtendedComponent } from './components/toolbar/extended/extended.component';
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
-import {SharedModule} from "../shared/shared.module";
+import { SharedModule } from '../shared/shared.module';
 import { AlertaSuspensionComponent } from '@comun/componentes/alerta-suspension/alerta-suspension.component';
 
 const routes: Routes = [
+  {
+    path: '',
+    redirectTo: '/contenedor/lista',
+    pathMatch: 'full',
+  },
   {
     path: '',
     component: LayoutComponent,
@@ -52,45 +57,45 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule.forChild(routes),
-        InlineSVGModule,
-        NgbDropdownModule,
-        NgbProgressbarModule,
-        ExtrasModule,
-        ModalsModule,
-        DrawersModule,
-        EngagesModule,
-        DropdownMenusModule,
-        NgbTooltipModule,
-        TranslateModule,
-        ThemeModeModule,
-        SharedModule,
-        AlertaSuspensionComponent,
-        LayoutComponent,
-        AsideComponent,
-        HeaderComponent,
-        ContentComponent,
-        FooterComponent,
-        ScriptsInitComponent,
-        ToolbarComponent,
-        AsideMenuComponent,
-        TopbarComponent,
-        PageTitleComponent,
-        HeaderMenuComponent,
-        EngagesComponent,
-        SidebarComponent,
-        SidebarLogoComponent,
-        SidebarMenuComponent,
-        SidebarFooterComponent,
-        NavbarComponent,
-        AccountingComponent,
-        ClassicComponent,
-        ExtendedComponent,
-        ReportsComponent,
-        SaasComponent
-    ],
-    exports: [RouterModule],
+  imports: [
+    CommonModule,
+    RouterModule.forChild(routes),
+    InlineSVGModule,
+    NgbDropdownModule,
+    NgbProgressbarModule,
+    ExtrasModule,
+    ModalsModule,
+    DrawersModule,
+    EngagesModule,
+    DropdownMenusModule,
+    NgbTooltipModule,
+    TranslateModule,
+    ThemeModeModule,
+    SharedModule,
+    AlertaSuspensionComponent,
+    LayoutComponent,
+    AsideComponent,
+    HeaderComponent,
+    ContentComponent,
+    FooterComponent,
+    ScriptsInitComponent,
+    ToolbarComponent,
+    AsideMenuComponent,
+    TopbarComponent,
+    PageTitleComponent,
+    HeaderMenuComponent,
+    EngagesComponent,
+    SidebarComponent,
+    SidebarLogoComponent,
+    SidebarMenuComponent,
+    SidebarFooterComponent,
+    NavbarComponent,
+    AccountingComponent,
+    ClassicComponent,
+    ExtendedComponent,
+    ReportsComponent,
+    SaasComponent,
+  ],
+  exports: [RouterModule],
 })
-export class  LayoutModule {}
+export class LayoutModule {}

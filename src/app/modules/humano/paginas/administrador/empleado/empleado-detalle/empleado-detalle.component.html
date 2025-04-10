@@ -7,13 +7,7 @@
 </div>
 <app-card>
   <section card-titulo>
-    {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate | titlecase }}
-    {{
-      "MENU.FUNCIONALIDAD." + (parametrosUrl?.submodelo | uppercase)
-        | translate
-        | lowercase
-    }}
-    {{ detalle }}
+    <app-comun-titulo-accion [nombreModelo]="'empleado'"></app-comun-titulo-accion>
   </section>
   <section card-body>
     <div class="table-responsive-sm">

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -16,10 +16,12 @@ import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocomple
 import { CreditoService } from '@modulos/humano/servicios/credito.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { asyncScheduler, Subject, takeUntil, tap, throttleTime } from 'rxjs';
 import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-credito-formulario',
@@ -34,19 +36,21 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     BuscarContratoComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent
-],
+  ],
   templateUrl: './credito-formulario.component.html',
   styleUrl: './credito-formulario.component.scss',
 })
 export default class CreditoFormularioComponent
   extends General
-  implements OnInit
-{
+  implements OnInit, OnDestroy {
   formularioAdicional: FormGroup;
   arrContratos: RegistroAutocompletarHumContrato[] = [];
   arrConceptos: RegistroAutocompletarHumConcepto[] = [];
 
   private _generalService = inject(GeneralService);
+  private readonly _configModuleService = inject(ConfigModuleService)
+  private _destroy$ = new Subject<void>()
+  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -56,10 +60,24 @@ export default class CreditoFormularioComponent
   }
 
   ngOnInit() {
+    this.configurarModuloListener()
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultarDetalle();
     }
+  }
+
+  private configurarModuloListener() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((modeloConfig) => {
+        this._rutas = modeloConfig?.ajustes.rutas;
+      });
+  }
+
+  ngOnDestroy(): void {
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
   }
 
   iniciarFormulario() {
@@ -77,7 +95,6 @@ export default class CreditoFormularioComponent
       concepto_nombre: [''],
       validar_cuotas: [false],
       inactivo: [false],
-      inactivo_periodo: [false],
       aplica_prima: [false],
       aplica_cesantia: [false],
     });
@@ -91,10 +108,9 @@ export default class CreditoFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate(['documento/detalle'], {
+              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                 queryParams: {
                   ...parametros,
-                  detalle: respuesta.id,
                 },
               });
             })
@@ -107,10 +123,9 @@ export default class CreditoFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate(['documento/detalle'], {
+                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
                   queryParams: {
                     ...parametros,
-                    detalle: respuesta.id,
                   },
                 });
               })
@@ -137,7 +152,6 @@ export default class CreditoFormularioComponent
           cantidad_cuotas: respuesta.cantidad_cuotas,
           validar_cuotas: respuesta.validar_cuotas,
           inactivo: respuesta.inactivo,
-          inactivo_periodo: respuesta.inactivo_periodo,
           concepto: respuesta.concepto_id,
           concepto_nombre: respuesta.concepto_nombre,
           aplica_prima: respuesta.aplica_prima,
@@ -164,8 +178,8 @@ export default class CreditoFormularioComponent
     };
 
     this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(
-        arrFiltros
-      )
+      arrFiltros
+    )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
@@ -219,7 +233,7 @@ export default class CreditoFormularioComponent
         .get('contrato_nombre')
         ?.setValue(dato.contrato_contacto_nombre_corto);
 
-        this.formularioAdicional
+      this.formularioAdicional
         .get('contrato_numero_identificacion')
         ?.setValue(dato.contrato_contacto_numero_identificacion);
 

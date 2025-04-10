@@ -1,6 +1,11 @@
 import { RegistroAutocompletarGenCuentaBanco } from './../../../../interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationCancel, NavigationEnd, Router, RouterLink } from '@angular/router';
+import {
+  NavigationCancel,
+  NavigationEnd,
+  Router,
+  RouterLink,
+} from '@angular/router';
 import { Subscription } from 'rxjs';
 import { LayoutService } from '../../core/layout.service';
 import { MenuComponent } from '../../../kt/components';
@@ -12,19 +17,19 @@ import { KeeniconComponent } from '../../../shared/keenicon/keenicon.component';
 import { NgClass, NgIf, NgStyle } from '@angular/common';
 
 @Component({
-    selector: 'app-header',
-    templateUrl: './header.component.html',
-    styleUrls: ['./header.component.scss'],
-    standalone: true,
-    imports: [
-        NgClass,
-        NgIf,
-        NgStyle,
-        KeeniconComponent,
-        RouterLink,
-        HeaderMenuComponent,
-        NavbarComponent,
-    ],
+  selector: 'app-header',
+  templateUrl: './header.component.html',
+  styleUrls: ['./header.component.scss'],
+  standalone: true,
+  imports: [
+    NgClass,
+    NgIf,
+    NgStyle,
+    KeeniconComponent,
+    RouterLink,
+    HeaderMenuComponent,
+    NavbarComponent,
+  ],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   private unsubscribe: Subscription[] = [];
@@ -50,15 +55,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
-
-  navegar = this.subdominioService.esSubdominioActual()
-    ? '/dashboard'
-    : '/contenedor/lista';
+  navegar = '/contenedor/lista';
 
   constructor(
     private layout: LayoutService,
     private router: Router,
-    private subdominioService: SubdominioService
+    private subdominioService: SubdominioService,
   ) {
     this.routingChanges();
   }
@@ -66,34 +68,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
   updateProps(config: ILayout) {
     this.appHeaderDisplay = this.layout.getProp(
       'app.header.display',
-      config
+      config,
     ) as boolean;
     // view
     this.appSidebarDefaultCollapseDesktopEnabled = this.layout.getProp(
       'app.sidebar.default.collapse.desktop.enabled',
-      config
+      config,
     ) as boolean;
     this.appSidebarDisplay = this.layout.getProp(
       'app.sidebar.display',
-      config
+      config,
     ) as boolean;
     this.appHeaderDefaultContent = this.layout.getProp(
       'app.header.default.content',
-      config
+      config,
     ) as string;
     this.appHeaderDefaulMenuDisplay = this.layout.getProp(
       'app.header.default.menu.display',
-      config
+      config,
     ) as boolean;
     this.appPageTitleDisplay = this.layout.getProp(
       'app.pageTitle.display',
-      config
+      config,
     ) as boolean;
 
     // body attrs and container css classes
     this.appHeaderDefaultFixedDesktop = this.layout.getProp(
       'app.header.default.fixed.desktop',
-      config
+      config,
     ) as boolean;
     if (this.appHeaderDefaultFixedDesktop) {
       document.body.setAttribute('data-kt-app-header-fixed', 'true');
@@ -101,7 +103,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.appHeaderDefaultFixedMobile = this.layout.getProp(
       'app.header.default.fixed.mobile',
-      config
+      config,
     ) as boolean;
     if (this.appHeaderDefaultFixedMobile) {
       document.body.setAttribute('data-kt-app-header-fixed-mobile', 'true');
@@ -109,7 +111,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.appHeaderDefaultContainer = this.layout.getProp(
       'appHeaderDefaultContainer',
-      config
+      config,
     ) as 'fixed' | 'fluid';
     this.headerContainerCssClass =
       this.appHeaderDefaultContainer === 'fixed'
@@ -118,7 +120,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.appHeaderDefaultContainerClass = this.layout.getProp(
       'app.header.default.containerClass',
-      config
+      config,
     ) as string;
     if (this.appHeaderDefaultContainerClass) {
       this.headerContainerCssClass += ` ${this.appHeaderDefaultContainerClass}`;
@@ -126,7 +128,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.appHeaderDefaultStacked = this.layout.getProp(
       'app.header.default.stacked',
-      config
+      config,
     ) as boolean;
     if (this.appHeaderDefaultStacked) {
       document.body.setAttribute('data-kt-app-header-stacked', 'true');
@@ -151,19 +153,18 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.unsubscribe.push(layoutSubscr);
   }
 
-  getBackground(){
-    let color = '#fff'
-    if(this.theme_value === 'dark'){
-      color = '#0c0e13'
+  getBackground() {
+    let color = '#fff';
+    if (this.theme_value === 'dark') {
+      color = '#0c0e13';
     }
-    if(this.currentLayoutType === 'dark-header'){
-      color = '#0c0e13'
+    if (this.currentLayoutType === 'dark-header') {
+      color = '#0c0e13';
     }
     return {
-      'background-color': color
-    }
+      'background-color': color,
+    };
   }
-
 
   routingChanges() {
     const routerSubscription = this.router.events.subscribe((event) => {

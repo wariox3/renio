@@ -2,7 +2,7 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion></app-comun-titulo-accion>
+      <app-comun-titulo-accion [nombreModelo]="'facturarecurrente'"></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -207,6 +207,43 @@
               control: formularioFactura.controls['orden_compra'],
             }"
           ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div
+          class="col-md-6 col-sm-12"
+          ngbDropdown
+          #MetodoDropdown="ngbDropdown"
+        >
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.SEDE"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="sede"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['sede'].touched &&
+                formularioFactura.controls['sede'].invalid,
+              'is-valid':
+                formularioFactura.controls['sede'].touched &&
+                formularioFactura.controls['sede'].valid,
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let sede of arrSede"
+              [value]="sede.sede_id"
+              [selected]="
+                sede.sede_id === formularioFactura.controls.sede.value
+              "
+            >
+              {{ sede.sede_nombre }}
+            </option>
+          </select>
         </div>
       </div>
       <div class="row mb-5">

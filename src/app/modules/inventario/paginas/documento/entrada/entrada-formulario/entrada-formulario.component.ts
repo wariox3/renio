@@ -38,7 +38,7 @@ import {
   tap,
   zip,
 } from 'rxjs';
-import { ImportarDetallesComponent } from "../../../../../../comun/componentes/importar-detalles/importar-detalles.component";
+import { ImportarDetallesComponent } from '../../../../../../comun/componentes/importar-detalles/importar-detalles.component';
 
 @Component({
   selector: 'app-entrada-formulario',
@@ -56,8 +56,8 @@ import { ImportarDetallesComponent } from "../../../../../../comun/componentes/i
     NgbNavModule,
     SoloNumerosDirective,
     SeleccionarProductoComponent,
-    ImportarDetallesComponent
-],
+    ImportarDetallesComponent,
+  ],
   templateUrl: './entrada-formulario.component.html',
   styleUrl: './entrada-formulario.component.scss',
 })
@@ -65,7 +65,6 @@ export default class EntradaFormularioComponent
   extends General
   implements OnInit
 {
-
   private _formBuilder = inject(FormBuilder);
   private _entradaService = inject(EntradaService);
   private _formularioEntradaService = inject(FormularioEntradaService);
@@ -104,7 +103,7 @@ export default class EntradaFormularioComponent
   }
 
   consultardetalle() {
-    this._cargarFormulario(this.detalle)
+    this._cargarFormulario(this.detalle);
   }
 
   enviarFormulario() {
@@ -168,8 +167,8 @@ export default class EntradaFormularioComponent
       precio: [
         0,
         [
-          validarPrecio(),
-          Validators.min(0.1),
+          // validarPrecio(),
+          Validators.min(0),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
       ],
@@ -230,7 +229,7 @@ export default class EntradaFormularioComponent
       .get('precio')
       ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
       .subscribe((valor: string) => {
-        if (valor) {
+        if (Number(valor) >= 0) {
           this._actualizarPrecioItem(i, Number(valor));
         }
       });
@@ -255,7 +254,6 @@ export default class EntradaFormularioComponent
     item: DocumentoDetalleFactura,
     indexFormulario: number,
   ) {
-
     this.detalles.controls[indexFormulario].patchValue({
       item: null,
       item_nombre: null,
@@ -295,12 +293,14 @@ export default class EntradaFormularioComponent
         .actualizarDatos(this.detalle, this.formularioEntrada.value)
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`inventario/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
@@ -350,12 +350,14 @@ export default class EntradaFormularioComponent
         })
         .pipe(
           tap((respuesta) => {
-            this.router.navigate(['documento/detalle'], {
-              queryParams: {
-                ...this.parametrosUrl,
-                detalle: respuesta.documento.id,
+            this.router.navigate(
+              [`inventario/documento/detalle/${respuesta.documento.id}`],
+              {
+                queryParams: {
+                  ...this.parametrosUrl,
+                },
               },
-            });
+            );
           }),
           catchError(() => {
             this.botonGuardarDeshabilitado$.next(false);
@@ -434,7 +436,6 @@ export default class EntradaFormularioComponent
   private _cargarVista() {
     if (this.detalle) {
       this._modoEdicion = true;
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this._cargarFormulario(this.detalle);
     } else {
       this._modoEdicion = false;
@@ -452,7 +453,7 @@ export default class EntradaFormularioComponent
   }
 
   private _poblarFormulario(documentoFactura: DocumentoInventarioRespuesta) {
-    this.estado_aprobado = documentoFactura.estado_aprobado
+    this.estado_aprobado = documentoFactura.estado_aprobado;
     this._poblarDocumento(documentoFactura);
     this._poblarDocumentoDetalle(documentoFactura.detalles);
     this.changeDetectorRef.detectChanges();
@@ -477,11 +478,7 @@ export default class EntradaFormularioComponent
         id: [detalle.id],
         precio: [
           detalle.precio,
-          [
-            validarPrecio(),
-            Validators.min(0.1),
-            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
-          ],
+          [Validators.min(0), Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$')],
         ],
         item: [detalle.item],
         item_nombre: [detalle.item_nombre],

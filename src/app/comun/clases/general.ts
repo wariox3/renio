@@ -16,12 +16,12 @@ export class General {
   protected alertaService = inject(AlertaService);
   protected translateService = inject(TranslateService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
-  protected modulo = '';
-  protected modelo = '';
+  // protected modulo = '';
+  // protected modelo = '';
   protected tipo = '';
   protected formulario = '';
   protected accion: AplicacionAccion = null;
-  protected detalle = 0;
+  protected detalle: number = 0;
   protected parametrosUrl: Partial<informacionMenuItem['data']>;
   protected ubicacion: AplicacionUbicaciones;
   protected moduloAplicacion: Record<
@@ -45,11 +45,19 @@ export class General {
   consultarParametros() {
     this.activatedRoute.queryParams.subscribe((parametros) => {
       this.parametrosUrl = parametros;
-      if (parametros.itemNombre) {
-        this.modelo = parametros.itemNombre;
-      }
-      this.detalle = parametros.detalle;
+      // if (parametros.itemNombre) {
+      //   this.modelo = parametros.itemNombre;
+      // }
 
+      const detalleId = this.activatedRoute.snapshot.paramMap.get('id');
+
+      if (detalleId) {
+        this.detalle = Number(detalleId);
+      } else {
+        this.detalle = 0
+      }
+
+      // TODO: Fumarse esto
       switch (true) {
         case this.router.url.includes('documento'):
           this.ubicacion = 'documento';
@@ -57,17 +65,17 @@ export class General {
         case this.router.url.includes('administrador'):
           this.ubicacion = 'administrador';
           // Obtener el prefijo a partir del modelo
-          const prefijo: AplicacionPrefijoModulo = this.modelo
-            .toLowerCase()
-            .substring(0, 3) as AplicacionPrefijoModulo;
-  
-          // Verificar si el prefijo existe en las claves de moduloAplicacion
-          const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
-  
-          if (posicion !== -1) {
-            // Si el prefijo es válido, mostrar la posición
-            this.modulo = this.moduloAplicacion[prefijo];
-          }
+          // const prefijo: AplicacionPrefijoModulo = this.modelo
+          //   .toLowerCase()
+          //   .substring(0, 3) as AplicacionPrefijoModulo;
+
+          // // Verificar si el prefijo existe en las claves de moduloAplicacion
+          // const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
+
+          // if (posicion !== -1) {
+          //   // Si el prefijo es válido, mostrar la posición
+          //   this.modulo = this.moduloAplicacion[prefijo];
+          // }
           break;
         case this.router.url.includes('utilidad'):
           this.ubicacion = 'utilidad';
@@ -79,7 +87,8 @@ export class General {
           this.ubicacion = 'independiente';
           break;
       }
-  
+
+      // TODO: buscar la manera de fumarse esto
       switch (true) {
         case this.router.url.includes('/nuevo'):
           this.accion = 'nuevo';

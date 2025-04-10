@@ -38,8 +38,8 @@ import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompl
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { SeleccionarGrupoComponent } from "../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
-import { FacturaCuentaComponent } from "../../factura/factura-cuenta/factura-cuenta.component";
+import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { FacturaCuentaComponent } from '../../factura/factura-cuenta/factura-cuenta.component';
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -61,8 +61,8 @@ import { FacturaCuentaComponent } from "../../factura/factura-cuenta/factura-cue
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     SeleccionarGrupoComponent,
-    FacturaCuentaComponent
-],
+    FacturaCuentaComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -192,11 +192,8 @@ export default class FacturaDetalleComponent
     this.consultarInformacion();
     this.mostrarDocumentoReferencia.set(true);
     this.active = 1;
-    if (this.parametrosUrl) {
-      this.dataUrl = this.parametrosUrl;
-    }
+ 
     if (this.detalle) {
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
       this.modoEdicion.set(true);
     } else {
       this.modoEdicion.set(false);
@@ -255,7 +252,7 @@ export default class FacturaDetalleComponent
 
   formSubmit() {
     if (this.formularioFactura.valid) {
-      if (this.detalle == undefined) {
+      if (this.detalle == 0) {
         if (this.validarCamposDetalles() === false) {
           this.facturaService
             .guardarFactura({
@@ -267,12 +264,14 @@ export default class FacturaDetalleComponent
             })
             .pipe(
               tap((respuesta) => {
-                this.router.navigate(['documento/detalle'], {
-                  queryParams: {
-                    ...this.parametrosUrl,
-                    detalle: respuesta.documento.id,
+                this.router.navigate(
+                  [`compra/documento/detalle/${respuesta.documento.id}`],
+                  {
+                    queryParams: {
+                      ...this.parametrosUrl,
+                    },
                   },
-                });
+                );
               }),
             )
             .subscribe();
@@ -280,6 +279,7 @@ export default class FacturaDetalleComponent
       } else {
         if (this.validarCamposDetalles() === false) {
           this._formularioFacturaService.submitActualizarFactura(
+            'compra',
             this.detalle,
             this.parametrosUrl,
           );

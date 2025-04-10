@@ -210,9 +210,10 @@ export class FormularioProductosComponent
   }
 
   private _cargarVista() {
-    if (this.detalle) {
+    const detalleId = this.activatedRoute.snapshot.paramMap.get('id');
+    if (detalleId) {
       this.modoEdicion.set(true);
-      this.detalle = this.activatedRoute.snapshot.queryParams['detalle'];
+      this.detalle = Number(detalleId);
       this._cargarFormulario(this.detalle);
     } else {
       this.modoEdicion.set(false);

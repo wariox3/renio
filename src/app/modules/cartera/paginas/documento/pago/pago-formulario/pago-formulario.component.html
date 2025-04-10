@@ -4,7 +4,7 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion></app-comun-titulo-accion>
+      <app-comun-titulo-accion [nombreModelo]="'Pago'"></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -484,6 +484,7 @@
     <app-base-filtro
       (emitirFiltros)="obtenerFiltrosModal($event)"
       [persistirFiltros]="false"
+      [_tipo]="'DOCUMENTO'"
     ></app-base-filtro>
     <div class="row">
       <div class="d-flex align-items-baseline gap-2">

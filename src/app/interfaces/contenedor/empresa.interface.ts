@@ -8,12 +8,10 @@ export interface Empresa {
   telefono: string;
   correo: string;
   imagen: string;
-  ciudad: number;
   ciudad_nombre?: string;
-  identificacion: number;
-  regimen: number;
+  regimen_id: number;
   regimen_nombre: string;
-  tipo_persona: number;
+  tipo_persona_id: number;
   tipo_persona_nombre: string;
   suscriptor: number;
   ciudad_id: number;
