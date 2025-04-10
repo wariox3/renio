@@ -22,7 +22,7 @@
 
       @if (visualizarBreadcrumb$ | async) {
         @for (
-          breadcrumb of breadcrumbSignal();
+          breadcrumb of breadcrumbs | async;
           track $index;
           let first = $first,
           last = $last
@@ -43,10 +43,14 @@
           } @else {
             <span
               #breadcrumbsText
-              [routerLink]="breadcrumb.url"
               [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
               appAnimationFadeinLeft
-              >{{ breadcrumb.label | appCapitalizePipe }}</span
+              >{{
+                "BREADCRUMB." + breadcrumb.label
+                  | uppercase
+                  | translate
+                  | appCapitalizePipe
+              }}</span
             >
           }
           @if (!last) {

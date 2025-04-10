@@ -58,7 +58,7 @@ import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.
         'void',
         style({
           opacity: 0,
-        })
+        }),
       ),
       transition(':enter, :leave', [animate(600)]),
     ]),
@@ -68,7 +68,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   formularioFiltros: FormGroup;
   formularioFiltrosModal: FormGroup;
   listaFiltros: Listafiltros[] = [];
-  @Input({required : false}) modelo: string = '';
+  @Input({ required: false }) modelo: string = '';
   tituloModal: string;
   arrPropiedades: any = [];
   arrPropiedadBusquedaAvanzada: any = [];
@@ -95,7 +95,8 @@ export class BaseFiltroComponent extends General implements OnInit {
   }[][] = [];
   @Input() modeloPersonalizado: string = '';
   @Input() _tipo: string = '';
-  @Input() nombreFiltroCustom: string = '';
+  @Input() localstorageKey?: string;
+  // @Input() nombreFiltroCustom: string = '';
   @Input() propiedades: Listafiltros[];
   @Input() persistirFiltros: boolean = true;
   @Output() emitirFiltros: EventEmitter<any> = new EventEmitter();
@@ -104,7 +105,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private httpService: HttpService
+    private httpService: HttpService,
   ) {
     super();
   }
@@ -113,16 +114,17 @@ export class BaseFiltroComponent extends General implements OnInit {
     this.initForm();
     this.construirPropiedades();
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      let tipo = window.location.pathname.split('/')[1];
-      this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
+      // let tipo = window.location.pathname.split('/')[1];
+      // this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
+      this.nombreFiltro = this.localstorageKey || '';      
 
-      if(this.nombreFiltroCustom !== ''){
-        this.nombreFiltro = `${tipo}_${this.nombreFiltroCustom}`
-      }
+      // if (this.nombreFiltroCustom !== '') {
+      //   this.nombreFiltro = `${tipo}_${this.nombreFiltroCustom}`;
+      // }
 
       if (localStorage.getItem(this.nombreFiltro) !== null) {
         this.filtrosAplicados = JSON.parse(
-          localStorage.getItem(this.nombreFiltro)!
+          localStorage.getItem(this.nombreFiltro)!,
         );
         this.formularioFiltros.reset();
         this.filtros.clear();
@@ -142,8 +144,8 @@ export class BaseFiltroComponent extends General implements OnInit {
           },
         ];
         this.filtros.push(this.crearControlFiltros(null, 0));
-        this.changeDetectorRef.detectChanges();
       }
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -230,7 +232,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         tipo: [''],
         busquedaAvanzada: ['false'],
         modeloBusquedaAvanzada: [''],
-      })
+      }),
     );
   }
 
@@ -241,7 +243,7 @@ export class BaseFiltroComponent extends General implements OnInit {
         operadorFiltro: [''],
         valor1: ['', [Validators.required]],
         valor2: [''],
-      })
+      }),
     );
     this.changeDetectorRef.detectChanges();
   }
@@ -249,7 +251,7 @@ export class BaseFiltroComponent extends General implements OnInit {
   cargarCamposAlFormulario() {
     if (localStorage.getItem(this.nombreFiltro)) {
       this.filtrosAplicados = JSON.parse(
-        localStorage.getItem(this.nombreFiltro)!
+        localStorage.getItem(this.nombreFiltro)!,
       );
       this.filtrosAplicados.map((propiedad, index) => {
         this.filtros.push(this.crearControlFiltros(propiedad, index));
@@ -314,7 +316,7 @@ export class BaseFiltroComponent extends General implements OnInit {
       if (this.persistirFiltros) {
         localStorage.setItem(
           this.nombreFiltro,
-          JSON.stringify(this.listaFiltros)
+          JSON.stringify(this.listaFiltros),
         );
       }
       if (emitirValores) {
@@ -323,7 +325,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error en formulario filtros',
-        'contiene campos vacios'
+        'contiene campos vacios',
       );
     }
   }
@@ -362,8 +364,8 @@ export class BaseFiltroComponent extends General implements OnInit {
       this.store
         .select(
           obtenerCriteriosFiltro(
-            propiedadSeleccionada.getAttribute('data-tipo')
-          )
+            propiedadSeleccionada.getAttribute('data-tipo'),
+          ),
         )
         .subscribe((resultado) => {
           this.criteriosBusqueda[index] = resultado;
@@ -373,10 +375,10 @@ export class BaseFiltroComponent extends General implements OnInit {
               filtroPorActualizar.patchValue({
                 tipo: propiedadSeleccionada.getAttribute('data-tipo'),
                 busquedaAvanzada: propiedadSeleccionada.getAttribute(
-                  'data-busqueda-avanzada'
+                  'data-busqueda-avanzada',
                 ),
                 modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
-                  'data-modelo-busqueda-avanzada'
+                  'data-modelo-busqueda-avanzada',
                 ),
                 operadorFiltro: item.valor,
                 valor1: '',
@@ -410,7 +412,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     // Validar que posicion exista en mapeo
     if (posicion && mapeo[posicion] !== undefined) {
       this.arrPropiedadBusquedaAvanzada = mapeo[posicion]!.filter(
-        (propiedad) => propiedad.visibleFiltro === true
+        (propiedad) => propiedad.visibleFiltro === true,
       );
     } else {
       this.arrPropiedadBusquedaAvanzada = []; // En caso de que no exista, asigna un arreglo vacío
@@ -461,8 +463,8 @@ export class BaseFiltroComponent extends General implements OnInit {
       this.store
         .select(
           obtenerCriteriosFiltro(
-            propiedadSeleccionada.getAttribute('data-tipo')
-          )
+            propiedadSeleccionada.getAttribute('data-tipo'),
+          ),
         )
         .subscribe((resultado) => {
           this.criteriosBusquedaModal[index] = resultado;
@@ -474,10 +476,10 @@ export class BaseFiltroComponent extends General implements OnInit {
               filtroPorActualizar.patchValue({
                 tipo: propiedadSeleccionada.getAttribute('data-tipo'),
                 busquedaAvanzada: propiedadSeleccionada.getAttribute(
-                  'data-busqueda-avanzada'
+                  'data-busqueda-avanzada',
                 ),
                 modeloBusquedaAvanzada: propiedadSeleccionada.getAttribute(
-                  'data-modelo-busqueda-avanzada'
+                  'data-modelo-busqueda-avanzada',
                 ),
                 operadorFiltro: item.valor,
               });
@@ -538,7 +540,7 @@ export class BaseFiltroComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error en formulario filtros',
-        'contiene campos vacios'
+        'contiene campos vacios',
       );
     }
   }
@@ -576,7 +578,7 @@ export class BaseFiltroComponent extends General implements OnInit {
       filtro
         .get('valor1')
         ?.setValue(
-          filtro.get('operadorFiltro')?.value === 'true' ? true : false
+          filtro.get('operadorFiltro')?.value === 'true' ? true : false,
         );
     }
   }

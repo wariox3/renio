@@ -3,8 +3,9 @@
   <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
     <section card-body>
       <app-base-filtro
-      (emitirFiltros)="obtenerFiltros($event)"
-      [_tipo]="'DOCUMENTO'"
+        (emitirFiltros)="obtenerFiltros($event)"
+        [_tipo]="'DOCUMENTO'"
+        [localstorageKey]="filtroKey"
       ></app-base-filtro>
     </section>
   </app-card>
@@ -25,7 +26,10 @@
           <tr class="text-gray-800 bg-gray-100">
             <th class="text-center" translate="LISTAS.CONMOVIENTO.CUENTA"></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.NOMBRE"></th>
-            <th class="text-center" translate="LISTAS.CONMOVIENTO.CONTACTO"></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO"
+            ></th>
             <th
               class="text-center"
               translate="LISTAS.CONMOVIENTO.ANTERIOR"
@@ -37,25 +41,26 @@
         </thead>
         <tbody>
           @for (item of cuentasAgrupadas; track $index) {
-          <tr>
-            <td>{{ item.codigo }}</td>
-            <td style="text-align: left">{{ item.nombre }}</td>
-            <td style="text-align: left">{{ item.contacto_nombre_corto }}</td>
-            <td>{{ item.saldo_anterior | currency : "$" }}</td>
-            <td>{{ item.debito | currency : "$" }}</td>
-            <td>{{ item.credito | currency : "$" }}</td>
-            <td>{{ item.saldo_actual | currency : "$" }}</td>
-          </tr>
-          } @if (cuentasAgrupadas.length > 0) {
-          <tr>
-            <td></td>
-            <td style="text-align: left" class="fw-bold">Total</td>
-            <td></td>
-            <td></td>
-            <td>{{ totalDebito | currency : "$" }}</td>
-            <td>{{ totalCredito | currency : "$" }}</td>
-            <td></td>
-          </tr>
+            <tr>
+              <td>{{ item.codigo }}</td>
+              <td style="text-align: left">{{ item.nombre }}</td>
+              <td style="text-align: left">{{ item.contacto_nombre_corto }}</td>
+              <td>{{ item.saldo_anterior | currency: "$" }}</td>
+              <td>{{ item.debito | currency: "$" }}</td>
+              <td>{{ item.credito | currency: "$" }}</td>
+              <td>{{ item.saldo_actual | currency: "$" }}</td>
+            </tr>
+          }
+          @if (cuentasAgrupadas.length > 0) {
+            <tr>
+              <td></td>
+              <td style="text-align: left" class="fw-bold">Total</td>
+              <td></td>
+              <td></td>
+              <td>{{ totalDebito | currency: "$" }}</td>
+              <td>{{ totalCredito | currency: "$" }}</td>
+              <td></td>
+            </tr>
           }
         </tbody>
       </table>

@@ -51,6 +51,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   };
 
   arrItems: any[];
+  filtrosDocumento: Filtros[] = [];
   cantidad_registros!: number;
   nombreFiltro = ``;
   tipo = '';
@@ -208,6 +209,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
           ...parametrosConfig.filtros.lista,
         ],
       };
+      this.filtrosDocumento = parametrosConfig?.filtros?.lista || [];
     }
 
     // 1. Obtener el ordenamiento de forma segura
@@ -273,18 +275,21 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   obtenerFiltros(arrfiltros: Filtros[]) {
     if (arrfiltros.length >= 1) {
-      this.arrParametrosConsulta.filtros = arrfiltros;
+      this.arrParametrosConsulta.filtros = [
+        ...this.filtrosDocumento,
+        ...arrfiltros,
+      ];
     } else {
-      this.arrParametrosConsulta.filtros = [];
+      this.arrParametrosConsulta.filtros = [...this.filtrosDocumento];
     }
 
     // cargamos los filtros predeterminados del modulo para no perderlos al limpiar
-    if (this._filtrosModuloPermanentes.length > 0) {
-      this.arrParametrosConsulta.filtros = [
-        ...this.arrParametrosConsulta.filtros,
-        ...this._filtrosModuloPermanentes,
-      ];
-    }
+    // if (this._filtrosModuloPermanentes.length > 0) {
+    //   this.arrParametrosConsulta.filtros = [
+    //     ...this.arrParametrosConsulta.filtros,
+    //     ...this._filtrosModuloPermanentes,
+    //   ];
+    // }
 
     this.changeDetectorRef.detectChanges();
     this.consultarLista();

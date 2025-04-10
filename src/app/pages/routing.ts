@@ -19,6 +19,7 @@ const Routing: Routes = [
   {
     path: 'general',
     canActivate: [validarRutaGuard],
+    data: { breadcrumb: 'general' },
     loadChildren: () =>
       import('../modules/general/general-routing').then((m) => m.routes),
   },
@@ -30,18 +31,21 @@ const Routing: Routes = [
   },
   {
     path: 'cartera',
+    data: { breadcrumb: 'cartera' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/cartera/cartera-routing').then((r) => r.routes),
   },
   {
     path: 'compra',
+    data: { breadcrumb: 'compra' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/compra/compra-routing').then((r) => r.routes),
   },
   {
     path: 'contabilidad',
+    data: { breadcrumb: 'contabilidad' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/contabilidad/contabilidad-routing').then(
@@ -50,24 +54,28 @@ const Routing: Routes = [
   },
   {
     path: 'humano',
+    data: { breadcrumb: 'humano' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/humano/humano-routing').then((r) => r.routes),
   },
   {
     path: 'venta',
+    data: { breadcrumb: 'venta' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/venta/venta-routing').then((r) => r.routes),
   },
   {
     path: 'inventario',
+    data: { breadcrumb: 'inventario' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/inventario/inventario.routes').then((m) => m.routes),
   },
   {
     path: 'tesoreria',
+    data: { breadcrumb: 'tesoreria' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
       import('../modules/tesoreria/tesoreria-routing').then((r) => r.routes),

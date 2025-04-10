@@ -15,9 +15,11 @@ export const routes: Route[] = [
   },
   {
     path: 'documento',
+    data: { breadcrumb: 'documento' },
     children: [
       {
         path: 'lista',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-lista/base-lista.component'
@@ -25,6 +27,7 @@ export const routes: Route[] = [
       },
       {
         path: 'nuevo',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
@@ -32,6 +35,7 @@ export const routes: Route[] = [
       },
       {
         path: 'editar/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
@@ -39,6 +43,7 @@ export const routes: Route[] = [
       },
       {
         path: 'detalle/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-detalle/base-detalle.component'
@@ -48,9 +53,11 @@ export const routes: Route[] = [
   },
   {
     path: 'administracion',
+    data: { breadcrumb: 'administración' },
     children: [
       {
         path: 'lista',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-lista/base-lista.component'
@@ -58,6 +65,7 @@ export const routes: Route[] = [
       },
       {
         path: 'nuevo',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
@@ -65,6 +73,7 @@ export const routes: Route[] = [
       },
       {
         path: 'editar/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
@@ -72,6 +81,7 @@ export const routes: Route[] = [
       },
       {
         path: 'detalle/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-detalle/base-detalle.component'
@@ -81,9 +91,11 @@ export const routes: Route[] = [
   },
   {
     path: 'utilidad',
+    data: { breadcrumb: 'utilidad' },
     children: [
       {
         path: 'factura_electronica',
+        data: { breadcrumb: 'facturaelectronica' },
         loadComponent: () =>
           import(
             './paginas/utilidades/factura-electronica/factura-electronica.component'
@@ -93,9 +105,11 @@ export const routes: Route[] = [
   },
   {
     path: 'informe',
+    data: { breadcrumb: 'informe' },
     children: [
       {
         path: 'ventas_general',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             './paginas/utilidades/factura-electronica/factura-electronica.component'
@@ -103,6 +117,7 @@ export const routes: Route[] = [
       },
       {
         path: 'ventas_items',
+        data: { breadcrumb: 'ventasitems' },
         loadComponent: () =>
           import(
             './paginas/informes/ventas-items/ventas-items.component'
@@ -110,6 +125,7 @@ export const routes: Route[] = [
       },
       {
         path: 'ventas_cliente',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             './paginas/utilidades/factura-electronica/factura-electronica.component'
@@ -117,6 +133,7 @@ export const routes: Route[] = [
       },
       {
         path: 'ventas_vendedores',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             './paginas/utilidades/factura-electronica/factura-electronica.component'
