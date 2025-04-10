@@ -4,6 +4,7 @@
     <section card-body>
       <app-base-filtro
       (emitirFiltros)="obtenerFiltros($event)"
+      [localstorageKey]="filtroKey"
       [_tipo]="'DOCUMENTO'"
       ></app-base-filtro>
     </section>

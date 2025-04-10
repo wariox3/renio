@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { Params, RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
@@ -65,6 +65,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public _tipo: string = 'DOCUMENTO';
   public importarConfig: ArchivosImportar | undefined;
   public documentoId: number | undefined;
+  public filtroKey = signal<string>('');
 
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
@@ -160,12 +161,15 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe((value) => {
         this._loadModuleConfiguration(value);
+        this._construirFiltroKey();
         this._reiniciarParametrosConsulta();
         this._configurarTabla(value);
         this._configurarParametrosConsulta(value);
         this.consultarLista();
       });
   }
+
+  private _construirFiltroKey() {}
 
   private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
     this.modeloCofig = modeloConfig;
@@ -179,7 +183,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.documentoId = Number(
       modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.lista?.[0].valor1,
     );
-    this.nombreFiltro = `${this._modulo?.toLocaleLowerCase()}_documento_${this._modelo?.toLowerCase()}`;
+    this.filtroKey.set(
+      `${this._modulo?.toLocaleLowerCase()}_documento_${modeloConfig?.key}`,
+    );
   }
 
   private _reiniciarParametrosConsulta() {
@@ -195,6 +201,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
     const httpConfig = modeloConfig?.ajustes.parametrosHttpConfig;
+    const filtrosLocalStorage = this._getFiltrosLocalstorage();
 
     if (httpConfig?.ordenamientos) {
       this.arrParametrosConsulta.ordenamientos.push(
@@ -223,22 +230,26 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         serializador: httpConfig?.serializador,
       };
     }
-    // 1. Obtener el ordenamiento de forma segura
-    // const ordenamientoActual = this.parametrosUrl?.ordenamiento;
-    // // 2. Validar y preparar nuevos ordenamientos (inmutabilidad)
-    // const ordenamientosExistentes =
-    //   this.arrParametrosConsulta.ordenamientos ?? [];
-    // const nuevosOrdenamientos =
-    //   ordenamientoActual &&
-    //   !ordenamientosExistentes.includes(ordenamientoActual)
-    //     ? [...ordenamientosExistentes, ordenamientoActual]
-    //     : ordenamientosExistentes;
-    // // 3. Crear nuevo objeto de parámetros (totalmente inmutable)
-    // this.arrParametrosConsulta = {
-    //   ...this.arrParametrosConsulta,
-    //   ordenamientos: nuevosOrdenamientos,
-    //   modelo: this._modelo, // Asumiendo que _modelo siempre existe
-    // };
+
+    if (filtrosLocalStorage.length) {
+      this.arrParametrosConsulta = {
+        ...this.arrParametrosConsulta,
+        filtros: [
+          ...this.arrParametrosConsulta.filtros,
+          ...filtrosLocalStorage,
+        ],
+      };
+    }
+  }
+
+  private _getFiltrosLocalstorage(): Filtros[] {
+    const filtroGuardado = localStorage.getItem(this.filtroKey());
+
+    if (filtroGuardado) {
+      return JSON.parse(filtroGuardado);
+    }
+
+    return [];
   }
 
   private _configurarTabla(modeloConfig: ModeloConfig | null) {

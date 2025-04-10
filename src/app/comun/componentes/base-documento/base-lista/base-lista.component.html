@@ -6,6 +6,8 @@
         <app-base-filtro
           (emitirFiltros)="obtenerFiltros($event)"
           [_tipo]="_tipo"
+          [persistirFiltros]="false"
+          [localstorageKey]="filtroKey()"
         ></app-base-filtro>
       </section>
     </app-card>

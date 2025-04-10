@@ -1,6 +1,7 @@
 <div>
   <app-base-filtro
     (emitirFiltros)="obtenerFiltrosContratos($event)"
+    [localstorageKey]="'tabla_contratos'"
     [_tipo]="'DOCUMENTO'"
   ></app-base-filtro>
 </div>
