@@ -15,14 +15,17 @@ export const routes: Route[] = [
   },
   {
     path: 'informe',
+    data: { breadcrumb: 'informe' },
     children: [
       {
         path: 'existencia',
+        data: { breadcrumb: 'existencia' },
         loadComponent: () =>
           import('./paginas/informes/existencia/existencia.component'),
       },
       {
         path: 'historial_movimientos',
+        data: { breadcrumb: 'historialmovimientos' },
         loadComponent: () =>
           import(
             './paginas/informes/historial-movimientos/historial-movimientos.component'
@@ -32,9 +35,11 @@ export const routes: Route[] = [
   },
   {
     path: 'administracion',
+    data: { breadcrumb: 'administración' },
     children: [
       {
         path: 'lista',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-lista/base-lista.component'
@@ -42,6 +47,7 @@ export const routes: Route[] = [
       },
       {
         path: 'nuevo',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
@@ -49,6 +55,7 @@ export const routes: Route[] = [
       },
       {
         path: 'editar/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
@@ -56,6 +63,7 @@ export const routes: Route[] = [
       },
       {
         path: 'detalle/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-detalle/base-detalle.component'
@@ -65,9 +73,11 @@ export const routes: Route[] = [
   },
     {
     path: 'documento',
+    data: { breadcrumb: 'documento' },
     children: [
       {
         path: 'lista',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-lista/base-lista.component'
@@ -75,6 +85,7 @@ export const routes: Route[] = [
       },
       {
         path: 'nuevo',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
@@ -82,6 +93,7 @@ export const routes: Route[] = [
       },
       {
         path: 'editar/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
@@ -89,6 +101,7 @@ export const routes: Route[] = [
       },
       {
         path: 'detalle/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-detalle/base-detalle.component'

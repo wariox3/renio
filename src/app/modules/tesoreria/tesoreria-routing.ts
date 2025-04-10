@@ -10,19 +10,21 @@ export const routes: Route[] = [
     path: '',
     loadChildren: () =>
       import('../../pages/dashboard/dashboard.module').then(
-        (m) => m.DashboardModule
+        (m) => m.DashboardModule,
       ),
   },
   {
     path: 'utilidad',
-    children: [
-    ],
+    data: { breadcrumb: 'utilidad' },
+    children: [],
   },
   {
     path: 'informe',
+    data: { breadcrumb: 'informe' },
     children: [
       {
         path: 'cuentas_pagar',
+        data: { breadcrumb: 'cuentaspagar' },
         loadComponent: () =>
           import(
             './paginas/informe/cuentas-pagar/cuentas-pagar.component'
@@ -30,11 +32,13 @@ export const routes: Route[] = [
       },
     ],
   },
-    {
+  {
     path: 'administracion',
+    data: { breadcrumb: 'administración' },
     children: [
       {
         path: 'lista',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-lista/base-lista.component'
@@ -42,6 +46,7 @@ export const routes: Route[] = [
       },
       {
         path: 'nuevo',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
@@ -49,6 +54,7 @@ export const routes: Route[] = [
       },
       {
         path: 'editar/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
@@ -56,6 +62,7 @@ export const routes: Route[] = [
       },
       {
         path: 'detalle/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-administracion/base-detalle/base-detalle.component'
@@ -63,11 +70,13 @@ export const routes: Route[] = [
       },
     ],
   },
-    {
+  {
     path: 'documento',
+    data: { breadcrumb: 'documento' },
     children: [
       {
         path: 'lista',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-lista/base-lista.component'
@@ -75,6 +84,7 @@ export const routes: Route[] = [
       },
       {
         path: 'nuevo',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
@@ -82,6 +92,7 @@ export const routes: Route[] = [
       },
       {
         path: 'editar/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
@@ -89,6 +100,7 @@ export const routes: Route[] = [
       },
       {
         path: 'detalle/:id',
+        data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
           import(
             '../../comun/componentes/base-documento/base-detalle/base-detalle.component'
