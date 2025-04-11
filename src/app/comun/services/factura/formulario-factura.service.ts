@@ -476,11 +476,14 @@ export class FormularioFacturaService {
       })
       .subscribe((respuesta) => {
         this.eliminarDetallesIds.set([]);
-        this._router.navigate([`${basePath}/documento/detalle/${respuesta.documento.id}`], {
-          queryParams: {
-            ...parametrosUrl,
+        this._router.navigate(
+          [`${basePath}/documento/detalle/${respuesta.documento.id}`],
+          {
+            queryParams: {
+              ...parametrosUrl,
+            },
           },
-        });
+        );
       });
   }
 
@@ -896,7 +899,10 @@ export class FormularioFacturaService {
     const subtotal = formularioDetalle.get('subtotal')?.value;
     const descuento = formularioDetalle.get('descuento')?.value || 0;
 
-    const subtotalConDescuentoCalculado = subtotal - descuento;
+    const subtotalConDescuentoCalculado = this._operaciones.redondear(
+      subtotal - descuento,
+      2,
+    );
 
     formularioDetalle.patchValue({
       subtotal: subtotalConDescuentoCalculado,
