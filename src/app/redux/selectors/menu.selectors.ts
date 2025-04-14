@@ -19,29 +19,29 @@ export const obtenerMenuDataMapeo = createSelector(
   (Menu) => Menu.dataMapeo,
 );
 
-export const obtenerMenuModulos = (plan_id: number) =>
-  createSelector(Menu, (Menu) => {
-    switch (plan_id) {
-      case 8:
-      case 6:
-        return Menu.modulos;
-      case 4:
-        return Menu.modulos.filter(
-          (menu: AplicacionModulo) => menu !== 'humano',
-        );
-      case 2:
-        return Menu.modulos.filter(
-          (menu: AplicacionModulo) =>
-            menu !== 'humano' &&
-            menu !== 'contabilidad' &&
-            menu !== 'inventario',
-        );
-      default:
-        return Menu.modulos.filter(
-          (menu: AplicacionModulo) => menu === 'venta',
-        );
-    }
-  });
+// export const obtenerMenuModulos = (plan_id: number) =>
+//   createSelector(Menu, (Menu) => {
+//     switch (plan_id) {
+//       case 8:
+//       case 6:
+//         return Menu.modulos;
+//       case 4:
+//         return Menu.modulos.filter(
+//           (menu: AplicacionModulo) => menu !== 'humano',
+//         );
+//       case 2:
+//         return Menu.modulos.filter(
+//           (menu: AplicacionModulo) =>
+//             menu !== 'humano' &&
+//             menu !== 'contabilidad' &&
+//             menu !== 'inventario',
+//         );
+//       default:
+//         return Menu.modulos.filter(
+//           (menu: AplicacionModulo) => menu === 'venta',
+//         );
+//     }
+//   });
 
 export const obtenerMenuDataMapeoCamposVisibleTabla = createSelector(
   Menu,

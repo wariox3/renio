@@ -6,7 +6,7 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
-import { Contenedor } from '@interfaces/usuario/contenedor';
+import { Contenedor, Modulos } from '@interfaces/usuario/contenedor';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -35,6 +35,7 @@ import { ContenedorService } from '../../servicios/contenedor.service';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
 import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 import { FormsModule } from '@angular/forms';
+import { ModulosManagerInit } from '@redux/actions/modulos-manager.action';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -150,30 +151,65 @@ export class ContenedorListaComponent extends General implements OnInit {
       .pipe(
         tap((respuesta) => {
           this.alertaService.cerrarMensajes();
+
+          // const contenedor: Contenedor = {
+          //   nombre: respuesta.nombre,
+          //   imagen:
+          //     'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/empresa/logo_defecto.jpg',
+          //   contenedor_id: respuesta.id,
+          //   subdominio: respuesta.subdominio,
+          //   id: respuesta.id,
+          //   usuario_id: 1,
+          //   seleccion: true,
+          //   rol: respuesta.rol,
+          //   plan_id: respuesta.plan_id,
+          //   plan_nombre: respuesta.plan_nombre,
+          //   usuarios: 1,
+          //   usuarios_base: 0,
+          //   ciudad: 0,
+          //   correo: '',
+          //   direccion: '',
+          //   identificacion: 0,
+          //   nombre_corto: '',
+          //   numero_identificacion: 0,
+          //   telefono: '',
+          //   acceso_restringido: respuesta.acceso_restringido,
+          // };
+
           const contenedor: Contenedor = {
-            nombre: respuesta.nombre,
-            imagen:
-              'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/empresa/logo_defecto.jpg',
+            id: 0,
+            usuario_id: respuesta.usuario_id,
             contenedor_id: respuesta.id,
-            subdominio: respuesta.subdominio,
-            id: respuesta.id,
-            usuario_id: 1,
-            seleccion: true,
-            rol: respuesta.rol,
+            rol: '',
             plan_id: respuesta.plan_id,
+            subdominio: respuesta.subdominio,
+            nombre: respuesta.nombre,
+            imagen: respuesta.imagen,
+            usuarios: respuesta.plan_limite_usuarios,
+            usuarios_base: respuesta.plan_usuarios_base,
             plan_nombre: respuesta.plan_nombre,
-            usuarios: 1,
-            usuarios_base: 0,
-            ciudad: 0,
-            correo: '',
-            direccion: '',
-            identificacion: 0,
-            nombre_corto: '',
-            numero_identificacion: 0,
-            telefono: '',
+            reddoc: respuesta.reddoc,
+            ruteo: respuesta.ruteo,
             acceso_restringido: respuesta.acceso_restringido,
+            seleccion: true,
           };
-          this.store.dispatch(ContenedorActionInit({ contenedor }));
+
+          const modulos: Modulos = {
+            plan_cartera: respuesta.plan_cartera,
+            plan_compra: respuesta.plan_compra,
+            plan_contabilidad: respuesta.plan_contabilidad,
+            plan_humano: respuesta.plan_humano,
+            plan_inventario: respuesta.plan_inventario,
+            plan_tesoreria: respuesta.plan_tesoreria,
+            plan_venta: respuesta.plan_venta,
+          };
+
+          this.store.dispatch(
+            ModulosManagerInit({
+              modulos,
+            }),
+          );
+          this.store.dispatch(ContenedorActionInit({ contenedor: contenedor }));
           this.store.dispatch(
             configuracionVisualizarAppsAction({
               configuracion: {
@@ -279,7 +315,7 @@ export class ContenedorListaComponent extends General implements OnInit {
         },
       }),
     );
-    
+
     this.store.dispatch(empresaLimpiarAction());
   }
 

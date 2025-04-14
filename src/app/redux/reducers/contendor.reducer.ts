@@ -1,5 +1,5 @@
 import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
-import { Contenedor } from '@interfaces/usuario/contenedor';
+import { Contenedor, RespuestaConectar } from '@interfaces/usuario/contenedor';
 import { createReducer, on } from '@ngrx/store';
 import { getCookie } from 'typescript-cookie';
 import {
@@ -12,26 +12,21 @@ import {
 let contenedorDatos = getCookie(cookieKey.CONTENEDOR);
 
 let estadoInicializado: Contenedor = {
+  id: 0,
+  usuario_id: 0,
+  contenedor_id: 0,
+  rol: '',
+  subdominio: '',
   nombre: '',
   imagen: '',
-  contenedor_id: 0,
-  id: 0,
-  subdominio: '',
-  usuario_id: 0,
-  seleccion: false,
-  rol: '',
-  plan_id: 0,
-  plan_nombre: null,
-  usuarios: 1,
+  usuarios: 0,
   usuarios_base: 0,
-  ciudad: 0,
-  correo: '',
-  direccion: '',
-  identificacion: 0,
-  nombre_corto: '',
-  numero_identificacion: 0,
-  telefono: '',
+  plan_id: 0,
+  plan_nombre: '',
+  reddoc: true,
+  ruteo: false,
   acceso_restringido: false,
+  seleccion: false
 };
 
 export const initialState: Contenedor = contenedorDatos
@@ -56,25 +51,19 @@ export const contendorReducer = createReducer(
     return {
       ...state,
       ...{
+        id: 0,
+        usuario_id: 0,
+        contenedor_id: 0,
+        rol: '',
+        subdominio: '',
         nombre: '',
         imagen: '',
-        contenedor_id: 0,
-        id: 0,
-        subdominio: '',
-        usuario_id: 0,
-        seleccion: false,
-        rol: '',
-        plan_id: 0,
-        plan_nombre: null,
-        usuarios: 1,
+        usuarios: 0,
         usuarios_base: 0,
-        ciudad: 0,
-        correo: '',
-        direccion: '',
-        identificacion: 0,
-        nombre_corto: '',
-        numero_identificacion: 0,
-        telefono: '',
+        plan_id: 0,
+        plan_nombre: '',
+        reddoc: true,
+        ruteo: false,
         acceso_restringido: false,
       },
     };

@@ -1,37 +1,35 @@
+import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { General } from '@comun/clases/general';
+import { SubdominioService } from '@comun/services/subdominio.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
+import { ContenedorActionBorrarInformacion } from '@redux/actions/contenedor.actions';
+import { ModulosManagerLimpiar } from '@redux/actions/modulos-manager.action';
+import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
+import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
+import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
+import {
+  obtenerEmpresaId,
+  obtenerEmpresaNombre,
+} from '@redux/selectors/empresa.selectors';
+import {
+  obtenerUsuarioImagen,
+  obtenerUsuarioNombreCorto,
+  obtenerUsuarioSocio,
+  obtenerUsuarioUserName,
+  obtenerUsuarioidioma,
+} from '@redux/selectors/usuario.selectors';
 import {
   Observable,
   Subject,
   Subscription,
   combineLatest,
-  takeUntil,
-  tap,
-  zip,
+  takeUntil
 } from 'rxjs';
-import { TranslationService } from '../../../../../../modules/i18n';
 import { AuthService, UserType } from '../../../../../../modules/auth';
-import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
-import {
-  obtenerUsuarioImagen,
-  obtenerUsuarioNombreCorto,
-  obtenerUsuarioUserName,
-  obtenerUsuarioidioma,
-  obtenerUsuarioSocio,
-} from '@redux/selectors/usuario.selectors';
-import { SubdominioService } from '@comun/services/subdominio.service';
-import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
-import {
-  obtenerEmpresaId,
-  obtenerEmpresaNombre,
-} from '@redux/selectors/empresa.selectors';
-import { environment } from '@env/environment';
-import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
-import { General } from '@comun/clases/general';
-import { NgIf, NgFor, NgClass, AsyncPipe } from '@angular/common';
-import { RouterLink } from '@angular/router';
-import { TranslateModule } from '@ngx-translate/core';
-import { ContenedorActionBorrarInformacion } from '@redux/actions/contenedor.actions';
-import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
+import { TranslationService } from '../../../../../../modules/i18n';
 
 @Component({
   selector: 'app-user-inner',
@@ -148,6 +146,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   navegarAmisContenedores() {
     this.store.dispatch(ContenedorActionBorrarInformacion());
+    this.store.dispatch(ModulosManagerLimpiar());
 
     this.router.navigate([`/contenedor/lista`]);
   }
