@@ -18,8 +18,6 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { CargarImagenComponent } from '@comun/componentes/cargar-imagen/cargar-imagen.component';
-import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
@@ -40,7 +38,6 @@ import { of, switchMap, tap } from 'rxjs';
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
-    CargarImagenComponent,
   ],
 })
 export class ContenedorEditarComponent extends General implements OnInit {
@@ -56,12 +53,13 @@ export class ContenedorEditarComponent extends General implements OnInit {
   public informacionPlanes = this.contenedorService.informacionPlan;
   public planesAgrupadosPorTipo = signal<Plan[]>([]);
   public activePlanTab = signal<'F' | 'E'>('F');
+  public disablePlanes = signal<boolean>(false);
 
   @Input() contenedor_id!: number;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
 
-  informacionEmpresa: Empresa = {
+  informacionEmpresa: any = {
     id: 0,
     numero_identificacion: '',
     digito_verificacion: '',
@@ -86,7 +84,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private contenedorService: ContenedorService
+    private contenedorService: ContenedorService,
   ) {
     super();
     this.initForm();
@@ -99,8 +97,13 @@ export class ContenedorEditarComponent extends General implements OnInit {
   consultarInformacion() {
     this.contenedorService
       .consultarInformacion(this.contenedor_id)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.informacionEmpresa = respuesta;
+
+        if (respuesta.plan_id >= 9) {
+          this.disablePlanes.set(true);
+        }
+
         this.changeDetectorRef.detectChanges();
       });
 
@@ -129,7 +132,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
           this.cambiarTipoPlanes('F');
           this.seleccionarTabDependiendoPlan();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
 
@@ -138,7 +141,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
 
   public seleccionarTabDependiendoPlan() {
     const contieneId = this.planesAgrupadosPorTipo().some(
-      (plan) => plan.id === this.planSeleccionado
+      (plan) => plan.id === this.planSeleccionado,
     );
 
     if (contieneId) {
@@ -174,19 +177,19 @@ export class ContenedorEditarComponent extends General implements OnInit {
             return this.contenedorService.editar(
               this.formularioContenedor.value,
               codigoUsuario,
-              this.contenedor_id
+              this.contenedor_id,
             );
           }),
           tap((respuestaActualizacion: any) => {
             if (respuestaActualizacion.actualizacion) {
               this.alertaService.mensajaExitoso(
                 this.translateService.instant(
-                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-                )
+                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
+                ),
               );
               return this.emitirActualizacion.emit(true);
             }
-          })
+          }),
         )
         .subscribe();
     } else {
@@ -207,8 +210,8 @@ export class ContenedorEditarComponent extends General implements OnInit {
         if (respuesta.cargar) {
           this.alertaService.mensajaExitoso(
             this.translateService.instant(
-              'FORMULARIOS.MENSAJES.COMUNES.CARGARIMAGEN'
-            )
+              'FORMULARIOS.MENSAJES.COMUNES.CARGARIMAGEN',
+            ),
           );
 
           return this.emitirActualizacion.emit(true);
@@ -228,13 +231,13 @@ export class ContenedorEditarComponent extends General implements OnInit {
                 ContenedorActionActualizarImagen({
                   imagen:
                     'https://semantica.sfo3.digitaloceanspaces.com/itrio/test/empresa/logo_defecto.jpg',
-                })
+                }),
               );
             this.changeDetectorRef.detectChanges();
             this.emitirActualizacion.emit(true);
           }
           return of(null);
-        })
+        }),
       )
       .subscribe();
   }

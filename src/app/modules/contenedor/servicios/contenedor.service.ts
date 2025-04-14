@@ -61,7 +61,7 @@ export class ContenedorService extends Subdominio {
   }
 
   consultarInformacion(empresa_id: Number | string) {
-    return this.http.get<ContenedorFormulario>(
+    return this.http.get<RespuestaConectar>(
       `${this.URL_API_BASE}/contenedor/contenedor/${empresa_id}/`,
     );
   }
