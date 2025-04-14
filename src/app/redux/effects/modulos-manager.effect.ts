@@ -1,10 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
 import { CookieService } from '@comun/services/infrastructure/cookie.service';
+import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-    ModulosManagerInit,
-    ModulosManagerLimpiar,
+  ModulosManagerInit,
+  ModulosManagerLimpiar,
 } from '@redux/actions/modulos-manager.action';
 import { tap } from 'rxjs/operators';
 
@@ -19,7 +20,9 @@ export class ModulosManagerEffects {
       this.actions$.pipe(
         ofType(ModulosManagerInit),
         tap(({ modulos }) => {
-          const tiempo = this._cookieService.calcularTiempoCookie(3);
+          const tiempo = this._cookieService.calcularTiempoCookie(
+            environment.sessionLifeTime,
+          );
           this._cookieService.set(cookieKey.MODULOS, JSON.stringify(modulos), {
             expires: tiempo,
             path: '/',
