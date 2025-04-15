@@ -14,6 +14,24 @@ import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { environment } from '@env/environment';
+
+declare global {
+  interface Window {
+    onTurnstileSuccess: (token: string) => void;
+    onTurnstileError: () => void;
+    turnstile?: {
+      render: (
+        container: string,
+        options: {
+          sitekey: string;
+          callback: (token: string) => void;
+          'error-callback': () => void;
+        },
+      ) => void;
+    };
+  }
+}
 
 @Component({
   selector: 'app-registration',
@@ -28,7 +46,7 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
     NgTemplateOutlet,
     NgIf,
     RouterLink,
-    InputValueCaseDirective
+    InputValueCaseDirective,
   ],
 })
 export class RegistrationComponent extends General implements OnInit {
@@ -36,16 +54,47 @@ export class RegistrationComponent extends General implements OnInit {
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoConfirmarClave: 'text' | 'password' = 'password';
   visualizarLoader: boolean = false;
+  turnstileToken: string = '';
+  turnstileSiteKey: string = environment.turnstileSiteKey;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.initForm();
+    this.loadTurnstileScript();
+    window.onTurnstileSuccess = (token: string) =>
+      this.onTurnstileSuccess(token);
+    window.onTurnstileError = () => this.onTurnstileError();
+    this.resetTurnstileWidget();
+  }
+
+  // Cargar el script de Turnstile dinámicamente
+  private loadTurnstileScript(): void {
+    if (typeof document !== 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }
+
+  onTurnstileSuccess(token: string): void {
+    this.turnstileToken = token;
+    this.formularioRegistro.get('turnstileToken')?.setValue(token);
+    this.changeDetectorRef.detectChanges();
+  }
+
+  onTurnstileError(): void {
+    console.error('Error al cargar Turnstile');
+    this.turnstileToken = '';
+    this.formularioRegistro.get('turnstileToken')?.setValue('');
+    this.changeDetectorRef.detectChanges();
   }
 
   visualizarClave() {
@@ -99,10 +148,11 @@ export class RegistrationComponent extends General implements OnInit {
           false,
           Validators.compose([Validators.requiredTrue]),
         ],
+        turnstileToken: ['', Validators.required],
       },
       {
         validator: ConfirmPasswordValidator.validarClave,
-      }
+      },
     );
   }
 
@@ -119,8 +169,9 @@ export class RegistrationComponent extends General implements OnInit {
           switchMap(() =>
             this.authService.login(
               this.formFields.usuario.value,
-              this.formFields.clave.value
-            )
+              this.formFields.clave.value,
+              this.formFields.turnstileToken.value,
+            ),
           ),
           tap((respuestaLogin) => {
             this.authService.loginExitoso(respuestaLogin.user);
@@ -129,11 +180,25 @@ export class RegistrationComponent extends General implements OnInit {
             this.visualizarLoader = false;
             this.changeDetectorRef.detectChanges();
             return of(null);
-          })
+          }),
         )
         .subscribe();
     } else {
       this.formularioRegistro.markAllAsTouched();
+    }
+  }
+
+  resetTurnstileWidget() {
+    const container = document.querySelector('.cf-turnstile');
+    if (container) {
+      container.innerHTML = '';
+      if (window.turnstile) {
+        window.turnstile.render('.cf-turnstile', {
+          sitekey: this.turnstileSiteKey,
+          callback: (token: string) => this.onTurnstileSuccess(token),
+          'error-callback': () => this.onTurnstileError(),
+        });
+      }
     }
   }
 }
