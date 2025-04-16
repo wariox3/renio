@@ -23,13 +23,23 @@ export const documento100: MapeoDocumento[] = [
     ordenable: true,
   },
   {
-    nombre: 'CONTACTO_NOMBRE_CORTO',
-    campoTipo: 'Fk',
+    nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+    nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
+    nombreFiltroRelacion: 'contacto__numero_identificacion',
+    campoTipo: 'CharField',
     visibleTabla: true,
     visibleFiltro: true,
     ordenable: false,
-    esFk: true,
-    modeloFk: 'GenContacto',
+  },
+
+  {
+    nombre: 'CONTACTO_NOMBRE_CORTO',
+    nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
+    nombreFiltroRelacion: 'CONTACTO__NOMBRE_CORTO',
+    campoTipo: 'CharField',
+    visibleTabla: true,
+    visibleFiltro: true,
+    ordenable: false,
   },
   {
     nombre: 'SUBTOTAL',
