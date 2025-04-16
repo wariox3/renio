@@ -23,6 +23,23 @@ import { catchError, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
 
+declare global {
+  interface Window {
+    onTurnstileSuccess: (token: string) => void;
+    onTurnstileError: () => void;
+    turnstile?: {
+      render: (
+        container: string,
+        options: {
+          sitekey: string;
+          callback: (token: string) => void;
+          'error-callback': () => void;
+        },
+      ) => void;
+    };
+  }
+}
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -40,7 +57,6 @@ import { AuthService } from '../../services/auth.service';
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
-  // KeenThemes mock, change it to:
   defaultAuth: any = {
     email: '',
     password: '',
@@ -50,9 +66,10 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   visualizarLoader: boolean = false;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
+  turnstileToken: string = '';
+  turnstileSiteKey: string = environment.turnstileSiteKey;
 
-  // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -62,27 +79,48 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
-    // redirect to home if already logged in
-    // if (this.authService.currentUserValue) {
-    //   this.router.navigate(['/']);
-    // }
   }
 
   ngOnInit(): void {
     this.initForm();
+    this.loadTurnstileScript();
+    window.onTurnstileSuccess = (token: string) =>
+      this.onTurnstileSuccess(token);
+    window.onTurnstileError = () => this.onTurnstileError();
+    this.resetTurnstileWidget();
   }
 
-  // convenience getter for easy access to form fields
+  // Cargar el script de Turnstile dinámicamente
+  private loadTurnstileScript(): void {
+    if (typeof document !== 'undefined') {
+      const script = document.createElement('script');
+      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+    }
+  }
+
+  onTurnstileSuccess(token: string): void {
+    this.turnstileToken = token;
+    this.loginForm.get('turnstileToken')?.setValue(token);
+    this.changeDetectorRef.detectChanges();
+  }
+
+  onTurnstileError(): void {
+    console.error('Error al cargar Turnstile');
+    this.turnstileToken = '';
+    this.loginForm.get('turnstileToken')?.setValue('');
+    this.changeDetectorRef.detectChanges();
+  }
+
   get f() {
     return this.loginForm.controls;
   }
 
   visualizarClave() {
-    if (this.cambiarTipoCampoClave === 'password') {
-      this.cambiarTipoCampoClave = 'text';
-    } else {
-      this.cambiarTipoCampoClave = 'password';
-    }
+    this.cambiarTipoCampoClave =
+      this.cambiarTipoCampoClave === 'password' ? 'text' : 'password';
   }
 
   initForm() {
@@ -106,6 +144,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           Validators.maxLength(100),
         ]),
       ],
+      turnstileToken: ['', Validators.required],
     });
   }
 
@@ -114,13 +153,17 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     if (Swal.isVisible()) {
       Swal.close();
     }
+
     if (this.loginForm.valid) {
       this.visualizarLoader = true;
       this.authService
-        .login(this.f.email.value, this.f.password.value)
+        .login(
+          this.f.email.value,
+          this.f.password.value,
+          this.f.turnstileToken.value,
+        )
         .pipe(
           tap((respuestaLogin) => {
-            //actualizar el store de redux
             this.store.dispatch(
               usuarioActionInit({
                 usuario: {
@@ -192,5 +235,19 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  resetTurnstileWidget() {
+    const container = document.querySelector('.cf-turnstile');
+    if (container) {
+      container.innerHTML = '';
+      if (window.turnstile) {
+        window.turnstile.render('.cf-turnstile', {
+          sitekey: this.turnstileSiteKey,
+          callback: (token: string) => this.onTurnstileSuccess(token),
+          'error-callback': () => this.onTurnstileError(),
+        });
+      }
+    }
   }
 }
