@@ -73,7 +73,7 @@
       <input
         class="form-control bg-transparent"
         type="email"
-        [placeholder]="'FORMULARIOS.CAMPOS.COMUNES.CORREO' | translate"
+        [placeholder]="'john@example.com'"
         name="email"
         formControlName="usuario"
         autocomplete="off"
@@ -135,7 +135,7 @@
         <input
           class="form-control bg-transparent"
           [type]="cambiarTipoCampoClave"
-          [placeholder]="'FORMULARIOS.TITULOS.SEGURIDAD.TITULO2' | translate"
+          [placeholder]="'*********'"
           name="password"
           formControlName="clave"
           autocomplete="off"
@@ -204,9 +204,7 @@
         <input
           class="form-control bg-transparent"
           [type]="cambiarTipoCampoConfirmarClave"
-          [placeholder]="
-            'FORMULARIOS.TITULOS.SEGURIDAD.CONFIRMARCLAVE' | translate
-          "
+          [placeholder]="'*********'"
           name="cPassword"
           autocomplete="off"
           formControlName="confirmarClave"
