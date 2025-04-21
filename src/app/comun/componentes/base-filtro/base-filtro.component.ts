@@ -66,7 +66,7 @@ import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.
     ]),
   ],
 })
-export class BaseFiltroComponent extends General implements OnInit, OnChanges {
+export class BaseFiltroComponent extends General implements OnChanges {
   formularioFiltros: FormGroup;
   formularioFiltrosModal: FormGroup;
   listaFiltros: Listafiltros[] = [];
@@ -112,8 +112,6 @@ export class BaseFiltroComponent extends General implements OnInit, OnChanges {
     super();
   }
 
-  ngOnInit(): void {}
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['localstorageKey']) {
       if (changes['localstorageKey'].currentValue) {
@@ -146,6 +144,22 @@ export class BaseFiltroComponent extends General implements OnInit, OnChanges {
         }
         this.changeDetectorRef.detectChanges();
       }
+    } else {
+      this.initForm();
+      this.construirPropiedades();
+      this.formularioFiltros.reset();
+      this.filtros.clear();
+      this.filtrosAplicados = [
+        {
+          propiedad: '',
+          operadorFiltro: '',
+          valor1: '',
+          valor2: '',
+          visualizarBtnAgregarFiltro: true,
+        },
+      ];
+      this.changeDetectorRef.detectChanges();
+      this.filtros.push(this.crearControlFiltros(null, 0));
     }
   }
 
