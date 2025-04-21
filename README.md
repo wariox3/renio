@@ -1,27 +1,71 @@
-# Demo1
+# Reddoc App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.x.x.
+[![Angular Version](https://img.shields.io/badge/Angular-17-%23DD0031?logo=angular)](https://angular.io/)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-## Development server
+Esta es la aplicacion de reddoc, un ERP de facturacion
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## Requisitos previos
 
-## Code scaffolding
+- Node.js v18+
+- npm v9+
+- Angular CLI v17+
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Instalación
 
-## Build
+1. Clonar el repositorio:
+   ```bash
+   git clone git@github.com:wariox3/renio.git
+   cd renio
+   ```
+2. Instalar las dependencias
+   ```
+   npm install --legacy-peer-deps
+   ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Variables de entorno
+Se debe configurar el archivo `environment.ts` dentro de la carpeta `/environments`
+   ```
+   export const environment = {
+        production: false,
+        URL_API_MUUP: 'http://reddocapi.online',
+        URL_API_SUBDOMINIO: 'http://subdominio.reddocapi.online',
+        EMPRESA_LOCALHOST: '',
+        dominioApp: '.reddoc.online',
+        dominioHttp: 'http',
+        appVersion: 'v8.1.8',
+        USERDATA_KEY: '',
+        isMockEnabled: true,
+        appThemeName: 'Metronic',
+        appPurchaseUrl: 'https://1.envato.market/EA4JP',
+        appHTMLIntegration:
+        'https://preview.keenthemes.com/metronic8/demo1/documentation/base/helpers/flex-layouts.html',
+        appPreviewUrl: 'https://preview.keenthemes.com/metronic8/angular/demo1',
+        appPreviewAngularUrl:
+        'https://preview.keenthemes.com/metronic8/angular/demo1',
+        appPreviewDocsUrl: 'https://preview.keenthemes.com/metronic8/angular/docs',
+        appPreviewChangelogUrl:
+        'https://preview.keenthemes.com/metronic8/angular/docs/changelog',
+        llavePublica: '',
+        appDocumentacion: 'https://documentacion.reddoc.co/apps/documentacion/',
+        sessionLifeTime: 24,
+        turnstileSiteKey: ''
+    };
+   ```
 
-## Running unit tests
+## Ejecución
+Servidor de desarrollo:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+   ```bash
+    ng serve
+   ```
 
-## Running end-to-end tests
+Abre http://localhost:4200 en tu navegador.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Build para producción:
 
-## Further help
+   ```bash
+    ng build
+   ```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Los archivos compilados se guardarán en la carpeta `dist/`.
