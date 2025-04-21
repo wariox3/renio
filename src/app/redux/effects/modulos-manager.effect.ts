@@ -4,44 +4,40 @@ import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
-  ContenedorActionBorrarInformacion,
-  ContenedorActionInit,
-} from '@redux/actions/contenedor.actions';
+  ModulosManagerInit,
+  ModulosManagerLimpiar,
+} from '@redux/actions/modulos-manager.action';
 import { tap } from 'rxjs/operators';
 
 @Injectable()
-export class ContenedorEffects {
+export class ModulosManagerEffects {
   private readonly _cookieService = inject(CookieService);
 
   constructor(private actions$: Actions) {}
 
-  guardarConenedor$ = createEffect(
+  guardarModulos$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(ContenedorActionInit),
-        tap(({ contenedor }) => {
+        ofType(ModulosManagerInit),
+        tap(({ modulos }) => {
           const tiempo = this._cookieService.calcularTiempoCookie(
             environment.sessionLifeTime,
           );
-          this._cookieService.set(
-            cookieKey.CONTENEDOR,
-            JSON.stringify(contenedor),
-            {
-              expires: tiempo,
-              path: '/',
-            },
-          );
+          this._cookieService.set(cookieKey.MODULOS, JSON.stringify(modulos), {
+            expires: tiempo,
+            path: '/',
+          });
         }),
       ),
     { dispatch: false },
   );
 
-  limpiarCookieContenedor$ = createEffect(
+  limpiarCookieModulos$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(ContenedorActionBorrarInformacion),
+        ofType(ModulosManagerLimpiar),
         tap(() => {
-          const cookieKeysLimpiar = [cookieKey.CONTENEDOR];
+          const cookieKeysLimpiar = [cookieKey.MODULOS];
           cookieKeysLimpiar.map((cookieKey) => {
             this._cookieService.delete(cookieKey, '/');
           });

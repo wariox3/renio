@@ -13,6 +13,8 @@ import { documentacionReducer } from './reducers/documentacion.reducer';
 import { DocumentacionEffects } from './effects/documentacion.effects';
 import { ArchivoImportacionReducer } from './reducers/archivo-importacion.reducer';
 import { ArchivoImportacionEffects } from './effects/archivo-importacion.effects';
+import { modulosManagerReducer } from './reducers/modulos-manager.reducer';
+import { ModulosManagerEffects } from './effects/modulos-manager.effect';
 
 export const StoreApp = {
   usuario: usuarioReducer,
@@ -22,7 +24,8 @@ export const StoreApp = {
   configuracion: configuracionReducer,
   criteriosFiltro: criteriosFiltroReducer,
   documentacion: documentacionReducer,
-  archivoImportacion: ArchivoImportacionReducer
+  archivoImportacion: ArchivoImportacionReducer,
+  modulosManager: modulosManagerReducer,
 };
 
 export const EffectsApp = [
@@ -32,5 +35,6 @@ export const EffectsApp = [
   ConfiguracionEffects,
   MenuEffects,
   DocumentacionEffects,
-  ArchivoImportacionEffects
+  ArchivoImportacionEffects,
+  ModulosManagerEffects,
 ];

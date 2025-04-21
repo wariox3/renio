@@ -14,6 +14,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
+import { environment } from '@env/environment';
+import { NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-registration',
@@ -28,7 +30,8 @@ import { InputValueCaseDirective } from '@comun/directive/input-value-case.direc
     NgTemplateOutlet,
     NgIf,
     RouterLink,
-    InputValueCaseDirective
+    InputValueCaseDirective,
+    NgxTurnstileModule,
   ],
 })
 export class RegistrationComponent extends General implements OnInit {
@@ -36,16 +39,24 @@ export class RegistrationComponent extends General implements OnInit {
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoConfirmarClave: 'text' | 'password' = 'password';
   visualizarLoader: boolean = false;
+  turnstileToken: string = '';
+  turnstileSiteKey: string = environment.turnstileSiteKey;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     super();
   }
 
   ngOnInit(): void {
     this.initForm();
+  }
+
+  onSuccess(token: any) {
+    this.turnstileToken = token;
+    this.formularioRegistro.get('turnstileToken')?.setValue(token);
+    this.changeDetectorRef.detectChanges();
   }
 
   visualizarClave() {
@@ -99,10 +110,12 @@ export class RegistrationComponent extends General implements OnInit {
           false,
           Validators.compose([Validators.requiredTrue]),
         ],
+        turnstileToken: ['', Validators.required],
+        proyecto: 'REDDOC',
       },
       {
         validator: ConfirmPasswordValidator.validarClave,
-      }
+      },
     );
   }
 
@@ -119,8 +132,9 @@ export class RegistrationComponent extends General implements OnInit {
           switchMap(() =>
             this.authService.login(
               this.formFields.usuario.value,
-              this.formFields.clave.value
-            )
+              this.formFields.clave.value,
+              this.formFields.turnstileToken.value,
+            ),
           ),
           tap((respuestaLogin) => {
             this.authService.loginExitoso(respuestaLogin.user);
@@ -129,7 +143,7 @@ export class RegistrationComponent extends General implements OnInit {
             this.visualizarLoader = false;
             this.changeDetectorRef.detectChanges();
             return of(null);
-          })
+          }),
         )
         .subscribe();
     } else {

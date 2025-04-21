@@ -4,7 +4,6 @@
   [formGroup]="formularioContenedor"
   (ngSubmit)="formSubmit()"
 >
-
   <div class="row mb-10">
     <div class="col-md-12 col-sm-12">
       <label
@@ -22,7 +21,7 @@
             formularioContenedor.controls['nombre'].invalid,
           'is-valid':
             formularioContenedor.controls['nombre'].touched &&
-            formularioContenedor.controls['nombre'].valid
+            formularioContenedor.controls['nombre'].valid,
         }"
       />
       <ng-container
@@ -30,7 +29,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioContenedor.controls['nombre']
+          control: formularioContenedor.controls['nombre'],
         }"
       ></ng-container>
       <ng-container
@@ -38,7 +37,7 @@
         [ngTemplateOutletContext]="{
           validation: 'pattern',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioContenedor.controls['nombre']
+          control: formularioContenedor.controls['nombre'],
         }"
       ></ng-container>
       <ng-container
@@ -47,7 +46,7 @@
           validation: 'minlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
           cantidadCaracteres: '3',
-          control: formularioContenedor.controls['nombre']
+          control: formularioContenedor.controls['nombre'],
         }"
       ></ng-container>
       <ng-container
@@ -56,7 +55,7 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '100',
-          control: formularioContenedor.controls['nombre']
+          control: formularioContenedor.controls['nombre'],
         }"
       ></ng-container>
     </div>
@@ -96,31 +95,42 @@
         <!-- Featured Card -->
 
         @for (plan of planesAgrupadosPorTipo(); track $index) {
-        <div class="col-lg-3">
-          <div
-            class="card h-100 p-3 pricing-card position-relative overflow-hidden"
-            (click)="seleccionarPlan(plan)"
-            [class.active]="planSeleccionado === plan.id"
-          >
-            <div class="card-body p-5">
-              <h4 class="fw-bold mb-4 card__title">{{ plan.nombre }}</h4>
-              <div class="mb-4">
-                <span class="card__price"
-                  >${{ plan.precio | number : "1.0-0" }}</span
-                >
-                <span class="text-muted">/mes</span>
+          <div class="col-lg-3">
+            <div
+              class="card h-100 p-3 pricing-card position-relative overflow-hidden"
+              [class.disabled-card]="disablePlanes()"
+              (click)="!disablePlanes() ? seleccionarPlan(plan) : null"
+              [class.active]="planSeleccionado === plan.id"
+            >
+              <div class="card-body p-5">
+                <h4 class="fw-bold mb-4 card__title">{{ plan.nombre }}</h4>
+                <div class="mb-4">
+                  <span class="card__price"
+                    >${{ plan.precio | number: "1.0-0" }}</span
+                  >
+                  <span class="text-muted">/mes</span>
+                </div>
+                <ul class="list-unstyled mb-4">
+                  @for (item of informacionPlanes[plan.id]; track $index) {
+                    <li class="mb-3 d-flex align-items-center">
+                      <i class="bi bi-check-lg text-success me-2"></i>
+                      {{ item | translate }}
+                    </li>
+                  }
+                </ul>
               </div>
-              <ul class="list-unstyled mb-4">
-                @for (item of informacionPlanes[plan.id]; track $index) {
-                <li class="mb-3 d-flex align-items-center">
-                  <i class="bi bi-check-lg text-success me-2"></i>
-                  {{ item | translate }}
-                </li>
-                }
-              </ul>
             </div>
           </div>
-        </div>
+        }
+
+        @if (disablePlanes()) {
+          <section>
+            <div class="alert alert-info p-2" role="alert">
+              <i class="bi bi-exclamation-triangle text-info"></i>
+              Tienes un plan personalizado, comunícate con nuestro equipo de
+              ventas.
+            </div>
+          </section>
         }
       </div>
     </div>

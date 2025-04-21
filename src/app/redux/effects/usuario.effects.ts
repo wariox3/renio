@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import { environment } from '@env/environment';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
@@ -14,30 +15,32 @@ import { getCookie, setCookie } from 'typescript-cookie';
 
 @Injectable()
 export class UsuarioEffects {
+  private readonly _cookieService = inject(CookieService);
 
   guardarEmpresa$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(usuarioActionInit),
         tap((action) => {
-          let calcularTresHoras = new Date(
-            new Date().getTime() + 3 * 60 * 60 * 1000
+          const tiempo = this._cookieService.calcularTiempoCookie(
+            environment.sessionLifeTime,
           );
+
           if (environment.production) {
             setCookie('usuario', JSON.stringify(action.usuario), {
-              expires: calcularTresHoras,
+              expires: tiempo,
               path: '/',
               domain: environment.dominioApp,
             });
           } else {
             setCookie('usuario', JSON.stringify(action.usuario), {
-              expires: calcularTresHoras,
+              expires: tiempo,
               path: '/',
             });
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   updateCookie$ = createEffect(
@@ -62,9 +65,9 @@ export class UsuarioEffects {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
             }
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   updateCookieIdioma$ = createEffect(
@@ -85,9 +88,9 @@ export class UsuarioEffects {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
             }
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   updateCookieImagen$ = createEffect(
@@ -108,9 +111,9 @@ export class UsuarioEffects {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
             }
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   updateCookieVrSaldo$ = createEffect(
@@ -131,9 +134,9 @@ export class UsuarioEffects {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
             }
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   updateCookieEstadoVerificado$ = createEffect(
@@ -154,11 +157,10 @@ export class UsuarioEffects {
               setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
             }
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
-
 
   constructor(private actions$: Actions) {}
 }

@@ -21,7 +21,9 @@ import { TokenVerificacion } from '../interfaces/token-verificacion.interface';
 import { ConfimarcionClaveReinicio } from '../models/confimarcion-clave-reinicio';
 import { UserModel } from '../models/user.model';
 import { TokenService } from './token.service';
+import { ModulosManagerLimpiar } from '@redux/actions/modulos-manager.action';
 export type UserType = UserModel | undefined;
+import { NgxTurnstileModule } from 'ngx-turnstile';
 
 @Injectable({
   providedIn: 'root',
@@ -57,16 +59,23 @@ export class AuthService extends Subdominio implements OnDestroy {
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  login(email: string, password: string) {
+  login(email: string, password: string, turnstileToken: string) {
     return this.http
       .post<Token>(
         `${this.URL_API_BASE}/seguridad/login/`,
-        { username: email, password: password },
+        { 
+          username: email, 
+          password: password,
+          cf_turnstile_response: turnstileToken,
+          proyecto: 'REDDOC'
+        },
         { context: noRequiereToken() },
       )
       .pipe(
         tap((respuesta: Token) => {
-          let calcularTresHoras = this._cookieService.calcularTiempoCookie(3);
+          let calcularTresHoras = this._cookieService.calcularTiempoCookie(
+            environment.sessionLifeTime,
+          );
           this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
           this.tokenService.guardarRefreshToken(
             respuesta['refresh-token'],
@@ -82,6 +91,7 @@ export class AuthService extends Subdominio implements OnDestroy {
     this.tokenService.eliminarToken();
     this.tokenService.eliminarRefreshToken();
     this.store.dispatch(asignarDocumentacion({ id: 0, nombre: '' }));
+    this.store.dispatch(ModulosManagerLimpiar());
     this._cookieService.delete(cookieKey.USUARIO, '/');
 
     const cookieKeysLimpiar = [
@@ -137,7 +147,9 @@ export class AuthService extends Subdominio implements OnDestroy {
   refreshToken(refreshToken: string) {
     return this.http.post<Token>(`${this.URL_API_BASE}`, { refreshToken }).pipe(
       tap((respuesta: Token) => {
-        let calcularTresHoras = this._cookieService.calcularTiempoCookie(3);
+        let calcularTresHoras = this._cookieService.calcularTiempoCookie(
+          environment.sessionLifeTime,
+        );
         this.tokenService.guardarToken(respuesta.token, calcularTresHoras);
         this.tokenService.guardarRefreshToken(
           respuesta['refresh-token'],

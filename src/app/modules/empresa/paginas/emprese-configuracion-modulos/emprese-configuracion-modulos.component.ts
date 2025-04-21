@@ -16,9 +16,8 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
-import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
-import { obtenerMenuModulos } from '@redux/selectors/menu.selectors';
-import { switchMap, tap } from 'rxjs';
+import { selectModulosHabilitados } from '@redux/selectors/modulos-manager.selectors';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-emprese-configuracion-modulos',
@@ -36,16 +35,18 @@ import { switchMap, tap } from 'rxjs';
     ConfiguracionInventarioComponent,
     ConfiguracionCompraComponent,
     ConfiguracionContabilidadComponent,
-    ConfiguracionCarteraComponent
-],
+    ConfiguracionCarteraComponent,
+  ],
   templateUrl: './emprese-configuracion-modulos.component.html',
   styleUrl: './emprese-configuracion-modulos.component.scss',
 })
-export class EmpreseConfiguracionModulosComponent extends General implements OnInit, OnDestroy {
-
-  arrMenuApps: AplicacionModulo[];
+export class EmpreseConfiguracionModulosComponent
+  extends General
+  implements OnInit, OnDestroy
+{
+  arrMenuApps: string[];
   visualizarMenuApps = false;
-  menuSeleccionado: AplicacionModulo = 'general'
+  menuSeleccionado: string = 'general';
 
   ngOnInit() {
     this.store.dispatch(
@@ -53,7 +54,7 @@ export class EmpreseConfiguracionModulosComponent extends General implements OnI
         configuracion: {
           visualizarBreadCrumbs: false,
         },
-      })
+      }),
     );
     this.store
       .select(obtenerConfiguracionVisualizarApp)
@@ -61,28 +62,32 @@ export class EmpreseConfiguracionModulosComponent extends General implements OnI
         tap((respuestaVisualizarApp) => {
           this.visualizarMenuApps = respuestaVisualizarApp;
         }),
-        switchMap(() => this.store.select(obtenerContenedorPlanId)),
-        switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
-        tap((respuestaMenuModulos) => {
-          this.arrMenuApps = respuestaMenuModulos;
-        })
+        // switchMap(() => this.store.select(obtenerContenedorPlanId)),
+        // switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
+        // tap((respuestaMenuModulos) => {
+        //   this.arrMenuApps = respuestaMenuModulos;
+        // })
       )
       .subscribe();
+
+    this.store.select(selectModulosHabilitados).subscribe((modulos) => {
+      this.arrMenuApps = modulos;
+    });
   }
 
-  seleccionarConfiguracion(modulo: AplicacionModulo){
-   this.menuSeleccionado = modulo
-   this.changeDetectorRef.detectChanges()
+  seleccionarConfiguracion(modulo: string) {
+    this.menuSeleccionado = modulo;
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnDestroy(): void {
-    this.alertaService.cerrarMensajes()
+    this.alertaService.cerrarMensajes();
     this.store.dispatch(
       configuracionVisualizarBreadCrumbsAction({
         configuracion: {
           visualizarBreadCrumbs: true,
         },
-      })
+      }),
     );
   }
 }

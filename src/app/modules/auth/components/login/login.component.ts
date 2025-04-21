@@ -12,16 +12,14 @@ import { General } from '@comun/clases/general';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
-import { Contenedor } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { configutacionActionInit } from '@redux/actions/configuracion.actions';
-import { ContenedorActionInit } from '@redux/actions/contenedor.actions';
-import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
+import { NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-login',
@@ -37,10 +35,10 @@ import { AuthService } from '../../services/auth.service';
     NgTemplateOutlet,
     RouterLink,
     InputValueCaseDirective,
+    NgxTurnstileModule,
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
-  // KeenThemes mock, change it to:
   defaultAuth: any = {
     email: '',
     password: '',
@@ -50,39 +48,36 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   visualizarLoader: boolean = false;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
+  turnstileToken: string = '';
+  turnstileSiteKey: string = environment.turnstileSiteKey;
 
-  // private fields
-  private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
+  private unsubscribe: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private subdominioService: SubdominioService,
-    private contenedorServices: ContenedorService,
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
-    // redirect to home if already logged in
-    // if (this.authService.currentUserValue) {
-    //   this.router.navigate(['/']);
-    // }
   }
 
   ngOnInit(): void {
     this.initForm();
   }
 
-  // convenience getter for easy access to form fields
+  onSuccess(token: any) {
+    this.turnstileToken = token;
+    this.loginForm.get('turnstileToken')?.setValue(token);
+    this.changeDetectorRef.detectChanges();
+  }
+
   get f() {
     return this.loginForm.controls;
   }
 
   visualizarClave() {
-    if (this.cambiarTipoCampoClave === 'password') {
-      this.cambiarTipoCampoClave = 'text';
-    } else {
-      this.cambiarTipoCampoClave = 'password';
-    }
+    this.cambiarTipoCampoClave =
+      this.cambiarTipoCampoClave === 'password' ? 'text' : 'password';
   }
 
   initForm() {
@@ -106,6 +101,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           Validators.maxLength(100),
         ]),
       ],
+      turnstileToken: ['', Validators.required],
     });
   }
 
@@ -114,13 +110,17 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     if (Swal.isVisible()) {
       Swal.close();
     }
+
     if (this.loginForm.valid) {
       this.visualizarLoader = true;
       this.authService
-        .login(this.f.email.value, this.f.password.value)
+        .login(
+          this.f.email.value,
+          this.f.password.value,
+          this.f.turnstileToken.value,
+        )
         .pipe(
           tap((respuestaLogin) => {
-            //actualizar el store de redux
             this.store.dispatch(
               usuarioActionInit({
                 usuario: {

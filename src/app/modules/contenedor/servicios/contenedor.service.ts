@@ -12,6 +12,7 @@ import {
   ContenedorFormulario,
   ContenedorInvitacion,
   ContenedorLista,
+  RespuestaConectar,
 } from '@interfaces/usuario/contenedor';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
@@ -60,7 +61,7 @@ export class ContenedorService extends Subdominio {
   }
 
   consultarInformacion(empresa_id: Number | string) {
-    return this.http.get<ContenedorFormulario>(
+    return this.http.get<RespuestaConectar>(
       `${this.URL_API_BASE}/contenedor/contenedor/${empresa_id}/`,
     );
   }
@@ -243,7 +244,7 @@ export class ContenedorService extends Subdominio {
   }
 
   contenedorConectar(subdominio: string) {
-    return this.http.post<Contenedor>(
+    return this.http.post<RespuestaConectar>(
       `${this.URL_API_BASE}/contenedor/contenedor/conectar/`,
       {
         subdominio,

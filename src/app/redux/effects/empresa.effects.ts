@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { cookieKey } from '@comun/services/domain/enums/cookie-key.enum';
 import { CookieService } from '@comun/services/infrastructure/cookie.service';
+import { environment } from '@env/environment';
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
@@ -23,7 +24,9 @@ export class EmpresaEffects {
       this.actions$.pipe(
         ofType(empresaActionInit),
         tap(({ empresa }) => {
-          const tiempo = this._cookieService.calcularTiempoCookie(3);
+          const tiempo = this._cookieService.calcularTiempoCookie(
+            environment.sessionLifeTime,
+          );
           this._cookieService.set(cookieKey.EMPRESA, JSON.stringify(empresa), {
             expires: tiempo,
             path: '/',
@@ -40,7 +43,7 @@ export class EmpresaEffects {
         tap(({ empresa }) => {
           this._cookieService.set(cookieKey.EMPRESA, JSON.stringify(empresa), {
             path: '/',
-          }); 
+          });
         }),
       ),
     { dispatch: false },

@@ -36,18 +36,19 @@ export class BaseNuevoComponent extends General implements AfterViewInit {
   }
 
   async loadComponente() {
-    // this.activatedRoute.queryParams.subscribe(async () => {
-    this.componenteDinamico.clear();
-    this.key = this._configModuleService.key;
-    const componenteClase = Componentes[this.key!];
-    if (componenteClase && componenteClase.formulario) {
-      let componete = await (await componenteClase.formulario()).default;
-      let componeteCargado = this.componenteDinamico.createComponent(componete);
-      componeteCargado.changeDetectorRef.detectChanges();
-    } else {
-      console.error('El componente o su método formulario es indefinido');
-    }
-    // });
+    this._configModuleService.currentModelConfig$.subscribe(async (value) => {
+      this.componenteDinamico.clear();
+      this.key = this._configModuleService.key;
+      const componenteClase = Componentes[this.key!];
+      if (componenteClase && componenteClase.formulario) {
+        let componete = await (await componenteClase.formulario()).default;
+        let componeteCargado =
+          this.componenteDinamico.createComponent(componete);
+        componeteCargado.changeDetectorRef.detectChanges();
+      } else {
+        console.error('El componente o su método formulario es indefinido');
+      }
+    });
   }
 
   emitir() {

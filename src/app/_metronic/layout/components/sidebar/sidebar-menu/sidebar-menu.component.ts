@@ -10,28 +10,28 @@ import {
   ActivatedRoute,
   Router,
   RouterLink,
-  RouterLinkActive
+  RouterLinkActive,
 } from '@angular/router';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
+import {
+  FuncionalidadConfig,
+  ModeloConfig,
+} from '@interfaces/menu/configuracion.interface';
 import { } from '@modulos/compra/domain/constantes/configuracion.constant';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { configuracionVisualizarAppsAction } from '@redux/actions/configuracion.actions';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
-import {
-  selecionModuloAction
-} from '@redux/actions/menu.actions';
-import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
+import { selecionModuloAction } from '@redux/actions/menu.actions';
 import {
   obtenerMenuInformacion,
-  obtenerMenuModulos,
-  obtenerMenuSeleccion,
+  obtenerMenuSeleccion
 } from '@redux/selectors/menu.selectors';
-import { switchMap, tap, withLatestFrom } from 'rxjs';
+import { selectModulosHabilitados } from '@redux/selectors/modulos-manager.selectors';
+import { tap, withLatestFrom } from 'rxjs';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
-import { FuncionalidadConfig, ModeloConfig } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -117,15 +117,19 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   private _cargarMenuModulosSidebarColapsado() {
-    this.store
-      .select(obtenerContenedorPlanId)
-      .pipe(
-        switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
-        tap((respuestaMenuModulos) => {
-          this.arrMenuApps = respuestaMenuModulos;
-        }),
-      )
-      .subscribe();
+    // this.store
+    //   .select(obtenerContenedorPlanId)
+    //   .pipe(
+    //     switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
+    //     tap((respuestaMenuModulos) => {
+    //       this.arrMenuApps = respuestaMenuModulos;
+    //     }),
+    //   )
+    //   .subscribe();
+
+    this.store.select(selectModulosHabilitados).subscribe((modulos) => {
+      this.arrMenuApps = modulos;
+    });
   }
 
   private _mostrarModulosNavbar() {
@@ -210,9 +214,9 @@ export class SidebarMenuComponent implements OnInit {
       case 'seguridadSocial':
         return 'people';
       case 'proceso':
-        return 'abstract-26'
+        return 'abstract-26';
       case 'especial':
-        return 'abstract-25'
+        return 'abstract-25';
     }
   }
 

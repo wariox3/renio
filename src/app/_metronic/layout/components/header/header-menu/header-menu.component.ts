@@ -1,20 +1,23 @@
+import {
+  CommonModule,
+  NgClass,
+  NgFor,
+  NgIf
+} from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { General } from '@comun/clases/general';
+import { TranslateModule } from '@ngx-translate/core';
+import { selecionModuloAction } from '@redux/actions/menu.actions';
+import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
+import {
+  obtenerMenuSeleccion
+} from '@redux/selectors/menu.selectors';
+import { selectModulosHabilitados } from '@redux/selectors/modulos-manager.selectors';
+import { switchMap, tap } from 'rxjs';
 import { LayoutType } from '../../../core/configs/config';
 import { LayoutInitService } from '../../../core/layout-init.service';
 import { LayoutService } from '../../../core/layout.service';
-import { selecionModuloAction } from '@redux/actions/menu.actions';
-import { General } from '@comun/clases/general';
-import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
-import { switchMap, tap } from 'rxjs';
-import {
-  obtenerMenuModulos,
-  obtenerMenuSeleccion,
-} from '@redux/selectors/menu.selectors';
-import { obtenerContenedorPlanId } from '@redux/selectors/contenedor.selectors';
-import { TranslateModule } from '@ngx-translate/core';
-import { RouterLinkActive, RouterLink } from '@angular/router';
-import { NgIf, NgFor, LowerCasePipe, NgClass, CommonModule } from '@angular/common';
-import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 
 @Component({
   selector: 'app-header-menu',
@@ -32,13 +35,13 @@ import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
   ],
 })
 export class HeaderMenuComponent extends General implements OnInit {
-  arrMenuApps: AplicacionModulo[];
+  arrMenuApps: string[];
   visualizarMenuApps = false;
   ruta = '';
 
   constructor(
     private layout: LayoutService,
-    private layoutInit: LayoutInitService
+    private layoutInit: LayoutInitService,
   ) {
     super();
   }
@@ -49,11 +52,11 @@ export class HeaderMenuComponent extends General implements OnInit {
         switchMap(() => this.store.select(obtenerMenuSeleccion)),
         tap((respuesta: any) => {
           this.ruta = respuesta;
-          if(respuesta === 'general'){
+          if (respuesta === 'general') {
             this.ruta = 'Inicio';
           }
-          this.changeDetectorRef.detectChanges()
-        })
+          this.changeDetectorRef.detectChanges();
+        }),
       )
       .subscribe();
 
@@ -63,13 +66,17 @@ export class HeaderMenuComponent extends General implements OnInit {
         tap((respuestaVisualizarApp) => {
           this.visualizarMenuApps = respuestaVisualizarApp;
         }),
-        switchMap(() => this.store.select(obtenerContenedorPlanId)),
-        switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
-        tap((respuestaMenuModulos) => {
-          this.arrMenuApps = respuestaMenuModulos;
-        })
+        // switchMap(() => this.store.select(obtenerContenedorPlanId)),
+        // switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
+        // tap((respuestaMenuModulos) => {
+        //   this.arrMenuApps = respuestaMenuModulos;
+        // }),
       )
       .subscribe();
+
+    this.store.select(selectModulosHabilitados).subscribe((modulos) => {
+      this.arrMenuApps = modulos;
+    });
   }
 
   calculateMenuItemCssClass(url: string): string {
@@ -81,7 +88,7 @@ export class HeaderMenuComponent extends General implements OnInit {
   }
 
   setToolbar(
-    toolbarLayout: 'classic' | 'accounting' | 'extended' | 'reports' | 'saas'
+    toolbarLayout: 'classic' | 'accounting' | 'extended' | 'reports' | 'saas',
   ) {
     const currentConfig = { ...this.layout.layoutConfigSubject.value };
     if (currentConfig && currentConfig.app && currentConfig.app.toolbar) {
@@ -90,7 +97,7 @@ export class HeaderMenuComponent extends General implements OnInit {
     }
   }
 
-  seleccionarMenu(ruta: AplicacionModulo) {
+  seleccionarMenu(ruta: string  ) {
     this.store.dispatch(selecionModuloAction({ seleccion: ruta }));
   }
 }

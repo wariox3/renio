@@ -10,8 +10,10 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
   Output,
+  SimpleChanges,
   ViewEncapsulation,
 } from '@angular/core';
 import {
@@ -64,7 +66,7 @@ import { obtenerMenuDataMapeoCamposVisibleFiltros } from '@redux/selectors/menu.
     ]),
   ],
 })
-export class BaseFiltroComponent extends General implements OnInit {
+export class BaseFiltroComponent extends General implements OnInit, OnChanges {
   formularioFiltros: FormGroup;
   formularioFiltrosModal: FormGroup;
   listaFiltros: Listafiltros[] = [];
@@ -110,43 +112,41 @@ export class BaseFiltroComponent extends General implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-    this.initForm();
-    this.construirPropiedades();
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      // let tipo = window.location.pathname.split('/')[1];
-      // this.nombreFiltro = `${tipo}_${parametro.itemNombre?.toLowerCase()}`;
-      this.nombreFiltro = this.localstorageKey || '';      
+  ngOnInit(): void {}
 
-      // if (this.nombreFiltroCustom !== '') {
-      //   this.nombreFiltro = `${tipo}_${this.nombreFiltroCustom}`;
-      // }
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['localstorageKey']) {
+      if (changes['localstorageKey'].currentValue) {
+        this.initForm();
+        this.construirPropiedades();
+        this.nombreFiltro = this.localstorageKey || '';
 
-      if (localStorage.getItem(this.nombreFiltro) !== null) {
-        this.filtrosAplicados = JSON.parse(
-          localStorage.getItem(this.nombreFiltro)!,
-        );
-        this.formularioFiltros.reset();
-        this.filtros.clear();
-        this.filtrosAplicados.map((propiedad, index) => {
-          this.filtros.push(this.crearControlFiltros(propiedad, index));
-        });
-      } else {
-        this.formularioFiltros.reset();
-        this.filtros.clear();
-        this.filtrosAplicados = [
-          {
-            propiedad: '',
-            operadorFiltro: '',
-            valor1: '',
-            valor2: '',
-            visualizarBtnAgregarFiltro: true,
-          },
-        ];
-        this.filtros.push(this.crearControlFiltros(null, 0));
+        if (localStorage.getItem(this.nombreFiltro) !== null) {
+          this.filtrosAplicados = JSON.parse(
+            localStorage.getItem(this.nombreFiltro)!,
+          );
+          this.formularioFiltros.reset();
+          this.filtros.clear();
+          this.filtrosAplicados.map((propiedad, index) => {
+            this.filtros.push(this.crearControlFiltros(propiedad, index));
+          });
+        } else {
+          this.formularioFiltros.reset();
+          this.filtros.clear();
+          this.filtrosAplicados = [
+            {
+              propiedad: '',
+              operadorFiltro: '',
+              valor1: '',
+              valor2: '',
+              visualizarBtnAgregarFiltro: true,
+            },
+          ];
+          this.filtros.push(this.crearControlFiltros(null, 0));
+        }
+        this.changeDetectorRef.detectChanges();
       }
-      this.changeDetectorRef.detectChanges();
-    });
+    }
   }
 
   initForm() {

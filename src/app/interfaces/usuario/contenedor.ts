@@ -1,24 +1,52 @@
 export interface Contenedor {
-  ciudad: number;
-  correo: string;
-  direccion: string;
   id: number;
-  identificacion: number;
-  imagen: string;
-  contenedor_id: number;
-  nombre: string | null;
-  nombre_corto: string;
-  numero_identificacion: number;
-  plan_id: number;
-  plan_nombre: number | null;
-  rol: string;
-  seleccion?: boolean;
-  subdominio: string;
-  telefono: string;
   usuario_id: number;
+  contenedor_id: number;
+  rol: string;
+  subdominio: string;
+  nombre: string;
+  imagen: string;
   usuarios: number;
   usuarios_base: number;
+  plan_id: number;
+  plan_nombre: string;
+  reddoc: boolean;
+  ruteo: boolean;
   acceso_restringido: boolean;
+  seleccion: boolean;
+}
+
+export interface RespuestaConectar {
+  id: number;
+  subdominio: string;
+  nombre: string;
+  plan_id: number;
+  plan_usuarios_base: number;
+  plan_limite_usuarios: number;
+  plan_nombre: string;
+  plan_venta: boolean;
+  plan_compra: boolean;
+  plan_tesoreria: boolean;
+  plan_cartera: boolean;
+  plan_inventario: boolean;
+  plan_humano: boolean;
+  plan_contabilidad: boolean;
+  imagen: string;
+  reddoc: boolean;
+  ruteo: boolean;
+  cortesia: boolean;
+  usuario_id: number;
+  acceso_restringido: boolean;
+}
+
+export interface Modulos {
+  plan_venta: boolean;
+  plan_compra: boolean;
+  plan_tesoreria: boolean;
+  plan_cartera: boolean;
+  plan_inventario: boolean;
+  plan_humano: boolean;
+  plan_contabilidad: boolean;
 }
 
 export interface ContenedorLista {

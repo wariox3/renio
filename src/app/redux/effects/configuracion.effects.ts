@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
+import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import { environment } from '@env/environment';
 import { Configuracion } from '@interfaces/configuracion/configuracion';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -12,30 +13,32 @@ import { getCookie, setCookie } from 'typescript-cookie';
 
 @Injectable()
 export class ConfiguracionEffects {
+  private readonly _cookieService = inject(CookieService);
+
   guardarConfiguracion$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(configutacionActionInit),
         tap((action) => {
-          let calcularTresHoras = new Date(
-            new Date().getTime() + 3 * 60 * 60 * 1000
+          const tiempo = this._cookieService.calcularTiempoCookie(
+            environment.sessionLifeTime,
           );
 
           if (environment.production) {
             setCookie(`configuracion`, JSON.stringify(action.configuracion), {
-              expires: calcularTresHoras,
+              expires: tiempo,
               path: '/',
               domain: environment.dominioApp,
             });
           } else {
             setCookie(`configuracion`, JSON.stringify(action.configuracion), {
-              expires: calcularTresHoras,
+              expires: tiempo,
               path: '/',
             });
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   // Efecto para actualizar la cookie de visualizarApps
@@ -64,9 +67,9 @@ export class ConfiguracionEffects {
               });
             }
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   actualizarVisualizarBreadCrumbs$ = createEffect(
@@ -79,10 +82,11 @@ export class ConfiguracionEffects {
             if (coockieConfiguracion) {
               let jsonConfiguracion: Configuracion =
                 JSON.parse(coockieConfiguracion);
-                jsonConfiguracion = {
-                  ...jsonConfiguracion,
-                  visualizarBreadCrumbs: action.configuracion.visualizarBreadCrumbs,
-                };
+              jsonConfiguracion = {
+                ...jsonConfiguracion,
+                visualizarBreadCrumbs:
+                  action.configuracion.visualizarBreadCrumbs,
+              };
               if (environment.production) {
                 setCookie('configuracion', JSON.stringify(jsonConfiguracion), {
                   path: '/',
@@ -95,9 +99,9 @@ export class ConfiguracionEffects {
               }
             }
           }
-        })
+        }),
       ),
-    { dispatch: false }
+    { dispatch: false },
   );
 
   constructor(private actions$: Actions) {}

@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
-import { Params, RouterModule } from '@angular/router';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal
+} from '@angular/core';
+import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';

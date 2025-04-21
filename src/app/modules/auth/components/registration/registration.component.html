@@ -83,7 +83,7 @@
             formularioRegistro.controls['usuario'].invalid,
           'is-valid':
             formularioRegistro.controls['usuario'].touched &&
-            formularioRegistro.controls['usuario'].valid
+            formularioRegistro.controls['usuario'].valid,
         }"
         appInputValuecaseDirective
         [appInputValueCase]="'minuscula'"
@@ -93,7 +93,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioRegistro.controls['usuario']
+          control: formularioRegistro.controls['usuario'],
         }"
       ></ng-container>
       <ng-container
@@ -101,7 +101,7 @@
         [ngTemplateOutletContext]="{
           validation: 'email',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
-          control: formularioRegistro.controls['usuario']
+          control: formularioRegistro.controls['usuario'],
         }"
       ></ng-container>
       <ng-container
@@ -110,7 +110,7 @@
           validation: 'minlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
           cantidadCaracteres: '8',
-          control: formularioRegistro.controls['usuario']
+          control: formularioRegistro.controls['usuario'],
         }"
       ></ng-container>
       <ng-container
@@ -119,7 +119,7 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '50',
-          control: formularioRegistro.controls['usuario']
+          control: formularioRegistro.controls['usuario'],
         }"
       ></ng-container>
     </div>
@@ -145,7 +145,7 @@
               formularioRegistro.controls['clave'].invalid,
             'is-valid':
               formularioRegistro.controls['clave'].touched &&
-              formularioRegistro.controls['clave'].valid
+              formularioRegistro.controls['clave'].valid,
           }"
         />
         <i
@@ -153,7 +153,7 @@
           class="fa-regular"
           [ngClass]="{
             'fa-eye': cambiarTipoCampoClave === 'password',
-            'fa-eye-slash': cambiarTipoCampoClave === 'text'
+            'fa-eye-slash': cambiarTipoCampoClave === 'text',
           }"
         ></i>
       </div>
@@ -162,7 +162,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioRegistro.controls['clave']
+          control: formularioRegistro.controls['clave'],
         }"
       ></ng-container>
       <ng-container
@@ -171,7 +171,7 @@
           validation: 'minlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
           cantidadCaracteres: '8',
-          control: formularioRegistro.controls['clave']
+          control: formularioRegistro.controls['clave'],
         }"
       ></ng-container>
       <ng-container
@@ -180,7 +180,7 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '50',
-          control: formularioRegistro.controls['clave']
+          control: formularioRegistro.controls['clave'],
         }"
       ></ng-container>
       <ng-container
@@ -188,7 +188,7 @@
         [ngTemplateOutletContext]="{
           validation: 'pattern',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioRegistro.controls['clave']
+          control: formularioRegistro.controls['clave'],
         }"
       ></ng-container>
     </div>
@@ -216,7 +216,7 @@
               formularioRegistro.controls['confirmarClave'].invalid,
             'is-valid':
               formularioRegistro.controls['confirmarClave'].touched &&
-              formularioRegistro.controls['confirmarClave'].valid
+              formularioRegistro.controls['confirmarClave'].valid,
           }"
         />
         <i
@@ -224,7 +224,7 @@
           class="fa-regular"
           [ngClass]="{
             'fa-eye': cambiarTipoCampoConfirmarClave === 'password',
-            'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text'
+            'fa-eye-slash': cambiarTipoCampoConfirmarClave === 'text',
           }"
         ></i>
       </div>
@@ -233,7 +233,7 @@
         [ngTemplateOutletContext]="{
           validation: 'required',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-          control: formularioRegistro.controls['confirmarClave']
+          control: formularioRegistro.controls['confirmarClave'],
         }"
       ></ng-container>
       <ng-container
@@ -242,7 +242,7 @@
           validation: 'minlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
           cantidadCaracteres: '8',
-          control: formularioRegistro.controls['confirmarClave']
+          control: formularioRegistro.controls['confirmarClave'],
         }"
       ></ng-container>
       <ng-container
@@ -251,7 +251,7 @@
           validation: 'maxlength',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
           cantidadCaracteres: '50',
-          control: formularioRegistro.controls['confirmarClave']
+          control: formularioRegistro.controls['confirmarClave'],
         }"
       ></ng-container>
       <ng-container
@@ -259,7 +259,7 @@
         [ngTemplateOutletContext]="{
           validation: 'pattern',
           message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-          control: formularioRegistro.controls['confirmarClave']
+          control: formularioRegistro.controls['confirmarClave'],
         }"
       ></ng-container>
       <div
@@ -305,9 +305,12 @@
       [ngTemplateOutletContext]="{
         validation: 'required',
         message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-        control: formularioRegistro.controls['terminosCondiciones']
+        control: formularioRegistro.controls['terminosCondiciones'],
       }"
     ></ng-container>
+
+    <ngx-turnstile [siteKey]="turnstileSiteKey" (resolved)="onSuccess($event)"></ngx-turnstile>
+   
 
     <!--end::Form group-->
 
