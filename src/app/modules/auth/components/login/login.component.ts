@@ -31,8 +31,10 @@ declare global {
           sitekey: string;
           callback: (token: string) => void;
           'error-callback': () => void;
+          'refresh-expired'?: string;
         },
       ) => void;
+      reset?: (container: string) => void;
     };
   }
 }
@@ -65,6 +67,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   turnstileToken: string = '';
   turnstileSiteKey: string = environment.turnstileSiteKey;
+  private turnstileLoaded: boolean = false;
 
   private unsubscribe: Subscription[] = [];
 
@@ -80,35 +83,79 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
+    this.resetTurnstileState();
     this.loadTurnstileScript();
-    window.onTurnstileSuccess = (token: string) =>
-      this.onTurnstileSuccess(token);
+    window.onTurnstileSuccess = (token: string) => this.onTurnstileSuccess(token);
     window.onTurnstileError = () => this.onTurnstileError();
-    this.resetTurnstileWidget();
+  }
+
+  private resetTurnstileState(): void {
+    this.turnstileToken = '';
+    this.loginForm.get('turnstileToken')?.setValue('');
+    localStorage.removeItem('cf-turnstile-response');
+    sessionStorage.removeItem('cf-turnstile-response');
   }
 
   // Cargar el script de Turnstile dinámicamente
   private loadTurnstileScript(): void {
-    if (typeof document !== 'undefined') {
-      const script = document.createElement('script');
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
+    if (this.turnstileLoaded || typeof document === 'undefined') return;
+    
+    if (document.querySelector('script[src*="cloudflare.com/turnstile"]')) {
+      this.turnstileLoaded = true;
+      this.resetTurnstileWidget();
+      return;
     }
+
+    const script = document.createElement('script');
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      this.turnstileLoaded = true;
+      this.resetTurnstileWidget();
+    };
+    script.onerror = () => {
+      console.error('Error al cargar Turnstile');
+      this.onTurnstileError();
+    };
+    document.head.appendChild(script);
   }
 
   onTurnstileSuccess(token: string): void {
+    if (!token) return;
     this.turnstileToken = token;
     this.loginForm.get('turnstileToken')?.setValue(token);
     this.changeDetectorRef.detectChanges();
   }
 
   onTurnstileError(): void {
-    console.error('Error al cargar Turnstile');
+    console.error('Error en Turnstile');
     this.turnstileToken = '';
     this.loginForm.get('turnstileToken')?.setValue('');
     this.changeDetectorRef.detectChanges();
+  }
+
+  resetTurnstileWidget() {
+    const container = document.querySelector('.cf-turnstile');
+    if (container) {
+      // Usar reset si está disponible
+      if (window.turnstile?.reset) {
+        window.turnstile.reset('.cf-turnstile');
+      } else {
+        container.innerHTML = '';
+      }
+      
+      setTimeout(() => {
+        if (window.turnstile) {
+          window.turnstile.render('.cf-turnstile', {
+            sitekey: this.turnstileSiteKey,
+            callback: (token: string) => this.onTurnstileSuccess(token),
+            'error-callback': () => this.onTurnstileError(),
+            'refresh-expired': 'auto'
+          });
+        }
+      }, 100);
+    }
   }
 
   get f() {
@@ -232,19 +279,8 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+    window.onTurnstileSuccess = () => {};
+    window.onTurnstileError = () => {};
   }
 
-  resetTurnstileWidget() {
-    const container = document.querySelector('.cf-turnstile');
-    if (container) {
-      container.innerHTML = '';
-      if (window.turnstile) {
-        window.turnstile.render('.cf-turnstile', {
-          sitekey: this.turnstileSiteKey,
-          callback: (token: string) => this.onTurnstileSuccess(token),
-          'error-callback': () => this.onTurnstileError(),
-        });
-      }
-    }
-  }
 }
