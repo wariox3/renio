@@ -1,5 +1,5 @@
 import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -19,7 +19,7 @@ import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
-import { NgxTurnstileModule } from 'ngx-turnstile';
+import { NgxTurnstileComponent, NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-login',
@@ -39,6 +39,7 @@ import { NgxTurnstileModule } from 'ngx-turnstile';
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
+  @ViewChild(NgxTurnstileComponent) turnstileComponent!: NgxTurnstileComponent;
   defaultAuth: any = {
     email: '',
     password: '',
@@ -180,6 +181,11 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           catchError(() => {
             this.visualizarLoader = false;
+            if (this.turnstileComponent) {
+              this.turnstileComponent.reset();
+              this.turnstileToken = '';
+              this.loginForm.get('turnstileToken')?.setValue('');
+            }
             this.changeDetectorRef.detectChanges();
             return of(null);
           }),

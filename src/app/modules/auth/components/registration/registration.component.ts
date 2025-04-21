@@ -1,5 +1,5 @@
 import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -15,7 +15,7 @@ import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { environment } from '@env/environment';
-import { NgxTurnstileModule } from 'ngx-turnstile';
+import { NgxTurnstileComponent, NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-registration',
@@ -35,6 +35,7 @@ import { NgxTurnstileModule } from 'ngx-turnstile';
   ],
 })
 export class RegistrationComponent extends General implements OnInit {
+  @ViewChild(NgxTurnstileComponent) turnstileComponent!: NgxTurnstileComponent;
   formularioRegistro: FormGroup;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoConfirmarClave: 'text' | 'password' = 'password';
@@ -141,6 +142,11 @@ export class RegistrationComponent extends General implements OnInit {
           }),
           catchError(() => {
             this.visualizarLoader = false;
+            if (this.turnstileComponent) {
+              this.turnstileComponent.reset();
+              this.turnstileToken = '';
+              this.formularioRegistro.get('turnstileToken')?.setValue('');
+            }
             this.changeDetectorRef.detectChanges();
             return of(null);
           }),
