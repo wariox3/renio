@@ -102,7 +102,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         ]),
       ],
       turnstileToken: ['', Validators.required],
-      proyecto: 'REDDOC',
     });
   }
 

@@ -66,7 +66,8 @@ export class AuthService extends Subdominio implements OnDestroy {
         { 
           username: email, 
           password: password,
-          cf_turnstile_response: turnstileToken
+          cf_turnstile_response: turnstileToken,
+          proyecto: 'REDDOC'
         },
         { context: noRequiereToken() },
       )
