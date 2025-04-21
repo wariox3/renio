@@ -3,7 +3,7 @@
 [![Angular Version](https://img.shields.io/badge/Angular-17-%23DD0031?logo=angular)](https://angular.io/)
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 
-Esta es la aplicacion de reddoc, un ERP de facturacion
+Reddoc App es un sistema ERP de facturación completo desarrollado con Angular 17 que simplifica la gestión financiera y operativa de tu negocio. Con una interfaz moderna basada en Metronic, ofrece todas las herramientas necesarias para administrar facturas, clientes, inventario y más.
 
 ## Requisitos previos
 
