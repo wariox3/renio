@@ -51,6 +51,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   turnstileToken: string = '';
   turnstileSiteKey: string = environment.turnstileSiteKey;
+  isProduction: boolean = environment.production;
 
   private unsubscribe: Subscription[] = [];
 
@@ -102,8 +103,14 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           Validators.maxLength(100),
         ]),
       ],
-      turnstileToken: ['', Validators.required],
+      turnstileToken: [''],
     });
+
+    if (this.isProduction) {
+      this.loginForm
+        .get('turnstileToken')
+        ?.addValidators([Validators.required]);
+    }
   }
 
   submit() {

@@ -309,8 +309,12 @@
       }"
     ></ng-container>
 
-    <ngx-turnstile [siteKey]="turnstileSiteKey" (resolved)="onSuccess($event)"></ngx-turnstile>
-   
+    @if (isProduction) {
+      <ngx-turnstile
+        [siteKey]="turnstileSiteKey"
+        (resolved)="onSuccess($event)"
+      ></ngx-turnstile>
+    }
 
     <!--end::Form group-->
 

@@ -42,6 +42,7 @@ export class RegistrationComponent extends General implements OnInit {
   visualizarLoader: boolean = false;
   turnstileToken: string = '';
   turnstileSiteKey: string = environment.turnstileSiteKey;
+  isProduction: boolean = environment.production;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -111,13 +112,19 @@ export class RegistrationComponent extends General implements OnInit {
           false,
           Validators.compose([Validators.requiredTrue]),
         ],
-        turnstileToken: ['', Validators.required],
+        turnstileToken: [''],
         proyecto: 'REDDOC',
       },
       {
         validator: ConfirmPasswordValidator.validarClave,
       },
     );
+
+    if (this.isProduction) {
+      this.formularioRegistro
+        .get('turnstileToken')
+        ?.addValidators([Validators.required]);
+    }
   }
 
   get formFields() {
