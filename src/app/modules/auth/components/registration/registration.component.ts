@@ -60,28 +60,28 @@ export class RegistrationComponent extends General implements OnInit {
     
   }
 
-  resetTurnstileWidget() {
-    const container = document.querySelector('.cf-turnstile');
-    if (container) {
-      // Usar reset si está disponible
-      if (window.turnstile?.reset) {
-        window.turnstile.reset('.cf-turnstile');
-      } else {
-        container.innerHTML = '';
-      }
+  // resetTurnstileWidget() {
+  //   const container = document.querySelector('.cf-turnstile');
+  //   if (container) {
+  //     // Usar reset si está disponible
+  //     if (window.turnstile?.reset) {
+  //       window.turnstile.reset('.cf-turnstile');
+  //     } else {
+  //       container.innerHTML = '';
+  //     }
       
-      setTimeout(() => {
-        if (window.turnstile) {
-          window.turnstile.render('.cf-turnstile', {
-            sitekey: this.turnstileSiteKey,
-            callback: (token: string) => this.onTurnstileSuccess(token),
-            'error-callback': () => this.onTurnstileError(),
-            'refresh-expired': 'auto'
-          });
-        }
-      }, 100);
-    }
-  }
+  //     setTimeout(() => {
+  //       if (window.turnstile) {
+  //         window.turnstile.render('.cf-turnstile', {
+  //           sitekey: this.turnstileSiteKey,
+  //           callback: (token: string) => this.onTurnstileSuccess(token),
+  //           'error-callback': () => this.onTurnstileError(),
+  //           'refresh-expired': 'auto'
+  //         });
+  //       }
+  //     }, 100);
+  //   }
+  // }
 
   visualizarClave() {
     if (this.cambiarTipoCampoClave === 'password') {
