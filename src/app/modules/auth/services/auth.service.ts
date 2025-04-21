@@ -23,6 +23,7 @@ import { UserModel } from '../models/user.model';
 import { TokenService } from './token.service';
 import { ModulosManagerLimpiar } from '@redux/actions/modulos-manager.action';
 export type UserType = UserModel | undefined;
+import { NgxTurnstileModule } from 'ngx-turnstile';
 
 @Injectable({
   providedIn: 'root',

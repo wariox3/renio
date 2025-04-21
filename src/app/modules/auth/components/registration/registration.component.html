@@ -308,16 +308,9 @@
         control: formularioRegistro.controls['terminosCondiciones'],
       }"
     ></ng-container>
-    <!-- Turnstile Widget -->
-    <div
-      class="cf-turnstile mb-3"
-      [attr.data-sitekey]="turnstileSiteKey"
-      data-callback="onTurnstileSuccess"
-      data-error-callback="onTurnstileError"
-      data-language="es"
-      data-expired-callback="onTurnstileError"
-      data-response-field="false"
-    ></div>
+
+    <ngx-turnstile [siteKey]="turnstileSiteKey" (resolved)="onSuccess($event)"></ngx-turnstile>
+   
 
     <!--end::Form group-->
 

@@ -19,25 +19,7 @@ import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
-
-declare global {
-  interface Window {
-    onTurnstileSuccess: (token: string) => void;
-    onTurnstileError: () => void;
-    turnstile?: {
-      render: (
-        container: string,
-        options: {
-          sitekey: string;
-          callback: (token: string) => void;
-          'error-callback': () => void;
-          'refresh-expired'?: string;
-        },
-      ) => void;
-      reset?: (container: string) => void;
-    };
-  }
-}
+import { NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-login',
@@ -53,6 +35,7 @@ declare global {
     NgTemplateOutlet,
     RouterLink,
     InputValueCaseDirective,
+    NgxTurnstileModule,
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
@@ -83,42 +66,12 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.initForm();
-    this.resetTurnstileState();
-    this.loadTurnstileScript();
-    window.onTurnstileSuccess = (token: string) => this.onTurnstileSuccess(token);
-    window.onTurnstileError = () => this.onTurnstileError();
   }
 
-  private resetTurnstileState(): void {
-    this.turnstileToken = '';
-    this.loginForm.get('turnstileToken')?.setValue('');
-    localStorage.removeItem('cf-turnstile-response');
-    sessionStorage.removeItem('cf-turnstile-response');
-  }
-
-  // Cargar el script de Turnstile dinámicamente
-  private loadTurnstileScript(): void {
-    if (this.turnstileLoaded || typeof document === 'undefined') return;
-    
-    if (document.querySelector('script[src*="cloudflare.com/turnstile"]')) {
-      this.turnstileLoaded = true;
-      this.resetTurnstileWidget();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      this.turnstileLoaded = true;
-      this.resetTurnstileWidget();
-    };
-    script.onerror = () => {
-      console.error('Error al cargar Turnstile');
-      this.onTurnstileError();
-    };
-    document.head.appendChild(script);
+  onSuccess(token: any) {
+    this.turnstileToken = token;
+    this.loginForm.get('turnstileToken')?.setValue(token);
+    this.changeDetectorRef.detectChanges();
   }
 
   onTurnstileSuccess(token: string): void {
@@ -133,29 +86,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     this.turnstileToken = '';
     this.loginForm.get('turnstileToken')?.setValue('');
     this.changeDetectorRef.detectChanges();
-  }
-
-  resetTurnstileWidget() {
-    const container = document.querySelector('.cf-turnstile');
-    if (container) {
-      // Usar reset si está disponible
-      if (window.turnstile?.reset) {
-        window.turnstile.reset('.cf-turnstile');
-      } else {
-        container.innerHTML = '';
-      }
-      
-      setTimeout(() => {
-        if (window.turnstile) {
-          window.turnstile.render('.cf-turnstile', {
-            sitekey: this.turnstileSiteKey,
-            callback: (token: string) => this.onTurnstileSuccess(token),
-            'error-callback': () => this.onTurnstileError(),
-            'refresh-expired': 'auto'
-          });
-        }
-      }, 100);
-    }
   }
 
   get f() {
@@ -279,8 +209,5 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
-    window.onTurnstileSuccess = () => {};
-    window.onTurnstileError = () => {};
   }
-
 }

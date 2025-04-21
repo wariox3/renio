@@ -15,25 +15,7 @@ import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { environment } from '@env/environment';
-
-declare global {
-  interface Window {
-    onTurnstileSuccess: (token: string) => void;
-    onTurnstileError: () => void;
-    turnstile?: {
-      render: (
-        container: string,
-        options: {
-          sitekey: string;
-          callback: (token: string) => void;
-          'error-callback': () => void;
-          'refresh-expired'?: string;
-        },
-      ) => void;
-      reset?: (container: string) => void;
-    };
-  }
-}
+import { NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-registration',
@@ -49,6 +31,7 @@ declare global {
     NgIf,
     RouterLink,
     InputValueCaseDirective,
+    NgxTurnstileModule,
   ],
 })
 export class RegistrationComponent extends General implements OnInit {
@@ -69,55 +52,12 @@ export class RegistrationComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.resetTurnstileState();
-    this.loadTurnstileScript();
-    window.onTurnstileSuccess = (token: string) => this.onTurnstileSuccess(token);
-    window.onTurnstileError = () => this.onTurnstileError();
   }
 
-  private resetTurnstileState(): void {
-    this.turnstileToken = '';
-    this.formularioRegistro.get('turnstileToken')?.setValue('');
-    localStorage.removeItem('cf-turnstile-response');
-    sessionStorage.removeItem('cf-turnstile-response');
-  }
-
-  private loadTurnstileScript(): void {
-    if (this.turnstileLoaded || typeof document === 'undefined') return;
+  onSuccess(token: any) {
+    // Send token to your server for verification
+    console.log(token);
     
-    if (document.querySelector('script[src*="cloudflare.com/turnstile"]')) {
-      this.turnstileLoaded = true;
-      this.resetTurnstileWidget();
-      return;
-    }
-
-    const script = document.createElement('script');
-    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-    script.async = true;
-    script.defer = true;
-    script.onload = () => {
-      this.turnstileLoaded = true;
-      this.resetTurnstileWidget();
-    };
-    script.onerror = () => {
-      console.error('Error al cargar Turnstile');
-      this.onTurnstileError();
-    };
-    document.head.appendChild(script);
-  }
-
-  onTurnstileSuccess(token: string): void {
-    if (!token) return;
-    this.turnstileToken = token;
-    this.formularioRegistro.get('turnstileToken')?.setValue(token);
-    this.changeDetectorRef.detectChanges();
-  }
-
-  onTurnstileError(): void {
-    console.error('Error en Turnstile');
-    this.turnstileToken = '';
-    this.formularioRegistro.get('turnstileToken')?.setValue('');
-    this.changeDetectorRef.detectChanges();
   }
 
   resetTurnstileWidget() {
@@ -233,6 +173,4 @@ export class RegistrationComponent extends General implements OnInit {
       this.formularioRegistro.markAllAsTouched();
     }
   }
-
-
 }
