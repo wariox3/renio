@@ -160,7 +160,7 @@
     <!--end::Form group-->
 
     <!-- Turnstile Widget -->
-    <ngx-turnstile siteKey="0x4AAAAAABL-n8pCTJYbGk6f" (resolved)="onSuccess($event)"></ngx-turnstile>
+    <ngx-turnstile [siteKey]="turnstileSiteKey" (resolved)="onSuccess($event)"></ngx-turnstile>
 
 
     <ng-container

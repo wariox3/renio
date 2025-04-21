@@ -50,15 +50,12 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   turnstileToken: string = '';
   turnstileSiteKey: string = environment.turnstileSiteKey;
-  private turnstileLoaded: boolean = false;
 
   private unsubscribe: Subscription[] = [];
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private subdominioService: SubdominioService,
-    private contenedorServices: ContenedorService,
   ) {
     super();
     this.isLoading$ = this.authService.isLoading$;
@@ -71,20 +68,6 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   onSuccess(token: any) {
     this.turnstileToken = token;
     this.loginForm.get('turnstileToken')?.setValue(token);
-    this.changeDetectorRef.detectChanges();
-  }
-
-  onTurnstileSuccess(token: string): void {
-    if (!token) return;
-    this.turnstileToken = token;
-    this.loginForm.get('turnstileToken')?.setValue(token);
-    this.changeDetectorRef.detectChanges();
-  }
-
-  onTurnstileError(): void {
-    console.error('Error en Turnstile');
-    this.turnstileToken = '';
-    this.loginForm.get('turnstileToken')?.setValue('');
     this.changeDetectorRef.detectChanges();
   }
 
@@ -119,6 +102,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         ]),
       ],
       turnstileToken: ['', Validators.required],
+      proyecto: 'REDDOC',
     });
   }
 

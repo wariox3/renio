@@ -41,7 +41,6 @@ export class RegistrationComponent extends General implements OnInit {
   visualizarLoader: boolean = false;
   turnstileToken: string = '';
   turnstileSiteKey: string = environment.turnstileSiteKey;
-  private turnstileLoaded: boolean = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,33 +54,10 @@ export class RegistrationComponent extends General implements OnInit {
   }
 
   onSuccess(token: any) {
-    // Send token to your server for verification
-    console.log(token);
-    
+    this.turnstileToken = token;
+    this.formularioRegistro.get('turnstileToken')?.setValue(token);
+    this.changeDetectorRef.detectChanges();
   }
-
-  // resetTurnstileWidget() {
-  //   const container = document.querySelector('.cf-turnstile');
-  //   if (container) {
-  //     // Usar reset si está disponible
-  //     if (window.turnstile?.reset) {
-  //       window.turnstile.reset('.cf-turnstile');
-  //     } else {
-  //       container.innerHTML = '';
-  //     }
-      
-  //     setTimeout(() => {
-  //       if (window.turnstile) {
-  //         window.turnstile.render('.cf-turnstile', {
-  //           sitekey: this.turnstileSiteKey,
-  //           callback: (token: string) => this.onTurnstileSuccess(token),
-  //           'error-callback': () => this.onTurnstileError(),
-  //           'refresh-expired': 'auto'
-  //         });
-  //       }
-  //     }, 100);
-  //   }
-  // }
 
   visualizarClave() {
     if (this.cambiarTipoCampoClave === 'password') {
@@ -135,6 +111,7 @@ export class RegistrationComponent extends General implements OnInit {
           Validators.compose([Validators.requiredTrue]),
         ],
         turnstileToken: ['', Validators.required],
+        proyecto: 'REDDOC',
       },
       {
         validator: ConfirmPasswordValidator.validarClave,
