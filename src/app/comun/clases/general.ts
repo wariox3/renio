@@ -16,14 +16,11 @@ export class General {
   protected alertaService = inject(AlertaService);
   protected translateService = inject(TranslateService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
-  // protected modulo = '';
-  // protected modelo = '';
   protected tipo = '';
   protected formulario = '';
   protected accion: AplicacionAccion = null;
   protected detalle: number = 0;
   protected parametrosUrl: Partial<informacionMenuItem['data']>;
-  protected ubicacion: AplicacionUbicaciones;
   protected moduloAplicacion: Record<
     AplicacionPrefijoModulo,
     AplicacionModulo
@@ -52,25 +49,6 @@ export class General {
         this.detalle = Number(detalleId);
       } else {
         this.detalle = 0
-      }
-
-      // TODO: Fumarse esto
-      switch (true) {
-        case this.router.url.includes('documento'):
-          this.ubicacion = 'documento';
-          break;
-        case this.router.url.includes('administrador'):
-          this.ubicacion = 'administrador';
-          break;
-        case this.router.url.includes('utilidad'):
-          this.ubicacion = 'utilidad';
-          break;
-        case this.router.url.includes('informe'):
-          this.ubicacion = 'informe';
-          break;
-        default:
-          this.ubicacion = 'independiente';
-          break;
       }
 
       // TODO: buscar la manera de fumarse esto
