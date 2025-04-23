@@ -86,30 +86,6 @@ export class SidebarMenuComponent implements OnInit {
 
     this._mostrarModulosNavbar();
     this._cargarMenuModulosSidebarColapsado();
-
-    // this.router.events
-    //   .pipe(
-    //     filter(
-    //       (event): event is NavigationEnd => event instanceof NavigationEnd,
-    //     ), // Asegura que el evento es NavigationEnd
-    //   )
-    //   .subscribe((evento: NavigationEnd) => {
-    //     const url = evento.urlAfterRedirects; // Obtener la URL actual
-    //     const moduloKey = url.replace('/', ''); // Eliminar el "/"
-    //     // Verificar si el módulo existe en el array `moduloAplicacion`
-    //     if (this.moduloAplicacion.includes(moduloKey as AplicacionModulo)) {
-    //       // Despachar la acción con el módulo encontrado
-    //       this.store.dispatch(
-    //         selecionModuloAction({ seleccion: moduloKey as AplicacionModulo }),
-    //       );
-    //     } else if (moduloKey === 'dashboard') {
-    //       this.store.dispatch(selecionModuloAction({ seleccion: 'general' }));
-    //     }
-    //   });
-
-    // this.cambiarMenu();
-    // this._cargarModulo();
-    // this.cambiarMenu();
   }
 
   private _cargarMenu(funcionalidades: FuncionalidadConfig[] | undefined) {
@@ -117,16 +93,6 @@ export class SidebarMenuComponent implements OnInit {
   }
 
   private _cargarMenuModulosSidebarColapsado() {
-    // this.store
-    //   .select(obtenerContenedorPlanId)
-    //   .pipe(
-    //     switchMap((plan_id) => this.store.select(obtenerMenuModulos(plan_id))),
-    //     tap((respuestaMenuModulos) => {
-    //       this.arrMenuApps = respuestaMenuModulos;
-    //     }),
-    //   )
-    //   .subscribe();
-
     this.store.select(selectModulosHabilitados).subscribe((modulos) => {
       this.arrMenuApps = modulos;
     });
@@ -141,55 +107,6 @@ export class SidebarMenuComponent implements OnInit {
       }),
     );
   }
-
-  private _cargarModulo() {
-    // this.activatedRoute.queryParams.subscribe((params) => {
-    //   if (params.modulo !== undefined) {
-    //     this.store.dispatch(selecionModuloAction({ seleccion: params.modulo }));
-    //   }
-    //   this.arrMenu.forEach((item: any) => {
-    //     this._cargarDatosMenu(item, params);
-    //   });
-    // });
-  }
-
-  // private _cargarDatosMenu(item: any, parametros: any) {
-  //   // buscamos la coincidencia entre el modelo en la URL y el modelo de los childrens del item
-  //   const childrenFound = item?.children?.find((info: any) => {
-  //     return info.nombre === parametros?.alias;
-  //   });
-
-  //   if (!childrenFound) return;
-
-  //   // cargamos los datos al reducer
-  //   this._cargarReducerData(childrenFound);
-  // }
-
-  // TODO: No lo entiendo
-  // private _cargarReducerData(item: informacionMenuItem) {
-  //   if (item?.archivoImportacionLista !== undefined) {
-  //     this.store.dispatch(
-  //       asignarArchivoImportacionLista({
-  //         lista: item?.archivoImportacionLista,
-  //       }),
-  //     );
-  //   } else {
-  //     this.store.dispatch(
-  //       asignarArchivoImportacionLista({
-  //         lista: null,
-  //       }),
-  //     );
-  //   }
-
-  //   this.store.dispatch(ActualizarDataItem({ dataItem: item }));
-
-  //   this.store.dispatch(
-  //     asignarDocumentacion({
-  //       id: item?.documentacionId || 0,
-  //       nombre: item.nombre,
-  //     }),
-  //   );
-  // }
 
   obtenerIcono(nombre: string) {
     switch (nombre) {
@@ -259,25 +176,6 @@ export class SidebarMenuComponent implements OnInit {
     if (item.key) {
       queries.modelo = item.key.toString();
     }
-
-    // TODO: No lo entiendo
-    // if (item?.data?.filtrosLista) {
-    //   this.construirFiltros(item);
-    // }
-
-    // TODO: No lo entiendo
-    // let parametros = this.construirParametros(item);
-    // localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
-    // localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
-    // let url = [item.tipo?.toLocaleLowerCase(), 'lista'];
-    // if (item.url !== undefined || item.urlIndependientes !== undefined) {
-    //   if (typeof item.url === 'string') {
-    //     // Check if item.url is a string
-    //     url = [item.url]; // If so, assign it as a single element array
-    //   } else {
-    //     url = [item.urlIndependientes?.lista];
-    //   }
-    // }
 
     this.router.navigate([`${item.ajustes.rutas.lista}`], {
       queryParams: queries,
