@@ -814,23 +814,6 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('contactoNombre')
         ?.setValue(dato.contacto_nombre_corto);
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
-      if (dato.plazo_pago_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_dias;
-        const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
-        const fechaActual = new Date(); // Obtener la fecha actual
-        fechaActual.setDate(fechaActual.getDate() + diasNumero);
-        const fechaVencimiento = `${fechaActual.getFullYear()}-${(
-          fechaActual.getMonth() + 1
-        )
-          .toString()
-          .padStart(2, '0')}-${fechaActual
-          .getDate()
-          .toString()
-          .padStart(2, '0')}`;
-        // Suma los días a la fecha actual
-        this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
-      }
     }
     if (campo === 'metodo_pago') {
       this.formularioFactura.get(campo)?.setValue(dato.metodo_pago_id);
