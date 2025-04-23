@@ -85,12 +85,6 @@ export class ImportarAdministradorComponent
   ngOnInit(): void {}
 
   abrirModalContactoNuevo(content: any) {
-    // this.descargarArchivosService._construirNombreArchivo(
-    //   this.parametrosUrl,
-    //   this.ubicacion,
-    //   this.detalle,
-    // );
-
     this.archivoNombre = '';
     this.errorImportar = [];
     this.modalService.open(content, {
@@ -98,90 +92,7 @@ export class ImportarAdministradorComponent
       backdrop: 'static',
       size: 'xl',
     });
-    // if (this.detalle) {
-    //   this.store
-    //     .select(obtenerArchivoImportacionDetalle)
-    //     .pipe(
-    //       tap((archivoImportacionLista) => {
-    //         if (archivoImportacionLista) {
-    //           this.habilitarBtnEjemploImportar = true;
-    //           this.changeDetectorRef.detectChanges();
-    //         } else {
-    //           this.habilitarBtnEjemploImportar = false;
-    //           this.changeDetectorRef.detectChanges();
-    //         }
-    //       }),
-    //       tap(() => {
-    //         // this._cargarMaestros();
-    //         // this.importarSoloNuevos =
-    //         //   this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
-    //         // (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-    //         this.archivoNombre = '';
-    //         this.errorImportar = [];
-    //         this.modalService.open(content, {
-    //           ariaLabelledBy: 'modal-basic-title',
-    //           backdrop: 'static',
-    //           size: 'xl',
-    //         });
-    //       }),
-    //     )
-    //     .subscribe()
-    //     .unsubscribe();
-    // } else {
-    //   this.store
-    //     .select(obtenerArchivoImportacionLista)
-    //     .pipe(
-    //       tap((archivoImportacionLista) => {
-    //         if (archivoImportacionLista) {
-    //           this.habilitarBtnEjemploImportar = true;
-    //           this.changeDetectorRef.detectChanges();
-    //         } else {
-    //           this.habilitarBtnEjemploImportar = false;
-    //           this.changeDetectorRef.detectChanges();
-    //         }
-    //       }),
-    //       tap(() => {
-    //         // this._cargarMaestros();
-    //         // this.importarSoloNuevos =
-    //         //   this.parametrosUrl?.importarSoloNuevos === 'si' ? true : false;
-    //         // (this.soloNuevos = false), this.changeDetectorRef.detectChanges();
-    //         this.archivoNombre = '';
-    //         this.errorImportar = [];
-    //         this.modalService.open(content, {
-    //           ariaLabelledBy: 'modal-basic-title',
-    //           backdrop: 'static',
-    //           size: 'xl',
-    //         });
-    //       }),
-    //     )
-    //     .subscribe()
-    //     .unsubscribe();
-    // }
   }
-
-  // maestros son los botones del dropdown que permiten descargar acrhivos del S3
-  // private _cargarMaestros() {
-  //   this._menuReducerService
-  //     .getModuloItemInformacion(this.moduloNombre, this.alias)
-  //     .subscribe({
-  //       next: (categoriaItem) => {
-  //         // con esto obtenemos la informacion precisa del item en el que estemos parados
-  //         this._cargarInformacionMaestros(categoriaItem);
-  //       },
-  //     });
-  // }
-
-  // //
-  // private _cargarInformacionMaestros(
-  //   categoriaItem: informacionMenuItem | undefined | null,
-  // ) {
-  //   if (!categoriaItem || !categoriaItem.maestros) {
-  //     this.maestros = [];
-  //     return;
-  //   }
-
-  //   this.maestros = categoriaItem.maestros;
-  // }
 
   cerrarModal() {
     this.modalService.dismissAll();
@@ -226,35 +137,6 @@ export class ImportarAdministradorComponent
         let nombreFiltro = `documento_${this.importarConfig.nombre?.toLowerCase()}`;
         let filtroPermamente: any = [];
         this.cargardoDocumento.set(true);
-
-        // let modelo = '';
-        // let ruta = '';
-
-        // if (this.modelo === 'MOVIMIENTO') {
-        //   modelo = 'movimiento';
-        //   ruta = localStorage.getItem('ruta')!;
-        // } else {
-        //   if ('no' == 'no') {
-        //     if (this.accion === 'detalle') {
-        //       modelo = this.modelo
-        //         .toLowerCase()
-        //         .substring(3, this.modelo.length);
-        //       ruta = localStorage.getItem('ruta')!;
-        //     } else {
-        //       modelo = this.modelo
-        //         .toLowerCase()
-        //         .substring(3, this.modelo.length);
-        //       ruta = this.modulo;
-        //     }
-        //   } else {
-        //     ruta = localStorage.getItem('ruta')!;
-        //     modelo = this.modelo.toLowerCase().substring(3, this.modelo.length);
-        //   }
-        // }
-
-        // this.cargardoDocumento = true;
-        // this.changeDetectorRef.detectChanges();
-        // let url = `${ruta.toLowerCase()}/${modelo}/importar/`;
 
         let data: any = {
           archivo_base64,
@@ -326,12 +208,6 @@ export class ImportarAdministradorComponent
   }
 
   descargarExcelImportar() {
-    // let nombreArchivo = this.importarConfig.nombre;
-
-    // if (this.exportarArchivoFijo) {
-    //   nombreArchivo = this.exportarArchivoFijo;
-    // }
-
     this.descargarArchivosService
       .descargarArchivoLocal(this.importarConfig.rutaEjemplo || '')
       .subscribe();
@@ -346,16 +222,7 @@ export class ImportarAdministradorComponent
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
         let nombreArchivo = `errores_${this.importarConfig.nombre}.xlsx`;
-
-        // if (esIndependite == 'si') {
-        //   nombreArchivo = `errores_${localStorage
-        //     .getItem('ruta')!
-        //     .toLowerCase()
-        //     .substring(
-        //       0,
-        //       3,
-        //     )}_${parametro.itemNombre?.toLocaleLowerCase()}.xlsx`;
-        // }
+        
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
           this.errorImportar,
         );

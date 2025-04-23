@@ -45,9 +45,6 @@ export class General {
   consultarParametros() {
     this.activatedRoute.queryParams.subscribe((parametros) => {
       this.parametrosUrl = parametros;
-      // if (parametros.itemNombre) {
-      //   this.modelo = parametros.itemNombre;
-      // }
 
       const detalleId = this.activatedRoute.snapshot.paramMap.get('id');
 
@@ -64,18 +61,6 @@ export class General {
           break;
         case this.router.url.includes('administrador'):
           this.ubicacion = 'administrador';
-          // Obtener el prefijo a partir del modelo
-          // const prefijo: AplicacionPrefijoModulo = this.modelo
-          //   .toLowerCase()
-          //   .substring(0, 3) as AplicacionPrefijoModulo;
-
-          // // Verificar si el prefijo existe en las claves de moduloAplicacion
-          // const posicion = Object.keys(this.moduloAplicacion).indexOf(prefijo);
-
-          // if (posicion !== -1) {
-          //   // Si el prefijo es válido, mostrar la posición
-          //   this.modulo = this.moduloAplicacion[prefijo];
-          // }
           break;
         case this.router.url.includes('utilidad'):
           this.ubicacion = 'utilidad';
