@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -40,7 +48,8 @@ import { ConfigModuleService } from '@comun/services/application/config-modulo.s
 })
 export default class ResolucionFormularioComponent
   extends General
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   formularioResolucion: FormGroup;
   @Input() ocultarBtnAtras: Boolean = false;
   @Input() tipoRolucion: 'compra' | 'venta' | null = null;
@@ -48,19 +57,19 @@ export default class ResolucionFormularioComponent
   @Input() editarInformacion: Boolean = false;
   @Input() idEditarInformacion: number | null = null;
   @Output() emitirGuardoRegistro: EventEmitter<any> = new EventEmitter();
-  private readonly _configModuleService = inject(ConfigModuleService)
-  private _destroy$ = new Subject<void>()
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
-    private resolucionService: ResolucionService
+    private resolucionService: ResolucionService,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
+    this.configurarModuloListener();
     this.iniciarFormulario();
     if (this.detalle || this.editarInformacion) {
       this.consultardetalle();
@@ -103,11 +112,19 @@ export default class ResolucionFormularioComponent
         ],
         consecutivo_desde: [
           null,
-          Validators.compose([Validators.required, Validators.maxLength(200), Validators.max(2147483647)]),
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(200),
+            Validators.max(2147483647),
+          ]),
         ],
         consecutivo_hasta: [
           null,
-          Validators.compose([Validators.required, Validators.maxLength(200), Validators.max(2147483647)]),
+          Validators.compose([
+            Validators.required,
+            Validators.maxLength(200),
+            Validators.max(2147483647),
+          ]),
         ],
         fecha_desde: [
           fechaVencimientoInicial,
@@ -123,7 +140,7 @@ export default class ResolucionFormularioComponent
           validarConsecutivos(),
           validarRangoDeFechas('fecha_desde', 'fecha_hasta'),
         ],
-      }
+      },
     );
   }
 
@@ -131,16 +148,30 @@ export default class ResolucionFormularioComponent
     return this.formularioResolucion.controls;
   }
 
+  private _seleccionarResolucion(): { [key: string]: boolean } {
+    const moduloTipo = this._configModuleService.modulo();
+    switch (moduloTipo) {
+      case 'venta':
+        return { venta: true };
+      case 'compra':
+        return { compra: true };
+      default:
+        return { venta: true };
+    }
+  }
+
   enviarFormulario() {
     if (this.formularioResolucion.valid) {
-      let tipoResolucion: any = {};
-      if (this.parametrosUrl?.resoluciontipo) {
-        tipoResolucion[this.parametrosUrl.resoluciontipo] = true;
-      }
-      if (this.tipoRolucion != null) {
-        tipoResolucion[this.tipoRolucion] = true;
-      }
+      let resolucionSeleccionada: { [key: string]: boolean };
 
+      if (!this.tipoRolucion) {
+        resolucionSeleccionada = this._seleccionarResolucion();
+      } else {
+        resolucionSeleccionada = {
+          [this.tipoRolucion]: true,
+        };
+      }
+      
       if (this.detalle || this.idEditarInformacion) {
         let resolucionId = this.detalle;
 
@@ -151,7 +182,7 @@ export default class ResolucionFormularioComponent
         this.resolucionService
           .actualizarDatos(resolucionId, {
             ...this.formularioResolucion.value,
-            ...tipoResolucion,
+            ...resolucionSeleccionada,
           })
           .subscribe((respuesta: any) => {
             this.formularioResolucion.patchValue({
@@ -167,12 +198,14 @@ export default class ResolucionFormularioComponent
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                  queryParams: {
-                    ...parametro,
-
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuesta.id}`],
+                  {
+                    queryParams: {
+                      ...parametro,
+                    },
                   },
-                });
+                );
               });
             }
           });
@@ -180,7 +213,7 @@ export default class ResolucionFormularioComponent
         this.resolucionService
           .guardarResolucion({
             ...this.formularioResolucion.value,
-            ...tipoResolucion,
+            ...resolucionSeleccionada,
           })
           .subscribe((respuesta: any) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
@@ -188,11 +221,14 @@ export default class ResolucionFormularioComponent
               this.emitirGuardoRegistro.emit(respuesta); // necesario para cerrar el modal que está en editarEmpresa
             } else {
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                  queryParams: {
-                    ...parametro,
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuesta.id}`],
+                  {
+                    queryParams: {
+                      ...parametro,
+                    },
                   },
-                });
+                );
               });
             }
           });
