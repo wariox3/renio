@@ -141,27 +141,8 @@ export class SidebarMenuComponent implements OnInit {
     this.store.dispatch(selecionModuloAction({ seleccion: ruta }));
   }
 
-  cambiarMenu() {
-    this.store
-      .select(obtenerMenuSeleccion)
-      .pipe(
-        withLatestFrom(this.store.select(obtenerMenuInformacion)),
-        tap(([nombreSeleccion, menuInformacion]) => {
-          this.MenuSeleccion = nombreSeleccion;
-          let componenteMenu = menuInformacion.filter(
-            (item) => item.nombre == nombreSeleccion.toLowerCase(),
-          );
-          if (componenteMenu[0]?.children) {
-            // this.arrMenu = componenteMenu[0].children;
-          }
-        }),
-      )
-      .subscribe();
-  }
 
   navegar(item: ModeloConfig) {
-    // TODO: No lo entiendo
-    // this.store.dispatch(ActualizarDataItem({ dataItem: item }));
     this.store.dispatch(
       asignarDocumentacion({
         id: item?.documentacion?.id || 0,
@@ -198,92 +179,8 @@ export class SidebarMenuComponent implements OnInit {
       queries.modelo = item.key.toString();
     }
 
-    // TODO: No lo entiendo
-    // let parametros = this.construirParametros(item);
-    // localStorage.setItem('itemNombre_tabla', JSON.stringify({}));
-    // localStorage.setItem('itemNombre_filtros', JSON.stringify({}));
-    // let url = [item.tipo?.toLocaleLowerCase(), 'nuevo'];
-    // if (item.url !== undefined) {
-    //   if (typeof item.url === 'string') {
-    //     url = [item.url];
-    //   }
-    // }
-
     this.router.navigate([`${item.ajustes.rutas.nuevo}`], {
       queryParams: queries,
     });
   }
-
-  // construirParametros(item: informacionMenuItem) {
-  //   switch (item.tipo) {
-  //     case 'administrador':
-  //       if (item.data?.submodelo) {
-  //         return {
-  //           alias: item.nombre,
-  //           modulo: item.modulo,
-  //           itemNombre: item.data?.modelo,
-  //           submodelo: item.data?.submodelo,
-  //           itemTipo: item.nombre,
-  //           consultaHttp: item.consultaHttp ? 'si' : 'no',
-  //           esIndependiente: 'no',
-  //         };
-  //       }
-  //       return {
-  //         alias: item.nombre,
-  //         modulo: item.modulo,
-  //         itemNombre: item.data?.modelo,
-  //         itemTipo: item.nombre,
-  //         consultaHttp: item.consultaHttp ? 'si' : 'no',
-  //         esIndependiente: 'no',
-  //       };
-  //     case 'documento':
-  //       return {
-  //         alias: item.nombre,
-  //         modulo: item.modulo,
-  //         itemNombre: item.nombre,
-  //         itemTipo: 'DOCUMENTO',
-  //         consultaHttp: item.consultaHttp ? 'si' : 'no',
-  //         esIndependiente: 'no',
-  //         configuracionExtra: item.configuracionExtra ? 'si' : 'no',
-  //       };
-  //     case 'independiente':
-  //       return {
-  //         alias: item.nombre,
-  //         modulo: item.modulo,
-  //         itemNombre: item.nombre,
-  //         itemTipo: 'DOCUMENTO',
-  //         consultaHttp: item.consultaHttp ? 'si' : 'no',
-  //         esIndependiente: 'no',
-  //       };
-  //     case 'utilidad':
-  //       return {
-  //         alias: item.nombre,
-  //         modulo: item.modulo,
-  //         itemNombre: item.nombre,
-  //         itemTipo: 'DOCUMENTO',
-  //       };
-  //     case 'informe':
-  //       return {
-  //         alias: item.nombre,
-  //         modulo: item.modulo,
-  //         itemNombre: item.nombre,
-  //         itemTipo: 'DOCUMENTO',
-  //       };
-  //   }
-  // }
-
-  // construirFiltros(item: informacionMenuItem) {
-  //   if (item.tipo !== undefined) {
-  //     let nombreFiltroLista = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_lista_fijo`;
-  //     let nombreImportarLista = `${item.tipo.toLowerCase()}_${item.nombre.toLowerCase()}_filtro_importar_fijo`;
-  //     localStorage.setItem(
-  //       nombreFiltroLista,
-  //       JSON.stringify(item?.data?.filtrosLista),
-  //     );
-  //     localStorage.setItem(
-  //       nombreImportarLista,
-  //       JSON.stringify(item?.data?.filtrosImportar),
-  //     );
-  //   }
-  // }
 }
