@@ -63,23 +63,4 @@ export class General {
       }
     });
   }
-
-  navegarDocumentoNuevo() {
-    let parametrosParaRemover: string[] = ['detalle'];
-
-    this.activatedRoute.queryParams.subscribe((parametros) => {
-      let parametrosActuales = { ...parametros };
-
-      // Eliminar los parámetros especificados en `parametrosParaRemover`
-      parametrosParaRemover.forEach((param: any) => {
-        if (parametrosActuales[param]) {
-          delete parametrosActuales[param];
-        }
-      });
-
-      this.router.navigate([`/documento/nuevo`], {
-        queryParams: { ...parametrosActuales },
-      });
-    });
-  }
 }
