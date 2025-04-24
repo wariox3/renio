@@ -78,21 +78,6 @@ export default class FacturaDetalleComponent
   public formularioFactura = this._formularioFacturaService.form;
 
   active: Number;
-  informacionDetalle: any = {
-    contacto_id: '',
-    descuento: '',
-    documento_tipo_id: '',
-    fecha: '',
-    fecha_vence: '',
-    id: null,
-    impuesto: 0,
-    numero: null,
-    subtotal: 0,
-    total: 0,
-    total_bruto: 0,
-    metodo_pago: null,
-    detalles: [],
-  };
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
