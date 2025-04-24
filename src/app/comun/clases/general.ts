@@ -1,8 +1,6 @@
 import { ChangeDetectorRef, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertaService } from '@comun/services/alerta.service';
-import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
-import { AplicacionPrefijoModulo } from '@comun/type/aplicacion-prefijo-modulo.type';
 import { AplicacionAccion } from '@comun/type/aplicaciones-acciones.type';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { Store } from '@ngrx/store';
