@@ -124,7 +124,6 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this._reiniciarPaginador();
       this.claveLocalStore = `itemNombre_tabla`;
-      // this.tipo = this._configModuleService.itemTipoSignal();
       this.changeDetectorRef.detectChanges();
     });
   }

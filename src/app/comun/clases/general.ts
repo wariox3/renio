@@ -4,7 +4,6 @@ import { AlertaService } from '@comun/services/alerta.service';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import { AplicacionPrefijoModulo } from '@comun/type/aplicacion-prefijo-modulo.type';
 import { AplicacionAccion } from '@comun/type/aplicaciones-acciones.type';
-import { AplicacionUbicaciones } from '@comun/type/aplicaciones-ubicaciones.type';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
@@ -16,7 +15,6 @@ export class General {
   protected alertaService = inject(AlertaService);
   protected translateService = inject(TranslateService);
   protected changeDetectorRef = inject(ChangeDetectorRef);
-  protected tipo = '';
   protected formulario = '';
   protected accion: AplicacionAccion = null;
   protected detalle: number = 0;
