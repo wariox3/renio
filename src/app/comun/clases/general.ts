@@ -19,19 +19,6 @@ export class General {
   protected accion: AplicacionAccion = null;
   protected detalle: number = 0;
   protected parametrosUrl: Partial<informacionMenuItem['data']>;
-  protected moduloAplicacion: Record<
-    AplicacionPrefijoModulo,
-    AplicacionModulo
-  > = {
-    com: 'compra',
-    ven: 'venta',
-    con: 'contabilidad',
-    car: 'cartera',
-    hum: 'humano',
-    inv: 'inventario',
-    gen: 'general',
-    trans: 'transporte',
-  };
 
   constructor() {
     this.consultarParametros();
@@ -49,7 +36,6 @@ export class General {
         this.detalle = 0
       }
 
-      // TODO: buscar la manera de fumarse esto
       switch (true) {
         case this.router.url.includes('/nuevo'):
           this.accion = 'nuevo';

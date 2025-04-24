@@ -7,10 +7,9 @@ import {
 } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
-  ActivatedRoute,
   Router,
   RouterLink,
-  RouterLinkActive,
+  RouterLinkActive
 } from '@angular/router';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
@@ -25,12 +24,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { configuracionVisualizarAppsAction } from '@redux/actions/configuracion.actions';
 import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
-import {
-  obtenerMenuInformacion,
-  obtenerMenuSeleccion
-} from '@redux/selectors/menu.selectors';
 import { selectModulosHabilitados } from '@redux/selectors/modulos-manager.selectors';
-import { tap, withLatestFrom } from 'rxjs';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
 
 @Component({
@@ -71,8 +65,6 @@ export class SidebarMenuComponent implements OnInit {
     'transporte',
     'tesoreria',
   ];
-
-  private activatedRoute = inject(ActivatedRoute);
 
   constructor(
     private router: Router,
