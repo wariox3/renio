@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
-  FormBuilder,
   FormsModule,
   ReactiveFormsModule
 } from '@angular/forms';
@@ -82,8 +81,6 @@ export default class FacturaDetalleComponent
   arrMovimientosClientes: any[] = [];
   arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
   arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
-  arrDetallesEliminado: number[] = [];
-  arrImpuestosEliminado: number[] = [];
   plazo_pago_dias: any = 0;
   visualizarCampoDocumentoReferencia = false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
