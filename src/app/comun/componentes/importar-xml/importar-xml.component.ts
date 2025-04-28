@@ -184,7 +184,7 @@ export class ImportarXmlComponent  extends General {
   descargarEjemploImportar() {
     const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
       this.parametrosUrl,
-      this.ubicacion,
+      '',
       undefined
     );
 

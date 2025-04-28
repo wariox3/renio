@@ -117,37 +117,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._setupConfigModuleListener();
-
     this.alertaService.cerrarMensajes();
-    // this.arrParametrosConsulta.desplazar = 0;
-    // this.arrParametrosConsulta.ordenamientos = [];
-    // this.visualizarColumnaEditar =
-    //   parametro.visualizarColumnaEditar === 'no' ? false : true;
-    // this.visualizarBtnNuevo =
-    //   parametro.visualizarBtnNuevo === 'no' ? false : true;
-    // this.visualizarBtnEliminar =
-    //   parametro.visualizarBtnEliminar === 'no' ? false : true;
-    // this.visualizarColumnaSeleccionar =
-    //   parametro.visualizarColumnaSeleccionar === 'no' ? false : true;
-    // this.visualizarBtnImportar =
-    //   parametro.visualizarBtnImportar === 'no' ? false : true;
-    // this.visualizarBtnExportarZip =
-    //   parametro.visualizarBtnExportarZip === 'si' ? true : false;
-
-    // this.nombreFiltro = `documento_${parametro.itemNombre?.toLowerCase()}`;
-    // this.modelo = parametro.itemNombre!;
-    // if (parametro?.ordenamiento) {
-    //   let ordenamientos = parametro.ordenamiento
-    //     .split(',')
-    //     .map((palabra: string) => palabra.trim());
-    //   this.arrParametrosConsulta.ordenamientos = ordenamientos;
-    // } else {
-    //   this.arrParametrosConsulta.ordenamientos = [];
-    // }
-    // let posicion: keyof typeof documentos = parametro.documento_clase;
-    // this.store.dispatch(ActualizarMapeo({ dataMapeo: documentos[posicion] }));
-    // this.consultarLista();
-
     this.modalDinamicoService.event$
       .pipe(takeUntil(this.destroy$))
       .subscribe((respuesta) => {
@@ -259,29 +229,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   private _configurarTabla(modeloConfig: ModeloConfig | null) {
-    // this.visualizarColumnaEditar =
-    //   this.moduloConfiguracion?.data?.visualizarColumnaEditar === 'no'
-    //     ? false
-    //     : true;
-
-    // this.visualizarBtnNuevo =
-    //   this.moduloConfiguracion?.data?.visualizarBtnNuevo === 'no'
-    //     ? false
-    //     : true;
-
-    // this.visualizarColumnaEditar =
-    //     parametro.visualizarColumnaEditar === 'no' ? false : true;
-    // this.visualizarBtnNuevo =
-    //   parametro.visualizarBtnNuevo === 'no' ? false : true;
-    // this.visualizarBtnEliminar =
-    //   parametro.visualizarBtnEliminar === 'no' ? false : true;
-    // this.visualizarColumnaSeleccionar =
-    //   parametro.visualizarColumnaSeleccionar === 'no' ? false : true;
-    // this.visualizarBtnImportar =
-    //   parametro.visualizarBtnImportar === 'no' ? false : true;
-    // this.visualizarBtnExportarZip =
-    //   parametro.visualizarBtnExportarZip === 'si' ? true : false;
-
     const verColumnaEditar = modeloConfig?.ajustes.ui?.verColumnaEditar;
     const verBtnNuevo = modeloConfig?.ajustes.ui?.verBotonNuevo;
     const verBtnImportar = modeloConfig?.ajustes.ui?.verBotonImportar;
@@ -314,104 +261,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
       });
   }
-
-  // TODO: preguntar sobre los filtros fijos
-  // consultarLista() {
-  //   this.mostrarVentanaCargando$.next(true);
-  //   this.arrItems = [];
-  //   this.activatedRoute.queryParams
-  //     .subscribe((parametro) => {
-  //       const filtroGuardado = localStorage.getItem(this.nombreFiltro);
-  //       const filtroPermanenteStr = localStorage.getItem(
-  //         `${this.nombreFiltro}_filtro_lista_fijo`,
-  //       );
-
-  //       let consultaHttp: string = parametro.consultaHttp!;
-  //       let ordenamientoFijo: any[] = parametro?.ordenamiento;
-  //       let filtroPermamente: any = [];
-  //       if (filtroPermanenteStr !== null) {
-  //         filtroPermamente = JSON.parse(filtroPermanenteStr);
-  //       }
-
-  //       if (consultaHttp === 'si') {
-  //         this.arrParametrosConsulta.modelo = 'GenDocumento';
-  //         this.arrParametrosConsulta.filtros = [
-  //           {
-  //             propiedad: 'documento_tipo__documento_clase_id',
-  //             valor1: parametro.documento_clase,
-  //           },
-  //         ];
-  //         if (filtroGuardado !== null) {
-  //           this.arrParametrosConsulta.filtros = [
-  //             {
-  //               propiedad: 'documento_tipo__documento_clase_id',
-  //               valor1: parametro.documento_clase,
-  //             },
-  //             ...filtroPermamente,
-  //             ...JSON.parse(filtroGuardado),
-  //           ];
-  //         }
-  //         if (parametro.serializador) {
-  //           this.arrParametrosConsulta.serializador = parametro.serializador;
-  //         } else {
-  //           delete this.arrParametrosConsulta.serializador;
-  //         }
-  //         this.httpService
-  //           .post<{
-  //             registros: any;
-  //             cantidad_registros: number;
-  //           }>('general/funcionalidad/lista/', this.arrParametrosConsulta)
-  //           .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-  //           .subscribe((respuesta) => {
-  //             this.cantidad_registros = respuesta.cantidad_registros;
-  //             this.arrItems = respuesta.registros;
-  //             this.changeDetectorRef.detectChanges();
-  //           });
-  //       } else {
-  //         let baseUrl = 'general/funcionalidad/lista/';
-  //         this.arrParametrosConsulta.modelo = parametro.documento_clase;
-  //         this.arrParametrosConsulta.ordenamientos = [];
-
-  //         if (filtroGuardado !== null) {
-  //           this.arrParametrosConsulta.filtros = [
-  //             ...filtroPermamente, // Combinar el array parseado de filtros permanentes
-  //             ...JSON.parse(filtroGuardado), // y el array de filtros guardados
-  //           ];
-  //         } else {
-  //           this.arrParametrosConsulta.filtros = [
-  //             ...filtroPermamente, // Combinar el array parseado de filtros permanentes
-  //           ];
-  //         }
-  //         if (
-  //           ordenamientoFijo !== undefined &&
-  //           !this.arrParametrosConsulta.ordenamientos.includes(ordenamientoFijo)
-  //         ) {
-  //           this.arrParametrosConsulta.ordenamientos.push(ordenamientoFijo);
-  //         }
-  //         if (parametro.serializador) {
-  //           this.arrParametrosConsulta.serializador = parametro.serializador;
-  //         } else {
-  //           delete this.arrParametrosConsulta.serializador;
-  //         }
-
-  //         this.httpService
-  //           .post<{
-  //             cantidad_registros: number;
-  //             registros: any[];
-  //             propiedades: any[];
-  //           }>(baseUrl, this.arrParametrosConsulta)
-  //           .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-  //           .subscribe((respuesta: any) => {
-  //             this.cantidad_registros = respuesta.cantidad_registros;
-  //             this.arrItems = respuesta.registros;
-  //             this.arrPropiedades = respuesta.propiedades;
-
-  //             this.changeDetectorRef.detectChanges();
-  //           });
-  //       }
-  //     })
-  //     .unsubscribe();
-  // }
 
   construirBotonesExtras(modeloConfig: ModeloConfig | null) {
     let verBotonGenerar = modeloConfig?.ajustes.ui?.verBotonGenerar;
@@ -510,22 +359,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             this.changeDetectorRef.detectChanges();
           });
       }
-      // } else {
-      // let modelo = this.modelo.toLowerCase();
-      // let modulo = localStorage.getItem('ruta');
-      // let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
-      // if (
-      //   eliminarPrefijos.includes(
-      //     this.modelo.toLowerCase().substring(0, 3),
-      //   )
-      // ) {
-      //   modelo = this.modelo
-      //     .toLowerCase()
-      //     .substring(3, this.modelo.length);
-      // }
-      // }
-      // })
-      // .unsubscribe();
     } else {
       this.alertaService.mensajeError(
         'Error',
@@ -535,7 +368,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   navegarNuevo() {
-    // this.navegarDocumentoNuevo();
     this.router.navigate([`${this._rutas?.nuevo}`], {
       queryParams: {
         ...this.parametrosUrl,
@@ -547,7 +379,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.router.navigate([`${this._rutas?.editar}/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
-        // detalle: id,
       },
     });
   }
@@ -556,7 +387,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.router.navigate([`${this._rutas?.detalle}/${id}`], {
       queryParams: {
         ...this.parametrosUrl,
-        // detalle: id,
       },
     });
   }

@@ -3,8 +3,12 @@
     @if (detalle) {
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
         <app-importar-detalles
+          endpoint="general/documento/importar-detalle-inventario/"
+          [archivoEjemplo]="{
+            nombre: 'ejemplo_entrada',
+            path: 'assets/ejemplos/documentoDetalle/500.xlsx',
+          }"
           [estadoHabilitado]="estado_aprobado"
-          [aplicarUrlInventario]="true"
           (emitirDetallesAgregados)="consultardetalle()"
         ></app-importar-detalles>
       </div>
@@ -12,7 +16,9 @@
   </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'entrada'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'entrada'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">

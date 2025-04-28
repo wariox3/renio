@@ -7,6 +7,11 @@
     @if (detalle) {
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
         <app-importar-detalles
+          endpoint="general/documento/importar-detalle/"
+          [archivoEjemplo]="{
+            nombre: 'ejemplo_cierre',
+            path: 'assets/ejemplos/documentoDetalle/601.xlsx',
+          }"
           [estadoHabilitado]="estado_aprobado"
           (emitirDetallesAgregados)="consultardetalle()"
         ></app-importar-detalles>
@@ -15,7 +20,9 @@
   </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'cierre'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'cierre'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">

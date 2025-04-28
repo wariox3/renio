@@ -98,37 +98,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this._destroy$.unsubscribe();
   }
 
-  // private _setupQueryParamsListener() {
-  // this.activatedRoute.queryParams.subscribe(() => {
-  // console.log(this.nombreFiltro, this._modelo, this._modulo);
-  // if (parametro.submodelo) {
-  //   this.submodelo = parametro.submodelo!; // esto no va
-  //   const filtro = [
-  //     // estos son filtros permanentes
-  //     {
-  //       propiedad: 'empleado',
-  //       valor1: true,
-  //     },
-  //   ];
-  //   this.arrParametrosConsulta.filtros = filtro;
-  //   this._filtrosModuloPermanentes = filtro;
-  // } else {
-  //   this.submodelo = undefined;
-  //   this.arrParametrosConsulta.filtros = [];
-  // }
-  // if (parametro.resoluciontipo) {
-  //   const filtro = [
-  //     {
-  //       propiedad: parametro.resoluciontipo,
-  //       valor1: true,
-  //     },
-  //   ];
-  //   this.arrParametrosConsulta.filtros = filtro;
-  //   this._filtrosModuloPermanentes = filtro;
-  // }
-  //   });
-  // }
-
   private _setupConfigModuleListener() {
     this._configModule.currentModelConfig$
       .pipe(takeUntil(this._destroy$))
@@ -152,15 +121,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   private _configurarTabla(modeloConfig: ModeloConfig | null) {
-    // this.visualizarColumnaEditar =
-    //   this.moduloConfiguracion?.data?.visualizarColumnaEditar === 'no'
-    //     ? false
-    //     : true;
-
-    // this.visualizarBtnNuevo =
-    //   this.moduloConfiguracion?.data?.visualizarBtnNuevo === 'no'
-    //     ? false
-    //     : true;
     const verColumnaEditar = modeloConfig?.ajustes.ui?.verColumnaEditar;
     const verBtnNuevo = modeloConfig?.ajustes.ui?.verBotonNuevo;
     const verBtnImportar = modeloConfig?.ajustes.ui?.verBotonImportar;
@@ -211,44 +171,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       };
       this.filtrosDocumento = parametrosConfig?.filtros?.lista || [];
     }
-
-    // 1. Obtener el ordenamiento de forma segura
-    // const ordenamientoActual = this.parametrosUrl?.ordenamiento;
-    // // 2. Validar y preparar nuevos ordenamientos (inmutabilidad)
-    // const ordenamientosExistentes =
-    //   this.arrParametrosConsulta.ordenamientos ?? [];
-    // const nuevosOrdenamientos =
-    //   ordenamientoActual &&
-    //   !ordenamientosExistentes.includes(ordenamientoActual)
-    //     ? [...ordenamientosExistentes, ordenamientoActual]
-    //     : ordenamientosExistentes;
-    // // 3. Crear nuevo objeto de parámetros (totalmente inmutable)
-    // this.arrParametrosConsulta = {
-    //   ...this.arrParametrosConsulta,
-    //   ordenamientos: nuevosOrdenamientos,
-    //   modelo: this._modelo, // Asumiendo que _modelo siempre existe
-    // };
   }
-
-  // private _obtenerFuncionalidadURL() {
-  //   this._basePath = this._urlService.obtenerModuloPath(this.router.url);
-  // }
 
   consultarLista() {
     this.cargando$.next(true);
     this.arrItems = [];
-    // let filtroPermamente: any = [];
-    // let baseUrl = 'general/funcionalidad/lista/';
-
-    // let ordenamientoFijo = this.parametrosUrl?.ordenamiento;
-
-    // if (
-    //   ordenamientoFijo !== undefined &&
-    //   !this.arrParametrosConsulta.ordenamientos.includes(ordenamientoFijo)
-    // ) {
-    //   this.arrParametrosConsulta.ordenamientos.push(ordenamientoFijo);
-    // }
-
     this._generalService
       .consultarDatosLista(this.arrParametrosConsulta)
       .pipe(finalize(() => this.cargando$.next(false)))
@@ -257,20 +184,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         this.arrItems = respuesta.registros;
         this.changeDetectorRef.detectChanges();
       });
-
-    // this.httpService
-    //   .post<{
-    //     cantidad_registros: number;
-    //     registros: any[];
-    //     propiedades: any[];
-    //   }>(baseUrl, this.arrParametrosConsulta)
-    //   .pipe(finalize(() => this.cargando$.next(false)))
-    //   .subscribe((respuesta: any) => {
-    //     this.cantidad_registros = respuesta.cantidad_registros;
-    //     this.arrItems = respuesta.registros;
-    //     this.arrPropiedades = respuesta.propiedades;
-    //     this.changeDetectorRef.detectChanges();
-    //   });
   }
 
   obtenerFiltros(arrfiltros: Filtros[]) {
@@ -282,14 +195,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     } else {
       this.arrParametrosConsulta.filtros = [...this.filtrosDocumento];
     }
-
-    // cargamos los filtros predeterminados del modulo para no perderlos al limpiar
-    // if (this._filtrosModuloPermanentes.length > 0) {
-    //   this.arrParametrosConsulta.filtros = [
-    //     ...this.arrParametrosConsulta.filtros,
-    //     ...this._filtrosModuloPermanentes,
-    //   ];
-    // }
 
     this.changeDetectorRef.detectChanges();
     this.consultarLista();
@@ -314,15 +219,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
-      // let modelo = this._modelo;
-      // let eliminarPrefijos = ['hum', 'gen', 'con', 'inv'];
-      // if (
-      //   eliminarPrefijos.includes(this._modelo!.toLowerCase().substring(0, 3))
-      // ) {
-      //   modelo = this._camelASnake(
-      //     this.modelo.substring(3, this.modelo.length),
-      //   );
-      // }
       this.cargando$.next(true);
       const eliminarSolicitudes = data.map((id) => {
         return this.httpService.delete(`${this._endpoint}/${id}/`, {});
@@ -387,27 +283,4 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       })
       .unsubscribe();
   }
-
-  // private _adaptadorDataFiltrosPermanente(data: any): any[] {
-  //   return Object.keys(data).map((key) => {
-  //     let valorAdaptado: any;
-
-  //     if (data[key] === 'si') {
-  //       valorAdaptado = true;
-  //     } else if (data[key] === 'no') {
-  //       valorAdaptado = false;
-  //     } else {
-  //       valorAdaptado = data[key]; // Mantén el valor original si no es 'si' o 'no'
-  //     }
-
-  //     return {
-  //       propiedad: key,
-  //       valor1: valorAdaptado,
-  //     };
-  //   });
-  // }
-
-  // private _camelASnake(value: string) {
-  //   return value.replace(/([a-z])([A-Z])/g, '$1_$2').toLowerCase();
-  // }
 }

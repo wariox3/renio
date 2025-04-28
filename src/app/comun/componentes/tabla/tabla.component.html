@@ -49,20 +49,11 @@
         }
       }
       @if (visualizarBtnImportar) {
-        <!-- @if (ubicacion === "documento") { -->
-          <!-- <app-importar
-            modelo="{{ modelo }}"
-            [esBotonFinal]="botonesExtras.length ? true : false"
-            (emitirDetallesAgregados)="solicitarConsultarTabla()"
-          ></app-importar>
-        } -->
-        <!-- @if (ubicacion === "administrador" || ubicacion === "independiente") { -->
-          <app-importar-administrador
-            [importarConfig]="importarConfig"
-            role="group"
-            (emitirDetallesAgregados)="solicitarConsultarTabla()"
-          ></app-importar-administrador>
-        <!-- } -->
+        <app-importar-administrador
+          [importarConfig]="importarConfig"
+          role="group"
+          (emitirDetallesAgregados)="solicitarConsultarTabla()"
+        ></app-importar-administrador>
       }
       @if (visualizarBtnExportar) {
         <div class="btn-group btn-group-sm" ngbDropdown role="group">

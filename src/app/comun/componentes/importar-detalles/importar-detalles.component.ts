@@ -33,14 +33,18 @@ export class ImportarDetallesComponent extends General {
   inputFile: any = null;
   cargardoDocumento: boolean = false;
   cantidadErrores: number = 0;
+  @Input() archivoEjemplo: {
+    nombre: string;
+    path: string;
+  };
   @Input() estadoHabilitado: boolean = false;
-  @Input() aplicarUrlInventario: boolean = false;
+  @Input() endpoint: string = '';
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
 
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
+    private descargarArchivosService: DescargarArchivosService,
   ) {
     super();
   }
@@ -95,27 +99,17 @@ export class ImportarDetallesComponent extends General {
   subirArchivo(archivo_base64: string) {
     this.cargardoDocumento = true;
     this.changeDetectorRef.detectChanges();
-    let url = '';
-    switch (this.ubicacion) {
-      case 'documento':
-        url = 'general/documento/importar-detalle/';
-        break;
-      case 'administrador':
-        url = 'general/importar/importar-detalle/';
-        break;
-    }
-    if(this.aplicarUrlInventario){
-      	url = 'general/documento/importar-detalle-inventario/'
-    }
+    let url = this.endpoint;
+
     this.httpService
       .post<ImportarDetalles>(url, {
-        documento_id: this.parametrosUrl?.detalle,
+        documento_id: this?.detalle,
         archivo_base64,
       })
       .pipe(
         tap((respuesta) => {
           this.alertaService.mensajaExitoso(
-            `Se guardo la información registros importados: ${respuesta.registros_importados}`
+            `Se guardo la información registros importados: ${respuesta.registros_importados}`,
           );
           this.modalService.dismissAll();
           this.errorImportar = [];
@@ -131,29 +125,23 @@ export class ImportarDetallesComponent extends General {
           this.cargardoDocumento = false;
           this.changeDetectorRef.detectChanges();
           return of(null);
-        })
+        }),
       )
       .subscribe();
   }
 
   descargarExcelImportar() {
-    const nombreArchivo = this.descargarArchivosService._construirNombreArchivo(
-      this.parametrosUrl,
-      this.ubicacion,
-      undefined
-    );
-
     this.descargarArchivosService
       .descargarArchivoLocal(
-        `assets/ejemplos/documentoDetalle/${nombreArchivo}.xlsx`,
-        `documentoDetalle_${this.parametrosUrl?.documento_clase}`
+        this.archivoEjemplo.path,
+        this.archivoEjemplo.nombre,
       )
       .subscribe();
   }
 
   descargarExcelError() {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-      this.errorImportar
+      this.errorImportar,
     );
     const workbook: XLSX.WorkBook = {
       Sheets: { data: worksheet },
@@ -179,12 +167,12 @@ export class ImportarDetallesComponent extends General {
                 fila: errorItem.fila,
                 campo: campo,
                 error: mensajes.join(', '),
-              })
-            )
-          )
+              }),
+            ),
+          ),
         ),
         take(100), // Limita la cantidad de errores procesados a 100
-        toArray()
+        toArray(),
       )
       .subscribe((result) => {
         this.errorImportar = result;

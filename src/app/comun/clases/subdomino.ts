@@ -7,7 +7,7 @@ export class Subdominio {
   private readonly _store = inject(Store);
   private readonly URL_API_PLANTILLA = environment.URL_API_SUBDOMINIO;
   protected API_SUBDOMINIO: string = environment.URL_API_SUBDOMINIO;
-  protected URL_API_BASE: string = environment.URL_API_MUUP;
+  protected URL_API_BASE: string = environment.URL_API_BASE;
   protected CONTENEDOR_NOMBRE: string;
 
   constructor() {
