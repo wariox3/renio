@@ -35,6 +35,8 @@ export class ConfiguracionVentaComponent extends General implements OnInit {
 
   initForm() {
     this.formularioEmpresa = this.formBuilder.group({
+      id: [1],
+      empresa: [1],
       informacion_factura: [
         null,
         Validators.compose([Validators.maxLength(2000)]),
