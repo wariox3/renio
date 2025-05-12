@@ -103,7 +103,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'GenItem',
-                rutaEjemplo: 'assets/ejemplos/modelo/GenItem.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenItem.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },

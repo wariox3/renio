@@ -198,7 +198,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'GenContacto',
-                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -227,7 +227,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'HumContrato',
-                rutaEjemplo: 'assets/ejemplos/modelo/HumContrato.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/HumContrato.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },

@@ -76,7 +76,7 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'SaldoInicial',
-                rutaEjemplo: 'assets/ejemplos/modelo/SaldoInicial.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/SaldoInicial.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -133,7 +133,7 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'GenContacto',
-                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
