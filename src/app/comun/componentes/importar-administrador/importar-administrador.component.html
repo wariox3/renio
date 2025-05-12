@@ -90,12 +90,12 @@
     >
       <div>
         @if (importarConfig.verBotonEjemplo) {
-          <button
+          <a
             type="submit"
             class="btn btn-sm btn-primary me-2"
-            (click)="descargarExcelImportar()"
+            [href]="importarConfig.rutaEjemplo"
             translate="FORMULARIOS.BOTONES.COMUNES.EJEMPLO"
-          ></button>
+          ></a>
         }
         <!-- @if (maestros.length > 0) {
           <div class="btn-group contenedor-btn-group">

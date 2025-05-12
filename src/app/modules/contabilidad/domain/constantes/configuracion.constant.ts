@@ -163,7 +163,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'GenContacto',
-                rutaEjemplo: 'assets/ejemplos/modelo/GenContacto.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -192,7 +192,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'ConCuenta',
-                rutaEjemplo: 'assets/ejemplos/modelo/ConCuenta.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/ConCuenta.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -221,7 +221,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'ConGrupo',
-                rutaEjemplo: 'assets/ejemplos/modelo/ConGrupo.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/ConGrupo.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -250,7 +250,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             archivos: {
               importar: {
                 nombre: 'ConActivo',
-                rutaEjemplo: 'assets/ejemplos/modelo/ConActivo.xlsx',
+                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/ConActivo.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },

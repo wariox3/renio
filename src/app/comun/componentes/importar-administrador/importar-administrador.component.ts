@@ -207,12 +207,6 @@ export class ImportarAdministradorComponent
       .unsubscribe();
   }
 
-  descargarExcelImportar() {
-    this.descargarArchivosService
-      .descargarArchivoLocal(this.importarConfig.rutaEjemplo || '')
-      .subscribe();
-  }
-
   ngOnDestroy(): void {
     this._unsubscribe$.next();
     this._unsubscribe$.complete();
