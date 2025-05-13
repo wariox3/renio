@@ -327,11 +327,11 @@
                           style="width: 100px"
                         ></th>
                         <th
-                          [translate]="'LISTAS.DOCUMENTO.BASE'"
-                          style="width: 100px"
+                        [translate]="'LISTAS.DOCUMENTO.VALOR'"
+                        style="width: 100px"
                         ></th>
                         <th
-                          [translate]="'LISTAS.DOCUMENTO.VALOR'"
+                          [translate]="'LISTAS.DOCUMENTO.BASE'"
                           style="width: 100px"
                         ></th>
                         <th
@@ -449,24 +449,6 @@
                           </td>
                           <td class="w-100px">
                             <input
-                              formControlName="base"
-                              [readonly]="estado_aprobado"
-                              class="form-control-sm"
-                              (change)="actualizarDetalle(i, 'base', $event)"
-                              appSoloNumeros
-                              [ngClass]="{
-                                'is-invalid':
-                                  detalle.get('base')?.touched &&
-                                  detalle.get('base')?.invalid,
-                                'is-valid':
-                                  detalle.get('base')?.touched &&
-                                  detalle.get('base')?.invalid,
-                              }"
-                              [permiteDecimales]="true"
-                            />
-                          </td>
-                          <td class="w-100px">
-                            <input
                               formControlName="precio"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
@@ -494,6 +476,24 @@
                                 control: detalle.get('precio'),
                               }"
                             ></ng-container>
+                          </td>
+                          <td class="w-100px">
+                            <input
+                              formControlName="base"
+                              [readonly]="estado_aprobado"
+                              class="form-control-sm"
+                              (change)="actualizarDetalle(i, 'base', $event)"
+                              appSoloNumeros
+                              [ngClass]="{
+                                'is-invalid':
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid,
+                                'is-valid':
+                                  detalle.get('base')?.touched &&
+                                  detalle.get('base')?.invalid,
+                              }"
+                              [permiteDecimales]="true"
+                            />
                           </td>
                           <td class="w-100px">
                             <input
