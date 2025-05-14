@@ -68,7 +68,9 @@
           (itemDesaprobadoEvent)="itemDesaprobadoEvent()"
           [opcionesDesaprobarBoton]="{
             deshabilitado:
-              !documento.estado_aprobado || documento.estado_anulado,
+              !documento.estado_aprobado ||
+              documento.estado_anulado ||
+              documento.estado_contabilizado,
           }"
           [documento]="documento"
         ></app-comun-documento-opciones>
@@ -88,7 +90,9 @@
 </div>
 <app-card>
   <section card-titulo>
-    <app-comun-titulo-accion [nombreModelo]="'facturaventa'"></app-comun-titulo-accion>
+    <app-comun-titulo-accion
+      [nombreModelo]="'facturaventa'"
+    ></app-comun-titulo-accion>
   </section>
   <section card-propiedades></section>
   <section card-body>
