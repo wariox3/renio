@@ -206,6 +206,8 @@ export default class FacturaDetalleComponent
     } else {
       this.modoEdicion.set(false);
     }
+
+    this._escucharDocumentoReferencia();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -213,6 +215,17 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.reiniciarFormulario();
     this._destroy$.next();
     this._destroy$.unsubscribe();
+  }
+
+  private _escucharDocumentoReferencia() {
+    this.formularioFactura
+      .get('documento_referencia_numero')
+      ?.valueChanges.pipe(takeUntil(this._destroy$))
+      .subscribe((documentoReferencia) => {
+        if (!documentoReferencia) {
+          this.formularioFactura.get('documento_referencia')?.setValue(null);
+        }
+      });
   }
 
   private _configurarModuleListener() {

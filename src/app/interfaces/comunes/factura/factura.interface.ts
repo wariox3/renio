@@ -133,6 +133,7 @@ export interface DocumentoFacturaRespuesta {
   afectado: number;
   pendiente: number;
   impuesto: number;
+  remision: string;
   total: number;
   devengado: number;
   deduccion: number;

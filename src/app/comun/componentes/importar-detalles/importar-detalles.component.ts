@@ -130,15 +130,6 @@ export class ImportarDetallesComponent extends General {
       .subscribe();
   }
 
-  descargarExcelImportar() {
-    this.descargarArchivosService
-      .descargarArchivoLocal(
-        this.archivoEjemplo.path,
-        this.archivoEjemplo.nombre,
-      )
-      .subscribe();
-  }
-
   descargarExcelError() {
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
       this.errorImportar,

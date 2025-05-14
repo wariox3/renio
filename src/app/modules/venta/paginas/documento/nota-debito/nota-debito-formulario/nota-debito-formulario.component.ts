@@ -30,7 +30,14 @@ import {
   NgbModal,
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import {
+  asyncScheduler,
+  Subject,
+  takeUntil,
+  tap,
+  throttleTime,
+  zip,
+} from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { GeneralService } from '@comun/services/general.service';
@@ -75,6 +82,8 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.mostrarDocumentoReferencia;
   public formularioFactura = this._formularioFacturaService.form;
   public arrSede: RegistroAutocompletarGenSede[] = [];
+
+  private _destroy$ = new Subject<void>();
 
   informacionFormulario: any;
   active: Number;
@@ -198,11 +207,26 @@ export default class FacturaDetalleComponent
     } else {
       this.modoEdicion.set(false);
     }
+
+    this._escucharDocumentoReferencia();
     this.changeDetectorRef.detectChanges();
   }
 
   ngOnDestroy(): void {
     this._formularioFacturaService.reiniciarFormulario();
+    this._destroy$.next();
+    this._destroy$.unsubscribe();
+  }
+
+  private _escucharDocumentoReferencia() {
+    this.formularioFactura
+      .get('documento_referencia_numero')
+      ?.valueChanges.pipe(takeUntil(this._destroy$))
+      .subscribe((documentoReferencia) => {
+        if (!documentoReferencia) {
+          this.formularioFactura.get('documento_referencia')?.setValue(null);
+        }
+      });
   }
 
   get detalles() {

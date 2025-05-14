@@ -6,7 +6,7 @@
   ></app-comun-paginador>
 
   <div>
-    <h3>Documento detalles</h3>
+    <h3>Documentos</h3>
   </div>
 </div>
 <div class="row">
@@ -18,8 +18,7 @@
           <th class="bg-gray-100">Número</th>
           <th class="bg-gray-100">Tipo</th>
           <th class="bg-gray-100">Fecha</th>
-          <th class="bg-gray-100">Cuenta</th>
-          <th class="bg-gray-100">Precio</th>
+          <th class="bg-gray-100">Total</th>
         </tr>
       </thead>
       <tbody>
@@ -29,21 +28,16 @@
               {{ documento.id }}
             </td>
             <td>
-              {{ documento.documento_numero }}
+              {{ documento.numero }}
             </td>
             <td>
               {{ documento.documento_tipo_nombre }}
             </td>
             <td>
-              {{ documento.documento_fecha }}
-            </td>
-            <td>
-              @if (documento.cuenta_codigo) {
-                {{ documento.cuenta_codigo }} - {{ documento.cuenta_nombre }}
-              }
+              {{ documento.fecha }}
             </td>
             <td class="text-end">
-              {{ documento.precio | number }}
+              {{ documento.total | number }}
             </td>
           </tr>
         }

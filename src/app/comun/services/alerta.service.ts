@@ -182,6 +182,7 @@ export class AlertaService {
         text: ' Esta acción es irreversible.',
         icon: 'warning',
         showCancelButton: true,
+        cancelButtonText: 'Cancelar',
         confirmButtonColor: '#1B84FF',
         cancelButtonColor: '#F8285A',
         reverseButtons: true,

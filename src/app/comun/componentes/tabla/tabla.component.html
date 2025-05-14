@@ -362,7 +362,7 @@
 
 <ng-template #modalDocumentoDetalle let-modal>
   <div class="modal-header">
-    <h3>Documento {{ registroSeleccionadoId() }}</h3>
+    <h3>Documento {{ registroSeleccionado().id }}</h3>
     <button
       type="button"
       class="btn-close"
@@ -371,6 +371,7 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-modal-documento-detalles [documentoId]="registroSeleccionadoId()" />
+    <app-modal-documento-detalles [documento]="registroSeleccionado()" />
+    <app-modal-documento-referencia [documento]="registroSeleccionado()" />
   </div>
 </ng-template>

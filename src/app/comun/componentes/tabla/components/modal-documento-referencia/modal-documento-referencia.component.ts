@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -6,21 +7,20 @@ import {
   OnInit,
   signal,
 } from '@angular/core';
-import { PaginadorComponent } from '../../../paginador/paginador.component';
-import { ModalDocumentoDetallesService } from '../../services/modal-documento-detalles.service';
 import { GenDocumentoDetalle } from '@interfaces/general/documento-detalle.interface';
-import { CommonModule } from '@angular/common';
+import { PaginadorComponent } from '../../../paginador/paginador.component';
+import { ModalDocumentoReferenciaService } from '../../services/modal-documento-referencia.service';
 
 @Component({
-  selector: 'app-modal-documento-detalles',
+  selector: 'app-modal-documento-referencia',
   standalone: true,
   imports: [PaginadorComponent, CommonModule],
-  templateUrl: './modal-documento-detalles.component.html',
-  styleUrl: './modal-documento-detalles.component.css',
+  templateUrl: './modal-documento-referencia.component.html',
+  styleUrl: './modal-documento-referencia.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ModalDocumentoDetallesComponent implements OnInit {
-  private _documentoDetallesService = inject(ModalDocumentoDetallesService);
+export class ModalDocumentoReferenciaComponent implements OnInit {
+  private _documentoDetallesService = inject(ModalDocumentoReferenciaService);
   public documentoDetalles = signal<GenDocumentoDetalle[]>([]);
   public cantidadRegistros = this._documentoDetallesService.cantidadRegistros;
 

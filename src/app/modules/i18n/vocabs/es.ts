@@ -604,7 +604,7 @@ export const locale = {
           ORDENCOMPRA: 'Orden compra',
           DOCUMENTOREFERENCIA: 'Documento referencia',
           COMENTARIO: 'Comentario',
-          PLAZOPAGO: 'Plazo pago',
+          PLAZOPAGO: 'Plazo de pago',
           FECHA: 'Fecha',
           ASESOR: 'Asesor',
           SEDE: 'Sede',
@@ -613,6 +613,7 @@ export const locale = {
           COMPROBANTE: 'Comprobante',
           GRUPO: 'Grupo',
           ALMACEN: 'Almacen',
+          REMISION: 'Remisión',
           FORMAPAGO: 'Forma pago',
         },
         EMPRESA: {

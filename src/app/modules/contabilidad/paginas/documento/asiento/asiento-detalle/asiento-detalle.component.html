@@ -149,8 +149,8 @@
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.GRUPO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
-                      <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.DETALLE'"></th>
                     </tr>
                   </thead>
@@ -176,10 +176,10 @@
                         {{ documento.naturaleza }}
                       </td>
                       <td class="text-end">
-                        {{ documento.base | number }}
+                        {{ documento.precio | number }}
                       </td>
                       <td class="text-end">
-                        {{ documento.precio | number }}
+                        {{ documento.base | number }}
                       </td>
                       <td>
                         {{ documento.detalle }}

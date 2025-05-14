@@ -35,6 +35,7 @@ import { ImportarAdministradorComponent } from '../importar-administrador/import
 import { ImportarComponent } from '../importar/importar.component';
 import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
 import { ModalDocumentoDetallesComponent } from './components/modal-documento-detalles/modal-documento-detalles.component';
+import { ModalDocumentoReferenciaComponent } from "./components/modal-documento-referencia/modal-documento-referencia.component";
 
 @Component({
   selector: 'app-comun-tabla',
@@ -53,7 +54,8 @@ import { ModalDocumentoDetallesComponent } from './components/modal-documento-de
     NgbTooltipModule,
     SpinnerLoaderComponent,
     ModalDocumentoDetallesComponent,
-  ],
+    ModalDocumentoReferenciaComponent
+],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
@@ -74,7 +76,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   datosFiltrados: any[] = [];
   claveLocalStore: string;
   btnGrupoResponsive = false;
-  public registroSeleccionadoId = signal<number>(0);
+  public registroSeleccionado = signal<any>({});
   @Input() encabezado: any;
   @Input() importarConfig: {
     endpoint: string;
@@ -502,7 +504,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   abrirModal(content: any, id: number) {
-    this.registroSeleccionadoId.set(id);
+    const registroSeleccionado = this.datos.find((item) => item.id === id);
+    this.registroSeleccionado.set(registroSeleccionado);
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
