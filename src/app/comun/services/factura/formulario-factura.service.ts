@@ -103,7 +103,7 @@ export class FormularioFacturaService {
         impuesto: [0],
         impuesto_operado: [0],
         impuesto_retencion: [0],
-        remision: [null, Validators.maxLength(50)],
+        remision: [null,[ Validators.maxLength(50), cambiarVacioPorNulo.validar]],
         afectado: [0],
         total_bruto: [0],
         comentario: [null, Validators.maxLength(500)],
