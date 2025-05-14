@@ -613,6 +613,7 @@ export const locale = {
           COMPROBANTE: 'Comprobante',
           GRUPO: 'Grupo',
           ALMACEN: 'Almacen',
+          REMISION: 'Remisión',
           FORMAPAGO: 'Forma pago',
         },
         EMPRESA: {

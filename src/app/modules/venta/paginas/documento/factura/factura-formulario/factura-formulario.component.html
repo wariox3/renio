@@ -620,6 +620,37 @@
                 <div class="row mb-5">
                   <div class="col-md-6 col-sm-12">
                     <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.REMISION"
+                    ></label>
+                    <input
+                      formControlName="remision"
+                      class="form-control"
+                      type="text"
+                      autocomplete="off"
+                      (blur)="modificarCampoFormulario('remision', null)"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioFactura.controls['remision'].touched &&
+                          formularioFactura.controls['remision'].invalid,
+                        'is-valid':
+                          formularioFactura.controls['remision'].touched &&
+                          formularioFactura.controls['remision'].valid,
+                      }"
+                    />
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                        cantidadCaracteres: '50',
+                        control: formularioFactura.controls['remision'],
+                      }"
+                    ></ng-container>
+                  </div>
+                  <div class="col-md-6 col-sm-12">
+                    <label
                       translate="FORMULARIOS.TITULOS.COMUNES.RESOLUCION"
                       class="form-label"
                     ></label>
@@ -642,6 +673,7 @@
                       ]"
                     ></app-seleccionar-resolucion>
                   </div>
+                
                 </div>
                 <div class="row mb-5">
                   <div class="col-md-12 col-sm-12">
