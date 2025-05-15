@@ -202,7 +202,7 @@ export class EnviarNominaElectronicaComponent
 
   private _descartar() {
     const solicitudes = this.itemsSeleccionados().map((registroId) => {
-      return this._httpService.post('general/documento/descartar/', {
+      return this._httpService.post('general/documento/electronico_descartar/', {
         id: registroId,
       });
     });
