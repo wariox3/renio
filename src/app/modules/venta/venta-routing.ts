@@ -95,7 +95,7 @@ export const routes: Route[] = [
     children: [
       {
         path: 'factura_electronica',
-        data: { breadcrumb: 'facturaelectronica' },
+        data: { breadcrumb: 'enviarfacturaelectronica' },
         loadComponent: () =>
           import(
             './paginas/utilidades/factura-electronica/factura-electronica.component'

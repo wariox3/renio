@@ -456,7 +456,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
       modelos: [
         {
           key: null,
-          nombreModelo: 'FACTURAELECTRONICA',
+          nombreModelo: 'ENVIARFACTURAELECTRONICA',
           ajustes: {
             rutas: {
               lista: 'venta/utilidad/factura_electronica',
