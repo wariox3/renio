@@ -27,6 +27,9 @@ export interface ModeloAjustes {
   parametrosHttpConfig?: ParametrosHttpConfig;
   archivos?: Archivos;
   ui?: OpcionesVista;
+  configuracionesDocumento?: {
+    operacion ?: 1 | -1;
+  };
 }
 
 export interface Rutas {

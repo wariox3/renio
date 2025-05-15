@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
@@ -17,6 +17,7 @@ import { EMPTY, switchMap, tap } from 'rxjs';
 import { BtnAnularComponent } from '../../../../../../comun/componentes/btn-anular/btn-anular.component';
 import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -40,7 +41,10 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
     DocumentoOpcionesComponent,
   ],
 })
-export default class FacturaDetalleComponent extends General {
+export default class FacturaDetalleComponent extends General implements OnInit {
+  private _configModuleService = inject(ConfigModuleService);
+  private _documentoOperacion = signal<1 | -1>(1);
+
   active: Number;
   documento: any = {
     contacto_id: '',
@@ -90,6 +94,14 @@ export default class FacturaDetalleComponent extends General {
     this.consultardetalle();
   }
 
+  ngOnInit(): void {
+    this._configModuleService.currentModelConfig$.pipe().subscribe((value) => {
+      this._documentoOperacion.set(
+        value?.ajustes?.configuracionesDocumento?.operacion || 1,
+      );
+    });
+  }
+
   consultardetalle() {
     this.facturaService
       .consultarDetalle(this.detalle)
@@ -121,6 +133,7 @@ export default class FacturaDetalleComponent extends General {
 
         this.totalGeneral = this._operacionesSerive.sumarTotal(
           respuesta.documento.detalles,
+          this._documentoOperacion(),
         );
 
         const { creditos, debitos } = this._operacionesSerive.sumarTotalCuenta(

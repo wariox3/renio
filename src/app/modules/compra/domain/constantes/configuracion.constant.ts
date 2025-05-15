@@ -26,6 +26,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            configuracionesDocumento: {
+              operacion: 1,
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
@@ -61,6 +64,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            configuracionesDocumento: {
+              operacion: -1,
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
@@ -96,6 +102,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            configuracionesDocumento: {
+              operacion: 1,
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],

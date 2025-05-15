@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
@@ -11,10 +18,11 @@ import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/de
 import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { EMPTY, switchMap, tap } from 'rxjs';
+import { EMPTY, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 
 @Component({
   selector: 'app-nota-debito-detalle',
@@ -37,8 +45,10 @@ import { OperacionesService } from '@comun/componentes/factura/services/operacio
     DocumentoOpcionesComponent,
   ],
 })
-export default class FacturaDetalleComponent extends General {
+export default class FacturaDetalleComponent extends General implements OnInit {
   private _operacionesService = inject(OperacionesService);
+  private _configModuleService = inject(ConfigModuleService);
+  public _documentoOperacion = signal<1 | -1>(1);
 
   active: Number;
   documento: any = {
@@ -87,6 +97,14 @@ export default class FacturaDetalleComponent extends General {
     this.consultardetalle();
   }
 
+  ngOnInit(): void {
+    this._configModuleService.currentModelConfig$.pipe().subscribe((value) => {
+      this._documentoOperacion.set(
+        value?.ajustes?.configuracionesDocumento?.operacion || 1,
+      );
+    });
+  }
+
   consultardetalle() {
     this.facturaService
       .consultarDetalle(this.detalle)
@@ -119,6 +137,7 @@ export default class FacturaDetalleComponent extends General {
 
         this.totalGeneral = this._operacionesService.sumarTotal(
           respuesta.documento.detalles,
+          this._documentoOperacion(),
         );
 
         const { creditos, debitos } = this._operacionesService.sumarTotalCuenta(
