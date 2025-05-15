@@ -380,6 +380,21 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
       ],
     },
     {
+      nombreFuncionalidad: 'utilidad',
+      modelos: [
+        {
+          key: null,
+          nombreModelo: 'ENVIANOMINAELECTRONICA',
+          ajustes: {
+            rutas: {
+              lista: 'humano/utilidad/enviar_nomina_electronica',
+              nuevo: '',
+            },
+          },
+        },
+      ],
+    },
+    {
       nombreFuncionalidad: 'informe',
       modelos: [
         {

@@ -90,6 +90,20 @@ export const routes: Route[] = [
       ),
   },
   {
+    path: 'utilidad',
+    data: { breadcrumb: 'utilidad' },
+    children: [
+      {
+        path: 'enviar_nomina_electronica',
+        data: { breadcrumb: 'enviarnominaelectronica' },
+        loadComponent: () =>
+          import(
+            './paginas/utilidades/enviar-nomina-electronica/enviar-nomina-electronica.component'
+          ).then((c) => c.EnviarNominaElectronicaComponent),
+      },
+    ],
+  },
+  {
     path: 'informe',
     data: { breadcrumb: 'informe' },
     children: [

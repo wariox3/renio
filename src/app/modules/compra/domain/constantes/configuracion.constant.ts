@@ -1,4 +1,4 @@
-import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+  import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 
 const DocLista = 'compra/documento/lista';
 const DocNuevo = 'compra/documento/nuevo';

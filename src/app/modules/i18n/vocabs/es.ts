@@ -123,6 +123,7 @@ export const locale = {
         HUMADICIONAL: 'Adicional',
         HUMCREDITO: 'Credito',
         HUMNOVEDAD: 'Novedad',
+        ENVIANOMINAELECTRONICA: 'Enviar nomina electronica',
       },
     },
     FORMULARIOS: {
@@ -1631,6 +1632,7 @@ export const locale = {
       AUXILIARGENERAL: 'Auxiliar general',
       BASE: 'Base',
       CERTIFICADORETENCION: 'Certificado de retención',
+      ENVIARNOMINAELECTRONICA: 'Enviar nomina electronica',
     },
   },
 };
