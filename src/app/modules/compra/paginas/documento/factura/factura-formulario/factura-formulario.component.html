@@ -26,7 +26,9 @@
   </section>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'FACTURACOMPRA'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'FACTURACOMPRA'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -252,57 +254,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.FORMAPAGO"
-          >
-          </label>
-          <ng-select
-            [items]="formaPagoLista"
-            bindLabel="forma_pago_nombre"
-            bindValue="forma_pago_id"
-            formControlName="forma_pago"
-            notFoundText="Sin elementos"
-            placeholder="Selecciona un elemento"
-            class="select2Custom"
-          >
-          </ng-select>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
-          ></label>
-          <input
-            formControlName="orden_compra"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            (blur)="modificarCampoFormulario('orden_compra', null)"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['orden_compra'].touched &&
-                formularioFactura.controls['orden_compra'].invalid,
-              'is-valid':
-                formularioFactura.controls['orden_compra'].touched &&
-                formularioFactura.controls['orden_compra'].valid,
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '50',
-              control: formularioFactura.controls['orden_compra'],
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <label
             class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
@@ -316,7 +268,7 @@
             [valorInicial]="formularioFactura.get('grupo_contabilidad')?.value"
           ></app-seleccionar-grupo>
         </div>
-        <div class="col-md-6 col-sm-12">
+        <div class="col-md-3 col-sm-12">
           <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
             <label
               class="form-label"
@@ -337,6 +289,23 @@
               (emitirLineaVacia)="recibirAlmacenVacio()"
             ></app-seleccionar-almacen>
           </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FORMAPAGO"
+          >
+          </label>
+          <ng-select
+            [items]="formaPagoLista"
+            bindLabel="forma_pago_nombre"
+            bindValue="forma_pago_id"
+            formControlName="forma_pago"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
         </div>
       </div>
       <div class="row mb-5" *ngIf="visualizarCampoDocumentoReferencia">
