@@ -57,7 +57,7 @@ export class EnviarNominaElectronicaComponent
     },
     {
       propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 2,
+      valor1: 7,
     },
   ];
   arrParametrosConsultaEmitir: ParametrosFiltros = {
