@@ -1,23 +1,24 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
   ElementRef,
+  inject,
   OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
+import { General } from '@comun/clases/general';
+import { GeneralService } from '@comun/services/general.service';
+import { HttpService } from '@comun/services/http.service';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { TranslateModule } from '@ngx-translate/core';
+import { forkJoin } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '../../../../../comun/componentes/card/card.component';
-import { inject } from '@angular/core';
-import { GeneralService } from '@comun/services/general.service';
-import { General } from '@comun/clases/general';
-import { HttpService } from '@comun/services/http.service';
-import { finalize, tap } from 'rxjs/operators';
-import { forkJoin } from 'rxjs';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 
 @Component({
   selector: 'app-enviar-nomina-electronica',
@@ -76,6 +77,9 @@ export class EnviarNominaElectronicaComponent
 
   ngOnInit(): void {
     this.consultarLista();
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: utilidades['nomina_electronica'] }),
+    );
   }
 
   consultarLista() {
