@@ -1,0 +1,142 @@
+<div class="tabla">
+  <app-card [titulo]="'MENU.FUNCIONALIDAD.ENVIANOMINAELECTRONICA'">
+    <section card-body>
+      <app-base-filtro
+        (emitirFiltros)="obtenerFiltrosEmitir($event)"
+        [persistirFiltros]="false"
+        [_tipo]="'DOCUMENTO'"
+      ></app-base-filtro>
+      <div class="row mb-4 justify-content-between gap-sm-5">
+        <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2">
+          <i
+            (click)="disminuirDesplazamientoEmitir()"
+            class="bi bi-arrow-left fs-2x cursor-pointer"
+          ></i>
+          <input
+            type="text"
+            class="form-control form-control-sm w-100px"
+            [value]="paginacionEmitirDesde + 1 + '-' + paginacionEmitirHasta"
+            (blur)="calcularValorMostrarEmitir($event)"
+          />
+          <span>de</span>
+          <span>{{ cantidadDocumentos() }}</span>
+          <i
+            (click)="aumentarDesplazamientoEmitir()"
+            class="bi bi-arrow-right fs-2x cursor-pointer"
+          ></i>
+        </div>
+        <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
+          <div class="btn-group contenedor-btn-group" data-toggle="buttons">
+            <button
+              type="button"
+              class="btn btn-sm btn-danger"
+              id="dropdownBasic1"
+              (click)="confirmarDescartar()"
+              translate="FORMULARIOS.TITULOS.FACTURACION.DESCARTAR"
+            ></button>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              id="dropdownBasic1"
+              (click)="emitir()"
+              translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
+            ></button>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive-sm table-loading">
+        <table
+          class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+        >
+          <thead>
+            <tr class="fw-bold fs-6 text-gray-800">
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.ID" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.NUMERO" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.FECHA" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.CLIENTE" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.TOTAL" | translate }}
+              </th>
+              <th class="bg-gray-100 text-center">
+                {{ "LISTAS.DOCUMENTO.ESTADO" | translate }}
+              </th>
+              <th class="text-center bg-gray-100">
+                <label>
+                  <i
+                    class="fa-regular fs-2x cursor-pointer"
+                    [ngClass]="
+                      checkboxSelectAll.checked
+                        ? 'fa-square-check text-danger'
+                        : 'fa-square text-gray-500'
+                    "
+                  ></i>
+                  <input
+                    class="d-none"
+                    type="checkbox"
+                    #checkboxSelectAll
+                    (click)="manejarCheckGlobal($event)"
+                  />
+                </label>
+              </th>
+            </tr>
+          </thead>
+          <Tbody>
+            <tr *ngFor="let documento of documentos()">
+              <td>{{ documento.id }}</td>
+              <td>{{ documento.numero }}</td>
+              <td>{{ documento.fecha }}</td>
+              <td>{{ documento.contacto_nombre_corto }}</td>
+              <td class="text-end">
+                {{ documento.total | number }}
+              </td>
+              <td class="text-center">
+                @if (documento.estado_electronico_descartado) {
+                  <span class="badge badge-danger">Descartado</span>
+                } @else {
+                  <ng-container
+                    *ngIf="
+                      documento.estado_electronico_enviado === true;
+                      else esperando
+                    "
+                  >
+                    <span class="badge badge-success">Esperando respuesta</span>
+                  </ng-container>
+                  <ng-template #esperando>
+                    <span class="badge badge-warning">Pendiente</span>
+                  </ng-template>
+                }
+              </td>
+              <td class="w-20px" *ngIf="documento.estado_electronico_enviado === false">
+                <label>
+                  <i
+                    class="fa-regular fs-2x cursor-pointer"
+                    [ngClass]="
+                      checked.checked
+                        ? 'fa-square-check text-danger'
+                        : 'fa-square text-gray-500'
+                    "
+                  ></i>
+                  <input
+                    #checked
+                    class="d-none"
+                    type="checkbox"
+                    (change)="manejarCheckItem($event, documento.id)"
+                    [checked]="estoySeleccionado(documento.id)"
+                  />
+                </label>
+              </td>
+            </tr>
+          </Tbody>
+        </table>
+      </div>
+    </section>
+  </app-card>
+</div>

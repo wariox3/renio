@@ -22,13 +22,14 @@ import {
   ImpuestoRespuestaConsulta,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { FechasService } from '../fechas.service';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { Router } from '@angular/router';
 import { informacionMenuItem } from '@interfaces/menu/menu';
+import { ConfigModuleService } from '../application/config-modulo.service';
 
 @Injectable({
   providedIn: 'any',
@@ -41,6 +42,9 @@ export class FormularioFacturaService {
   private formSubject = new BehaviorSubject<FormGroup>(this.createForm());
   private facturaService = inject(FacturaService);
   private _router = inject(Router);
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _unsubscribe$ = new Subject<void>();
+  public _documentoOperacion = signal<1 | -1>(1);
 
   public eliminarDetallesIds = signal<number[]>([]);
   public impuestoCache: AcumuladorImpuestos[] = [];
@@ -61,7 +65,15 @@ export class FormularioFacturaService {
   public estadoAprobado = signal<boolean>(false);
   public form$ = this.formSubject.asObservable();
 
-  constructor() {}
+  constructor() {
+    this._configModuleService.currentModelConfig$
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((value) => {
+        this._documentoOperacion.set(
+          value?.ajustes?.configuracionesDocumento?.operacion || 1,
+        );
+      });
+  }
 
   createForm(): FormGroup {
     const fechaVencimientoInicial =
@@ -103,7 +115,10 @@ export class FormularioFacturaService {
         impuesto: [0],
         impuesto_operado: [0],
         impuesto_retencion: [0],
-        remision: [null,[ Validators.maxLength(50), cambiarVacioPorNulo.validar]],
+        remision: [
+          null,
+          [Validators.maxLength(50), cambiarVacioPorNulo.validar],
+        ],
         afectado: [0],
         total_bruto: [0],
         comentario: [null, Validators.maxLength(500)],
@@ -471,8 +486,9 @@ export class FormularioFacturaService {
     parametrosUrl: Partial<informacionMenuItem['data']>,
   ) {
     this.facturaService
-      .actualizarDatosFactura(detalleId, {
+      .actualizarDatosFactura({
         ...this.form.value,
+        id: detalleId,
         detalles_eliminados: this.eliminarDetallesIds(),
       })
       .subscribe((respuesta) => {
@@ -974,7 +990,10 @@ export class FormularioFacturaService {
     let impuestoRetencion = this.form.get('impuesto_retencion')?.value;
     let descuento = this.form.get('descuento')?.value;
 
-    total += this._operaciones.sumarTotal(this.detalles.value);
+    total += this._operaciones.sumarTotal(
+      this.detalles.value,
+      this._documentoOperacion(),
+    );
     const { creditos, debitos } = this._operaciones.sumarTotalCuenta(
       this.detalles.value,
     );

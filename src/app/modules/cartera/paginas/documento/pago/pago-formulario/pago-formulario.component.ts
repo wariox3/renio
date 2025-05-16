@@ -278,7 +278,7 @@ export default class PagoFormularioComponent
             .subscribe();
         } else {
           this.facturaService
-            .actualizarDatosFactura(this.detalle, {
+            .actualizarDatosFactura({
               ...this.formularioFactura.value,
               ...{ detalles_eliminados: this.arrDetallesEliminado },
             })
@@ -539,7 +539,7 @@ export default class PagoFormularioComponent
       let documentoSeleccionado = this.arrDocumentos.find(
         (documento: any) => documento.id === id,
       );
-      this.totalSeleccionado += documentoSeleccionado.total;
+      this.totalSeleccionado += documentoSeleccionado.pendiente;
     });
     this.changeDetectorRef.detectChanges();
   }

@@ -65,14 +65,14 @@ export class OperacionesService {
     );
   }
 
-  sumarTotal(detalle: DocumentoFacturaDetalleRespuesta[]) {
+  sumarTotal(detalle: DocumentoFacturaDetalleRespuesta[], operacion: 1 | -1) {
     let total = 0;
 
     detalle.forEach((detail) => {
       if (detail?.naturaleza === 'C') {
-        total -= detail.total;
+        total += detail.total * (operacion === -1 ? 1 : -1);
       } else {
-        total += detail.total;
+        total += detail.total * (operacion === -1 ? -1 : 1);
       }
     });
 

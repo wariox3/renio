@@ -284,7 +284,10 @@ export default class SalidaFormularioComponent
   private _actualizarSalida() {
     if (this.validarCamposDetalles() === false) {
       this._salidaService
-        .actualizarDatos(this.detalle, this.formularioSalida.value)
+        .actualizarDatos({
+          ...this.formularioSalida.value,
+          id: this.detalle,
+        })
         .pipe(
           tap((respuesta) => {
             this.router.navigate(

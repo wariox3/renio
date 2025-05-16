@@ -63,6 +63,20 @@ export default class GenerarComponent extends General {
           '¡Nóminas electrónicas generadas exitosamente!'
         );
         this.modalDinamicoService.emitirEvento(true);
+        this._IrAEnviarNominaElectronica();
       });
+  }
+
+  private _IrAEnviarNominaElectronica() {
+    this.alertaService.confirmar({
+      titulo: '¿Desea emitir los documentos a la DIAN?',
+      texto: '',
+      textoBotonCofirmacion: 'Si',
+    })
+    .then((respuesta) => {
+      if (respuesta.isConfirmed) {
+        this.router.navigate(['humano/utilidad/enviar_nomina_electronica']);
+      }
+    });
   }
 }

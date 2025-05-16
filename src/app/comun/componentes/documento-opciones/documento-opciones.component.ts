@@ -24,15 +24,17 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BehaviorSubject, finalize, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, finalize, switchMap, tap, zip } from 'rxjs';
 import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.component';
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
 import { PaginadorComponent } from '../paginador/paginador.component';
 import { TablaComponent } from '../tabla/tabla.component';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
+import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -46,6 +48,7 @@ import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-u
     SeleccionarContactoComponent,
     AnimationFadeInUpDirective,
     CargarArchivosComponent,
+    NgbNavModule,
   ],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
@@ -62,7 +65,9 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private _facturaService = inject(FacturaService);
 
   public arrGrupo: RegistroAutocompletarConGrupo[] = [];
+  public encabezadoDocumento: DocumentoFacturaRespuesta | null = null;
   public arrDocumentos: any[];
+  public sedes: RegistroAutocompletarGenSede[] = [];
   public arrDocumentosGrupo: { grupo: string; detalle_id: number }[] = [];
   public cantidadRegistros: number;
   public listaArchivos: ArchivoRespuesta[] = [];
@@ -70,6 +75,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public documentoId: number;
   public totalDebito = 0;
   public totalCredito = 0;
+  public active: Number;
   public cargandoAccion = signal<boolean>(false);
 
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
@@ -289,6 +295,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           if (!respuesta.documento.estado_contabilizado) {
             this._abirModal(this.corregirContent);
             this.arrDocumentos = respuesta.documento.detalles;
+            this.encabezadoDocumento = respuesta.documento;
           } else {
             this.alertaService.mensajeError(
               'Error',
@@ -296,19 +303,26 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
             );
           }
         }),
-        switchMap(() =>
-          this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
-            {
-              modelo: 'ConGrupo',
-              serializador: 'ListaAutocompletar',
-            },
-          ),
-        ),
-        tap((respuestaAutoCompletar) => {
-          this.arrGrupo = respuestaAutoCompletar.registros;
-        }),
       )
       .subscribe();
+
+    zip(
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
+        {
+          modelo: 'ConGrupo',
+          serializador: 'ListaAutocompletar',
+        },
+      ),
+      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
+        {
+          modelo: 'GenSede',
+          serializador: 'ListaAutocompletar',
+        },
+      ),
+    ).subscribe((respuesta) => {
+      this.arrGrupo = respuesta[0].registros;
+      this.sedes = respuesta[1].registros;
+    });
   }
 
   actualizarGrupo(event: Event, id: number) {
@@ -318,6 +332,17 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       .actualizarDetalleGrupo(id, {
         documento: this.detalle,
         grupo,
+      })
+      .subscribe(() => {
+        this.alertaService.mensajaExitoso('Se actualizó la información');
+      });
+  }
+
+  actualizarSede(event: Event) {
+    const sede = (event.target as HTMLSelectElement).value;
+    this._facturaService
+      .actualizarEncabezado(this.documentoId, {
+        sede,
       })
       .subscribe(() => {
         this.alertaService.mensajaExitoso('Se actualizó la información');

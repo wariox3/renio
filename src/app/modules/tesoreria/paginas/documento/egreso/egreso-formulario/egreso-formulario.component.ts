@@ -275,9 +275,10 @@ export default class EgresoFormularioComponent
             .subscribe();
         } else {
           this.facturaService
-            .actualizarDatosFactura(this.detalle, {
+            .actualizarDatosFactura({
               ...this.formularioEgreso.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
+              detalles_eliminados: this.arrDetallesEliminado,
+              id: this.detalle,
             })
             .subscribe((respuesta) => {
               this.router.navigate(

@@ -47,7 +47,7 @@ export const locale = {
         ENTRADA: 'Entrada',
         SALIDA: 'Salida',
         EGRESO: 'Egreso',
-        FACTURAELECTRONICA: 'Factura electrónica',
+        ENVIARFACTURAELECTRONICA: 'Enviar factura electrónica',
         VENTASGENERAL: 'Ventas generales',
         VENTASITEM: 'Ventas por ítem',
         VENTASCLIENTE: 'Ventas por cliente',
@@ -123,6 +123,7 @@ export const locale = {
         HUMADICIONAL: 'Adicional',
         HUMCREDITO: 'Credito',
         HUMNOVEDAD: 'Novedad',
+        ENVIANOMINAELECTRONICA: 'Enviar nomina electronica',
       },
     },
     FORMULARIOS: {
@@ -614,7 +615,7 @@ export const locale = {
           GRUPO: 'Grupo',
           ALMACEN: 'Almacen',
           REMISION: 'Remisión',
-          FORMAPAGO: 'Forma pago',
+          FORMAPAGO: 'Forma de pago',
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',
@@ -719,6 +720,7 @@ export const locale = {
             PRIMA: 'Prima',
             CESANTIA: 'Cesantía',
             INTERES: 'Interes',
+            EMITIRAUTOMATICAMENTE: 'Emitir automáticamente documentos electronicos',
           },
           PAGO: {
             DESDE: 'Desde',
@@ -1614,7 +1616,7 @@ export const locale = {
       CUENTASPAGAR: 'Cuentas por pagar',
       DOCUMENTOELECTRONICO: 'Documento electronico',
       EVENTOSDIAN: 'Eventos DIAN',
-      FACTURAELECTRONICA: 'Factura electronica',
+      ENVIARFACTURAELECTRONICA: 'Enviar factura electrónica',
       CUENTASCOBRARCORTE: 'Cuentas por cobrar corte',
       EXISTENCIA: 'Existencia',
       HISTORIALMOVIMIENTOS: 'Historial de movimientos',
@@ -1631,6 +1633,7 @@ export const locale = {
       AUXILIARGENERAL: 'Auxiliar general',
       BASE: 'Base',
       CERTIFICADORETENCION: 'Certificado de retención',
+      ENVIARNOMINAELECTRONICA: 'Enviar nomina electronica',
     },
   },
 };

@@ -88,4 +88,34 @@ export const utilidades: MapeoUtilidades = {
       ordenable: true,
     },
   ],
+  nomina_electronica: [
+    {
+      nombre: 'ID',
+      campoTipo: 'IntegerField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'NUMERO',
+      campoTipo: 'IntegerField',
+      visibleFiltro: true,
+      visibleTabla: true,
+      ordenable: true,
+    },
+    {
+      nombre: 'ESTADO_ELECTRONICO_NOTIFICADO',
+      campoTipo: 'Booleano',
+      visibleFiltro: true,
+      visibleTabla: false,
+      ordenable: true,
+    },
+    {
+      nombre: 'ESTADO_ELECTRONICO_ENVIADO',
+      campoTipo: 'Booleano',
+      visibleFiltro: true,
+      visibleTabla: false,
+      ordenable: true,
+    },
+  ],
 };

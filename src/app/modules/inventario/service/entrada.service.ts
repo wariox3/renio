@@ -14,15 +14,15 @@ export class EntradaService {
 
   guardarFactura(data: any) {
     return this._httpService.post<{ documento: DocumentoInventarioRespuesta }>(
-      'general/documento/',
+      'general/documento/nuevo/',
       data
     );
   }
 
 
-  actualizarDatos(id: number, data: any) {
-    return this._httpService.put<{ documento: DocumentoInventarioRespuesta }>(
-      `general/documento/${id}/`,
+  actualizarDatos(data: any) {
+    return this._httpService.post<{ documento: DocumentoInventarioRespuesta }>(
+      `general/documento/actualizar/`,
       data
     );
   }

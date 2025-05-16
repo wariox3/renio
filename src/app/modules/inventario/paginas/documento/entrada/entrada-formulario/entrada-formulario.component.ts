@@ -290,7 +290,10 @@ export default class EntradaFormularioComponent
   private _actualizarEntrada() {
     if (this.validarCamposDetalles() === false) {
       this._entradaService
-        .actualizarDatos(this.detalle, this.formularioEntrada.value)
+        .actualizarDatos({
+          ...this.formularioEntrada.value,
+          id: this.detalle,
+        })
         .pipe(
           tap((respuesta) => {
             this.router.navigate(

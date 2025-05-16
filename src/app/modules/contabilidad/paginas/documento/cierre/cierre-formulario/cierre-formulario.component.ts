@@ -265,9 +265,10 @@ export default class CierreFormularioComponent
           .subscribe();
       } else {
         this.facturaService
-          .actualizarDatosFactura(this.detalle, {
+          .actualizarDatosFactura({
             ...this.formularioCierre.value,
-            ...{ detalles_eliminados: this.arrDetallesEliminado },
+            detalles_eliminados: this.arrDetallesEliminado,
+            id: this.detalle,
           })
           .pipe(finalize(() => this.guardando.set(false)))
           .subscribe((respuesta) => {
