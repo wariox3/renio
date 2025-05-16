@@ -248,6 +248,33 @@
     ></button>
   </div>
   <div class="modal-body">
+    <div class="row mb-5">
+        <div
+        class="col-md-6 col-sm-12"
+        ngbDropdown
+        #MetodoDropdown="ngbDropdown"
+      >
+        <label
+          class="form-label"
+          translate="FORMULARIOS.CAMPOS.FACTURA.SEDE"
+        ></label>
+        <select
+          class="form-select form-select-sm"
+          (change)="actualizarSede($event)"
+        >
+          <option value="">
+            {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+          </option>
+          <option
+            *ngFor="let sede of sedes"
+            [value]="sede.sede_id"
+            [selected]="encabezadoDocumento?.sede === sede.sede_id"
+          >
+            {{ sede.sede_nombre }}
+          </option>
+        </select>
+      </div>
+    </div>
     <div class="d-flex justify-content-between my-4">
       <app-comun-paginador
         [cantidadRegistros]="cantidadRegistrosCorregir()"
