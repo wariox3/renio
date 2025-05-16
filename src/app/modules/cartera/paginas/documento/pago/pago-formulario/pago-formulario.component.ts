@@ -539,7 +539,7 @@ export default class PagoFormularioComponent
       let documentoSeleccionado = this.arrDocumentos.find(
         (documento: any) => documento.id === id,
       );
-      this.totalSeleccionado += documentoSeleccionado.total;
+      this.totalSeleccionado += documentoSeleccionado.pendiente;
     });
     this.changeDetectorRef.detectChanges();
   }
