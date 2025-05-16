@@ -486,8 +486,9 @@ export class FormularioFacturaService {
     parametrosUrl: Partial<informacionMenuItem['data']>,
   ) {
     this.facturaService
-      .actualizarDatosFactura(detalleId, {
+      .actualizarDatosFactura({
         ...this.form.value,
+        id: detalleId,
         detalles_eliminados: this.eliminarDetallesIds(),
       })
       .subscribe((respuesta) => {

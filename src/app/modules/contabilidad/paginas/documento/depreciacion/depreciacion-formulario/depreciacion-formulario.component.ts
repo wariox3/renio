@@ -232,9 +232,10 @@ export default class DepreciacionFormularioComponent
           .subscribe();
       } else {
         this.facturaService
-          .actualizarDatosFactura(this.detalle, {
+          .actualizarDatosFactura({
             ...this.formularioAsiento.value,
-            ...{ detalles_eliminados: this.arrDetallesEliminado },
+            detalles_eliminados: this.arrDetallesEliminado,
+            id: this.detalle,
           })
           .subscribe((respuesta) => {
             this.router.navigate(

@@ -81,12 +81,10 @@ export class EditarEventosDianComponent extends General {
     if (this.formularioModal.valid) {
       this.visualizarBtnCargando$.next(true)
        this.facturaService.actualizarDatosFactura(
-         this.documento.id,
          {
           ...this.formularioModal.value,
-          ...{
-            'saltar_aprobado': true
-          }
+          'saltar_aprobado': true,
+          'id': this.documento.id
          }
        ).pipe(
         tap((respuesta: any) => {

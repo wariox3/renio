@@ -902,15 +902,6 @@ export default class FacturaRecurrenteFormularioComponent
       .subscribe();
   }
 
-  actualizarDatos(event: any, campo: string) {
-    let data: any = {
-      documento_tipo: this.dataUrl.documento_tipo,
-    };
-
-    data[campo] = event.target.innerText;
-    this.facturaService.actualizarDatosFactura(this.detalle, data);
-  }
-
   consultardetalle() {
     this.facturaService
       .consultarDetalle(this.detalle)

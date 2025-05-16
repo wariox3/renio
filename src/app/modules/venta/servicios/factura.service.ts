@@ -11,14 +11,14 @@ export class FacturaService {
 
   guardarFactura(data: any) {
     return this.httpService.post<{ documento: DocumentoFacturaRespuesta }>(
-      'general/documento/',
+      'general/documento/nuevo/',
       data,
     );
   }
 
-  actualizarDatosFactura(id: number, data: any) {
-    return this.httpService.put<{ documento: DocumentoFacturaRespuesta }>(
-      `general/documento/${id}/`,
+  actualizarDatosFactura(data: any) {
+    return this.httpService.post<{ documento: DocumentoFacturaRespuesta }>(
+      `general/documento/actualizar/`,
       data,
     );
   }
@@ -42,6 +42,13 @@ export class FacturaService {
   actualizarDetalleGrupo(id: number, data: any) {
     return this.httpService.patch<any>(
       `general/documento_detalle/${id}/`,
+      data,
+    );
+  }
+
+  actualizarEncabezado(id: number, data: any) {
+    return this.httpService.patch<any>(
+      `general/documento/${id}/`,
       data,
     );
   }
