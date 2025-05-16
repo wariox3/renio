@@ -24,7 +24,7 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, switchMap, tap, zip } from 'rxjs';
@@ -48,6 +48,7 @@ import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.i
     SeleccionarContactoComponent,
     AnimationFadeInUpDirective,
     CargarArchivosComponent,
+    NgbNavModule,
   ],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
@@ -74,6 +75,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public documentoId: number;
   public totalDebito = 0;
   public totalCredito = 0;
+  public active: Number;
   public cargandoAccion = signal<boolean>(false);
 
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
