@@ -720,6 +720,7 @@ export const locale = {
             PRIMA: 'Prima',
             CESANTIA: 'Cesantía',
             INTERES: 'Interes',
+            EMITIRAUTOMATICAMENTE: 'Emitir automáticamente',
           },
           PAGO: {
             DESDE: 'Desde',

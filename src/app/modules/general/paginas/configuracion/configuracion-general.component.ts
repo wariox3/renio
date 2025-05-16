@@ -50,6 +50,9 @@ export class ConfiguracionGeneralComponent extends General implements OnInit {
 
   initForm() {
     this.formularioConfiguracion = this.formBuilder.group({
+      empresa: [1],
+      id: [1],
+      gen_emitir_automaticamente: [false],
       gen_uvt: [
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
@@ -62,6 +65,9 @@ export class ConfiguracionGeneralComponent extends General implements OnInit {
       .obtenerConfiguracionEmpresa(1)
       .subscribe((respuesta: any) => {
         this.formularioConfiguracion.patchValue({
+          empresa: 1,
+          id: 1,
+          gen_emitir_automaticamente: respuesta.gen_emitir_automaticamente,
           gen_uvt: parseInt(respuesta.gen_uvt),
         });
       });
@@ -73,7 +79,7 @@ export class ConfiguracionGeneralComponent extends General implements OnInit {
         .configuracionEmpresa(1, this.formularioConfiguracion.value)
         .pipe(
           tap((respuestaActualizacion: any) => {
-            if (respuestaActualizacion.actualizacion) {
+            if (respuestaActualizacion) {
               this.alertaService.mensajaExitoso(
                 this.translateService.instant(
                   'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
