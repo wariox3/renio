@@ -42,3 +42,10 @@ export interface Contacto {
   cuenta_banco_clase_id: any
   cuenta_banco_clase_nombre: string
 }
+
+export interface RespuestaAutocompletarContactoDian {
+  encontrado: boolean
+  nit: number
+  nombre: string
+  correo: string
+}

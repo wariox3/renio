@@ -96,7 +96,7 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
 })
 export default class ContactDetalleComponent
   extends General
-  implements OnInit, AfterViewInit, OnDestroy
+  implements OnInit, OnDestroy
 {
   formularioContacto: FormGroup;
   informacionContacto: any;
@@ -173,11 +173,11 @@ export default class ContactDetalleComponent
     this._destroy$.unsubscribe();
   }
 
-  ngAfterViewInit(): void {
-    if (this.inputNombreCorto?.nativeElement.value === '') {
-      this.inputNombreCorto?.nativeElement.focus();
-    }
-  }
+  // ngAfterViewInit(): void {
+  //   if (this.inputNombreCorto?.nativeElement.value === '') {
+  //     this.inputNombreCorto?.nativeElement.focus();
+  //   }
+  // }
 
   private _iniciarSuscripcionesFormularioContacto() {
     this.formularioContacto
@@ -340,6 +340,7 @@ export default class ContactDetalleComponent
           Validators.compose([
             Validators.maxLength(50),
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+            cambiarVacioPorNulo.validar,
           ]),
         ],
         apellido1: [
@@ -354,6 +355,7 @@ export default class ContactDetalleComponent
           Validators.compose([
             Validators.maxLength(50),
             Validators.pattern(/^[a-zA-ZÑñ ]+$/),
+            cambiarVacioPorNulo.validar,
           ]),
         ],
         direccion: [
@@ -800,6 +802,50 @@ export default class ContactDetalleComponent
     this.formularioContacto.patchValue({
       digito_verificacion: digito,
     });
+  }
+
+  private procesarNombre(nombreCompleto: string): string | string[] {
+    const partes = nombreCompleto
+      .split(' ')
+      .filter((parte) => parte.trim() !== '');
+
+    if (partes.length < 4) {
+      return nombreCompleto;
+    } else {
+      return partes;
+    }
+  }
+
+  autocompletar() {
+    const numeroIdentificacion = this.formularioContacto.get(
+      'numero_identificacion',
+    )?.value;
+    const tipoidentificacion =
+      this.formularioContacto.get('identificacion')?.value;
+
+    this._contactoService
+      .autocompletar({
+        nit: numeroIdentificacion,
+        identificacion_id: tipoidentificacion,
+      })
+      .subscribe({
+        next: (respuesta) => {
+          if (respuesta.encontrado) {
+            if (this.formularioContacto.get('tipo_persona')?.value === 2) {
+              this.formularioContacto.patchValue({
+                nombre1: respuesta.nombre,
+                correo_facturacion_electronica: respuesta.correo,
+              });
+            } else {
+              this.formularioContacto.patchValue({
+                nombre_corto: respuesta.nombre,
+                correo: respuesta.correo,
+                correo_facturacion_electronica: respuesta.correo,
+              });
+            }
+          }
+        },
+      });
   }
 
   limpiarCiudad(event: Event): void {

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 import { Contacto } from '@interfaces/general/contacto';
+import { RespuestaAutocompletarContactoDian } from '../interfaces/contacto.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,10 @@ export class ContactoService extends Subdominio {
 
   guardarContacto(data: Contacto) {
     return this.httpService.post<Contacto>(`general/contacto/`, data);
+  }
+
+  autocompletar(data: { nit: number, identificacion_id: number }) {
+    return this.httpService.post<RespuestaAutocompletarContactoDian>(`general/contacto/consulta-dian/`, data);
   }
 
   consultarDetalle(id: number) {
