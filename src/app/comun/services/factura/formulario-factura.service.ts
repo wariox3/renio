@@ -73,6 +73,12 @@ export class FormularioFacturaService {
           value?.ajustes?.configuracionesDocumento?.operacion || 1,
         );
       });
+
+    this._configModuleService.currentConfig$
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((value) => {
+        this.formularioTipo.set(value?.nombreModulo === 'compra' ? 'compra' : 'venta');
+      });
   }
 
   createForm(): FormGroup {
