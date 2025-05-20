@@ -42,7 +42,7 @@ export class OperacionesService {
       | 'cantidad'
       | 'total_bruto'
       | 'descuento'
-      | 'precio'
+      | 'precio',
   ) {
     return this.redondear(
       detalle.reduce((acc, curVal) => {
@@ -71,8 +71,10 @@ export class OperacionesService {
     detalle.forEach((detail) => {
       if (detail?.naturaleza === 'C') {
         total += detail.total * (operacion === -1 ? 1 : -1);
-      } else {
+      } else if (detail?.naturaleza === 'D') {
         total += detail.total * (operacion === -1 ? -1 : 1);
+      } else {
+        total += detail.total;
       }
     });
 
