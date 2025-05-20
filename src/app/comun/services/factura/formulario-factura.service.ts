@@ -144,7 +144,7 @@ export class FormularioFacturaService {
         pagos: this._formBuilder.array([]),
 
         referencia_cue: [null, [Validators.maxLength(150)]], // Referencia CUE
-        referencia_numero: [null, [cambiarVacioPorNulo.validar]], // Referencia número
+        referencia_numero: [null, [cambiarVacioPorNulo.validar, Validators.max(9999999999)]], // Referencia número
         referencia_prefijo: [null, [Validators.maxLength(50)]], // Referencia prefijo
 
         detalles_eliminados: this._formBuilder.array([]),

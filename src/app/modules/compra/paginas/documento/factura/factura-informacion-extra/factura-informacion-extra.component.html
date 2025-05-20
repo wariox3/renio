@@ -85,6 +85,15 @@
             formularioService.form.controls['referencia_numero'].valid,
         }"
       />
+        <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'max',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+          cantidadCaracteres: '10',
+          control: formularioService.form.controls['referencia_numero'],
+        }"
+      ></ng-container>
     </div>
 
     <div class="col-md-6 col-sm-12">
