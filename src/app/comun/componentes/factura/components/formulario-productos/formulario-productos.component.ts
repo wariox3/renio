@@ -5,6 +5,7 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
@@ -48,7 +49,6 @@ import { SeleccionarProductoComponent } from '../seleccionar-producto/selecciona
   ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormularioProductosComponent
   extends General

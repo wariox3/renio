@@ -77,7 +77,9 @@ export class FormularioFacturaService {
     this._configModuleService.currentConfig$
       .pipe(takeUntil(this._unsubscribe$))
       .subscribe((value) => {
-        this.formularioTipo.set(value?.nombreModulo === 'compra' ? 'compra' : 'venta');
+        this.formularioTipo.set(
+          value?.nombreModulo === 'compra' ? 'compra' : 'venta',
+        );
       });
   }
 
@@ -144,7 +146,10 @@ export class FormularioFacturaService {
         pagos: this._formBuilder.array([]),
 
         referencia_cue: [null, [Validators.maxLength(150)]], // Referencia CUE
-        referencia_numero: [null, [cambiarVacioPorNulo.validar, Validators.max(9999999999)]], // Referencia número
+        referencia_numero: [
+          null,
+          [cambiarVacioPorNulo.validar, Validators.max(9999999999)],
+        ], // Referencia número
         referencia_prefijo: [null, [Validators.maxLength(50)]], // Referencia prefijo
 
         detalles_eliminados: this._formBuilder.array([]),
@@ -1087,7 +1092,10 @@ export class FormularioFacturaService {
     });
   }
 
-  poblarDocumentoDetalle(documentoDetalle: DocumentoFacturaDetalleRespuesta[]) {
+  poblarDocumentoDetalle(
+    documentoDetalle: DocumentoFacturaDetalleRespuesta[],
+    poblarConId = true,
+  ) {
     documentoDetalle.forEach((detalle, indexFormulario) => {
       const documentoDetalleGrupo = this._formBuilder.group({
         cuenta: [detalle.cuenta],
@@ -1131,7 +1139,7 @@ export class FormularioFacturaService {
         impuesto_retencion: [detalle.impuesto_retencion],
         impuestos: this._formBuilder.array([]),
         impuestos_eliminados: this._formBuilder.array([]),
-        id: [detalle.id],
+        id: [poblarConId ? detalle.id : null],
         tipo_registro: [detalle.tipo_registro],
         grupo: detalle.grupo_id,
         naturaleza: detalle.naturaleza,
