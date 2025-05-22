@@ -2,7 +2,9 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'notacredito'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'notacredito'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -87,9 +89,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div
-          class="col-12 col-md-6"
-        >
+        <div class="col-12 col-md-6">
           <label
             class="form-label required"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
@@ -147,33 +147,51 @@
             class="form-label"
             translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
           ></label>
-          <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="documento_referencia_numero"
-              (focus)="
-                consultarDocumentoReferencia($event);
-                DocumentoReferenciaDropdown.open()
-              "
-              (keyup)="consultarDocumentoReferencia($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioFactura.controls['documento_referencia_numero']
-                    .touched &&
-                  formularioFactura.controls['documento_referencia_numero']
-                    .invalid,
-                'is-valid':
-                  formularioFactura.controls['documento_referencia_numero']
-                    .touched &&
-                  formularioFactura.controls['documento_referencia_numero']
-                    .valid,
-              }"
-            />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+          <div class="d-flex align-items-center gap-2">
+            <div class="position-relative flex-grow-1">
+              <input
+                type="text"
+                class="form-control pe-5"
+                ngbDropdownAnchor
+                formControlName="documento_referencia_numero"
+                #referenciaInput
+                (focus)="
+                  consultarDocumentoReferencia($event);
+                  DocumentoReferenciaDropdown.open()
+                "
+                (keyup)="consultarDocumentoReferencia($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    formularioFactura.controls['documento_referencia_numero']
+                      .touched &&
+                    formularioFactura.controls['documento_referencia_numero']
+                      .invalid,
+                  'is-valid':
+                    formularioFactura.controls['documento_referencia_numero']
+                      .touched &&
+                    formularioFactura.controls['documento_referencia_numero']
+                      .valid,
+                }"
+              />
+              <div
+                class="position-absolute top-50 end-0 translate-middle-y me-2"
+              >
               <i class="bi bi-search fs-2"></i>
+              </div>
             </div>
+            @if (!this.detalle) {
+              <button
+              *ngIf="
+                formularioFactura.controls['documento_referencia_numero'].value
+              "
+              [disabled]="!habilitarCargar()"
+              type="button"
+              class="btn btn-primary flex-shrink-0"
+              (click)="cargarDocumentoReferencia()"
+            >
+              Cargar
+            </button>
+            }
           </div>
           <div
             ngbDropdownMenu

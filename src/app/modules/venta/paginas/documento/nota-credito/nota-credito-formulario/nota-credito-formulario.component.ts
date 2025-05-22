@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -85,6 +85,8 @@ export default class FacturaDetalleComponent
   public arrSede: RegistroAutocompletarGenSede[] = [];
   private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
+  habilitarCargar = signal(false)
+  @ViewChild('referenciaInput') referenciaInput!: ElementRef<HTMLInputElement>;
 
   public _modulo: string;
 
@@ -357,6 +359,7 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
+        this.habilitarCargar.set(true);
     }
 
     this.formularioFactura?.markAsDirty();
@@ -849,6 +852,7 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
+        this.habilitarCargar.set(true);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -1143,4 +1147,16 @@ export default class FacturaDetalleComponent
         documento_referencia: null,
       });
   }
+
+  cargarDocumentoReferencia() {
+    const documentoRef = this.formularioFactura.get('documento_referencia')?.value;
+    if(this.habilitarCargar()){
+      this.facturaService.consultarDetalle(documentoRef).subscribe((respuesta) => {
+        this._formularioFacturaService.poblarDocumentoDetalle(respuesta.documento.detalles, false);
+        this.changeDetectorRef.detectChanges();
+      })
+      this.habilitarCargar.set(false);
+    } 
+  }
+  
 }

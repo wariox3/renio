@@ -803,8 +803,8 @@ export const locale = {
           REQUERIDO: 'El campo es requerido',
           VALORMINIMO: 'Valor mínimo es de',
           VALORMAXIMO: 'Valor máxima es de',
-          CAMPOMINIMO: 'Caracteres mínimo es de',
-          CAMPOMAXIMO: 'Caracteres Máxima es de',
+          CAMPOMINIMO: 'El número mínimo de caracteres es',
+          CAMPOMAXIMO: 'El número máximo de caracteres es',
           TIPOCORREO: 'Correo electrónico válido',
           NOVALIDO: 'Contiene caracteres no válidos',
           RANGOFECHASDESDEHASTA:
