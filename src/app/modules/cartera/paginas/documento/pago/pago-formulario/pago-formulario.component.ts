@@ -280,7 +280,8 @@ export default class PagoFormularioComponent
           this.facturaService
             .actualizarDatosFactura({
               ...this.formularioFactura.value,
-              ...{ detalles_eliminados: this.arrDetallesEliminado },
+              detalles_eliminados: this.arrDetallesEliminado,
+              id: this.detalle,
             })
             .subscribe((respuesta) => {
               this.router.navigate(
