@@ -1,20 +1,6 @@
 import { Routes } from '@angular/router';
 import { validarRutaGuard } from '@guardias/validar-ruta.guard';
 
-let redirectToValue: string = '/inicio';
-
-// function getRedirectTo(): string {
-//   // Aquí puedes agregar tu lógica para determinar el valor de redirección
-//   // basado en la variable o cualquier otra condición
-//   let dominioActual = window.location.host;
-//   let esSubdominio = dominioActual.split('.').length > 2;
-
-//   if (esSubdominio) {
-//     redirectToValue = '/dashboard';
-//   }
-//   return redirectToValue;
-// }
-
 const Routing: Routes = [
   {
     path: 'general',
@@ -118,74 +104,6 @@ const Routing: Routes = [
     loadChildren: () =>
       import('../modules/transporte/transporte-routing').then((r) => r.routes),
   },
-  // {
-  //   path: 'administrador',
-  //   canActivateChild: [validarRutaGuard],
-  //   children: [
-  //     {
-  //       path: 'lista',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-administracion/base-lista/base-lista.component'
-  //         ).then((c) => c.BaseListaComponent),
-  //     },
-  //     {
-  //       path: 'nuevo',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
-  //         ).then((c) => c.BaseNuevoComponent),
-  //     },
-  //     {
-  //       path: 'editar',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-administracion/base-nuevo/base-nuevo.component'
-  //         ).then((c) => c.BaseNuevoComponent),
-  //     },
-  //     {
-  //       path: 'detalle',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-administracion/base-detalle/base-detalle.component'
-  //         ).then((c) => c.BaseDetalleComponent),
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: 'documento',
-  //   canActivateChild: [validarRutaGuard],
-  //   children: [
-  //     {
-  //       path: 'lista',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-documento/base-lista/base-lista.component'
-  //         ).then((c) => c.BaseListaComponent),
-  //     },
-  //     {
-  //       path: 'nuevo',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
-  //         ).then((c) => c.BaseNuevoComponent),
-  //     },
-  //     {
-  //       path: 'editar',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-documento/base-nuevo/base-nuevo.component'
-  //         ).then((c) => c.BaseNuevoComponent),
-  //     },
-  //     {
-  //       path: 'detalle',
-  //       loadComponent: () =>
-  //         import(
-  //           '../comun/componentes/base-documento/base-detalle/base-detalle.component'
-  //         ).then((c) => c.BaseDetalleComponent),
-  //     },
-  //   ],
-  // },
   {
     path: 'estado',
     loadComponent: () =>
@@ -207,10 +125,6 @@ const Routing: Routes = [
     ],
     data: { layout: 'dark-header' },
   },
-  // {
-  //   path: '**',
-  //   redirectTo: 'error/404',
-  // },
 ];
 
 export { Routing };
