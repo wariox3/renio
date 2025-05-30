@@ -6,18 +6,14 @@ import {
   UpperCasePipe,
 } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import {
-  Router,
-  RouterLink,
-  RouterLinkActive
-} from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import {
   FuncionalidadConfig,
   ModeloConfig,
 } from '@interfaces/menu/configuracion.interface';
-import { } from '@modulos/compra/domain/constantes/configuracion.constant';
+import {} from '@modulos/compra/domain/constantes/configuracion.constant';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
@@ -26,6 +22,7 @@ import { asignarDocumentacion } from '@redux/actions/documentacion.actions';
 import { selecionModuloAction } from '@redux/actions/menu.actions';
 import { selectModulosHabilitados } from '@redux/selectors/modulos-manager.selectors';
 import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.component';
+import { obtenerContenedorNombre } from '@redux/selectors/contenedor.selectors';
 
 @Component({
   selector: 'app-sidebar-menu',
@@ -49,6 +46,7 @@ import { KeeniconComponent } from '../../../../shared/keenicon/keenicon.componen
 })
 export class SidebarMenuComponent implements OnInit {
   private readonly _configModule = inject(ConfigModuleService);
+  contenedorNombre = this.store.select(obtenerContenedorNombre);
 
   MenuSeleccion: string | null = null;
   modulo = this._configModule.modulo;
@@ -132,7 +130,6 @@ export class SidebarMenuComponent implements OnInit {
   seleccionarMenu(ruta: string) {
     this.store.dispatch(selecionModuloAction({ seleccion: ruta }));
   }
-
 
   navegar(item: ModeloConfig) {
     this.store.dispatch(

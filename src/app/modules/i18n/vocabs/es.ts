@@ -8,7 +8,7 @@ export const locale = {
     MENU: {
       DASHBOARD: 'Inicio',
       TITULOS: {
-        GENERAL: 'General',
+        GENERAL: 'Inicio',
         CARTERA: 'Cartera',
         COMPRA: 'Compra',
         CONTABILIDAD: 'Contabilidad',
@@ -124,6 +124,7 @@ export const locale = {
         HUMCREDITO: 'Credito',
         HUMNOVEDAD: 'Novedad',
         ENVIANOMINAELECTRONICA: 'Enviar nomina electronica',
+        PEDIDOCLIENTE: 'Pedido cliente',
       },
     },
     FORMULARIOS: {
@@ -1570,6 +1571,7 @@ export const locale = {
       103: 'Factura recurrente',
       104: 'Cuenta de cobro',
       105: 'Factura pos',
+      106: 'Pedido cliente',
       200: 'Pago',
       201: 'Saldo inicial',
       300: 'Factura de compra',
