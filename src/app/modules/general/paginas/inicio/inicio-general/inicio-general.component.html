@@ -1,51 +1,115 @@
 <div class="row">
-  <div class="col-12 col-xl-6 d-flex flex-column mb-3 mb-xl-0">
-    <div class="card mb-3">
-      <div class="card-body d-flex flex-column justify-content-between">
-        <div class="mb-3">
-          <h5 class="card-title">Cuentas por cobrar</h5>
-          <p class="card-text">
-            ${{ arrResumenCobrar.resumen.saldo_pendiente | number }}
-          </p>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div>
-            <small class="text-success">Vigentes</small>
-            <p>${{ arrResumenCobrar.resumen.saldo_pendiente | number }}</p>
-            <small>{{ arrResumenCobrar.resumen.cantidad }} documentos</small>
+  <div class="col-12 col-xl-3 d-flex flex-column mb-3 mb-xl-0">
+    <div>
+      <!-- <div class="card mb-3">
+        <div class="card-body d-flex flex-column">
+          <div class="mb-3">
+            <h5 class="card-title">Cuentas por cobrar</h5>
+            <p class="card-text">
+              ${{ arrResumenCobrar.resumen.saldo_pendiente | number }}
+            </p>
           </div>
-          <div>
-            <small class="text-danger">Vencidas</small>
-            <p>${{ arrResumenCobrar.vencido.saldo_pendiente | number }}</p>
-            <small>{{ arrResumenCobrar.vencido.cantidad }} documentos</small>
+          <div class="d-flex justify-content-between">
+            <div>
+              <small class="text-success">Vigentes</small>
+              <p>${{ arrResumenCobrar.resumen.saldo_pendiente | number }}</p>
+              <small>{{ arrResumenCobrar.resumen.cantidad }} documentos</small>
+            </div>
+            <div>
+              <small class="text-danger">Vencidas</small>
+              <p>${{ arrResumenCobrar.vencido.saldo_pendiente | number }}</p>
+              <small>{{ arrResumenCobrar.vencido.cantidad }} documentos</small>
+            </div>
           </div>
         </div>
-      </div>
+      </div> -->
+      <div class="card card-flush h-md-50 mb-5 mb-xl-5">
+        <div class="card-header pt-5">
+            <div class="card-title d-flex flex-column">   
+                <div class="d-flex align-items-center">
+                
+                </div>
+                <span class="text-gray-500 pt-1 fw-semibold fs-6">Cuentas por cobrar</span>
+            </div>
+        </div>
+    
+        <div class="card-body pt-2 pb-4 d-flex flex-wrap align-items-center">
+            <div class="d-flex flex-center me-5 pt-2">
+                <div id="kt_card_widget_17_chart" style="min-width: 70px; min-height: 70px">
+                    <apx-chart
+                        #donutChart
+                        [series]="donutChartOptions.series"
+                        [chart]="donutChartOptions.chart"
+                        [plotOptions]="donutChartOptions.plotOptions"
+                        [colors]="donutChartOptions.colors"
+                        [stroke]="donutChartOptions.stroke"
+                        [tooltip]="donutChartOptions.tooltip"
+                        [legend]="donutChartOptions.legend"
+                        [dataLabels]="donutChartOptions.dataLabels"
+                    ></apx-chart>
+                </div>
+            </div>
+            
+            <div class="d-flex flex-column content-justify-center flex-row-fluid">
+                <div class="d-flex fw-semibold align-items-center">
+                    <div class="bullet w-8px h-3px rounded-2 bg-success me-3"></div>
+                    <div class="text-gray-500 flex-grow-1 me-4">Vigentes</div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">${{ arrResumenCobrar.resumen.saldo_pendiente | number }}</div>
+                </div>
+    
+                <div class="d-flex fw-semibold align-items-center my-3">
+                    <div class="bullet w-8px h-3px rounded-2 bg-danger me-3"></div>
+                    <div class="text-gray-500 flex-grow-1 me-4">Vencidas</div>
+                    <div class="fw-bolder text-gray-700 text-xxl-end">${{ arrResumenCobrar.vencido.saldo_pendiente | number }}</div>
+                </div>
+
+            </div>
+        </div>
     </div>
-    <div class="card flex-grow-1">
-      <div class="card-body d-flex flex-column justify-content-between">
-        <div class="mb-3">
-          <h5 class="card-title">Cuentas por pagar</h5>
-          <p class="card-text">
-            ${{ arrResumenPagar.resumen.saldo_pendiente | number }}
-          </p>
-        </div>
-        <div class="d-flex justify-content-between">
-          <div>
-            <small class="text-success">Vigentes</small>
-            <p>${{ arrResumenPagar.resumen.saldo_pendiente | number }}</p>
-            <small>{{ arrResumenPagar.resumen.cantidad }} documentos</small>
+      <div class="card card-flush h-md-50 mb-5 mb-xl-5">
+        <div class="card-header pt-5">
+          <div class="card-title d-flex flex-column">   
+            <div class="d-flex align-items-center">
+              <span class="text-gray-500 pt-1 fw-semibold fs-6">Cuentas por pagar</span>
+            </div>
           </div>
-          <div>
-            <small class="text-danger">Vencidas</small>
-            <p>${{ arrResumenPagar.vencido.saldo_pendiente | number }}</p>
-            <small>{{ arrResumenPagar.vencido.cantidad }} documentos</small>
+        </div>
+    
+        <div class="card-body pt-2 pb-4 d-flex flex-wrap align-items-center">
+          <div class="d-flex flex-center me-5 pt-2">
+            <div style="min-width: 70px; min-height: 70px">
+              <apx-chart
+                #donutChartPagar
+                [series]="donutChartPagarOptions.series"
+                [chart]="donutChartPagarOptions.chart"
+                [plotOptions]="donutChartPagarOptions.plotOptions"
+                [colors]="donutChartPagarOptions.colors"
+                [stroke]="donutChartPagarOptions.stroke"
+                [tooltip]="donutChartPagarOptions.tooltip"
+                [legend]="donutChartPagarOptions.legend"
+                [dataLabels]="donutChartPagarOptions.dataLabels"
+              ></apx-chart>
+            </div>
+          </div>
+          
+          <div class="d-flex flex-column content-justify-center flex-row-fluid">
+            <div class="d-flex fw-semibold align-items-center">
+              <div class="bullet w-8px h-3px rounded-2 bg-success me-3"></div>
+              <div class="text-gray-500 flex-grow-1 me-4">Vigentes</div>
+              <div class="fw-bolder text-gray-700 text-xxl-end">${{ arrResumenPagar.resumen.saldo_pendiente | number }}</div>
+            </div>
+    
+            <div class="d-flex fw-semibold align-items-center my-3">
+              <div class="bullet w-8px h-3px rounded-2 bg-danger me-3"></div>
+              <div class="text-gray-500 flex-grow-1 me-4">Vencidas</div>
+              <div class="fw-bolder text-gray-700 text-xxl-end">${{ arrResumenPagar.vencido.saldo_pendiente | number }}</div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="col-12 col-xl-6">
+  <div class="col-12 col-xl-6 offset-xl-3 span-2">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">Total de ventas</h5>
