@@ -61,6 +61,10 @@ export class InicioGeneralComponent extends General implements OnInit {
       cantidad: 0,
       saldo_pendiente: 0,
     },
+    vigente: {
+      cantidad: 0,
+      saldo_pendiente: 0,
+    },
   };
   arrResumenPagar: RespuestaResumen = {
     resumen: {
@@ -68,6 +72,10 @@ export class InicioGeneralComponent extends General implements OnInit {
       saldo_pendiente: 0,
     },
     vencido: {
+      cantidad: 0,
+      saldo_pendiente: 0,
+    },
+    vigente: {
       cantidad: 0,
       saldo_pendiente: 0,
     },
@@ -164,10 +172,10 @@ export class InicioGeneralComponent extends General implements OnInit {
 
       // Update donut charts data
       if (this.donutChartOptions) {
-        const totalCobrar = this.arrResumenCobrar.resumen.saldo_pendiente + this.arrResumenCobrar.vencido.saldo_pendiente;
+        const totalCobrar = this.arrResumenCobrar.vigente.saldo_pendiente + this.arrResumenCobrar.vencido.saldo_pendiente;
         if (totalCobrar > 0) {
           this.donutChartOptions.series = [
-            this.arrResumenCobrar.resumen.saldo_pendiente,
+            this.arrResumenCobrar.vigente.saldo_pendiente,
             this.arrResumenCobrar.vencido.saldo_pendiente
           ];
           this.donutChartOptions.colors = ['#50CD89', '#FF0000'];
@@ -178,10 +186,10 @@ export class InicioGeneralComponent extends General implements OnInit {
       }
       
       if (this.donutChartPagarOptions) {
-        const totalPagar = this.arrResumenPagar.resumen.saldo_pendiente + this.arrResumenPagar.vencido.saldo_pendiente;
+        const totalPagar = this.arrResumenPagar.vigente.saldo_pendiente + this.arrResumenPagar.vencido.saldo_pendiente;
         if (totalPagar > 0) {
           this.donutChartPagarOptions.series = [
-            this.arrResumenPagar.resumen.saldo_pendiente,
+            this.arrResumenPagar.vigente.saldo_pendiente,
             this.arrResumenPagar.vencido.saldo_pendiente
           ];
           this.donutChartPagarOptions.colors = ['#50CD89', '#FF0000'];
@@ -212,7 +220,7 @@ export class InicioGeneralComponent extends General implements OnInit {
           },
         ],
         chart: {
-          height: 500,
+          height: 300,
           type: 'line',
           zoom: {
             enabled: false,
