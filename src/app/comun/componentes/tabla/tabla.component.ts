@@ -63,7 +63,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
-  registrosVisiables = 50;
+  registrosVisiables = 30;
   lado: number = 0;
   al: number = this.registrosVisiables;
   ordenadoTabla: string = '';
@@ -150,7 +150,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   private _reiniciarPaginador() {
     this.lado = 0;
-    this.al = 50;
+    this.al = 30;
   }
 
   private _limpiarTablaSelectores() {

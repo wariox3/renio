@@ -49,6 +49,40 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
         },
         {
+          key: 106,
+          nombreModelo: 'PEDIDOCLIENTE',
+          ajustes: {
+            rutas: {
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
+            },
+            endpoint: 'general/documento',
+            query: 'serializador=lista&documento_tipo_id=26',
+            parametrosHttpConfig: {
+              modelo: 'GenDocumento',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
+              filtros: {
+                lista: [
+                  {
+                    propiedad: 'documento_tipo__documento_clase_id',
+                    valor1: 106,
+                  },
+                ],
+              },
+            },
+            ui: {
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
+              verBotonGenerar: true,
+            },
+          },
+        },
+        {
           key: 100,
           nombreModelo: 'FACTURAVENTA',
           documentacion: {

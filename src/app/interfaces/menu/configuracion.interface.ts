@@ -24,6 +24,7 @@ export interface ModeloConfig {
 export interface ModeloAjustes {
   rutas: Rutas;
   endpoint?: string;
+  query?: string;
   parametrosHttpConfig?: ParametrosHttpConfig;
   archivos?: Archivos;
   ui?: OpcionesVista;

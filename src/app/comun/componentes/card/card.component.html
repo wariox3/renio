@@ -1,16 +1,16 @@
 <div class="card card-xl-stretch mb-5 mb-xl-8 shadow-sm">
-  <div class="card-header d-flex justify-content-between align-items-center" appAnimationFadeinUp *ngIf="visualizarTitulo">
+  <div class="card-header d-flex justify-content-between align-items-center" appAnimationFadeinUp [enabled]="animacionEnabled" *ngIf="visualizarTitulo">
     <div class="card-title m-0">
       <h3>
         <ng-container *ngIf="titulo">
           {{ titulo | translate }}
         </ng-container>
         <ng-content select="[card-titulo]"></ng-content>
-      </h3>
+      </h3> 
     </div>
     <ng-content select="[card-propiedades]"></ng-content>
   </div>
-  <div appAnimationFadeinUp class="card-body">
+  <div appAnimationFadeinUp [enabled]="animacionEnabled" class="card-body">
     <ng-content select="[card-body]"></ng-content>
   </div>
   <ng-content select="[card-footer]"></ng-content>

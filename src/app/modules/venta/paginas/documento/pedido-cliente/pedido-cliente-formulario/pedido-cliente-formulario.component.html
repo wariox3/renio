@@ -1,0 +1,142 @@
+<form [formGroup]="formularioPedido" (ngSubmit)="formSubmit()">
+  <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
+  <app-card [animacionEnabled]="false">
+    <section card-titulo appAnimationFadeinUp>
+      <app-comun-titulo-accion
+
+        [nombreModelo]="'pedidocliente'"
+      ></app-comun-titulo-accion>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="contactoNombre"
+              (focus)="consultarCliente($event); ClienteDropdown.open()"
+              (keyup)="consultarCliente($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioPedido.controls['contacto'].touched &&
+                  formularioPedido.controls['contacto'].invalid,
+                'is-valid':
+                  formularioPedido.controls['contacto'].touched &&
+                  formularioPedido.controls['contacto'].valid,
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu w-100"
+          >
+            <ng-container *ngFor="let cliente of clientes()">
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('cliente', cliente)"
+              >
+                {{ cliente.contacto_nombre_corto }}
+              </button>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <span
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModalContactoNuevo(content)"
+            >
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+              <ng-template #content let-modal>
+                <div class="modal-body">
+                  <app-contacto-formulario
+                    [ocultarBtnAtras]="true"
+                    [tituloFijo]="true"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
+                  />
+                </div>
+              </ng-template>
+            </span>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarModelo]="'GenContacto'"
+                [consultarTipo]="'Administrador'"
+                (emitirRegistroSeleccionado)="
+                  modificarCampoFormulario('contacto', $event)
+                "
+                [campoLista]="campoListaContacto"
+                [campoFiltros]="camposBuscarAvanzado"
+                [filtrosPermanentes]="filtrosPermanentes"
+              >
+              </app-comun-buscar-avanzado>
+            </button>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioPedido.controls['contacto'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+
+      @if (this.detalle) {
+        <div class="row mb-5" appAnimationFadeinUp>
+          <div class="col-12">
+            <ul
+              ngbNav
+              #nav="ngbNav"
+              [(activeId)]="active"
+              class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+            >
+              <li [ngbNavItem]="1" [destroyOnHide]="false" class="nav-item">
+                <a
+                  class="nav-link"
+                  [ngClass]="{ 'text-primary': active() === 1 }"
+                  ngbNavLink
+                  data-bs-toggle="tab"
+                  translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+                ></a>
+                <ng-template ngbNavContent>
+                  <app-formulario-productos
+                    [formularioTipo]="'venta'"
+                  ></app-formulario-productos>
+                </ng-template>
+              </li>
+            </ul>
+            <div [ngbNavOutlet]="nav" class="mt-2"></div>
+          </div>
+        </div>
+      }
+    </section>
+  </app-card>
+</form>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

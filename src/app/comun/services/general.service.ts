@@ -3,6 +3,7 @@ import { HttpService } from './http.service';
 import { Observable } from 'rxjs';
 import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -44,16 +45,20 @@ export class GeneralService {
    * });
    */
   consultarDatosAutoCompletar<T>(
-    filtros: Readonly<Partial<ParametrosFiltros>>
+    filtros: Readonly<Partial<ParametrosFiltros>>,
   ): Observable<AutocompletarRegistros<T>> {
     return this._httpService.post<AutocompletarRegistros<T>>(
       'general/funcionalidad/lista/',
-      filtros
+      filtros,
     );
   }
 
+  consultaApi<T>(endpoint: string) {
+    return this._httpService.getDetalle<RespuestaApi<T>>(endpoint);
+  }
+
   consultarDatosLista<T>(
-    filtros: Readonly<Partial<ParametrosFiltros>>
+    filtros: Readonly<Partial<ParametrosFiltros>>,
   ): Observable<T> {
     return this._httpService.post<T>('general/funcionalidad/lista/', filtros);
   }
@@ -61,7 +66,7 @@ export class GeneralService {
   consultarConfiguracion<T>(parametros: { campos?: string[] }): Observable<T> {
     return this._httpService.post<T>(
       'general/configuracion/consulta/',
-      parametros
+      parametros,
     );
   }
 }

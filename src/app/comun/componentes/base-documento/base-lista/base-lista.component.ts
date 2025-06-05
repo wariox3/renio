@@ -66,7 +66,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public _modelo: Modelo | undefined;
   public _endpoint: string | undefined;
   public ordenamientoFijo = '';
-  public modeloCofig: ModeloConfig | null;
+  public modeloConfig: ModeloConfig | null;
   public nombreModelo: string | undefined;
   public _tipo: string = 'DOCUMENTO';
   public importarConfig: ArchivosImportar | undefined;
@@ -148,7 +148,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private _construirFiltroKey() {}
 
   private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
-    this.modeloCofig = modeloConfig;
+    this.modeloConfig = modeloConfig;
     this._key = modeloConfig?.key;
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
     this.nombreModelo = modeloConfig?.nombreModelo;
@@ -251,15 +251,29 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   consultarLista() {
     this.mostrarVentanaCargando$.next(true);
     this.arrItems = [];
+    const query = this.modeloConfig?.ajustes.query;
+    const endpoint = `${this._endpoint!}/?${query}`;
 
-    this._generalService
-      .consultarDatosLista(this.arrParametrosConsulta)
-      .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrItems = respuesta.registros;
-        this.changeDetectorRef.detectChanges();
-      });
+    if (query) {
+      this._generalService
+        .consultaApi(endpoint)
+        .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+        .subscribe((respuesta) => {
+          this.cantidad_registros = respuesta.count;
+          this.arrItems = respuesta.results;
+          this.changeDetectorRef.detectChanges();
+        });
+    } else {
+      this._generalService
+        .consultarDatosLista(this.arrParametrosConsulta)
+        .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+        .subscribe((respuesta: any) => {
+          this.cantidad_registros = respuesta.cantidad_registros;
+          this.arrItems = respuesta.registros;
+          this.changeDetectorRef.detectChanges();
+        });
+    }
+
   }
 
   construirBotonesExtras(modeloConfig: ModeloConfig | null) {
