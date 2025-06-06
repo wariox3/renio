@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -53,8 +54,16 @@ export class GeneralService {
     );
   }
 
-  consultaApi<T>(endpoint: string) {
-    return this._httpService.getDetalle<RespuestaApi<T>>(endpoint);
+  consultaApi<T>(endpoint: string, queryParams: { [key: string]: any } = {}) {
+    let params = new HttpParams();
+
+    Object.keys(queryParams).forEach(key => {
+      if (queryParams[key] !== null && queryParams[key] !== undefined) {
+        params = params.append(key, queryParams[key].toString());
+      }
+    });
+
+    return this._httpService.getDetalle<RespuestaApi<T>>(endpoint, params);
   }
 
   consultarDatosLista<T>(

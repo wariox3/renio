@@ -1,6 +1,12 @@
 <section class="container-grid">
   <section class="row paginacion">
-    <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3">
+    <app-paginador
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPageChange($event)"
+      [totalItems]="totalItems"
+    ></app-paginador>
+    <!-- <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3">
       <button
         class="btn btn-sm btn-icon btn-secondary"
         (click)="disminuirDesplazamiento()"
@@ -30,7 +36,7 @@
           ><span class="path3"></span><span class="path4"></span
         ></i>
       </button>
-    </div>
+    </div> -->
   </section>
   <section class="botones d-flex gap-2">
     <div

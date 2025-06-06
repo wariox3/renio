@@ -59,7 +59,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            query: 'serializador=lista&documento_tipo_id=26',
+            queryParams: {
+              serializador: 'lista',
+              documento_tipo_id: 26,
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],

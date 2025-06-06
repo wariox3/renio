@@ -16,6 +16,7 @@
     <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (nombreModelo | uppercase)">
       <section card-body>
         <app-comun-tabla
+          [totalItems]="totalItems()"
           [modelo]="_modelo!"
           [_tipo]="_tipo"
           [datos]="arrItems"

@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
@@ -72,6 +66,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public importarConfig: ArchivosImportar | undefined;
   public documentoId: number | undefined;
   public filtroKey = signal<string>('');
+  public totalItems = signal<number>(0);
+  public queryParams: { [key: string]: any } = {};
 
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
@@ -149,6 +145,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
     this.modeloConfig = modeloConfig;
+    this.queryParams = this.modeloConfig?.ajustes.queryParams || {};
     this._key = modeloConfig?.key;
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
     this.nombreModelo = modeloConfig?.nombreModelo;
@@ -251,16 +248,15 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   consultarLista() {
     this.mostrarVentanaCargando$.next(true);
     this.arrItems = [];
-    const query = this.modeloConfig?.ajustes.query;
-    const endpoint = `${this._endpoint!}/?${query}`;
 
-    if (query) {
+    if (this.queryParams) {
       this._generalService
-        .consultaApi(endpoint)
+        .consultaApi(`${this._endpoint!}/`, this.queryParams)
         .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
         .subscribe((respuesta) => {
           this.cantidad_registros = respuesta.count;
           this.arrItems = respuesta.results;
+          this.totalItems.set(respuesta.count);
           this.changeDetectorRef.detectChanges();
         });
     } else {
@@ -270,10 +266,10 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         .subscribe((respuesta: any) => {
           this.cantidad_registros = respuesta.cantidad_registros;
           this.arrItems = respuesta.registros;
+          this.totalItems.set(respuesta.cantidad_registros);
           this.changeDetectorRef.detectChanges();
         });
     }
-
   }
 
   construirBotonesExtras(modeloConfig: ModeloConfig | null) {
@@ -325,10 +321,18 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.changeDetectorRef.detectChanges();
-    this.consultarLista();
+    this._generalService
+      .consultaApi(`${this._endpoint!}/`, {
+        ...this.queryParams,
+        page: data.desplazamiento,
+      })
+      .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   cambiarDesplazamiento(desplazamiento: number) {
