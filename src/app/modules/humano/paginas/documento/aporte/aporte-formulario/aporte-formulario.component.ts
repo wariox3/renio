@@ -22,6 +22,7 @@ import { GeneralService } from '@comun/services/general.service';
 import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Configuracion } from '@modulos/humano/interfaces/aporte';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-aporte-formulario',
@@ -165,9 +166,9 @@ export default class AporteFormularioComponent
 
   consultarInformacion() {
     zip(
-      this.httpService.get<AutocompletarRegistros<any>>('humano/sucursal/'),
+      this.httpService.get<RespuestaApi<any>>('humano/sucursal/'),
     ).subscribe((respuesta: any) => {
-      this.arrSucursales = respuesta[0];
+      this.arrSucursales = respuesta[0].results;
       this.changeDetectorRef.detectChanges();
     });
   }
