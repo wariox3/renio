@@ -41,10 +41,8 @@ export class PaginadorComponent implements OnChanges {
       return;
     }
 
-    if (parsedPage !== this.currentPage) {
-      this.currentPage = parsedPage;
-      this.pageChange.emit(this.currentPage);
-    }
+    this.currentPage = parsedPage;
+    this.pageChange.emit(this.currentPage);
   }
 
   prevPage(): void {
