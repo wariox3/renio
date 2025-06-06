@@ -6,7 +6,7 @@ const DocEditar = 'general/documento/editar';
 const DocDetalle = 'general/documento/detalle';
 
 export const GENERAL_CONFIGURACION: ModuloConfig = {
-  nombreModulo: 'general',
+  nombreModulo: 'inicio',
   funcionalidades: [
     {
       nombreFuncionalidad: 'documento',

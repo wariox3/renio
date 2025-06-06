@@ -6,6 +6,7 @@ export interface Resumen {
 export interface RespuestaResumen {
   resumen: Resumen
   vencido: Vencido
+  vigente: Vencido
 }
 
 export interface Vencido {
