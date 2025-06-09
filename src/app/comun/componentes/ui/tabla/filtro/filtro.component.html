@@ -1,7 +1,7 @@
 <div class="filter-container mb-3">
     <div *ngFor="let condition of filterConditions; let i = index" class="filter-row mb-2 row g-2 align-items-center">
       <div class="col-md-4">
-        <select class="form-select" [(ngModel)]="condition.field" (change)="onFieldChange(condition, i)">
+        <select class="form-select form-select-sm" [(ngModel)]="condition.field" (change)="onFieldChange(condition, i)">
           <option value="">Seleccionar campo</option>
           <option *ngFor="let field of availableFields" [value]="field.name">
             {{ field.displayName }}
@@ -10,7 +10,7 @@
       </div>
       
       <div class="col-md-3">
-        <select class="form-select" [(ngModel)]="condition.operator" [disabled]="!condition.field">
+        <select class="form-select form-select-sm" [(ngModel)]="condition.operator" [disabled]="!condition.field">
           <option value="">Seleccionar operador</option>
           <option *ngFor="let op of getOperatorsForField(condition.field)" [value]="op.symbol">
             {{ op.name }}
@@ -20,7 +20,7 @@
       
       <div class="col-md-3">
         <ng-container [ngSwitch]="getInputType(condition.field)">
-          <select #valueInputElement *ngSwitchCase="'boolean'" class="form-select" [(ngModel)]="condition.value" [disabled]="!condition.operator" (keydown.enter)="handleEnterKey()">
+          <select #valueInputElement *ngSwitchCase="'boolean'" class="form-select form-select-sm" [(ngModel)]="condition.value" [disabled]="!condition.operator" (keydown.enter)="handleEnterKey()">
             <option [ngValue]="true">Sí</option>
             <option [ngValue]="false">No</option>
           </select>
@@ -28,7 +28,7 @@
             #valueInputElement
             *ngSwitchDefault
             type="{{ getInputType(condition.field) }}" 
-            class="form-control" 
+            class="form-control form-control-sm" 
             [(ngModel)]="condition.value" 
             [disabled]="!condition.operator"
             [placeholder]="getPlaceholder(condition.field)"
@@ -37,21 +37,21 @@
       </div>
       
       <div class="col-md-2 d-flex">
-        <button class="btn btn-outline-danger me-1" (click)="removeFilterCondition(i)" [disabled]="filterConditions.length <= 1">
+        <button class="btn btn-outline-danger me-1 btn-sm" (click)="removeFilterCondition(i)" [disabled]="filterConditions.length <= 1">
           <i class="bi bi-dash-lg"></i>
         </button>
-        <button class="btn btn-outline-success" (click)="addFilterCondition()">
-          <i class="bi bi-plus-lg"></i>
+        <button class="btn btn-outline-primary btn-sm" (click)="addFilterCondition()">
+          <i class="bi bi-plus-lg" ></i>
         </button>
       </div>
     </div>
   
     <!-- Botón para aplicar filtros -->
     <div class="text-end mt-3">
-      <button class="btn btn-secondary me-2" (click)="clearAllFilters()">
+      <button class="btn btn-secondary me-2 btn-sm" (click)="clearAllFilters()">
         Limpiar
       </button>
-      <button class="btn btn-primary" (click)="applyFilters()">
+      <button class="btn btn-primary btn-sm" (click)="applyFilters()">
         Aplicar filtros
       </button>
     </div>
