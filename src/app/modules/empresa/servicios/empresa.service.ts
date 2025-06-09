@@ -3,6 +3,7 @@ import { HttpService } from '@comun/services/http.service';
 import { Concepto } from '@modulos/contenedor/interfaces/concepto.interface';
 import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
 import { ConfiguracionEmpresa } from '@modulos/empresa/interfaces/empresa-configuracion.interface';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -70,11 +71,11 @@ export class EmpresaService {
   }
 
   obtenerDocumentoTipo() {
-    return this.httpService.get<DocumentoTipo>(`general/documento_tipo/`);
+    return this.httpService.getDetalle<RespuestaApi<DocumentoTipo>>(`general/documento_tipo/`);
   }
 
   obtenerConceptosNomina() {
-    return this.httpService.get<any>(`humano/concepto_nomina/`);
+    return this.httpService.getDetalle<RespuestaApi<any>>(`humano/concepto_nomina/`);
   }
 
   obtenerConceptos() {
