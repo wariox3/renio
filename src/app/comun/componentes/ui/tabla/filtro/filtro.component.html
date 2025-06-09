@@ -20,7 +20,7 @@
       
       <div class="col-md-3">
         <ng-container [ngSwitch]="getInputType(condition.field)">
-          <select #valueInputElement *ngSwitchCase="'boolean'" class="form-select" [(ngModel)]="condition.value" [disabled]="!condition.operator">
+          <select #valueInputElement *ngSwitchCase="'boolean'" class="form-select" [(ngModel)]="condition.value" [disabled]="!condition.operator" (keydown.enter)="handleEnterKey()">
             <option [ngValue]="true">Sí</option>
             <option [ngValue]="false">No</option>
           </select>
@@ -31,7 +31,8 @@
             class="form-control" 
             [(ngModel)]="condition.value" 
             [disabled]="!condition.operator"
-            [placeholder]="getPlaceholder(condition.field)">
+            [placeholder]="getPlaceholder(condition.field)"
+            (keydown.enter)="handleEnterKey()">
         </ng-container>
       </div>
       
@@ -48,7 +49,7 @@
     <!-- Botón para aplicar filtros -->
     <div class="text-end mt-3">
       <button class="btn btn-secondary me-2" (click)="clearAllFilters()">
-        Limpiar filtros
+        Limpiar
       </button>
       <button class="btn btn-primary" (click)="applyFilters()">
         Aplicar filtros

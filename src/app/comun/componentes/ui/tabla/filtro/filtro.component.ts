@@ -72,6 +72,18 @@ export class FiltroComponent implements OnInit {
     });
   }
 
+  handleEnterKey(): void {
+    // Check if there's at least one filter condition with a field, operator, and value
+    // This prevents applying filters if the user just hits enter on an empty row or incomplete filter
+    const canApply = this.filterConditions.some(
+      (fc) => fc.field && fc.operator && fc.value !== undefined && fc.value !== ''
+    );
+    
+    if (canApply) {
+      this.applyFilters();
+    }
+  }
+
   applyFilters(): void {
     const validFilters = this.filterConditions.filter(
       (condition) =>
