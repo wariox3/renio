@@ -94,12 +94,12 @@ export class ContenedorFormularioComponent extends General implements OnInit {
     zip(
       this.contenedorService.listaPlanes(),
       this.store.select(obtenerUsuarioCorreo)
-    ).subscribe((respuesta: any) => {
-      this.arrPlanes = respuesta[0];
+    ).subscribe((respuesta) => {
+      this.arrPlanes = respuesta[0].results;
       this.cambiarTipoPlanes('E');
       let posicion: keyof typeof this.contenedorService.informacionPlan = 3;
       this.informacionPlan = this.contenedorService.informacionPlan[posicion];
-      this.formularioContenedor.get('correo')?.setValue(respuesta[2]);
+      this.formularioContenedor.get('correo')?.setValue(respuesta[1]);
       this.changeDetectorRef.detectChanges();
     });
   }
