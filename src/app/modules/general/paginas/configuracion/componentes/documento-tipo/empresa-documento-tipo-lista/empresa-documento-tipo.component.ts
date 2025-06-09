@@ -45,7 +45,7 @@ export class DocumentoDocumentoTipoComponent
 
   consultarInformacion() {
     this.empresaService.obtenerDocumentoTipo().subscribe((respuesta) => {
-      this.arrDocumentosTipos = respuesta;
+      this.arrDocumentosTipos = respuesta.results;
       this.changeDetectorRef.detectChanges();
     });
   }
