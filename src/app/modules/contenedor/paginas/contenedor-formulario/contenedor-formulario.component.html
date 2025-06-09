@@ -18,7 +18,7 @@
         }"
         (keyup)="modificarCampoFormulario('subdominio', $event)"
       />
-      <small
+      <!-- <small
         id="emailHelp"
         class="form-text text-muted"
         *ngIf="nombreEmpresa !== ''"
@@ -37,7 +37,7 @@
           title="Editar"
           ><i class="bi bi-pencil fs-4 me-2"></i
         ></a>
-      </small>
+      </small> -->
       <ng-container
         [ngTemplateOutlet]="formError"
         [ngTemplateOutletContext]="{
