@@ -16,6 +16,7 @@ import {
 } from '@interfaces/usuario/contenedor';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -116,7 +117,7 @@ export class ContenedorService extends Subdominio {
   }
 
   listaPlanes() {
-    return this.http.get<Plan[]>(`${this.URL_API_BASE}/contenedor/plan/`);
+    return this.http.get<RespuestaApi<Plan>>(`${this.URL_API_BASE}/contenedor/plan/`);
   }
 
   listaCiudades(arrFiltros: any) {

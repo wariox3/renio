@@ -128,7 +128,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
           return this.contenedorService.listaPlanes();
         }),
         tap((respuestaPlanes) => {
-          this.arrPlanes = respuestaPlanes;
+          this.arrPlanes = respuestaPlanes.results;
           this.cambiarTipoPlanes('F');
           this.seleccionarTabDependiendoPlan();
           this.changeDetectorRef.detectChanges();
