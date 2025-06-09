@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChildren } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, QueryList, SimpleChanges, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   FilterCondition,
@@ -15,7 +15,7 @@ import { OPERADORES_FILTRO } from 'src/app/core/constants/filter/operadores-filt
   templateUrl: './filtro.component.html',
   styleUrl: './filtro.component.scss',
 })
-export class FiltroComponent implements OnInit {
+export class FiltroComponent implements OnInit, OnChanges {
   @ViewChildren('valueInputElement') valueInputElements!: QueryList<ElementRef>;
   @Input() availableFields: FilterField[] = [];
   @Output() filtersApply = new EventEmitter<FilterCondition[]>();
@@ -23,6 +23,15 @@ export class FiltroComponent implements OnInit {
 
   filterConditions: FilterCondition[] = []; // Initialize as empty, will be populated in ngOnInit
   operators: Operator[] = OPERADORES_FILTRO;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['localStorageKey'] && !changes['localStorageKey'].firstChange) {
+      // Check if the key actually changed to a new value
+      if (changes['localStorageKey'].currentValue !== changes['localStorageKey'].previousValue) {
+        this._loadFiltersFromLocalStorage();
+      }
+    }
+  }
 
   ngOnInit(): void {
     this._loadFiltersFromLocalStorage();
@@ -84,15 +93,18 @@ export class FiltroComponent implements OnInit {
     }
   }
 
-  applyFilters(): void {
-    const validFilters = this.filterConditions.filter(
+  private _getValidFilters(): FilterCondition[] {
+    return this.filterConditions.filter(
       (condition) =>
         condition.field &&
         condition.operator &&
         condition.value !== undefined &&
-        condition.value !== '',
+        condition.value !== ''
     );
+  }
 
+  applyFilters(): void {
+    const validFilters = this._getValidFilters();
     this.filtersApply.emit(validFilters);
     this._saveFiltersToLocalStorage(); // Save current filterConditions state when applying
   }

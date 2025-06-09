@@ -2,7 +2,6 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-dinamico.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
@@ -34,10 +33,11 @@ import {
   takeUntil,
 } from 'rxjs';
 import {
-  FiltroComponent,
-} from '../../ui/tabla/filtro/filtro.component';
+  FilterCondition,
+  FilterField,
+} from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
-import { FilterCondition, FilterField } from 'src/app/core/interfaces/filtro.interface';
+import { FiltroComponent } from '../../ui/tabla/filtro/filtro.component';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -74,6 +74,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public filtroKey = signal<string>('');
   public totalItems = signal<number>(0);
   public queryParams: { [key: string]: any } = {};
+  public queryParamsStorage: { [key: string]: any } = {};
   public availableFields: FilterField[] = [];
 
   arrParametrosConsulta: ParametrosFiltros = {
@@ -123,7 +124,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.alertaService.cerrarMensajes();
     this.modalDinamicoService.event$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((respuesta) => {
+      .subscribe(() => {
         this.consultaListaModal();
       });
 
@@ -140,22 +141,19 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe((value) => {
         this._loadModuleConfiguration(value);
-        this._construirFiltroKey();
-        this._reiniciarParametrosConsulta();
         this._configurarTabla(value);
-        this._configurarParametrosConsulta(value);
+        this._configurarParametrosConsulta();
         this.consultarLista();
       });
   }
-
-  private _construirFiltroKey() {}
 
   private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
     this.modeloConfig = modeloConfig;
     this.queryParams = this.modeloConfig?.ajustes.queryParams || {};
     this._key = modeloConfig?.key;
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
-    this.availableFields = modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.ui || [];
+    this.availableFields =
+      modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.ui || [];
     this.nombreModelo = modeloConfig?.nombreModelo;
     this._rutas = modeloConfig?.ajustes.rutas;
     this._modulo = this._configModuleService.modulo();
@@ -169,61 +167,20 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     );
   }
 
-  private _reiniciarParametrosConsulta() {
-    this.arrParametrosConsulta = {
-      filtros: [],
-      modelo: 'GenDocumento',
-      limite: 50,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-    };
-  }
 
-  private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
-    const httpConfig = modeloConfig?.ajustes.parametrosHttpConfig;
+  private _configurarParametrosConsulta() {
     const filtrosLocalStorage = this._getFiltrosLocalstorage();
 
-    if (httpConfig?.ordenamientos) {
-      this.arrParametrosConsulta.ordenamientos.push(
-        ...httpConfig?.ordenamientos,
-      );
-    }
-
-    if (this._modelo) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        modelo: this._modelo,
-      };
-    }
-
-    if (httpConfig?.filtros?.lista?.length) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        filtros: httpConfig?.filtros?.lista,
-      };
-      this.filtrosDocumento = httpConfig?.filtros?.lista || [];
-    }
-
-    if (httpConfig?.serializador) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        serializador: httpConfig?.serializador,
-      };
-    }
-
     if (filtrosLocalStorage.length) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        filtros: [
-          ...this.arrParametrosConsulta.filtros,
-          ...filtrosLocalStorage,
-        ],
-      };
+      const apiParams =
+        this._filterTransformerService.transformToApiParams(
+          filtrosLocalStorage,
+        );
+      this.queryParamsStorage = apiParams;
     }
   }
 
-  private _getFiltrosLocalstorage(): Filtros[] {
+  private _getFiltrosLocalstorage(): FilterCondition[] {
     const filtroGuardado = localStorage.getItem(this.filtroKey());
 
     if (filtroGuardado) {
@@ -257,27 +214,18 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.mostrarVentanaCargando$.next(true);
     this.arrItems = [];
 
-    if (this.queryParams) {
-      this._generalService
-        .consultaApi(`${this._endpoint!}/`, this.queryParams)
-        .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-        .subscribe((respuesta) => {
-          this.cantidad_registros = respuesta.count;
-          this.arrItems = respuesta.results;
-          this.totalItems.set(respuesta.count);
-          this.changeDetectorRef.detectChanges();
-        });
-    } else {
-      this._generalService
-        .consultarDatosLista(this.arrParametrosConsulta)
-        .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-        .subscribe((respuesta: any) => {
-          this.cantidad_registros = respuesta.cantidad_registros;
-          this.arrItems = respuesta.registros;
-          this.totalItems.set(respuesta.cantidad_registros);
-          this.changeDetectorRef.detectChanges();
-        });
-    }
+    this._generalService
+      .consultaApi(`${this._endpoint!}/`, {
+        ...this.queryParams,
+        ...this.queryParamsStorage,
+      })
+      .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   construirBotonesExtras(modeloConfig: ModeloConfig | null) {
@@ -304,28 +252,14 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     });
   }
 
-  obtenerFiltros(arrfiltros: Filtros[]) {
-    if (arrfiltros.length >= 1) {
-      this.arrParametrosConsulta.filtros = [
-        ...this.filtrosDocumento,
-        ...arrfiltros,
-      ];
-    } else {
-      localStorage.removeItem(this.nombreFiltro);
-      this.arrParametrosConsulta.filtros = [...this.filtrosDocumento];
-    }
-    this.changeDetectorRef.detectChanges();
-    this.consultarLista();
-  }
-
   consultaListaModal() {
     this.modalService.dismissAll();
     this.consultarLista();
   }
 
   cambiarOrdemiento(ordenamiento: string) {
-    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-      this.consultarLista();
+    // (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
+    //   this.consultarLista();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
@@ -341,11 +275,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         this.totalItems.set(respuesta.count);
         this.changeDetectorRef.detectChanges();
       });
-  }
-
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
-    this.consultarLista();
   }
 
   eliminarRegistros(data: Number[]) {
@@ -440,7 +369,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   filterChange(filters: FilterCondition[]) {
     // Transformar los filtros a parámetros de API
-    const apiParams = this._filterTransformerService.transformToApiParams(filters);
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
 
     this._generalService
       .consultaApi(`${this._endpoint!}/`, {
