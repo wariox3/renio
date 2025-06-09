@@ -1,7 +1,7 @@
 <div class="filter-container mb-3">
     <div *ngFor="let condition of filterConditions; let i = index" class="filter-row mb-2 row g-2 align-items-center">
       <div class="col-md-4">
-        <select class="form-select" [(ngModel)]="condition.field" (change)="onFieldChange(condition)">
+        <select class="form-select" [(ngModel)]="condition.field" (change)="onFieldChange(condition, i)">
           <option value="">Seleccionar campo</option>
           <option *ngFor="let field of availableFields" [value]="field.name">
             {{ field.displayName }}
@@ -20,11 +20,12 @@
       
       <div class="col-md-3">
         <ng-container [ngSwitch]="getInputType(condition.field)">
-          <select *ngSwitchCase="'boolean'" class="form-select" [(ngModel)]="condition.value" [disabled]="!condition.operator">
+          <select #valueInputElement *ngSwitchCase="'boolean'" class="form-select" [(ngModel)]="condition.value" [disabled]="!condition.operator">
             <option [ngValue]="true">Sí</option>
             <option [ngValue]="false">No</option>
           </select>
           <input 
+            #valueInputElement
             *ngSwitchDefault
             type="{{ getInputType(condition.field) }}" 
             class="form-control" 

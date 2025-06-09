@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import {
   FilterCondition,
@@ -16,6 +16,7 @@ import { OPERADORES_FILTRO } from 'src/app/core/constants/filter/operadores-filt
   styleUrl: './filtro.component.scss',
 })
 export class FiltroComponent {
+  @ViewChildren('valueInputElement') valueInputElements!: QueryList<ElementRef>;
   @Input() availableFields: FilterField[] = [];
   @Output() filtersApply = new EventEmitter<FilterCondition[]>();
 
@@ -30,25 +31,37 @@ export class FiltroComponent {
     this.filterConditions.splice(index, 1);
   }
 
-  onFieldChange(condition: FilterCondition): void {
+  onFieldChange(condition: FilterCondition, index: number): void {
     condition.value = ''; // Reset value first
     condition.operator = ''; // Reset operator
 
-    if (condition.field) {
-      const selectedField = this.availableFields.find(
-        (field) => field.name === condition.field,
-      );
-      if (selectedField) {
-        const operatorsForField = this.getOperatorsForField(condition.field);
-        const defaultOperator = operatorsForField.find((op) => op.default);
-        if (defaultOperator) {
-          condition.operator = defaultOperator.symbol;
-        } else {
-          // If no default operator, keep it empty or set to the first available if desired
-          condition.operator = '';
-        }
-      }
+    if (!condition.field) {
+      return;
     }
+
+    const selectedField = this.availableFields.find(
+      (field) => field.name === condition.field,
+    );
+
+    if (!selectedField) {
+      return;
+    }
+
+    const operatorsForField = this.getOperatorsForField(condition.field);
+    const defaultOperator = operatorsForField.find((op) => op.default);
+
+    if (defaultOperator) {
+      condition.operator = defaultOperator.symbol;
+    }
+    // If no defaultOperator, condition.operator remains '', which is the desired state.
+
+    // Autofocus the value input/select
+    setTimeout(() => {
+      const inputElement = this.valueInputElements?.toArray()[index];
+      if (inputElement && inputElement.nativeElement) {
+        inputElement.nativeElement.focus();
+      }
+    });
   }
 
   applyFilters(): void {
