@@ -5,12 +5,14 @@ import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autoco
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 import { HttpParams } from '@angular/common/http';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class GeneralService {
   private readonly _httpService = inject(HttpService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
 
   /**
    * Realiza una consulta POST a la API para obtener registros filtrados.

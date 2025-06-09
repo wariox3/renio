@@ -33,6 +33,11 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
+import {
+  FiltroComponent,
+} from '../../ui/tabla/filtro/filtro.component';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FilterCondition, FilterField } from 'src/app/core/interfaces/filtro.interface';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -42,9 +47,9 @@ import {
     RouterModule,
     TranslateModule,
     CardComponent,
-    BaseFiltroComponent,
     TablaComponent,
     ModalDinamicoComponent,
+    FiltroComponent,
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -52,6 +57,7 @@ import {
 export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private readonly _configModuleService = inject(ConfigModuleService);
   private readonly _generalService = inject(GeneralService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
 
   private _modulo: string | null;
   private _rutas: Rutas | undefined;
@@ -68,6 +74,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public filtroKey = signal<string>('');
   public totalItems = signal<number>(0);
   public queryParams: { [key: string]: any } = {};
+  public availableFields: FilterField[] = [];
 
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
@@ -148,6 +155,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.queryParams = this.modeloConfig?.ajustes.queryParams || {};
     this._key = modeloConfig?.key;
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
+    this.availableFields = modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.ui || [];
     this.nombreModelo = modeloConfig?.nombreModelo;
     this._rutas = modeloConfig?.ajustes.rutas;
     this._modulo = this._configModuleService.modulo();
@@ -428,5 +436,23 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         limite: 5000,
       },
     });
+  }
+
+  filterChange(filters: FilterCondition[]) {
+    // Transformar los filtros a parámetros de API
+    const apiParams = this._filterTransformerService.transformToApiParams(filters);
+
+    this._generalService
+      .consultaApi(`${this._endpoint!}/`, {
+        ...this.queryParams,
+        ...apiParams,
+      })
+      .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }

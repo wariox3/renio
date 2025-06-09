@@ -1,4 +1,5 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { PEDIDO_CLIENTE_FILTERS } from '../mapeos/pedido-cliente.mapeo';
 
 const DocLista = 'venta/documento/lista';
 const DocNuevo = 'venta/documento/nuevo';
@@ -73,6 +74,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 106,
                   },
                 ],
+                ui: PEDIDO_CLIENTE_FILTERS
               },
             },
             ui: {
