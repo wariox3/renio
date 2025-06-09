@@ -1,11 +1,8 @@
 <form [formGroup]="formularioPedido" (ngSubmit)="formSubmit()">
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card [animacionEnabled]="false">
-    <section card-titulo appAnimationFadeinUp>
-      <app-comun-titulo-accion
-
-        [nombreModelo]="'pedidocliente'"
-      ></app-comun-titulo-accion>
+    <section card-titulo>
+      {{ "MENU.FUNCIONALIDAD." + 'PEDIDOCLIENTE' | translate  }}
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -91,8 +88,7 @@
         </div>
       </div>
 
-      @if (this.detalle) {
-        <div class="row mb-5" appAnimationFadeinUp>
+        <div class="row mb-5">
           <div class="col-12">
             <ul
               ngbNav
@@ -110,6 +106,7 @@
                 ></a>
                 <ng-template ngbNavContent>
                   <app-formulario-productos
+                    [deshabilitar]="!detalle"
                     [formularioTipo]="'venta'"
                   ></app-formulario-productos>
                 </ng-template>
@@ -118,7 +115,6 @@
             <div [ngbNavOutlet]="nav" class="mt-2"></div>
           </div>
         </div>
-      }
     </section>
   </app-card>
 </form>

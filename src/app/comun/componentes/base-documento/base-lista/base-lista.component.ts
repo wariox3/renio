@@ -167,7 +167,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     );
   }
 
-
   private _configurarParametrosConsulta() {
     const filtrosLocalStorage = this._getFiltrosLocalstorage();
 
@@ -347,14 +346,13 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentos({
-      ...this.arrParametrosConsulta,
-      excel: true,
-      serializador: 'Excel',
-      ...{
-        limite: 5000,
-      },
-    });
+    this.descargarArchivosService.exportarExcel(
+      this._endpoint!,
+      {
+        ...this.queryParamsStorage,
+        ...this.queryParams,
+      }
+    );
   }
 
   descargarZip() {
@@ -371,6 +369,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     // Transformar los filtros a parámetros de API
     const apiParams =
       this._filterTransformerService.transformToApiParams(filters);
+
+    this.queryParamsStorage = apiParams;
 
     this._generalService
       .consultaApi(`${this._endpoint!}/`, {

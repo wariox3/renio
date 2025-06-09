@@ -54,7 +54,7 @@ export class HttpService extends Subdominio {
     const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     this.alertaService.mensajaEspera('Cargando');
     this.http
-      .post<HttpResponse<Blob>>(url, data, {
+      .get<HttpResponse<Blob>>(url, {
         observe: 'response',
         responseType: 'blob' as 'json',
       })

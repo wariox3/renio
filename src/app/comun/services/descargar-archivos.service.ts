@@ -1,9 +1,8 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpService } from './http.service';
-import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
-import { General } from '@comun/clases/general';
+import { Injectable, inject } from '@angular/core';
+import { catchError, of, tap } from 'rxjs';
+import { HttpService } from './http.service';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,41 +10,46 @@ import { General } from '@comun/clases/general';
 export class DescargarArchivosService {
   private httpService = inject(HttpService);
   private httpClient = inject(HttpClient);
+  private _filterTransformerService = inject(FilterTransformerService);
 
   constructor() {}
 
   descargarExcelDocumentos(arrParametrosConsulta: any) {
     this.httpService.descargarArchivo(
       'general/funcionalidad/lista/',
-      arrParametrosConsulta
+      arrParametrosConsulta,
     );
   }
 
   descargarExcel(arrParametrosConsulta: any, url: string) {
-    this.httpService.descargarArchivo(
-      url,
-      arrParametrosConsulta
-    );
+    this.httpService.descargarArchivo(url, arrParametrosConsulta);
+  }
+
+  exportarExcel(endpoint: string, queries: { [key: string]: any }) {
+    const query = this._filterTransformerService.toQueryString({
+      ...queries,
+    });
+    this.httpService.descargarArchivo(`${endpoint}/?excel=1&${query}`, {});
   }
 
   descargarZipDocumentos(arrParametrosConsulta: any) {
     this.httpService.descargarArchivo(
       'general/funcionalidad/lista/',
-      arrParametrosConsulta
+      arrParametrosConsulta,
     );
   }
 
   descargarExcelAdminsitrador(modelo: string, arrParametrosConsulta: any) {
     this.httpService.descargarArchivo(
       `general/funcionalidad/lista/`,
-      arrParametrosConsulta
+      arrParametrosConsulta,
     );
   }
 
   descargarExcelDocumentoDetalle(arrParametrosConsulta: any) {
     this.httpService.descargarArchivo(
       'general/documento_detalle/excel/',
-      arrParametrosConsulta
+      arrParametrosConsulta,
     );
   }
 
@@ -54,17 +58,20 @@ export class DescargarArchivosService {
       catchError((err) => {
         // Si hay un error, retorna false
         return of(false);
-      })
+      }),
     );
   }
 
-  descargarArchivoLocal(fileUrl: string, descargarConNombrePersonalizado?: string) {
+  descargarArchivoLocal(
+    fileUrl: string,
+    descargarConNombrePersonalizado?: string,
+  ) {
     return this.comprobarArchivoExiste(fileUrl).pipe(
       tap((archivoExiste) => {
         let nombreArchivo: string[] | string = fileUrl.split('/');
-        nombreArchivo = nombreArchivo[nombreArchivo.length - 1]
-        if(descargarConNombrePersonalizado !== undefined){
-          nombreArchivo = descargarConNombrePersonalizado
+        nombreArchivo = nombreArchivo[nombreArchivo.length - 1];
+        if (descargarConNombrePersonalizado !== undefined) {
+          nombreArchivo = descargarConNombrePersonalizado;
         }
         // Accedemos a los parámetros aquí
         if (archivoExiste) {
@@ -79,14 +86,14 @@ export class DescargarArchivosService {
           document.body.removeChild(link);
           return true;
         }
-      })
+      }),
     );
   }
 
   _construirNombreArchivo(
     parametro: any,
     ubicacion: string,
-    detalle: string | undefined
+    detalle: string | undefined,
   ) {
     let nombreArchivo = '';
 
