@@ -102,8 +102,8 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
   }
 
   consultarConceptoNomina() {
-    this.empresaService.obtenerConceptosNomina().subscribe((respuesta: any) => {
-      this.arrConceptosNomina = respuesta;
+    this.empresaService.obtenerConceptosNomina().subscribe((respuesta) => {
+      this.arrConceptosNomina = respuesta.results;
       this.changeDetectorRef.detectChanges();
     });
   }
