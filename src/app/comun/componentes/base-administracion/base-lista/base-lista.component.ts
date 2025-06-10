@@ -237,18 +237,12 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   descargarExcel() {
-    this.activatedRoute.queryParams
-      .subscribe((parametro) => {
-        let modelo = parametro.itemTipo!;
-        this.descargarArchivosService.descargarExcelAdminsitrador(modelo, {
-          ...this.arrParametrosConsulta,
-          excel: true,
-          ...{
-            limite: 5000,
-          },
-        });
-      })
-      .unsubscribe();
+    this.descargarArchivosService.exportarExcel(
+      this._endpoint!,
+      {
+        ...this.queryParams,
+      }
+    );
   }
 
    filterChange(filters: FilterCondition[]) {

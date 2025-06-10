@@ -29,7 +29,10 @@ export class DescargarArchivosService {
     const query = this._filterTransformerService.toQueryString({
       ...queries,
     });
-    this.httpService.descargarArchivo(`${endpoint}/?excel=1&${query}`, {});
+    this.httpService.descargarArchivo(
+      `${endpoint}/?excel=1${query ? `&${query}` : ''}`,
+      {},
+    );
   }
 
   descargarZipDocumentos(arrParametrosConsulta: any) {

@@ -64,6 +64,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               serializador: 'lista',
               documento_tipo_id: 26,
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
