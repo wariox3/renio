@@ -4,12 +4,6 @@
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
       <section card-body>
         <app-filtro (filtersApply)="filterChange($event)" [availableFields]="availableFields" [localStorageKey]="filtroKey()"></app-filtro>
-        <!-- <app-base-filtro
-          (emitirFiltros)="obtenerFiltros($event)"
-          [_tipo]="_tipo"
-          [persistirFiltros]="true"
-          [localstorageKey]="filtroKey()"
-        ></app-base-filtro> -->
       </section>
     </app-card>
   </div>

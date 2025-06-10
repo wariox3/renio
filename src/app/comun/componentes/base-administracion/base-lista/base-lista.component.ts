@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -12,7 +12,6 @@ import { ConfigModuleService } from '@comun/services/application/config-modulo.s
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { UrlService } from '@comun/services/infrastructure/url.service';
 import { Modelo } from '@comun/type/modelo.type';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
@@ -22,6 +21,9 @@ import {
 } from '@interfaces/menu/configuracion.interface';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
+import { FilterCondition, FilterField } from 'src/app/core/interfaces/filtro.interface';
+import { FiltroComponent } from "../../ui/tabla/filtro/filtro.component";
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
@@ -31,15 +33,16 @@ import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
     RouterModule,
     TranslateModule,
     CardComponent,
-    BaseFiltroComponent,
     TablaComponent,
-  ],
+    FiltroComponent
+],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
 })
 export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private readonly _configModule = inject(ConfigModuleService);
   private readonly _generalService = inject(GeneralService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
 
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
@@ -68,8 +71,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   cargando$: BehaviorSubject<boolean> = new BehaviorSubject(false);
   moduloConfiguracion: ModeloConfig | undefined;
 
-  private _filtrosModuloPermanentes: Filtros[] = [];
-  private _urlService = inject(UrlService);
   public _modelo: Modelo | undefined;
   private _modulo: string | null;
   private _destroy$ = new Subject<void>();
@@ -78,6 +79,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public _endpoint: string | undefined;
   public nombreModelo: string | undefined;
   public importarConfig: ArchivosImportar | undefined;
+  public availableFields: FilterField[] = [];
+  public queryParams: { [key: string]: any } = {};
+  public totalItems = signal<number>(0);
 
   constructor(
     private httpService: HttpService,
@@ -105,7 +109,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         this._loadModuleConfiguration(value);
         this._reiniciarParametrosConsulta();
         this._configurarTabla(value);
-        this._configurarParametrosConsulta(value);
         this.consultarLista();
       });
   }
@@ -113,7 +116,10 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
     this.modeloCofig = modeloConfig;
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
+    this.availableFields =
+      modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.ui || [];
     this.nombreModelo = modeloConfig?.nombreModelo;
+    this.queryParams = modeloConfig?.ajustes.queryParams || {};
     this._modulo = this._configModule.modulo();
     this._endpoint = modeloConfig?.ajustes.endpoint;
     this.importarConfig = modeloConfig?.ajustes.archivos?.importar;
@@ -145,59 +151,20 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     };
   }
 
-  private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
-    const parametrosConfig = modeloConfig?.ajustes.parametrosHttpConfig;
-
-    if (parametrosConfig?.ordenamientos?.length) {
-      this.arrParametrosConsulta.ordenamientos.push(
-        ...parametrosConfig?.ordenamientos,
-      );
-    }
-
-    if (this._modelo) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        modelo: this._modelo,
-      };
-    }
-
-    if (parametrosConfig?.filtros?.lista) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        filtros: [
-          ...this.arrParametrosConsulta.filtros,
-          ...parametrosConfig.filtros.lista,
-        ],
-      };
-      this.filtrosDocumento = parametrosConfig?.filtros?.lista || [];
-    }
-  }
-
   consultarLista() {
     this.cargando$.next(true);
     this.arrItems = [];
     this._generalService
-      .consultarDatosLista(this.arrParametrosConsulta)
+      .consultaApi(`${this._endpoint}/`, {
+        ...this.queryParams,
+      })
       .pipe(finalize(() => this.cargando$.next(false)))
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrItems = respuesta.registros;
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
         this.changeDetectorRef.detectChanges();
       });
-  }
-
-  obtenerFiltros(arrfiltros: Filtros[]) {
-    if (arrfiltros.length >= 1) {
-      this.arrParametrosConsulta.filtros = [
-        ...this.filtrosDocumento,
-        ...arrfiltros,
-      ];
-    } else {
-      this.arrParametrosConsulta.filtros = [...this.filtrosDocumento];
-    }
-
-    this.changeDetectorRef.detectChanges();
-    this.consultarLista();
   }
 
   cambiarOrdemiento(ordenamiento: string) {
@@ -283,4 +250,21 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       })
       .unsubscribe();
   }
+
+   filterChange(filters: FilterCondition[]) {
+      const apiParams =
+        this._filterTransformerService.transformToApiParams(filters);
+    
+      this._generalService
+        .consultaApi(`${this._endpoint!}/`, {
+          ...this.queryParams,
+          ...apiParams,
+        })
+        .subscribe((respuesta) => {
+          this.cantidad_registros = respuesta.count;
+          this.arrItems = respuesta.results;
+          this.totalItems.set(respuesta.count);
+          this.changeDetectorRef.detectChanges();
+        });
+    }
 }
