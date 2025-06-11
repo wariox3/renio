@@ -4,39 +4,8 @@
       [currentPage]="currentPage()"
       [totalPages]="totalPages()"
       (pageChange)="onPageChange($event)"
-      [totalItems]="totalItems"
+      [totalItems]="totalItems || cantidad_registros"
     ></app-paginador>
-    <!-- <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3">
-      <button
-        class="btn btn-sm btn-icon btn-secondary"
-        (click)="disminuirDesplazamiento()"
-        [disabled]="deshabilitarBotonIzquierda()"
-      >
-        <i class="bi bi-arrow-left fs-3 cursor-pointer fs-1 text-gray-900"
-          ><span class="path1"></span><span class="path2"></span
-          ><span class="path3"></span><span class="path4"></span
-        ></i>
-      </button>
-
-      <input
-        type="text"
-        class="form-control form-control-sm w-100px"
-        [value]="lado + 1 + '-' + al"
-        (keyup.enter)="calcularValorMostrar($event)"
-      />
-      <span>de</span>
-      <span>{{ cantidad_registros }}</span>
-      <button
-        class="btn btn-sm btn-icon btn-secondary"
-        (click)="aumentarDesplazamiento()"
-        [disabled]="deshabilitarBotonDerecha()"
-      >
-        <i class="bi bi-arrow-right fs-3 cursor-pointer fs-1 text-gray-900"
-          ><span class="path1"></span><span class="path2"></span
-          ><span class="path3"></span><span class="path4"></span
-        ></i>
-      </button>
-    </div> -->
   </section>
   <section class="botones d-flex gap-2">
     <div
