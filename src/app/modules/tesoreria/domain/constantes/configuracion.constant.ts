@@ -28,17 +28,14 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              documento_tipo_id: 8,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 400,
-                  },
-                  
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -65,16 +62,14 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              documento_tipo_id: 19,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 301,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },

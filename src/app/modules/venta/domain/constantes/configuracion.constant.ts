@@ -29,16 +29,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              serializador: 'lista',
+              documento_tipo_id: 16,
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 103,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -57,7 +55,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           nombreModelo: 'PEDIDOCLIENTE',
           ajustes: {
             rutas: {
-              lista: DocLista,
+              lista:  DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
               detalle: DocDetalle,
@@ -70,7 +68,6 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
                 lista: [
                   {
@@ -106,18 +103,13 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'general/documento',
             queryParams: {
+              documento_tipo_id: 1,
+              serializador: 'lista',
               ordering: 'estado_aprobado,-fecha,-numero,-id'
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 100,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -145,16 +137,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 24,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 105,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -182,16 +172,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 2,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 101,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -218,16 +206,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 3,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 102,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -254,16 +240,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 4,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 200,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -290,16 +274,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 17,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 104,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },

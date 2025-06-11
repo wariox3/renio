@@ -31,16 +31,14 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 1,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 100,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -67,16 +65,14 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              documento_tipo_id: 4,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 200,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -103,19 +99,17 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              documento_tipo_id: 5,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             configuracionesDocumento: {
               operacion: 1,
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 300,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
@@ -142,16 +136,14 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              documento_tipo_id: 8,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 400,
-                  },
-                ],
                 ui: DOCUMENTO_FILTERS
               },
             },
