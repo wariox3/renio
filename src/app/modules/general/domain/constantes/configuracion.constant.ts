@@ -2,6 +2,7 @@ import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { ITEM_FILTERS } from '../mapeos/item.mapeo';
 import { CONTACTO_FILTERS } from '../mapeos/contacto.mapeo';
 import { SEDE_FILTERS } from '../mapeos/sede.mapeo';
+import { CUENTA_BANCO_FILTERS } from '../mapeos/cuenta-banco.mapeo';
 
 const DocLista = 'general/documento/lista';
 const DocNuevo = 'general/documento/nuevo';
@@ -223,9 +224,15 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               detalle: 'general/administracion/detalle',
             },
             endpoint: 'general/cuenta_banco',
+            queryParams:{
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenCuentaBanco',
               ordenamientos: ['id'],
+              filtros: {
+                ui: CUENTA_BANCO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
