@@ -1,6 +1,7 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { ITEM_FILTERS } from '../mapeos/item.mapeo';
 import { CONTACTO_FILTERS } from '../mapeos/contacto.mapeo';
+import { SEDE_FILTERS } from '../mapeos/sede.mapeo';
 
 const DocLista = 'general/documento/lista';
 const DocNuevo = 'general/documento/nuevo';
@@ -164,6 +165,9 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               nuevo: 'general/administracion/nuevo',
             },
             endpoint: 'general/item',
+            queryParams:{
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenItem',
               ordenamientos: ['-id'],
@@ -198,6 +202,9 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/sede',
             parametrosHttpConfig: {
               modelo: 'GenSede',
+              filtros: {
+                ui: SEDE_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
