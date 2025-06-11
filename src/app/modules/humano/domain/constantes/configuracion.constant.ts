@@ -1,4 +1,5 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'humano/documento/lista';
 const DocNuevo = 'humano/documento/nuevo';
@@ -81,16 +82,15 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              serializador: 'lista_nomina',
+              documento_tipo__documento_clase_id: 701,
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 701,
-                  },
-                ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -114,17 +114,15 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              serializador: 'lista_nomina',
+              documento_tipo_id: 15,
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              serializador: 'Nomina',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 702,
-                  },
-                ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -149,16 +147,15 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              serializador: 'lista_nomina',
+              documento_tipo_id: 22,
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 703,
-                  },
-                ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {

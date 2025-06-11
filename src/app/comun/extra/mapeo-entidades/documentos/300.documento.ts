@@ -23,7 +23,8 @@ export const documento300: MapeoDocumento[] = [
     ordenable: true,
   },
   {
-    nombre: 'CONTACTO_NOMBRE_CORTO',
+    nombre: 'CONTACTO__NOMBRE_CORTO',
+    nombreAbreviado: 'CONTACTO_NOMBRE_CORTO',
     nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
     nombreFiltroRelacion: 'contacto__nombre_corto',
     campoTipo: 'CharField',

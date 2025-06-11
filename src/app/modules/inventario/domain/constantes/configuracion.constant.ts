@@ -1,4 +1,5 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
+import { DOCUMENTO_FILTERS } from "src/app/core/constants/mapeo/documento.mapeo";
 
 const DocLista = 'inventario/documento/lista';
 const DocNuevo = 'inventario/documento/nuevo';
@@ -26,16 +27,15 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              documento_tipo_id: 9,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 500,
-                  },
-                ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -61,16 +61,15 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams:{
+              documento_tipo_id: 10,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'documento_tipo__documento_clase_id',
-                    valor1: 501,
-                  },
-                ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
