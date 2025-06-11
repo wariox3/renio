@@ -103,6 +103,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
+            queryParams: {
+              ordering: 'estado_aprobado,-fecha,-numero,-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
