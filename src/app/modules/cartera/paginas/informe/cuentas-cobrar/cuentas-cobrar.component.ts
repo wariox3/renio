@@ -32,6 +32,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
   queryParams: { [key: string]: any } = {
     serializador: 'informe',
     documento_tipo__cobrar: true,
+    estado_aprobado: true,
     pendiente__gt: 0,
   };
   filtrosDisponibles = CUENTAS_COBRAR_FILTERS;
@@ -95,6 +96,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
   descargarExcel() {
     this.descargarArchivosService.exportarExcel('general/documento', {
       ...this.queryParams,
+      ...this.filtros,
     });
   }
 }

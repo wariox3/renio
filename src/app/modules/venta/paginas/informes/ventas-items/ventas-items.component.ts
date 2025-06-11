@@ -94,6 +94,7 @@ export class VentasItemsComponent extends General implements OnInit {
   descargarExcel() {
     this.descargarArchivosService.exportarExcel('general/documento_detalle', {
       ...this.queryParams,
+      ...this.filtros,
     });
   }
 }

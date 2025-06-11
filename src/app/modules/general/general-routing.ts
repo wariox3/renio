@@ -110,6 +110,14 @@ export const routes: Route[] = [
             '../cartera/paginas/informe/cuentas-cobrar/cuentas-cobrar.component'
           ).then((c) => c.CuentasCobrarComponent),
       },
+      {
+        path: 'cuentas_pagar',
+        data: { breadcrumb: 'cuentaspagar' },
+        loadComponent: () =>
+          import(
+            '../tesoreria/paginas/informe/cuentas-pagar/cuentas-pagar.component'
+          ).then((c) => c.CuentasPagarComponent),
+      },
     ],
   },
   { path: '', redirectTo: 'lista', pathMatch: 'full' },
