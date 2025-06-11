@@ -1,6 +1,7 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { PEDIDO_CLIENTE_FILTERS } from '../mapeos/pedido-cliente.mapeo';
 import { CONTACTO_FILTERS } from '../../../general/domain/mapeos/contacto.mapeo';
+import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'venta/documento/lista';
 const DocNuevo = 'venta/documento/nuevo';
@@ -38,6 +39,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 103,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
