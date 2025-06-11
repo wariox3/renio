@@ -1,4 +1,6 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { ITEM_FILTERS } from '../mapeos/item.mapeo';
+import { CONTACTO_FILTERS } from '../mapeos/contacto.mapeo';
 
 const DocLista = 'general/documento/lista';
 const DocNuevo = 'general/documento/nuevo';
@@ -134,6 +136,9 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                ui: CONTACTO_FILTERS
+              }
             },
             archivos: {
               importar: {
@@ -162,6 +167,9 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenItem',
               ordenamientos: ['-id'],
+              filtros: {
+                ui: ITEM_FILTERS
+              }
             },
             archivos: {
               importar: {
