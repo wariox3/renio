@@ -1,4 +1,6 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { PEDIDO_CLIENTE_FILTERS } from '../mapeos/pedido-cliente.mapeo';
+import { CONTACTO_FILTERS } from '../../../general/domain/mapeos/contacto.mapeo';
 
 const DocLista = 'venta/documento/lista';
 const DocNuevo = 'venta/documento/nuevo';
@@ -36,6 +38,45 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 103,
                   },
                 ],
+              },
+            },
+            ui: {
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
+              verBotonGenerar: true,
+            },
+          },
+        },
+        {
+          key: 106,
+          nombreModelo: 'PEDIDOCLIENTE',
+          ajustes: {
+            rutas: {
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
+            },
+            endpoint: 'general/documento',
+            queryParams: {
+              serializador: 'lista',
+              documento_tipo_id: 26,
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
+            },
+            parametrosHttpConfig: {
+              modelo: 'GenDocumento',
+              ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
+              filtros: {
+                lista: [
+                  {
+                    propiedad: 'documento_tipo__documento_clase_id',
+                    valor1: 106,
+                  },
+                ],
+                ui: PEDIDO_CLIENTE_FILTERS
               },
             },
             ui: {
@@ -275,8 +316,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              serializador: 'lista',
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                ui: CONTACTO_FILTERS
+              }
             },
             archivos: {
               importar: {

@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { GeneralService } from '@comun/services/general.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { CUENTAS_COBRAR_FILTERS } from '@modulos/cartera/domain/mapeos/cuentas-cobrar.mapeo';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { DocumentoService } from 'src/app/core/services/documento.service';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
 
 @Component({
   selector: 'app-cuentas-cobrar',
@@ -20,27 +21,24 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     CardComponent,
     TablaComponent,
     TranslateModule,
-    BaseFiltroComponent,
+    FiltroComponent,
   ],
   templateUrl: './cuentas-cobrar.component.html',
 })
 export class CuentasCobrarComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  filtroPermanente: Filtros[] = [
-    { propiedad: 'documento_tipo__cobrar', valor1: true },
-    { propiedad: 'pendiente__gt', valor1: 0 },
-  ];
-  arrParametrosConsulta: ParametrosFiltros = {
-    filtros: this.filtroPermanente,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    modelo: 'GenDocumento',
-    serializador: 'Informe',
+  filtros: { [key: string]: any } = {};
+  queryParams: { [key: string]: any } = {
+    serializador: 'informe',
+    documento_tipo__cobrar: true,
+    estado_aprobado: true,
+    pendiente__gt: 0,
   };
-  private _generalService = inject(GeneralService);
+  filtrosDisponibles = CUENTAS_COBRAR_FILTERS;
+
+  private _documentoService = inject(DocumentoService);
+  private _filterTransformerService = inject(FilterTransformerService);
 
   constructor(private descargarArchivosService: DescargarArchivosService) {
     super();
@@ -49,73 +47,56 @@ export class CuentasCobrarComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] })
+        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar'] }),
       );
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarLista() {
-    this._generalService
-      .consultarDatosLista(this.arrParametrosConsulta)
+  consultarLista(queryParams: { [key: string]: any } = {}) {
+    this._documentoService
+      .getDocumento({ ...this.queryParams, ...queryParams })
       .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
+        this.cantidad_registros = respuesta.count;
+        this.arrDocumentos = respuesta.results.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
           documento_tipo_id: documento.documento_tipo_id,
-          documento_tipo_nombre: documento.documento_tipo_nombre,
-          contacto_nombre_corto: documento.contacto_nombre_corto,
+          documento_tipo_nombre: documento.documento_tipo__nombre,
+          contacto_nombre_corto: documento.contacto__nombre_corto,
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
           total: documento.total,
           afectado: documento.afectado,
-          pendiente: documento.pendiente
+          pendiente: documento.pendiente,
         }));
         this.changeDetectorRef.detectChanges();
       });
   }
 
-  obtenerFiltros(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsulta.filtros = [
-          ...this.filtroPermanente,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsulta.filtros = this.filtroPermanente;
-      }
-    }
-    this.consultarLista();
-  }
-
-  cambiarOrdemiento(ordenamiento: string) {
-    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-      this.consultarLista();
-  }
-
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.consultarLista();
+    this.consultarLista({
+      ...this.queryParams,
+      ...this.filtros,
+      page: data.desplazamiento,
+    });
   }
 
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
-    this.consultarLista();
+  filterChange(filters: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+
+    this.filtros = apiParams;
+    this.consultarLista({ ...this.queryParams, ...apiParams });
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentos({
-      ...this.arrParametrosConsulta,
-      ...{
-        limite: 5000,
-        excel: true,
-      },
+    this.descargarArchivosService.exportarExcel('general/documento', {
+      ...this.queryParams,
+      ...this.filtros,
     });
   }
 }

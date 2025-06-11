@@ -3,12 +3,7 @@
     <ng-content select="[base-filtros]"></ng-content>
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
       <section card-body>
-        <app-base-filtro
-          (emitirFiltros)="obtenerFiltros($event)"
-          [_tipo]="_tipo"
-          [persistirFiltros]="true"
-          [localstorageKey]="filtroKey()"
-        ></app-base-filtro>
+        <app-filtro (filtersApply)="filterChange($event)" [availableFields]="availableFields" [localStorageKey]="filtroKey()"></app-filtro>
       </section>
     </app-card>
   </div>
@@ -16,6 +11,7 @@
     <app-card [titulo]="'MENU.FUNCIONALIDAD.' + (nombreModelo | uppercase)">
       <section card-body>
         <app-comun-tabla
+          [totalItems]="totalItems()"
           [modelo]="_modelo!"
           [_tipo]="_tipo"
           [datos]="arrItems"
@@ -40,7 +36,6 @@
           [visualizarColumnaSeleccionar]="visualizarColumnaSeleccionar"
           [visualizarBtnImportar]="visualizarBtnImportar"
           [visualizarBtnExportarZip]="visualizarBtnExportarZip"
-          (emitirDesplazamiento)="cambiarDesplazamiento($event)"
           (emitirOrdenamiento)="cambiarOrdemiento($event)"
           (emitirPaginacion)="cambiarPaginacion($event)"
           (emitirRegistraEliminar)="eliminarRegistros($event)"

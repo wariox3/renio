@@ -32,7 +32,6 @@
               #breadcrumbsText
               [routerLink]="breadcrumb.url"
               [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
-              appAnimationFadeinLeft
               >{{
                 "MENU.TITULOS." + breadcrumb.label
                   | uppercase
@@ -44,7 +43,6 @@
             <span
               #breadcrumbsText
               [ngClass]="{ 'cursor-pointer text-hover-primary': first }"
-              appAnimationFadeinLeft
               >{{
                 "BREADCRUMB." + breadcrumb.label
                   | uppercase
@@ -54,7 +52,7 @@
             >
           }
           @if (!last) {
-            <span appAnimationFadeinLeft> / </span>
+            <span> / </span>
           } @else {
             @if (!visualizarIconoCopiado()) {
               <i

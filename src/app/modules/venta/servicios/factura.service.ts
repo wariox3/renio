@@ -23,6 +23,20 @@ export class FacturaService {
     );
   }
 
+  actualizarDocumento(id: number, data: any) {
+    return this.httpService.patch<DocumentoFacturaRespuesta>(
+      `general/documento/${id}/`,
+      data,
+    );
+  }
+
+  guardarDocumento(data: any) {
+    return this.httpService.post<DocumentoFacturaRespuesta>(
+      'general/documento/',
+      data,
+    );
+  }
+
   consultarDetalle(id: number) {
     return this.httpService.getDetalle<{
       documento: DocumentoFacturaRespuesta;

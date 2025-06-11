@@ -1,14 +1,7 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  signal
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-dinamico.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
@@ -39,6 +32,12 @@ import {
   Subject,
   takeUntil,
 } from 'rxjs';
+import {
+  FilterCondition,
+  FilterField,
+} from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FiltroComponent } from '../../ui/tabla/filtro/filtro.component';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -48,9 +47,9 @@ import {
     RouterModule,
     TranslateModule,
     CardComponent,
-    BaseFiltroComponent,
     TablaComponent,
     ModalDinamicoComponent,
+    FiltroComponent,
   ],
   templateUrl: './base-lista.component.html',
   styleUrls: ['./base-lista.component.scss'],
@@ -58,6 +57,7 @@ import {
 export class BaseListaComponent extends General implements OnInit, OnDestroy {
   private readonly _configModuleService = inject(ConfigModuleService);
   private readonly _generalService = inject(GeneralService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
 
   private _modulo: string | null;
   private _rutas: Rutas | undefined;
@@ -66,12 +66,16 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public _modelo: Modelo | undefined;
   public _endpoint: string | undefined;
   public ordenamientoFijo = '';
-  public modeloCofig: ModeloConfig | null;
+  public modeloConfig: ModeloConfig | null;
   public nombreModelo: string | undefined;
   public _tipo: string = 'DOCUMENTO';
   public importarConfig: ArchivosImportar | undefined;
   public documentoId: number | undefined;
   public filtroKey = signal<string>('');
+  public totalItems = signal<number>(0);
+  public queryParams: { [key: string]: any } = {};
+  public queryParamsStorage: { [key: string]: any } = {};
+  public availableFields: FilterField[] = [];
 
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
@@ -120,7 +124,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.alertaService.cerrarMensajes();
     this.modalDinamicoService.event$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((respuesta) => {
+      .subscribe(() => {
         this.consultaListaModal();
       });
 
@@ -137,20 +141,19 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       .pipe(takeUntil(this._destroy$))
       .subscribe((value) => {
         this._loadModuleConfiguration(value);
-        this._construirFiltroKey();
-        this._reiniciarParametrosConsulta();
         this._configurarTabla(value);
-        this._configurarParametrosConsulta(value);
+        this._configurarParametrosConsulta();
         this.consultarLista();
       });
   }
 
-  private _construirFiltroKey() {}
-
   private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
-    this.modeloCofig = modeloConfig;
+    this.modeloConfig = modeloConfig;
+    this.queryParams = this.modeloConfig?.ajustes.queryParams || {};
     this._key = modeloConfig?.key;
     this._modelo = modeloConfig?.ajustes.parametrosHttpConfig?.modelo;
+    this.availableFields =
+      modeloConfig?.ajustes.parametrosHttpConfig?.filtros?.ui || [];
     this.nombreModelo = modeloConfig?.nombreModelo;
     this._rutas = modeloConfig?.ajustes.rutas;
     this._modulo = this._configModuleService.modulo();
@@ -164,61 +167,19 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     );
   }
 
-  private _reiniciarParametrosConsulta() {
-    this.arrParametrosConsulta = {
-      filtros: [],
-      modelo: 'GenDocumento',
-      limite: 50,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-    };
-  }
-
-  private _configurarParametrosConsulta(modeloConfig: ModeloConfig | null) {
-    const httpConfig = modeloConfig?.ajustes.parametrosHttpConfig;
+  private _configurarParametrosConsulta() {
     const filtrosLocalStorage = this._getFiltrosLocalstorage();
 
-    if (httpConfig?.ordenamientos) {
-      this.arrParametrosConsulta.ordenamientos.push(
-        ...httpConfig?.ordenamientos,
-      );
-    }
-
-    if (this._modelo) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        modelo: this._modelo,
-      };
-    }
-
-    if (httpConfig?.filtros?.lista?.length) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        filtros: httpConfig?.filtros?.lista,
-      };
-      this.filtrosDocumento = httpConfig?.filtros?.lista || [];
-    }
-
-    if (httpConfig?.serializador) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        serializador: httpConfig?.serializador,
-      };
-    }
-
     if (filtrosLocalStorage.length) {
-      this.arrParametrosConsulta = {
-        ...this.arrParametrosConsulta,
-        filtros: [
-          ...this.arrParametrosConsulta.filtros,
-          ...filtrosLocalStorage,
-        ],
-      };
+      const apiParams =
+        this._filterTransformerService.transformToApiParams(
+          filtrosLocalStorage,
+        );
+      this.queryParamsStorage = apiParams;
     }
   }
 
-  private _getFiltrosLocalstorage(): Filtros[] {
+  private _getFiltrosLocalstorage(): FilterCondition[] {
     const filtroGuardado = localStorage.getItem(this.filtroKey());
 
     if (filtroGuardado) {
@@ -253,11 +214,15 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.arrItems = [];
 
     this._generalService
-      .consultarDatosLista(this.arrParametrosConsulta)
+      .consultaApi(`${this._endpoint!}/`, {
+        ...this.queryParams,
+        ...this.queryParamsStorage,
+      })
       .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrItems = respuesta.registros;
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -286,40 +251,29 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     });
   }
 
-  obtenerFiltros(arrfiltros: Filtros[]) {
-    if (arrfiltros.length >= 1) {
-      this.arrParametrosConsulta.filtros = [
-        ...this.filtrosDocumento,
-        ...arrfiltros,
-      ];
-    } else {
-      localStorage.removeItem(this.nombreFiltro);
-      this.arrParametrosConsulta.filtros = [...this.filtrosDocumento];
-    }
-    this.changeDetectorRef.detectChanges();
-    this.consultarLista();
-  }
-
   consultaListaModal() {
     this.modalService.dismissAll();
     this.consultarLista();
   }
 
   cambiarOrdemiento(ordenamiento: string) {
-    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-      this.consultarLista();
+    // (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
+    //   this.consultarLista();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.changeDetectorRef.detectChanges();
-    this.consultarLista();
-  }
-
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
-    this.consultarLista();
+    this._generalService
+      .consultaApi(`${this._endpoint!}/`, {
+        ...this.queryParams,
+        page: data.desplazamiento,
+      })
+      .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   eliminarRegistros(data: Number[]) {
@@ -392,14 +346,13 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentos({
-      ...this.arrParametrosConsulta,
-      excel: true,
-      serializador: 'Excel',
-      ...{
-        limite: 5000,
-      },
-    });
+    this.descargarArchivosService.exportarExcel(
+      this._endpoint!,
+      {
+        ...this.queryParamsStorage,
+        ...this.queryParams,
+      }
+    );
   }
 
   descargarZip() {
@@ -410,5 +363,26 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         limite: 5000,
       },
     });
+  }
+
+  filterChange(filters: FilterCondition[]) {
+    // Transformar los filtros a parámetros de API
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+
+    this.queryParamsStorage = apiParams;
+
+    this._generalService
+      .consultaApi(`${this._endpoint!}/`, {
+        ...this.queryParams,
+        ...apiParams,
+      })
+      .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }

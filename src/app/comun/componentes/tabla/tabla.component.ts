@@ -32,11 +32,10 @@ import {
 } from '@redux/selectors/menu.selectors';
 import { interval, take } from 'rxjs';
 import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
-import { ImportarComponent } from '../importar/importar.component';
 import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
 import { ModalDocumentoDetallesComponent } from './components/modal-documento-detalles/modal-documento-detalles.component';
 import { ModalDocumentoReferenciaComponent } from "./components/modal-documento-referencia/modal-documento-referencia.component";
-
+import { PaginadorComponent } from "../ui/tabla/paginador/paginador.component"
 @Component({
   selector: 'app-comun-tabla',
   templateUrl: './tabla.component.html',
@@ -54,16 +53,20 @@ import { ModalDocumentoReferenciaComponent } from "./components/modal-documento-
     NgbTooltipModule,
     SpinnerLoaderComponent,
     ModalDocumentoDetallesComponent,
-    ModalDocumentoReferenciaComponent
+    ModalDocumentoReferenciaComponent,
+    PaginadorComponent
 ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
   private _modalService = inject(NgbModal);
 
+  currentPage = signal(1);
+  totalPages = signal(1); 
+  @Input() totalItems: number = 0;
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
-  registrosVisiables = 50;
+  registrosVisiables = 30;
   lado: number = 0;
   al: number = this.registrosVisiables;
   ordenadoTabla: string = '';
@@ -150,7 +153,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   private _reiniciarPaginador() {
     this.lado = 0;
-    this.al = 50;
+    this.al = 30;
   }
 
   private _limpiarTablaSelectores() {
@@ -162,6 +165,14 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   onResize(event: Event) {
     // Verifica el ancho de la pantalla y actualiza el estado de btnGrupoResponsive
     this.btnGrupoResponsive = window.innerWidth < 481;
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage.set(page);
+    this.emitirPaginacion.emit({
+      desplazamiento: this.currentPage(),
+      limite: this.registrosVisiables,
+    });
   }
 
   construirTabla() {

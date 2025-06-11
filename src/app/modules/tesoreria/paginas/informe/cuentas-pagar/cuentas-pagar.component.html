@@ -1,18 +1,17 @@
 <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
   <section card-body>
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltros($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      [availableFields]="filtrosDisponibles"
+      (filtersApply)="filterChange($event)"
+    ></app-filtro>
   </section>
 </app-card>
-<app-card [titulo]="'MENU.FUNCIONALIDAD.' + (_modelo | uppercase)">
+<app-card [titulo]="'MENU.FUNCIONALIDAD.' + ('CUENTASPAGAR' | uppercase)">
   <section card-body>
     <div class="table-responsive-sm table-loading">
       <app-comun-tabla
-        [modelo]="_modelo"
-        [_tipo]="_tipo"
+        [modelo]="'CUENTASPAGAR'"
+        [_tipo]="'DOCUMENTO'"
         [datos]="arrDocumentos"
         [cantidad_registros]="cantidad_registros"
         [visualizarColumnaEditar]="false"
@@ -23,8 +22,6 @@
         [visualizarBtnNuevo]="false"
         [visualizarBtnEliminar]="false"
         [visualizarBtnExportarZip]="false"
-        (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-        (emitirOrdenamiento)="cambiarOrdemiento($event)"
         (emitirPaginacion)="cambiarPaginacion($event)"
         (emitirExportarExcel)="descargarExcel()"
       >

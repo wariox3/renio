@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { catchError, Observable, of } from 'rxjs';
 import { Subdominio } from '@comun/clases/subdomino';
 import { AlertaService } from './alerta.service';
@@ -15,9 +15,9 @@ export class HttpService extends Subdominio {
   }
 
   // Método GET detalle
-  public getDetalle<T>(endpoint: string): Observable<T> {
+  public getDetalle<T>(endpoint: string, params?: HttpParams): Observable<T> {
     const url = `${this.API_SUBDOMINIO}/${endpoint}`;
-    return this.http.get<T>(url);
+    return this.http.get<T>(url, { params });
   }
 
   // Método GET para listas
@@ -54,7 +54,7 @@ export class HttpService extends Subdominio {
     const url = `${this.API_SUBDOMINIO}/${endpoint}`;
     this.alertaService.mensajaEspera('Cargando');
     this.http
-      .post<HttpResponse<Blob>>(url, data, {
+      .get<HttpResponse<Blob>>(url, {
         observe: 'response',
         responseType: 'blob' as 'json',
       })

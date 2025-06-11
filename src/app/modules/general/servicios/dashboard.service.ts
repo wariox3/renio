@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@comun/services/http.service';
-import { ResumenCobrar } from '../interfaces/resumen-cobrar';
-import { ResumenPagar } from '../interfaces/resumen-pagar';
-import { ResumenVentaDias } from '../interfaces/resumen-venta-dia';
 import { RespuestaResumen } from '../interfaces/resumen';
+import { ResumenVentaDias } from '../interfaces/resumen-venta-dia';
 
 @Injectable({
   providedIn: 'root',
@@ -11,16 +9,16 @@ import { RespuestaResumen } from '../interfaces/resumen';
 export class dashboardService {
   constructor(private httpService: HttpService) {}
 
-  resumenCobrar(data: any) {
-    return this.httpService.post<RespuestaResumen>('general/documento/resumen-cobrar/', data);
+  resumenCobrar() {
+    return this.httpService.getDetalle<RespuestaResumen>('general/documento/resumen-cobrar/');
   }
 
-  resumenPagar(data: any) {
-    return this.httpService.post<RespuestaResumen>('general/documento/resumen-pagar/', data);
+  resumenPagar() {
+    return this.httpService.getDetalle<RespuestaResumen>('general/documento/resumen-pagar/');
   }
 
-  ventaPorDia(data: any) {
-    return this.httpService.post<ResumenVentaDias>('general/documento/resumen-venta-dia/', data);
+  ventaPorDia() {
+    return this.httpService.getDetalle<ResumenVentaDias>('general/documento/resumen-venta-dia/');
   }
 
 }

@@ -1,28 +1,23 @@
 import {
   CommonModule,
-  formatCurrency,
-  getCurrencySymbol,
+  formatCurrency
 } from '@angular/common';
-import { Component, inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { RespuestaResumen } from '@modulos/general/interfaces/resumen';
+import { dashboardService } from '@modulos/general/servicios/dashboard.service';
 import {
-  ChartComponent,
   ApexAxisChartSeries,
   ApexChart,
-  ApexXAxis,
   ApexDataLabels,
-  ApexTitleSubtitle,
-  ApexStroke,
   ApexGrid,
-  NgApexchartsModule,
-  ApexNonAxisChartSeries,
-  ApexPlotOptions,
-  ApexResponsive,
-  ApexLegend
+  ApexStroke,
+  ApexTitleSubtitle,
+  ApexXAxis,
+  ChartComponent,
+  NgApexchartsModule
 } from 'ng-apexcharts';
 import { zip } from 'rxjs';
-import { dashboardService } from '@modulos/general/servicios/dashboard.service';
-import { RespuestaResumen } from '@modulos/general/interfaces/resumen';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -164,8 +159,8 @@ export class InicioGeneralComponent extends General implements OnInit {
 
   consultarInformacionDashboard() {
     zip(
-      this.dashboardService.resumenCobrar(''),
-      this.dashboardService.resumenPagar(''),
+      this.dashboardService.resumenCobrar(),
+      this.dashboardService.resumenPagar(),
     ).subscribe((respuesta) => {
       this.arrResumenCobrar = respuesta[0];
       this.arrResumenPagar = respuesta[1];
@@ -204,7 +199,7 @@ export class InicioGeneralComponent extends General implements OnInit {
   }
 
   initializeChart() {
-    this.dashboardService.ventaPorDia('').subscribe((respuesta) => {
+    this.dashboardService.ventaPorDia().subscribe((respuesta) => {
       this.arrVentaDiaria = respuesta.resumen;
 
       this.dates = this.arrVentaDiaria.map(

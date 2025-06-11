@@ -8,20 +8,18 @@ import {
   OnInit,
   QueryList,
   signal,
-  ViewChild,
-  ViewChildren,
+  ViewChildren
 } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
-import { MenuReducerService } from '@comun/services/menu-reducer.service';
-import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { Observable, Subscription, switchMap } from 'rxjs';
-import { PageInfoService, PageLink } from '../../../core/page-info.service';
-import { obtenerConfiguracionVisualizarBreadCrumbs } from '@redux/selectors/configuracion.selectors';
-import { CapitalizePipe } from '@pipe/capitalize.pipe';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
+import { CapitalizePipe } from '@pipe/capitalize.pipe';
+import { obtenerConfiguracionVisualizarBreadCrumbs } from '@redux/selectors/configuracion.selectors';
 import { ClipboardModule, ClipboardService } from 'ngx-clipboard';
+import { Observable, Subscription } from 'rxjs';
+import { PageInfoService, PageLink } from '../../../core/page-info.service';
 import { BreadcrumbService } from './breadcrumb.service';
 
 interface Breadcrumb {
@@ -45,10 +43,7 @@ interface Breadcrumb {
   standalone: true,
 })
 export class PageTitleComponent extends General implements OnInit, OnDestroy {
-  private _activatedRoute = inject(ActivatedRoute);
   private unsubscribe: Subscription[] = [];
-  private readonly _menuReducerService = inject(MenuReducerService);
-  private readonly _translateService = inject(TranslateService);
   private readonly _clipboardService = inject(ClipboardService);
   private breadcrumbService = inject(BreadcrumbService)
   public visualizarBreadcrumb$: Observable<boolean>;
@@ -76,80 +71,10 @@ export class PageTitleComponent extends General implements OnInit, OnDestroy {
     this.description$ = this.pageInfo.description.asObservable();
     this.bc$ = this.pageInfo.breadcrumbs.asObservable();
 
-    // this._initializeBreadcrumbs();
-
     this.visualizarBreadcrumb$ = this.store.select(
       obtenerConfiguracionVisualizarBreadCrumbs,
     );
   }
-
-  // private _initializeBreadcrumbs(): void {
-  //   let breadcrumbs: Breadcrumb[] = [];
-
-  //   this._activatedRoute.queryParams
-  //     .pipe(
-  //       switchMap((queryParams) =>
-  //         this._menuReducerService.getMenuSeleccionado().pipe(
-  //           switchMap((menuSeleccionado) => {
-  //             breadcrumbs = [];
-  //             const url = this._transformarMenuUrl(menuSeleccionado);
-  //             breadcrumbs.push({
-  //               label: menuSeleccionado,
-  //               url,
-  //             });
-  //             return this._menuReducerService.getModuloItemInformacion(
-  //               menuSeleccionado,
-  //               queryParams.alias,
-  //             );
-  //           }),
-  //         ),
-  //       ),
-  //     )
-  //     .subscribe((response) => {
-  //       if (response) {
-  //         const menuTipo = this._transformarMenuTipo(response.tipo);
-  //         let modelo = null;
-
-  //         if (response?.nombre) {
-  //           modelo = this._translateService.instant(
-  //             `MENU.FUNCIONALIDAD.${response?.nombre.toLocaleUpperCase()}`,
-  //           );
-  //         }
-
-  //         if (menuTipo) {
-  //           breadcrumbs.push({ label: menuTipo });
-  //         }
-
-  //         if (modelo) {
-  //           breadcrumbs.push({ label: modelo });
-  //         }
-  //       }
-
-  //       this.breadcrumbSignal.set(breadcrumbs);
-  //     });
-  // }
-
-  // private _transformarMenuUrl(url: string | undefined) {
-  //   switch (url) {
-  //     case 'general':
-  //       return 'dashboard';
-  //     default:
-  //       return url;
-  //   }
-  // }
-
-  // private _transformarMenuTipo(tipo: string | undefined) {
-  //   if (!tipo) {
-  //     return null;
-  //   }
-
-  //   switch (tipo) {
-  //     case 'independiente':
-  //       return 'movimiento';
-  //     default:
-  //       return tipo;
-  //   }
-  // }
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());

@@ -1,36 +1,11 @@
 <section class="container-grid">
   <section class="row paginacion">
-    <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3">
-      <button
-        class="btn btn-sm btn-icon btn-secondary"
-        (click)="disminuirDesplazamiento()"
-        [disabled]="deshabilitarBotonIzquierda()"
-      >
-        <i class="bi bi-arrow-left fs-3 cursor-pointer fs-1 text-gray-900"
-          ><span class="path1"></span><span class="path2"></span
-          ><span class="path3"></span><span class="path4"></span
-        ></i>
-      </button>
-
-      <input
-        type="text"
-        class="form-control form-control-sm w-100px"
-        [value]="lado + 1 + '-' + al"
-        (keyup.enter)="calcularValorMostrar($event)"
-      />
-      <span>de</span>
-      <span>{{ cantidad_registros }}</span>
-      <button
-        class="btn btn-sm btn-icon btn-secondary"
-        (click)="aumentarDesplazamiento()"
-        [disabled]="deshabilitarBotonDerecha()"
-      >
-        <i class="bi bi-arrow-right fs-3 cursor-pointer fs-1 text-gray-900"
-          ><span class="path1"></span><span class="path2"></span
-          ><span class="path3"></span><span class="path4"></span
-        ></i>
-      </button>
-    </div>
+    <app-paginador
+      [currentPage]="currentPage()"
+      [totalPages]="totalPages()"
+      (pageChange)="onPageChange($event)"
+      [totalItems]="totalItems || cantidad_registros"
+    ></app-paginador>
   </section>
   <section class="botones d-flex gap-2">
     <div
@@ -83,70 +58,6 @@
           translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
         ></button>
       }
-      @if (visualizarBtnColumnas) {
-        <div class="btn-group btn-group-sm" ngbDropdown role="group">
-          <button
-            type="button"
-            class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-            ngbDropdownToggle
-          >
-            {{ "FORMULARIOS.TITULOS.COMUNES.COLUMNAS" | translate }}
-          </button>
-          <div class="dropdown-menu p-2" ngbDropdownMenu>
-            <div>
-              <input
-                type="text"
-                class="form-control form-control-sm"
-                placeholder="Buscar"
-                (keyup)="filterCampos($event)"
-              />
-            </div>
-            <div class="dropdown-divider my-2"></div>
-            <div>
-              <div class="form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="dropdownCheck"
-                  (change)="visualizarColumnas()"
-                />
-                <label
-                  class="form-check-label text-gray-700"
-                  for="dropdownCheck"
-                >
-                  seleccionar todos
-                </label>
-              </div>
-            </div>
-            <div class="dropdown-divider my-2"></div>
-            @for (item of columnas; track item.nombre; let i = $index) {
-              <div class="mb-2">
-                <div class="form-check">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    [id]="item.nombre"
-                    [checked]="item.visibleTabla ? true : false"
-                    (click)="agregarColumna(item.nombre)"
-                    [disabled]="item.nombre === 'ID'"
-                  />
-                  <label
-                    class="form-check-label text-gray-700"
-                    [for]="item.nombre"
-                  >
-                    {{
-                      "LISTAS." +
-                        (_tipo | uppercase) +
-                        "." +
-                        (item.nombre | uppercase) | translate
-                    }}
-                  </label>
-                </div>
-              </div>
-            }
-          </div>
-        </div>
-      }
       @if (visualizarBtnEliminar) {
         <button
           type="button"
@@ -184,10 +95,6 @@
       <tr class="fw-bold text-gray-800">
         @for (item of columnasVibles; track item.nombre) {
           <th
-            (click)="
-              item.ordenable &&
-                orderPor(item.nombre, columnasVibles.indexOf(item))
-            "
             [ngClass]="obtenerClasesCss(item)"
             [ngStyle]="item.stylePersonalizado ? item.stylePersonalizado : null"
           >
@@ -209,22 +116,6 @@
                         : (item.nombre | uppercase)) | translate
                   }}
                 </div>
-                @if (item.ordenable) {
-                  <div>
-                    @if (
-                      this.ordenadoTabla === item.nombre.toLowerCase() ||
-                      this.ordenadoTabla === "-" + item.nombre.toLowerCase()
-                    ) {
-                      @if (this.ordenadoTabla === item.nombre.toLowerCase()) {
-                        <i class="ki-outline ki-arrow-up fs-2"></i>
-                      } @else {
-                        <i class="ki-outline ki-arrow-down fs-2"></i>
-                      }
-                    } @else {
-                      <i class="ki-outline ki-arrow-up-down fs-2"></i>
-                    }
-                  </div>
-                }
               </div>
             </div>
           </th>

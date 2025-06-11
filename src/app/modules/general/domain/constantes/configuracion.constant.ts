@@ -244,6 +244,16 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: null,
+          nombreModelo: 'CUENTASPAGAR',
+          ajustes: {
+            rutas: {
+              lista: 'general/informe/cuentas_pagar',
+              nuevo: '',
+            },
+          },
+        },
       ],
     },
   ],

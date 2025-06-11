@@ -3,11 +3,10 @@
     <ng-content select="[base-filtros]"></ng-content>
     <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
       <section card-body>
-        <app-base-filtro
-          (emitirFiltros)="obtenerFiltros($event)"
-          [persistirFiltros]="false"
-          [_tipo]="nombreModelo!"
-        ></app-base-filtro>
+        <app-filtro
+          (filtersApply)="filterChange($event)"
+          [availableFields]="availableFields"
+        ></app-filtro>
       </section>
     </app-card>
   </div>
@@ -23,6 +22,7 @@
       </section>
       <section card-body>
         <app-comun-tabla
+          [totalItems]="totalItems()"
           [modelo]="_modelo!"
           [_tipo]="nombreModelo!"
           [importarConfig]="{

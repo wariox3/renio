@@ -67,6 +67,7 @@ export class FormularioProductosComponent
   @Input() cuentasConImpuestos: boolean = false;
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
+  @Input() deshabilitar: boolean = false;
   @Output() emitirEnviarFormulario: EventEmitter<void>;
   @Output() emitirDocumentoDetalle: EventEmitter<DocumentoFacturaRespuesta>;
 
