@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { mapeo } from '@comun/extra/mapeo-entidades/administradores';
@@ -22,8 +21,8 @@ import {
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
 import { FilterCondition, FilterField } from 'src/app/core/interfaces/filtro.interface';
-import { FiltroComponent } from "../../ui/tabla/filtro/filtro.component";
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FiltroComponent } from "../../ui/tabla/filtro/filtro.component";
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
