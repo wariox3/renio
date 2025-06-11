@@ -72,7 +72,7 @@ export class FilterTransformerService {
       '<': '__lt',
       '>=': '__gte',
       '<=': '__lte',
-      'contains': '__contains',
+      'contains': '__icontains',
       'startsWith': '__startswith',
       'endsWith': '__endswith'
     };

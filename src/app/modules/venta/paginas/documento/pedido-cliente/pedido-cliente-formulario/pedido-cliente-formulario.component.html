@@ -2,7 +2,9 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card [animacionEnabled]="false">
     <section card-titulo>
-      {{ "MENU.FUNCIONALIDAD." + 'PEDIDOCLIENTE' | translate  }}
+      <app-comun-titulo-accion
+        [nombreModelo]="'pedidocliente'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -106,7 +108,6 @@
                 ></a>
                 <ng-template ngbNavContent>
                   <app-formulario-productos
-                    [deshabilitar]="!detalle"
                     [formularioTipo]="'venta'"
                   ></app-formulario-productos>
                 </ng-template>

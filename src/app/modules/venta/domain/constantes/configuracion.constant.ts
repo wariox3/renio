@@ -316,6 +316,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              serializador: 'lista',
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {

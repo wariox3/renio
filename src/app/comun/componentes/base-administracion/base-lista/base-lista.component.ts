@@ -82,6 +82,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public availableFields: FilterField[] = [];
   public queryParams: { [key: string]: any } = {};
   public totalItems = signal<number>(0);
+  public filtrosAplicados: { [key: string]: any } = {};
 
   constructor(
     private httpService: HttpService,
@@ -241,6 +242,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       this._endpoint!,
       {
         ...this.queryParams,
+        ...this.filtrosAplicados,
       }
     );
   }
@@ -249,6 +251,9 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       const apiParams =
         this._filterTransformerService.transformToApiParams(filters);
     
+
+      this.filtrosAplicados = apiParams;
+
       this._generalService
         .consultaApi(`${this._endpoint!}/`, {
           ...this.queryParams,
