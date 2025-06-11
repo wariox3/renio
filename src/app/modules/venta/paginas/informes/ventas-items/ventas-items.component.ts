@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { HttpService } from '@comun/services/http.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
+import { DocumentoDetalleService } from '@modulos/venta/servicios/documento-detalle.service';
+import { TranslateModule } from '@ngx-translate/core';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { VENTAS_ITEM_FILTERS } from '@modulos/venta/domain/mapeos/ventas-item.mapeo';
 
 @Component({
   selector: 'app-ventas-items',
@@ -19,59 +22,49 @@ import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.
     CardComponent,
     TablaComponent,
     TranslateModule,
-    BaseFiltroComponent,
-],
+    FiltroComponent,
+  ],
 })
 export class VentasItemsComponent extends General implements OnInit {
+  private readonly _documentoDetalleService = inject(DocumentoDetalleService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
+
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  filtroPermanente = [
-    {
-      propiedad: 'documento__documento_tipo__documento_clase__grupo',
-      valor1: 1,
-    },
-  ];
-  arrParametrosConsulta: any = {
-    filtros: this.filtroPermanente,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    documento_clase_id: 100,
-    modelo: 'GenDocumentoDetalle',
-    serializador: 'Informe',
+  queryParams: { [key: string]: any } = {
+    serializador: 'informe_venta',
   };
+  filtros: { [key: string]: any } = {};
+  filtrosDisponibles = VENTAS_ITEM_FILTERS;
 
-  constructor(
-    private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService
-  ) {
+  constructor(private descargarArchivosService: DescargarArchivosService) {
     super();
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['ventas_items'] })
+        ActualizarMapeo({ dataMapeo: documentos['ventas_items'] }),
       );
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarLista() {
-    this.httpService
-      .post('general/funcionalidad/lista/', this.arrParametrosConsulta)
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
+  consultarLista(queryParams: { [key: string]: any } = {}) {
+    this._documentoDetalleService
+      .documentoDetalle({ ...this.queryParams, ...queryParams })
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrDocumentos = respuesta.results.map((documento: any) => ({
           id: documento.id,
-          documento_tipo: documento.documento_tipo_nombre,
-          documento_numero: documento.documento_numero,
-          documento_fecha: documento.documento_fecha,
-          documento_contacto_nombre: documento.documento_contacto_nombre,
+          documento_tipo: documento.documento__documento_tipo__nombre,
+          documento_numero: documento.documento__numero,
+          documento_fecha: documento.documento__fecha,
+          documento_contacto_nombre:
+            documento.documento__contacto__nombre_corto,
           item_id: documento.item_id,
-          item_nombre: documento.item_nombre,
+          item_nombre: documento.item__nombre,
           cantidad: documento.cantidad,
           precio: documento.precio,
           subtotal: documento.subtotal,
@@ -82,43 +75,26 @@ export class VentasItemsComponent extends General implements OnInit {
       });
   }
 
-  obtenerFiltros(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsulta.filtros = [
-          ...this.filtroPermanente,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsulta.filtros = this.filtroPermanente;
-      }
-    }
-    this.consultarLista();
-  }
-
-  cambiarOrdemiento(ordenamiento: string) {
-    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-      this.consultarLista();
-  }
-
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.consultarLista();
+    this.consultarLista({
+      ...this.queryParams,
+      ...this.filtros,
+      page: data.desplazamiento,
+    });
   }
 
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
-    this.consultarLista();
+  filterChange(filters: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+
+    this.filtros = apiParams;
+    this.consultarLista({ ...this.queryParams, ...apiParams });
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentos({
-      ...this.arrParametrosConsulta,
-      ...{
-        limite: 5000,
-        excel: true,
-      },
+    this.descargarArchivosService.exportarExcel('general/documento_detalle', {
+      ...this.queryParams,
+      ...this.filtros,
     });
   }
 }

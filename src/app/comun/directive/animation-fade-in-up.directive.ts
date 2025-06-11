@@ -7,6 +7,7 @@ import { Directive, ElementRef, Input, OnInit } from '@angular/core';
 })
 export class AnimationFadeInUpDirective implements OnInit {
   @Input() animacionDelay: number = 1;
+  @Input() enabled: boolean = true;
 
   constructor(
     private elementRef: ElementRef,
@@ -14,6 +15,10 @@ export class AnimationFadeInUpDirective implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    if (!this.enabled) {
+      return;
+    }
+
     const player = this.animationBuilder
       .build([
         style({

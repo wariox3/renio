@@ -17,6 +17,8 @@ import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-u
 export class CardComponent {
   @Input() titulo?: string = '';
   @Input() visualizarTitulo: boolean = true;
+  @Input() animacionEnabled: boolean = true;
+  
 
   @ContentChild('panel-footer') footer: any;
 

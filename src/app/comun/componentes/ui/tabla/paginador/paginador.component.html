@@ -1,0 +1,32 @@
+<div class="paginator-container d-flex align-items-center gap-2">
+  <span class="me-2">Página</span>
+
+  <input
+    type="number"
+    class="form-control page-input form-control-sm"
+    [(ngModel)]="currentPage" 
+    (change)="onPageChange(currentPage)"
+    (keyup.enter)="onPageChange(currentPage)"
+    [min]="1"
+    [max]="totalPages"
+  />
+
+  <span class="mx-2">de {{ totalPages }}</span>
+
+  <div class="btn-group">
+    <button
+      class="btn btn-outline-secondary"
+      (click)="prevPage()"
+      [disabled]="currentPage === 1"
+    >
+      <i class="ki-outline ki-arrow-left fs-2"></i>
+    </button>
+    <button
+      class="btn btn-outline-secondary"
+      (click)="nextPage()"
+      [disabled]="currentPage === totalPages"
+    >
+      <i class="ki-outline ki-arrow-right fs-2"></i>
+    </button>
+  </div>
+</div>
