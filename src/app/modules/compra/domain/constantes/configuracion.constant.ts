@@ -1,4 +1,5 @@
   import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+  import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'compra/documento/lista';
 const DocNuevo = 'compra/documento/nuevo';
@@ -39,6 +40,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                     valor1: 300,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -77,6 +79,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                     valor1: 301,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -115,6 +118,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                     valor1: 302,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -150,6 +154,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                     valor1: 303,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -185,6 +190,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                     valor1: 304,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {

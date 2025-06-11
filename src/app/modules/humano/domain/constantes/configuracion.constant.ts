@@ -1,4 +1,5 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'humano/documento/lista';
 const DocNuevo = 'humano/documento/nuevo';
@@ -91,6 +92,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
                     valor1: 701,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -125,6 +127,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
                     valor1: 702,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -159,6 +162,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
                     valor1: 703,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {

@@ -1,4 +1,5 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
+import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'tesoreria/documento/lista';
 const DocNuevo = 'tesoreria/documento/nuevo';
@@ -36,7 +37,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
                     propiedad: 'documento_tipo__documento_clase_id',
                     valor1: 400,
                   },
+                  
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -72,6 +75,7 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
                     valor1: 301,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             archivos: {

@@ -1,4 +1,5 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
+import { DOCUMENTO_FILTERS } from "src/app/core/constants/mapeo/documento.mapeo";
 
 const DocLista = 'cartera/documento/lista';
 const DocNuevo = 'cartera/documento/nuevo';
@@ -36,6 +37,7 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
                     valor1: 200,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -70,7 +72,8 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
                     propiedad: 'documento_tipo__documento_clase_id',
                     valor1: 201,
                   },
-                ],  
+                ],
+                ui: DOCUMENTO_FILTERS  
               },
             },
             archivos: {

@@ -1,4 +1,5 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
+import { DOCUMENTO_FILTERS } from "src/app/core/constants/mapeo/documento.mapeo";
 
 const DocLista = 'inventario/documento/lista';
 const DocNuevo = 'inventario/documento/nuevo';
@@ -36,6 +37,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
                     valor1: 500,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -71,6 +73,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
                     valor1: 501,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {

@@ -118,6 +118,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 100,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -154,6 +155,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 105,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -190,6 +192,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 101,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -225,6 +228,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 102,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -260,6 +264,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 200,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -295,6 +300,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 104,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {

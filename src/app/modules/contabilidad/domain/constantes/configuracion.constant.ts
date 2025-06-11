@@ -1,4 +1,5 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'contabilidad/documento/lista';
 const DocNuevo = 'contabilidad/documento/nuevo';
@@ -61,6 +62,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
                     valor1: 601,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -96,6 +98,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
                     valor1: 602,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
@@ -131,6 +134,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
                     valor1: 603,
                   },
                 ],
+                ui: DOCUMENTO_FILTERS
               },
             },
             ui: {
