@@ -23,7 +23,8 @@ export const documento303: MapeoDocumento[] = [
     ordenable: true,
   },
   {
-    nombre: 'CONTACTO_NOMBRE_CORTO',
+    nombre: 'CONTACTO__NOMBRE_CORTO',
+    nombreAbreviado: 'CONTACTO_NOMBRE_CORTO',
     campoTipo: 'Fk',
     visibleTabla: true,
     visibleFiltro: false,
@@ -47,7 +48,7 @@ export const documento303: MapeoDocumento[] = [
     aplicaFormatoNumerico: true,
   },
   {
-    nombre: 'TOTAL_BRUTO',
+    nombre: 'TOTAL',
     campoTipo: 'FloatField',
     visibleTabla: true,
     visibleFiltro: false,

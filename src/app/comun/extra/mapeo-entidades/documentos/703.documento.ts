@@ -9,7 +9,7 @@ export const documento703: MapeoDocumento[] = [
     ordenable: true,
   },
   {
-    nombre: 'DOCUMENTO_TIPO_NOMBRE',
+    nombre: 'DOCUMENTO_TIPO__NOMBRE',
     nombreAbreviado: 'TIPO',
     campoTipo: 'CharField',
     visibleTabla: true,
@@ -48,7 +48,8 @@ export const documento703: MapeoDocumento[] = [
     esFk: true,
   },
   {
-    nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+    nombre: 'CONTACTO__NUMERO_IDENTIFICACION',
+    nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
     nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
     nombreFiltroRelacion: 'CONTACTO__NUMERO_IDENTIFICACION',
     campoTipo: 'CharField',
@@ -57,10 +58,10 @@ export const documento703: MapeoDocumento[] = [
     ordenable: false,
   },
   {
-    nombre: 'CONTACTO_NOMBRE_CORTO',
+    nombre: 'CONTACTO__NOMBRE_CORTO',
     nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
     nombreFiltroRelacion: 'contacto__nombre_corto',
-    nombreAbreviado: 'EMPLEADO',
+    nombreAbreviado: 'CONTACTO',
     campoTipo: 'CharField',
     visibleTabla: true,
     visibleFiltro: true,

@@ -9,7 +9,8 @@ export const documento103: MapeoDocumento[] = [
     ordenable: true,
   },
   {
-    nombre: 'CONTACTO_NUMERO_IDENTIFICACION',
+    nombre: 'CONTACTO__NUMERO_IDENTIFICACION',
+    nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
     nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
     nombreFiltroRelacion: 'contacto__numero_identificacion',
     campoTipo: 'CharField',
@@ -18,7 +19,8 @@ export const documento103: MapeoDocumento[] = [
     ordenable: false,
   },
   {
-    nombre: 'CONTACTO_NOMBRE_CORTO',
+    nombre: 'CONTACTO__NOMBRE_CORTO',
+    nombreAbreviado: 'CONTACTO_NOMBRE_CORTO',
     campoTipo: 'Fk',
     visibleTabla: true,
     visibleFiltro: true,

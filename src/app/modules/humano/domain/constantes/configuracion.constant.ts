@@ -83,7 +83,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'general/documento',
             queryParams:{
-              serializador: 'lista',
+              serializador: 'lista_nomina',
               documento_tipo__documento_clase_id: 701,
               ordering: 'estado_aprobado,-fecha,-numero,-id'
             },
@@ -115,13 +115,12 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'general/documento',
             queryParams:{
-              serializador: 'lista',
+              serializador: 'lista_nomina',
               documento_tipo_id: 15,
               ordering: 'estado_aprobado,-fecha,-numero,-id'
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
-              serializador: 'Nomina',
               filtros: {
                 ui: DOCUMENTO_FILTERS
               },
@@ -149,7 +148,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'general/documento',
             queryParams:{
-              serializador: 'lista',
+              serializador: 'lista_nomina',
               documento_tipo_id: 22,
               ordering: 'estado_aprobado,-fecha,-numero,-id'
             },

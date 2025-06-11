@@ -23,7 +23,8 @@ export const documento102: MapeoDocumento[] =[
     ordenable: true,
   },
   {
-    nombre: 'CONTACTO_NOMBRE_CORTO',
+    nombre: 'CONTACTO__NOMBRE_CORTO',
+    nombreAbreviado: 'CONTACTO_NOMBRE_CORTO',
     campoTipo: 'Fk',
     visibleTabla: true,
     visibleFiltro: false,
