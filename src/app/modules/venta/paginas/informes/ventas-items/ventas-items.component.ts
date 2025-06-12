@@ -33,6 +33,7 @@ export class VentasItemsComponent extends General implements OnInit {
   cantidad_registros!: number;
   queryParams: { [key: string]: any } = {
     serializador: 'informe_venta',
+    documento__documento_tipo__venta: true,
   };
   filtros: { [key: string]: any } = {};
   filtrosDisponibles = VENTAS_ITEM_FILTERS;

@@ -1,4 +1,5 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'contabilidad/documento/lista';
@@ -157,6 +158,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                ui: CONTACTO_FILTERS
+              }
             },
             archivos: {
               importar: {
@@ -183,9 +187,11 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'contabilidad/cuenta',
+            queryParams: {
+              ordering: 'codigo',
+            },
             parametrosHttpConfig: {
               modelo: 'ConCuenta',
-              ordenamientos: ['codigo'],
             },
             archivos: {
               importar: {
@@ -212,9 +218,11 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'contabilidad/grupo',
+            queryParams: {
+              ordering: '-id',
+            },
             parametrosHttpConfig: {
               modelo: 'ConGrupo',
-              ordenamientos: ['-id'],
             },
             archivos: {
               importar: {
@@ -240,10 +248,12 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               nuevo: 'contabilidad/administracion/nuevo',
               detalle: 'contabilidad/administracion/detalle',
             },
-            endpoint: 'contabilidad/grupo',
+            endpoint: 'contabilidad/activo',
+            queryParams: {
+              ordering: '-id',
+            },
             parametrosHttpConfig: {
               modelo: 'ConActivo',
-              ordenamientos: ['-id'],
             },
             archivos: {
               importar: {

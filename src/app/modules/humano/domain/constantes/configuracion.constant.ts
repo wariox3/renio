@@ -1,5 +1,13 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
+import { CONTRATO_FILTERS } from '../mapeo/contrato.mapeo';
+import { CARGO_FILTERS } from '../mapeo/cargo.mapeo';
+import { GRUPO_FILTERS } from '../mapeo/grupo.mapeo';
+import { SUCURSAL_FILTERS } from '../mapeo/sucursal.mapeo';
+import { ADICIONAL_FILTERS } from '../mapeo/adicional.mapeo';
+import { CREDITO_FILTERS } from '../mapeo/credito.mapeo';
+import { NOVEDAD_FILTERS } from '../mapeo/novedad.mapeo';
 
 const DocLista = 'humano/documento/lista';
 const DocNuevo = 'humano/documento/nuevo';
@@ -180,17 +188,15 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              ordering: '-id',
+              empleado: true,
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'empleado',
-                    valor1: true,
-                  },
-                ],
+                ui: CONTACTO_FILTERS
               },
-              ordenamientos: ['-id'],
             },
             archivos: {
               importar: {
@@ -217,9 +223,14 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/contrato',
+            queryParams: {
+              ordering: '-id',
+            },
             parametrosHttpConfig: {
               modelo: 'HumContrato',
-              ordenamientos: ['-id'],
+              filtros: {
+                ui: CONTRATO_FILTERS
+              }
             },
             archivos: {
               importar: {
@@ -246,9 +257,14 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/cargo',
+            queryParams: {
+              ordering: '-id',
+            },
             parametrosHttpConfig: {
               modelo: 'HumCargo',
-              ordenamientos: ['-id'],
+              filtros: {
+                ui: CARGO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -269,6 +285,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'humano/grupo',
             parametrosHttpConfig: {
               modelo: 'HumGrupo',
+              filtros: {
+                ui: GRUPO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -289,6 +308,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'humano/sucursal',
             parametrosHttpConfig: {
               modelo: 'HumSucursal',
+              filtros: {
+                ui: SUCURSAL_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -307,22 +329,20 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/adicional',
+            queryParams: {
+              ordering: '-id',
+              permanente: true,
+            },
             parametrosHttpConfig: {
               modelo: 'HumAdicional',
-              ordenamientos: ['-id'],
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'permanente',
-                    valor1: true,
-                  },
-                ],
                 importar: [
                   {
                     propiedad: 'permanente',
                     valor1: true,
                   },
                 ],
+                ui: ADICIONAL_FILTERS
               },
             },
             ui: {
@@ -342,9 +362,14 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/credito',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'HumCredito',
-              ordenamientos: ['-id'],
+              filtros: {
+                ui: CREDITO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -363,9 +388,14 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/novedad',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'HumNovedad',
-              ordenamientos: ['-id'],
+              filtros: {
+                ui: NOVEDAD_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,

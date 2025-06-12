@@ -1,4 +1,6 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
+import { CONTACTO_FILTERS } from "@modulos/general/domain/mapeos/contacto.mapeo";
+import { CUENTA_BANCO_FILTERS } from "@modulos/general/domain/mapeos/cuenta-banco.mapeo";
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'tesoreria/documento/lista';
@@ -106,9 +108,14 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               detalle: 'tesoreria/administracion/detalle',
             },
             endpoint: 'general/cuenta_banco',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenCuentaBanco',
-              ordenamientos: ['-id'],
+              filtros: {
+                ui: CUENTA_BANCO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -129,6 +136,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                ui: CONTACTO_FILTERS
+              }
             },
             archivos: {
               importar: {

@@ -1,4 +1,8 @@
   import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { FORMA_PAGO_FILTERS } from '@modulos/general/domain/mapeos/forma-pago.mapeo';
+import { ITEM_FILTERS } from '@modulos/general/domain/mapeos/item.mapeo';
+import { RESOLUCION_FILTERS } from '@modulos/general/domain/mapeos/resolucion.mapeo';
   import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'compra/documento/lista';
@@ -207,9 +211,14 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/item',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenItem',
-              ordenamientos: ['-id'],
+              filtros: {
+                ui: ITEM_FILTERS
+              },
             },
             archivos: {
               importar: {
@@ -238,6 +247,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                ui: CONTACTO_FILTERS
+              },
             },
             archivos: {
               importar: {
@@ -264,15 +276,13 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/resolucion',
+            queryParams: {
+              compra: true,
+            },
             parametrosHttpConfig: {
               modelo: 'GenResolucion',
               filtros: {
-                lista: [
-                  {
-                    propiedad: 'compra',
-                    valor1: true,
-                  },
-                ],
+                ui: RESOLUCION_FILTERS
               },
             },
             ui: {
@@ -292,9 +302,14 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/forma_pago',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenFormaPago',
-              ordenamientos: ['id'],
+              filtros: {
+                ui: FORMA_PAGO_FILTERS
+              },
             },
             ui: {
               verBotonImportar: false,
