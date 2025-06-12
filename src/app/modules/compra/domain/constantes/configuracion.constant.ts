@@ -1,4 +1,5 @@
   import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
   import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'compra/documento/lista';
@@ -207,9 +208,11 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/item',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenItem',
-              ordenamientos: ['-id'],
             },
             archivos: {
               importar: {
@@ -238,6 +241,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                ui: CONTACTO_FILTERS
+              },
             },
             archivos: {
               importar: {
@@ -264,16 +270,11 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/resolucion',
+            queryParams: {
+              compra: true,
+            },
             parametrosHttpConfig: {
               modelo: 'GenResolucion',
-              filtros: {
-                lista: [
-                  {
-                    propiedad: 'compra',
-                    valor1: true,
-                  },
-                ],
-              },
             },
             ui: {
               verBotonImportar: false,
@@ -292,9 +293,11 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/forma_pago',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'GenFormaPago',
-              ordenamientos: ['id'],
             },
             ui: {
               verBotonImportar: false,

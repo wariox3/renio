@@ -451,16 +451,11 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/resolucion',
+            queryParams: {
+              venta: true,
+            },
             parametrosHttpConfig: {
               modelo: 'GenResolucion',
-              filtros: {
-                lista: [
-                  {
-                    propiedad: 'venta',
-                    valor1: true,
-                  },
-                ],
-              },
             },
             ui: {
               verBotonImportar: false,

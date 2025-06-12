@@ -124,9 +124,11 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
               detalle: 'inventario/administracion/detalle',
             },
             endpoint: 'general/almacen',
+            queryParams: {
+              ordering: '-id'
+            },
             parametrosHttpConfig: {
               modelo: 'InvAlmacen',
-              ordenamientos: ['-id'],
             },
             ui: {
               verBotonImportar: false,

@@ -183,9 +183,11 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'contabilidad/cuenta',
+            queryParams: {
+              ordering: 'codigo',
+            },
             parametrosHttpConfig: {
               modelo: 'ConCuenta',
-              ordenamientos: ['codigo'],
             },
             archivos: {
               importar: {
@@ -212,9 +214,11 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'contabilidad/grupo',
+            queryParams: {
+              ordering: '-id',
+            },
             parametrosHttpConfig: {
               modelo: 'ConGrupo',
-              ordenamientos: ['-id'],
             },
             archivos: {
               importar: {
@@ -240,10 +244,12 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               nuevo: 'contabilidad/administracion/nuevo',
               detalle: 'contabilidad/administracion/detalle',
             },
-            endpoint: 'contabilidad/grupo',
+            endpoint: 'contabilidad/activo',
+            queryParams: {
+              ordering: '-id',
+            },
             parametrosHttpConfig: {
               modelo: 'ConActivo',
-              ordenamientos: ['-id'],
             },
             archivos: {
               importar: {
