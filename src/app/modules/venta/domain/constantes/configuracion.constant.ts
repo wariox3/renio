@@ -2,6 +2,13 @@ import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { PEDIDO_CLIENTE_FILTERS } from '../mapeos/pedido-cliente.mapeo';
 import { CONTACTO_FILTERS } from '../../../general/domain/mapeos/contacto.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
+import { ITEM_FILTERS } from '@modulos/general/domain/mapeos/item.mapeo';
+import { ALMACEN_FILTERS } from '@modulos/inventario/domain/mapeos/almacen.mapeo';
+import { SEDE_FILTERS } from '@modulos/general/domain/mapeos/sede.mapeo';
+import { PRECIO_FILTERS } from '@modulos/general/domain/mapeos/precio.mapeo';
+import { ASESOR_FILTERS } from '@modulos/general/domain/mapeos/asesor.mapeo';
+import { RESOLUCION_FILTERS } from '@modulos/general/domain/mapeos/resolucion.mapeo';
+import { CUENTA_BANCO_FILTERS } from '@modulos/general/domain/mapeos/cuenta-banco.mapeo';
 
 const DocLista = 'venta/documento/lista';
 const DocNuevo = 'venta/documento/nuevo';
@@ -32,12 +39,12 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               serializador: 'lista',
               documento_tipo_id: 16,
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -55,7 +62,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           nombreModelo: 'PEDIDOCLIENTE',
           ajustes: {
             rutas: {
-              lista:  DocLista,
+              lista: DocLista,
               nuevo: DocNuevo,
               editar: DocEditar,
               detalle: DocDetalle,
@@ -75,7 +82,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
                     valor1: 106,
                   },
                 ],
-                ui: PEDIDO_CLIENTE_FILTERS
+                ui: PEDIDO_CLIENTE_FILTERS,
               },
             },
             ui: {
@@ -105,12 +112,12 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               documento_tipo_id: 1,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -140,12 +147,12 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               documento_tipo_id: 24,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -175,12 +182,12 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               documento_tipo_id: 2,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -209,12 +216,12 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               documento_tipo_id: 3,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -243,12 +250,12 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               documento_tipo_id: 4,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -277,12 +284,12 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             queryParams: {
               documento_tipo_id: 17,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -315,13 +322,14 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {
-                ui: CONTACTO_FILTERS
-              }
+                ui: CONTACTO_FILTERS,
+              },
             },
             archivos: {
               importar: {
                 nombre: 'GenContacto',
-                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
+                rutaEjemplo:
+                  'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -345,11 +353,15 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/item',
             parametrosHttpConfig: {
               modelo: 'GenItem',
+              filtros: {
+                ui: ITEM_FILTERS,
+              },
             },
             archivos: {
               importar: {
                 nombre: 'GenItem',
-                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenItem.xlsx',
+                rutaEjemplo:
+                  'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenItem.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -373,6 +385,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/precio',
             parametrosHttpConfig: {
               modelo: 'InvAlmacen',
+              filtros: {
+                ui: ALMACEN_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -393,6 +408,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/sede',
             parametrosHttpConfig: {
               modelo: 'GenSede',
+              filtros: {
+                ui: SEDE_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -413,6 +431,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/precio',
             parametrosHttpConfig: {
               modelo: 'GenPrecio',
+              filtros: {
+                ui: PRECIO_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -433,6 +454,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/asesor',
             parametrosHttpConfig: {
               modelo: 'GenAsesor',
+              filtros: {
+                ui: ASESOR_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -456,6 +480,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'GenResolucion',
+              filtros: {
+                ui: RESOLUCION_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -476,6 +503,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/cuenta_banco',
             parametrosHttpConfig: {
               modelo: 'GenCuentaBanco',
+              filtros: {
+                ui: CUENTA_BANCO_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
