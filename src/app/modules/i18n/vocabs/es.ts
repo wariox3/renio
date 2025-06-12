@@ -113,6 +113,7 @@ export const locale = {
         DEPRECIACION: 'Depreciación',
         CONACTIVO: 'Activo',
         ACTIVO: 'Activo',
+        FACTURAPOSELECTRONICA: 'Factura POS electrónica',
         FACTURAPOS: 'Factura POS',
         AUXILIARCUENTA: 'Auxiliar cuenta',
         AUXILIARTERCERO: 'Auxiliar tercero',
