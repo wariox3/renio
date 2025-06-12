@@ -1,4 +1,5 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'contabilidad/documento/lista';
@@ -157,6 +158,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/contacto',
             parametrosHttpConfig: {
               modelo: 'GenContacto',
+              filtros: {
+                ui: CONTACTO_FILTERS
+              }
             },
             archivos: {
               importar: {

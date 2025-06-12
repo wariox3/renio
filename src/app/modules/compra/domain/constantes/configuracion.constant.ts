@@ -1,5 +1,8 @@
   import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { FORMA_PAGO_FILTERS } from '@modulos/general/domain/mapeos/forma-pago.mapeo';
+import { ITEM_FILTERS } from '@modulos/general/domain/mapeos/item.mapeo';
+import { RESOLUCION_FILTERS } from '@modulos/general/domain/mapeos/resolucion.mapeo';
   import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'compra/documento/lista';
@@ -213,6 +216,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'GenItem',
+              filtros: {
+                ui: ITEM_FILTERS
+              },
             },
             archivos: {
               importar: {
@@ -275,6 +281,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'GenResolucion',
+              filtros: {
+                ui: RESOLUCION_FILTERS
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -298,6 +307,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'GenFormaPago',
+              filtros: {
+                ui: FORMA_PAGO_FILTERS
+              },
             },
             ui: {
               verBotonImportar: false,

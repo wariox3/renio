@@ -1,5 +1,6 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
 import { CONTACTO_FILTERS } from "@modulos/general/domain/mapeos/contacto.mapeo";
+import { CUENTA_BANCO_FILTERS } from "@modulos/general/domain/mapeos/cuenta-banco.mapeo";
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'tesoreria/documento/lista';
@@ -112,6 +113,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'GenCuentaBanco',
+              filtros: {
+                ui: CUENTA_BANCO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,

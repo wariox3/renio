@@ -29,9 +29,9 @@ export class DescargarArchivosService {
     const query = this._filterTransformerService.toQueryString({
       ...queries,
     });
-    this.httpService.descargarArchivo(
+    
+    this.httpService.descargarArchivoPorGet(
       `${endpoint}/?excel=1${query ? `&${query}` : ''}`,
-      {},
     );
   }
 

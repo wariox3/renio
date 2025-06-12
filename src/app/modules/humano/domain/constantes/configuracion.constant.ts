@@ -1,6 +1,13 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
+import { CONTRATO_FILTERS } from '../mapeo/contrato.mapeo';
+import { CARGO_FILTERS } from '../mapeo/cargo.mapeo';
+import { GRUPO_FILTERS } from '../mapeo/grupo.mapeo';
+import { SUCURSAL_FILTERS } from '../mapeo/sucursal.mapeo';
+import { ADICIONAL_FILTERS } from '../mapeo/adicional.mapeo';
+import { CREDITO_FILTERS } from '../mapeo/credito.mapeo';
+import { NOVEDAD_FILTERS } from '../mapeo/novedad.mapeo';
 
 const DocLista = 'humano/documento/lista';
 const DocNuevo = 'humano/documento/nuevo';
@@ -221,6 +228,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'HumContrato',
+              filtros: {
+                ui: CONTRATO_FILTERS
+              }
             },
             archivos: {
               importar: {
@@ -252,6 +262,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'HumCargo',
+              filtros: {
+                ui: CARGO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -272,6 +285,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'humano/grupo',
             parametrosHttpConfig: {
               modelo: 'HumGrupo',
+              filtros: {
+                ui: GRUPO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -292,6 +308,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'humano/sucursal',
             parametrosHttpConfig: {
               modelo: 'HumSucursal',
+              filtros: {
+                ui: SUCURSAL_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -323,6 +342,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
                     valor1: true,
                   },
                 ],
+                ui: ADICIONAL_FILTERS
               },
             },
             ui: {
@@ -347,6 +367,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'HumCredito',
+              filtros: {
+                ui: CREDITO_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
@@ -370,6 +393,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'HumNovedad',
+              filtros: {
+                ui: NOVEDAD_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,

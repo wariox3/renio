@@ -1,5 +1,7 @@
 import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
+import { ITEM_FILTERS } from "@modulos/general/domain/mapeos/item.mapeo";
 import { DOCUMENTO_FILTERS } from "src/app/core/constants/mapeo/documento.mapeo";
+import { ALMACEN_FILTERS } from "../mapeos/almacen.mapeo";
 
 const DocLista = 'inventario/documento/lista';
 const DocNuevo = 'inventario/documento/nuevo';
@@ -98,6 +100,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/item',
             parametrosHttpConfig: {
               modelo: 'GenItem',
+              filtros: {
+                ui: ITEM_FILTERS
+              }
             },
             archivos: {
               importar: {
@@ -129,6 +134,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'InvAlmacen',
+              filtros: {
+                ui: ALMACEN_FILTERS
+              }
             },
             ui: {
               verBotonImportar: false,
