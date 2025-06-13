@@ -94,7 +94,7 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
   ],
   providers: [provideNgxMask()],
 })
-export default class ContactDetalleComponent
+export default class ContactoFormularioComponent
   extends General
   implements OnInit, OnDestroy
 {

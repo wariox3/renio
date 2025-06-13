@@ -59,8 +59,8 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
 @Component({
   selector: 'app-factura-pos-formulario',
   standalone: true,
-  templateUrl: './factura-pos-formulario.component.html',
-  styleUrls: ['./factura-pos-formulario.component.scss'],
+  templateUrl: './factura-pos-electronica-formulario.component.html',
+  styleUrls: ['./factura-pos-electronica-formulario.component.scss'],
   imports: [
     CommonModule,
     FormsModule,
@@ -271,7 +271,7 @@ export default class FacturaPosFormularioComponent
           ...this.formularioFactura.value,
           ...{
             numero: null,
-            documento_tipo: 27,
+            documento_tipo: 24,
           },
         })
         .pipe(

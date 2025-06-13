@@ -132,7 +132,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         },
         {
           key: 105,
-          nombreModelo: 'FACTURAPOS',
+          nombreModelo: 'FACTURAPOSELECTRONICA',
           documentacion: {
             id: 1009,
           },
@@ -146,6 +146,41 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/documento',
             queryParams: {
               documento_tipo_id: 24,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
+            },
+            parametrosHttpConfig: {
+              modelo: 'GenDocumento',
+              filtros: {
+                ui: DOCUMENTO_FILTERS,
+              },
+            },
+            ui: {
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
+              verBotonExportarZip: true,
+            },
+          },
+        },
+        {
+          key: 107,
+          nombreModelo: 'FACTURAPOS',
+          documentacion: {
+            id: 1009,
+          },
+          ajustes: {
+            rutas: {
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
+            },
+            endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 27,
               serializador: 'lista',
               ordering: 'estado_aprobado,-fecha,-numero,-id',
             },

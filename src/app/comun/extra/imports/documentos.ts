@@ -54,11 +54,11 @@ export const Componentes: Partial<FormulariosDetalles> = {
   105: {
     detalle: async () =>
       await import(
-        '../../../modules/venta/paginas/documento/factura-pos/factura-pos-detalle/factura-pos-detalle.component'
+        '../../../modules/venta/paginas/documento/factura-pos-electronica/factura-pos-electronica-detalle/factura-pos-electronica-detalle.component'
       ),
     formulario: async () =>
       await import(
-        '../../../modules/venta/paginas/documento/factura-pos/factura-pos-formulario/factura-pos-formulario.component'
+        '../../../modules/venta/paginas/documento/factura-pos-electronica/factura-pos-electronica-formulario/factura-pos-electronica-formulario.component'
       ),
   },
   106: {
@@ -69,6 +69,16 @@ export const Componentes: Partial<FormulariosDetalles> = {
     formulario: async () =>
       await import(
         '../../../modules/venta/paginas/documento/pedido-cliente/pedido-cliente-formulario/pedido-cliente-formulario.component'
+      ),
+  },
+  107: {
+    detalle: async () =>
+      await import(
+        '../../../modules/venta/paginas/documento/factura-pos/factura-pos-detalle/factura-pos-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/venta/paginas/documento/factura-pos/factura-pos-formulario/factura-pos-formulario.component'
       ),
   },
   200: {

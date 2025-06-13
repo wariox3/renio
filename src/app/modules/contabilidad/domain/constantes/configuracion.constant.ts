@@ -1,6 +1,9 @@
 import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
+import { CUENTA_FILTERS } from '../mapeos/cuenta.mapeo';
+import { GRUPO_FILTERS } from '@modulos/humano/domain/mapeo/grupo.mapeo';
+import { ACTIVO_FILTERS } from '../mapeos/activo.mapeo';
 
 const DocLista = 'contabilidad/documento/lista';
 const DocNuevo = 'contabilidad/documento/nuevo';
@@ -192,6 +195,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'ConCuenta',
+              filtros: {
+                ui: CUENTA_FILTERS
+              }
             },
             archivos: {
               importar: {
@@ -223,6 +229,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'ConGrupo',
+              filtros: {
+                ui: GRUPO_FILTERS
+              }
             },
             archivos: {
               importar: {
@@ -254,6 +263,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'ConActivo',
+              filtros: {
+                ui: ACTIVO_FILTERS
+              }
             },
             archivos: {
               importar: {

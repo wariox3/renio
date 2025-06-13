@@ -35,6 +35,7 @@ export const documentos: MapeoDocumentos = {
   104: documento104,
   105: documento105,
   106: documento106,
+  107: documento105,
   200: documento200,
   201: documento201,
   300: documento300,
