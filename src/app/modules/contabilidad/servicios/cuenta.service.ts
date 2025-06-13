@@ -1,14 +1,16 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
 import { cuentaTraslado } from '../interfaces/cuenta-traslado';
 import { RespuestaCuentaTraslado } from '../interfaces/respuesta-cuenta-traslado';
+import { GeneralService } from '@comun/services/general.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CuentaService extends Subdominio {
+  private readonly _generalService = inject(GeneralService);
   constructor(private httpService: HttpService) {
     super();
   }
@@ -31,7 +33,7 @@ export class CuentaService extends Subdominio {
   calcularRangoIds(
     id: number,
     multiplicador: number,
-    desplazamiento: number
+    desplazamiento: number,
   ): { idDesde: number; idHasta: number } {
     const idDesde = id * multiplicador;
     const idHasta = id * multiplicador + desplazamiento;
@@ -39,7 +41,31 @@ export class CuentaService extends Subdominio {
     return { idDesde, idHasta };
   }
 
-  traslado(data: cuentaTraslado){
-    return this.httpService.post<RespuestaCuentaTraslado>(`contabilidad/cuenta/trasladar/`, data);
+  traslado(data: cuentaTraslado) {
+    return this.httpService.post<RespuestaCuentaTraslado>(
+      `contabilidad/cuenta/trasladar/`,
+      data,
+    );
+  }
+
+  consultarCuentaClase(queryParams: { [key: string]: any } = {}) {
+    return this._generalService.consultaApi<any>(
+      'contabilidad/cuenta_clase/',
+      queryParams,
+    );
+  }
+
+  consultarCuentaGrupo(queryParams: { [key: string]: any } = {}) {
+    return this._generalService.consultaApi<any>(
+      'contabilidad/cuenta_grupo/',
+      queryParams,
+    );
+  }
+
+  consultarCuentaCuenta(queryParams: { [key: string]: any } = {}) {
+    return this._generalService.consultaApi<any>(
+      'contabilidad/cuenta_cuenta/',
+      queryParams,
+    );
   }
 }
