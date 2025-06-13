@@ -159,7 +159,7 @@ export class PeriodoDetalleComponent
       .consultarDetalle()
       .pipe(
         takeUntil(this._destroy$),
-        map((respuesta) => respuesta.sort((a, b) => b.anio - a.anio)),
+        map((respuesta) => respuesta.results.sort((a, b) => b.anio - a.anio)),
       )
       .subscribe((respuesta) => {
         this.periodos$ = of(respuesta);

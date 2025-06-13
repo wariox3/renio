@@ -8,6 +8,7 @@ import {
 import { PeriodoCierre } from '../interfaces/contabilidad-periodo-cierre.interface';
 import { PeriodoBloquear } from '../interfaces/contabilidad-periodo-bloquear.interface';
 import { PeriodoDesbloquear } from '../interfaces/contabilidad-periodo-desbloquear.interface';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class PeriodoService extends Subdominio {
   }
 
   consultarDetalle() {
-    return this.httpService.getDetalle<ConPeriodo[]>(`contabilidad/periodo/`);
+    return this.httpService.getDetalle<RespuestaApi<ConPeriodo>>(`contabilidad/periodo/`);
   }
 
   consultarInconsistencias(anio: number, mes: number) {
