@@ -1046,6 +1046,8 @@ export const locale = {
         ACTIVONOMBRE: 'Activo Nombre',
         CIERRE: 'Cierre',
         COMPROBANTE_ID: 'Comprobante id',
+        NUMERO_IDENTIFICACION: 'Identificación',
+        NOMBRE_CORTO: 'Nombre',
       },
       ITEM: {
         ID: 'ID',
