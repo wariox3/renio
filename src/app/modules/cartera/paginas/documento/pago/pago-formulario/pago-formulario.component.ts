@@ -39,6 +39,7 @@ import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocom
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { CarteraService } from '@modulos/cartera/services/cartera.service';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -69,6 +70,7 @@ export default class PagoFormularioComponent
 {
   private _operacionesService = inject(OperacionesService);
   private _configModuleService = inject(ConfigModuleService);
+  private _carteraService = inject(CarteraService);
 
   formularioFactura: FormGroup;
   active: Number;
@@ -178,13 +180,12 @@ export default class PagoFormularioComponent
   }
 
   consultarInformacion() {
-    this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBanco>({
-        modelo: 'GenCuentaBanco',
-        serializador: 'ListaAutocompletar',
+    this._carteraService.
+      consultarCuentaBanco({
+        ordering: "id"
       })
       .subscribe((respuesta) => {
-        this.arrBancos = respuesta.registros;
+        this.arrBancos = respuesta.results;
         this.changeDetectorRef.detectChanges();
       });
   }
