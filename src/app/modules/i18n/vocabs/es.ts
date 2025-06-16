@@ -813,6 +813,8 @@ export const locale = {
             'La fecha desde no puede ser mayor que la fecha hasta.',
           NUMEROIDENTIFICACIONEXISTEN:
             'El empleado con el número y tipo de identificación seleccionados ya existe.',
+          NUMEROIDENTIFICACIONCONTACTOEXISTEN:
+            'El contacto con el número y tipo de identificación seleccionados ya existe.',
         },
         CONTENEDORES: {
           NOMBREUSADO: 'Nombre no disponible',
