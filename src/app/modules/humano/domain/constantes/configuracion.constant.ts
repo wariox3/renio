@@ -225,6 +225,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'humano/contrato',
             queryParams: {
               ordering: '-id',
+              serializador: 'lista'
             },
             parametrosHttpConfig: {
               modelo: 'HumContrato',
