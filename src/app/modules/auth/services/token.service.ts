@@ -16,7 +16,7 @@ export class TokenService {
     this._cookieService.set(cookieKey.ACCESS_TOKEN, token, {
       expires: tiempo,
       path: '/',
-      domain: environment.dominioApp,
+      domain: environment.production ? environment.dominioApp : 'localhost',
     });
   }
 
@@ -33,7 +33,7 @@ export class TokenService {
     this._cookieService.set(cookieKey.REFRESH_TOKEN, refreshToken, {
       expires: tiempo,
       path: '/',
-      domain: environment.dominioApp,
+      domain: environment.production ? environment.dominioApp : 'localhost',
     });
   }
 
