@@ -237,6 +237,7 @@ export const locale = {
             EMPRESACONFIGURACION: 'Configuración',
             CONTENEDORES: 'Mis contenedores',
             SOCIO: 'Socio',
+            GESTIONARCUENTA: 'Gestionar cuenta',
           },
           VERMAS: 'Ver más',
           IDENTIFICACION: 'Identificación',

@@ -34,6 +34,7 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -142,7 +143,7 @@ export default class AsientoFormularioComponent
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      comentario: [null],
+      comentario: [null, cambiarVacioPorNulo.validar],
       total: [0],
       comprobante: ['', Validators.compose([Validators.required])],
       comprobante_nombre: [''],

@@ -167,23 +167,20 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       });
   }
 
-  cambiarOrdemiento(ordenamiento: string) {
-    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-      this.consultarLista();
-  }
-
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.changeDetectorRef.detectChanges();
-    this.consultarLista();
+    this._generalService
+      .consultaApi(`${this._endpoint!}/`, {
+        ...this.queryParams,
+        page: data.desplazamiento,
+      })
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrItems = respuesta.results;
+        this.totalItems.set(respuesta.count);
+        this.changeDetectorRef.detectChanges();
+      });
   }
-
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
-    this.consultarLista();
-  }
-
+  
   eliminarRegistros(data: Number[]) {
     if (data.length > 0) {
       this.cargando$.next(true);
