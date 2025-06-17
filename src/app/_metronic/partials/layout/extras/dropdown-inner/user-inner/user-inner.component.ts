@@ -30,6 +30,7 @@ import {
 } from 'rxjs';
 import { AuthService, UserType } from '../../../../../../modules/auth';
 import { TranslationService } from '../../../../../../modules/i18n';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-user-inner',
@@ -43,6 +44,8 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   class =
     `menu menu-sub menu-sub-dropdown menu-column menu-rounded menu-gray-600 menu-state-bg menu-state-primary fw-bold py-4 fs-6 w-275px`;
   @HostBinding('attr.data-kt-menu') dataKtMenu = 'true';
+
+  public URL_REDDOC_CUENTA = environment.URL_REDDOC_CUENTA;
 
   language: LanguageFlag;
   user$: Observable<UserType>;
