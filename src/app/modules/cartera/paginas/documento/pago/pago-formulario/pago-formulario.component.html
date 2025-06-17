@@ -155,12 +155,12 @@
             <option value="">Seleccionar...</option>
             <ng-container *ngFor="let banco of arrBancos">
               <option
-                [value]="banco.cuenta_banco_id"
+                [value]="banco.id"
                 [selected]="
-                  banco.cuenta_banco_id === formularioFactura.value.cuenta_banco
+                  banco.id === formularioFactura.value.cuenta_banco
                 "
               >
-                {{ banco.cuenta_banco_nombre }}
+                {{ banco.nombre }}
               </option>
             </ng-container>
           </select>

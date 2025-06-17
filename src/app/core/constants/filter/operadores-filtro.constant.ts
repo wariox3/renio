@@ -1,6 +1,7 @@
 import { Operator } from '../../interfaces/filtro.interface';
 
 export const OPERADORES_FILTRO: Operator[] = [
+  { symbol: 'contains', name: 'Contiene', types: ['string'], default: true },
   {
     symbol: '=',
     name: 'Igual',
@@ -31,5 +32,4 @@ export const OPERADORES_FILTRO: Operator[] = [
     types: ['number', 'date'],
     default: false,
   },
-  { symbol: 'contains', name: 'Contiene', types: ['string'], default: false },
 ];

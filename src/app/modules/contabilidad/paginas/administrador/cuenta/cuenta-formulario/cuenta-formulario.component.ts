@@ -205,53 +205,37 @@ export default class ItemFormularioComponent extends General implements OnInit, 
   }
 
   private _consultarCuentaClaseLista() {
-    this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConCuentaClase>({
-        filtros: [],
-        modelo: 'ConCuentaClase',
+    this.cuentaService
+      .consultarCuentaClase({
+        ordering: "id"
       })
       .subscribe((response) => {
-        this.cuentaClaseLista = response.registros;
+        this.cuentaClaseLista = response.results;
       });
   }
 
   private _consultarCuentaGrupoLista(idDesde: number, idHasta: number) {
-    this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConCuentaGrupo>({
-        filtros: [
-          {
-            propiedad: 'id',
-            operador: 'range',
-            valor1: idDesde,
-            valor2: idHasta,
-          },
-        ],
-        modelo: 'ConCuentaGrupo',
+    this.cuentaService
+      .consultarCuentaGrupo({
+        id__gte: idDesde,
+        id__lte: idHasta,
+        ordering: 'id',
       })
       .subscribe((response) => {
-        this.cuentaGrupoLista = response.registros;
+        this.cuentaGrupoLista = response.results;
         this.changeDetectorRef.detectChanges();
       });
   }
 
   private _consultarCuentaCuentaLista(idDesde: number, idHasta: number) {
-    this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConCuentaCuenta>({
-        filtros: [
-          {
-            propiedad: 'id',
-            operador: 'range',
-            valor1: idDesde,
-            valor2: idHasta,
-          },
-        ],
-        limite_conteo: 10000,
-        limite: 100,
-        desplazar: 0,
-        modelo: 'ConCuentaCuenta',
+    this.cuentaService
+      .consultarCuentaCuenta({
+        id__gte: idDesde,
+        id__lte: idHasta,
+        ordering: 'id',
       })
       .subscribe((response) => {
-        this.cuentaCuentaLista = response.registros;
+        this.cuentaCuentaLista = response.results;
         this.changeDetectorRef.detectChanges();
       });
   }
