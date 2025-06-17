@@ -3,7 +3,7 @@
     @if (detalle) {
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
         <app-importar-detalles
-          endpoint="general/importar/detalle-cuenta/"
+          endpoint="general/documento/importar-detalle-cuenta/"
           [archivoEjemplo]="{
             nombre: 'ejemplo_asiento',
             path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/601.xlsx',
@@ -242,6 +242,39 @@
         </div>
       </div>
       <div class="row mb-5">
+        <div class="col-md-12 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+          ></label>
+          <textarea
+            formControlName="comentario"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            (blur)="modificarCampoFormulario('comentario', null)"
+            rows="3"
+            [ngClass]="{
+              'is-invalid':
+                formularioAsiento.controls['comentario'].touched &&
+                formularioAsiento.controls['comentario'].invalid,
+              'is-valid':
+                formularioAsiento.controls['comentario'].touched &&
+                formularioAsiento.controls['comentario'].valid,
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message:
+                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+              cantidadCaracteres: '500',
+              control: formularioAsiento.controls['comentario'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
         <div class="col-12">
           <ul
             ngbNav
@@ -294,8 +327,8 @@
                           style="width: 100px"
                         ></th>
                         <th
-                          [translate]="'LISTAS.DOCUMENTO.VALOR'"
-                          style="width: 100px"
+                        [translate]="'LISTAS.DOCUMENTO.VALOR'"
+                        style="width: 100px"
                         ></th>
                         <th
                           [translate]="'LISTAS.DOCUMENTO.BASE'"
@@ -528,41 +561,7 @@
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
               ></a>
-              <ng-template ngbNavContent>
-                <div class="row mb-5">
-                  <div class="col-md-12 col-sm-12">
-                    <label
-                      class="form-label"
-                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-                    ></label>
-                    <textarea
-                      formControlName="comentario"
-                      class="form-control"
-                      id="exampleFormControlTextarea1"
-                      (blur)="modificarCampoFormulario('comentario', null)"
-                      rows="3"
-                      [ngClass]="{
-                        'is-invalid':
-                          formularioAsiento.controls['comentario'].touched &&
-                          formularioAsiento.controls['comentario'].invalid,
-                        'is-valid':
-                          formularioAsiento.controls['comentario'].touched &&
-                          formularioAsiento.controls['comentario'].valid,
-                      }"
-                    ></textarea>
-                    <ng-container
-                      [ngTemplateOutlet]="formError"
-                      [ngTemplateOutletContext]="{
-                        validation: 'maxlength',
-                        message:
-                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
-                          | translate,
-                        cantidadCaracteres: '500',
-                        control: formularioAsiento.controls['comentario'],
-                      }"
-                    ></ng-container>
-                  </div></div
-              ></ng-template>
+              <ng-template ngbNavContent> </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
