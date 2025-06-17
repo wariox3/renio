@@ -256,11 +256,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.consultarLista();
   }
 
-  cambiarOrdemiento(ordenamiento: string) {
-    // (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-    //   this.consultarLista();
-  }
-
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this._generalService
       .consultaApi(`${this._endpoint!}/`, {
