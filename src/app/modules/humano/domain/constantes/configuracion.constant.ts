@@ -71,6 +71,31 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: 'HumLiquidacion',
+          nombreModelo: 'liquidacion',
+          ajustes: {
+            rutas: {
+              lista: 'humano/proceso/lista',
+              nuevo: 'humano/proceso/nuevo',
+              detalle: 'humano/proceso/detalle',
+              editar: 'humano/proceso/editar',
+            },
+            endpoint: 'humano/liquidacion',
+            parametrosHttpConfig: {
+              modelo: 'HumLiquidacion',
+              ordenamientos: ['-fecha_desde'],
+            },
+            ui: {
+              verBotonEliminar: true,
+              verBotonNuevo: true,
+              verColumnaSeleccionar: true,
+              verBotonExportarZip: true,
+              verColumnaEditar: true,
+              verIconoDerecha: true,
+            },
+          },
+        },
       ],
     },
     {

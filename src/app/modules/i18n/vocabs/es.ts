@@ -126,6 +126,7 @@ export const locale = {
         HUMNOVEDAD: 'Novedad',
         ENVIANOMINAELECTRONICA: 'Enviar nomina electronica',
         PEDIDOCLIENTE: 'Pedido cliente',
+        LIQUIDACION: 'Liquidación',
       },
     },
     FORMULARIOS: {
@@ -1642,6 +1643,7 @@ export const locale = {
       BASE: 'Base',
       CERTIFICADORETENCION: 'Certificado de retención',
       ENVIARNOMINAELECTRONICA: 'Enviar nomina electronica',
+      LIQUIDACION: 'Liquidación',
     },
   },
 };
