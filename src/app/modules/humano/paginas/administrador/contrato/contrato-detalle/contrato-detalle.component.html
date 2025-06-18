@@ -352,7 +352,7 @@
               [items]="motivosTerminacion()"
               bindLabel="nombre"
               bindValue="id"
-              formControlName="motivo_terminacion"
+              formControlName="motivo_terminacion_id"
               notFoundText="Sin elementos"
               (change)="seleccionarMotivoTerminacion($event)"
               placeholder="Selecciona un elemento"
@@ -364,7 +364,7 @@
               [ngTemplateOutletContext]="{
                 validation: 'required',
                 message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-                control: formularioTerminar.controls['motivo_terminacion'],
+                control: formularioTerminar.controls['motivo_terminacion_id'],
               }"
             ></ng-container>
           </div>

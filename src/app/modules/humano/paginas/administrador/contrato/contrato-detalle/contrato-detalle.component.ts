@@ -131,7 +131,7 @@ export default class ContratoDetalleComponent
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
-      motivo_terminacion: [null, Validators.compose([Validators.required])],
+      motivo_terminacion_id: [null, Validators.compose([Validators.required])],
     });
   }
 
