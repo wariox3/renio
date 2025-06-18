@@ -1577,8 +1577,9 @@ export const locale = {
       102: 'Nota débito',
       103: 'Factura recurrente',
       104: 'Cuenta de cobro',
-      105: 'Factura pos',
+      105: 'Factura pos electrónica',
       106: 'Pedido cliente',
+      107: 'Factura de pos',
       200: 'Pago',
       201: 'Saldo inicial',
       300: 'Factura de compra',
@@ -1643,7 +1644,8 @@ export const locale = {
       BASE: 'Base',
       CERTIFICADORETENCION: 'Certificado de retención',
       ENVIARNOMINAELECTRONICA: 'Enviar nomina electronica',
-      LIQUIDACION: 'Liquidación',
+      HUMLIQUIDACION: 'Liquidación',
+
     },
   },
 };

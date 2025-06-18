@@ -206,6 +206,7 @@ export class AlertaService {
         allowOutsideClick: false,
         confirmButtonText: 'Confirmar',
         denyButtonText: `Cancelar`,
+        cancelButtonText: 'Cancelar',
       })
     );
   }
@@ -223,6 +224,7 @@ export class AlertaService {
         allowOutsideClick: false,
         confirmButtonText: 'Confirmar',
         denyButtonText: `Cancelar`,
+        cancelButtonText: 'Cancelar',
       })
     );
   }

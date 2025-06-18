@@ -88,10 +88,10 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             ui: {
               verBotonEliminar: true,
-              verBotonNuevo: true,
+              verBotonNuevo: false,
               verColumnaSeleccionar: true,
               verBotonExportarZip: true,
-              verColumnaEditar: true,
+              verColumnaEditar: false,
               verIconoDerecha: true,
             },
           },
