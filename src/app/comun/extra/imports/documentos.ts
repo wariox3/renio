@@ -249,4 +249,13 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/humano/paginas/documento/aporte/aporte-formulario/aporte-formulario.component'
       ),
   },
+  HumLiquidacion: {
+    detalle: async () =>
+      await import(
+        '../../../modules/humano/paginas/documento/liquidacion-detalle/liquidacion-detalle.component'
+      ),
+    formulario: function (): Promise<{ default: any }> {
+      throw new Error('Function not implemented.');
+    },
+  },
 };
