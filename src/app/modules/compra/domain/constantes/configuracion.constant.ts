@@ -58,7 +58,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
           key: 301,
           nombreModelo: 'NOTACREDITO',
           documentacion: {
-            id: 1007,
+            id: 1008,
           },
           ajustes: {
             rutas: {

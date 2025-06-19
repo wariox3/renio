@@ -169,7 +169,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           key: 107,
           nombreModelo: 'FACTURAPOS',
           documentacion: {
-            id: 1009,
+            id: 1071,
           },
           ajustes: {
             rutas: {

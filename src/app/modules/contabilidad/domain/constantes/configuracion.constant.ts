@@ -114,7 +114,7 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
           key: 603,
           nombreModelo: 'CIERRE',
           documentacion: {
-            id: 1020,
+            id: 1024,
           },
           ajustes: {
             rutas: {
