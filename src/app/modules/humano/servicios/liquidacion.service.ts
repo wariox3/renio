@@ -21,15 +21,19 @@ export class LiquidacionService extends Subdominio {
     return this.httpService.post(`humano/liquidacion/aprobar/`, { id });
   }
 
-  generar(data: { id: number }) {
-    return this.httpService.post<any>(`humano/liquidacion/generar/`, data);
+  generar(id: number) {
+    return this.httpService.post<any>(`humano/liquidacion/generar/`, { id });
   }
 
-  desgenerar(data: { id: number }) {
-    return this.httpService.post<any>(`humano/liquidacion/desgenerar/`, data);
+  desgenerar(id: number) {
+    return this.httpService.post<any>(`humano/liquidacion/desgenerar/`, { id });
   }
 
-  desaprobar(data: any) {
-    return this.httpService.post<any>(`humano/liquidacion/desaprobar/`, data);
+  desaprobar(id: number) {
+    return this.httpService.post<any>(`humano/liquidacion/desaprobar/`, { id });
+  }
+
+  notificar(id: number) {
+    return this.httpService.post<any>(`humano/liquidacion/notificar/`, { id });
   }
 }

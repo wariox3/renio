@@ -3,19 +3,18 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
-import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { HttpService } from '@comun/services/http.service';
-import { PagoService } from '@modulos/humano/servicios/pago.service';
+import { Liquidacion } from '@modulos/humano/interfaces/liquidacion.interface';
+import { LiquidacionService } from '@modulos/humano/servicios/liquidacion.service';
 import {
   NgbDropdownModule,
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { finalize } from 'rxjs';
 import { CardComponent } from '../../../../../comun/componentes/card/card.component';
-import { LiquidacionService } from '@modulos/humano/servicios/liquidacion.service';
-import { Liquidacion } from '@modulos/humano/interfaces/liquidacion.interface';
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -30,7 +29,6 @@ import { Liquidacion } from '@modulos/humano/interfaces/liquidacion.interface';
     NgbTooltipModule,
     BaseEstadosComponent,
     TituloAccionComponent,
-    DocumentoOpcionesComponent,
   ],
   templateUrl: './liquidacion-detalle.component.html',
   styleUrl: './liquidacion-detalle.component.scss',
@@ -44,6 +42,8 @@ export default class LiquidacionDetalleComponent
   active: Number;
   liquidacion = signal<Liquidacion | null>(null);
   generando = signal<boolean>(false);
+  desgenerando = signal<boolean>(false);
+  notificando = signal<boolean>(false);
 
   constructor(private httpService: HttpService) {
     super();
@@ -76,7 +76,7 @@ export default class LiquidacionDetalleComponent
   }
 
   generar() {
-    this.liquidacionService.generar({ id: this.detalle }).subscribe({
+    this.liquidacionService.generar(this.detalle).subscribe({
       next: () => {
         this.consultarDetalle();
         this.alertaService.mensajaExitoso('Documento generado con exito!');
@@ -91,5 +91,31 @@ export default class LiquidacionDetalleComponent
         this.alertaService.mensajaExitoso('Documento aprobado con exito!');
       },
     });
+  }
+
+  desgenerar() {
+    this.desgenerando.set(true);
+    this.liquidacionService
+      .desgenerar(this.detalle)
+      .pipe(
+        finalize(() => {
+          this.desgenerando.set(false);
+          this.consultarDetalle();
+        }),
+      )
+      .subscribe();
+  }
+
+  notificar() {
+    this.notificando.set(true);
+    this.liquidacionService
+      .notificar(this.detalle)
+      .pipe(
+        finalize(() => {
+          this.notificando.set(false);
+          this.consultarDetalle();
+        }),
+      )
+      .subscribe();
   }
 }
