@@ -204,6 +204,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenItem',
           nombreModelo: 'Item',
+          documentacion: {
+            id: 1037,
+          },
           ajustes: {
             rutas: {
               lista: 'compra/administracion/lista',
@@ -238,6 +241,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenContacto',
           nombreModelo: 'Contacto',
+          documentacion: {
+            id: 1036,
+          },
           ajustes: {
             rutas: {
               lista: 'compra/administracion/lista',
@@ -269,6 +275,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenResolucion',
           nombreModelo: 'RESOLUCION',
+          documentacion: {
+            id: 1047,
+          },
           ajustes: {
             rutas: {
               lista: 'compra/administracion/lista',
@@ -295,6 +304,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenFormaPago',
           nombreModelo: 'FORMAPAGO',
+          documentacion: {
+            id: 1048,
+          },
           ajustes: {
             rutas: {
               lista: 'compra/administracion/lista',
@@ -326,6 +338,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'documentoELECTRONICO',
+          documentacion: {
+            id: 1049,
+          },
           ajustes: {
             rutas: {
               lista: 'compra/utilidad/documento_electronico',
@@ -336,6 +351,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'EVENTOSDIAN',
+          documentacion: {
+            id: 1050,
+          },
           ajustes: {
             rutas: {
               lista: 'compra/utilidad/eventos_dian',
@@ -351,6 +369,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'CUENTASPAGAR',
+          documentacion: {
+            id: 1051,
+          },
           ajustes: {
             rutas: {
               lista: 'compra/informe/cuentas_pagar',

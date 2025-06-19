@@ -52,9 +52,9 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
         {
           key: 201,
           nombreModelo: 'SALDOINICIAL',
-          // documentacion: {
-          //   id: 1007,
-          // },
+           documentacion: {
+             id: 1044,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -100,6 +100,9 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenCuentaBanco',
           nombreModelo: 'CuentaBanco',
+          documentacion: {
+            id: 1039,
+          },
           ajustes: {
             rutas: {
               lista: 'cartera/administracion/lista',
@@ -125,6 +128,9 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
         },
         {
           key: 'GenContacto',
+          documentacion: {
+            id: 1036,
+          },
           nombreModelo: 'Contacto',
           ajustes: {
             rutas: {
@@ -162,6 +168,9 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'CUENTASCOBRAR',
+          documentacion: {
+            id: 1045,
+          },
           ajustes: {
             rutas: {
               lista: 'cartera/informe/cuentas_cobrar',
@@ -172,6 +181,9 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'CUENTASCOBRARCORTE',
+          documentacion: {
+            id: 1046,
+          },
           ajustes: {
             rutas: {
               lista: 'cartera/informe/cuentas_cobrar_corte',

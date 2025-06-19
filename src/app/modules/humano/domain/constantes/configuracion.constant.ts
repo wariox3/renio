@@ -79,6 +79,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumLiquidacion',
           nombreModelo: 'liquidacion',
+          
           ajustes: {
             rutas: {
               lista: 'humano/proceso/lista',
@@ -115,9 +116,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 701,
           nombreModelo: 'NOMINA',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion:{
+            id: 1054
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -147,9 +148,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 702,
           nombreModelo: 'NOMINAELECTRONICA',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion:{
+            id: 1055
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -180,9 +181,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 703,
           nombreModelo: 'SEGURIDADSOCIAL',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion:{
+            id: 1056
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -217,6 +218,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenEmpleado',
           nombreModelo: 'EMPLEADO',
+          documentacion:{
+            id: 1057
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -252,6 +256,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumContrato',
           nombreModelo: 'CONTRATO',
+          documentacion:{
+            id: 1058
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -287,6 +294,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumCargo',
           nombreModelo: 'CARGO',
+          documentacion:{
+            id: 1059
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -313,6 +323,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumGrupo',
           nombreModelo: 'GRUPO',
+          documentacion:{
+            id: 1060
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -336,6 +349,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumSucursal',
           nombreModelo: 'SUCURSAL',
+          documentacion:{
+            id: 1061
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -359,6 +375,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumAdicional',
           nombreModelo: 'ADICIONAL',
+          documentacion:{
+            id: 1062
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -392,6 +411,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumCredito',
           nombreModelo: 'CREDITO',
+          documentacion:{
+            id: 1063
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -418,6 +440,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumNovedad',
           nombreModelo: 'NOVEDAD',
+          documentacion:{
+            id: 1064
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -449,6 +474,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'ENVIANOMINAELECTRONICA',
+          documentacion:{
+            id: 1065
+          },
           ajustes: {
             rutas: {
               lista: 'humano/utilidad/enviar_nomina_electronica',
@@ -464,6 +492,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'NOMINA',
+          documentacion:{
+            id: 1066
+          },
           ajustes: {
             rutas: {
               lista: 'humano/informe/nomina',
@@ -474,6 +505,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'NOMINADETALLE',
+          documentacion:{
+            id: 1067
+          },
           ajustes: {
             rutas: {
               lista: 'humano/informe/nomina_detalle',
@@ -484,6 +518,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'NOMINAELECTRONICA',
+          documentacion:{
+            id: 1068
+          },
           ajustes: {
             rutas: {
               lista: 'humano/informe/nomina_electronica',

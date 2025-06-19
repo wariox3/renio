@@ -19,6 +19,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'PERIODO',
+          documentacion: {
+            id: 1021,
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/especial/periodo',
@@ -29,6 +32,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'MOVIMIENTO',
+          documentacion: {
+            id: 1022,
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/especial/movimiento',
@@ -79,9 +85,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: 602,
           nombreModelo: 'DEPRECIACION',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion: {
+            id: 1023,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -183,6 +189,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: 'ConCuenta',
           nombreModelo: 'CUENTA',
+          documentacion: {
+            id: 1025
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/administracion/lista',
@@ -217,6 +226,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: 'ConGrupo',
           nombreModelo: 'GRUPO',
+          documentacion: {
+            id: 1026
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/administracion/lista',
@@ -251,6 +263,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: 'ConActivo',
           nombreModelo: 'ACTIVO',
+          documentacion: {
+            id: 1027
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/administracion/lista',
@@ -290,6 +305,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'CONTABILIZAR',
+          documentacion: {
+            id: 1028
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/utilidad/contabilizar',
@@ -305,6 +323,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'BALANCEPRUEBA',
+          documentacion: {
+            id: 1029
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/informe/balance_prueba',
@@ -315,6 +336,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'BALANCEPRUEBAPORCONTACTO',
+          documentacion: {
+            id: 1030
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/informe/balance_prueba_contacto',
@@ -325,6 +349,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'AUXILIARCUENTA',
+          documentacion: {
+            id: 1031
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/informe/auxiliar_cuenta',
@@ -335,6 +362,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'AUXILIARTERCERO',
+          documentacion: {
+            id: 1032
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/informe/auxiliar_tercero',
@@ -345,6 +375,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'AUXILIARGENERAL',
+          documentacion: {
+            id: 1033
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/informe/auxiliar_general',
@@ -355,6 +388,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'BASE',
+          documentacion: {
+            id: 1034
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/informe/base',
@@ -365,6 +401,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'CERTIFICADORETENCION',
+          documentacion: {
+            id: 1035
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/informe/certificado_retencion',
