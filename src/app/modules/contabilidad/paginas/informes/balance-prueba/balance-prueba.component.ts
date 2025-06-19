@@ -17,17 +17,13 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { finalize } from 'rxjs';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-balance-prueba',
@@ -39,7 +35,6 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
-    BaseFiltroComponent,
   ],
   templateUrl: './balance-prueba.component.html',
   styleUrl: './balance-prueba.component.scss',
@@ -48,25 +43,15 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 export class BalancePruebaComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
-  private _parametrosConsulta: any = {
-    modelo: 'ConMovimiento',
-    serializador: 'Informe',
-    filtros: [],
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-  };
+  private _httpService = inject(HttpService);
+  private _descargarArchivosService = inject(DescargarArchivosService);
 
   public cuentasAgrupadas: MovimientoBalancePrueba[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
   public cargandoCuentas = signal<boolean>(false);
-  public filtroKey = 'contabilidad_balanceprueba';
 
-  private _httpService = inject(HttpService);
-  private _descargarArchivosService = inject(DescargarArchivosService);
 
   constructor() {
     super();
@@ -137,7 +122,7 @@ export class BalancePruebaComponent extends General implements OnInit {
     this._httpService.descargarArchivo(
       'contabilidad/movimiento/informe-balance-prueba/',
       {
-        ...this._parametrosConsulta,
+        parametros: this.formularioFiltros.value,
         pdf: true,
       },
     );
