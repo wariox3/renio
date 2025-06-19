@@ -117,7 +117,7 @@ export class ContenedorService extends Subdominio {
   }
 
   listaPlanes() {
-    return this.http.get<RespuestaApi<Plan>>(`${this.URL_API_BASE}/contenedor/plan/?ordering=id`);
+    return this.http.get<RespuestaApi<Plan>>(`${this.URL_API_BASE}/contenedor/plan/?ordering=orden`);
   }
 
   listaCiudades(arrFiltros: any) {
