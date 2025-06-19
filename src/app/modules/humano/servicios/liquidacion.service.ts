@@ -33,7 +33,8 @@ export class LiquidacionService extends Subdominio {
     return this.httpService.post<any>(`humano/liquidacion/desaprobar/`, { id });
   }
 
-  notificar(id: number) {
-    return this.httpService.post<any>(`humano/liquidacion/notificar/`, { id });
+  reliquiar(id: number) {
+    return this.httpService.post<any>(`humano/liquidacion/reliquidar/`, { id });
   }
 }
+  

@@ -55,6 +55,29 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button
+            [disabled]="!liquidacion()?.estado_aprobado"
+            ngbDropdownItem
+            (click)="confirmarDesaprobarDocumento()"
+          >
+            Desaprobar
+          </button>
+          <div class="dropdown-divider"></div>
+          <button
+            ngbDropdownItem
+            (click)="reliquiar()"
+            [disabled]="!!liquidacion()?.estado_aprobado"
+          >
+            @if (reliquiando()) {
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Reliquiando...</span>
+              </div>
+              Reliquiando...
+            } @else {
+              Reliquidar
+            }
+          </button>
+
+          <button
             ngbDropdownItem
             (click)="desgenerar()"
             [disabled]="
@@ -62,7 +85,7 @@
               !liquidacion()?.estado_generado ||
               liquidacion()?.estado_aprobado ||
               false
-            " 
+            "
           >
             @if (desgenerando()) {
               <div class="spinner-border spinner-border-sm" role="status">
@@ -73,22 +96,6 @@
               {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
             }
           </button>
-          @if (liquidacion()?.estado_aprobado) {
-            <button
-              (click)="notificar()"
-              ngbDropdownItem
-              [disabled]="notificando()"
-            >
-              @if (notificando()) {
-                <div class="spinner-border spinner-border-sm" role="status">
-                  <span class="sr-only"></span>
-                </div>
-                {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICANDO" | translate }}
-              } @else {
-                {{  "FORMULARIOS.BOTONES.COMUNES.NOTIFICAR" | translate }}
-              }
-            </button>
-          }
         </div>
       </div>
     </div>

@@ -43,6 +43,7 @@ export default class LiquidacionDetalleComponent
   liquidacion = signal<Liquidacion | null>(null);
   generando = signal<boolean>(false);
   desgenerando = signal<boolean>(false);
+  reliquiando = signal<boolean>(false);
   notificando = signal<boolean>(false);
 
   constructor(private httpService: HttpService) {
@@ -106,16 +107,41 @@ export default class LiquidacionDetalleComponent
       .subscribe();
   }
 
-  notificar() {
-    this.notificando.set(true);
+  reliquiar() {
+    this.reliquiando.set(true);
     this.liquidacionService
-      .notificar(this.detalle)
+      .reliquiar(this.detalle)
       .pipe(
         finalize(() => {
-          this.notificando.set(false);
+          this.reliquiando.set(false);
           this.consultarDetalle();
         }),
       )
-      .subscribe();
+      .subscribe(() => {
+        this.alertaService.mensajaExitoso('Documento reliquidado con exito!');
+      });
+  }
+
+  confirmarDesaprobarDocumento() {
+    this.alertaService
+      .confirmar({
+        titulo: '¿Estas seguro de desaprobar?',
+        texto: '',
+        textoBotonCofirmacion: 'Si, desaprobar',
+      })
+      .then((respuesta) => {
+        if (respuesta.isConfirmed) {
+          this._desaprobarDocumento(this.detalle);
+        }
+      });
+  }
+
+  private _desaprobarDocumento(documentoId: number) {
+    this.liquidacionService.desaprobar(documentoId).subscribe({
+      next: () => {
+        this.alertaService.mensajaExitoso('Documento desaprobado con exito!');
+        this.consultarDetalle();
+      },
+    });
   }
 }

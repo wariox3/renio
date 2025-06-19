@@ -89,7 +89,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'humano/liquidacion',
             queryParams: {
               serializador: 'lista',
-              ordering: '-fecha_desde',
+              ordering: 'estado_aprobado,-fecha_hasta,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'HumLiquidacion',
