@@ -10,4 +10,128 @@
 
 .card {
   flex: 1;
+  transition: all 0.3s ease;
+  border-radius: 12px;
+  overflow: hidden;
+  
+  &.chart-card {
+    background-color: #ffffff;
+    border: none;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.chart-container {
+  position: relative;
+  height: 400px;
+  width: 100%;
+  overflow: hidden;
+}
+
+:host ::ng-deep {
+  .apexcharts-canvas {
+    border-radius: 8px;
+  }
+  
+  .apexcharts-text tspan {
+    font-size: 1rem !important;
+  }
+  
+  .apexcharts-title-text {
+    font-weight: 600 !important;
+  }
+  
+  .apexcharts-subtitle-text {
+    font-weight: normal !important;
+  }
+
+  .apexcharts-tooltip {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: none !important;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 8px !important;
+    padding: 10px !important;
+    transition: all 0.2s ease !important;
+    
+    &.apexcharts-active {
+      opacity: 1;
+    }
+  }
+  
+  .apexcharts-tooltip-title {
+    background: transparent !important;
+    border-bottom: 1px dashed #e0e0e0 !important;
+    font-weight: 600 !important;
+    padding: 5px 10px !important;
+  }
+  
+  .apexcharts-xaxistooltip {
+    background: rgba(255, 255, 255, 0.96) !important;
+    border: none !important;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.05) !important;
+    border-radius: 4px !important;
+  }
+
+  .apexcharts-flip-y {
+    transform: scaleY(-1) translateY(-100%);
+    transform-origin: top;
+    transform-box: fill-box;
+  }
+  
+  .apexcharts-flip-x {
+    transform: scaleX(-1);
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  .apexcharts-legend.apx-legend-position-bottom.apexcharts-align-right, 
+  .apexcharts-legend.apx-legend-position-top.apexcharts-align-right {
+    justify-content: flex-end;
+  }
+  
+  .apexcharts-legend-series {
+    cursor: pointer;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+  }
+  
+  .apexcharts-legend-text {
+    position: relative;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .apexcharts-legend-text *, 
+  .apexcharts-legend-marker * {
+    pointer-events: none;
+  }
+  
+  .apexcharts-legend-marker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 8px;
+    border-radius: 50%;
+  }
+  
+  // Animate the chart on load
+  .apexcharts-area-series .apexcharts-series-markers,
+  .apexcharts-line-series .apexcharts-series-markers,
+  .apexcharts-area-series .apexcharts-area {
+    animation: fadeInUp 0.8s ease-in-out forwards;
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 }

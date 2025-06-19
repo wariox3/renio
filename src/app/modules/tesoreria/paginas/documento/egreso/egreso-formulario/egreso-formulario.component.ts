@@ -36,6 +36,7 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -66,6 +67,7 @@ export default class EgresoFormularioComponent
   implements OnInit
 {
   private readonly _operacionesService = inject(OperacionesService);
+  private readonly _cuentaBancoService = inject(CuentaBancoService);
 
   tapActivo = 1;
   formularioEgreso: FormGroup;
@@ -126,17 +128,14 @@ export default class EgresoFormularioComponent
   }
 
   consultarInformacion() {
-    zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBanco>(
-        {
-          modelo: 'GenCuentaBanco',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-    ).subscribe((respuesta: any) => {
-      this.arrBancos = respuesta[0]?.registros;
-      this.changeDetectorRef.detectChanges();
-    });
+    this._cuentaBancoService.
+      consultarCuentaBanco({
+        ordering: "id"
+      })
+      .subscribe((respuesta) => {
+        this.arrBancos = respuesta.results;
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   inicializarFormulario() {

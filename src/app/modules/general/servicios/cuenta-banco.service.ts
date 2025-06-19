@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 import { CuentaBanco } from '../interfaces/cuenta-banco.interface';
+import { GeneralService } from '@comun/services/general.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CuentaBancoService extends Subdominio {
+  private readonly _generalService = inject(GeneralService);
 
   constructor(private httpService: HttpService) {
     super();
@@ -22,5 +24,12 @@ export class CuentaBancoService extends Subdominio {
 
   actualizarDatos(id: number, data: CuentaBanco) {
     return this.httpService.put<CuentaBanco>(`general/cuenta_banco/${id}/`, data);
+  }
+
+  consultarCuentaBanco(queryParams: { [key: string]: any } = {}) {
+    return this._generalService.consultaApi<any>(
+      'general/cuenta_banco/',
+      queryParams,
+    );
   }
 }

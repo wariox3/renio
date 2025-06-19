@@ -116,7 +116,7 @@ export const locale = {
         FACTURAPOSELECTRONICA: 'Factura POS electrónica',
         FACTURAPOS: 'Factura POS',
         AUXILIARCUENTA: 'Auxiliar cuenta',
-        AUXILIARTERCERO: 'Auxiliar tercero',
+        AUXILIARTERCERO: 'Auxiliar contacto',
         AUXILIARGENERAL: 'Auxiliar general',
         CERTIFICADORETENCION: 'Certificado retención',
         BASE: 'Base',
