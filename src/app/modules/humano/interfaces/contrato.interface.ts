@@ -50,3 +50,8 @@ export interface ProgramacionContrato {
   tipo_costo_nombre: string;
   grupo_contabilidad_nombre: string;
 }
+
+export interface MotivoTerminacion {
+  id: number;
+  nombre: string;
+}

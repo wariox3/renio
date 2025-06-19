@@ -5,8 +5,8 @@
         <app-importar-detalles
           endpoint="general/documento/importar-detalle-cuenta/"
           [archivoEjemplo]="{
-            nombre: 'ejemplo_asiento',
-            path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/601.xlsx',
+            nombre: 'importar_detalle_cuenta',
+            path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/importar_detalle_cuenta.xlsx',
           }"
           [estadoHabilitado]="estado_aprobado"
           (emitirDetallesAgregados)="consultardetalle()"

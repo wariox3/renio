@@ -40,6 +40,7 @@ export type Modelo =
   | 'HumSubtipoCotizante'
   | 'HumSalud'
   | 'HumSucursal'
+  | 'HumLiquidacion'
   | 'HumEntidad'
   | 'HumTipoCotizante'
   | 'HumTipoCosto'

@@ -8,6 +8,7 @@ import { SUCURSAL_FILTERS } from '../mapeo/sucursal.mapeo';
 import { ADICIONAL_FILTERS } from '../mapeo/adicional.mapeo';
 import { CREDITO_FILTERS } from '../mapeo/credito.mapeo';
 import { NOVEDAD_FILTERS } from '../mapeo/novedad.mapeo';
+import { LIQUIDACION_FILTERS } from '../mapeo/liquidacion.mapeo';
 
 const DocLista = 'humano/documento/lista';
 const DocNuevo = 'humano/documento/nuevo';
@@ -32,9 +33,11 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               editar: 'humano/proceso/editar',
             },
             endpoint: 'humano/programacion',
+            queryParams: {
+              ordering: '-fecha_desde',
+            },
             parametrosHttpConfig: {
               modelo: 'HumProgramacion',
-              ordenamientos: ['-fecha_desde'],
             },
             ui: {
               verBotonEliminar: true,
@@ -57,9 +60,11 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               editar: 'humano/proceso/editar',
             },
             endpoint: 'humano/aporte',
+            queryParams: {
+              ordering: '-fecha_desde',
+            },
             parametrosHttpConfig: {
               modelo: 'HumAporte',
-              ordenamientos: ['-fecha_desde'],
             },
             ui: {
               verBotonEliminar: true,
@@ -67,6 +72,37 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               verColumnaSeleccionar: true,
               verBotonExportarZip: true,
               verColumnaEditar: true,
+              verIconoDerecha: true,
+            },
+          },
+        },
+        {
+          key: 'HumLiquidacion',
+          nombreModelo: 'liquidacion',
+          ajustes: {
+            rutas: {
+              lista: 'humano/proceso/lista',
+              nuevo: 'humano/proceso/nuevo',
+              detalle: 'humano/proceso/detalle',
+              editar: 'humano/proceso/editar',
+            },
+            endpoint: 'humano/liquidacion',
+            queryParams: {
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha_hasta,-numero,-id',
+            },
+            parametrosHttpConfig: {
+              modelo: 'HumLiquidacion',
+              filtros: {
+                ui: LIQUIDACION_FILTERS
+              }
+            },
+            ui: {
+              verBotonEliminar: true,
+              verBotonNuevo: false,
+              verColumnaSeleccionar: true,
+              verBotonExportarZip: true,
+              verColumnaEditar: false,
               verIconoDerecha: true,
             },
           },

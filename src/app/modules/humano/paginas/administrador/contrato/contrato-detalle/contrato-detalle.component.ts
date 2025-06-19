@@ -4,6 +4,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -18,9 +19,10 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
 import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { ProgramacionContrato } from '@modulos/humano/interfaces/contrato.interface';
+import { MotivoTerminacion, ProgramacionContrato } from '@modulos/humano/interfaces/contrato.interface';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -34,6 +36,7 @@ import { TranslateModule } from '@ngx-translate/core';
     ReactiveFormsModule,
     TituloAccionComponent,
     NgbDropdownModule,
+    NgSelectModule,
   ],
   templateUrl: './contrato-detalle.component.html',
   styleUrls: ['./contrato-detalle.component.css'],
@@ -52,6 +55,7 @@ export default class ContratoDetalleComponent
   public formularioTerminar: FormGroup;
   public tituloModal: string = '';
   public formularioParametrosIniciales: FormGroup;
+  public motivosTerminacion = signal<any[]>([]);
 
   constructor(private contratoService: ContratoService) {
     super();
@@ -107,7 +111,7 @@ export default class ContratoDetalleComponent
     tiempo_nombre: null,
     tipo_costo_id: 0,
     tipo_costo_nombre: '',
-    grupo_contabilidad_nombre: ''
+    grupo_contabilidad_nombre: '',
   };
 
   ngOnInit() {
@@ -127,6 +131,7 @@ export default class ContratoDetalleComponent
           Validators.pattern(/^[a-z-0-9.-_]*$/),
         ]),
       ],
+      motivo_terminacion_id: [null, Validators.compose([Validators.required])],
     });
   }
 
@@ -181,10 +186,19 @@ export default class ContratoDetalleComponent
 
   abrirModal(content: any) {
     this.tituloModal = 'Terminar contrato';
+    this._consultarMotivosTerminacion();
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'md',
     });
+  }
+
+  private _consultarMotivosTerminacion() {
+    this.contratoService
+      .consultarMotivosTerminacion()
+      .subscribe((response) => {
+        this.motivosTerminacion.set(response.results);
+      });
   }
 
   evniarFormularioTerminar() {
@@ -229,5 +243,11 @@ export default class ContratoDetalleComponent
         this.consultardetalle();
         this.alertaService.mensajaExitoso('Parametros iniciales actualizados!');
       });
+  }
+
+  seleccionarMotivoTerminacion(event: MotivoTerminacion) {
+    this.formularioTerminar.patchValue({
+      motivo_terminacion: event.id,
+    });
   }
 }
