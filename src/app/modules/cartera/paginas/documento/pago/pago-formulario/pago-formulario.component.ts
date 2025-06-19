@@ -40,6 +40,7 @@ import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/f
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
 import { CarteraService } from '@modulos/cartera/services/cartera.service';
+import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -70,7 +71,7 @@ export default class PagoFormularioComponent
 {
   private _operacionesService = inject(OperacionesService);
   private _configModuleService = inject(ConfigModuleService);
-  private _carteraService = inject(CarteraService);
+  private _cuentaBancoSerive = inject(CuentaBancoService);
 
   formularioFactura: FormGroup;
   active: Number;
@@ -180,7 +181,7 @@ export default class PagoFormularioComponent
   }
 
   consultarInformacion() {
-    this._carteraService.
+    this._cuentaBancoSerive.
       consultarCuentaBanco({
         ordering: "id"
       })
