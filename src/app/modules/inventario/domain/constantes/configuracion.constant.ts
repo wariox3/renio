@@ -1,7 +1,7 @@
-import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
-import { ITEM_FILTERS } from "@modulos/general/domain/mapeos/item.mapeo";
-import { DOCUMENTO_FILTERS } from "src/app/core/constants/mapeo/documento.mapeo";
-import { ALMACEN_FILTERS } from "../mapeos/almacen.mapeo";
+import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { ITEM_FILTERS } from '@modulos/general/domain/mapeos/item.mapeo';
+import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
+import { ALMACEN_FILTERS } from '../mapeos/almacen.mapeo';
 
 const DocLista = 'inventario/documento/lista';
 const DocNuevo = 'inventario/documento/nuevo';
@@ -18,9 +18,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
         {
           key: 500,
           nombreModelo: 'ENTRADA',
-          // documentacion: {
-          //   id: 1019,
-          // },
+          documentacion: {
+            id: 1077,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -29,15 +29,15 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            queryParams:{
+            queryParams: {
               documento_tipo_id: 9,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -52,9 +52,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
         {
           key: 501,
           nombreModelo: 'SALIDA',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion: {
+            id: 1078,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -63,15 +63,15 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            queryParams:{
+            queryParams: {
               documento_tipo_id: 10,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -91,6 +91,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenItem',
           nombreModelo: 'Item',
+          documentacion: {
+            id: 1078,
+          },
           ajustes: {
             rutas: {
               lista: 'inventario/administracion/lista',
@@ -101,13 +104,14 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenItem',
               filtros: {
-                ui: ITEM_FILTERS
-              }
+                ui: ITEM_FILTERS,
+              },
             },
             archivos: {
               importar: {
                 nombre: 'GenItem',
-                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenItem.xlsx',
+                rutaEjemplo:
+                  'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenItem.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -122,6 +126,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
         {
           key: 'InvAlmacen',
           nombreModelo: 'Almacen',
+          documentacion: {
+            id: 1076,
+          },
           ajustes: {
             rutas: {
               lista: 'inventario/administracion/lista',
@@ -130,13 +137,13 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'general/almacen',
             queryParams: {
-              ordering: '-id'
+              ordering: '-id',
             },
             parametrosHttpConfig: {
               modelo: 'InvAlmacen',
               filtros: {
-                ui: ALMACEN_FILTERS
-              }
+                ui: ALMACEN_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -153,6 +160,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'EXISTENCIA',
+          documentacion: {
+            id: 1079,
+          },
           ajustes: {
             rutas: {
               lista: 'inventario/informe/existencia',
@@ -163,6 +173,9 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'HISTORIALMOVIMIENTOS',
+          documentacion: {
+            id: 1080,
+          },
           ajustes: {
             rutas: {
               lista: 'inventario/informe/historial_movimientos',
