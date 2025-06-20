@@ -60,6 +60,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 106,
           nombreModelo: 'PEDIDOCLIENTE',
+          documentacion: {
+            id: 1069,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -134,7 +137,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           key: 105,
           nombreModelo: 'FACTURAPOSELECTRONICA',
           documentacion: {
-            id: 1009,
+            id: 1070,
           },
           ajustes: {
             rutas: {
@@ -344,6 +347,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenContacto',
           nombreModelo: 'Contacto',
+          documentacion: {
+            id: 1036,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -379,6 +385,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenItem',
           nombreModelo: 'ITEM',
+          documentacion: {
+            id: 1037,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -411,6 +420,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'InvAlmacen',
           nombreModelo: 'Almacen',
+          documentacion: {
+            id: 1076,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -434,6 +446,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenSede',
           nombreModelo: 'Sede',
+          documentacion: {
+            id: 1038,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -457,6 +472,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenPrecio',
           nombreModelo: 'PRECIO',
+          documentacion: {
+            id: 1072,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -480,6 +498,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenAsesor',
           nombreModelo: 'ASESOR',
+          documentacion: {
+            id: 1072,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -503,6 +524,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenResolucion',
           nombreModelo: 'RESOLUCION',
+          documentacion: {
+            id: 1074,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -529,6 +553,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenCuentaBanco',
           nombreModelo: 'CuentaBanco',
+          documentacion: {
+            id: 1039,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/administracion/lista',
@@ -560,6 +587,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'ENVIARFACTURAELECTRONICA',
+          documentacion: {
+            id: 1075,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/utilidad/factura_electronica',
@@ -575,6 +605,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'VENTASITEM',
+          documentacion: {
+            id: 1040,
+          },
           ajustes: {
             rutas: {
               lista: 'venta/informe/ventas_items',
