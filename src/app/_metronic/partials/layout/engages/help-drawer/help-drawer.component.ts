@@ -29,7 +29,13 @@ export class HelpDrawerComponent extends General implements OnInit {
   ngOnInit() {
     this.documentacionId$ = this.store.select(obtenerDocumentacionIdSeleccion);
     this.enlaseDocumentacion$ = this.documentacionId$.pipe(
-      map((id) => `${this.appDocumentacion}${id ?? 0}`) // Asegúrate de manejar null o undefined
+      map((id) => {
+        let modulo = localStorage.getItem('ruta')?.toLocaleLowerCase()
+        if(modulo === 'general'){
+          modulo = 'inicio'
+        }
+        return `${this.appDocumentacion}${modulo}/${id ?? 0}`
+      }) // Asegúrate de manejar null o undefined
     );
     this.activatedRoute.queryParams.subscribe((parametros) => {
       if (this.parametrosUrl?.documento_clase == 301) {
