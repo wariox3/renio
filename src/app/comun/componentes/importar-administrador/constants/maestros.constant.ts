@@ -49,4 +49,9 @@ export const maestros = [
       'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/comprobante.xlsx',
     name: 'Comprobante',
   },
+  {
+    endpoint:
+      'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/impuestos.xlsx',
+    name: 'Impuestos',
+  },
 ];
