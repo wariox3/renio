@@ -10,10 +10,17 @@ import {
   ApexAxisChartSeries,
   ApexChart,
   ApexDataLabels,
+  ApexFill,
   ApexGrid,
+  ApexMarkers,
+  ApexNoData,
+  ApexStates,
   ApexStroke,
+  ApexTheme,
   ApexTitleSubtitle,
+  ApexTooltip,
   ApexXAxis,
+  ApexYAxis,
   ChartComponent,
   NgApexchartsModule
 } from 'ng-apexcharts';
@@ -29,6 +36,12 @@ export type ChartOptions = {
   stroke: ApexStroke;
   title: ApexTitleSubtitle;
   noData: ApexNoData;
+  subtitle: ApexTitleSubtitle;
+  fill?: ApexFill;
+  tooltip?: ApexTooltip;
+  states?: ApexStates;
+  markers?: ApexMarkers;
+  theme?: ApexTheme;
 };
 
 @Component({
@@ -215,46 +228,207 @@ export class InicioGeneralComponent extends General implements OnInit {
           },
         ],
         chart: {
-          height: 300,
-          type: 'line',
+          height: 350,
+          type: 'area',
+          fontFamily: 'inherit',
+          toolbar: {
+            show: false,
+          },
           zoom: {
             enabled: false,
           },
+          animations: {
+            enabled: true,
+            easing: 'easeinout',
+            speed: 800,
+            animateGradually: {
+              enabled: true,
+              delay: 150
+            },
+            dynamicAnimation: {
+              enabled: true,
+              speed: 350
+            }
+          },
+          dropShadow: {
+            enabled: true,
+            top: 3,
+            left: 2,
+            blur: 4,
+            opacity: 0.1,
+          },
+          background: 'transparent',
         },
         dataLabels: {
           enabled: false,
         },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shadeIntensity: 1,
+            opacityFrom: 0.4,
+            opacityTo: 0.1,
+            stops: [0, 90, 100]
+          },
+        },
         stroke: {
-          curve: 'straight',
+          curve: 'smooth',
+          colors: ['#4CAF50'],
+          lineCap: 'round',
+          width: 4,
+        },
+        markers: {
+          size: 5,
+          colors: ['#FFFFFF'],
+          strokeColors: '#4CAF50',
+          strokeWidth: 2,
+          hover: {
+            size: 7,
+          }
         },
         title: {
-          text: 'La gráfica muestra el valor de tus ventas con impuestos incluidos',
+          text: 'Ventas por día',
           align: 'left',
+          offsetX: 5,
+          style: {
+            color: '#333',
+            fontSize: '18px',
+            fontWeight: '600',
+            fontFamily: 'inherit',
+          },
+        },
+        subtitle: {
+          text: 'La gráfica muestra el valor de tus ventas',
+          align: 'left',
+          offsetX: 5,
+          style: {
+            color: '#666',
+            fontSize: '14px',
+            fontFamily: 'inherit',
+          },
         },
         grid: {
+          borderColor: '#e0e0e0',
+          strokeDashArray: 3,
+          position: 'back',
+          xaxis: {
+            lines: {
+              show: false
+            }
+          },
+          yaxis: {
+            lines: {
+              show: true
+            }
+          },
           row: {
-            colors: ['#f3f3f3', 'transparent'],
             opacity: 0.5,
+          },
+          padding: {
+            top: 0,
+            right: 0,
+            bottom: 0,
+            left: 10
+          },
+        },
+        tooltip: {
+          enabled: true,
+          theme: 'light',
+          style: {
+            fontSize: '12px',
+            fontFamily: 'inherit',
+          },
+          y: {
+            formatter: (value: number) => {
+              return formatCurrency(value, 'en-US', '$', 'COP', '1.0-0')!;
+            }
+          },
+          marker: {
+            show: true,
+            fillColors: ['#4CAF50'],
+          },
+          fixed: {
+            enabled: false,
+            position: 'topRight',
+            offsetX: 0,
+            offsetY: 0,
           },
         },
         xaxis: {
           categories: this.dates,
+          labels: {
+            style: {
+              colors: '#666',
+              fontSize: '12px',
+              fontFamily: 'inherit',
+            },
+          },
+          axisBorder: {
+            show: false,
+          },
+          axisTicks: {
+            show: false,
+          },
+          crosshairs: {
+            show: true,
+            position: 'back',
+            stroke: {
+              color: '#b6b6b6',
+              width: 1,
+              dashArray: 3,
+            },
+          },
         },
         yaxis: {
           labels: {
             formatter: (value: number) => {
               return formatCurrency(value, 'en-US', '$', 'COP', '1.0-0')!;
             },
+            style: {
+              colors: '#666',
+              fontSize: '12px',
+              fontFamily: 'inherit',
+            },
           },
           forceNiceScale: true,
+          tickAmount: 5,
+          min: 0,
+        },
+        states: {
+          normal: {
+            filter: {
+              type: 'none',
+            }
+          },
+          hover: {
+            filter: {
+              type: 'lighten',
+              value: 0.1,
+            }
+          },
+          active: {
+            allowMultipleDataPointsSelection: false,
+            filter: {
+              type: 'darken',
+              value: 0.15,
+            }
+          },
         },
         noData: {
-          text: 'no data',
+          text: 'No hay datos disponibles',
+          align: 'center',
+          verticalAlign: 'middle',
+          style: {
+            color: '#666',
+            fontSize: '14px',
+            fontFamily: 'inherit'
+          }
         },
       };
 
       this.chartOptions.series = [
         {
+          name: 'Ventas',
           data: this.series,
         },
       ];

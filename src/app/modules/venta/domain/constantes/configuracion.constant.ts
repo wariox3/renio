@@ -536,6 +536,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/cuenta_banco',
+            queryParams: {
+              ordering: 'id',
+            },
             parametrosHttpConfig: {
               modelo: 'GenCuentaBanco',
               filtros: {

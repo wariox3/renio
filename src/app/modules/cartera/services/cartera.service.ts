@@ -20,10 +20,4 @@ export class CarteraService extends Subdominio {
     );
   }
 
-  consultarCuentaBanco(queryParams: { [key: string]: any } = {}) {
-    return this._generalService.consultaApi<any>(
-      'general/cuenta_banco/',
-      queryParams,
-    );
-  }
 }
