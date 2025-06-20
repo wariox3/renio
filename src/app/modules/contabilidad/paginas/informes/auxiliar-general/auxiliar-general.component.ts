@@ -97,6 +97,7 @@ export class AxiliarGeneralComponent extends General implements OnInit {
         fecha_hasta: [lastDayOfMonth, Validators.required],
         incluir_cierre: [false],
         cuenta_con_movimiento: [false],
+        comprobante: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -107,31 +108,29 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     );
   }
 
+  private _consultarInformes(parametros: GenerarAuxiliarGeneral) {
+    this.cargandoCuentas.set(true);
+    this.contabilidadInformesService
+      .consultarAuxiliarGeneral(parametros)
+      .pipe(finalize(() => this.cargandoCuentas.set(false)))
+      .subscribe({
+        next: (respuesta) => {
+          this.cuentasAgrupadas = respuesta.registros;
+          this.reiniciarTotales();
+          this.cuentasAgrupadas.forEach((cuenta) => {
+            this.totalCredito += cuenta.credito || 0;
+            this.totalDebito += cuenta.debito || 0;
+          });
 
-    private _consultarInformes(parametros: GenerarAuxiliarGeneral) {
-      this.cargandoCuentas.set(true);
-      this.contabilidadInformesService
-        .consultarAuxiliarGeneral(parametros)
-        .pipe(finalize(() => this.cargandoCuentas.set(false)))
-        .subscribe({
-          next: (respuesta) => {
-            this.cuentasAgrupadas = respuesta.registros;
-            this.reiniciarTotales();
-            this.cuentasAgrupadas.forEach((cuenta) => {
-              this.totalCredito += cuenta.credito || 0;
-              this.totalDebito += cuenta.debito || 0;
-            });
-  
-            this.changeDetectorRef.detectChanges();
-          },
-        });
-    }
+          this.changeDetectorRef.detectChanges();
+        },
+      });
+  }
 
   private reiniciarTotales() {
     this.totalCredito = 0;
     this.totalDebito = 0;
   }
-
 
   imprimir() {
     // this._httpService.descargarArchivo(
@@ -152,7 +151,6 @@ export class AxiliarGeneralComponent extends General implements OnInit {
       'contabilidad/movimiento/informe-auxiliar-general/',
     );
   }
-
 
   fechaDesdeMenorQueFechaHasta(
     fechaDesde: string,
@@ -180,4 +178,5 @@ interface GenerarAuxiliarGeneral {
   fecha_hasta: string;
   incluir_cierre: boolean;
   cuenta_movimiento: boolean;
+  comprobante: string;
 }
