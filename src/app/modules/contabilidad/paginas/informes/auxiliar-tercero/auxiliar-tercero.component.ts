@@ -4,6 +4,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -29,6 +30,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-auxiliar-tercero',
@@ -49,6 +51,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 export class AuxiliarTerceroComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
+  private _httpService = inject(HttpService);
+
   private _parametrosConsulta: any = {
     modelo: 'ConMovimiento',
     serializador: 'Informe',
@@ -64,6 +68,7 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
   public totalDebito: number = 0;
   public totalCredito: number = 0;
   public filtroKey = 'contabilidad_auxiliartercero';
+  public cargandoCuentas = signal<boolean>(false);
 
   private _descargarArchivosService = inject(DescargarArchivosService);
 
@@ -72,56 +77,8 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this._cargarFiltrosPredeterminados();
     this._initFormularioFiltros();
-    this._construirFiltros();
-    this.activatedRoute.queryParams.subscribe(() => {
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['auxiliar_tercero'] }),
-      );
-      this._consultarInformes(this._parametrosConsulta);
-    });
     this.changeDetectorRef.detectChanges();
-  }
-
-  private _cargarFiltrosPredeterminados() {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-
-    // Primer día del mes actual
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
-      .toISOString()
-      .split('T')[0];
-
-    // Último día del mes actual
-    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
-      .toISOString()
-      .split('T')[0];
-
-    const filtroValue = [
-      {
-        propiedad: 'fecha',
-        operadorFiltro: 'range',
-        valor1: firstDayOfMonth,
-        valor2: lastDayOfMonth,
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        operador: 'range',
-        campo: 'fecha',
-      },
-      {
-        propiedad: 'cierre',
-        operadorFiltro: 'false',
-        valor1: false,
-        tipo: 'Booleano',
-        operador: 'exact',
-        campo: 'cierre',
-      },
-    ];
-
-    localStorage.setItem(this.filtroKey, JSON.stringify(filtroValue));
   }
 
   private _initFormularioFiltros() {
@@ -144,7 +101,10 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
         // anio: [currentYear, Validators.required],
         fecha_desde: [firstDayOfMonth, Validators.required],
         fecha_hasta: [lastDayOfMonth, Validators.required],
-        cierre: [],
+        incluir_cierre: [false],
+        cuenta_con_movimiento: [false],
+        numero_identificacion: [''],
+        nombre_corto: ['']
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -155,9 +115,11 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     );
   }
 
-  private _consultarInformes(parametros: any) {
+  private _consultarInformes(parametros: GenerarAuxiliarTercero) {
+    this.cargandoCuentas.set(true);
     this.contabilidadInformesService
       .consultarAuxiliarTercero(parametros)
+      .pipe(finalize(() => this.cargandoCuentas.set(false)))
       .subscribe({
         next: (respuesta) => {
           this.cuentasAgrupadas = respuesta.registros;
@@ -177,47 +139,20 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     this.totalDebito = 0;
   }
 
-  private _construirFiltros() {
-    this._limpiarFiltros();
-
-    const filtroGuardado = localStorage.getItem(this.filtroKey);
-
-    if (filtroGuardado) {
-      const parametrosConsulta: ParametrosFiltros = {
-        ...this._parametrosConsulta,
-        filtros: [...JSON.parse(filtroGuardado)],
-      };
-
-      this._parametrosConsulta = parametrosConsulta;
-    }
-  }
-
-  private _limpiarFiltros() {
-    this._parametrosConsulta.filtros = [];
-  }
-
-  obtenerFiltros(arrfiltros: any[]) {
-    if (arrfiltros.length >= 1) {
-      this._parametrosConsulta.filtros = arrfiltros;
-      this.changeDetectorRef.detectChanges();
-    } else {
-      this._parametrosConsulta.filtros = [];
-    }
-
-    this.changeDetectorRef.detectChanges();
-    this._consultarInformes(this._parametrosConsulta);
-  }
-
-  aplicarFiltro() {
-    this._construirFiltros();
-    this._consultarInformes(this._parametrosConsulta);
+  imprimir() {
+    // this._httpService.descargarArchivo(
+    //   'contabilidad/movimiento/informe-balance-prueba/',
+    //   {
+    //     parametros: this.formularioFiltros.value,
+    //     pdf: true,
+    //   },
+    // );
   }
 
   descargarExcel() {
     this._descargarArchivosService.descargarExcel(
       {
-        ...this._parametrosConsulta,
-        limite: 5000,
+        parametros: this.formularioFiltros.value,
         excel: true,
       },
       'contabilidad/movimiento/informe-auxiliar-tercero/',
@@ -239,4 +174,17 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
       return null;
     };
   }
+
+  generar() {
+    this._consultarInformes(this.formularioFiltros.value);
+  }
+}
+
+interface GenerarAuxiliarTercero {
+  fecha_desde: string;
+  fecha_hasta: string;
+  incluir_cierre: boolean;
+  cuenta_movimiento: boolean;
+  numero_identificacion: string;
+  nombre_corto: string;
 }
