@@ -35,7 +35,7 @@ export class ContabilidadInformesService extends Subdominio {
   consultarBalancesTerceros(parametros: any = {}) {
     return this.httpService.post<RespuestaInformeBalancePruebaTerceros>(
       `contabilidad/movimiento/informe-balance-prueba-tercero/`,
-      parametros,
+      {parametros},
     );
   }
 
