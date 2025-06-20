@@ -320,6 +320,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/grupo',
+            queryParams: {
+              ordering: 'id',
+            },
             parametrosHttpConfig: {
               modelo: 'HumGrupo',
               filtros: {
