@@ -1,4 +1,4 @@
-<div class="filtros">
+<!-- <div class="filtros">
   <ng-content select="[base-filtros]"></ng-content>
   <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
     <section card-body>
@@ -9,16 +9,102 @@
       ></app-base-filtro>
     </section>
   </app-card>
-</div>
+</div> -->
+
+<app-card [titulo]="'Parámetros'">
+  <section card-body>
+    <form class="row g-4" [formGroup]="formularioFiltros">
+      <!-- Fecha Desde -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <label class="form-label fw-semibold">Fecha desde</label>
+        <input
+          type="date"
+          formControlName="fecha_desde"
+          class="form-control"
+          placeholder="Seleccione fecha inicial"
+        />
+      </div>
+
+      <!-- Fecha Hasta -->
+      <div class="col-12 col-md-6 col-lg-3">
+        <label class="form-label fw-semibold">Fecha hasta</label>
+        <input
+          type="date"
+          formControlName="fecha_hasta"
+          class="form-control"
+          placeholder="Seleccione fecha final"
+        />
+      </div>
+
+      <div class="col-12 col-md-6 col-lg-3"></div>
+
+      <!-- Checkboxes -->
+      <div class="col-12 col-md-6 d-flex flex-column justify-content-end">
+        <div class="form-check form-check-custom form-check-solid mb-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="incluirCierre"
+            formControlName="incluir_cierre"
+          />
+          <label class="form-check-label fw-semibold" for="incluirCierre">
+            Incluir cierre
+          </label>
+        </div>
+        <div class="form-check form-check-custom form-check-solid">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="cuentaMovimiento"
+            formControlName="cuenta_con_movimiento"
+          />
+          <label class="form-check-label fw-semibold" for="cuentaMovimiento">
+            Solo cuentas con movimiento
+          </label>
+        </div>
+      </div>
+    </form>
+  </section>
+</app-card>
 
 <app-card [titulo]="'MENU.FUNCIONALIDAD.AUXILIARTERCERO'">
   <section card-body>
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
         <app-comun-btn-exportar (emitirExportarExcel)="descargarExcel()" />
+        <button
+          type="submit"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          #btnGuardar
+          translate="FORMULARIOS.BOTONES.COMUNES.PDF"
+          (click)="imprimir()"
+        ></button>
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary"
+          #btnGuardar
+          (click)="generar()"
+          [disabled]="cargandoCuentas()"
+        >
+          @if (cargandoCuentas()) {
+            <div class="spinner-border spinner-border-sm mx-4" role="status">
+              <span class="sr-only">Generando...</span>
+            </div>
+          } @else {
+            Generar
+          }
+        </button>
       </div>
     </div>
-    <div class="table-responsive">
+    <div
+      class="table-responsive"
+      [ngClass]="{ 'table-loading': cargandoCuentas() }"
+    >
+      @if (cargandoCuentas()) {
+        <div class="table-loading-message" style="margin-top: 2rem">
+          Cargando...
+        </div>
+      }
       <table
         class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >

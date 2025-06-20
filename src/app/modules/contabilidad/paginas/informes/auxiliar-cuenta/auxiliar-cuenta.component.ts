@@ -92,57 +92,10 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this._cargarFiltrosPredeterminados();
     this._initFormularioFiltros();
-    this._construirFiltros();
-    this.activatedRoute.queryParams.subscribe(() => {
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['auxiliar_cuenta'] }),
-      );
-      this._consultarInformes(this._parametrosConsulta);
-    });
     this.changeDetectorRef.detectChanges();
   }
 
-  private _cargarFiltrosPredeterminados() {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-
-    // Primer día del mes actual
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
-      .toISOString()
-      .split('T')[0];
-
-    // Último día del mes actual
-    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
-      .toISOString()
-      .split('T')[0];
-
-    const filtroValue = [
-      {
-        propiedad: 'fecha',
-        operadorFiltro: 'range',
-        valor1: firstDayOfMonth,
-        valor2: lastDayOfMonth,
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        operador: 'range',
-        campo: 'fecha',
-      },
-      {
-        propiedad: 'cierre',
-        operadorFiltro: 'false',
-        valor1: false,
-        tipo: 'Booleano',
-        operador: 'exact',
-        campo: 'cierre',
-      },
-    ];
-
-    localStorage.setItem(this.filtroKey, JSON.stringify(filtroValue));
-  }
 
   private _initFormularioFiltros() {
     const currentDate = new Date();
@@ -164,7 +117,10 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
         // anio: [currentYear, Validators.required],
         fecha_desde: [firstDayOfMonth, Validators.required],
         fecha_hasta: [lastDayOfMonth, Validators.required],
-        cierre: [],
+        incluir_cierre: [false],
+        cuenta_con_movimiento: [false],
+        comprobante: [''],
+        cuenta: ['']
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -175,7 +131,7 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     );
   }
 
-  private _consultarInformes(parametros: any) {
+  private _consultarInformes(parametros: GenerarAuxiliarCuenta) {
     this.cargandoCuentas.set(true);
     this.contabilidadInformesService
       .consultarAuxiliarCuenta(parametros)
@@ -199,42 +155,6 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     this.totalDebito = 0;
   }
 
-  private _construirFiltros() {
-    this._limpiarFiltros();
-
-    const filtroGuardado = localStorage.getItem(this.filtroKey);
-
-    if (filtroGuardado) {
-      const parametrosConsulta: ParametrosFiltros = {
-        ...this._parametrosConsulta,
-        filtros: [...JSON.parse(filtroGuardado)],
-      };
-
-      this._parametrosConsulta = parametrosConsulta;
-    }
-  }
-
-  private _limpiarFiltros() {
-    this._parametrosConsulta.filtros = [];
-  }
-
-  obtenerFiltros(arrfiltros: any[]) {
-    if (arrfiltros.length >= 1) {
-      this._parametrosConsulta.filtros = arrfiltros;
-      this.changeDetectorRef.detectChanges();
-    } else {
-      this._parametrosConsulta.filtros = [];
-    }
-
-    this.changeDetectorRef.detectChanges();
-    this._consultarInformes(this._parametrosConsulta);
-  }
-
-  aplicarFiltro() {
-    this._construirFiltros();
-    this._consultarInformes(this._parametrosConsulta);
-  }
-
   imprimir() {
     this._httpService.descargarArchivo(
       'contabilidad/movimiento/informe-auxiliar-cuenta/',
@@ -245,16 +165,26 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     );
   }
 
-  descargarExcel() {
+    descargarExcel() {
     this._descargarArchivosService.descargarExcel(
       {
-        ...this._parametrosConsulta,
-        limite: 5000,
+        parametros: this.formularioFiltros.value,
         excel: true,
       },
       'contabilidad/movimiento/informe-auxiliar-cuenta/',
     );
   }
+
+  // descargarExcel() {
+  //   this._descargarArchivosService.descargarExcel(
+  //     {
+  //       ...this._parametrosConsulta,
+  //       limite: 5000,
+  //       excel: true,
+  //     },
+  //     'contabilidad/movimiento/informe-auxiliar-cuenta/',
+  //   );
+  // }
 
   fechaDesdeMenorQueFechaHasta(
     fechaDesde: string,
@@ -271,4 +201,17 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
       return null;
     };
   }
+
+    generar() {
+    this._consultarInformes(this.formularioFiltros.value);
+  }
+}
+
+interface GenerarAuxiliarCuenta {
+  fecha_desde: string;
+  fecha_hasta: string;
+  incluir_cierre: boolean;
+  cuenta_movimiento: boolean;
+  comprobante: string;
+  cuenta: string;
 }

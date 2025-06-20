@@ -25,6 +25,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumProgramacion',
           nombreModelo: 'PROGRAMACION',
+          documentacion: {
+            id: 1052,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/proceso/lista',
@@ -52,6 +55,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumAporte',
           nombreModelo: 'seguridadSocial',
+          documentacion: {
+            id: 1053,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/proceso/lista',
@@ -79,6 +85,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumLiquidacion',
           nombreModelo: 'liquidacion',
+          documentacion: {
+            id: 1082
+          },
           ajustes: {
             rutas: {
               lista: 'humano/proceso/lista',
@@ -94,8 +103,8 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'HumLiquidacion',
               filtros: {
-                ui: LIQUIDACION_FILTERS
-              }
+                ui: LIQUIDACION_FILTERS,
+              },
             },
             ui: {
               verBotonEliminar: true,
@@ -115,9 +124,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 701,
           nombreModelo: 'NOMINA',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion: {
+            id: 1054,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -126,15 +135,15 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            queryParams:{
+            queryParams: {
               serializador: 'lista_nomina',
               documento_tipo__documento_clase_id: 701,
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -147,9 +156,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 702,
           nombreModelo: 'NOMINAELECTRONICA',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion: {
+            id: 1055,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -158,31 +167,31 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            queryParams:{
+            queryParams: {
               serializador: 'lista_nomina',
               documento_tipo_id: 15,
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
               verBotonExportarZip: true,
-              verBotonGenerar: true //Esto actualmente es configuracionExtra en el menu reducer
+              verBotonGenerar: true, //Esto actualmente es configuracionExtra en el menu reducer
             },
           },
         },
         {
           key: 703,
           nombreModelo: 'SEGURIDADSOCIAL',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion: {
+            id: 1056,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -191,15 +200,15 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            queryParams:{
+            queryParams: {
               serializador: 'lista_nomina',
               documento_tipo_id: 22,
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -217,6 +226,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenEmpleado',
           nombreModelo: 'EMPLEADO',
+          documentacion: {
+            id: 1057,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -231,13 +243,14 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {
-                ui: CONTACTO_FILTERS
+                ui: CONTACTO_FILTERS,
               },
             },
             archivos: {
               importar: {
                 nombre: 'GenContacto',
-                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
+                rutaEjemplo:
+                  'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -252,6 +265,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumContrato',
           nombreModelo: 'CONTRATO',
+          documentacion: {
+            id: 1058,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -261,18 +277,19 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             endpoint: 'humano/contrato',
             queryParams: {
               ordering: '-id',
-              serializador: 'lista'
+              serializador: 'lista',
             },
             parametrosHttpConfig: {
               modelo: 'HumContrato',
               filtros: {
-                ui: CONTRATO_FILTERS
-              }
+                ui: CONTRATO_FILTERS,
+              },
             },
             archivos: {
               importar: {
                 nombre: 'HumContrato',
-                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/HumContrato.xlsx',
+                rutaEjemplo:
+                  'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/HumContrato.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -287,6 +304,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumCargo',
           nombreModelo: 'CARGO',
+          documentacion: {
+            id: 1059,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -300,8 +320,8 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'HumCargo',
               filtros: {
-                ui: CARGO_FILTERS
-              }
+                ui: CARGO_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -313,6 +333,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumGrupo',
           nombreModelo: 'GRUPO',
+          documentacion: {
+            id: 1060,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -320,11 +343,14 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
               detalle: 'humano/administracion/detalle',
             },
             endpoint: 'humano/grupo',
+            queryParams: {
+              ordering: 'id',
+            },
             parametrosHttpConfig: {
               modelo: 'HumGrupo',
               filtros: {
-                ui: GRUPO_FILTERS
-              }
+                ui: GRUPO_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -336,6 +362,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumSucursal',
           nombreModelo: 'SUCURSAL',
+          documentacion: {
+            id: 1061,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -346,8 +375,8 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'HumSucursal',
               filtros: {
-                ui: SUCURSAL_FILTERS
-              }
+                ui: SUCURSAL_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -359,6 +388,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumAdicional',
           nombreModelo: 'ADICIONAL',
+          documentacion: {
+            id: 1062,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -379,7 +411,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
                     valor1: true,
                   },
                 ],
-                ui: ADICIONAL_FILTERS
+                ui: ADICIONAL_FILTERS,
               },
             },
             ui: {
@@ -392,6 +424,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumCredito',
           nombreModelo: 'CREDITO',
+          documentacion: {
+            id: 1063,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -400,13 +435,13 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'humano/credito',
             queryParams: {
-              ordering: '-id'
+              ordering: '-id',
             },
             parametrosHttpConfig: {
               modelo: 'HumCredito',
               filtros: {
-                ui: CREDITO_FILTERS
-              }
+                ui: CREDITO_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -418,6 +453,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: 'HumNovedad',
           nombreModelo: 'NOVEDAD',
+          documentacion: {
+            id: 1064,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/administracion/lista',
@@ -426,13 +464,13 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'humano/novedad',
             queryParams: {
-              ordering: '-id'
+              ordering: '-id',
             },
             parametrosHttpConfig: {
               modelo: 'HumNovedad',
               filtros: {
-                ui: NOVEDAD_FILTERS
-              }
+                ui: NOVEDAD_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -449,6 +487,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'ENVIANOMINAELECTRONICA',
+          documentacion: {
+            id: 1065,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/utilidad/enviar_nomina_electronica',
@@ -464,6 +505,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'NOMINA',
+          documentacion: {
+            id: 1066,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/informe/nomina',
@@ -474,6 +518,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'NOMINADETALLE',
+          documentacion: {
+            id: 1067,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/informe/nomina_detalle',
@@ -484,6 +531,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'NOMINAELECTRONICA',
+          documentacion: {
+            id: 1068,
+          },
           ajustes: {
             rutas: {
               lista: 'humano/informe/nomina_electronica',

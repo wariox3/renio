@@ -1,13 +1,12 @@
-import { ModuloConfig } from "@interfaces/menu/configuracion.interface";
-import { CONTACTO_FILTERS } from "@modulos/general/domain/mapeos/contacto.mapeo";
-import { CUENTA_BANCO_FILTERS } from "@modulos/general/domain/mapeos/cuenta-banco.mapeo";
+import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { CUENTA_BANCO_FILTERS } from '@modulos/general/domain/mapeos/cuenta-banco.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'tesoreria/documento/lista';
 const DocNuevo = 'tesoreria/documento/nuevo';
 const DocEditar = 'tesoreria/documento/editar';
 const DocDetalle = 'tesoreria/documento/detalle';
-
 
 export const TESORERIA_CONFIGURACION: ModuloConfig = {
   nombreModulo: 'tesoreria',
@@ -30,15 +29,15 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            queryParams:{
+            queryParams: {
               documento_tipo_id: 8,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             ui: {
@@ -53,9 +52,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
         {
           key: 401,
           nombreModelo: 'SALDOINICIAL',
-          // documentacion: {
-          //   id: 1007,
-          // },
+          documentacion: {
+            id: 1042,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -64,21 +63,22 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               detalle: DocDetalle,
             },
             endpoint: 'general/documento',
-            queryParams:{
+            queryParams: {
               documento_tipo_id: 19,
               serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id'
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS
+                ui: DOCUMENTO_FILTERS,
               },
             },
             archivos: {
               importar: {
                 nombre: 'SaldoInicial',
-                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/SaldoInicial.xlsx',
+                rutaEjemplo:
+                  'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/SaldoInicial.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -89,7 +89,7 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               verColumnaEditar: true,
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
-              verBotonImportar: true
+              verBotonImportar: true,
             },
           },
         },
@@ -101,6 +101,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenCuentaBanco',
           nombreModelo: 'CuentaBanco',
+          documentacion: {
+            id: 1039,
+          },
           ajustes: {
             rutas: {
               lista: 'tesoreria/administracion/lista',
@@ -109,13 +112,13 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'general/cuenta_banco',
             queryParams: {
-              ordering: '-id'
+              ordering: '-id',
             },
             parametrosHttpConfig: {
               modelo: 'GenCuentaBanco',
               filtros: {
-                ui: CUENTA_BANCO_FILTERS
-              }
+                ui: CUENTA_BANCO_FILTERS,
+              },
             },
             ui: {
               verBotonImportar: false,
@@ -127,6 +130,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenContacto',
           nombreModelo: 'Contacto',
+          documentacion: {
+            id: 1036,
+          },
           ajustes: {
             rutas: {
               lista: 'tesoreria/administracion/lista',
@@ -137,13 +143,14 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {
-                ui: CONTACTO_FILTERS
-              }
+                ui: CONTACTO_FILTERS,
+              },
             },
             archivos: {
               importar: {
                 nombre: 'GenContacto',
-                rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
+                rutaEjemplo:
+                  'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/GenContacto.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
               },
@@ -163,6 +170,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
         {
           key: null,
           nombreModelo: 'CUENTASPAGAR',
+          documentacion: {
+            id: 1043,
+          },
           ajustes: {
             rutas: {
               lista: 'tesoreria/informe/cuentas_pagar',
