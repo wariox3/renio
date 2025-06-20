@@ -26,7 +26,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           key: 103,
           nombreModelo: 'FACTURARECURRENTE',
           documentacion: {
-            id: 1013,
+            id: 1081,
           },
           ajustes: {
             rutas: {
