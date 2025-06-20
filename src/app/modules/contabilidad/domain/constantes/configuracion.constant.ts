@@ -158,6 +158,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
         {
           key: 'GenContacto',
           nombreModelo: 'Contacto',
+          documentacion: {
+            id: 1036
+          },
           ajustes: {
             rutas: {
               lista: 'contabilidad/administracion/lista',
