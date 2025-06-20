@@ -1537,6 +1537,15 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
+      nombre: 'DOCUMENTO_AFECTADO_DOCUMENTO_TIPO_NOMBRE',
+      nombreAbreviado: 'TIPO',
+      nombreFiltroRelacion: 'DOCUMENTO_AFECTADO__DOCUMENTO_TIPO__NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
       nombre: 'DOCUMENTO_FECHA',
       nombreAbreviado: 'FECHA',
       nombreAbreviadoFiltro: 'DOCUMENTO_FECHA_FILTRO',
@@ -1556,7 +1565,6 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
-    // documento_afectado_contacto_nombre_corto
     {
       nombre: 'ITEM_NOMBRE',
       nombreAbreviadoFiltro: 'ITEM_NOMBRE_FILTRO',
