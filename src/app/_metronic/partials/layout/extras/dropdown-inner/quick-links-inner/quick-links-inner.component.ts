@@ -22,11 +22,11 @@ export class QuickLinksInnerComponent {
 
   navegarTransporte(){
     let dominioActual = window.location.host;
-    window.open(`${environment.dominioHttp}://transporte${environment.dominioApp}/auth/login`, '_blank', 'noopener,noreferrer');
+    window.open(`${environment.dominioHttp}://transporte${environment.dominioApp}/dashboard`, '_blank', 'noopener,noreferrer');
   }
 
   navegarTurnos(){
     let dominioActual = window.location.host;
-    window.open(`${environment.dominioHttp}://turnos${environment.dominioApp}/auth/login`, '_blank', 'noopener,noreferrer');
+    window.open(`${environment.dominioHttp}://turnos${environment.dominioApp}/dashboard`, '_blank', 'noopener,noreferrer');
   }
 }
