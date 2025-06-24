@@ -71,7 +71,8 @@
     <div class="card-body">
       <image-cropper
         [imageChangedEvent]="imageChangedEvent"
-        [maintainAspectRatio]="false"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="4 / 4"
         format="jpeg"
         (imageCropped)="imageCropped($event)"
         (imageLoaded)="imageLoaded($event)"
