@@ -60,6 +60,35 @@
           >
           </app-comun-almacenes>
         </div>
+
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.CREDITO.FECHA"
+          ></label>
+          <input
+            formControlName="fecha"
+            class="form-control"
+            type="date"
+            id="fecha"
+            [ngClass]="{
+              'is-invalid':
+                formularioEntrada.controls['fecha'].touched &&
+                formularioEntrada.controls['fecha'].invalid,
+              'is-valid':
+                formularioEntrada.controls['fecha'].touched &&
+                formularioEntrada.controls['fecha'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEntrada.controls['fecha']
+            }"
+          ></ng-container>
+        </div>
       </div>
       <div class="row mb-5">
         <div class="col-12">

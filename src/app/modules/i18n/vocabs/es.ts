@@ -690,6 +690,7 @@ export const locale = {
             PAGADO: 'Pagado',
             APLICAPRIMA: 'Aplica prima',
             APLICACESANTIA: 'Aplica cesantía',
+            FECHA: 'Fecha',
           },
           PROGRAMACION: {
             DESCUENTOSALUD: 'Descuento salud',
