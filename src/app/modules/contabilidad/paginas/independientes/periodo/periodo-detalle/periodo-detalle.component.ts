@@ -156,7 +156,9 @@ export class PeriodoDetalleComponent
 
   consultarDetalle() {
     this.periodoService
-      .consultarDetalle()
+      .consultarPeriodos({
+        page_size: 500
+      })
       .pipe(
         takeUntil(this._destroy$),
         map((respuesta) => respuesta.results.sort((a, b) => b.anio - a.anio)),
