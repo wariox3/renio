@@ -19,4 +19,14 @@ export class QuickLinksInnerComponent {
     let dominioActual = window.location.host;
     window.open(`${environment.dominioHttp}://POS${environment.dominioApp}/general/facturacion/${dominioActual.split('.')[0]}`, '_blank', 'noopener,noreferrer');
   }
+
+  navegarTransporte(){
+    let dominioActual = window.location.host;
+    window.open(`${environment.dominioHttp}://transporte${environment.dominioApp}/auth/login`, '_blank', 'noopener,noreferrer');
+  }
+
+  navegarTurnos(){
+    let dominioActual = window.location.host;
+    window.open(`${environment.dominioHttp}://turnos${environment.dominioApp}/auth/login`, '_blank', 'noopener,noreferrer');
+  }
 }
