@@ -119,7 +119,7 @@ export class BaseComponent extends General implements OnInit {
   descargarExcel() {
     this._descargarArchivosService.descargarExcel(
       {
-        ...this.formularioFiltros.value,
+        parametros: this.formularioFiltros.value,
         excel: true,
       },
       'contabilidad/movimiento/informe-base/',
