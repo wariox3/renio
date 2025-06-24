@@ -42,7 +42,7 @@ export class ContabilidadInformesService extends Subdominio {
   consultarBase(parametros: any = {}) {
     return this.httpService.post<RespuestaInformeBalancePruebaTerceros>(
       `contabilidad/movimiento/informe-base/`,
-      parametros,
+      { parametros },
     );
   }
 
