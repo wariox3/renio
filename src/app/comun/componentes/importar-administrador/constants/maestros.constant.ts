@@ -54,4 +54,8 @@ export const maestros = [
       'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/impuestos.xlsx',
     name: 'Impuestos',
   },
+  {
+    endpoint: 'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_contrato_tipo.xlsx',
+    name: 'Tipo contrato',
+  }
 ];
