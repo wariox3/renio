@@ -1665,6 +1665,7 @@ export const locale = {
       BALANCEPRUEBACONTACTO: 'Balance de prueba por contacto',
       AUXILIARCUENTA: 'Auxiliar por cuenta',
       AUXILIARTERCERO: 'Auxiliar por tercero',
+      AUXILIARCONTACTO: 'Auxiliar por contacto',
       AUXILIARGENERAL: 'Auxiliar general',
       BASE: 'Base',
       CERTIFICADORETENCION: 'Certificado de retención',
