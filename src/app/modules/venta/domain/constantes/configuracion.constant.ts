@@ -429,7 +429,10 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               nuevo: 'venta/administracion/nuevo',
               detalle: 'venta/administracion/detalle',
             },
-            endpoint: 'general/precio',
+            endpoint: 'inventario/almacen',
+            queryParams: {
+              ordering: '-id',
+            },
             parametrosHttpConfig: {
               modelo: 'InvAlmacen',
               filtros: {
