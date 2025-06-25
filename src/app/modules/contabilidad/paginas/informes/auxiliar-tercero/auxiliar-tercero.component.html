@@ -144,7 +144,8 @@
               <td>{{ item.saldo_actual | currency: "$" }}</td>
             </tr>
           }
-          @if (cuentasAgrupadas.length > 0) {
+          <!-- Se retiran los totales tarea 1517  -->
+          <!-- @if (cuentasAgrupadas.length > 0) {
             <tr>
               <td></td>
               <td style="text-align: left" class="fw-bold">Total</td>
@@ -155,7 +156,7 @@
               <td>{{ totalCredito | currency: "$" }}</td>
               <td></td>
             </tr>
-          }
+          } -->
         </tbody>
       </table>
     </div>
