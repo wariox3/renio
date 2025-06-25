@@ -24,6 +24,7 @@ import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/con
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
+import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
 
 @Component({
   selector: 'app-certifiado-retencion',
@@ -35,6 +36,7 @@ import { finalize } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
+    CuentasComponent,
   ],
   templateUrl: './certificado-retencion.component.html',
   styleUrl: './certificado-retencion.component.scss',
@@ -50,6 +52,10 @@ export class CertificadoRetencionComponent extends General implements OnInit {
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
+  public cuentaDesdeNombre = signal<string>('');
+  public cuentaDesdeCodigo = signal<string>('');
+  public cuentaHastaNombre = signal<string>('');
+  public cuentaHastaCodigo = signal<string>('');
   public cargandoCuentas = signal<boolean>(false);
   constructor() {
     super();
@@ -81,6 +87,8 @@ export class CertificadoRetencionComponent extends General implements OnInit {
         fecha_hasta: [lastDayOfMonth, Validators.required],
         incluir_cierre: [false],
         cuenta_con_movimiento: [false],
+        cuenta_desde: [''],
+        cuenta_hasta: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -154,6 +162,26 @@ export class CertificadoRetencionComponent extends General implements OnInit {
       return null;
     };
   }
+
+  agregarCuentaDesdeSeleccionado(cuenta: {
+    cuenta_id: number;
+    cuenta_nombre: string;
+    cuenta_codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.cuenta_id);
+    this.cuentaDesdeNombre.set(cuenta.cuenta_nombre);
+    this.cuentaDesdeCodigo.set(cuenta.cuenta_codigo);
+  }
+
+  agregarCuentaHastaSeleccionado(cuenta: {
+    cuenta_id: number;
+    cuenta_nombre: string;
+    cuenta_codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.cuenta_id);
+    this.cuentaHastaNombre.set(cuenta.cuenta_nombre);
+    this.cuentaHastaCodigo.set(cuenta.cuenta_codigo);
+  }
 }
 
 interface GenerarBalancePrueba {
@@ -162,4 +190,3 @@ interface GenerarBalancePrueba {
   incluir_cierre: boolean;
   cuenta_movimiento: boolean;
 }
-
