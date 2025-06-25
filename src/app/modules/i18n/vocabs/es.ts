@@ -1619,7 +1619,7 @@ export const locale = {
       601: 'Asiento',
       602: 'Depreciación',
       603: 'Cierre',
-      701: 'Pago',
+      701: 'Nomina',
       702: 'Nómina electrónica',
       703: 'Seguridad social',
       HUMPROGRAMACION: 'Programación de nómina',
