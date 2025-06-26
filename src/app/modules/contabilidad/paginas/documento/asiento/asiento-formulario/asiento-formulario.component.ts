@@ -459,7 +459,7 @@ export default class AsientoFormularioComponent
   consultarInformacion() {
     zip(
       this._generalService.consultaApi<RegistroAutocompletarConComprobante>(
-        'contabilidad/comprobante/seleccionar/',
+        'contabilidad/comprobante/seleccionar/', {permite_asiento: 'True'}
       ),
       this._generalService.consultaApi<RegistroAutocompletarConGrupo>(
         'contabilidad/grupo/seleccionar/',
