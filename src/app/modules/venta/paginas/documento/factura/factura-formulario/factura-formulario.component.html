@@ -208,10 +208,10 @@
             </option>
             <option
               *ngFor="let plazoPago of arrPlazoPago"
-              [value]="plazoPago.plazo_pago_id"
-              [attr.data-dias]="plazoPago.plazo_dias"
+              [value]="plazoPago.id"
+              [attr.data-dias]="plazoPago.dias"
             >
-              {{ plazoPago.plazo_pago_nombre }}
+              {{ plazoPago.nombre }}
             </option>
           </select>
           <ng-container
@@ -252,12 +252,12 @@
           </option>
           <option
             *ngFor="let sede of arrSede"
-            [value]="sede.sede_id"
+            [value]="sede.id"
             [selected]="
-              sede.sede_id === formularioFactura.controls.sede.value
+              sede.id === formularioFactura.controls.sede.value
             "
           >
-            {{ sede.sede_nombre }}
+            {{ sede.nombre }}
           </option>
         </select>
       </div>
@@ -300,13 +300,13 @@
             </option>
             <option
               *ngFor="let metodoPago of arrMetodosPago"
-              [value]="metodoPago.metodo_pago_id"
+              [value]="metodoPago.id"
               [selected]="
-                metodoPago.metodo_pago_id ===
+                metodoPago.id ===
                 formularioFactura.controls['metodo_pago'].value
               "
             >
-              {{ metodoPago.metodo_pogo_nombre }}
+              {{ metodoPago.nombre }}
             </option>
           </select>
           <ng-container

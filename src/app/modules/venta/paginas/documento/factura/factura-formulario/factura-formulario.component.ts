@@ -165,7 +165,9 @@ export default class FacturaDetalleComponent
     this._consultarInformacion().subscribe(() => {
       this._actualizarPlazoPago(
         this.formularioFactura.get('plazo_pago')?.value,
-      );
+      );      
+      console.log(this.arrAlmacenes[0]);
+      
       this.almacenSeleccionado(this.arrAlmacenes[0]);
       this.changeDetectorRef.detectChanges();
     });
@@ -198,8 +200,8 @@ export default class FacturaDetalleComponent
 
   private _actualizarPlazoPago(plazoPagoId: number) {
     this.arrPlazoPago.find((plazoPago) => {
-      if (plazoPago.plazo_pago_id === plazoPagoId) {
-        this.plazo_pago_dias = plazoPago.plazo_dias;
+      if (plazoPago.id === plazoPagoId) {
+        this.plazo_pago_dias = plazoPago.dias;
         this.cambiarFechaVence();
       }
     });
@@ -683,10 +685,10 @@ export default class FacturaDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  almacenSeleccionado(almacen: any) {
+  almacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
     this.formularioFactura.patchValue({
-      almacen: almacen.almacen_id,
-      almacen_nombre: almacen.almacen_nombre,
+      almacen: almacen?.id,
+      almacen_nombre: almacen?.nombre,
     });
   }
 
@@ -703,19 +705,19 @@ export default class FacturaDetalleComponent
       metodosPago: this._generalService
         .consultaApi<
           RegistroAutocompletarGenMetodoPago[]
-        >('general/metodo_pago/')
+        >('general/metodo_pago/seleccionar/')
         .pipe(catchError(() => of([]))),
       plazoPago: this._generalService
-        .consultaApi<RegistroAutocompletarGenPlazoPago[]>('general/plazo_pago/')
+        .consultaApi<RegistroAutocompletarGenPlazoPago[]>('general/plazo_pago/seleccionar/')
         .pipe(catchError(() => of([]))),
       asesores: this._generalService
-        .consultaApi<RegistroAutocompletarGenAsesor[]>('general/asesor/')
+        .consultaApi<RegistroAutocompletarGenAsesor[]>('general/asesor/seleccionar/')
         .pipe(catchError(() => of([]))),
       sedes: this._generalService
-        .consultaApi<RegistroAutocompletarGenSede[]>('general/sede/')
+        .consultaApi<RegistroAutocompletarGenSede[]>('general/sede/seleccionar/')
         .pipe(catchError(() => of([]))),
       almacenes: this._generalService
-        .consultaApi<RegistroAutocompletarInvAlmacen[]>('inventario/almacen/')
+        .consultaApi<RegistroAutocompletarInvAlmacen[]>('inventario/almacen/seleccionar/')
         .pipe(catchError(() => of([]))),
     }).pipe(
       tap((respuesta) => {
@@ -723,7 +725,10 @@ export default class FacturaDetalleComponent
         this.arrPlazoPago = respuesta.plazoPago;
         this.arrAsesor = respuesta.asesores;
         this.arrSede = respuesta.sedes;
-        this.arrAlmacenes = respuesta.almacenes;
+        this.arrAlmacenes = respuesta.almacenes;    
+        
+        console.log(this.arrAlmacenes);
+        
 
         if (!this.detalle) {
           this._initSugerencias();
@@ -742,7 +747,7 @@ export default class FacturaDetalleComponent
   private _sugerirSede(posicion: number) {
     if (this.arrSede.length > 0) {
       this.formularioFactura.patchValue({
-        sede: this.arrSede?.[posicion].sede_id,
+        sede: this.arrSede?.[posicion].id,
       });
     }
   }

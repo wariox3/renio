@@ -1012,7 +1012,7 @@ export default class FacturaDetalleComponent
   private _sugerirSede(posicion: number) {
     if (this.arrSede.length > 0) {
       this.formularioFactura.patchValue({
-        sede: this.arrSede?.[posicion].sede_id,
+        sede: this.arrSede?.[posicion].id,
       });
     }
   }

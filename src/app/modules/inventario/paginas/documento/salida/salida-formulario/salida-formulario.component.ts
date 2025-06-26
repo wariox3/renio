@@ -415,8 +415,8 @@ export default class SalidaFormularioComponent
     ).subscribe((respuesta) => {
       let arrAlmacenes = respuesta[0].registros[0];
       this.formularioSalida.patchValue({
-        almacen: arrAlmacenes.almacen_id,
-        almacenNombre: arrAlmacenes.almacen_nombre,
+        almacen: arrAlmacenes.id,
+        almacenNombre: arrAlmacenes.nombre,
       });
       this.changeDetectorRef.detectChanges();
     });

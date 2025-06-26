@@ -173,8 +173,8 @@ export default class FacturaPosFormularioComponent
 
   private _actualizarPlazoPago(plazoPagoId: number) {
     this.arrPlazoPago.find((plazoPago) => {
-      if (plazoPago.plazo_pago_id === plazoPagoId) {
-        this.plazo_pago_dias = plazoPago.plazo_dias;
+      if (plazoPago.id === plazoPagoId) {
+        this.plazo_pago_dias = plazoPago.dias;
         this.cambiarFechaVence();
       }
     });
@@ -731,7 +731,7 @@ export default class FacturaPosFormularioComponent
   private _sugerirSede(posicion: number) {
     if (this.arrSede.length > 0) {
       this.formularioFactura.patchValue({
-        sede: this.arrSede?.[posicion].sede_id,
+        sede: this.arrSede?.[posicion].id,
       });
     }
   }

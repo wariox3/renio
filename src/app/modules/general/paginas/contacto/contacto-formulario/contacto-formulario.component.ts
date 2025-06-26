@@ -628,47 +628,26 @@ export default class ContactoFormularioComponent
           ordering: 'orden',
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
-        {
-          modelo: 'GenRegimen',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
+        'general/regimen/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
-        {
-          modelo: 'GenTipoPersona',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
+        'general/tipo_persona/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPrecio>(
-        {
-          modelo: 'GenPrecio',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPrecio[]>(
+        'general/precio/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
-        {
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenAsesor[]>(
+        'general/asesor/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago[]>(
+        'general/plazo_pago/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenBanco>(
-        {
-          modelo: 'GenBanco',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenBanco[]>(
+        'general/banco/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
-        {
-          modelo: 'GenCuentaBancoClase',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoClase[]>(
+        'general/cuenta_banco_clase/',
       ),
     ).subscribe((respuesta: any) => {
       this.arrIdentificacionSignal.set(respuesta[0]);

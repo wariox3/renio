@@ -853,12 +853,12 @@
             <option value="">Seleccionar...</option>
             <option
               *ngFor="let pago of arrPagos"
-              [value]="pago.plazo_pago_id"
+              [value]="pago.id"
               [selected]="
-                pago.plazo_pago_id === formularioContacto.value.plazo_pago_id
+                pago.id === formularioContacto.value.plazo_pago_id
               "
             >
-              {{ pago.plazo_pago_nombre }}
+              {{ pago.nombre }}
             </option>
           </select>
           <ng-container
@@ -1135,12 +1135,12 @@
             <option value="">Seleccionar...</option>
             <option
               *ngFor="let pago of arrPagos"
-              [value]="pago.plazo_pago_id"
+              [value]="pago.id"
               [selected]="
-                pago.plazo_pago_id === formularioContacto.value.plazo_pago_id
+                pago.id === formularioContacto.value.plazo_pago_id
               "
             >
-              {{ pago.plazo_pago_nombre }}
+              {{ pago.nombre }}
             </option>
           </select>
         </div>

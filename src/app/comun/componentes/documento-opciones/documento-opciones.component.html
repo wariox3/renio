@@ -267,10 +267,10 @@
           </option>
           <option
             *ngFor="let sede of sedes"
-            [value]="sede.sede_id"
-            [selected]="encabezadoDocumento?.sede === sede.sede_id"
+            [value]="sede.id"
+            [selected]="encabezadoDocumento?.sede === sede.id"
           >
-            {{ sede.sede_nombre }}
+            {{ sede.nombre }}
           </option>
         </select>
       </div>

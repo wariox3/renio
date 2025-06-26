@@ -20,7 +20,6 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
@@ -46,6 +45,7 @@ import { ImportarPersonalizadoComponent } from '../../../../../../comun/componen
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.component';
 import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -313,10 +313,10 @@ export default class FacturaDetalleComponent
   }
 
   recibirAlmacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
-    this.formularioFactura.get('almacen')?.setValue(almacen.almacen_id);
+    this.formularioFactura.get('almacen')?.setValue(almacen.id);
     this.formularioFactura
       .get('almacen_nombre')
-      ?.setValue(almacen.almacen_nombre);
+      ?.setValue(almacen.nombre);
   }
 
   recibirAlmacenVacio() {
