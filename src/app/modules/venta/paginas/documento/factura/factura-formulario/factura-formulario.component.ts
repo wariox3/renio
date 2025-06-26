@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
@@ -17,6 +18,7 @@ import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezad
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
@@ -25,15 +27,17 @@ import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompleta
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
-  AcumuladorImpuestos,
   DocumentoFacturaRespuesta,
-  PagoFormulario,
+  PagoFormulario
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -52,17 +56,10 @@ import {
   Subject,
   takeUntil,
   tap,
-  throttleTime,
-  throwError,
-  zip,
+  throttleTime
 } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
-import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -765,8 +762,8 @@ export default class FacturaDetalleComponent
   ) {
     if (resolucion) {
       this.formularioFactura.patchValue({
-        resolucion: resolucion?.resolucion_id,
-        resolucion_numero: resolucion?.resolucion_numero,
+        resolucion: resolucion?.id,
+        resolucion_numero: resolucion?.numero,
       });
     } else {
       this.formularioFactura.patchValue({

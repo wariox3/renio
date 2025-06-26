@@ -71,11 +71,11 @@
       >
         <option value="">Sin resolución</option>
         <option
-          [value]="resolucion.resolucion_id"
+          [value]="resolucion.id"
           *ngFor="let resolucion of arrResoluciones"
         >
-          {{ resolucion.resolucion_prefijo }}
-          {{ resolucion.resolucion_numero }}
+          {{ resolucion.prefijo }}
+          {{ resolucion.numero }}
         </option>
       </select>
       <ng-container

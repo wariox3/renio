@@ -11,13 +11,9 @@
         [iniciarFocusInputBusqueda]="false"
         [valorInicial]="formularioFactura.get('resolucion_numero')?.value"
         (itemSeleccionadoEvent)="agregarResolucionSeleccionado($event)"
-        [filtrosExternos]="[
-          {
-            operador: 'exact',
-            propiedad: 'compra',
-            valor1: true,
-          },
-        ]"
+        [filtrosExternos]="{
+          compra: 'True'
+        }"
       ></app-seleccionar-resolucion>
     </div>
   </div>

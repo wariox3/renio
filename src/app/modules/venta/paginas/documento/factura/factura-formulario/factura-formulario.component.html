@@ -664,13 +664,11 @@
                       (itemSeleccionadoEvent)="
                         agregarResolucionSeleccionado($event)
                       "
-                      [filtrosExternos]="[
+                      [filtrosExternos]="
                         {
-                          operador: 'exact',
-                          propiedad: 'venta',
-                          valor1: true,
-                        },
-                      ]"
+                          venta: 'True'
+                        }
+                      "
                     ></app-seleccionar-resolucion>
                   </div>
                 
