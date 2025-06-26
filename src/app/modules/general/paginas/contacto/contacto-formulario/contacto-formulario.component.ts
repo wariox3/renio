@@ -628,7 +628,6 @@ export default class ContactoFormularioComponent
         RegistroAutocompletarGenCuentaBancoClase[]
       >('general/cuenta_banco_clase/seleccionar/'),
     ).subscribe((respuesta: any) => {
-      console.log(respuesta);
 
       this.arrIdentificacionSignal.set(respuesta[0]);
       this.arrIdentificacion = respuesta[0];

@@ -163,7 +163,6 @@ export default class FacturaDetalleComponent
       this._actualizarPlazoPago(
         this.formularioFactura.get('plazo_pago')?.value,
       );
-      console.log(this.arrAlmacenes[0]);
 
       this.almacenSeleccionado(this.arrAlmacenes[0]);
       this.changeDetectorRef.detectChanges();

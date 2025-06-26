@@ -230,7 +230,6 @@ export class EnviarNominaElectronicaComponent
     }
 
     this.changeDetectorRef.detectChanges();
-    console.log(this.itemsSeleccionados());
   }
 
   manejarCheckGlobal(event: any) {
@@ -241,7 +240,6 @@ export class EnviarNominaElectronicaComponent
     }
 
     this.changeDetectorRef.detectChanges();
-    console.log(this.itemsSeleccionados());
   }
 
   seleccionar(id: number) {

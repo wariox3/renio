@@ -189,9 +189,6 @@ export default class FacturaDetalleComponent
         this.arrMetodosPago = respuesta[0];
         this.arrPlazoPago = respuesta[1];
         this.formaPagoLista = respuesta[2];
-        console.log('arrMetodosPago', this.arrMetodosPago);
-        console.log('arrPlazoPago', this.arrPlazoPago);
-        console.log('formaPagoLista', this.formaPagoLista);
 
         this._sugerirPrimerValorFormaPago();
         this.changeDetectorRef.detectChanges();
