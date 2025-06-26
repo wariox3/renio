@@ -14,7 +14,7 @@ export const mapeo: MapeoAdministrador = {
         ordenable: true,
       },
       {
-        nombre: 'IDENTIFICACION_ABREVIATURA',
+        nombre: 'IDENTIFICACION__ABREVIATURA',
         nombreAbreviado: 'IDENTIFICACION_ABREVIATURA',
         campoTipo: 'IntegerField',
         visibleTabla: true,
