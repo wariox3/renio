@@ -47,11 +47,13 @@ import {
   asyncScheduler,
   BehaviorSubject,
   catchError,
+  forkJoin,
   of,
   Subject,
   takeUntil,
   tap,
   throttleTime,
+  throwError,
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
@@ -697,45 +699,31 @@ export default class FacturaDetalleComponent
   }
 
   private _consultarInformacion() {
-    return zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
-        {
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
-        {
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
-        {
-          modelo: 'GenSede',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
-        {
-          limite: 1,
-          modelo: 'InvAlmacen',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-    ).pipe(
+    return forkJoin({
+      metodosPago: this._generalService
+        .consultaApi<
+          RegistroAutocompletarGenMetodoPago[]
+        >('general/metodo_pago/')
+        .pipe(catchError(() => of([]))),
+      plazoPago: this._generalService
+        .consultaApi<RegistroAutocompletarGenPlazoPago[]>('general/plazo_pago/')
+        .pipe(catchError(() => of([]))),
+      asesores: this._generalService
+        .consultaApi<RegistroAutocompletarGenAsesor[]>('general/asesor/')
+        .pipe(catchError(() => of([]))),
+      sedes: this._generalService
+        .consultaApi<RegistroAutocompletarGenSede[]>('general/sede/')
+        .pipe(catchError(() => of([]))),
+      almacenes: this._generalService
+        .consultaApi<RegistroAutocompletarInvAlmacen[]>('inventario/almacen/')
+        .pipe(catchError(() => of([]))),
+    }).pipe(
       tap((respuesta) => {
-        this.arrMetodosPago = respuesta[0].registros;
-        this.arrPlazoPago = respuesta[1].registros;
-        this.arrAsesor = respuesta[2].registros;
-        this.arrSede = respuesta[3].registros;
-        this.arrAlmacenes = respuesta[4].registros;
+        this.arrMetodosPago = respuesta.metodosPago;
+        this.arrPlazoPago = respuesta.plazoPago;
+        this.arrAsesor = respuesta.asesores;
+        this.arrSede = respuesta.sedes;
+        this.arrAlmacenes = respuesta.almacenes;
 
         if (!this.detalle) {
           this._initSugerencias();

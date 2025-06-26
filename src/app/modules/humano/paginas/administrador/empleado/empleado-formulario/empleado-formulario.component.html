@@ -29,14 +29,14 @@
             <option value="">Seleccionar...</option>
             <ng-container *ngFor="let identificacion of arrIdentificacion">
               <option
-                [value]="identificacion.identificacion_id"
+                [value]="identificacion.id"
                 [selected]="
-                  identificacion.identificacion_id ===
+                  identificacion.id ===
                   formularioEmpleado.value.identificacion
                 "
-                *ngIf="identificacion.identificacion_id !== 6"
+                *ngIf="identificacion.id !== 6"
               >
-                {{ identificacion.identificacion_nombre }}
+                {{ identificacion.nombre }}
               </option>
             </ng-container>
           </select>

@@ -119,7 +119,7 @@ export default class ContactoFormularioComponent
   filteredIdentificacionSignal = computed(() =>
     this.arrIdentificacionSignal().filter(
       (item) =>
-        item.identificacion_tipo_persona_id ===
+        item.tipo_persona ===
         this.filtroIdentificacionSignal(),
     ),
   );
@@ -473,12 +473,12 @@ export default class ContactoFormularioComponent
           apellido1: null,
           apellido2: null,
           identificacion:
-            this.filteredIdentificacionSignal()[0].identificacion_id,
+            this.filteredIdentificacionSignal()[0].id,
         });
       } else {
         this.formularioContacto.patchValue({
           identificacion:
-            this.filteredIdentificacionSignal()[0].identificacion_id,
+            this.filteredIdentificacionSignal()[0].id,
         });
       }
     } else {
@@ -497,7 +497,7 @@ export default class ContactoFormularioComponent
       if (this.accion === 'nuevo') {
         this.formularioContacto.patchValue({
           identificacion:
-            this.filteredIdentificacionSignal()[0].identificacion_id,
+            this.filteredIdentificacionSignal()[0].id,
         });
       }
       if (this.accion === 'editar') {
@@ -622,11 +622,10 @@ export default class ContactoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenIdentificacion>(
+      this._generalService.consultaApi<RegistroAutocompletarGenIdentificacion[]>(
+        'general/identificacion/',
         {
-          modelo: 'GenIdentificacion',
-          serializador: 'ListaAutocompletar',
-          ordenamientos: ['orden'],
+          ordering: 'orden',
         },
       ),
       this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
@@ -672,8 +671,8 @@ export default class ContactoFormularioComponent
         },
       ),
     ).subscribe((respuesta: any) => {
-      this.arrIdentificacionSignal.set(respuesta[0].registros);
-      this.arrIdentificacion = respuesta[0].registros;
+      this.arrIdentificacionSignal.set(respuesta[0]);
+      this.arrIdentificacion = respuesta[0];
       this.arrRegimen = respuesta[1].registros;
       this.arrTipoPersona = respuesta[2].registros;
       this.arrPrecios = respuesta[3].registros;
@@ -684,7 +683,7 @@ export default class ContactoFormularioComponent
       this.changeDetectorRef.detectChanges();
       this.formularioContacto.patchValue({
         identificacion:
-          this.filteredIdentificacionSignal()[0].identificacion_id,
+          this.filteredIdentificacionSignal()[0].id,
       });
     });
   }

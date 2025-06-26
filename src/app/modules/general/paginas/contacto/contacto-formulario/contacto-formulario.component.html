@@ -114,13 +114,12 @@
             <option value="">Seleccionar...</option>
             <option
               *ngFor="let identificacion of filteredIdentificacionSignal()"
-              [value]="identificacion.identificacion_id"
+              [value]="identificacion.id"
               [selected]="
-                identificacion.identificacion_id ===
-                formularioContacto.value.identificacion
+                identificacion.id === formularioContacto.value.identificacion
               "
             >
-              {{ identificacion.identificacion_nombre }}
+              {{ identificacion.nombre }}
             </option>
           </select>
           <ng-container
