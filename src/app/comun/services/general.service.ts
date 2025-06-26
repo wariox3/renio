@@ -65,7 +65,7 @@ export class GeneralService {
       }
     });
 
-    return this._httpService.getDetalle<RespuestaApi<T>>(endpoint, params);
+    return this._httpService.getDetalle<T>(endpoint, params);
   }
 
   consultarDatosLista<T>(

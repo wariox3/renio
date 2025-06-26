@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class DocumentoDetalleService {
   }
 
   documentoDetalle(queryParams: { [key: string]: any } = {}) {
-    return this._generalService.consultaApi(
+    return this._generalService.consultaApi<RespuestaApi<any>>(
       'general/documento_detalle/',
       queryParams,
     );

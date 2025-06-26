@@ -23,6 +23,7 @@ import { BehaviorSubject, finalize, forkJoin, Subject, takeUntil } from 'rxjs';
 import { FilterCondition, FilterField } from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { FiltroComponent } from "../../ui/tabla/filtro/filtro.component";
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-comun-base-lista-administrador',
@@ -155,7 +156,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.cargando$.next(true);
     this.arrItems = [];
     this._generalService
-      .consultaApi(`${this._endpoint}/`, {
+      .consultaApi<RespuestaApi<any>>(`${this._endpoint}/`, {
         ...this.queryParams,
       })
       .pipe(finalize(() => this.cargando$.next(false)))
@@ -169,7 +170,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this._generalService
-      .consultaApi(`${this._endpoint!}/`, {
+      .consultaApi<RespuestaApi<any>>(`${this._endpoint!}/`, {
         ...this.queryParams,
         page: data.desplazamiento,
       })
@@ -251,7 +252,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       this.filtrosAplicados = apiParams;
 
       this._generalService
-        .consultaApi(`${this._endpoint!}/`, {
+        .consultaApi<RespuestaApi<any>>(`${this._endpoint!}/`, {
           ...this.queryParams,
           ...apiParams,
         })

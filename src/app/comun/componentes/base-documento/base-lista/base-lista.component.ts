@@ -38,6 +38,7 @@ import {
 } from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { FiltroComponent } from '../../ui/tabla/filtro/filtro.component';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -214,7 +215,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.arrItems = [];
 
     this._generalService
-      .consultaApi(`${this._endpoint!}/`, {
+      .consultaApi<RespuestaApi<any>>(`${this._endpoint!}/`, {
         ...this.queryParams,
         ...this.queryParamsStorage,
       })
@@ -258,7 +259,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
     this._generalService
-      .consultaApi(`${this._endpoint!}/`, {
+      .consultaApi<RespuestaApi<any>>(`${this._endpoint!}/`, {
         ...this.queryParams,
         page: data.desplazamiento,
       })
@@ -368,7 +369,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.queryParamsStorage = apiParams;
 
     this._generalService
-      .consultaApi(`${this._endpoint!}/`, {
+      .consultaApi<RespuestaApi<any>>(`${this._endpoint!}/`, {
         ...this.queryParams,
         ...apiParams,
       })

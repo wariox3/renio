@@ -25,7 +25,7 @@ export class PeriodoService extends Subdominio {
   }
 
   consultarPeriodos(queryParams: { [key: string]: any } = {}) {
-    return this._generalService.consultaApi<any>(
+    return this._generalService.consultaApi<RespuestaApi<any>>(
       'contabilidad/periodo/',
       queryParams,
     );
