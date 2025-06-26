@@ -162,9 +162,9 @@ export default class FacturaDetalleComponent
     this._consultarInformacion().subscribe(() => {
       this._actualizarPlazoPago(
         this.formularioFactura.get('plazo_pago')?.value,
-      );      
+      );
       console.log(this.arrAlmacenes[0]);
-      
+
       this.almacenSeleccionado(this.arrAlmacenes[0]);
       this.changeDetectorRef.detectChanges();
     });
@@ -474,31 +474,34 @@ export default class FacturaDetalleComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'cliente',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
+    // let arrFiltros: ParametrosFiltros = {
+    //   filtros: [
+    //     {
+    //       propiedad: 'nombre_corto__icontains',
+    //       valor1: `${event?.target.value}`,
+    //     },
+    //     {
+    //       propiedad: 'cliente',
+    //       valor1: 'True',
+    //     },
+    //   ],
+    //   limite: 10,
+    //   desplazar: 0,
+    //   ordenamientos: [],
+    //   limite_conteo: 10000,
+    //   modelo: 'GenContacto',
+    //   serializador: 'ListaAutocompletar',
+    // };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        { nombre_corto__icontains: `${event?.target.value}`, cliente: 'True' },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -705,16 +708,24 @@ export default class FacturaDetalleComponent
         >('general/metodo_pago/seleccionar/')
         .pipe(catchError(() => of([]))),
       plazoPago: this._generalService
-        .consultaApi<RegistroAutocompletarGenPlazoPago[]>('general/plazo_pago/seleccionar/')
+        .consultaApi<
+          RegistroAutocompletarGenPlazoPago[]
+        >('general/plazo_pago/seleccionar/')
         .pipe(catchError(() => of([]))),
       asesores: this._generalService
-        .consultaApi<RegistroAutocompletarGenAsesor[]>('general/asesor/seleccionar/')
+        .consultaApi<
+          RegistroAutocompletarGenAsesor[]
+        >('general/asesor/seleccionar/')
         .pipe(catchError(() => of([]))),
       sedes: this._generalService
-        .consultaApi<RegistroAutocompletarGenSede[]>('general/sede/seleccionar/')
+        .consultaApi<
+          RegistroAutocompletarGenSede[]
+        >('general/sede/seleccionar/')
         .pipe(catchError(() => of([]))),
       almacenes: this._generalService
-        .consultaApi<RegistroAutocompletarInvAlmacen[]>('inventario/almacen/seleccionar/')
+        .consultaApi<
+          RegistroAutocompletarInvAlmacen[]
+        >('inventario/almacen/seleccionar/')
         .pipe(catchError(() => of([]))),
     }).pipe(
       tap((respuesta) => {
@@ -722,10 +733,9 @@ export default class FacturaDetalleComponent
         this.arrPlazoPago = respuesta.plazoPago;
         this.arrAsesor = respuesta.asesores;
         this.arrSede = respuesta.sedes;
-        this.arrAlmacenes = respuesta.almacenes;    
-        
+        this.arrAlmacenes = respuesta.almacenes;
+
         console.log(this.arrAlmacenes);
-        
 
         if (!this.detalle) {
           this._initSugerencias();

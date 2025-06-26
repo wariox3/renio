@@ -389,31 +389,37 @@ export default class FacturaDetalleComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'proveedor',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
+    // let arrFiltros: ParametrosFiltros = {
+    //   filtros: [
+    //     {
+    //       propiedad: 'nombre_corto__icontains',
+    //       valor1: `${event?.target.value}`,
+    //     },
+    //     {
+    //       propiedad: 'proveedor',
+    //       valor1: 'True',
+    //     },
+    //   ],
+    //   limite: 10,
+    //   desplazar: 0,
+    //   ordenamientos: [],
+    //   limite_conteo: 10000,
+    //   modelo: 'GenContacto',
+    //   serializador: 'ListaAutocompletar',
+    // };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          proveedor: 'True',
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )

@@ -5,8 +5,6 @@
       <app-comun-titulo-accion [nombreModelo]="'facturaventa'"></app-comun-titulo-accion>
     </section>
     <section card-body>
-      <!-- <app-factura-formulario-documento [formularioFactura]="formularioFactura"></app-factura-formulario-documento> -->
-
       <div class="row mb-5">
         <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
@@ -45,7 +43,7 @@
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
               >
-                {{ contacto.contacto_nombre_corto }}
+                {{ contacto.nombre_corto }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -225,7 +223,7 @@
         </div>
       </div>
       <div class="row mb-5">
-        
+
         <div
         class="col-md-3 col-sm-12"
         ngbDropdown
@@ -671,7 +669,7 @@
                       "
                     ></app-seleccionar-resolucion>
                   </div>
-                
+
                 </div>
                 <div class="row mb-5">
                   <div class="col-md-12 col-sm-12">
