@@ -37,13 +37,12 @@
             <option value="">Seleccionar...</option>
             <option
               *ngFor="let tipoPersona of arrTipoPersona"
-              [value]="tipoPersona.tipo_persona_id"
+              [value]="tipoPersona.id"
               [selected]="
-                tipoPersona.tipo_persona_id ===
-                formularioContacto.value.tipo_persona
+                tipoPersona.id === formularioContacto.value.tipo_persona
               "
             >
-              {{ tipoPersona.tipo_persona_nombre }}
+              {{ tipoPersona.nombre }}
             </option>
           </select>
           <ng-container
@@ -75,12 +74,10 @@
             <option value="">Seleccionar...</option>
             <option
               *ngFor="let regimen of arrRegimen"
-              [value]="regimen.regimen_id"
-              [selected]="
-                regimen.regimen_id === formularioContacto.value.regimen
-              "
+              [value]="regimen.id"
+              [selected]="regimen.id === formularioContacto.value.regimen"
             >
-              {{ regimen.regimen_nombre }}
+              {{ regimen.nombre }}
             </option>
           </select>
           <ng-container
@@ -613,7 +610,7 @@
               "
               (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
             >
-              {{ ciudad.nombre }} - {{ ciudad.estado_nombre }}
+              {{ ciudad.nombre }} - {{ ciudad.estado__nombre }}
             </button>
           </div>
         </div>
@@ -854,9 +851,7 @@
             <option
               *ngFor="let pago of arrPagos"
               [value]="pago.id"
-              [selected]="
-                pago.id === formularioContacto.value.plazo_pago_id
-              "
+              [selected]="pago.id === formularioContacto.value.plazo_pago_id"
             >
               {{ pago.nombre }}
             </option>
@@ -922,9 +917,7 @@
             <option
               *ngFor="let asesor of arrAsesores"
               [value]="asesor.id"
-              [selected]="
-                asesor.id === formularioContacto.value.asesor_id
-              "
+              [selected]="asesor.id === formularioContacto.value.asesor_id"
             >
               {{ asesor.nombre_corto }}
             </option>
@@ -1076,13 +1069,12 @@
           >
             @for (item of arrCuentasBancos; track $index) {
               <option
-                [value]="item.cuenta_banco_clase_id"
+                [value]="item.id"
                 [selected]="
-                  item.cuenta_banco_clase_id ===
-                  formularioContacto.value.cuenta_banco_clase
+                  item.id === formularioContacto.value.cuenta_banco_clase
                 "
               >
-                {{ item.cuenta_banco_clase_nombre }}
+                {{ item.nombre }}
               </option>
             }
           </select>
@@ -1136,9 +1128,7 @@
             <option
               *ngFor="let pago of arrPagos"
               [value]="pago.id"
-              [selected]="
-                pago.id === formularioContacto.value.plazo_pago_id
-              "
+              [selected]="pago.id === formularioContacto.value.plazo_pago_id"
             >
               {{ pago.nombre }}
             </option>
