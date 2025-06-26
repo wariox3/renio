@@ -29,10 +29,10 @@
       @if (arrCuentasLista.length) {
         <ng-container *ngFor="let cuenta of arrCuentasLista">
           <button (click)="agregarCuenta(cuenta)" type="button" ngbDropdownItem>
-            {{ cuenta.cuenta_codigo }} {{ cuenta.cuenta_nombre }}
+            {{ cuenta.codigo }} {{ cuenta.nombre }}
           </button>
         </ng-container>
-      } @else { 
+      } @else {
         <button ngbDropdownItem type="button">
           No se encontraron resultados.
         </button>

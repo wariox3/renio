@@ -35,8 +35,8 @@ export class CuentasComponent
   implements AfterViewInit, OnChanges
 {
   cuentaSeleccionada: any | null = null;
-  arrCuentasLista: any[] = []
-  @Input() style: string = ''
+  arrCuentasLista: any[] = [];
+  @Input() style: string = '';
   @Input() cuentaCodigo: string = '';
   @Input() cuentaNombre: string = '';
   @Input() documentoEnlazado: boolean;
@@ -87,35 +87,16 @@ export class CuentasComponent
   consultarCuentas(event: any) {
     const valor = event?.target?.value;
     const valorBusqueda = valor.split(' ')?.[0] || '';
-
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'codigo__startswith',
-          valor1: `${valorBusqueda}`,
-        },
-        {
-          propiedad: 'permite_movimiento',
-          valor1: true,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: ['codigo'],
-      limite_conteo: 10000,
-      modelo: 'ConCuenta',
-      serializador: 'ListaAutocompletar',
-    };
-    if (this.filtrosExternos) {
-      if (this.filtrosExternos.length) {
-        arrFiltros.filtros = [...arrFiltros.filtros, ...this.filtrosExternos];
-      }
-    }
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
-      .subscribe((respuesta) => {
-        this.arrCuentasLista = respuesta.registros;
+      .consultaApi<RegistroAutocompletarConCuenta>(
+        'contabilidad/cuenta/seleccionar/',
+        {
+          codigo__startswith: valorBusqueda,
+          permite_movimiento: 'True',
+        },
+      )
+      .subscribe((respuesta: any) => {
+        this.arrCuentasLista = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -123,7 +104,9 @@ export class CuentasComponent
   aplicarFiltrosCuentas(event: any) {
     const valor = event?.target?.value;
     const valorCasteado = Number(valor);
-    let filtros = [];
+    let filtros: { [key: string]: any } = {
+      permite_movimiento: 'True',
+    };
 
     if (!valor) {
       this.emitirLineaVacia.emit();
@@ -131,49 +114,36 @@ export class CuentasComponent
 
     // la busqueda es por codigo
     if (!isNaN(valorCasteado)) {
-      filtros.push({
-        propiedad: 'codigo__startswith',
-        valor1: `${valor}`,
-      });
+      filtros = {
+        ...filtros,
+        codigo__startswith: `${valor}`,
+      };
     } else {
       // la busqueda es por texto
-      filtros.push({
-        propiedad: 'nombre__icontains',
-        valor1: `${valor}`,
-      });
-    }
-
-    if (this.filtrosExternos) {
-      if (this.filtrosExternos.length) {
-        filtros = [...filtros, ...this.filtrosExternos];
-      }
-    }
-
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'permite_movimiento',
-          valor1: true,
-        },
+      filtros = {
         ...filtros,
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: ['codigo'],
-      limite_conteo: 10000,
-      modelo: 'ConCuenta',
-      serializador: 'ListaAutocompletar',
-    };
+        nombre__icontains: `${valor}`,
+      };
+    }
+
+    // if (this.filtrosExternos) {
+    //   if (this.filtrosExternos.length) {
+    //     filtros = [...filtros, ...this.filtrosExternos];
+    //   }
+    // }
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
+      .consultaApi<RegistroAutocompletarConCuenta>(
+        'contabilidad/cuenta/seleccionar/',
+        filtros,
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrCuentasLista = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrCuentasLista = respuesta;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }

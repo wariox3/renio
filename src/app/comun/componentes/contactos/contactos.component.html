@@ -15,7 +15,7 @@
       [value]="contactoNombre"
       [ngClass]="{
         'is-invalid': campoInvalido,
-        'is-valid': itemSeleccionado !== null
+        'is-valid': itemSeleccionado !== null,
       }"
     />
     <div
@@ -30,7 +30,7 @@
           type="button"
           ngbDropdownItem
         >
-          {{ item.contacto_nombre_corto }}
+          {{ item.nombre_corto }}
         </button>
       </ng-container>
     </div>
