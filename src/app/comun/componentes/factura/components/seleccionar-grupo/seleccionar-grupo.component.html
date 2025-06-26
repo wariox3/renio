@@ -9,8 +9,8 @@
     {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
   </option>
   @for (grupo of grupos(); track $index) {
-    <option [value]="grupo.grupo_id">
-      {{ grupo.grupo_nombre }}
+    <option [value]="grupo.id">
+      {{ grupo.nombre }}
     </option>
   }
 </select>

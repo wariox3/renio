@@ -1,4 +1,5 @@
 export interface RegistroAutocompletarConGrupo {
-  grupo_id: number;
-  grupo_nombre: string;
+  id: number;
+  nombre: string;
+  codigo: string;
 }

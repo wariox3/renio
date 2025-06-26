@@ -235,8 +235,8 @@
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
-            <option *ngFor="let grupo of arrGrupo" [value]="grupo.grupo_id">
-              {{ grupo.grupo_nombre }}
+            <option *ngFor="let grupo of arrGrupo" [value]="grupo.id">
+              {{ grupo.nombre }}
             </option>
           </select>
         </div>
@@ -416,9 +416,9 @@
                               </option>
                               <option
                                 *ngFor="let grupo of arrGrupo"
-                                [value]="grupo.grupo_id"
+                                [value]="grupo.id"
                               >
-                                {{ grupo.grupo_nombre }}
+                                {{ grupo.nombre }}
                               </option>
                             </select>
                           </td>

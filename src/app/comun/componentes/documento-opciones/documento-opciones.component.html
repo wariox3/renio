@@ -354,10 +354,10 @@
                           </option>
                           <option
                             *ngFor="let grupo of arrGrupo"
-                            [value]="grupo.grupo_id"
-                            [selected]="grupo.grupo_id === arrDocumento.grupo_id"
+                            [value]="grupo.id"
+                            [selected]="grupo.id === arrDocumento.grupo_id"
                           >
-                            {{ grupo.grupo_nombre }}
+                            {{ grupo.nombre }}
                           </option>
                         </select>
                       </td>

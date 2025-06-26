@@ -1,4 +1,6 @@
 export interface RegistroAutocompletarGenFormaPago {
-  forma_pago_id: number;
-  forma_pago_nombre: string;
+  id: number;
+  nombre: string;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
 }

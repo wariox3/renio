@@ -448,7 +448,7 @@ export default class FacturaDetalleComponent
     if (!this.detalle) {
       if (this.formaPagoLista.length > 0) {
         this.formularioFactura.patchValue({
-          forma_pago: this.formaPagoLista?.[0].forma_pago_id,
+          forma_pago: this.formaPagoLista?.[0].id,
         });
       }
     }
