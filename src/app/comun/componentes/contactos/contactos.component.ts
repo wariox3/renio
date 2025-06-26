@@ -39,63 +39,45 @@ export class ContactosComponent extends General {
     super();
   }
 
-  validarValor(){
-    if(this.inputItem.nativeElement.value === ''){
-      this.emitirLineaVacia.emit(true)
+  validarValor() {
+    if (this.inputItem.nativeElement.value === '') {
+      this.emitirLineaVacia.emit(true);
     }
   }
 
   agregarContacto(item: any) {
+    console.log(item);
+
     this.itemSeleccionado = item;
-    this.contactoNombre = item.contacto_nombre_corto;
+    this.contactoNombre = item.nombre_corto;
     this.emitirContacto.emit(item);
   }
 
   consultarContactos(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
-        filtros: [
-          {
-            propiedad: 'nombre_corto__icontains',
-            valor1: `${event?.target.value}`,
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenContacto',
-        serializador: 'ListaAutocompletar',
-      })
-      .subscribe((respuesta) => {
-        this.arrContactos = respuesta.registros;
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        { nombre_corto__icontains: `${event?.target.value}`, limint: 10 },
+      )
+      .subscribe((respuesta: any) => {
+        this.arrContactos = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
 
   aplicarFiltrosContactos(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>({
-        filtros: [
-          {
-            propiedad: 'nombre_corto__icontains',
-            valor1: `${event?.target.value}`,
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenContacto',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        { nombre_corto__icontains: `${event?.target.value}`, limint: 10 },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContactos = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrContactos = respuesta;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
