@@ -31,7 +31,6 @@ import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocomp
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   DocumentoFacturaRespuesta,
   PagoFormulario
@@ -60,6 +59,7 @@ import {
 } from 'rxjs';
 import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -398,10 +398,10 @@ export default class FacturaDetalleComponent
   }
 
   // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
-  agregarPagoSeleccionado(item: any, index: number) {
+  agregarPagoSeleccionado(item: CuentaBancoSeleccionar, index: number) {
     this.pagos.controls[index].patchValue({
-      cuenta_banco: item.cuenta_banco_id,
-      cuenta_banco_nombre: item.cuenta_banco_nombre,
+      cuenta_banco: item.id,
+      cuenta_banco_nombre: item.nombre,
     });
     const pagoFormGroup = this.pagos.at(index) as FormGroup;
 

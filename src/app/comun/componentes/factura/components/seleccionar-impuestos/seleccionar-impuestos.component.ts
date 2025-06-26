@@ -9,18 +9,17 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
+import { RegistroAutocompletarGenImpuesto } from '@interfaces/comunes/autocompletar/general/gen-impuesto.interface';
+import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   ImpuestoFormulario,
   ImpuestoRespuestaConsulta,
 } from '@interfaces/comunes/factura/factura.interface';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { AdapterService } from '../../services/adapter.service';
-import { RegistroAutocompletarGenImpuesto } from '@interfaces/comunes/autocompletar/general/gen-impuesto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 @Component({
   selector: 'app-seleccionar-impuestos',
@@ -29,7 +28,6 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     CommonModule,
     TranslateModule,
     NgbDropdownModule,
-    SoloNumerosDirective,
   ],
   templateUrl: './seleccionar-impuestos.component.html',
   styleUrls: ['./seleccionar-impuestos.component.scss'],
@@ -79,7 +77,7 @@ export class SeleccionarImpuestosComponent
 
       const impuestosAdaptados = currentImpuestos.map(
         (impuesto: ImpuestoFormulario) =>
-          this._adapterService.adaptarImpuestoParaSelector(impuesto)
+          this._adapterService.adaptarImpuestoParaSelector(impuesto),
       );
 
       if (Array.isArray(currentImpuestos)) {
@@ -94,7 +92,7 @@ export class SeleccionarImpuestosComponent
     //Verificar si el impuesto ya existe en el array
     const impuestoExistente = this.impuestos.find(
       (impuestoSeleccionado: any) =>
-        impuestoSeleccionado.impuesto_id === impuesto.impuesto_id
+        impuestoSeleccionado.impuesto_id === impuesto.impuesto_id,
     );
 
     if (!impuestoExistente) {
@@ -103,7 +101,7 @@ export class SeleccionarImpuestosComponent
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'El producto ya cuenta con este impuesto seleccionado'
+        'El producto ya cuenta con este impuesto seleccionado',
       );
     }
   }
@@ -116,30 +114,25 @@ export class SeleccionarImpuestosComponent
   }
 
   consultarImpuesto() {
-    this.alertaService.cerrarMensajes()
+    this.alertaService.cerrarMensajes();
+    let parametros: { [key: string]: any } = {};
+
     switch (this.formularioTipo) {
       case 'compra':
-        this.arrParametrosConsulta.filtros = [
-          {
-            propiedad: 'compra',
-            valor1: true,
-          },
-        ];
+        parametros = {
+          compra: 'True',
+        };
         break;
       case 'venta':
-        this.arrParametrosConsulta.filtros = [
-          {
-            propiedad: 'venta',
-            valor1: true,
-          },
-        ];
+        parametros = {
+          venta: 'True',
+        };
         break;
     }
 
     this.listaDeImpuestosSeleccionables$ = this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenImpuesto>(
-        this.arrParametrosConsulta
-      )
-      .pipe(map((respuesta) => respuesta.registros));
+      .consultaApi<
+        RegistroAutocompletarGenImpuesto[]
+      >('general/impuesto/seleccionar/', parametros)
   }
 }

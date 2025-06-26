@@ -55,6 +55,7 @@ import {
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 
 @Component({
   selector: 'app-factura-pos-formulario',
@@ -374,10 +375,10 @@ export default class FacturaPosFormularioComponent
   }
 
   // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
-  agregarPagoSeleccionado(item: any, index: number) {
+  agregarPagoSeleccionado(item: CuentaBancoSeleccionar, index: number) {
     this.pagos.controls[index].patchValue({
-      cuenta_banco: item.cuenta_banco_id,
-      cuenta_banco_nombre: item.cuenta_banco_nombre,
+      cuenta_banco: item.id,
+      cuenta_banco_nombre: item.nombre,
     });
     const pagoFormGroup = this.pagos.at(index) as FormGroup;
 

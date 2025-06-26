@@ -109,29 +109,27 @@ export class ImpuestosComponent extends General implements OnChanges {
   }
 
   consultarImpuesto() {
+    let parametros: { [key: string]: any } = {};
+
     if (this.visualizarImpuestosVenta) {
-      this.arrParametrosConsulta.filtros = [
-        {
-          propiedad: 'venta',
-          valor1: true,
-        },
-      ];
+      parametros = {
+        venta: 'True',
+      };
     }
     if (this.visualizarImpuestosCompra) {
-      this.arrParametrosConsulta.filtros = [
-        {
-          propiedad: 'compra',
-          valor1: true,
-        },
-      ];
+      parametros = {
+        compra: 'True',
+      };
     }
+
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenImpuesto>(
-        this.arrParametrosConsulta
+      .consultaApi<RegistroAutocompletarGenImpuesto[]>(
+        'general/impuesto/seleccionar/',
+        parametros
       )
       .pipe(
         tap((respuesta) => {
-          this.arrImpuestoLista = respuesta.registros;
+          this.arrImpuestoLista = respuesta;
           this.changeDetectorRef.detectChanges();
         })
       )

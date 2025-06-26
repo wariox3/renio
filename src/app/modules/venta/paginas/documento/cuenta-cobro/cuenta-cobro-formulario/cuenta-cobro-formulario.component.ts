@@ -34,7 +34,9 @@ import {
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { ItemSeleccionar } from '@interfaces/general/item.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -349,10 +351,10 @@ export default class CuentaCobroFormularioComponent
   }
 
   // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
-  agregarPagoSeleccionado(item: any, index: number) {
+  agregarPagoSeleccionado(item: CuentaBancoSeleccionar, index: number) {
     this.pagos.controls[index].patchValue({
-      cuenta_banco: item.cuenta_banco_id,
-      cuenta_banco_nombre: item.cuenta_banco_nombre,
+      cuenta_banco: item.id,
+      cuenta_banco_nombre: item.nombre,
     });
     const pagoFormGroup = this.pagos.at(index) as FormGroup;
 
