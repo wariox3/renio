@@ -921,12 +921,12 @@
             <option value="">Seleccionar...</option>
             <option
               *ngFor="let asesor of arrAsesores"
-              [value]="asesor.asesor_id"
+              [value]="asesor.id"
               [selected]="
-                asesor.asesor_id === formularioContacto.value.asesor_id
+                asesor.id === formularioContacto.value.asesor_id
               "
             >
-              {{ asesor.asesor_nombre_corto }}
+              {{ asesor.nombre_corto }}
             </option>
           </select>
         </div>

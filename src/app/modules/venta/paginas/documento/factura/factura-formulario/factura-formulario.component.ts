@@ -755,7 +755,7 @@ export default class FacturaDetalleComponent
   private _sugeriAsesor(posicion: number) {
     if (this.arrAsesor.length > 0) {
       this.formularioFactura.patchValue({
-        asesor: this.arrAsesor?.[posicion].asesor_id,
+        asesor: this.arrAsesor?.[posicion].id,
       });
     }
   }
