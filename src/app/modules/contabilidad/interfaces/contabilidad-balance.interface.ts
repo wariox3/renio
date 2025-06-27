@@ -20,6 +20,12 @@ export interface MovimientoBalancePrueba {
   vr_credito_anterior: number | null;
   debito: number | null;
   credito: number | null;
+  contacto_numero_identificacion: string;
+  contacto_nombre_corto: string;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+  base_retenido: string;
+  retenido: string;
 }
 
 export interface MovimientoAuxiliarCuenta {

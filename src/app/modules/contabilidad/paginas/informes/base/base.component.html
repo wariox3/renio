@@ -102,11 +102,11 @@
             ></th>
             <th
               class="text-center"
-              translate="LISTAS.CONMOVIENTO.CONTACTO_NOMBRE_CORTO"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_NUMERO_IDENTIFICACION"
             ></th>
             <th
               class="text-center"
-              translate="LISTAS.CONMOVIENTO.CONTACTO_NUMERO_IDENTIFICACION"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_NOMBRE_CORTO"
             ></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.DEBITO"></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.CREDITO"></th>
@@ -124,28 +124,12 @@
               <td>{{ item.cuenta_codigo }}</td>
               <td>{{ item.cuenta_nombre }}</td>
               <td>{{ item.contacto_id }}</td>
-              <td>{{ item.contacto_nombre_corto }}</td>
               <td>{{ item.contacto_numero_identificacion }}</td>
-              <td>{{ item.debito | currency: "$" }}</td>
-              <td>{{ item.credito | currency: "$" }}</td>
-              <td>{{ item.base | currency: "$" }}</td>
+              <td>{{ item.contacto_nombre_corto }}</td>
+              <td class="text-end">{{ item.debito | currency: "$" }}</td>
+              <td class="text-end">{{ item.credito | currency: "$" }}</td>
+              <td class="text-end">{{ item.base | currency: "$" }}</td>
               <td>{{ item.detalle }}</td>
-            </tr>
-          }
-          @if (cuentasAgrupadas.length > 0) {
-            <tr>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td></td>
-              <td style="text-align: left" class="fw-bold">Total</td>
-              <td></td>
-              <td></td>
-              <td>{{ totalDebito | currency: "$" }}</td>
-              <td>{{ totalCredito | currency: "$" }}</td>
-              <td></td>
             </tr>
           }
         </tbody>
