@@ -2,11 +2,12 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'facturaposelectronica'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'facturaposelectronica'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
-    <!-- <app-factura-formulario-documento [formularioFactura]="formularioFactura"></app-factura-formulario-documento> -->
-
+      <!-- <app-factura-formulario-documento [formularioFactura]="formularioFactura"></app-factura-formulario-documento> -->
       <div class="row mb-5">
         <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
@@ -342,9 +343,7 @@
             <option
               *ngFor="let sede of arrSede"
               [value]="sede.id"
-              [selected]="
-                sede.id === formularioFactura.controls.sede.value
-              "
+              [selected]="sede.id === formularioFactura.controls.sede.value"
             >
               {{ sede.nombre }}
             </option>
@@ -377,9 +376,7 @@
             <option
               *ngFor="let asesor of arrAsesor"
               [value]="asesor.id"
-              [selected]="
-                asesor.id === formularioFactura.controls.asesor.value
-              "
+              [selected]="asesor.id === formularioFactura.controls.asesor.value"
             >
               {{ asesor.nombre_corto }}
             </option>

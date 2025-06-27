@@ -10,6 +10,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
@@ -26,15 +27,14 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
-  AcumuladorImpuestos,
   DocumentoFacturaRespuesta,
-  PagoFormulario,
+  PagoFormulario
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
-import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -53,10 +53,6 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
-import { ItemSeleccionar } from '@interfaces/general/item.interface';
-import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 
 @Component({
   selector: 'app-factura-pos-formulario',
@@ -89,7 +85,6 @@ export default class FacturaPosFormularioComponent
   private _formBuilder = inject(FormBuilder);
   private _facturaService = inject(FacturaService);
   private _httpService = inject(HttpService);
-  private _empresaService = inject(EmpresaService);
   private _modalService = inject(NgbModal);
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _generalService = inject(GeneralService);
@@ -103,7 +98,6 @@ export default class FacturaPosFormularioComponent
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public formularioFactura = this._formularioFacturaService.form;
-
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
   public arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
@@ -452,31 +446,19 @@ export default class FacturaPosFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'cliente',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          cliente: 'True',
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -662,8 +644,8 @@ export default class FacturaPosFormularioComponent
 
   almacenSeleccionado(almacen: any) {
     this.formularioFactura.patchValue({
-      almacen: almacen.almacen_id,
-      almacen_nombre: almacen.almacen_nombre,
+      almacen: almacen.id,
+      almacen_nombre: almacen.nombre,
     });
   }
 
@@ -677,44 +659,40 @@ export default class FacturaPosFormularioComponent
 
   private _consultarInformacion() {
     return zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
         {
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
+        'general/plazo_pago/seleccionar/',
         {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
+      this._generalService.consultaApi<RegistroAutocompletarGenAsesor>(
+        'general/asesor/seleccionar/',
         {
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
+      this._generalService.consultaApi<RegistroAutocompletarGenSede>(
+        'general/sede/seleccionar/',
         {
-          modelo: 'GenSede',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
-        {
-          limite: 1,
-          modelo: 'InvAlmacen',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarInvAlmacen>(
+        'inventario/almacen/seleccionar/',
       ),
     ).pipe(
-      tap((respuesta) => {
-        this.arrMetodosPago = respuesta[0].registros;
-        this.arrPlazoPago = respuesta[1].registros;
-        this.arrAsesor = respuesta[2].registros;
-        this.arrSede = respuesta[3].registros;
-        this.arrAlmacenes = respuesta[4].registros;
+      tap((respuesta: any) => {
+        this.arrMetodosPago = respuesta[0];
+        this.arrPlazoPago = respuesta[1];
+        this.arrAsesor = respuesta[2];
+        this.arrSede = respuesta[3];
+        this.arrAlmacenes = respuesta[4];
 
         if (!this.detalle) {
           this._initSugerencias();
