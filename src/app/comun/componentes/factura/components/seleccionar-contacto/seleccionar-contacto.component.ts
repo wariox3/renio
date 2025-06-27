@@ -81,8 +81,8 @@ export class SeleccionarContactoComponent
   }
 
   initOpciones() {
-     this.getContactos(this.parametrosConsulta()).subscribe((respuesta) => {
-      this.contactos.set(respuesta.registros);
+     this.getContactos(this.parametrosConsulta()).subscribe((respuesta: any) => {
+      this.contactos.set(respuesta);
     });
   }
 
@@ -99,8 +99,8 @@ export class SeleccionarContactoComponent
           return this.consultarItems(valor);
         }),
       )
-      .subscribe((resultado) => {
-        this.contactos.set(resultado.registros);
+      .subscribe((resultado: any) => {
+        this.contactos.set(resultado);
       });
   }
 
@@ -116,7 +116,8 @@ export class SeleccionarContactoComponent
   }
 
   getContactos(filtros: ParametrosFiltros) {
-    return this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(
+    return this._generalService.consultaApi<RegistroAutocompletarGenContacto>(
+      'general/contacto/seleccionar',
       filtros,
     );
   }
