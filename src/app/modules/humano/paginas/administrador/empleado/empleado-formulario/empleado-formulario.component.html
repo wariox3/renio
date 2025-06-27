@@ -659,13 +659,13 @@
           >
             @for (item of arrCuentasBancos; track $index) {
             <option
-              [value]="item.cuenta_banco_clase_id"
+              [value]="item.id"
               [selected]="
-                item.cuenta_banco_clase_id ===
+                item.id ===
                 formularioEmpleado.value.cuenta_banco_clase
               "
             >
-              {{ item.cuenta_banco_clase_nombre }}
+              {{ item.nombre }}
             </option>
             }
           </select>
