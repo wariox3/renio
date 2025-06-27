@@ -30,6 +30,7 @@ import {
 import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
 
 @Component({
   selector: 'app-cuenta-banco-formulario',
@@ -104,21 +105,15 @@ export default class CuentaBancoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoTipo>(
-        {
-          modelo: 'GenCuentaBancoTipo',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoTipo[]>(
+        'general/cuenta_banco_tipo/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
-        {
-          modelo: 'GenCuentaBancoClase',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoClase[]>(
+        'general/cuenta_banco_clase/seleccionar/',
       )
-    ).subscribe((respuesta: any) => {
-      this.arrCuentasTipos = respuesta[0].registros;
-      this.arrCuentasBancos = respuesta[1].registros;
+    ).subscribe((respuesta) => {
+      this.arrCuentasTipos = respuesta[0];
+      this.arrCuentasBancos = respuesta[1];
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -280,10 +275,10 @@ export default class CuentaBancoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarCuentaSeleccionado(cuenta: any) {
-    this.formularioCuentaBanco.get('cuenta')?.setValue(cuenta.cuenta_id);
-    this.cuentaCobrarNombre = cuenta.cuenta_nombre;
-    this.cuentaCobrarCodigo = cuenta.cuenta_codigo;
+  agregarCuentaSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
+    this.formularioCuentaBanco.get('cuenta')?.setValue(cuenta.id);
+    this.cuentaCobrarNombre = cuenta.nombre;
+    this.cuentaCobrarCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 

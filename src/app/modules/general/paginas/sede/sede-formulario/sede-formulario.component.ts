@@ -125,13 +125,13 @@ export default class AsesorFormularioComponent
     } else {
       this.formularioSede.markAllAsTouched();
     }
-  }
+  } 
 
   consultarDetalle() {
     this.sedeService.consultarDetalle(this.detalle).subscribe((respuesta) => {
       this.formularioSede.patchValue({
         nombre: respuesta.nombre,
-        grupo: respuesta.grupo_id,
+        grupo: respuesta.grupo,
       });
 
       this.changeDetectorRef.detectChanges();

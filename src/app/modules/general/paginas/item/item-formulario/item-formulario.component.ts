@@ -513,7 +513,7 @@ export default class ItemFormularioComponent
     return `${cuentaCodigo} ${cuentaNombre}`;
   }
 
-  agregarCuenta(cuenta: RegistroAutocompletarConCuenta) {
+    agregarCuenta(cuenta: RegistroAutocompletarConCuenta) {
     this.formularioItem.get('cuenta_venta')?.setValue(cuenta.id);
     this.cuentaNombre = cuenta.nombre;
     this.cuentaCodigo = cuenta.codigo;
