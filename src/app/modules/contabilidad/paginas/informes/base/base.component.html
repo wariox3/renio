@@ -59,20 +59,20 @@
       <div class="btn-group btn-sm shadow-sm">
         <app-comun-btn-exportar (emitirExportarExcel)="descargarExcel()" />
         <button
-        type="submit"
-        class="btn btn-sm btn-primary"
-        #btnGuardar
-        (click)="generar()"
-        [disabled]="cargandoCuentas()"
-      >
-        @if (cargandoCuentas()) {
-          <div class="spinner-border spinner-border-sm mx-4" role="status">
-            <span class="sr-only">Generando...</span>
-          </div>
-        } @else {
-          Generar
-        }
-      </button>
+          type="submit"
+          class="btn btn-sm btn-primary"
+          #btnGuardar
+          (click)="generar()"
+          [disabled]="cargandoCuentas()"
+        >
+          @if (cargandoCuentas()) {
+            <div class="spinner-border spinner-border-sm mx-4" role="status">
+              <span class="sr-only">Generando...</span>
+            </div>
+          } @else {
+            Generar
+          }
+        </button>
       </div>
     </div>
     <div class="table-responsive">
@@ -81,35 +81,64 @@
       >
         <thead>
           <tr class="text-gray-800 bg-gray-100">
-            <th class="text-center" translate="LISTAS.CONMOVIENTO.CUENTA"></th>
-            <th class="text-center" translate="LISTAS.CONMOVIENTO.NOMBRE"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.ID"></th>
             <th
               class="text-center"
-              translate="LISTAS.CONMOVIENTO.CONTACTO"
+              translate="LISTAS.CONMOVIENTO.COMPROBANTE_NOMBRE"
+            ></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.NUMERO"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.FECHA"></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CUENTA_CODIGO"
             ></th>
             <th
               class="text-center"
-              translate="LISTAS.CONMOVIENTO.ANTERIOR"
+              translate="LISTAS.CONMOVIENTO.CUENTA_NOMBRE"
+            ></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_ID"
+            ></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_NOMBRE_CORTO"
+            ></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_NUMERO_IDENTIFICACION"
             ></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.DEBITO"></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.CREDITO"></th>
-            <th class="text-center" translate="LISTAS.CONMOVIENTO.ACTUAL"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.BASE"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.DETALLE"></th>
           </tr>
         </thead>
         <tbody>
           @for (item of cuentasAgrupadas; track $index) {
             <tr>
-              <td>{{ item.codigo }}</td>
-              <td style="text-align: left">{{ item.nombre }}</td>
-              <td style="text-align: left">{{ item.contacto_nombre_corto }}</td>
-              <td>{{ item.saldo_anterior | currency: "$" }}</td>
+              <td>{{ item.id }}</td>
+              <td>{{ item.comprobante_nombre }}</td>
+              <td>{{ item.numero }}</td>
+              <td>{{ item.fecha }}</td>
+              <td>{{ item.cuenta_codigo }}</td>
+              <td>{{ item.cuenta_nombre }}</td>
+              <td>{{ item.contacto_id }}</td>
+              <td>{{ item.contacto_nombre_corto }}</td>
+              <td>{{ item.contacto_numero_identificacion }}</td>
               <td>{{ item.debito | currency: "$" }}</td>
               <td>{{ item.credito | currency: "$" }}</td>
-              <td>{{ item.saldo_actual | currency: "$" }}</td>
+              <td>{{ item.base | currency: "$" }}</td>
+              <td>{{ item.detalle }}</td>
             </tr>
           }
           @if (cuentasAgrupadas.length > 0) {
             <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
               <td></td>
               <td style="text-align: left" class="fw-bold">Total</td>
               <td></td>
