@@ -308,24 +308,28 @@ export default class ContratoFormularioComponent
         'humano/entidad/seleccionar/',
         {
           salud: 'True',
+          limit: 100
         }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
         'humano/entidad/seleccionar/',
         {
           pension: 'True',
+          limit: 100
         }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
         'humano/entidad/seleccionar/',
         {
           caja: 'True',
+          limit: 100
         }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
         'humano/entidad/seleccionar/',
         {
           cesantias: 'True',
+          limit: 100
         }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumTiempo[]>(
