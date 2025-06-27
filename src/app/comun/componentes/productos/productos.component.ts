@@ -39,7 +39,7 @@ import ItemFormularioComponent from '@modulos/general/paginas/item/item-formular
 })
 export class ProductosComponent extends General implements AfterViewInit {
   itemSeleccionado: any | null = null;
-  arrItemsLista: any[];
+  arrItemsLista: Item[] = [];
   @Input() itemNombre: string = '';
   @Input() estadoAprobado: false;
   @Input() campoInvalido: any = false;
@@ -68,7 +68,7 @@ export class ProductosComponent extends General implements AfterViewInit {
     }
   }
 
-  agregarItem(item: any) {
+  agregarItem(item: Item) {
     this.itemSeleccionado = item;
     if (this.campoInvalido) {
       this.campoInvalido = false;
@@ -77,7 +77,7 @@ export class ProductosComponent extends General implements AfterViewInit {
 
     this.httpService
       .post<any>(`general/item/detalle/`, {
-        id: item.item_id,
+        id: item.id,
         venta: this.venta,
         compra: this.compra,
       })
@@ -87,51 +87,28 @@ export class ProductosComponent extends General implements AfterViewInit {
   }
 
   consultarItems(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenItem',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<Item>(arrFiltros)
+      .consultaApi<Item[]>(
+        'general/item/seleccionar/',
+        {
+          nombre__icontains: event?.target.value,
+        })
       .subscribe((respuesta) => {
-        this.arrItemsLista = respuesta.registros;
+        this.arrItemsLista = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
 
   aplicarFiltrosItems(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenItem',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<Item>(arrFiltros)
+      .consultaApi<Item[]>(
+        'general/item/seleccionar/',
+        {
+          nombre__icontains: event?.target.value,
+        })
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrItemsLista = respuesta.registros;
+          this.arrItemsLista = respuesta;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
         })
