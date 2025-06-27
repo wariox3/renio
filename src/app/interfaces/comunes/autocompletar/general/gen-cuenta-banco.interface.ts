@@ -10,7 +10,7 @@ export interface RegistroAutocompletarGenCuentaBancoClase {
 }
 
 export interface RegistroAutocompletarGenCuentaBancoTipo {
-  cuenta_banco_tipo_id: number;
-  cuenta_banco_tipo_nombre: string;
+  id: number;
+  nombre: string;
 }
 
