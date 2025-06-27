@@ -4,7 +4,9 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'Pago'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'Pago'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -155,9 +157,7 @@
             <ng-container *ngFor="let banco of arrBancos">
               <option
                 [value]="banco.id"
-                [selected]="
-                  banco.id === formularioFactura.value.cuenta_banco
-                "
+                [selected]="banco.id === formularioFactura.value.cuenta_banco"
               >
                 {{ banco.nombre }}
               </option>
@@ -480,11 +480,10 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltrosModal($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      (filtersApply)="obtenerFiltrosModal($event)"
+      [availableFields]="CUENTAS_COBRAR_FILTERS"
+    ></app-filtro>
     <div class="row">
       <div class="d-flex align-items-baseline gap-2">
         <i class="bi bi-file-text text-gray-500 fs-3"></i>
