@@ -487,7 +487,8 @@ export const mapeo: MapeoAdministrador = {
         ordenable: true,
       },
       {
-        nombre: 'GRUPO_NOMBRE',
+        nombre: 'GRUPO__NOMBRE',
+        nombreAbreviado: 'GRUPO_NOMBRE',
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: false,
