@@ -356,7 +356,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     this._facturaService
       .actualizarDetalleGrupo(documentoId, {
         documento: this.detalle,
-        contacto: contacto?.contacto_id || null,
+        contacto: contacto?.id || null,
       })
       .subscribe(() => {
         const posicion = this.arrDocumentos.findIndex(
@@ -364,7 +364,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
         );
         if (posicion >= 0 && contacto) {
           this.arrDocumentos[posicion].contacto_nombre_corto =
-            contacto?.contacto_nombre_corto || '';
+            contacto?.nombre_corto || '';
         }
         this.alertaService.mensajaExitoso('Se actualizó la información');
       });

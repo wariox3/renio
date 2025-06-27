@@ -212,10 +212,10 @@ export class FormularioFacturaService {
     } else {
       this.detalles.controls[indexFormulario]
         .get('contacto')
-        ?.setValue(contacto.contacto_id);
+        ?.setValue(contacto.id);
       this.detalles.controls[indexFormulario]
         .get('contacto_nombre')
-        ?.setValue(contacto.contacto_nombre_corto);
+        ?.setValue(contacto.nombre_corto);
     }
   }
 
@@ -648,9 +648,9 @@ export class FormularioFacturaService {
     this._reiniciarSelectorCuenta(indexFormulario);
 
     this.detalles.controls[indexFormulario].patchValue({
-      cuenta: item.cuenta_id,
-      cuenta_codigo: item.cuenta_codigo,
-      cuenta_nombre: item.cuenta_nombre,
+      cuenta: item.id,
+      cuenta_codigo: item.codigo,
+      cuenta_nombre: item.nombre,
       cantidad: 1,
     });
 
