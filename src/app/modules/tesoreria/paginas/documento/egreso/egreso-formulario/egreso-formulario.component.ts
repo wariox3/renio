@@ -8,15 +8,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
+import { FiltroComponent } from '@comun/componentes/ui/tabla/filtro/filtro.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
+import { GeneralService } from '@comun/services/general.service';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
+import { CUENTA_PAGAR_FILTERS } from '@modulos/tesoreria/domain/mapeos/cartera.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -26,17 +34,10 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
-import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
-import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
-import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -51,7 +52,6 @@ import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.serv
     CardComponent,
     NgbNavModule,
     BuscarAvanzadoComponent,
-    BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
     ContactoFormulario,
@@ -60,7 +60,8 @@ import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.serv
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     SeleccionarGrupoComponent,
-  ],
+    FiltroComponent
+],
 })
 export default class EgresoFormularioComponent
   extends General
@@ -68,6 +69,8 @@ export default class EgresoFormularioComponent
 {
   private readonly _operacionesService = inject(OperacionesService);
   private readonly _cuentaBancoService = inject(CuentaBancoService);
+  private _filterTransformerService = inject(FilterTransformerService);
+  CUENTAS_COBRAR_FILTERS = CUENTA_PAGAR_FILTERS;
 
   tapActivo = 1;
   formularioEgreso: FormGroup;
@@ -84,11 +87,11 @@ export default class EgresoFormularioComponent
   arrDetallesEliminado: number[] = [];
   arrDocumentosSeleccionados: number[] = [];
   arrRegistrosEliminar: number[] = [];
-  arrFiltrosEmitidosAgregarDocumento: any[] = [];
-  arrFiltrosPermanenteAgregarDocumento: any[] = [
-    { propiedad: 'documento_tipo__pagar', valor1: true },
-    { propiedad: 'pendiente__gt', valor1: 0 },
-  ];
+  arrFiltrosEmitidosAgregarDocumento: ParametrosApi = {};
+  arrFiltrosPermanenteAgregarDocumento: ParametrosApi = {
+    documento_tipo__pagar: 'True',
+    pendiente__gt: 0,
+  };
 
   public mostrarTodasCuentasPorPagar: boolean = false;
   public campoLista: CampoLista[] = [
@@ -128,9 +131,9 @@ export default class EgresoFormularioComponent
   }
 
   consultarInformacion() {
-    this._cuentaBancoService.
-      consultarCuentaBanco({
-        ordering: "id"
+    this._cuentaBancoService
+      .consultarCuentaBanco({
+        ordering: 'id',
       })
       .subscribe((respuesta) => {
         this.arrBancos = respuesta.results;
@@ -302,26 +305,18 @@ export default class EgresoFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContactos = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrContactos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -336,10 +331,8 @@ export default class EgresoFormularioComponent
 
   modificarCampoFormulario(campo: string, dato: any) {
     if (campo === 'contacto') {
-      this.formularioEgreso.get(campo)?.setValue(dato.contacto_id);
-      this.formularioEgreso
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this.formularioEgreso.get(campo)?.setValue(dato.id);
+      this.formularioEgreso.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -363,43 +356,31 @@ export default class EgresoFormularioComponent
   }
 
   consultarDocumentos() {
-    let filtros: any[] = [];
+    let filtros: ParametrosApi = {};
     if (this.mostrarTodasCuentasPorPagar) {
       filtros = this.arrFiltrosPermanenteAgregarDocumento;
-      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
-        filtros = [
+      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
+        filtros = {
+          ...filtros,
           ...this.arrFiltrosPermanenteAgregarDocumento,
           ...this.arrFiltrosEmitidosAgregarDocumento,
-        ];
-        this.changeDetectorRef.detectChanges();
+        };
       }
     } else {
-      filtros = [
-        {
-          propiedad: 'contacto_id',
-          valor1: this.formularioEgreso.get('contacto')?.value,
-          tipo: 'CharField',
-        },
+      filtros = {
+        ...filtros,
+        contacto_id: this.formularioEgreso.get('contacto')?.value,
         ...this.arrFiltrosPermanenteAgregarDocumento,
-      ];
-      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
-        filtros = [...filtros, ...this.arrFiltrosEmitidosAgregarDocumento];
-        this.changeDetectorRef.detectChanges();
+      };
+
+      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
+        filtros = { ...this.arrFiltrosEmitidosAgregarDocumento };
       }
-      this.changeDetectorRef.detectChanges();
     }
     this._generalService
-      .consultarDatosLista({
-        filtros,
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenDocumento',
-        serializador: 'Adicionar',
-      })
+      .consultaApi('general/documento/', filtros)
       .subscribe((respuesta: any) => {
-        this.arrDocumentos = respuesta?.registros?.map((documento: any) => ({
+        this.arrDocumentos = respuesta.results.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
           documento_tipo: documento.documento_tipo,
@@ -454,9 +435,9 @@ export default class EgresoFormularioComponent
     this.documentoDetalleSeleccionarTodos = false;
 
     this.detalles.controls[index].patchValue({
-      cuenta: cuenta.cuenta_id,
-      cuenta_codigo: cuenta.cuenta_codigo,
-      cuenta_nombre: cuenta.cuenta_nombre,
+      cuenta: cuenta.id,
+      cuenta_codigo: cuenta.codigo,
+      cuenta_nombre: cuenta.nombre,
       naturaleza: 'C',
     });
 
@@ -551,7 +532,10 @@ export default class EgresoFormularioComponent
   }
 
   obtenerFiltrosModal(arrfiltros: any[]) {
-    this.arrFiltrosEmitidosAgregarDocumento = arrfiltros;
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(arrfiltros);
+
+    this.arrFiltrosEmitidosAgregarDocumento = apiParams;
     if (arrfiltros.length === 0 && this.mostrarTodasCuentasPorPagar === true) {
       this.mostrarTodasCuentasPorPagar = false;
     }
@@ -630,8 +614,8 @@ export default class EgresoFormularioComponent
 
   agregarContactoSeleccionado(contacto: any, index: number) {
     this.detalles.controls[index].patchValue({
-      contacto: contacto.contacto_id,
-      contacto_nombre: contacto.contacto_nombre_corto,
+      contacto: contacto.id,
+      contacto_nombre: contacto.nombre_corto,
     });
   }
 
