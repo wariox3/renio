@@ -43,16 +43,14 @@ export class SeleccionarActivoGrupoComponent extends General implements OnInit {
 
   getTipoCostos() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConGrupoActivo>({
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'ConActivoGrupo',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarConGrupoActivo[]>(
+        'contabilidad/activo_grupo/seleccionar/',
+        {
+          limit: 100,
+        }
+      )
       .subscribe((response) => {
-        this.tipoCostos.set(response.registros);
+        this.tipoCostos.set(response);
         this._sugerirPrimerValor();
       });
   }
@@ -61,7 +59,7 @@ export class SeleccionarActivoGrupoComponent extends General implements OnInit {
     if (this.sugerirPrimerValor && !this.isEdicion) {
       const grupos = this.tipoCostos();
       if (grupos.length) {
-        this.selectChange.emit(grupos[0].activo_grupo_id);
+        this.selectChange.emit(grupos[0].id);
       }
     }
   }

@@ -21,6 +21,7 @@ import { SeleccionarMetodoDepreciacionComponent } from '../../../../../../comun/
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
 
 @Component({
   selector: 'app-grupo-formulario',
@@ -187,23 +188,23 @@ export default class ActivoFormularioComponent
     });
   }
 
-  agregarCuentaGastoSeleccionado(cuenta: any) {
-    this.cuentaGastoNombre = cuenta.cuenta_nombre;
-    this.cuentaGastoCodigo = cuenta.cuenta_codigo;
+  agregarCuentaGastoSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
+    this.cuentaGastoNombre = cuenta.nombre;
+    this.cuentaGastoCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
     this.formularioConActivo.patchValue({
-      cuenta_gasto: cuenta.cuenta_id,
+      cuenta_gasto: cuenta.id,
     });
   }
 
   limpiarCuentaGastoSeleccionado() { }
 
-  agregarCuentaDepreciacionSeleccionado(cuenta: any) {
-    this.cuentaDepreciacionNombre = cuenta.cuenta_nombre;
-    this.cuentaDepreciacionCodigo = cuenta.cuenta_codigo;
+  agregarCuentaDepreciacionSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
+    this.cuentaDepreciacionNombre = cuenta.nombre;
+    this.cuentaDepreciacionCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
     this.formularioConActivo.patchValue({
-      cuenta_depreciacion: cuenta.cuenta_id,
+      cuenta_depreciacion: cuenta.id,
     });
   }
 

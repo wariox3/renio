@@ -15,7 +15,6 @@ import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConMetodoDepreciacion } from '@interfaces/comunes/autocompletar/contabilidad/con-metodo-depreciacion.interface';
-import { RegistroAutocompletarHumTipoCosto } from '@interfaces/comunes/autocompletar/humano/hum-tipo-costo.interface';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
@@ -47,16 +46,14 @@ export class SeleccionarMetodoDepreciacionComponent
 
   getTipoCostos() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConMetodoDepreciacion>({
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'ConMetodoDepreciacion',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarConMetodoDepreciacion[]>(
+        'contabilidad/metodo_depreciacion/seleccionar/',
+        {
+          limite: 100,
+        },
+      )
       .subscribe((response) => {
-        this.tipoCostos.set(response.registros);
+        this.tipoCostos.set(response);
         this._sugerirPrimerValor();
       });
   }
@@ -65,7 +62,7 @@ export class SeleccionarMetodoDepreciacionComponent
     if (this.sugerirPrimerValor && !this.isEdicion) {
       const grupos = this.tipoCostos();
       if (grupos.length) {
-        this.selectChange.emit(grupos[0].metodo_depreciacion_id);
+        this.selectChange.emit(grupos[0].id);
       }
     }
   }
