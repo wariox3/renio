@@ -54,7 +54,7 @@ export class BuscarEmpleadoComponent
   public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   public busquedaEmpleado = new Subject<string>();
   filtrosPermanentes: ParametrosApi = {
-    empleado: true,
+    empleado: 'True',
   };
   @Input() informacionEmpleado = {
     identificacion: '',
