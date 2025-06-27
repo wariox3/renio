@@ -15,20 +15,23 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
+import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
+import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import {
-  AcumuladorImpuestos,
-  PagoFormulario,
-} from '@interfaces/comunes/factura/factura.interface';
+import { PagoFormulario } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -38,13 +41,6 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
-import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
-import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -184,36 +180,24 @@ export default class FacturaRecurrenteFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
-        {
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
+        'general/plazo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
-        {
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenAsesor>(
+        'general/asesor/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
-        {
-          modelo: 'GenSede',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenSede>(
+        'general/sede/seleccionar/',
       ),
       this.empresaService.obtenerConfiguracionEmpresa(1),
-    ).subscribe((respuesta) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.arrAsesor = respuesta[2].registros;
-      this.arrSede = respuesta[3].registros;
+    ).subscribe((respuesta: any) => {
+      this.arrMetodosPago = respuesta[0];
+      this.arrPlazoPago = respuesta[1];
+      this.arrAsesor = respuesta[2];
+      this.arrSede = respuesta[3];
       this.requiereAsesor = respuesta[4].venta_asesor;
       this.requiereSede = respuesta[4].venta_sede;
 
@@ -777,11 +761,11 @@ export default class FacturaRecurrenteFormularioComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      if (dato.contacto_id && dato.contacto_nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
+      if (dato.id && dato.nombre_corto) {
+        this.formularioFactura.get(campo)?.setValue(dato.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.contacto_nombre_corto);
+          ?.setValue(dato.nombre_corto);
       }
       if (dato.id && dato.nombre_corto) {
         this.formularioFactura.get(campo)?.setValue(dato.id);
@@ -841,31 +825,19 @@ export default class FacturaRecurrenteFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'cliente',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          cliente: 'True',
+          limit: 10
+        }
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
