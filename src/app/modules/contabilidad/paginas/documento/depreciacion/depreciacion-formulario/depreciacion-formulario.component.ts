@@ -259,10 +259,8 @@ export default class DepreciacionFormularioComponent
 
   modificarCampoFormulario(campo: string, dato: any) {
     if (campo === 'contacto') {
-      this.formularioAsiento.get(campo)?.setValue(dato.contacto_id);
-      this.formularioAsiento
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this.formularioAsiento.get(campo)?.setValue(dato.id);
+      this.formularioAsiento.get('contactoNombre')?.setValue(dato.nombre_corto);
       this._actualizarDetallesContactoSinDocumentoAfectado();
     }
 

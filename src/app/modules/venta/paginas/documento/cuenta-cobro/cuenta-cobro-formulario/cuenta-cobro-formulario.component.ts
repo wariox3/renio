@@ -555,11 +555,11 @@ export default class CuentaCobroFormularioComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      if (dato.contacto_id && dato.contacto_nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
+      if (dato.id && dato.nombre_corto) {
+        this.formularioFactura.get(campo)?.setValue(dato.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.contacto_nombre_corto);
+          ?.setValue(dato.nombre_corto);
       }
       if (dato.id && dato.nombre_corto) {
         this.formularioFactura.get(campo)?.setValue(dato.id);

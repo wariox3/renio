@@ -315,10 +315,10 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
       this.formularioFactura
         .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+        ?.setValue(dato.nombre_corto);
       if (dato.id && dato.nombre_corto) {
         this.formularioFactura.get(campo)?.setValue(dato.id);
         this.formularioFactura

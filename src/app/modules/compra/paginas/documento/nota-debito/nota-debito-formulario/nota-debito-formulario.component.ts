@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -20,9 +16,7 @@ import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocomp
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import {
-  DocumentoFacturaRespuesta
-} from '@interfaces/comunes/factura/factura.interface';
+import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -159,7 +153,7 @@ export default class FacturaDetalleComponent
     this.consultarInformacion();
     this.mostrarDocumentoReferencia.set(true);
     this.active = 1;
- 
+
     if (this.detalle) {
       this.modoEdicion.set(true);
     } else {
@@ -348,12 +342,10 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
-      this._inicializarFormulario(dato.contacto_id);
-      this._limpiarDocumentoReferencia(dato.contacto_id);
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this._inicializarFormulario(dato.id);
+      this._limpiarDocumentoReferencia(dato.id);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
 
       if (campo === 'contactoNuevoModal') {
         this.formularioFactura.get(campo)?.setValue(dato.id);

@@ -5,7 +5,7 @@ import {
   FormBuilder,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
@@ -23,9 +23,7 @@ import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocomp
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import {
-  DocumentoFacturaRespuesta
-} from '@interfaces/comunes/factura/factura.interface';
+import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -365,12 +363,10 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
-      this._inicializarFormulario(dato.contacto_id);
-      this._limpiarDocumentoReferencia(dato.contacto_id);
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this._inicializarFormulario(dato.id);
+      this._limpiarDocumentoReferencia(dato.id);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
       if (campo === 'contactoNuevoModal') {
         this.formularioFactura.get('contacto')?.setValue(dato.id);
         this.formularioFactura

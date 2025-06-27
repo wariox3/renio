@@ -752,12 +752,10 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      this._inicializarFormulario(dato.contacto_id);
-      this._limpiarDocumentoReferencia(dato.contacto_id);
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this._inicializarFormulario(dato.id);
+      this._limpiarDocumentoReferencia(dato.id);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
       this.visualizarCampoDocumentoReferencia = true;
       this.changeDetectorRef.detectChanges();
     }

@@ -124,7 +124,7 @@ export default class FacturaDetalleComponent
     this.consultarInformacion();
     this.mostrarDocumentoReferencia.set(true);
     this.active = 1;
-    
+
     if (this.detalle) {
       this.modoEdicion.set(true);
     } else {
@@ -267,10 +267,10 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
       this.formularioFactura
         .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+        ?.setValue(dato.nombre_corto);
 
       if (campo === 'contactoNuevoModal') {
         this.formularioFactura.get(campo)?.setValue(dato.id);

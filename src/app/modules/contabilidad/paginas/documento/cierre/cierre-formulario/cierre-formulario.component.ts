@@ -293,10 +293,8 @@ export default class CierreFormularioComponent
 
   modificarCampoFormulario(campo: string, dato: any) {
     if (campo === 'contacto') {
-      this.formularioCierre.get(campo)?.setValue(dato.contacto_id);
-      this.formularioCierre
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this.formularioCierre.get(campo)?.setValue(dato.id);
+      this.formularioCierre.get('contactoNombre')?.setValue(dato.nombre_corto);
       this._actualizarDetallesContactoSinDocumentoAfectado();
     }
 
