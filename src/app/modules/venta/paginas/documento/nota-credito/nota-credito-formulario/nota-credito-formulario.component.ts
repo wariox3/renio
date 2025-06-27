@@ -882,42 +882,22 @@ export default class FacturaDetalleComponent
   }
 
   consultarDocumentoReferencia(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'numero__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-        {
-          propiedad: 'contacto_id',
-          valor1: this.formularioFactura.get('contacto')?.value,
-        },
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: 100,
-        },
-        {
-          propiedad: 'estado_aprobado',
-          valor1: true,
-        },
-      ],
-      limite: 5,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenDocumento',
-      serializador: 'Referencia',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumentoReferencia>(
-        arrFiltros,
+      .consultaApi<RegistroAutocompletarGenDocumentoReferencia>(
+        'general/documento/',
+        {
+          numero__icontains: `${event?.target.value}`,
+          contacto_id: this.formularioFactura.get('contacto')?.value,
+          documento_tipo__documento_clase_id: 100,
+          estado_aprobado: 'True',
+          limit: 5,
+          serializador: 'referencia',
+        },
       )
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta.results;
           this.changeDetectorRef.detectChanges();
         }),
       )
