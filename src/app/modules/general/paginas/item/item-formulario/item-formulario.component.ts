@@ -521,7 +521,7 @@ export default class ItemFormularioComponent
   }
 
   private _sugerirCampoCuentaVenta() {
-    if (this.arrCuentasLista.length > 0) {
+    if (this.arrCuentasLista?.length > 0) {
       const registroSugerido = this.arrCuentasLista[0];
 
       this.agregarCuenta(registroSugerido);
