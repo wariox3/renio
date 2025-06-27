@@ -9,7 +9,6 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
@@ -23,9 +22,9 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { CUENTAS_COBRAR_FILTERS } from '@modulos/cartera/domain/mapeos/cuentas-cobrar.mapeo';
 import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -36,11 +35,13 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, Subject, takeUntil, tap, throttleTime } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 import { ContactosComponent } from '../../../../../../comun/componentes/contactos/contactos.component';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { FiltroComponent } from '../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -55,7 +56,6 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
     CardComponent,
     NgbNavModule,
     BuscarAvanzadoComponent,
-    BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
     ContactoFormulario,
@@ -63,6 +63,7 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
     TituloAccionComponent,
     ContactosComponent,
     SeleccionarGrupoComponent,
+    FiltroComponent,
   ],
 })
 export default class PagoFormularioComponent
@@ -72,7 +73,10 @@ export default class PagoFormularioComponent
   private _operacionesService = inject(OperacionesService);
   private _configModuleService = inject(ConfigModuleService);
   private _cuentaBancoSerive = inject(CuentaBancoService);
+  private _filterTransformerService = inject(FilterTransformerService);
 
+
+  CUENTAS_COBRAR_FILTERS = CUENTAS_COBRAR_FILTERS;
   formularioFactura: FormGroup;
   active: Number;
   arrContactos: any[] = [];
@@ -395,27 +399,27 @@ export default class PagoFormularioComponent
         'general/documento/',
         filtros,
       )
-      .subscribe((respuesta) => {
-        // this.arrDocumentos = respuesta.registros.map((documento) => ({
-        //   id: documento.id,
-        //   numero: documento.numero,
-        //   fecha: documento.fecha,
-        //   fecha_vence: documento.fecha_vence,
-        //   contacto: documento.contacto_id,
-        //   contacto_nombre: documento.contacto_nombre_corto,
-        //   subtotal: documento.subtotal,
-        //   impuesto: documento.impuesto,
-        //   total: documento.total,
-        //   pendiente: documento.pendiente,
-        //   cuenta: documento.documento_tipo_cuenta_cobrar_id,
-        //   cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
-        //   documento_tipo_operacion: documento.documento_tipo_operacion,
-        //   documento_tipo: documento.documento_tipo,
-        //   documento_tipo_nombre: documento.documento_tipo_nombre,
-        //   afectado: documento.afectado,
-        //   naturaleza: 'C',
-        // }));
-        // this.changeDetectorRef.detectChanges();
+      .subscribe((respuesta: any) => {
+        this.arrDocumentos = respuesta.results.map((documento: any) => ({
+          id: documento.id,
+          numero: documento.numero,
+          fecha: documento.fecha,
+          fecha_vence: documento.fecha_vence,
+          contacto: documento.contacto_id,
+          contacto_nombre: documento.contacto_nombre_corto,
+          subtotal: documento.subtotal,
+          impuesto: documento.impuesto,
+          total: documento.total,
+          pendiente: documento.pendiente,
+          cuenta: documento.documento_tipo_cuenta_cobrar_id,
+          cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
+          documento_tipo_operacion: documento.documento_tipo_operacion,
+          documento_tipo: documento.documento_tipo,
+          documento_tipo_nombre: documento.documento_tipo_nombre,
+          afectado: documento.afectado,
+          naturaleza: 'C',
+        }));
+        this.changeDetectorRef.detectChanges();
       });
   }
 
@@ -548,7 +552,10 @@ export default class PagoFormularioComponent
   }
 
   obtenerFiltrosModal(arrfiltros: any) {
-    this.arrFiltrosEmitidosAgregarDocumento = arrfiltros;
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(arrfiltros);
+
+    this.arrFiltrosEmitidosAgregarDocumento = apiParams;
     if (arrfiltros.length === 0 && this.mostrarTodosLosClientes() === true) {
       this.mostrarTodosLosClientes.set(false);
     }
