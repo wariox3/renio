@@ -17,7 +17,7 @@ import { CreditoService } from '@modulos/humano/servicios/credito.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, Subject, takeUntil, tap, throttleTime } from 'rxjs';
-import { TituloAccionComponent } from "../../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
@@ -35,32 +35,33 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
     NgbDropdownModule,
     BuscarContratoComponent,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
   ],
   templateUrl: './credito-formulario.component.html',
   styleUrl: './credito-formulario.component.scss',
 })
 export default class CreditoFormularioComponent
   extends General
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   formularioAdicional: FormGroup;
   arrContratos: RegistroAutocompletarHumContrato[] = [];
   arrConceptos: RegistroAutocompletarHumConcepto[] = [];
 
   private _generalService = inject(GeneralService);
-  private readonly _configModuleService = inject(ConfigModuleService)
-  private _destroy$ = new Subject<void>()
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
-    private creditoService: CreditoService
+    private creditoService: CreditoService,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
+    this.configurarModuloListener();
     this.iniciarFormulario();
     if (this.detalle) {
       this.consultarDetalle();
@@ -84,7 +85,10 @@ export default class CreditoFormularioComponent
     const fechaActual = new Date(); // Obtener la fecha actual
 
     this.formularioAdicional = this.formBuilder.group({
-      fecha_inicio: [fechaActual.toISOString().substring(0, 10), Validators.compose([Validators.required])],
+      fecha_inicio: [
+        fechaActual.toISOString().substring(0, 10),
+        Validators.compose([Validators.required]),
+      ],
       contrato: ['', Validators.compose([Validators.required])],
       contrato_nombre: [''],
       contrato_numero_identificacion: [''],
@@ -108,12 +112,15 @@ export default class CreditoFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                queryParams: {
-                  ...parametros,
+              this.router.navigate(
+                [`${this._rutas?.detalle}/${respuesta.id}`],
+                {
+                  queryParams: {
+                    ...parametros,
+                  },
                 },
-              });
-            })
+              );
+            });
             this.changeDetectorRef.detectChanges();
           });
       } else {
@@ -123,13 +130,16 @@ export default class CreditoFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                  queryParams: {
-                    ...parametros,
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuesta.id}`],
+                  {
+                    queryParams: {
+                      ...parametros,
+                    },
                   },
-                });
-              })
-            })
+                );
+              });
+            }),
           )
           .subscribe();
       }
@@ -146,7 +156,8 @@ export default class CreditoFormularioComponent
           fecha_inicio: respuesta.fecha_inicio,
           contrato: respuesta.contrato_id,
           contrato_nombre: respuesta.contrato_contacto_nombre_corto,
-          contrato_numero_identificacion: respuesta.contrato_contacto_numero_identificacion,
+          contrato_numero_identificacion:
+            respuesta.contrato_contacto_numero_identificacion,
           total: respuesta.total,
           cuota: respuesta.cuota,
           cantidad_cuotas: respuesta.cantidad_cuotas,
@@ -161,65 +172,20 @@ export default class CreditoFormularioComponent
       });
   }
 
-  consultarContratos(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumContrato',
-      serializador: "ListaAutocompletar"
-    };
-
-    this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(
-      arrFiltros
-    )
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContratos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
   consultarConceptos(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
+    this._generalService
+      .consultaApi<RegistroAutocompletarHumConcepto[]>(
+        'humano/concepto/seleccionar/',
         {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
+          nombre__icontains: `${event?.target.value}`,
+          concepto_tipo: '8',
         },
-        {
-          propiedad: 'concepto_tipo',
-          valor1: '8',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumConcepto',
-      serializador: "ListaAutocompletar"
-    };
-
-    this._generalService.
-      consultarDatosAutoCompletar<RegistroAutocompletarHumConcepto>(
-        arrFiltros
       )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrConceptos = respuesta.registros;
+          this.arrConceptos = respuesta;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -228,21 +194,20 @@ export default class CreditoFormularioComponent
     this.formularioAdicional?.markAsDirty();
     this.formularioAdicional?.markAsTouched();
     if (campo === 'contrato') {
-      this.formularioAdicional.get(campo)?.setValue(dato.contrato_id);
+      this.formularioAdicional.get(campo)?.setValue(dato.id);
       this.formularioAdicional
         .get('contrato_nombre')
-        ?.setValue(dato.contrato_contacto_nombre_corto);
+        ?.setValue(dato.contacto__nombre_corto);
 
       this.formularioAdicional
         .get('contrato_numero_identificacion')
-        ?.setValue(dato.contrato_contacto_numero_identificacion);
-
+        ?.setValue(dato.contacto__numero_identificacion);
     }
     if (campo === 'concepto') {
-      this.formularioAdicional.get(campo)?.setValue(dato.concepto_id);
+      this.formularioAdicional.get(campo)?.setValue(dato.id);
       this.formularioAdicional
         .get('concepto_nombre')
-        ?.setValue(dato.concepto_nombre);
+        ?.setValue(dato.nombre);
     }
     this.changeDetectorRef.detectChanges();
   }
