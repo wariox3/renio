@@ -239,6 +239,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             queryParams: {
               ordering: '-id',
               empleado: true,
+              serializador: 'lista',
             },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
