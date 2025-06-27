@@ -62,7 +62,7 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
         'void',
         style({
           opacity: 0,
-        })
+        }),
       ),
       transition(':enter, :leave', [animate(600)]),
     ]),
@@ -73,8 +73,8 @@ export default class CreditoFormularioComponent
   implements OnInit, OnDestroy
 {
   private readonly _generalService = inject(GeneralService);
-  private readonly _configModuleService = inject(ConfigModuleService)
-  private _destroy$ = new Subject<void>()
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
 
   formularioAdicional: FormGroup;
@@ -103,13 +103,13 @@ export default class CreditoFormularioComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private novedadService: NovedadService
+    private novedadService: NovedadService,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
+    this.configurarModuloListener();
     this.consultarInformacion();
     this.iniciarFormulario();
 
@@ -183,18 +183,20 @@ export default class CreditoFormularioComponent
           validarRangoDeFechas('fecha_desde', 'fecha_hasta'),
           validarRangoDeFechas('fecha_desde_periodo', 'fecha_hasta_periodo'),
         ],
-      }
+      },
     );
   }
 
   consultarInformacion() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumNovedadTipo>({
-        modelo: 'HumNovedadTipo',
-        serializador: 'ListaAutocompletar',
-      })
-      .subscribe((respuesta: any) => {
-        this.arrNovedadTipos = respuesta.registros;
+      .consultaApi<RegistroAutocompletarHumNovedadTipo[]>(
+        'humano/novedad_tipo/seleccionar/',
+        {
+          limit: 100,
+        },
+      )
+      .subscribe((respuesta) => {
+        this.arrNovedadTipos = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -207,11 +209,14 @@ export default class CreditoFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                queryParams: {
-                  ...parametros,
+              this.router.navigate(
+                [`${this._rutas?.detalle}/${respuesta.id}`],
+                {
+                  queryParams: {
+                    ...parametros,
+                  },
                 },
-              });
+              );
             });
             this.changeDetectorRef.detectChanges();
           });
@@ -222,13 +227,16 @@ export default class CreditoFormularioComponent
             tap((respuesta: any) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                  queryParams: {
-                    ...parametros,
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuesta.id}`],
+                  {
+                    queryParams: {
+                      ...parametros,
+                    },
                   },
-                });
+                );
               });
-            })
+            }),
           )
           .subscribe();
       }
@@ -261,45 +269,17 @@ export default class CreditoFormularioComponent
       });
   }
 
-  consultarContratos(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumContrato',
-      serializador: 'ListaAutocompletar',
-    };
-
-    this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContratos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioAdicional?.markAsDirty();
     this.formularioAdicional?.markAsTouched();
     if (campo === 'contrato') {
-      this.formularioAdicional.get(campo)?.setValue(dato.contrato_id);
+      this.formularioAdicional.get(campo)?.setValue(dato.id);
       this.formularioAdicional
         .get('contrato_nombre')
-        ?.setValue(dato.contrato_contacto_nombre_corto);
+        ?.setValue(dato.contacto__nombre_corto);
       this.formularioAdicional
         .get('contrato_identificacion')
-        ?.setValue(dato.contrato_contacto_numero_identificacion);
+        ?.setValue(dato.contacto__numero_identificacion);
     }
 
     switch (campo) {
@@ -390,7 +370,7 @@ export default class CreditoFormularioComponent
       this._setFiltrosNovedadReferencia(contratoId, novedadTipo);
       this.mostrarCampoNovedadReferencia.set(true);
       this._getNovedadesReferenciaLista(
-        this.filtrosNovedadReferencia()
+        this.filtrosNovedadReferencia(),
       ).subscribe({
         next: (response) => {
           this.novedadReferenciaLista.set(response.registros);
@@ -445,7 +425,7 @@ export default class CreditoFormularioComponent
 
   private _setFiltrosNovedadReferencia(
     contratoId: number,
-    novedadTipoId: number
+    novedadTipoId: number,
   ) {
     this.filtrosNovedadReferencia.set([
       {
