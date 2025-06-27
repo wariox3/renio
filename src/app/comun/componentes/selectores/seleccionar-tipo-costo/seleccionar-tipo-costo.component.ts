@@ -62,7 +62,7 @@ export class SeleccionarTipoCostoComponent extends General implements OnInit {
     if (this.sugerirPrimerValor && !this.isEdicion) {
       const grupos = this.tipoCostos();
       if (grupos.length) {
-        this.selectChange.emit(grupos[0].tipo_costo_id);
+        this.selectChange.emit(grupos[0].id);
       }
     }
   }

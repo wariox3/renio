@@ -1,4 +1,4 @@
 export interface RegistroAutocompletarHumSucursal {
-    sucursal_id: number;
-    sucursal_nombre: string;
+    id: number;
+    nombre: string;
   }

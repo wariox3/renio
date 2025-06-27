@@ -50,6 +50,7 @@ import { RegistroAutocompletarHumTipoCosto } from '@interfaces/comunes/autocompl
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
 
 @Component({
   selector: 'app-contrato-formulario',
@@ -76,14 +77,14 @@ export default class ContratoFormularioComponent
   extends General
   implements OnInit, OnDestroy {
   formularioContrato: FormGroup;
-  arrEmpleados: any[] = [];
-  arrGrupo: any[] = [];
-  arrContratoTipo: any[] = [];
-  ciudades: any[] = [];
-  arrEntidadSalud: any[] = [];
-  arrEntidadPension: any[] = [];
-  arrEntidadCesantias: any[] = [];
-  arrEntidadCaja: any[] = [];
+  arrEmpleados: RegistroAutocompletarGenContacto[] = [];
+  arrGrupo: RegistroAutocompletarHumGrupo[] = [];
+  arrContratoTipo: RegistroAutocompletarHumContratoTipo[] = [];
+  ciudades: RegistroAutocompletarGenCiudad[] = [];
+  arrEntidadSalud: RegistroAutocompletarHumEntidad[] = [];
+  arrEntidadPension: RegistroAutocompletarHumEntidad[] = [];
+  arrEntidadCesantias: RegistroAutocompletarHumEntidad[] = [];
+  arrEntidadCaja: RegistroAutocompletarHumEntidad[] = [];
   autocompletarRiesgo: RegistroAutocompletarHumRiesgo[] = [];
   autocompletarPension: RegistroAutocompletarHumPension[] = [];
   autocompletarSubtipoCotizante: RegistroAutocompletarHumSubtipoCotizante[] =
@@ -277,118 +278,79 @@ export default class ContratoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumGrupo>(
-        {
-          modelo: 'HumGrupo',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumGrupo[]>(
+        'humano/grupo/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumContratoTipo>(
-        {
-          modelo: 'HumContratoTipo',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumContratoTipo[]>(
+        'humano/contrato_tipo/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumRiesgo>(
-        {
-          modelo: 'HumRiesgo',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumRiesgo[]>(
+        'humano/riesgo/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumPension>(
-        {
-          modelo: 'HumPension',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumPension[]>(
+        'humano/pension/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSubtipoCotizante>(
-        {
-          modelo: 'HumSubtipoCotizante',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumSubtipoCotizante[]>(
+        'humano/subtipo_cotizante/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSalud>(
-        {
-          modelo: 'HumSalud',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumSalud[]>(
+        'humano/salud/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumSucursal>(
-        {
-          modelo: 'HumSucursal',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumSucursal[]>(
+        'humano/sucursal/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTipoCotizante>(
-        {
-          modelo: 'HumTipoCotizante',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumTipoCotizante[]>(
+        'humano/tipo_cotizante/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumCargo>(
-        {
-          modelo: 'HumCargo',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumCargo[]>(
+        'humano/cargo/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+      this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
+        'humano/entidad/seleccionar/',
         {
-          filtros: [{ propiedad: 'salud', valor1: true }],
-          modelo: 'HumEntidad',
-          serializador: 'ListaAutocompletar',
-        },
+          salud: 'True',
+        }
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+      this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
+        'humano/entidad/seleccionar/',
         {
-          filtros: [{ propiedad: 'pension', valor1: true }],
-          modelo: 'HumEntidad',
-          serializador: 'ListaAutocompletar',
-        },
+          pension: 'True',
+        }
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+      this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
+        'humano/entidad/seleccionar/',
         {
-          filtros: [{ propiedad: 'caja', valor1: true }],
-          modelo: 'HumEntidad',
-          serializador: 'ListaAutocompletar',
-        },
+          caja: 'True',
+        }
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumEntidad>(
+      this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
+        'humano/entidad/seleccionar/',
         {
-          filtros: [{ propiedad: 'cesantias', valor1: true }],
-          modelo: 'HumEntidad',
-          serializador: 'ListaAutocompletar',
-        },
+          cesantias: 'True',
+        }
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTiempo>(
-        {
-          filtros: [],
-          modelo: 'HumTiempo',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumTiempo[]>(
+        'humano/tiempo/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumTipoCosto>(
-        {
-          filtros: [],
-          modelo: 'HumTipoCosto',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarHumTipoCosto[]>(
+        'humano/tipo_costo/seleccionar/',
       ),
     ).subscribe((respuesta) => {
-      this.arrGrupo = respuesta[0].registros;
-      this.arrContratoTipo = respuesta[1].registros;
-      this.autocompletarRiesgo = respuesta?.[2]?.registros;
-      this.autocompletarPension = respuesta?.[3]?.registros;
-      this.autocompletarSubtipoCotizante = respuesta?.[4]?.registros;
-      this.autocompletarSalud = respuesta?.[5]?.registros;
-      this.autocompletarSucursal = respuesta?.[6]?.registros;
-      this.autocompletarTipoCotizante = respuesta?.[7]?.registros;
-      this.autocompletarCargo = respuesta?.[8]?.registros;
-      this.arrEntidadSalud = respuesta?.[9].registros;
-      this.arrEntidadPension = respuesta?.[10].registros;
-      this.arrEntidadCaja = respuesta?.[11].registros;
-      this.arrEntidadCesantias = respuesta?.[12].registros;
-      this.autocompletarTiempo = respuesta?.[13].registros;
-      this.autocompletarTipoCosto = respuesta?.[14].registros;
+      this.arrGrupo = respuesta[0];
+      this.arrContratoTipo = respuesta[1];
+      this.autocompletarRiesgo = respuesta?.[2];
+      this.autocompletarPension = respuesta?.[3];
+      this.autocompletarSubtipoCotizante = respuesta?.[4];
+      this.autocompletarSalud = respuesta?.[5];
+      this.autocompletarSucursal = respuesta?.[6];
+      this.autocompletarTipoCotizante = respuesta?.[7];
+      this.autocompletarCargo = respuesta?.[8];
+      this.arrEntidadSalud = respuesta?.[9];
+      this.arrEntidadPension = respuesta?.[10];
+      this.arrEntidadCaja = respuesta?.[11];
+      this.arrEntidadCesantias = respuesta?.[12];
+      this.autocompletarTiempo = respuesta?.[13];
+      this.autocompletarTipoCosto = respuesta?.[14];
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -456,10 +418,10 @@ export default class ContratoFormularioComponent
     }
 
     if (campo === 'contacto') {
-      this.formularioContrato.get(campo)?.setValue(dato.contacto_id);
+      this.formularioContrato.get(campo)?.setValue(dato.id);
       this.formularioContrato
         .get('contacto_nombre')
-        ?.setValue(dato.contacto_nombre_corto);
+        ?.setValue(dato.nombre_corto);
       this.formularioContrato
         .get('contacto_numero_identificacion')
         ?.setValue(dato.numero_identificacion);
@@ -657,9 +619,9 @@ export default class ContratoFormularioComponent
   }
 
   // Método para manejar cambios en la selección
-  seleccionarCargoAdcional(item: any) {
+  seleccionarCargoAdcional(cargo: RegistroAutocompletarHumCargo) {
     this.formularioContrato.patchValue({
-      cargo: item.cargo_id,
+      cargo: cargo.id,
     });
     this.changeDetectorRef.detectChanges();
   }

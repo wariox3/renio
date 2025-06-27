@@ -5,6 +5,6 @@ export interface RegistroAutocompletarHumContrato {
 }
 
 export interface RegistroAutocompletarHumContratoTipo {
-  contrato_tipo_id: number;
-  contrato_tipo_nombre: string;
+  id: number;
+  nombre: string;
 }

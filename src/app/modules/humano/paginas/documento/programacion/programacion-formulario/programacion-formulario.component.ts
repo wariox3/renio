@@ -80,7 +80,7 @@ export default class ContratoFormularioComponent
         if (value) {
           this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
             let valor = Number(value);
-            return grupo.grupo_id === valor;
+            return grupo.id === valor;
           });
           if (this.grupoSeleccionado !== undefined) {
             this.actualizarValidacion(
@@ -338,7 +338,7 @@ export default class ContratoFormularioComponent
 
         this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
           let valor = Number(respuesta.grupo_id);
-          return grupo.grupo_id === valor;
+          return grupo.id === valor;
         });
 
         if (this.grupoSeleccionado !== undefined) {
