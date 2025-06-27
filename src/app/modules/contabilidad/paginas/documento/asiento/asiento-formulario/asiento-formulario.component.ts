@@ -271,8 +271,6 @@ export default class AsientoFormularioComponent
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    console.log(dato);
-
     if (campo === 'contacto') {
       this.formularioAsiento.get(campo)?.setValue(dato.id);
       this.formularioAsiento

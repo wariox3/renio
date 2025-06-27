@@ -46,8 +46,6 @@ export class ContactosComponent extends General {
   }
 
   agregarContacto(item: any) {
-    console.log(item);
-
     this.itemSeleccionado = item;
     this.contactoNombre = item.nombre_corto;
     this.emitirContacto.emit(item);
