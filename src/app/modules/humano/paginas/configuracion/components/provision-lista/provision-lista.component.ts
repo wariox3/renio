@@ -59,7 +59,7 @@ export class ProvisionListaComponent
   ) {
     this._provisionService
       .actualizarProvision(cuentaId, {
-        [campoNombre]: cuenta.cuenta_id,
+        [campoNombre]: cuenta.id,
       })
       .subscribe(() => {
         this._getConceptos();

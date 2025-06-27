@@ -35,7 +35,7 @@ export class CuentasComponent
   implements AfterViewInit, OnChanges
 {
   cuentaSeleccionada: any | null = null;
-  arrCuentasLista: any[] = [];
+  arrCuentasLista: RegistroAutocompletarConCuenta[] = [];
   @Input() style: string = '';
   @Input() cuentaCodigo: string = '';
   @Input() cuentaNombre: string = '';
@@ -88,14 +88,14 @@ export class CuentasComponent
     const valor = event?.target?.value;
     const valorBusqueda = valor.split(' ')?.[0] || '';
     this._generalService
-      .consultaApi<RegistroAutocompletarConCuenta>(
+      .consultaApi<RegistroAutocompletarConCuenta[]>(
         'contabilidad/cuenta/seleccionar/',
         {
           codigo__startswith: valorBusqueda,
           permite_movimiento: 'True',
         },
       )
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.arrCuentasLista = respuesta;
         this.changeDetectorRef.detectChanges();
       });

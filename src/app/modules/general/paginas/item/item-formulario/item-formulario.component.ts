@@ -37,6 +37,7 @@ import { Subject, takeUntil, tap } from 'rxjs';
 import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-item-formulario',
@@ -64,7 +65,7 @@ export default class ItemFormularioComponent
   private readonly _generalService = inject(GeneralService);
   private readonly _configModuleService = inject(ConfigModuleService);
 
-  arrCuentasLista: any[];
+  arrCuentasLista: RegistroAutocompletarConCuenta[];
   formularioItem: FormGroup;
   arrImpuestosEliminado: number[] = [];
   arrImpuestos: any[] = [];
@@ -103,16 +104,10 @@ export default class ItemFormularioComponent
       this.consultardetalle();
       this._consultarItemUso(this.detalle);
     } else {
-      this._getCuentaLista([
-        {
-          propiedad: 'permite_movimiento',
-          valor1: true,
-        },
-        {
-          propiedad: 'cuenta_clase',
-          valor1: 4,
-        },
-      ]).subscribe({
+      this._getCuentaLista({
+        permite_movimiento: 'True',
+        cuenta_clase: 4,
+      }).subscribe({
         next: (respuesta) => {
           this.arrCuentasLista = respuesta.registros;
           this._sugerirCampoCuentaVenta();
@@ -230,13 +225,10 @@ export default class ItemFormularioComponent
     if (this.formularioItem.valid) {
       if (this.detalle && this.ocultarBtnAtras === false) {
         this.itemService
-          .actualizarDatosItem(
-            this.detalle,
-            {
-              ...this.formularioItem.value,
-              ...{ impuestos_eliminados: this.arrImpuestosEliminado },
-            },
-          )
+          .actualizarDatosItem(this.detalle, {
+            ...this.formularioItem.value,
+            ...{ impuestos_eliminados: this.arrImpuestosEliminado },
+          })
           .subscribe((respuesta) => {
             this.formularioItem.patchValue({
               codigo: respuesta.item.codigo,
@@ -441,45 +433,32 @@ export default class ItemFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  private _getCuentaLista(filtros: Filtros[]) {
-    return this._generalService.consultarDatosAutoCompletar({
-      modelo: 'ConCuenta',
-      serializador: 'ListaAutocompletar',
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: ['codigo'],
-      limite_conteo: 10000,
-      filtros,
-    });
+  private _getCuentaLista(parametros: ParametrosApi) {
+    return this._generalService.consultaApi<any>(
+      'contabilidad/cuenta/seleccionar/',
+      {
+        ordering: 'codigo',
+        ...parametros,
+      },
+    );
   }
 
   consultarCuentas(event: any) {
     const valor = event?.target?.value;
     const valorBusqueda = valor.split(' ')?.[0] || '';
-
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'permite_movimiento',
-          valor1: true,
-        },
-        {
-          propiedad: 'cuenta_clase',
-          valor1: 4,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: ['codigo'],
-      limite_conteo: 10000,
-      modelo: 'ConCuenta',
-      serializador: 'ListaAutocompletar',
-    };
+    let parametros: ParametrosApi = {
+     permite_movimiento: 'True',
+     cuenta_clase: 4,
+     ordering: 'codigo',
+    }
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
+      .consultaApi<RegistroAutocompletarConCuenta[]>(
+        'contabilidad/cuenta/seleccionar/',
+        parametros,
+      )
       .subscribe((respuesta) => {
-        this.arrCuentasLista = respuesta.registros;
+        this.arrCuentasLista = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -487,7 +466,11 @@ export default class ItemFormularioComponent
   aplicarFiltrosCuentas(event: any) {
     const valor = event?.target?.value;
     const valorCasteado = Number(valor);
-    const filtros = [];
+    let parametros: ParametrosApi = {
+      permite_movimiento: 'True',
+      cuenta_clase: 4,
+      ordering: 'codigo',
+    };
 
     if (!valor) {
       this.formularioItem.get('cuenta_venta')?.setValue(null);
@@ -495,43 +478,26 @@ export default class ItemFormularioComponent
 
     // la busqueda es por codigo
     if (!isNaN(valorCasteado)) {
-      filtros.push({
-        propiedad: 'codigo__startswith',
-        valor1: `${valor}`,
-      });
+      parametros = {
+        ...parametros,
+        'codigo__startswith': `${valor}`,
+      };
     } else {
       // la busqueda es por texto
-      filtros.push({
-        propiedad: 'nombre__icontains',
-        valor1: `${valor}`,
-      });
+      parametros = {
+        ...parametros,
+        'nombre__icontains': `${valor}`,
+      };
     }
 
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'permite_movimiento',
-          valor1: true,
-        },
-        {
-          propiedad: 'cuenta_clase',
-          valor1: 4,
-        },
-        ...filtros,
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: ['codigo'],
-      limite_conteo: 10000,
-      modelo: 'ConCuenta',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConCuenta>(arrFiltros)
+      .consultaApi<RegistroAutocompletarConCuenta[]>(
+        'contabilidad/cuenta/seleccionar/',
+        parametros,
+      )
       .pipe(
         tap((respuesta) => {
-          this.arrCuentasLista = respuesta.registros;
+          this.arrCuentasLista = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -547,10 +513,10 @@ export default class ItemFormularioComponent
     return `${cuentaCodigo} ${cuentaNombre}`;
   }
 
-  agregarCuenta(cuenta: any) {
-    this.formularioItem.get('cuenta_venta')?.setValue(cuenta.cuenta_id);
-    this.cuentaNombre = cuenta.cuenta_nombre;
-    this.cuentaCodigo = cuenta.cuenta_codigo;
+  agregarCuenta(cuenta: RegistroAutocompletarConCuenta) {
+    this.formularioItem.get('cuenta_venta')?.setValue(cuenta.id);
+    this.cuentaNombre = cuenta.nombre;
+    this.cuentaCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -562,10 +528,10 @@ export default class ItemFormularioComponent
     }
   }
 
-  agregarCuentaCobrarSeleccionado(cuenta: any) {
-    this.formularioItem.get('cuenta_compra')?.setValue(cuenta.cuenta_id);
-    this.cuentaCobrarNombre = cuenta.cuenta_nombre;
-    this.cuentaCobrarCodigo = cuenta.cuenta_codigo;
+  agregarCuentaCobrarSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
+    this.formularioItem.get('cuenta_compra')?.setValue(cuenta.id);
+    this.cuentaCobrarNombre = cuenta.nombre;
+    this.cuentaCobrarCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 

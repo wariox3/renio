@@ -53,7 +53,7 @@ export class AporteListaComponent extends General implements OnInit, OnDestroy {
   onCambioDeCuenta(cuenta: RegistroAutocompletarConCuenta, cuentaId: number) {
     this._aporteService
       .actualizarAporte(cuentaId, {
-        cuenta: cuenta.cuenta_id,
+        cuenta: cuenta.id,
       })
       .subscribe(() => {
         this._getConceptos();

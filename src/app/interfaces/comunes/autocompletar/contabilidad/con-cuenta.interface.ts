@@ -1,7 +1,7 @@
 export interface RegistroAutocompletarConCuenta {
-  cuenta_codigo: number;
-  cuenta_nombre: string;
-  cuenta_id: string;
+  codigo: string;
+  nombre: string;
+  id: string;
 }
 
 export interface RegistroAutocompletarConCuentaClase {
