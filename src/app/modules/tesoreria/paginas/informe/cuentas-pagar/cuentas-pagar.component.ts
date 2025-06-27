@@ -39,7 +39,7 @@ export class CuentasPagarComponent extends General implements OnInit {
   cantidad_registros!: number;
   filtros: { [key: string]: any } = {};
   queryParams: { [key: string]: any } = {
-    serializador: 'informe',
+    serializador: 'informe_cuenta_pagar',
     documento_tipo__pagar: true,
     estado_aprobado: true,
     pendiente__gt: 0,
@@ -129,6 +129,7 @@ export class CuentasPagarComponent extends General implements OnInit {
     this.descargarArchivosService.exportarExcel('general/documento', {
       ...this.queryParams,
       ...this.filtros,
+      excel_informe: 'True'
     });
   }
 }

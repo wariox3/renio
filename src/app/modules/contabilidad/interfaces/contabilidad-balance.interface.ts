@@ -75,6 +75,13 @@ export interface MovimientoBalancePruebaTercero
   contacto_id: number;
   contacto_nombre_corto: string;
   contacto_numero_identificacion: string;
+  comprobante_nombre: string;
+  numero: string;
+  fecha: string;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+  base: string;
+  detalle: string;
 }
 
 export interface MovimientoAuxiliarGeneral extends MovimientoBalancePrueba {
@@ -86,8 +93,7 @@ export interface MovimientoAuxiliarGeneral extends MovimientoBalancePrueba {
   fecha: string;
 }
 
-export interface MovimientoAuxiliarTercero
-  extends MovimientoBalancePrueba {
+export interface MovimientoAuxiliarTercero extends MovimientoBalancePrueba {
   contacto_id: number;
   contacto_nombre_corto: string;
   contacto_numero_identificacion: string;

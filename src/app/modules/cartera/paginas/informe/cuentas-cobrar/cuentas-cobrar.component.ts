@@ -30,9 +30,9 @@ export class CuentasCobrarComponent extends General implements OnInit {
   cantidad_registros!: number;
   filtros: { [key: string]: any } = {};
   queryParams: { [key: string]: any } = {
-    serializador: 'informe',
-    documento_tipo__cobrar: true,
-    estado_aprobado: true,
+    serializador: 'informe_cuenta_cobrar',
+    documento_tipo__cobrar: 'True',
+    estado_aprobado: 'True',
     pendiente__gt: 0,
   };
   filtrosDisponibles = CUENTAS_COBRAR_FILTERS;
@@ -61,11 +61,11 @@ export class CuentasCobrarComponent extends General implements OnInit {
         this.cantidad_registros = respuesta.count;
         this.arrDocumentos = respuesta.results.map((documento: any) => ({
           id: documento.id,
+          documento_tipo_id: documento.documento_tipo_id,
+          documento_tipo_nombre: documento.documento_tipo__nombre,
           numero: documento.numero,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
-          documento_tipo_id: documento.documento_tipo_id,
-          documento_tipo_nombre: documento.documento_tipo__nombre,
           contacto_nombre_corto: documento.contacto__nombre_corto,
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
@@ -97,6 +97,7 @@ export class CuentasCobrarComponent extends General implements OnInit {
     this.descargarArchivosService.exportarExcel('general/documento', {
       ...this.queryParams,
       ...this.filtros,
+      excel_informe: 'True'
     });
   }
 }
