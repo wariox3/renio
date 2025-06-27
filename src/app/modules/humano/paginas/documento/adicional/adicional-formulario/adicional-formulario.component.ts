@@ -42,26 +42,27 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
 })
 export default class AdicionalFormularioComponent
   extends General
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   formularioAdicional: FormGroup;
   arrConceptos: any[] = [];
   arrConceptosAdicional: RegistroAutocompletarHumConcepto[] = [];
   arrContratos: any[] = [];
 
   private readonly _generalService = inject(GeneralService);
-  private readonly _configModuleService = inject(ConfigModuleService)
-  private _destroy$ = new Subject<void>()
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
-    private adicionalService: AdicionalService
+    private adicionalService: AdicionalService,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
+    this.configurarModuloListener();
     this.consultarInformacion();
     this.iniciarFormulario();
     if (this.detalle) {
@@ -115,18 +116,14 @@ export default class AdicionalFormularioComponent
 
   consultarInformacion() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumConcepto>({
-        filtros: [
-          {
-            propiedad: 'adicional',
-            valor1: true,
-          },
-        ],
-        modelo: 'HumConcepto',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarHumConcepto[]>(
+        'humano/concepto/seleccionar/',
+        {
+          adicional: 'True',
+        },
+      )
       .subscribe((respuesta) => {
-        this.arrConceptosAdicional = respuesta.registros;
+        this.arrConceptosAdicional = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -137,16 +134,19 @@ export default class AdicionalFormularioComponent
         this.adicionalService
           .actualizarDatosAdicional(
             this.detalle,
-            this.formularioAdicional.value
+            this.formularioAdicional.value,
           )
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametros) => {
-              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                queryParams: {
-                  ...parametros,
+              this.router.navigate(
+                [`${this._rutas?.detalle}/${respuesta.id}`],
+                {
+                  queryParams: {
+                    ...parametros,
+                  },
                 },
-              });
+              );
             });
             this.changeDetectorRef.detectChanges();
           });
@@ -157,13 +157,16 @@ export default class AdicionalFormularioComponent
             tap((respuesta) => {
               this.alertaService.mensajaExitoso('Se guardó la información');
               this.activatedRoute.queryParams.subscribe((parametros) => {
-                this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
-                  queryParams: {
-                    ...parametros,
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuesta.id}`],
+                  {
+                    queryParams: {
+                      ...parametros,
+                    },
                   },
-                });
+                );
               });
-            })
+            }),
           )
           .subscribe();
       }
@@ -203,13 +206,13 @@ export default class AdicionalFormularioComponent
         ?.setValue(dato.concepto_nombre);
     }
     if (campo === 'contrato') {
-      this.formularioAdicional.get(campo)?.setValue(dato.contrato_id);
+      this.formularioAdicional.get(campo)?.setValue(dato.id);
       this.formularioAdicional
         .get('contrato_nombre')
-        ?.setValue(dato.contrato_contacto_nombre_corto);
+        ?.setValue(dato.contacto__nombre_corto);
       this.formularioAdicional
         .get('contrato_numero_identificacion')
-        ?.setValue(dato.contrato_contacto_numero_identificacion);
+        ?.setValue(dato.contacto__numero_identificacion);
     }
     if (campo === 'detalle') {
       if (this.formularioAdicional.get(campo)?.value === '') {

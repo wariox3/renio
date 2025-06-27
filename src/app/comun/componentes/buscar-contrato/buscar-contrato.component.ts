@@ -19,8 +19,6 @@ import {
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -32,6 +30,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-buscar-contrato',
@@ -51,7 +50,7 @@ export class BuscarContratoComponent
   implements OnInit, OnChanges
 {
   formularioContrato: FormGroup;
-  arrContratos: any[] = [];
+  arrContratos: RegistroAutocompletarHumContrato[] = [];
   public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   public busquedaContrato = new Subject<string>();
   @Input() informacionContrato = {
@@ -61,7 +60,7 @@ export class BuscarContratoComponent
   };
   @Input() requerido: boolean = false;
   @Input() formularioError: any = false;
-  @Output() emitirContrato: EventEmitter<any> = new EventEmitter();
+  @Output() emitirContrato: EventEmitter<RegistroAutocompletarHumContrato> = new EventEmitter();
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly _generalService = inject(GeneralService);
@@ -96,7 +95,7 @@ export class BuscarContratoComponent
         distinctUntilChanged(),
         switchMap((valor: string) => {
           return this.consultarContratosPorNombre(valor);
-        })
+        }),
       )
       .subscribe();
   }
@@ -125,94 +124,66 @@ export class BuscarContratoComponent
   consultarContratos(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>({
-        filtros: [
-          {
-            propiedad,
-            valor1: valor,
-          },
-        ],
-        limite: 1000,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'HumContrato',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarHumContrato[]>(
+        'humano/contrato/seleccionar/',
+        {
+          [propiedad]: valor,
+        },
+      )
       .pipe(
         tap((respuesta) => {
-          this.arrContratos = respuesta.registros;
+          this.arrContratos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
-        finalize(() => this.cargandoEmpleados$.next(false))
+        finalize(() => this.cargandoEmpleados$.next(false)),
       )
       .subscribe();
   }
 
   consultarContratosPorNombre(valor: string) {
-    let filtros: Filtros[] = [];
+    let parametros: ParametrosApi = {};
 
     if (!valor.length) {
-      filtros = [
-        ...filtros,
-        {
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${valor}`,
-          valor2: '',
-        },
-      ];
+      parametros = {
+        ...parametros,
+        contacto__nombre_corto__icontains: `${valor}`,
+      };
     } else if (isNaN(Number(valor))) {
-      filtros = [
-        ...filtros,
-        {
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${valor}`,
-          valor2: '',
-        },
-      ];
+      parametros = {
+        ...parametros,
+        contacto__nombre_corto__icontains: `${valor}`,
+      };
     } else {
-      filtros = [
-        ...filtros,
-        {
-          propiedad: 'contacto__numero_identificacion__icontains',
-          valor1: `${Number(valor)}`,
-          valor2: '',
-        },
-      ];
+      parametros = {
+        ...parametros,
+        contacto__numero_identificacion__icontains: `${Number(valor)}`,
+      };
     }
 
-    let arrFiltros: ParametrosFiltros = {
-      filtros,
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumContrato',
-      serializador: 'ListaAutocompletar',
-    };
-
     return this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
+      .consultaApi<
+        RegistroAutocompletarHumContrato[]
+      >('humano/contrato/seleccionar/', parametros)
       .pipe(
         tap((respuesta) => {
-          this.arrContratos = respuesta.registros;
+          this.arrContratos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
-        finalize(() => this.cargandoEmpleados$.next(false))
+        finalize(() => this.cargandoEmpleados$.next(false)),
       );
   }
 
-  modificarCampoFormulario(campo: string, dato: any) {
+  modificarCampoFormulario(campo: string, dato: RegistroAutocompletarHumContrato) {
     this.formularioContrato?.markAsDirty();
     this.formularioContrato?.markAsTouched();
     if (campo === 'contrato') {
-      this.formularioContrato.get(campo)?.setValue(dato.contrato_id);
+      this.formularioContrato.get(campo)?.setValue(dato.id);
       this.formularioContrato
         .get('contrato_nombre')
-        ?.setValue(dato.contrato_contacto_nombre_corto);
+        ?.setValue(dato.contacto__nombre_corto);
       this.formularioContrato
         .get('identificacion')
-        ?.setValue(dato.contrato_contacto_numero_identificacion);
+        ?.setValue(dato.contacto__numero_identificacion);
       this.emitirContrato.emit(dato);
     }
     this.changeDetectorRef.detectChanges();

@@ -312,13 +312,13 @@
             <option value="">Seleccionar...</option>
             @for (item of arrConceptosHumano; track $index) {
               <option
-                [value]="item.concepto_id"
+                [value]="item.id"
                 [selected]="
-                  item.concepto_id === formularioConcepto.value.identificacion
+                  item.id === formularioConcepto.value.identificacion
                 "
-                *ngIf="item.concepto_id !== 6"
+                *ngIf="item.id !== 6"
               >
-                {{ item.concepto_nombre }}
+                {{ item.nombre }}
               </option>
             }
           </select>
