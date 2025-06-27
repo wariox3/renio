@@ -56,7 +56,7 @@ export default class CuentaBancoFormularioComponent
   implements OnInit, OnDestroy {
   formularioCuentaBanco: FormGroup;
   arrCuentasTipos: RegistroAutocompletarGenCuentaBancoTipo[];
-  arrCuentasBancos: any[];
+  arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
   selectedDateIndex: number = -1;
   visualizarCampoNumeroCuenta = false;
   public cuentaCobrarCodigo = '';
