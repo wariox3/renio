@@ -8,14 +8,19 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
+import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import ContactoFormularioComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -24,13 +29,6 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
-import { BuscarAvanzadoComponent } from '../../../../../../comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { CardComponent } from '../../../../../../comun/componentes/card/card.component';
-import { EncabezadoFormularioNuevoComponent } from '../../../../../../comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import ContactDetalleComponent from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { FormularioProductosComponent } from '../../../../../../comun/componentes/factura/components/formulario-productos/formulario-productos.component';
-import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 
 @Component({
   selector: 'app-pedido-cliente-formulario',
@@ -42,13 +40,12 @@ import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-u
     EncabezadoFormularioNuevoComponent,
     CardComponent,
     TituloAccionComponent,
-    ContactDetalleComponent,
     BuscarAvanzadoComponent,
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
     FormularioProductosComponent,
-    AnimationFadeInUpDirective
+    ContactoFormularioComponent,
   ],
   templateUrl: './pedido-cliente-formulario.component.html',
   styleUrl: './pedido-cliente-formulario.component.css',
@@ -158,11 +155,14 @@ export default class PedidoClienteFormularioComponent
     this._facturaService
       .guardarFactura(this.formularioPedido.value)
       .subscribe((respuesta) => {
-        this.router.navigate([`${this._rutas?.editar}/${respuesta.documento.id}`], {
-          queryParams: {
-            ...this.parametrosUrl,
+        this.router.navigate(
+          [`${this._rutas?.editar}/${respuesta.documento.id}`],
+          {
+            queryParams: {
+              ...this.parametrosUrl,
+            },
           },
-        });
+        );
       });
   }
 
@@ -184,10 +184,8 @@ export default class PedidoClienteFormularioComponent
 
   modificarCampoFormulario(campo: string, valor: any) {
     if (campo === 'cliente') {
-      this.formularioPedido.get('contacto')?.setValue(valor.contacto_id);
-      this.formularioPedido
-        .get('contactoNombre')
-        ?.setValue(valor.contacto_nombre_corto);
+      this.formularioPedido.get('contacto')?.setValue(valor.id);
+      this.formularioPedido.get('contactoNombre')?.setValue(valor.nombre_corto);
     }
   }
 
@@ -204,29 +202,17 @@ export default class PedidoClienteFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'cliente',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
-      .subscribe((respuesta) => {
-        this.clientes.set(respuesta.registros);
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          cliente: 'True',
+          limit: 10,
+        },
+      )
+      .subscribe((respuesta: any) => {
+        this.clientes.set(respuesta);
       });
   }
 }

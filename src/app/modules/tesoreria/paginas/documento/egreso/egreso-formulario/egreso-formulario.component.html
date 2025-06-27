@@ -44,7 +44,7 @@
                 (click)="modificarCampoFormulario('contacto', contacto)"
                 (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
-                {{ contacto.contacto_nombre_corto }}
+                {{ contacto.nombre_corto }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -522,11 +522,10 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltrosModal($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      (filtersApply)="obtenerFiltrosModal($event)"
+      [availableFields]="CUENTAS_COBRAR_FILTERS"
+    ></app-filtro>
     <div class="d-flex justify-content-between my-3">
       <div class="col-12 col-md-6">
         <div class="form-check form-check-custom form-check-solid">
