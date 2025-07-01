@@ -35,9 +35,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { EgresoDocumentoAdicionar } from '@modulos/tesoreria/interfaces/egreso.interface';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -307,7 +308,7 @@ export default class EgresoFormularioComponent
   consultarCliente(event: any) {
     this._generalService
       .consultaApi<RegistroAutocompletarGenContacto>(
-        'general/contacto/seleccionar',
+        'general/contacto/seleccionar/',
         {
           nombre_corto__icontains: `${event?.target.value}`,
           limit: 10,
@@ -356,7 +357,10 @@ export default class EgresoFormularioComponent
   }
 
   consultarDocumentos() {
-    let filtros: ParametrosApi = {};
+    let filtros: ParametrosApi = {
+      serializador: 'adicionar'
+    };
+
     if (this.mostrarTodasCuentasPorPagar) {
       filtros = this.arrFiltrosPermanenteAgregarDocumento;
       if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
@@ -378,25 +382,25 @@ export default class EgresoFormularioComponent
       }
     }
     this._generalService
-      .consultaApi('general/documento/', filtros)
-      .subscribe((respuesta: any) => {
-        this.arrDocumentos = respuesta.results.map((documento: any) => ({
+      .consultaApi<RespuestaApi<EgresoDocumentoAdicionar>>('general/documento/', filtros)
+      .subscribe((respuesta) => {
+        this.arrDocumentos = respuesta.results.map((documento) => ({
           id: documento.id,
           numero: documento.numero,
           documento_tipo: documento.documento_tipo,
-          documento_tipo_nombre: documento.documento_tipo_nombre,
+          documento_tipo_nombre: documento.documento_tipo__nombre,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
-          contacto: documento.contacto_id,
-          contacto_nombre: documento.contacto_nombre_corto,
+          // contacto: documento.contacto_id,
+          contacto_nombre: documento.contacto__nombre_corto,
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
           total: documento.total,
           pendiente: documento.pendiente,
-          cuenta: documento.documento_tipo_cuenta_pagar_id,
-          cuenta_codigo: documento.documento_tipo_cuenta_pagar_cuenta_codigo,
+          cuenta: documento.documento_tipo__cuenta_pagar_id,
+          // cuenta_codigo: documento.documento_tipo__cuenta_pagar_cuenta_codigo,
           naturaleza: 'D',
-          documento_tipo_operacion: documento.documento_tipo_operacion,
+          documento_tipo_operacion: documento.documento_tipo__operacion,
         }));
         this.changeDetectorRef.detectChanges();
       });
