@@ -1,12 +1,15 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { GeneralService } from '@comun/services/general.service';
 import { MapaDatos } from '@comun/type/mapeo-data.type';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ProgramacionContratos } from '@modulos/humano/interfaces/programacion-contratos.interface';
 import { RespuestaProgramacionContrato } from '@modulos/humano/interfaces/respuesta-programacion-contratos.interface';
 import { Store } from '@ngrx/store';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { tap } from 'rxjs';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 import { FiltrosDetalleProgramacionContratos } from '../../../constantes';
 
 @Injectable({
@@ -22,24 +25,25 @@ export class TablaContratosService {
   public registrosAEliminar = signal<number[]>([]);
   public isCheckedSeleccionarTodos = signal(false);
 
-
-  public consultarListaContratos(parametrosConsulta: ParametrosFiltros) {
+  public consultarListaContratos(parametrosConsulta: ParametrosApi) {
     this.reiniciarSelectoresEliminar();
     return this._generalService
-      .consultarDatosLista<ProgramacionContratos>(parametrosConsulta)
+      .consultaApi<
+        RespuestaApi<RespuestaProgramacionContrato>
+      >('humano/programacion_detalle/', parametrosConsulta)
       .pipe(
         tap((respuesta) => {
           this._actualizarMapeo(FiltrosDetalleProgramacionContratos);
-          this.cantidadRegistros.update(() => respuesta.cantidad_registros);
+          this.cantidadRegistros.update(() => respuesta.count);
           this.arrProgramacionDetalle.set(
-            respuesta.registros.map(
-              (registro: RespuestaProgramacionContrato) => ({
+            respuesta.results.map(
+              (registro) => ({
                 ...registro,
                 selected: false,
-              })
-            )
+              }),
+            ),
           );
-        })
+        }),
       );
   }
 

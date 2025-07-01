@@ -33,7 +33,7 @@
                 ngbDropdownAnchor
                 (blur)="validarCampoContrato()"
                 (focus)="
-                  consultarContratos('', 'contacto__nombre_corto');
+                  consultarContratos('', 'contacto__nombre_corto__icontains');
                   NombreDropdown.open()
                 "
                 placeholder="Buscar contrato..."
@@ -62,8 +62,8 @@
                     ngbDropdownItem
                     (click)="modificarCampoFormulario('contrato', contrato)"
                   >
-                    {{ contrato.contrato_contacto_numero_identificacion }}
-                    {{ contrato.contrato_contacto_nombre_corto }}
+                    {{ contrato.contacto__numero_identificacion }}
+                    {{ contrato.contacto__nombre_corto }}
                   </button>
                 </ng-container>
                 } @else { @if (cargandoEmpleados$ | async) {
@@ -84,8 +84,8 @@
           ></label>
           <ng-select
             [items]="arrConceptosAdicional()"
-            bindLabel="concepto_nombre"
-            bindValue="concepto_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="concepto"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
@@ -235,7 +235,7 @@
                 ngbDropdownAnchor
                 (blur)="validarCampoContrato()"
                 (focus)="
-                  consultarContratos('', 'contacto__nombre_corto');
+                  consultarContratos('', 'contacto__nombre_corto__icontains');
                   NombreDropdown.open()
                 "
                 placeholder="Buscar contrato..."
@@ -264,8 +264,8 @@
                     ngbDropdownItem
                     (click)="modificarCampoFormulario('contrato', contrato)"
                   >
-                    {{ contrato.contrato_contacto_numero_identificacion }}
-                    {{ contrato.contrato_contacto_nombre_corto }}
+                    {{ contrato.contacto__numero_identificacion }}
+                    {{ contrato.contacto__nombre_corto }}
                   </button>
                 </ng-container>
                 } @else { @if (cargandoEmpleados$ | async) {
@@ -286,8 +286,8 @@
           ></label>
           <ng-select
             [items]="arrConceptosAdicional()"
-            bindLabel="concepto_nombre"
-            bindValue="concepto_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="concepto"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"

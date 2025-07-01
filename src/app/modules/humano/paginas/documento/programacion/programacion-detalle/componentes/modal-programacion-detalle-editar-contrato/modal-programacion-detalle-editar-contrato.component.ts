@@ -3,11 +3,8 @@ import {
   Component,
   EventEmitter,
   inject,
-  Inject,
   Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
+  Output
 } from '@angular/core';
 import {
   FormBuilder,
@@ -23,6 +20,10 @@ import { ProgramacionDetalleRegistro } from '@interfaces/humano/programacion';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-modal-programacion-detalle-editar-contrato',
@@ -32,7 +33,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export class ModalProgramacionDetalleEditarContratoComponent extends General {
   formularioEditarDetalleProgramacion: FormGroup;
-  arrParametrosConsultaDetalle: any;
+  arrParametrosConsultaDetalle: ParametrosApi = {};
 
   private _modalService = inject(NgbModal);
   private _formBuilder = inject(FormBuilder);
@@ -90,21 +91,9 @@ export class ModalProgramacionDetalleEditarContratoComponent extends General {
 
   inicializarParametrosConsultaProgramacionDetalleEditar() {
     this.arrParametrosConsultaDetalle = {
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.detalle,
-        },
-        {
-          propiedad: 'id',
-          valor1: this.programacionDetalleId,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumProgramacionDetalle',
+      programacion_id: this.detalle,
+      id: this.programacionDetalleId,
+      limit: 100,
     };
   }
 
@@ -113,7 +102,7 @@ export class ModalProgramacionDetalleEditarContratoComponent extends General {
       this._programacionDetalleService
         .actualizarDetalles(
           this.programacionDetalleId,
-          this.formularioEditarDetalleProgramacion.value
+          this.formularioEditarDetalleProgramacion.value,
         )
         .subscribe(() => {
           this._alertaService.mensajaExitoso('Se actualizó la información');
@@ -125,14 +114,13 @@ export class ModalProgramacionDetalleEditarContratoComponent extends General {
 
   consultarRegistroDetalleProgramacion() {
     this._generalService
-      .consultarDatosLista<{
-        registros: ProgramacionDetalleRegistro[];
-        cantidad_registros: number;
-      }>(this.arrParametrosConsultaDetalle)
+      .consultaApi<
+        RespuestaApi<ProgramacionDetalleRegistro>
+      >('humano/programacion_detalle/', this.arrParametrosConsultaDetalle)
       .subscribe((respuesta) => {
-        if (respuesta.registros.length) {
-          const { registros } = respuesta;
-          const registro = registros?.[0];
+        if (respuesta.results.length) {
+          const { results } = respuesta;
+          const registro = results?.[0];
           this.formularioEditarDetalleProgramacion.patchValue({
             programacion: this.programacionId,
             diurna: registro.diurna,

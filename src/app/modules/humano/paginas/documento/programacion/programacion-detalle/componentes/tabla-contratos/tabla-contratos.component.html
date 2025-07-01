@@ -1,16 +1,21 @@
 <div>
-  <app-base-filtro
+  <!-- <app-base-filtro
     (emitirFiltros)="obtenerFiltrosContratos($event)"
     [localstorageKey]="'tabla_contratos'"
     [_tipo]="'DOCUMENTO'"
-  ></app-base-filtro>
+  ></app-base-filtro> -->
+  <app-filtro
+    (filtersApply)="filterChange($event)"
+    [availableFields]="PROGRAMACION_DETALLE_FILTERS"
+    [localStorageKey]="'documento_programacion'"
+  ></app-filtro>
 </div>
 <div class="d-flex justify-content-between my-4">
-  <app-comun-paginador
-    [cantidadRegistros]="cantidadRegistros()"
-    (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-    (emitirPaginacion)="cambiarPaginacion($event)"
-  ></app-comun-paginador>
+  <app-paginador
+    [currentPage]="currentPage()"
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="cantidadRegistros()"
+  ></app-paginador>
   <div class="btn-group" role="group">
     <div class="btn-group" ngbDropdown #OpcionesDropdown="ngbDropdown">
       <button
@@ -41,11 +46,12 @@
       class="btn btn-sm btn-primary"
     >
       @if (cargandoContratos()) {
-      <div class="spinner-border spinner-border-sm" role="status">
-        <span class="sr-only">Cargando...</span>
-      </div>
-      Cargando... } @else {
-      {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
+        <div class="spinner-border spinner-border-sm" role="status">
+          <span class="sr-only">Cargando...</span>
+        </div>
+        Cargando...
+      } @else {
+        {{ "FORMULARIOS.BOTONES.COMUNES.CARGARCONTRATOS" | translate }}
       }
     </button>
 
@@ -59,16 +65,20 @@
   </div>
 </div>
 
-@switch (programacion.pago_tipo_id) { @case (2) {
-<app-tabla-encabezado-prima
-  [programacion]="programacion"
-></app-tabla-encabezado-prima>
-} @case (3) {
-<app-tabla-encabezado-cesantia
-  [programacion]="programacion"
-></app-tabla-encabezado-cesantia>
-} @default {
-<app-tabla-encabezado-general
-  [programacion]="programacion"
-></app-tabla-encabezado-general>
-} }
+@switch (programacion.pago_tipo_id) {
+  @case (2) {
+    <app-tabla-encabezado-prima
+      [programacion]="programacion"
+    ></app-tabla-encabezado-prima>
+  }
+  @case (3) {
+    <app-tabla-encabezado-cesantia
+      [programacion]="programacion"
+    ></app-tabla-encabezado-cesantia>
+  }
+  @default {
+    <app-tabla-encabezado-general
+      [programacion]="programacion"
+    ></app-tabla-encabezado-general>
+  }
+}

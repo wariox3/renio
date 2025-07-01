@@ -14,6 +14,10 @@ import { ModalProgramacionDetalleAdicionalComponent } from '../modal-programacio
 import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalProgramacionEditarAdicionalComponent } from '../modal-programacion-editar-adiciona/modal-programacion-editar-adicional.component';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-tabla-adicionales',
@@ -32,7 +36,7 @@ import { ModalProgramacionEditarAdicionalComponent } from '../modal-programacion
 export class TablaAdicionalesComponent extends General {
   registrosAEliminar = signal<number[]>([]);
   arrProgramacionAdicional = signal<RespuestaProgramacionDetalleAdicionales[]>(
-    []
+    [],
   );
   isCheckedSeleccionarTodos = signal(false);
   arrParametrosConsultaAdicionalEditar = signal<ParametrosFiltros>({
@@ -43,13 +47,8 @@ export class TablaAdicionalesComponent extends General {
     modelo: 'HumProgramacionDetalle',
     filtros: [],
   });
-  arrParametrosConsulta = signal<ParametrosFiltros>({
-    limite: 0,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'HumProgramacionDetalle',
-    filtros: [],
+  arrParametrosConsulta = signal<ParametrosApi>({
+    // modelo: 'HumProgramacionDetalle',
   });
 
   private _generalService = inject(GeneralService);
@@ -89,7 +88,7 @@ export class TablaAdicionalesComponent extends General {
     periodo_nombre: '',
     pago_prima: false,
     pago_interes: false,
-    pago_cesantia: false
+    pago_cesantia: false,
   };
   @ViewChild(ModalProgramacionDetalleAdicionalComponent)
   modalProgramacionDetalleAdicionalComponent: ModalProgramacionDetalleAdicionalComponent;
@@ -99,17 +98,19 @@ export class TablaAdicionalesComponent extends General {
   consultarDatos() {
     this.isCheckedSeleccionarTodos.set(false);
     this.store.dispatch(
-      asignarArchivoImportacionDetalle({ detalle: 'HumAdicional.xlxs' })
+      asignarArchivoImportacionDetalle({ detalle: 'HumAdicional.xlxs' }),
     );
     this.inicializarParametrosConsultaAdicional();
     this._generalService
-      .consultarDatosLista<ProgramacionAdicional>(this.arrParametrosConsulta())
+      .consultaApi<
+        RespuestaApi<RespuestaProgramacionDetalleAdicionales>
+      >('humano/adicional/', this.arrParametrosConsulta())
       .subscribe((respuesta) => {
         this.arrProgramacionAdicional.set(
-          respuesta.registros.map((registro) => ({
+          respuesta.results.map((registro) => ({
             ...registro,
             selected: false,
-          }))
+          })),
         );
         this.changeDetectorRef.detectChanges();
       });
@@ -117,17 +118,9 @@ export class TablaAdicionalesComponent extends General {
 
   inicializarParametrosConsultaAdicional() {
     this.arrParametrosConsulta.set({
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumAdicional',
+      programacion_id: this.programacion.id,
+      limit: 1000,
+      // modelo: 'HumAdicional',
     });
   }
 
@@ -184,7 +177,7 @@ export class TablaAdicionalesComponent extends General {
           .pipe(
             finalize(() => {
               this.isCheckedSeleccionarTodos.set(false);
-            })
+            }),
           )
           .subscribe(() => {
             this.alertaService.mensajaExitoso('Registro eliminado');
@@ -194,22 +187,21 @@ export class TablaAdicionalesComponent extends General {
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No se han seleccionado registros para eliminar'
+        'No se han seleccionado registros para eliminar',
       );
     }
     this.registrosAEliminar.set([]);
   }
 
-  abrirModalNuevo(){
-    this.modalProgramacionEditarAdicionalComponent.abrirModalNuevo()
+  abrirModalNuevo() {
+    this.modalProgramacionEditarAdicionalComponent.abrirModalNuevo();
   }
 
-  abrirModalEditar(id: number){
-    this.modalProgramacionEditarAdicionalComponent.abrirModalEditar(id)
+  abrirModalEditar(id: number) {
+    this.modalProgramacionEditarAdicionalComponent.abrirModalEditar(id);
   }
 
-  abrirModalDetalle(id: number){
-    this.modalProgramacionDetalleAdicionalComponent.abrirModal(id)
-
+  abrirModalDetalle(id: number) {
+    this.modalProgramacionDetalleAdicionalComponent.abrirModal(id);
   }
 }

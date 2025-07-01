@@ -25,11 +25,11 @@
         "
       >
         @if (generando) {
-        <div class="spinner-border spinner-border-sm mx-4" role="status">
-          <span class="sr-only">Generando...</span>
-        </div>
+          <div class="spinner-border spinner-border-sm mx-4" role="status">
+            <span class="sr-only">Generando...</span>
+          </div>
         } @else {
-        {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
+          {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
         }
       </button>
       <button
@@ -68,13 +68,13 @@
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
           <button
-          [disabled]="!programacion.estado_aprobado"
-          ngbDropdownItem
-          (click)="confirmarDesaprobarDocumento()"
-        >
-          Desaprobar
-        </button>
-        <div class="dropdown-divider"></div>
+            [disabled]="!programacion.estado_aprobado"
+            ngbDropdownItem
+            (click)="confirmarDesaprobarDocumento()"
+          >
+            Desaprobar
+          </button>
+          <div class="dropdown-divider"></div>
           <button
             ngbDropdownItem
             (click)="desgenerar()"
@@ -85,28 +85,29 @@
             "
           >
             @if (desgenerando) {
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="sr-only">Desgenerando...</span>
-            </div>
-            Desgenerando... } @else {
-            {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Desgenerando...</span>
+              </div>
+              Desgenerando...
+            } @else {
+              {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
             }
           </button>
-          @if(programacion.estado_aprobado){
-          <button
-            (click)="notificar()"
-            ngbDropdownItem
-            [disabled]="notificando"
-          >
-            @if(notificando){
-            <div class="spinner-border spinner-border-sm" role="status">
-              <span class="sr-only"></span>
-            </div>
-            {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICANDO" | translate }}
-            }@else {
-            {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICAR" | translate }}
-            }
-          </button>
+          @if (programacion.estado_aprobado) {
+            <button
+              (click)="notificar()"
+              ngbDropdownItem
+              [disabled]="notificando"
+            >
+              @if (notificando) {
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only"></span>
+                </div>
+                {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICANDO" | translate }}
+              } @else {
+                {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICAR" | translate }}
+              }
+            </button>
           }
         </div>
       </div>
@@ -146,7 +147,9 @@
 
 <app-card>
   <section card-titulo>
-    <app-comun-titulo-accion [nombreModelo]="'programacion'"></app-comun-titulo-accion>
+    <app-comun-titulo-accion
+      [nombreModelo]="'programacion'"
+    ></app-comun-titulo-accion>
   </section>
   <section card-body>
     <app-tabla-resumen [programacion]="programacion" />
@@ -243,14 +246,13 @@
       [configuracionCargarArchivo]="{
         endpoint: 'humano/programacion/importar_horas/',
         datosOpcionalesPayload: {
-          programacion_id: programacion.id
-        }
+          programacion_id: programacion.id,
+        },
       }"
       [configuracionDescargarEjemplo]="{
         modelo: 'HumProgramacionDetalle',
         serializador: 'ImportarHoras',
         filtros: [{ propiedad: 'programacion_id', valor1: programacion.id }],
-        ordenamientos: arrParametrosConsulta.ordenamientos
       }"
     />
   </div>

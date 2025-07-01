@@ -25,7 +25,6 @@ import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
 import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   ProgramacionDetalleRegistro,
@@ -46,7 +45,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import {
-  asyncScheduler,
   BehaviorSubject,
   debounceTime,
   distinctUntilChanged,
@@ -56,14 +54,18 @@ import {
   Subject,
   switchMap,
   tap,
-  throttleTime,
 } from 'rxjs';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { TablaAdicionalesComponent } from './componentes/tabla-adicionales/tabla-adicionales.component';
 import { TablaContratosService } from './componentes/tabla-contratos/services/tabla-contratos.service';
 import { TablaContratosComponent } from './componentes/tabla-contratos/tabla-contratos.component';
 import { TablaResumenComponent } from './componentes/tabla-resumen/tabla-resumen.component';
 import { FiltrosDetalleProgramacionContratos } from './constantes';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Component({
   selector: 'app-programacion-detalle',
@@ -95,6 +97,7 @@ export default class ProgramacionDetalleComponent
 {
   private _descargarArchivosService = inject(DescargarArchivosService);
   private _tablaContratosService = inject(TablaContratosService);
+  private _filterTransformerService = inject(FilterTransformerService);
 
   active: Number;
   programacion: ProgramacionRespuesta = {
@@ -135,12 +138,18 @@ export default class ProgramacionDetalleComponent
   };
   pago: any = {};
   pagoDetalles: any = [];
-  arrParametrosConsulta: ParametrosFiltros;
-  arrParametrosConsultaAdicionalEditar: ParametrosFiltros;
-  arrParametrosConsultaDetalle: any;
-  arrParametrosConsultaAdicional: ParametrosFiltros;
+
+  // TODO: refactorizar
+  parametrosApi: ParametrosApi = {
+    ordering: '',
+  };
+  arrParametrosConsultaAdicionalEditar: ParametrosApi = {};
+  arrParametrosConsultaDetalle: ParametrosApi = {};
   arrProgramacionDetalle: TablaRegistroLista[] = [];
   arrProgramacionAdicional: any;
+  ordenadoTabla: string = '';
+  // TODO: refactorizar
+
   formularioAdicionalProgramacion: FormGroup;
   formularioEditarDetalleProgramacion: FormGroup;
   arrConceptos: any[] = [];
@@ -156,7 +165,6 @@ export default class ProgramacionDetalleComponent
   desgenerando: boolean = false;
   notificando: boolean = false;
   arrConceptosAdicional: RegistroAutocompletarHumConceptoAdicional[] = [];
-  ordenadoTabla: string = '';
   visualizarBtnGuardarNominaProgramacionDetalleResumen = signal(false);
   cantidadRegistrosProgramacionDetalle = 0;
 
@@ -226,11 +234,11 @@ export default class ProgramacionDetalleComponent
         }),
         switchMap(() =>
           this._tablaContratosService.consultarListaContratos(
-            this.arrParametrosConsulta,
+            this.parametrosApi,
           ),
         ),
-        map((respuesta: any) =>
-          respuesta.registros.map((registro: TablaRegistroLista) => ({
+        map((respuesta) =>
+          respuesta.results.map((registro) => ({
             ...registro,
             selected: false,
           })),
@@ -254,106 +262,39 @@ export default class ProgramacionDetalleComponent
   }
 
   inicializarParametrosConsulta() {
-    this.arrParametrosConsulta = {
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.detalle,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: ['contrato_id'],
-      limite_conteo: 10000,
-      modelo: 'HumProgramacionDetalle',
+    this.parametrosApi = {
+      programacion_id: this.detalle,
+      ordering: 'contrato_id',
+      limit: 1000,
     };
     const filtroDetalleContratos = localStorage.getItem(
       `documento_programacion`,
     );
+
     if (filtroDetalleContratos !== null) {
-      let filtroPermamente = JSON.parse(filtroDetalleContratos);
-      this.arrParametrosConsulta.filtros = [
-        ...this.arrParametrosConsulta.filtros,
-        ...filtroPermamente,
-      ];
+      const filtroTransformado = this._filterTransformerService.transformToApiParams(JSON.parse(filtroDetalleContratos))
+      this.parametrosApi = {
+        ...this.parametrosApi,
+        ...filtroTransformado
+      }
     }
-
+      
     this.changeDetectorRef.detectChanges();
-  }
-
-  inicializarParametrosConsultaProgramacionDetalle(id: number) {
-    this.arrParametrosConsulta = {
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.programacion.id,
-        },
-        {
-          propiedad: 'id',
-          valor1: id,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumProgramacionDetalle',
-    };
   }
 
   inicializarParametrosConsultaProgramacionDetalleEditar(id: number) {
     this.arrParametrosConsultaDetalle = {
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.programacion.id,
-        },
-        {
-          propiedad: 'id',
-          valor1: id,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumProgramacionDetalle',
+      programacion_id: this.programacion.id,
+      id: id,
+      limit: 100,
     };
   }
 
   inicializarParametrosConsultaAdicionalDetalle(id: number) {
     this.arrParametrosConsultaAdicionalEditar = {
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.programacion.id,
-        },
-        {
-          propiedad: 'id',
-          valor1: id,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumAdicional',
-    };
-  }
-
-  inicializarParametrosConsultaAdicional() {
-    this.arrParametrosConsultaAdicional = {
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumAdicional',
+      programacion_id: this.programacion.id,
+      id,
+      limit: 100,
     };
   }
 
@@ -521,18 +462,14 @@ export default class ProgramacionDetalleComponent
 
   abrirModal(content: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>({
-        filtros: [
-          {
-            propiedad: 'adicional',
-            valor1: true,
-          },
-        ],
-        modelo: 'HumConcepto',
-        serializador: 'ListaAutocompletar',
-      })
-      .subscribe((respuesta: any) => {
-        this.arrConceptosAdicional = respuesta.registros;
+      .consultaApi<RegistroAutocompletarHumConceptoAdicional[]>(
+        'humano/concepto/seleccionar/',
+        {
+          adicional: 'True',
+        },
+      )
+      .subscribe((respuesta) => {
+        this.arrConceptosAdicional = respuesta;
         this.changeDetectorRef.detectChanges();
       });
     this.modalService.open(content, {
@@ -570,18 +507,14 @@ export default class ProgramacionDetalleComponent
 
   private _consultarConceptosAdicionales() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>({
-        filtros: [
-          {
-            propiedad: 'adicional',
-            valor1: true,
-          },
-        ],
-        modelo: 'HumConcepto',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarHumConceptoAdicional[]>(
+        'humano/concepto/seleccionar/',
+        {
+          adicional: 'True',
+        },
+      )
       .subscribe((respuesta: any) => {
-        this.arrConceptosAdicional = respuesta.registros;
+        this.arrConceptosAdicional = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -611,14 +544,13 @@ export default class ProgramacionDetalleComponent
 
   consultarRegistroDetalleProgramacion() {
     this._generalService
-      .consultarDatosLista<{
-        registros: ProgramacionDetalleRegistro[];
-        cantidad_registros: number;
-      }>(this.arrParametrosConsultaDetalle)
+      .consultaApi<
+        RespuestaApi<ProgramacionDetalleRegistro>
+      >('humano/programacion/detalle', this.arrParametrosConsultaDetalle)
       .subscribe((respuesta) => {
-        if (respuesta.registros.length) {
-          const { registros } = respuesta;
-          const registro = registros?.[0];
+        if (respuesta.results.length) {
+          const { results } = respuesta;
+          const registro = results?.[0];
           this.formularioEditarDetalleProgramacion.patchValue({
             programacion: this.programacion.id,
             diurna: registro.diurna,
@@ -658,14 +590,13 @@ export default class ProgramacionDetalleComponent
 
   consultarRegistroDetalleAdicional() {
     this._generalService
-      .consultarDatosLista<{
-        registros: any[];
-        cantidad_registros: number;
-      }>(this.arrParametrosConsultaAdicionalEditar)
+      .consultaApi<
+        RespuestaApi<any>
+      >('humano/adicional/seleccionar/', this.arrParametrosConsultaAdicionalEditar)
       .subscribe((respuesta) => {
-        if (respuesta.registros.length) {
-          const { registros } = respuesta;
-          const registro = registros[0];
+        if (respuesta.results.length) {
+          const { results } = respuesta;
+          const registro = results[0];
           this.formularioAdicionalProgramacion.patchValue({
             identificacion: registro.contrato_contacto_numero_identificacion,
             concepto: registro.concepto_id,
@@ -718,29 +649,16 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarConceptos(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumConcepto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>(
-        arrFiltros,
+      .consultaApi<RegistroAutocompletarHumConceptoAdicional[]>(
+        'humano/concepto/seleccionar/',
+        {
+          nombre__icontains: `${event?.target.value}`,
+        },
       )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrConceptos = respuesta.registros;
+          this.arrConceptos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -748,49 +666,32 @@ export default class ProgramacionDetalleComponent
   }
 
   consultarContratosPorNombre(valor: string) {
-    let filtros: Filtros[] = [];
+    let parametros: ParametrosApi = {};
 
     if (!valor.length) {
-      filtros = [
-        {
-          ...filtros,
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${valor}`,
-        },
-      ];
+      parametros = {
+        ...parametros,
+        contacto__nombre_corto__icontains: `${valor}`,
+      };
     } else if (isNaN(Number(valor))) {
-      filtros = [
-        {
-          ...filtros,
-          propiedad: 'contacto__nombre_corto__icontains',
-          valor1: `${valor}`,
-        },
-      ];
+      parametros = {
+        ...parametros,
+        contacto__nombre_corto__icontains: `${valor}`,
+      };
     } else {
-      filtros = [
-        {
-          ...filtros,
-          propiedad: 'contacto__numero_identificacion__icontains',
-          valor1: `${Number(valor)}`,
-        },
-      ];
+      parametros = {
+        ...parametros,
+        contacto__numero_identificacion__icontains: `${Number(valor)}`,
+      };
     }
 
-    let arrFiltros: ParametrosFiltros = {
-      filtros,
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumContrato',
-      serializador: 'ListaAutocompletar',
-    };
-
     return this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
+      .consultaApi<
+        RegistroAutocompletarHumContrato[]
+      >('humano/contrato/seleccionar/', parametros)
       .pipe(
         tap((respuesta) => {
-          this.arrContratos = respuesta.registros;
+          this.arrContratos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
         finalize(() => this.cargandoEmpleados$.next(false)),
@@ -799,26 +700,16 @@ export default class ProgramacionDetalleComponent
 
   consultarContratos(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad,
-          valor1: valor,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumContrato',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumContrato>(arrFiltros)
+      .consultaApi<RegistroAutocompletarHumContrato[]>(
+        'humano/contrato/seleccionar/',
+        {
+          [propiedad]: valor,
+        },
+      )
       .pipe(
         tap((respuesta) => {
-          this.arrContratos = respuesta.registros;
+          this.arrContratos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
         finalize(() => this.cargandoEmpleados$.next(false)),
@@ -1016,49 +907,31 @@ export default class ProgramacionDetalleComponent
 
   consultarNominaProgramacionDetalleResumen() {
     this._generalService
-      .consultarDatosLista<{ cantidad_registros: number; registros: any[] }>({
-        filtros: [
-          {
-            propiedad: 'programacion_detalle_id',
-            valor1: this.registroSeleccionado,
-          },
-        ],
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenDocumento',
+      .consultaApi<RespuestaApi<any>>('general/documento/', {
+        programacion_detalle_id: this.registroSeleccionado,
       })
       .pipe(
         switchMap((respuestaLista) => {
-          this.pago = respuestaLista.registros[0];
+          this.pago = respuestaLista.results[0];
 
-          return this._generalService.consultarDatosLista<{
-            cantidad_registros: number;
-            registros: any[];
-          }>({
-            filtros: [
-              {
-                propiedad: 'documento_id',
-                valor1: respuestaLista.registros[0].id,
-              },
-            ],
-            desplazar: 0,
-            ordenamientos: [],
-            limite_conteo: 10000,
-            modelo: 'GenDocumentoDetalle',
-          });
+          return this._generalService.consultaApi<RespuestaApi<any>>(
+            'general/documento_detalle/',
+            {
+              documento_id: respuestaLista.results[0].id,
+            },
+          );
         }),
         map((respuestaDetalle) => {
-          let registros = respuestaDetalle.registros.map((registro) => ({
+          let registros = respuestaDetalle.results.map((registro) => ({
             ...registro,
             editarLinea: false, // Campo booleano inicializado como falso
           }));
-          respuestaDetalle.registros = registros;
+          respuestaDetalle.results = registros;
           return respuestaDetalle;
         }),
         tap((respuestaDetalle) => {
-          this.cantidadRegistrosProgramacionDetalle =
-            respuestaDetalle.cantidad_registros;
-          this.pagoDetalles = respuestaDetalle.registros;
+          this.cantidadRegistrosProgramacionDetalle = respuestaDetalle.count;
+          this.pagoDetalles = respuestaDetalle.results;
         }),
       )
       .subscribe();
@@ -1088,13 +961,15 @@ export default class ProgramacionDetalleComponent
     const filtroDetalleContratos = localStorage.getItem(
       `documento_programacion`,
     );
-    if (filtroDetalleContratos !== null) {
-      let filtroPermamente = JSON.parse(filtroDetalleContratos);
-      params.filtros = [
-        ...this.arrParametrosConsulta.filtros,
-        ...filtroPermamente,
-      ];
-    }
+
+    // TODO: Ajustar a nueva implementacion
+    // if (filtroDetalleContratos !== null) {
+    //   let filtroPermamente = JSON.parse(filtroDetalleContratos);
+    //   params.filtros = [
+    //     ...this.arrParametrosConsulta.filtros,
+    //     ...filtroPermamente,
+    //   ];
+    // }
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
     this.dropdown.close();
@@ -1143,16 +1018,18 @@ export default class ProgramacionDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  orderPor(nombre: string, i: number) {
-    if (this.ordenadoTabla.charAt(0) == '-') {
-      this.ordenadoTabla = nombre.toLowerCase();
-    } else {
-      this.ordenadoTabla = `-${nombre.toLowerCase()}`;
-    }
-    this.arrParametrosConsulta.ordenamientos[i] = this.ordenadoTabla;
-    this.consultarDatos();
-    this.changeDetectorRef.detectChanges();
-  }
+  // orderPor(nombre: string, i: number) {
+  //   if (this.ordenadoTabla.charAt(0) == '-') {
+  //     this.ordenadoTabla = nombre.toLowerCase();
+  //   } else {
+  //     this.ordenadoTabla = `-${nombre.toLowerCase()}`;
+  //   }
+
+  //   // TODO: Ajustar a nueva implementacion
+  //   // this.arrParametrosConsulta.ordenamientos[i] = this.ordenadoTabla;
+  //   this.consultarDatos();
+  //   this.changeDetectorRef.detectChanges();
+  // }
 
   notificar() {
     this.notificando = true;
@@ -1207,31 +1084,34 @@ export default class ProgramacionDetalleComponent
     };
   }
 
-  obtenerFiltrosContratos(data: any[]) {
-    this.inicializarParametrosConsulta();
-    if (data.length > 0) {
-      this.arrParametrosConsulta.filtros = [
-        ...this.arrParametrosConsulta.filtros,
-        ...data,
-      ];
-    } else {
-      this.inicializarParametrosConsulta();
-    }
-    this.changeDetectorRef.detectChanges();
-    this.consultarDatos();
-  }
+  // obtenerFiltrosContratos(data: any[]) {
+  //   this.inicializarParametrosConsulta();
+  //   if (data.length > 0) {
+  //     // TODO: Ajustar a nueva implementacion
+  //     // this.arrParametrosConsulta.filtros = [
+  //     //   ...this.arrParametrosConsulta.filtros,
+  //     //   ...data,
+  //     // ];
+  //   } else {
+  //     this.inicializarParametrosConsulta();
+  //   }
+  //   this.changeDetectorRef.detectChanges();
+  //   this.consultarDatos();
+  // }
 
-  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.changeDetectorRef.detectChanges();
-    this.consultarDatos();
-  }
+  // cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+  //   // TODO: Ajustar a nueva implementacion
+  //   // this.arrParametrosConsulta.limite = data.desplazamiento;
+  //   // this.arrParametrosConsulta.desplazar = data.limite;
+  //   this.changeDetectorRef.detectChanges();
+  //   this.consultarDatos();
+  // }
 
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
-    this.consultarDatos();
-  }
+  // cambiarDesplazamiento(desplazamiento: number) {
+  //   // TODO: Ajustar a nueva implementacion
+  //   // this.arrParametrosConsulta.desplazar = desplazamiento;
+  //   this.consultarDatos();
+  // }
 
   confirmarDesaprobarDocumento() {
     this.alertaService

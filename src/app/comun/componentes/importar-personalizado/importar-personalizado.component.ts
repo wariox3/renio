@@ -66,7 +66,7 @@ export class ImportarPersonalizadoComponent
     modelo: string;
     serializador: string;
     filtros: Filtros[];
-    ordenamientos: string[];
+    ordenamientos?: string[];
   };
 
   @Output() emitirPeticionCompletada: EventEmitter<any> = new EventEmitter();

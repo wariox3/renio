@@ -168,7 +168,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   onPageChange(page: number): void {
-    this.currentPage.set(page);
+    this.currentPage.set(page); 
     this.emitirPaginacion.emit({
       desplazamiento: this.currentPage(),
       limite: this.registrosVisiables,
