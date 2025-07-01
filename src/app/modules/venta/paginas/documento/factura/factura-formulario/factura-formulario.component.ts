@@ -733,9 +733,6 @@ export default class FacturaDetalleComponent
         this.arrAsesor = respuesta.asesores;
         this.arrSede = respuesta.sedes;
         this.arrAlmacenes = respuesta.almacenes;
-
-        console.log(this.arrAlmacenes);
-
         if (!this.detalle) {
           this._initSugerencias();
         }

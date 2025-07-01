@@ -2,7 +2,9 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'cuentadecobro'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'cuentadecobro'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <!-- <app-factura-formulario-documento [formularioFactura]="formularioFactura"></app-factura-formulario-documento> -->
@@ -208,14 +210,13 @@
             </option>
             <option
               *ngFor="let plazoPago of arrPlazoPago"
-              [value]="plazoPago.plazo_pago_id"
+              [value]="plazoPago.id"
               [selected]="
-                plazoPago.plazo_pago_id ===
-                formularioFactura.controls.plazo_pago_id
+                plazoPago.id === formularioFactura.controls.plazo_pago_id
               "
               [attr.data-dias]="plazoPago.plazo_dias"
             >
-              {{ plazoPago.plazo_pago_nombre }}
+              {{ plazoPago.nombre }}
             </option>
           </select>
           <ng-container
@@ -255,13 +256,13 @@
             </option>
             <option
               *ngFor="let metodoPago of arrMetodosPago"
-              [value]="metodoPago.metodo_pago_id"
+              [value]="metodoPago.id"
               [selected]="
-                metodoPago.metodo_pago_id ===
+                metodoPago.id ===
                 formularioFactura.controls['metodo_pago'].value
               "
             >
-              {{ metodoPago.metodo_pogo_nombre }}
+              {{ metodoPago.nombre }}
             </option>
           </select>
           <ng-container
@@ -333,17 +334,16 @@
             </option>
             <option
               *ngFor="let sede of arrSede"
-              [value]="sede.sede_id"
+              [value]="sede.id"
               [selected]="
-                sede.sede_id === formularioFactura.controls.sede.value
+                sede.id === formularioFactura.controls.sede.value
               "
             >
-              {{ sede.sede_nombre }}
+              {{ sede.nombre }}
             </option>
           </select>
         </div>
       </div>
-
 
       <div class="row mb-5">
         <div
