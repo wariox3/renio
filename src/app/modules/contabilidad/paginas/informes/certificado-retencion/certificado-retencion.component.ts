@@ -25,6 +25,7 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
+import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 
 @Component({
   selector: 'app-certifiado-retencion',
@@ -37,6 +38,7 @@ import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuent
     TranslateModule,
     BtnExportarComponent,
     CuentasComponent,
+    ContactosComponent,
   ],
   templateUrl: './certificado-retencion.component.html',
   styleUrl: './certificado-retencion.component.scss',
@@ -56,6 +58,7 @@ export class CertificadoRetencionComponent extends General implements OnInit {
   public cuentaDesdeCodigo = signal<string>('');
   public cuentaHastaNombre = signal<string>('');
   public cuentaHastaCodigo = signal<string>('');
+  public contactoNombreCorto = signal<string>('');
   public cargandoCuentas = signal<boolean>(false);
   constructor() {
     super();
@@ -89,6 +92,7 @@ export class CertificadoRetencionComponent extends General implements OnInit {
         cuenta_con_movimiento: [false],
         cuenta_desde: [''],
         cuenta_hasta: [''],
+        contacto: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -164,23 +168,36 @@ export class CertificadoRetencionComponent extends General implements OnInit {
   }
 
   agregarCuentaDesdeSeleccionado(cuenta: {
-    cuenta_id: number;
-    cuenta_nombre: string;
-    cuenta_codigo: string;
+    id: number;
+    nombre: string;
+    codigo: string;
   }) {
-    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.cuenta_id);
-    this.cuentaDesdeNombre.set(cuenta.cuenta_nombre);
-    this.cuentaDesdeCodigo.set(cuenta.cuenta_codigo);
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.cuentaDesdeNombre.set(cuenta.nombre);
+    this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
 
   agregarCuentaHastaSeleccionado(cuenta: {
-    cuenta_id: number;
-    cuenta_nombre: string;
-    cuenta_codigo: string;
+    id: number;
+    nombre: string;
+    codigo: string;
   }) {
-    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.cuenta_id);
-    this.cuentaHastaNombre.set(cuenta.cuenta_nombre);
-    this.cuentaHastaCodigo.set(cuenta.cuenta_codigo);
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.cuentaHastaNombre.set(cuenta.nombre);
+    this.cuentaHastaCodigo.set(cuenta.codigo);
+  }
+
+  agregarContactoSeleccionado(contacto: {
+    id: number;
+    nombre_corto: string;
+    numero_identificacion: string;
+    plazo_pago__dias: number;
+    plazo_pago_id: number;
+    plazo_pago_proveedor__dias: number;
+    plazo_pago_proveedor_id: number;
+  }) {
+    this.formularioFiltros.get('contacto')?.setValue(contacto.id);
+    this.contactoNombreCorto.set(contacto.nombre_corto);
   }
 }
 
