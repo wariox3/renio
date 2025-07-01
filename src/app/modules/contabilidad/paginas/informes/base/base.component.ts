@@ -17,13 +17,12 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
-import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-base',
@@ -35,6 +34,7 @@ import { HttpService } from '@comun/services/http.service';
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
+    CuentasComponent,
   ],
   templateUrl: './base.component.html',
   styleUrl: './base.component.scss',
@@ -43,14 +43,16 @@ import { HttpService } from '@comun/services/http.service';
 export class BaseComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
-  private _httpService = inject(HttpService);
   private _descargarArchivosService = inject(DescargarArchivosService);
-
   public cuentasAgrupadas: MovimientoBalancePruebaTercero[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
   public cargandoCuentas = signal<boolean>(false);
+  public cuentaDesdeCodigo = signal<string>('');
+  public cuentaHastaNombre = signal<string>('');
+  public cuentaHastaCodigo = signal<string>('');
+  public cuentaDesdeNombre = signal<string>('');
 
   constructor() {
     super();
@@ -82,6 +84,8 @@ export class BaseComponent extends General implements OnInit {
         fecha_hasta: [lastDayOfMonth, Validators.required],
         incluir_cierre: [false],
         cuenta_con_movimiento: [false],
+        cuenta_desde: [''],
+        cuenta_hasta: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -140,6 +144,26 @@ export class BaseComponent extends General implements OnInit {
       }
       return null;
     };
+  }
+
+  agregarCuentaDesdeSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.cuentaDesdeNombre.set(cuenta.nombre);
+    this.cuentaDesdeCodigo.set(cuenta.codigo);
+  }
+
+  agregarCuentaHastaSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.cuentaHastaNombre.set(cuenta.nombre);
+    this.cuentaHastaCodigo.set(cuenta.codigo);
   }
 }
 

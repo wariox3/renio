@@ -17,6 +17,8 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
@@ -24,8 +26,6 @@ import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/con
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
-import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
-import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 
 @Component({
   selector: 'app-certifiado-retencion',
