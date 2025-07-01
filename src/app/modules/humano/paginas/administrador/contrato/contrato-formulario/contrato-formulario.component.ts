@@ -279,31 +279,55 @@ export default class ContratoFormularioComponent
     zip(
       this._generalService.consultaApi<RegistroAutocompletarHumGrupo[]>(
         'humano/grupo/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumContratoTipo[]>(
         'humano/contrato_tipo/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumRiesgo[]>(
         'humano/riesgo/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumPension[]>(
         'humano/pension/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumSubtipoCotizante[]>(
         'humano/subtipo_cotizante/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumSalud[]>(
         'humano/salud/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumSucursal[]>(
         'humano/sucursal/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumTipoCotizante[]>(
         'humano/tipo_cotizante/seleccionar/',
+          {
+            limit: 100
+          }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumCargo[]>(
         'humano/cargo/seleccionar/',
-      ),
+        ),
       this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
         'humano/entidad/seleccionar/',
         {
@@ -334,9 +358,15 @@ export default class ContratoFormularioComponent
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumTiempo[]>(
         'humano/tiempo/seleccionar/',
+        {
+          limit: 100
+        }
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumTipoCosto[]>(
         'humano/tipo_costo/seleccionar/',
+        {
+          limit: 100
+        }
       ),
     ).subscribe((respuesta) => {
       this.arrGrupo = respuesta[0];
@@ -354,8 +384,17 @@ export default class ContratoFormularioComponent
       this.arrEntidadCesantias = respuesta?.[12];
       this.autocompletarTiempo = respuesta?.[13];
       this.autocompletarTipoCosto = respuesta?.[14];
+      if (!this.detalle) {
+        this._sugerirPrimerValor();
+      }
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  private _sugerirPrimerValor() {
+    if (this.autocompletarTipoCotizante.length) {
+      this.formularioContrato.get('tipo_cotizante')?.setValue(this.autocompletarTipoCotizante[0].id);
+    }
   }
 
   consultarEmpleado(event: any) {
