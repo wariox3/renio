@@ -1,16 +1,3 @@
-<!-- <div class="filtros">
-  <ng-content select="[base-filtros]"></ng-content>
-  <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
-    <section card-body>
-      <app-base-filtro
-      (emitirFiltros)="obtenerFiltros($event)"
-      [localstorageKey]="filtroKey"
-      [_tipo]="'DOCUMENTO'"
-      ></app-base-filtro>
-    </section>
-  </app-card>
-</div> -->
-
 <app-card [titulo]="'Parámetros'">
   <section card-body>
     <form class="row g-4" [formGroup]="formularioFiltros">
@@ -36,7 +23,26 @@
         />
       </div>
 
-      <div class="col-12 col-md-6 col-lg-3"></div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <label class="form-label">Cuenta desde</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaDesdeCodigo()"
+            [cuentaNombre]="cuentaDesdeNombre()"
+            (emitirArrCuentas)="agregarCuentaDesdeSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <label class="form-label">Cuenta hasta</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaHastaCodigo()"
+            [cuentaNombre]="cuentaHastaNombre()"
+            (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
 
       <!-- Checkboxes -->
       <div class="col-12 col-md-6 d-flex flex-column justify-content-end">

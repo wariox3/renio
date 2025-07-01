@@ -17,6 +17,8 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
@@ -35,6 +37,8 @@ import { finalize } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
+    CuentasComponent,
+    ContactosComponent,
   ],
   templateUrl: './balance-prueba.component.html',
   styleUrl: './balance-prueba.component.scss',
@@ -51,7 +55,10 @@ export class BalancePruebaComponent extends General implements OnInit {
   public totalDebito: number = 0;
   public totalCredito: number = 0;
   public cargandoCuentas = signal<boolean>(false);
-
+  public cuentaDesdeNombre = signal<string>('');
+  public cuentaDesdeCodigo = signal<string>('');
+  public cuentaHastaNombre = signal<string>('');
+  public cuentaHastaCodigo = signal<string>('');
 
   constructor() {
     super();
@@ -83,6 +90,8 @@ export class BalancePruebaComponent extends General implements OnInit {
         fecha_hasta: [lastDayOfMonth, Validators.required],
         incluir_cierre: [false],
         cuenta_con_movimiento: [false],
+        cuenta_desde: [''],
+        cuenta_hasta: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -116,7 +125,6 @@ export class BalancePruebaComponent extends General implements OnInit {
     this.totalCredito = 0;
     this.totalDebito = 0;
   }
-
 
   imprimir() {
     this._httpService.descargarArchivo(
@@ -157,6 +165,27 @@ export class BalancePruebaComponent extends General implements OnInit {
   generar() {
     this._consultarInformes(this.formularioFiltros.value);
   }
+
+  agregarCuentaDesdeSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.cuentaDesdeNombre.set(cuenta.nombre);
+    this.cuentaDesdeCodigo.set(cuenta.codigo);
+  }
+
+  agregarCuentaHastaSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.cuentaHastaNombre.set(cuenta.nombre);
+    this.cuentaHastaCodigo.set(cuenta.codigo);
+  }
+
 }
 
 interface GenerarBalancePrueba {
