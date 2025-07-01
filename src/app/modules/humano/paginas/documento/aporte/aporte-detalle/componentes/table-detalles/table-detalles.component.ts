@@ -17,6 +17,10 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { PaginadorComponent } from '../../../../../../../../comun/componentes/paginador/paginador.component';
 import { FiltrosDetalleAporteDetalle } from '../../constantes';
 import { BaseFiltroComponent } from '../../../../../../../../comun/componentes/base-filtro/base-filtro.component';
+import { FiltroComponent } from '../../../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { ADICIONAL_DETALLE_FILTERS } from '@modulos/humano/domain/mapeo/adicional.mapeo';
 
 @Component({
   selector: 'app-table-detalles',
@@ -29,6 +33,7 @@ import { BaseFiltroComponent } from '../../../../../../../../comun/componentes/b
     SiNoPipe,
     NgbTooltipModule,
     BaseFiltroComponent,
+    FiltroComponent,
   ],
   templateUrl: './table-detalles.component.html',
 })
@@ -45,9 +50,10 @@ export class TableDetallesComponent extends General {
     filtros: [],
   });
   arrAporteDetalle = signal<RespuestaAporteDetalle[]>([]);
-
+  private _filterTransformerService = inject(FilterTransformerService);
   private _generalService = inject(GeneralService);
   private _descargarArchivosService = inject(DescargarArchivosService);
+  public filtrosContratos = ADICIONAL_DETALLE_FILTERS;
 
   @ViewChild('OpcionesDropdown', { static: true }) dropdown!: NgbDropdown;
 
@@ -58,16 +64,18 @@ export class TableDetallesComponent extends General {
 
   consultarDatos() {
     this._generalService
-      .consultarDatosLista<AporteDetalle>(this.arrParametrosConsulta())
-      .subscribe((respuesta) => {
-        this.cantidadRegistros.set(respuesta.cantidad_registros);
+      .consultaApi<AporteDetalle>('humano/aporte_detalle/', {
+        limit: 50,
+        aporte_contrato__aporte_id: this.detalle,
+      })
+      .subscribe((respuesta: any) => {
+        this.cantidadRegistros.set(respuesta.count);
         this.arrAporteDetalle.set(
-          respuesta.registros.map((registro: any) => ({
+          respuesta.results.map((registro: any) => ({
             ...registro,
             selected: false,
           })),
         );
-        this.changeDetectorRef.detectChanges();
       });
     this.store.dispatch(
       ActualizarMapeo({ dataMapeo: FiltrosDetalleAporteDetalle }),
@@ -75,20 +83,20 @@ export class TableDetallesComponent extends General {
   }
 
   inicializarParametrosConsulta() {
-    this.arrParametrosConsulta.set({
-      limite: 50,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 0,
-      modelo: 'HumAporteDetalle',
-      filtros: [
-        {
-          propiedad: 'aporte_contrato__aporte_id',
-          operador: 'exact',
-          valor1: this.detalle,
-        },
-      ],
-    });
+    // this.arrParametrosConsulta.set({
+    //   limite: 50,
+    //   desplazar: 0,
+    //   ordenamientos: [],
+    //   limite_conteo: 0,
+    //   modelo: 'HumAporteDetalle',
+    //   filtros: [
+    //     {
+    //       propiedad: 'aporte_contrato__aporte_id',
+    //       operador: 'exact',
+    //       valor1: this.detalle,
+    //     },
+    //   ],
+    // });
   }
 
   obtenerFiltros(data: any[]) {
@@ -133,5 +141,11 @@ export class TableDetallesComponent extends General {
 
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
     this.dropdown.close();
+  }
+
+  filterChange(filters: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+    this.consultarDatos();
   }
 }

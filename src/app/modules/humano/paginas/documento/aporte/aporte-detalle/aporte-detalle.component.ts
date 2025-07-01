@@ -16,6 +16,8 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { TablaRegistroLista } from '@interfaces/humano/programacion';
+import { CONTRATO_FILTERS } from '@modulos/humano/domain/mapeo/contrato.mapeo';
+import { RespuestaEncabezadoAporteDetalle } from '@modulos/humano/interfaces/aporte-detalle.interface';
 import { AporteService } from '@modulos/humano/servicios/aporte.service';
 import {
   NgbDropdown,
@@ -25,18 +27,19 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { finalize, of, switchMap, tap } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { TableDetallesComponent } from './componentes/table-detalles/table-detalles.component';
-import { BaseFiltroComponent } from '../../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { FiltrosDetalleAporteContratos } from './constantes';
-import { RespuestaEncabezadoAporteDetalle } from '@modulos/humano/interfaces/aporte-detalle.interface';
+import { finalize, of, switchMap, tap } from 'rxjs';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { BaseFiltroComponent } from '../../../../../../comun/componentes/base-filtro/base-filtro.component';
 import { PaginadorComponent } from '../../../../../../comun/componentes/paginador/paginador.component';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { FiltroComponent } from '../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { TableDetallesComponent } from './componentes/table-detalles/table-detalles.component';
 import { TableEntidadComponent } from './componentes/table-entidad/table-entidad.component';
+import { FiltrosDetalleAporteContratos } from './constantes';
 import { TablaEntidadService } from './services/tabla-entidad.service';
-import { DocumentoService } from '@comun/services/documento/documento.service';
+import { ADICIONAL_DETALLE_FILTERS } from '@modulos/humano/domain/mapeo/adicional.mapeo';
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -59,6 +62,7 @@ import { DocumentoService } from '@comun/services/documento/documento.service';
     BaseFiltroComponent,
     PaginadorComponent,
     TableEntidadComponent,
+    FiltroComponent,
   ],
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
@@ -68,8 +72,8 @@ export default class AporteDetalleComponent
   implements OnInit, OnDestroy
 {
   private readonly _tableEntidadService = inject(TablaEntidadService);
-  private readonly _documentoService = inject(DocumentoService);
-
+  private _filterTransformerService = inject(FilterTransformerService);
+  public filtrosContratos = ADICIONAL_DETALLE_FILTERS;
   active: Number;
   aporte: RespuestaEncabezadoAporteDetalle = {
     id: 0,
@@ -117,7 +121,7 @@ export default class AporteDetalleComponent
   registroSeleccionado: number;
   registroAdicionalSeleccionado: number;
   formularioAporteContrato: FormGroup;
-  parametrosConsultaContratos: ParametrosFiltros;
+  parametrosConsultaContratos: any = {};
   cantidadRegistros = signal(0);
 
   // Nos permite manipular el dropdown desde el codigo
@@ -145,21 +149,20 @@ export default class AporteDetalleComponent
   }
 
   inicializarParametrosConsulta() {
-    this.parametrosConsultaContratos = {
-      filtros: [
-        {
-          propiedad: 'aporte_id',
-          valor1: this.detalle,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: ['contrato_id'],
-      limite_conteo: 10000,
-      modelo: 'HumAporteContrato',
-    };
-
-    this.changeDetectorRef.detectChanges();
+    // this.parametrosConsultaContratos = {
+    //   filtros: [
+    //     {
+    //       propiedad: 'aporte_id',
+    //       valor1: this.detalle,
+    //     },
+    //   ],
+    //   limite: 1000,
+    //   desplazar: 0,
+    //   ordenamientos: ['contrato_id'],
+    //   limite_conteo: 10000,
+    //   modelo: 'HumAporteContrato',
+    // };
+    //this.changeDetectorRef.detectChanges();
   }
 
   consultarDatosDetalle() {
@@ -274,12 +277,15 @@ export default class AporteDetalleComponent
       });
   }
 
-  private _consultarContratos(filtros: ParametrosFiltros) {
+  private _consultarContratos(filtros: any) {
     this._generalService
-      .consultarDatosLista(filtros)
+      .consultaApi('humano/aporte_contrato/', {
+        aporte_id: this.detalle,
+        ...filtros
+      })
       .subscribe((respuesta: any) => {
         this.cantidadRegistros.set(respuesta.cantidad_registros);
-        this.arrAporteDetalle = respuesta.registros.map(
+        this.arrAporteDetalle = respuesta.results.map(
           (registro: TablaRegistroLista) => ({
             ...registro,
             selected: false,
@@ -469,5 +475,11 @@ export default class AporteDetalleComponent
         this.alertaService.mensajaExitoso('Documento desaprobado con exito!');
       },
     });
+  }
+
+  filterChange(filters: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+    this._consultarContratos(apiParams);
   }
 }
