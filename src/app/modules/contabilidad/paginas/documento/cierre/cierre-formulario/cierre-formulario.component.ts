@@ -292,13 +292,7 @@ export default class CierreFormularioComponent
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    if (campo === 'contacto') {
-      this.formularioCierre.get(campo)?.setValue(dato.id);
-      this.formularioCierre.get('contactoNombre')?.setValue(dato.nombre_corto);
-      this._actualizarDetallesContactoSinDocumentoAfectado();
-    }
-
-    if (campo === 'contacto-ver-mas') {
+    if (campo === 'contacto-ver-mas' || campo === 'contacto') {
       this.formularioCierre.get('contacto')?.setValue(dato.id);
       this.formularioCierre.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
@@ -307,26 +301,15 @@ export default class CierreFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>('general/contacto/seleccionar/', {
+        nombre_corto__icontains: `${event?.target.value}`,
+        limit: 10,
+      })
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContactos = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrContactos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -491,18 +474,14 @@ export default class CierreFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
+      this._generalService.consultaApi<RegistroAutocompletarConGrupo>(
+        'contabilidad/grupo/seleccionar/',
         {
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'ConGrupo',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-    ).subscribe((respuesta) => {
-      this.arrGrupo = respuesta[0].registros;
+    ).subscribe((respuesta: any) => {
+      this.arrGrupo = respuesta[0];
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -571,9 +550,9 @@ export default class CierreFormularioComponent
   agregarCuentaDesdeSeleccionado(cuenta: any) {
     this.formularioResultado
       .get('cuenta_desde_codigo')
-      ?.setValue(cuenta.cuenta_codigo);
-    this.cuentaDesdeNombre = cuenta.cuenta_nombre;
-    this.cuentaDesdeCodigo = cuenta.cuenta_codigo;
+      ?.setValue(cuenta.codigo);
+    this.cuentaDesdeNombre = cuenta.nombre;
+    this.cuentaDesdeCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -587,9 +566,9 @@ export default class CierreFormularioComponent
   agregarCuentaHastaSeleccionado(cuenta: any) {
     this.formularioResultado
       .get('cuenta_hasta_codigo')
-      ?.setValue(cuenta.cuenta_codigo);
-    this.cuentaHastaNombre = cuenta.cuenta_nombre;
-    this.cuentaHastaCodigo = cuenta.cuenta_codigo;
+      ?.setValue(cuenta.codigo);
+    this.cuentaHastaNombre = cuenta.nombre;
+    this.cuentaHastaCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -603,9 +582,9 @@ export default class CierreFormularioComponent
   agregarCuentaUtilidadSeleccionado(cuenta: any) {
     this.formularioResultado
       .get('cuenta_cierre_id')
-      ?.setValue(cuenta.cuenta_id);
-    this.cuentaUtilidadNombre = cuenta.cuenta_nombre;
-    this.cuentaUtilidadCodigo = cuenta.cuenta_codigo;
+      ?.setValue(cuenta.id);
+    this.cuentaUtilidadNombre = cuenta.nombre;
+    this.cuentaUtilidadCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 
