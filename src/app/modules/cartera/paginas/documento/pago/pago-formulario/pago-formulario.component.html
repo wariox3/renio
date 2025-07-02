@@ -1,4 +1,7 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
+  <pre>
+    {{formularioFactura.value | json}}
+  </pre>
   <app-comun-encabezado-formulario-nuevo
     [estadoAprobado]="estado_aprobado"
   ></app-comun-encabezado-formulario-nuevo>
@@ -249,7 +252,7 @@
                         <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
                         <th
-                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO'"
+                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO_NOMBRE'"
                         ></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
@@ -274,7 +277,7 @@
                           <td>
                             {{
                               detalle.value
-                                .documento_afectado_documento_tipo_nombre
+                                .documento_tipo__nombre
                             }}
                           </td>
                           <td>
@@ -282,7 +285,7 @@
                           </td>
                           <td>
                             @if (detalle.value.documento_afectado) {
-                              {{ detalle.value.contacto_nombre }}
+                              {{ detalle.value.contacto__nombre_corto }}
                             } @else {
                               <app-comun-contactos
                                 [contactoNombre]="detalle.value.contacto_nombre"
@@ -571,7 +574,7 @@
               {{ item["id"] }}
             </td>
             <td>
-              {{ item["documento_tipo_nombre"] }}
+              {{ item["documento_tipo__nombre"] }}
             </td>
             <td>
               {{ item["numero"] }}
@@ -583,7 +586,7 @@
               {{ item["fecha_vence"] }}
             </td>
             <td>
-              {{ item["contacto_nombre"] }}
+              {{ item["contacto__nombre_corto"] }}
             </td>
             <td class="text-end">
               {{ item["subtotal"] | number }}

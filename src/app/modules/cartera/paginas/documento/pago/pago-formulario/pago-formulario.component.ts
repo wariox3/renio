@@ -374,7 +374,6 @@ export default class PagoFormularioComponent
       serializador: 'adicionar',
     };
     if (this.mostrarTodosLosClientes()) {
-      filtros = this.arrFiltrosPermanenteAgregarDocumento;
       if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
         filtros = {
           ...filtros,
@@ -406,16 +405,16 @@ export default class PagoFormularioComponent
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
           contacto: documento.contacto_id,
-          contacto_nombre: documento.contacto_nombre_corto,
+          contacto__nombre_corto: documento.contacto__nombre_corto,
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
           total: documento.total,
           pendiente: documento.pendiente,
-          cuenta: documento.documento_tipo_cuenta_cobrar_id,
-          cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
+          cuenta: documento.documento_tipo__cuenta_cobrar_id,
+          cuenta_codigo: documento.documento_tipo__cuenta_cobrar__codigo,
           documento_tipo_operacion: documento.documento_tipo_operacion,
           documento_tipo: documento.documento_tipo,
-          documento_tipo_nombre: documento.documento_tipo_nombre,
+          documento_tipo__nombre: documento.documento_tipo__nombre,
           afectado: documento.afectado,
           naturaleza: 'C',
         }));
@@ -455,12 +454,12 @@ export default class PagoFormularioComponent
         id: [null],
         tipo_registro: ['C'],
         documento_afectado: [documentoSeleccionado.id],
-        documento_afectado_documento_tipo_nombre: [
-          documentoSeleccionado.documento_tipo_nombre,
+        documento_tipo__nombre: [
+          documentoSeleccionado.documento_tipo__nombre,
         ],
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
-        contacto_nombre: [documentoSeleccionado.contacto_nombre],
+        contacto__nombre_corto: [documentoSeleccionado.contacto__nombre_corto],
         precio: [documentoSeleccionado.pendiente],
         seleccionado: [false],
         cuenta: [documentoSeleccionado.cuenta],
