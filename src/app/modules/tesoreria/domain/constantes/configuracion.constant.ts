@@ -140,6 +140,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
               detalle: 'tesoreria/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              serializador: 'lista'
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {

@@ -139,6 +139,9 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
               detalle: 'cartera/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              serializador: 'lista'
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {

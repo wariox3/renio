@@ -251,6 +251,9 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               detalle: 'compra/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              serializador: 'lista'
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {
