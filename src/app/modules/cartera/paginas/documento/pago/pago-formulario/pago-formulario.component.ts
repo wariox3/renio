@@ -404,7 +404,7 @@ export default class PagoFormularioComponent
           numero: documento.numero,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
-          contacto: documento.contacto_id,
+          contacto: documento.contacto,
           contacto__nombre_corto: documento.contacto__nombre_corto,
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
