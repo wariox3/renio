@@ -35,7 +35,10 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
-import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { EgresoDocumentoAdicionar } from '@modulos/tesoreria/interfaces/egreso.interface';
@@ -61,8 +64,8 @@ import { EgresoDocumentoAdicionar } from '@modulos/tesoreria/interfaces/egreso.i
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
     SeleccionarGrupoComponent,
-    FiltroComponent
-],
+    FiltroComponent,
+  ],
 })
 export default class EgresoFormularioComponent
   extends General
@@ -358,31 +361,22 @@ export default class EgresoFormularioComponent
 
   consultarDocumentos() {
     let filtros: ParametrosApi = {
-      serializador: 'adicionar'
+      ...this.arrFiltrosPermanenteAgregarDocumento,
+      ...this.arrFiltrosEmitidosAgregarDocumento,
+      serializador: 'adicionar',
     };
 
-    if (this.mostrarTodasCuentasPorPagar) {
-      filtros = this.arrFiltrosPermanenteAgregarDocumento;
-      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
-        filtros = {
-          ...filtros,
-          ...this.arrFiltrosPermanenteAgregarDocumento,
-          ...this.arrFiltrosEmitidosAgregarDocumento,
-        };
-      }
-    } else {
+    if (!this.mostrarTodasCuentasPorPagar) {
       filtros = {
         ...filtros,
         contacto_id: this.formularioEgreso.get('contacto')?.value,
-        ...this.arrFiltrosPermanenteAgregarDocumento,
       };
-
-      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
-        filtros = { ...this.arrFiltrosEmitidosAgregarDocumento };
-      }
     }
+
     this._generalService
-      .consultaApi<RespuestaApi<EgresoDocumentoAdicionar>>('general/documento/', filtros)
+      .consultaApi<
+        RespuestaApi<EgresoDocumentoAdicionar>
+      >('general/documento/', filtros)
       .subscribe((respuesta) => {
         this.arrDocumentos = respuesta.results.map((documento) => ({
           id: documento.id,
