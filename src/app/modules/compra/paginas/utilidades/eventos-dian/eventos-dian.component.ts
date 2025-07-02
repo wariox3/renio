@@ -1,28 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 import { HttpService } from '@comun/services/http.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-xml.component';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   NgbDropdownModule,
   NgbNavModule,
-  NgbTooltipModule
+  NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { SiNoPipe } from '@pipe/si-no.pipe';
-import { catchError, of, tap, zip } from 'rxjs';
+import { catchError, of, tap } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
 import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
 import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
+import { PaginadorComponent } from '../../../../../comun/componentes/ui/tabla/paginador/paginador.component';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { EVENTOS_DIAN_FILTERS } from '@modulos/compra/domain/mapeos/eventos_dian.mapeo';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -40,26 +43,23 @@ import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estad
     EditarEventosDianComponent,
     ImportarXmlComponent,
     NgbTooltipModule,
-    SiNoPipe
+    SiNoPipe,
+    PaginadorComponent,
+    FiltroComponent,
   ],
 })
 export class EventosDianComponent extends General implements OnInit {
-  filtroPermanenteLista: Filtros[] = [
-    { propiedad: 'documento_tipo', valor1: '5' },
-    { propiedad: 'estado_aprobado', valor1: true },
-    { propiedad: 'estado_electronico_evento', valor1: false },
-    { propiedad: 'estado_electronico_descartado', valor1: false },
-    { propiedad: 'estado_anulado', valor1: false },
-  ];
-  arrParametrosConsultaLista: ParametrosFiltros = {
-    filtros: this.filtroPermanenteLista,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: ['estado_aprobado', '-fecha', '-numero', '-id'],
-    limite_conteo: 10000,
-    modelo: 'GenDocumento',
-    serializador: 'EventoCompra',
+  filtroPermanenteLista: ParametrosApi = {
+    documento_tipo: '5',
+    estado_aprobado: true,
+    estado_electronico_evento: false,
+    estado_electronico_descartado: false,
+    estado_anulado: false,
+    ordering: 'estado_aprobado -fecha -numero -id',
+    limit: 50,
+    serializador: 'evento_compra',
   };
+  arrParametrosConsultaLista: ParametrosApi = this.filtroPermanenteLista;
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
   arrRegistrosSeleccionadosNotificar: number[] = [];
@@ -67,10 +67,14 @@ export class EventosDianComponent extends General implements OnInit {
   emitirSelectTodo = false;
   notificarSelectTodo = false;
   paginacionEmitirDesde: number = 0;
-  paginacionEmitirHasta: number = this.arrParametrosConsultaLista.limite;
+  paginacionEmitirHasta: number = this.arrParametrosConsultaLista
+    .limit as number;
   cantidad_registros: number = 0;
   private _generalService = inject(GeneralService);
-
+  private _filterTransformerService = inject(FilterTransformerService);
+  currentPage = signal(1);
+  totalPages = signal(1);
+  availableFields = EVENTOS_DIAN_FILTERS;
   constructor(
     private httpService: HttpService,
     private eventosDianService: EventosDianService,
@@ -83,26 +87,24 @@ export class EventosDianComponent extends General implements OnInit {
       this.consultarLista();
     });
     this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: utilidades['eventos_dian'] })
+      ActualizarMapeo({ dataMapeo: utilidades['eventos_dian'] }),
     );
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
-    zip(
-      this._generalService.consultarDatosLista(this.arrParametrosConsultaLista)
-    ).subscribe((respuesta: any) => {
-      this.cantidad_registros = respuesta[0].cantidad_registros;
-      this.arrDocumentosEmitir = respuesta[0].registros.map(
-        (documento: any) => ({
+    this._generalService
+      .consultaApi('general/documento/', this.arrParametrosConsultaLista)
+      .subscribe((respuesta: any) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrDocumentosEmitir = respuesta.results.map((documento: any) => ({
           ...documento,
           ...{
             selected: false,
           },
-        })
-      );
-      this.changeDetectorRef.detectChanges();
-    });
+        }));
+        this.changeDetectorRef.detectChanges();
+      });
   }
 
   agregarRegistrosNotificar(id: number) {
@@ -168,24 +170,24 @@ export class EventosDianComponent extends General implements OnInit {
             tap(() => {
               this.arrRegistrosSeleccionadosEmitir =
                 this.arrRegistrosSeleccionadosEmitir.filter(
-                  (item) => item !== documento_id
+                  (item) => item !== documento_id,
                 );
               this.consultarLista();
             }),
             catchError(() => {
               this.alertaService.mensajeError(
                 'Error',
-                `No al emitir documento: ${documento_id}`
+                `No al emitir documento: ${documento_id}`,
               );
               return of(null);
-            })
+            }),
           )
           .subscribe();
       });
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No tiene registros seleccionados'
+        'No tiene registros seleccionados',
       );
     }
   }
@@ -203,50 +205,52 @@ export class EventosDianComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No tiene registros seleccionados'
+        'No tiene registros seleccionados',
       );
     }
   }
 
   visualizarTap(tap: string) {
-    this.store.dispatch(ActualizarMapeo({ dataMapeo: utilidades[tap] }));
-    this.arrParametrosConsultaLista.filtros = this.filtroPermanenteLista;
-    this.consultarLista();
+    // this.store.dispatch(ActualizarMapeo({ dataMapeo: utilidades[tap] }));
+    // this.arrParametrosConsultaLista.filtros = this.filtroPermanenteLista;
+    // this.consultarLista();
   }
 
-  obtenerFiltrosEmitir(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsultaLista.filtros = [
-          ...this.filtroPermanenteLista,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsultaLista.filtros = this.filtroPermanenteLista;
-      }
+  obtenerFiltrosEmitir(filters: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+
+    if (Object.keys(filters).length >= 1) {
+      this.arrParametrosConsultaLista = {
+        ...this.arrParametrosConsultaLista,
+        ...apiParams,
+      };
+    } else {
+      this.arrParametrosConsultaLista = this.filtroPermanenteLista;
     }
+
     this.consultarLista();
   }
 
   aumentarDesplazamientoEmitir() {
-    this.paginacionEmitirDesde =
-      this.paginacionEmitirDesde + this.arrParametrosConsultaLista.limite;
-    this.paginacionEmitirHasta =
-      this.paginacionEmitirHasta + this.arrParametrosConsultaLista.limite;
-    this.arrParametrosConsultaLista.desplazar = this.paginacionEmitirDesde;
-    this.consultarLista();
+    // this.paginacionEmitirDesde =
+    //   this.paginacionEmitirDesde + this.arrParametrosConsultaLista.limite;
+    // this.paginacionEmitirHasta =
+    //   this.paginacionEmitirHasta + this.arrParametrosConsultaLista.limite;
+    // this.arrParametrosConsultaLista.desplazar = this.paginacionEmitirDesde;
+    // this.consultarLista();
   }
 
   disminuirDesplazamientoEmitir() {
-    if (this.paginacionEmitirDesde > 0) {
-      let nuevoValor =
-        this.paginacionEmitirDesde - this.arrParametrosConsultaLista.limite;
-      this.paginacionEmitirHasta =
-        this.paginacionEmitirHasta - this.arrParametrosConsultaLista.limite;
-      this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.arrParametrosConsultaLista.desplazar = this.paginacionEmitirDesde;
-      this.consultarLista();
-    }
+    // if (this.paginacionEmitirDesde > 0) {
+    //   let nuevoValor =
+    //     this.paginacionEmitirDesde - this.arrParametrosConsultaLista.limite;
+    //   this.paginacionEmitirHasta =
+    //     this.paginacionEmitirHasta - this.arrParametrosConsultaLista.limite;
+    //   this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
+    //   this.arrParametrosConsultaLista.desplazar = this.paginacionEmitirDesde;
+    //   this.consultarLista();
+    // }
   }
 
   calcularValorMostrarEmitir(evento: any) {
@@ -283,8 +287,7 @@ export class EventosDianComponent extends General implements OnInit {
     this.alertaService
       .confirmar({
         titulo: '¿Estas seguro de descartar?',
-        texto:
-          'Esta acción no se puede revertir.',
+        texto: 'Esta acción no se puede revertir.',
         textoBotonCofirmacion: 'Si, descartar',
       })
       .then((respuesta) => {
@@ -292,6 +295,15 @@ export class EventosDianComponent extends General implements OnInit {
           this._descartar(id);
         }
       });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage.set(page);
+    this.arrParametrosConsultaLista = {
+      ...this.arrParametrosConsultaLista,
+      page,
+    };
+    this.consultarLista();
   }
 
   private _descartar(id: number) {

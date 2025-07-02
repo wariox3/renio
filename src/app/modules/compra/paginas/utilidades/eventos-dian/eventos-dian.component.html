@@ -1,38 +1,26 @@
 <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
   <section card-body>
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltrosEmitir($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      (filtersApply)="obtenerFiltrosEmitir($event)"
+      [availableFields]="availableFields"
+    >
+    </app-filtro>
   </section>
 </app-card>
 <div class="tabla">
   <app-card [titulo]="'MENU.FUNCIONALIDAD.EVENTOSDIAN'">
     <section card-body>
-      <div class="row mb-5 justify-content-between gap-sm-5">
-        <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2">
-          <i
-            (click)="disminuirDesplazamientoEmitir()"
-            class="bi bi-arrow-left fs-2x cursor-pointer"
-          ></i>
-          <input
-            type="text"
-            class="form-control form-control-sm w-100px"
-            [value]="paginacionEmitirDesde + 1 + '-' + paginacionEmitirHasta"
-            (blur)="calcularValorMostrarEmitir($event)"
-          />
-          <span>de</span>
-          <span>{{ cantidad_registros }}</span>
-          <i
-            (click)="aumentarDesplazamientoEmitir()"
-            class="bi bi-arrow-right fs-2x cursor-pointer"
-          ></i>
+      <div class="d-flex mb-4 justify-content-between gap-sm-5">
+        <div>
+          <app-paginador
+            [currentPage]="currentPage()"
+            [totalPages]="totalPages()"
+            (pageChange)="onPageChange($event)"
+            [totalItems]="cantidad_registros"
+          ></app-paginador>
         </div>
-        <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
-          <div class="btn-group btn-group-sm contenedor-btn-group">
-            <app-importar-xml></app-importar-xml>
-          </div>
+        <div class="btn-group btn-group-sm contenedor-btn-group">
+          <app-importar-xml></app-importar-xml>
         </div>
       </div>
       <div class="table-responsive table-loading">
@@ -86,9 +74,9 @@
               <td>{{ documentoEmitir.id }}</td>
               <td>{{ documentoEmitir.numero }}</td>
               <td>{{ documentoEmitir.fecha }}</td>
-              <td>{{ documentoEmitir.contacto_id }}</td>
-              <td>{{ documentoEmitir.contacto_numero_identificacion }}</td>
-              <td>{{ documentoEmitir.contacto_nombre_corto }}</td>
+              <td>{{ documentoEmitir.contacto }}</td>
+              <td>{{ documentoEmitir.contacto__numero_identificacion }}</td>
+              <td>{{ documentoEmitir.contacto__nombre_corto }}</td>
 
               <td>
                 {{ documentoEmitir.referencia_prefijo }}
@@ -121,23 +109,25 @@
                 </app-visualizar-estados-eventos-dian>
               </td>
               <td class="text-center">
-                @if(documentoEmitir.estado_electronico === false){
-                <app-editar-eventos-dian
-                  [documento]="documentoEmitir"
-                  (emitirConsultarLista)="consultarLista()"
-                ></app-editar-eventos-dian>
+                @if (documentoEmitir.estado_electronico === false) {
+                  <app-editar-eventos-dian
+                    [documento]="documentoEmitir"
+                    (emitirConsultarLista)="consultarLista()"
+                  ></app-editar-eventos-dian>
                 }
               </td>
               <td>
-                @if(documentoEmitir.estado_electronico === false || (
-                documentoEmitir.estado_electronico === true &&
-                documentoEmitir.evento_documento === 'PE' ) ){
-                <button
-                  class="btn btn-secondary btn-sm"
-                  (click)="confirmarDescartar(documentoEmitir.id)"
-                >
-                  Descartar
-                </button>
+                @if (
+                  documentoEmitir.estado_electronico === false ||
+                  (documentoEmitir.estado_electronico === true &&
+                    documentoEmitir.evento_documento === "PE")
+                ) {
+                  <button
+                    class="btn btn-secondary btn-sm"
+                    (click)="confirmarDescartar(documentoEmitir.id)"
+                  >
+                    Descartar
+                  </button>
                 }
               </td>
               <td>
