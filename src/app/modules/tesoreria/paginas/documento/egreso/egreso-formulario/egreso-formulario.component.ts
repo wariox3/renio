@@ -378,26 +378,46 @@ export default class EgresoFormularioComponent
         RespuestaApi<EgresoDocumentoAdicionar>
       >('general/documento/', filtros)
       .subscribe((respuesta) => {
-        this.arrDocumentos = respuesta.results.map((documento) => ({
-          id: documento.id,
-          numero: documento.numero,
-          documento_tipo: documento.documento_tipo,
-          documento_tipo_nombre: documento.documento_tipo__nombre,
-          fecha: documento.fecha,
-          fecha_vence: documento.fecha_vence,
-          contacto: documento.contacto,
-          contacto_nombre: documento.contacto__nombre_corto,
-          subtotal: documento.subtotal,
-          impuesto: documento.impuesto,
-          total: documento.total,
-          pendiente: documento.pendiente,
-          cuenta: documento.documento_tipo__cuenta_pagar_id,
-          cuenta_codigo: documento.documento_tipo__cuenta_pagar__codigo,
-          naturaleza: 'D',
-          documento_tipo_operacion: documento.documento_tipo__operacion,
-        }));
+        this.arrDocumentos = respuesta.results.map((documento) => {
+          const documentoModificado = this._modificarCuenta(documento);
+          return {
+            id: documentoModificado.id,
+            numero: documentoModificado.numero,
+            documento_tipo: documentoModificado.documento_tipo,
+            documento_tipo_nombre: documentoModificado.documento_tipo__nombre,
+            fecha: documentoModificado.fecha,
+            fecha_vence: documentoModificado.fecha_vence,
+            contacto: documentoModificado.contacto,
+            contacto_nombre: documentoModificado.contacto__nombre_corto,
+            subtotal: documentoModificado.subtotal,
+            impuesto: documentoModificado.impuesto,
+            total: documentoModificado.total,
+            pendiente: documentoModificado.pendiente,
+            cuenta: documentoModificado.documento_tipo__cuenta_pagar_id,
+            cuenta_codigo: documentoModificado.documento_tipo__cuenta_pagar__codigo,
+            naturaleza: 'D',
+            documento_tipo_operacion: documentoModificado.documento_tipo__operacion,
+          }
+        });
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  private _modificarCuenta(documento: EgresoDocumentoAdicionar) {
+    const cuentaId =
+      documento.documento_tipo === 22
+        ? documento.cuenta
+        : documento.documento_tipo__cuenta_pagar_id;
+    const cuentaCodigo =
+      documento.documento_tipo === 22
+        ? documento.cuenta__codigo
+        : documento.documento_tipo__cuenta_pagar__codigo;
+
+    return {
+      ...documento,
+      documento_tipo__cuenta_pagar_id: cuentaId,
+      documento_tipo__cuenta_pagar__codigo: cuentaCodigo,
+    }
   }
 
   agregarLinea() {

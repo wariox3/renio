@@ -43,4 +43,6 @@ export interface EgresoDocumentoAdicionar {
   documento_tipo__operacion: number;
   fecha_contable: string;
   pendiente: number;
+  cuenta: number;
+  cuenta__codigo: string;
 }
