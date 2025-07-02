@@ -1,7 +1,4 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <pre>
-    {{formularioFactura.value | json}}
-  </pre>
   <app-comun-encabezado-formulario-nuevo
     [estadoAprobado]="estado_aprobado"
   ></app-comun-encabezado-formulario-nuevo>
