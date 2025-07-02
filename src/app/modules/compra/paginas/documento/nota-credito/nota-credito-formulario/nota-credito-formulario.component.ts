@@ -373,9 +373,9 @@ export default class FacturaDetalleComponent
           .get('contactoNombre')
           ?.setValue(dato.nombre_corto);
       }
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
+      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_proveedor_id);
       if (dato.plazo_pago_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_dias;
+        this.plazo_pago_dias = dato.plazo_pago_proveedor__dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
         const fechaActual = new Date(); // Obtener la fecha actual
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
