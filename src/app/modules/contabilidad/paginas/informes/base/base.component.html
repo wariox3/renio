@@ -1,71 +1,54 @@
 <app-card [titulo]="'Parámetros'">
   <section card-body>
-    <form class="row g-4" [formGroup]="formularioFiltros">
-      <!-- Fecha Desde -->
-      <div class="col-12 col-md-6 col-lg-3">
-        <label class="form-label fw-semibold">Fecha desde</label>
-        <input
-          type="date"
-          formControlName="fecha_desde"
-          class="form-control"
-          placeholder="Seleccione fecha inicial"
-        />
-      </div>
-
-      <!-- Fecha Hasta -->
-      <div class="col-12 col-md-6 col-lg-3">
-        <label class="form-label fw-semibold">Fecha hasta</label>
-        <input
-          type="date"
-          formControlName="fecha_hasta"
-          class="form-control"
-          placeholder="Seleccione fecha final"
-        />
-      </div>
-      <div class="col-12 col-md-3 col-lg-3">
-        <label class="form-label">Cuenta desde</label>
-        <app-comun-cuentas
-          [iniciarFocusInputBusqueda]="false"
-          [style]="'height: 3.4rem;'"
-          [cuentaCodigo]="cuentaDesdeCodigo()"
-          [cuentaNombre]="cuentaDesdeNombre()"
-          (emitirArrCuentas)="agregarCuentaDesdeSeleccionado($event)"
-        ></app-comun-cuentas>
-      </div>
-      <div class="col-12 col-md-3 col-lg-3">
-        <label class="form-label">Cuenta hasta</label>
-        <app-comun-cuentas
-          [iniciarFocusInputBusqueda]="false"
-          [style]="'height: 3.4rem;'"
-          [cuentaCodigo]="cuentaHastaCodigo()"
-          [cuentaNombre]="cuentaHastaNombre()"
-          (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
-        ></app-comun-cuentas>
-      </div>
-
-      <!-- Checkboxes -->
-      <div class="col-12 col-md-6 d-flex flex-column justify-content-end">
-        <div class="form-check form-check-custom form-check-solid mb-3">
+    <form [formGroup]="formularioFiltros">
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-md-6 col-lg-3">
+          <label class="form-label fw-semibold">Fecha desde</label>
           <input
-            class="form-check-input"
-            type="checkbox"
-            id="incluirCierre"
-            formControlName="incluir_cierre"
+            type="date"
+            formControlName="fecha_desde"
+            class="form-control"
+            placeholder="Seleccione fecha inicial"
           />
-          <label class="form-check-label fw-semibold" for="incluirCierre">
-            Incluir cierre
-          </label>
         </div>
-        <div class="form-check form-check-custom form-check-solid">
+        <div class="col-12 col-md-6 col-lg-3">
+          <label class="form-label fw-semibold">Fecha hasta</label>
           <input
-            class="form-check-input"
-            type="checkbox"
-            id="cuentaMovimiento"
-            formControlName="cuenta_con_movimiento"
+            type="date"
+            formControlName="fecha_hasta"
+            class="form-control"
+            placeholder="Seleccione fecha final"
           />
-          <label class="form-check-label fw-semibold" for="cuentaMovimiento">
-            Solo cuentas con movimiento
-          </label>
+        </div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <label class="form-label">Cuenta desde</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaDesdeCodigo()"
+            [cuentaNombre]="cuentaDesdeNombre()"
+            (emitirArrCuentas)="agregarCuentaDesdeSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <label class="form-label">Cuenta hasta</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaHastaCodigo()"
+            [cuentaNombre]="cuentaHastaNombre()"
+            (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-md-3 col-lg-6">
+          <label class="form-label fw-semibold">Contacto</label>
+          <app-comun-contactos
+            [contactoNombre]="contactoNombreCorto()"
+            (emitirContacto)="agregarContactoSeleccionado($event)"
+          ></app-comun-contactos>
         </div>
       </div>
     </form>

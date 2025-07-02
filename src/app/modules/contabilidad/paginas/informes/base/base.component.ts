@@ -23,6 +23,7 @@ import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 
 @Component({
   selector: 'app-base',
@@ -35,6 +36,7 @@ import { TranslateModule } from '@ngx-translate/core';
     TranslateModule,
     BtnExportarComponent,
     CuentasComponent,
+    ContactosComponent,
   ],
   templateUrl: './base.component.html',
   styleUrl: './base.component.scss',
@@ -53,6 +55,7 @@ export class BaseComponent extends General implements OnInit {
   public cuentaHastaNombre = signal<string>('');
   public cuentaHastaCodigo = signal<string>('');
   public cuentaDesdeNombre = signal<string>('');
+  public contactoNombreCorto = signal<string>('');
 
   constructor() {
     super();
@@ -82,10 +85,11 @@ export class BaseComponent extends General implements OnInit {
       {
         fecha_desde: [firstDayOfMonth, Validators.required],
         fecha_hasta: [lastDayOfMonth, Validators.required],
-        incluir_cierre: [false],
-        cuenta_con_movimiento: [false],
         cuenta_desde: [''],
         cuenta_hasta: [''],
+        cuenta_desde_codigo: [''],
+        cuenta_hasta_codigo: [''],
+        contacto_id: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -152,6 +156,7 @@ export class BaseComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_desde_codigo')?.setValue(cuenta.codigo);
     this.cuentaDesdeNombre.set(cuenta.nombre);
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
@@ -162,8 +167,23 @@ export class BaseComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_hasta_codigo')?.setValue(cuenta.codigo);
     this.cuentaHastaNombre.set(cuenta.nombre);
     this.cuentaHastaCodigo.set(cuenta.codigo);
+  }
+
+  agregarContactoSeleccionado(contacto: {
+    id: number;
+    nombre_corto: string;
+    numero_identificacion: string;
+    plazo_pago__dias: number;
+    plazo_pago_id: number;
+    plazo_pago_proveedor__dias: number;
+    plazo_pago_proveedor_id: number;
+  }) {
+    this.formularioFiltros.get('contacto_id')?.setValue(contacto.id);
+    this.contactoNombreCorto.set(contacto.nombre_corto);
   }
 }
 
