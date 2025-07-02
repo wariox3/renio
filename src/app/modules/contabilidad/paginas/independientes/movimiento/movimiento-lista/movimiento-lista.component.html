@@ -1,10 +1,9 @@
 <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
   <section card-body>
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltros($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      (filtersApply)="obtenerFiltros($event)"
+      [availableFields]="MOVIMIENTO_FILTERS"
+    ></app-filtro>
   </section>
 </app-card>
 <app-card [titulo]="'MENU.FUNCIONALIDAD.MOVIMIENTO'">
@@ -30,8 +29,6 @@
         [visualizarBtnNuevo]="false"
         [visualizarBtnEliminar]="false"
         [visualizarBtnExportarZip]="false"
-        (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-        (emitirOrdenamiento)="cambiarOrdemiento($event)"
         (emitirPaginacion)="cambiarPaginacion($event)"
         (emitirExportarExcel)="descargarExcel()"
         (emitirConsultarLista)="consultarLista()"
