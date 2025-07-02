@@ -1101,17 +1101,19 @@ export const mapeo: MapeoAdministrador = {
         ordenable: true,
       },
       {
-        nombre: 'CONTRATO_CONTACTO_ID',
+        nombre: 'CONTRATO__CONTACTO_ID',
+        nombreAbreviado: 'CODIGO',
         nombreAbreviadoFiltro: 'CONTACTO_ID_FILTRO',
         nombreFiltroRelacion: 'contrato__contacto__id',
-        nombreAbreviado: 'CODIGO',
         campoTipo: 'IntegerField',
         visibleTabla: true,
         visibleFiltro: true,
         ordenable: true,
+
       },
       {
-        nombre: 'CONTRATO_CONTACTO_NUMERO_IDENTIFICACION',
+        nombre: 'CONTRATO__CONTACTO__NUMERO_IDENTIFICACION',
+        nombreAbreviado: 'CONTRATO_CONTACTO_NUMERO_IDENTIFICACION',
         nombreAbreviadoFiltro: 'CONTACTO_IDENTIFICACION_FILTRO',
         nombreFiltroRelacion: 'contrato__contacto__numero_identificacion',
         campoTipo: 'CharField',
@@ -1120,7 +1122,8 @@ export const mapeo: MapeoAdministrador = {
         ordenable: true,
       },
       {
-        nombre: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
+        nombre: 'CONTRATO__CONTACTO__NOMBRE_CORTO',
+        nombreAbreviado: 'CONTRATO_CONTACTO_NOMBRE_CORTO',
         nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
         nombreFiltroRelacion: 'contrato__contacto__nombre_corto',
         campoTipo: 'CharField',
@@ -1129,7 +1132,7 @@ export const mapeo: MapeoAdministrador = {
         ordenable: true,
       },
       {
-        nombre: 'CONTRATO_ID',
+        nombre: 'CONTRATO',
         nombreAbreviadoFiltro: 'CONTRATO_ID_FILTRO',
         nombreFiltroRelacion: 'contrato__id',
         nombreAbreviado: 'CONT',
@@ -1154,7 +1157,8 @@ export const mapeo: MapeoAdministrador = {
         ordenable: false,
       },
       {
-        nombre: 'CONCEPTO_NOMBRE',
+        nombre: 'CONCEPTO__NOMBRE',
+        nombreAbreviado: 'CONCEPTO_NOMBRE',
         campoTipo: 'CharField',
         visibleTabla: true,
         visibleFiltro: false,
