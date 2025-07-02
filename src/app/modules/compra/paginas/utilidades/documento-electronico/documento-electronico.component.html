@@ -62,6 +62,9 @@
                       {{ "LISTAS.DOCUMENTO.ID" | translate }}
                     </th>
                     <th class="bg-gray-100 text-center">
+                      {{ "LISTAS.DOCUMENTO.DOCUMENTO_TIPO_NOMBRE" | translate }}
+                    </th>
+                    <th class="bg-gray-100 text-center">
                       {{ "LISTAS.DOCUMENTO.NUMERO" | translate }}
                     </th>
                     <th class="bg-gray-100 text-center">
@@ -102,6 +105,7 @@
                 <Tbody>
                   <tr *ngFor="let documentoEmitir of arrDocumentosEmitir">
                     <td>{{ documentoEmitir.id }}</td>
+                    <td>{{ documentoEmitir.documento_tipo_nombre }}</td>
                     <td>{{ documentoEmitir.numero }}</td>
                     <td>{{ documentoEmitir.fecha }}</td>
                     <td>{{ documentoEmitir.contacto_nombre_corto }}</td>
