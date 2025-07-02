@@ -244,11 +244,17 @@ export default class FacturaDetalleComponent
   }
 
   actualizarFormulario(dato: any, campo: string) {
-    if (campo === 'contacto' || campo === 'documento_referencia') {
+    if (campo === 'contacto') {
       this._inicializarFormulario(dato.id);
       this._limpiarDocumentoReferencia(dato.id);
       this.formularioFactura.get(campo)?.setValue(dato.id);
       this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
+    }
+    if (campo === 'documento_referencia') {
+      this.formularioFactura.get('documento_referencia')?.setValue(dato.id);
+      this.formularioFactura
+        .get('documento_referencia_numero')
+        ?.setValue(dato.numero);
     }
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -332,7 +338,9 @@ export default class FacturaDetalleComponent
       }
     }
     if (campo === 'documento_referencia') {
-      this.formularioFactura.get(campo)?.setValue(dato.id);
+      console.log(dato);
+
+      this.formularioFactura.get('documento_referencia')?.setValue(dato.id);
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
@@ -361,39 +369,19 @@ export default class FacturaDetalleComponent
   }
 
   consultarDocumentoReferencia(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'numero__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'contacto_id',
-          valor1: this.formularioFactura.get('contacto')?.value,
-        },
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: 303,
-        },
-        {
-          propiedad: 'estado_aprobado',
-          valor1: true,
-        },
-      ],
-      limite: 5,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenDocumento',
-      serializador: 'Referencia',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>('general/documento/', {
+        numero__icontains: `${event?.target.value}`,
+        contacto_id: this.formularioFactura.get('contacto')?.value,
+        documento_tipo__documento_clase_id: 303,
+        estado_aprobado: 'True',
+        limit: 5,
+        serializador: 'referencia',
+      })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta.results;
           this.changeDetectorRef.detectChanges();
         }),
       )
