@@ -260,8 +260,7 @@
               *ngFor="let metodoPago of arrMetodosPago"
               [value]="metodoPago.id"
               [selected]="
-                metodoPago.id ===
-                formularioFactura.controls.metodo_pago_id
+                metodoPago.id === formularioFactura.controls.metodo_pago_id
               "
             >
               {{ metodoPago.nombre }}
