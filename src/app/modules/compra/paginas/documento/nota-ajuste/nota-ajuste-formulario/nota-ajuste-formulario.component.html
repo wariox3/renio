@@ -4,7 +4,9 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'notaajuste'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'notaajuste'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -210,14 +212,13 @@
             </option>
             <option
               *ngFor="let plazoPago of arrPlazoPago"
-              [value]="plazoPago.plazo_pago_id"
+              [value]="plazoPago.id"
               [selected]="
-                plazoPago.plazo_pago_id ===
-                formularioFactura.controls.plazo_pago_id
+                plazoPago.id === formularioFactura.controls.plazo_pago_id
               "
-              [attr.data-dias]="plazoPago.plazo_dias"
+              [attr.data-dias]="plazoPago.dias"
             >
-              {{ plazoPago.plazo_pago_nombre }}
+              {{ plazoPago.nombre }}
             </option>
           </select>
           <ng-container
@@ -257,13 +258,13 @@
             </option>
             <option
               *ngFor="let metodoPago of arrMetodosPago"
-              [value]="metodoPago.metodo_pago_id"
+              [value]="metodoPago.id"
               [selected]="
-                metodoPago.metodo_pago_id ===
+                metodoPago.id ===
                 formularioFactura.controls.metodo_pago_id
               "
             >
-              {{ metodoPago.metodo_pogo_nombre }}
+              {{ metodoPago.nombre }}
             </option>
           </select>
           <ng-container
