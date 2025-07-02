@@ -1077,6 +1077,7 @@ export const locale = {
         VACACION: 'Vacación',
         ADICION: 'Adición',
         ESTADO_GENERADO: 'Generado',
+        DOCUMENTO__ID: 'Documento id',
       },
       ITEM: {
         ID: 'ID',
