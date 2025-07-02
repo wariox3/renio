@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -140,29 +136,22 @@ export default class FacturaDetalleComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
-        {
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
+        'general/plazo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenFormaPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenFormaPago>(
+        'general/forma_pago/seleccionar/',
         {
-          modelo: 'GenFormaPago',
-          serializador: 'ListaAutocompletar',
-          ordenamientos: ['id'],
+          ordenamientos: 'id',
         },
       ),
     ).subscribe((respuesta: any) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.formaPagoLista = respuesta[2].registros;
+      this.arrMetodosPago = respuesta[0];
+      this.arrPlazoPago = respuesta[1];
+      this.formaPagoLista = respuesta[2];
       this._sugerirPrimerValorFormaPago();
       this.changeDetectorRef.detectChanges();
     });
@@ -178,9 +167,7 @@ export default class FacturaDetalleComponent
 
   recibirAlmacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
     this.formularioFactura.get('almacen')?.setValue(almacen.id);
-    this.formularioFactura
-      .get('almacen_nombre')
-      ?.setValue(almacen.nombre);
+    this.formularioFactura.get('almacen_nombre')?.setValue(almacen.nombre);
   }
 
   recibirAlmacenVacio() {
@@ -268,9 +255,7 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
       this.formularioFactura.get(campo)?.setValue(dato.id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.nombre_corto);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
 
       if (campo === 'contactoNuevoModal') {
         this.formularioFactura.get(campo)?.setValue(dato.id);
@@ -334,31 +319,19 @@ export default class FacturaDetalleComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'proveedor',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          proveedor: 'True',
+          nombre_corto__icontains: `${event?.target.value}`,
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )

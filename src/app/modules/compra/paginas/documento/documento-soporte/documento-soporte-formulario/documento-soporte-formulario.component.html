@@ -210,14 +210,14 @@
             </option>
             <option
               *ngFor="let plazoPago of arrPlazoPago"
-              [value]="plazoPago.plazo_pago_id"
+              [value]="plazoPago.id"
               [selected]="
-                plazoPago.plazo_pago_id ===
+                plazoPago.id ===
                 formularioFactura.controls.plazo_pago_id
               "
               [attr.data-dias]="plazoPago.plazo_dias"
             >
-              {{ plazoPago.plazo_pago_nombre }}
+              {{ plazoPago.nombre }}
             </option>
           </select>
           <ng-container
@@ -239,8 +239,8 @@
           </label>
           <ng-select
             [items]="formaPagoLista"
-            bindLabel="forma_pago_nombre"
-            bindValue="forma_pago_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="forma_pago"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
