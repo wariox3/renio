@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -22,7 +22,6 @@ import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -32,7 +31,8 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { tap, zip } from 'rxjs';
+import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../../factura/factura-cuenta/factura-cuenta.component';
@@ -80,7 +80,7 @@ export default class FacturaDetalleComponent
 
   active: Number;
   arrMovimientosClientes: RegistroAutocompletarGenContacto[] = [];
-  referencias: RegistroAutocompletarGenDocumentoReferencia[] = [];
+  referencias = signal<RegistroAutocompletarGenDocumentoReferencia[]>([]);
   arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
   plazo_pago_dias: any = 0;
@@ -178,21 +178,21 @@ export default class FacturaDetalleComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago[]>(
+        'general/metodo_pago/',
         {
           modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago[]>(
+        'general/plazo_pago/',
         {
           modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
         },
       ),
-    ).subscribe((respuesta: any) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
+    ).subscribe((respuesta) => {
+      this.arrMetodosPago = respuesta[0];
+      this.arrPlazoPago = respuesta[1];
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -425,31 +425,20 @@ export default class FacturaDetalleComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'proveedor',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
+    let arrFiltros: ParametrosApi = {
+      nombre_corto__icontains: `${event?.target.value}`,
+      proveedor: 'True',
+      limit: 100,
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto[]>(
+        'general/contacto/seleccionar/',
+        arrFiltros,
+      )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -457,38 +446,23 @@ export default class FacturaDetalleComponent
   }
 
   consultarDocumentoReferencia(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'numero__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'contacto_id',
-          valor1: this.formularioFactura.get('contacto')?.value,
-        },
-        { propiedad: 'documento_tipo__documento_clase_id', valor1: 300 },
-        {
-          propiedad: 'estado_aprobado',
-          valor1: true,
-        },
-      ],
-      limite: 5,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenDocumento',
-      serializador: 'Referencia',
+    let arrFiltros: ParametrosApi = {
+      numero__icontains: `${event?.target.value}`,
+      contacto_id: this.formularioFactura.get('contacto')?.value,
+      documento_tipo__documento_clase_id: 300,
+      estado_aprobado: true,
+      limit: 100,
+      serializador: 'referencia',
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumentoReferencia>(
+      .consultaApi<RespuestaApi<RegistroAutocompletarGenDocumentoReferencia>>(
+        'general/documento/',
         arrFiltros,
       )
       .pipe(
-        throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.referencias = respuesta.registros;
+          this.referencias.set(respuesta.results);
           this.changeDetectorRef.detectChanges();
         }),
       )
