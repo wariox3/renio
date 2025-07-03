@@ -17,13 +17,13 @@
             {{ provision.tipo }}
           </td>
           <td class="">
-            {{ provision.tipo_costo_nombre }}
+            {{ provision.tipo_costo__nombre }}
           </td>
           <td>
             <app-comun-cuentas
               [iniciarFocusInputBusqueda]="false"
-              [cuentaCodigo]="provision.cuenta_debito_codigo"
-              [cuentaNombre]="provision.cuenta_debito_nombre"
+              [cuentaCodigo]="provision.cuenta_debito__codigo"
+              [cuentaNombre]="provision.cuenta_debito__nombre"
               (emitirArrCuentas)="
                 onCambioDeCuenta($event, provision.id, 'cuenta_debito')
               "
@@ -33,8 +33,8 @@
             @if (mostrarCuentaCredito(provision.tipo)) {
               <app-comun-cuentas
                 [iniciarFocusInputBusqueda]="false"
-                [cuentaCodigo]="provision.cuenta_credito_codigo"
-                [cuentaNombre]="provision.cuenta_credito_nombre"
+                [cuentaCodigo]="provision.cuenta_credito__codigo"
+                [cuentaNombre]="provision.cuenta_credito__nombre"
                 (emitirArrCuentas)="
                   onCambioDeCuenta($event, provision.id, 'cuenta_credito')
                 "
