@@ -30,10 +30,31 @@ export class AlertaService {
     });
   }
 
+  mensajeInformativo(title: string, text: string) {
+    Swal.fire({
+      title,
+      html: text,
+      icon: 'info',
+      position: 'bottom-right',
+      toast: true,
+      timer: 20000,
+      showConfirmButton: true,
+      timerProgressBar: true,
+      confirmButtonText: 'Cerrar',
+      //confirmButtonColor: '#d9214e',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown',
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp',
+      },
+    });
+  }
+
   async mensajaExitoso(text: string) {
     return await Swal.fire({
       title: this.translateService.instant(
-        'FORMULARIOS.MENSAJES.COMUNES.EXITOSO'
+        'FORMULARIOS.MENSAJES.COMUNES.EXITOSO',
       ),
       html: text,
       icon: 'success',
@@ -53,7 +74,7 @@ export class AlertaService {
 
   async mensajaEspera(
     text: string,
-    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info'
+    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info',
   ) {
     return await (Swal.fire({
       html: text,
@@ -74,7 +95,7 @@ export class AlertaService {
   mensajeValidacion(
     title: string,
     html: string,
-    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info'
+    icon: 'success' | 'error' | 'warning' | 'info' | 'question' = 'info',
   ) {
     return Swal.fire({
       title,
@@ -97,7 +118,7 @@ export class AlertaService {
     html: string,
     inputLabel: string,
     confirmButtonText: string,
-    cancelButtonText: string
+    cancelButtonText: string,
   ) {
     const mensaje = await Swal.fire({
       title,
@@ -165,7 +186,7 @@ export class AlertaService {
   }) {
     return await Swal.fire({
       title: configuracion.titulo,
-      icon: "warning",
+      icon: 'warning',
       text: configuracion.texto,
       showCancelButton: true,
       confirmButtonColor: '#d33',
@@ -189,7 +210,7 @@ export class AlertaService {
         allowOutsideClick: false,
         confirmButtonText: 'Confirmar',
         denyButtonText: `Cancelar`,
-      })
+      }),
     );
   }
 
@@ -207,7 +228,7 @@ export class AlertaService {
         confirmButtonText: 'Confirmar',
         denyButtonText: `Cancelar`,
         cancelButtonText: 'Cancelar',
-      })
+      }),
     );
   }
 
@@ -225,7 +246,7 @@ export class AlertaService {
         confirmButtonText: 'Confirmar',
         denyButtonText: `Cancelar`,
         cancelButtonText: 'Cancelar',
-      })
+      }),
     );
   }
 }
