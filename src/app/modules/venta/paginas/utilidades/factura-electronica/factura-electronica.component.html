@@ -21,34 +21,22 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.EMITIR"
           ></a>
           <ng-template ngbNavContent>
-            <app-base-filtro
-              (emitirFiltros)="obtenerFiltrosEmitir($event)"
-              [persistirFiltros]="false"
-              [_tipo]="'DOCUMENTO'"
-            ></app-base-filtro>
+            <app-filtro
+              (filtersApply)="obtenerFiltrosEmitir($event)"
+              [availableFields]="ENVIAR_FACTURA_ELECTRONICA_EMITIR_FILTERS"
+            ></app-filtro>
             <div class="row mb-4 justify-content-between gap-sm-5">
               <div
                 class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2"
               >
-                <i
-                  (click)="disminuirDesplazamientoEmitir()"
-                  class="bi bi-arrow-left fs-2x cursor-pointer"
-                ></i>
-                <input
-                  type="text"
-                  class="form-control form-control-sm w-100px"
-                  [value]="
-                    paginacionEmitirDesde + 1 + '-' + paginacionEmitirHasta
-                  "
-                  (blur)="calcularValorMostrarEmitir($event)"
-                />
-                <span>de</span>
-                <span>{{ arrDocumentosEmitirCantidadRegistros }}</span>
-                <i
-                  (click)="aumentarDesplazamientoEmitir()"
-                  class="bi bi-arrow-right fs-2x cursor-pointer"
-                ></i>
+                <app-paginador
+                  [currentPage]="currentPageEmitir()"
+                  [totalPages]="totalDocumentosEmitir()"
+                  (pageChange)="onPageChangeEmitir($event)"
+                  [totalItems]="totalDocumentosEmitir()"
+                ></app-paginador>
               </div>
+
               <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
                 <div
                   class="btn-group contenedor-btn-group"
@@ -128,23 +116,22 @@
                       {{ documentoEmitir.total | number }}
                     </td>
                     <td class="text-center">
-                      @if (documentoEmitir.estado_electronico_descartado) { 
+                      @if (documentoEmitir.estado_electronico_descartado) {
                         <span class="badge badge-danger">Descartado</span>
-                      }
-                      @else {
-                      <ng-container
-                        *ngIf="
-                          documentoEmitir.estado_electronico_enviado === true;
-                          else esperando
-                        "
-                      >
-                        <span class="badge badge-success"
-                          >Esperando respuesta</span
+                      } @else {
+                        <ng-container
+                          *ngIf="
+                            documentoEmitir.estado_electronico_enviado === true;
+                            else esperando
+                          "
                         >
-                      </ng-container>
-                      <ng-template #esperando>
-                        <span class="badge badge-warning">Pendiente</span>
-                      </ng-template>
+                          <span class="badge badge-success"
+                            >Esperando respuesta</span
+                          >
+                        </ng-container>
+                        <ng-template #esperando>
+                          <span class="badge badge-warning">Pendiente</span>
+                        </ng-template>
                       }
                     </td>
                     <td class="w-20px">
@@ -193,52 +180,17 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
           ></a>
           <ng-template ngbNavContent>
-            <app-base-filtro
-              (emitirFiltros)="obtenerFiltrosNotificar($event)"
-              [persistirFiltros]="false"
-              [_tipo]="'DOCUMENTO'"
-            ></app-base-filtro>
-
+            <app-filtro
+              (filtersApply)="obtenerFiltrosNotificar($event)"
+              [availableFields]="ENVIAR_FACTURA_ELECTRONICA_NOTIFICAR_FILTERS"
+            ></app-filtro>
             <div class="row mb-4 justify-content-between gap-sm-5">
-              <div
-                class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2"
-              >
-                <i
-                  (click)="disminuirDesplazamientoNotificar()"
-                  class="bi bi-arrow-left fs-2x cursor-pointer"
-                ></i>
-                <input
-                  type="text"
-                  class="form-control form-control-sm w-100px"
-                  [value]="
-                    paginacionNotificarDesde +
-                    1 +
-                    '-' +
-                    paginacionNotificarHasta
-                  "
-                  (blur)="calcularValorMostrarEmitir($event)"
-                />
-                <span>de</span>
-                <span>{{ cantidad_registros }}</span>
-                <i
-                  (click)="aumentarDesplazamientoNotificar()"
-                  class="bi bi-arrow-right fs-2x cursor-pointer"
-                ></i>
-              </div>
-              <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
-                <div
-                  class="btn-group contenedor-btn-group"
-                  data-toggle="buttons"
-                >
-                  <button
-                    type="button"
-                    class="btn btn-sm btn-primary"
-                    id="dropdownBasic1"
-                    (click)="notificar()"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.NOFITICAR"
-                  ></button>
-                </div>
-              </div>
+              <app-paginador
+                [currentPage]="currentPageNotificar()"
+                [totalPages]="totalDocumentosNotificar()"
+                (pageChange)="onPageChangeNotificar($event)"
+                [totalItems]="totalDocumentosNotificar()"
+              ></app-paginador>
             </div>
             <div class="table-responsive-sm table-loading">
               <table
