@@ -20,6 +20,12 @@ export interface MovimientoBalancePrueba {
   vr_credito_anterior: number | null;
   debito: number | null;
   credito: number | null;
+  contacto_numero_identificacion: string;
+  contacto_nombre_corto: string;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+  base_retenido: string;
+  retenido: string;
 }
 
 export interface MovimientoAuxiliarCuenta {
@@ -75,6 +81,13 @@ export interface MovimientoBalancePruebaTercero
   contacto_id: number;
   contacto_nombre_corto: string;
   contacto_numero_identificacion: string;
+  comprobante_nombre: string;
+  numero: string;
+  fecha: string;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+  base: string;
+  detalle: string;
 }
 
 export interface MovimientoAuxiliarGeneral extends MovimientoBalancePrueba {
@@ -86,8 +99,7 @@ export interface MovimientoAuxiliarGeneral extends MovimientoBalancePrueba {
   fecha: string;
 }
 
-export interface MovimientoAuxiliarTercero
-  extends MovimientoBalancePrueba {
+export interface MovimientoAuxiliarTercero extends MovimientoBalancePrueba {
   contacto_id: number;
   contacto_nombre_corto: string;
   contacto_numero_identificacion: string;

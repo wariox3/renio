@@ -13,14 +13,18 @@ import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';
 import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';
 import { ConceptoService } from './../../servicios/concepto.service';
-import { DocumentoDocumentoTipoComponent } from "./components/conceptos-lista/conceptos-lista.component";
-import { ProvisionListaComponent } from "./components/provision-lista/provision-lista.component";
-import { AporteListaComponent } from "./components/aporte-lista/aporte-lista.component";
+import { DocumentoDocumentoTipoComponent } from './components/conceptos-lista/conceptos-lista.component';
+import { ProvisionListaComponent } from './components/provision-lista/provision-lista.component';
+import { AporteListaComponent } from './components/aporte-lista/aporte-lista.component';
 
 @Component({
   selector: 'app-configuracion-humano',
@@ -36,8 +40,8 @@ import { AporteListaComponent } from "./components/aporte-lista/aporte-lista.com
     NgbNavModule,
     DocumentoDocumentoTipoComponent,
     ProvisionListaComponent,
-    AporteListaComponent
-],
+    AporteListaComponent,
+  ],
   templateUrl: './configuracion-humano.component.html',
 })
 export class ConfiguracionHumanoComponent extends General implements OnInit {
@@ -55,7 +59,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private empresaService: EmpresaService,
     private conceptoService: ConceptoService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
   ) {
     super();
   }
@@ -69,6 +73,8 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
 
   initForm() {
     this.formularioConfiguracion = this.formBuilder.group({
+      empresa: [1],
+      id: [1],
       hum_factor: [
         '',
         Validators.compose([
@@ -110,20 +116,13 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
 
   private _consultarEntidadesRiesgoLista() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
-        modelo: 'HumEntidad',
-        ordenamientos: ['id'],
-        filtros: [
-          {
-            operador: 'exact',
-            propiedad: 'riesgo',
-            valor1: true,
-          },
-        ],
+      .consultaApi<RegistroHumEntidadLista[]>('humano/entidad/seleccionar/', {
+        ordering: 'id',
+        riesgo: 'True',
       })
       .subscribe({
         next: (response) => {
-          this.listaEntidadesRiesgo = response.registros;
+          this.listaEntidadesRiesgo = response;
           this.changeDetectorRef.detectChanges();
         },
       });
@@ -133,18 +132,13 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     if (this.formularioConfiguracion.valid) {
       this.empresaService
         .configuracionEmpresa(1, this.formularioConfiguracion.value)
-        .pipe(
-          tap((respuestaActualizacion: any) => {
-            if (respuestaActualizacion.actualizacion) {
-              this.alertaService.mensajaExitoso(
-                this.translateService.instant(
-                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-                )
-              );
-            }
-          })
-        )
-        .subscribe();
+        .subscribe(() => {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
+            ),
+          );
+        });
     } else {
       this.formularioConfiguracion.markAllAsTouched();
     }
@@ -154,17 +148,16 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     this.conceptoSelecionado = conceptoNomina;
     this.changeDetectorRef.detectChanges();
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumConcepto>({
-        modelo: 'HumConcepto',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<
+        RegistroAutocompletarHumConcepto[]
+      >('humano/concepto/seleccionar/')
       .subscribe((respuesta) => {
         this.iniciarFormularioConcepto();
         this.formularioConcepto.patchValue({
           id: this.conceptoSelecionado.id,
           nombre: this.conceptoSelecionado.nombre,
         });
-        this.arrConceptosHumano = respuesta.registros;
+        this.arrConceptosHumano = respuesta;
         this.modalService.open(content, {
           ariaLabelledBy: 'modal-basic-title',
           size: 'lg',
@@ -187,18 +180,18 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
       this.conceptoService
         .actualizarConceptoNomina(
           this.conceptoSelecionado.id,
-          this.formularioConcepto.value
+          this.formularioConcepto.value,
         )
         .pipe(
           tap((respuestaActualizacion: any) => {
             this.modalService.dismissAll();
             this.alertaService.mensajaExitoso(
               this.translateService.instant(
-                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION'
-              )
+                'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
+              ),
             );
             this.consultarConceptoNomina();
-          })
+          }),
         )
         .subscribe();
     } else {

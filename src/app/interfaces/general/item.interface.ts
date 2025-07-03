@@ -19,3 +19,8 @@ export interface Item {
   existencia: number;
   disponible: number;
 }
+
+export interface ItemSeleccionar {
+  id: number;
+  nombre: string;
+}

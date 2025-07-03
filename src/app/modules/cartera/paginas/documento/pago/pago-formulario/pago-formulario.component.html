@@ -4,7 +4,9 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'Pago'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'Pago'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -44,9 +46,8 @@
                 type="button"
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
-                {{ contacto.contacto_nombre_corto }}
+                {{ contacto.nombre_corto }}
               </span>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -156,9 +157,7 @@
             <ng-container *ngFor="let banco of arrBancos">
               <option
                 [value]="banco.id"
-                [selected]="
-                  banco.id === formularioFactura.value.cuenta_banco
-                "
+                [selected]="banco.id === formularioFactura.value.cuenta_banco"
               >
                 {{ banco.nombre }}
               </option>
@@ -250,7 +249,7 @@
                         <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
                         <th
-                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO'"
+                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO_NOMBRE'"
                         ></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
@@ -275,7 +274,7 @@
                           <td>
                             {{
                               detalle.value
-                                .documento_afectado_documento_tipo_nombre
+                                .documento_tipo__nombre
                             }}
                           </td>
                           <td>
@@ -283,7 +282,7 @@
                           </td>
                           <td>
                             @if (detalle.value.documento_afectado) {
-                              {{ detalle.value.contacto_nombre }}
+                              {{ detalle.value.contacto__nombre_corto }}
                             } @else {
                               <app-comun-contactos
                                 [contactoNombre]="detalle.value.contacto_nombre"
@@ -481,11 +480,10 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltrosModal($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      (filtersApply)="obtenerFiltrosModal($event)"
+      [availableFields]="CUENTAS_COBRAR_FILTERS"
+    ></app-filtro>
     <div class="row">
       <div class="d-flex align-items-baseline gap-2">
         <i class="bi bi-file-text text-gray-500 fs-3"></i>
@@ -573,7 +571,7 @@
               {{ item["id"] }}
             </td>
             <td>
-              {{ item["documento_tipo_nombre"] }}
+              {{ item["documento_tipo__nombre"] }}
             </td>
             <td>
               {{ item["numero"] }}
@@ -585,7 +583,7 @@
               {{ item["fecha_vence"] }}
             </td>
             <td>
-              {{ item["contacto_nombre"] }}
+              {{ item["contacto__nombre_corto"] }}
             </td>
             <td class="text-end">
               {{ item["subtotal"] | number }}

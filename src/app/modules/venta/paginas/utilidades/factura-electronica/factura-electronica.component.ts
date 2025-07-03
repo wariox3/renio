@@ -4,21 +4,28 @@ import {
   ElementRef,
   inject,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
+import { FacturaElectronicaService } from '@modulos/venta/servicios/factura-electronica.service';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { GeneralService } from '@comun/services/general.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { finalize, forkJoin, tap, zip } from 'rxjs';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { FacturaElectronicaService } from '@modulos/venta/servicios/factura-electronica.service';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { PaginadorComponent } from '../../../../../comun/componentes/ui/tabla/paginador/paginador.component';
+import { ENVIAR_FACTURA_ELECTRONICA_EMITIR_FILTERS, ENVIAR_FACTURA_ELECTRONICA_NOTIFICAR_FILTERS } from '@modulos/venta/domain/mapeos/enviar-factura-electronica.mapeo';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -30,58 +37,44 @@ import { FacturaElectronicaService } from '@modulos/venta/servicios/factura-elec
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    BaseFiltroComponent,
+    FiltroComponent,
+    PaginadorComponent,
   ],
 })
 export class FacturaElectronicaComponent extends General implements OnInit {
-  filtroPermanenteEmitir: Filtros[] = [
-    {
-      propiedad: 'estado_aprobado',
-      valor1: true,
-    },
-    {
-      propiedad: 'estado_electronico',
-      valor1: false,
-    },
-    {
-      propiedad: 'estado_electronico_descartado',
-      valor1: false,
-    },
-    {
-      propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 1,
-    },
-  ];
-  filtroPermanenteNotificar: Filtros[] = [
-    {
-      propiedad: 'estado_electronico_notificado',
-      valor1: false,
-    },
-    {
-      propiedad: 'estado_electronico',
-      valor1: true,
-    },
-    {
-      propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 1,
-    },
-  ];
-  arrParametrosConsultaEmitir: ParametrosFiltros = {
-    filtros: this.filtroPermanenteEmitir,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    modelo: 'GenDocumento',
+  public ENVIAR_FACTURA_ELECTRONICA_EMITIR_FILTERS = ENVIAR_FACTURA_ELECTRONICA_EMITIR_FILTERS;
+  public ENVIAR_FACTURA_ELECTRONICA_NOTIFICAR_FILTERS = ENVIAR_FACTURA_ELECTRONICA_NOTIFICAR_FILTERS;
+
+  public filtroPermanenteEmitir: ParametrosApi = {
+    estado_aprobado: 'True',
+    estado_electronico: 'False',
+    estado_electronico_descartado: 'False',
+    documento_tipo__documento_clase__grupo: 1,
+    limit: 50,
   };
-  arrParametrosConsultaNotificar: ParametrosFiltros = {
-    filtros: this.filtroPermanenteNotificar,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    modelo: 'GenDocumento',
+
+  public filtroPermanenteNotificar: ParametrosApi = {
+    estado_electronico_notificado: 'False',
+    estado_electronico: 'True',
+    documento_tipo__documento_clase__grupo: 1,
+    limit: 50,
   };
+
+  arrParametrosConsultaEmitir: ParametrosApi = {
+    estado_aprobado: 'True',
+    estado_electronico: 'False',
+    estado_electronico_descartado: 'False',
+    documento_tipo__documento_clase__grupo: 1,
+    limit: 50,
+  };
+
+  arrParametrosConsultaNotificar: ParametrosApi = {
+    estado_electronico_notificado: 'False',
+    estado_electronico: 'True',
+    documento_tipo__documento_clase__grupo: 1,
+    limit: 50,
+  };
+
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
   arrRegistrosSeleccionadosNotificar: number[] = [];
@@ -90,18 +83,23 @@ export class FacturaElectronicaComponent extends General implements OnInit {
   notificarSelectTodo = false;
   tabActive: number = 1;
   paginacionEmitirDesde: number = 0;
-  paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir.limite;
+  paginacionEmitirHasta: number | string | boolean =
+    this.arrParametrosConsultaEmitir.limit;
   paginacionNotificarDesde: number = 0;
-  paginacionNotificarHasta: number = this.arrParametrosConsultaNotificar.limite;
-  cantidad_registros: number = 0;
-  arrDocumentosEmitirCantidadRegistros: number = 0;
-  arrDocumentosNotificarCantidadRegistros: number = 0;
+  paginacionNotificarHasta: number | string | boolean =
+    this.arrParametrosConsultaNotificar.limit;
+
+  totalDocumentosEmitir = signal(0);
+  totalDocumentosNotificar = signal(0);
+  currentPageEmitir = signal(1);
+  currentPageNotificar = signal(1);
 
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
+  private readonly _filterTransformerService = inject(FilterTransformerService);
   private readonly _generalService = inject(GeneralService);
   private readonly _facturaElectronicaService = inject(
-    FacturaElectronicaService
+    FacturaElectronicaService,
   );
 
   constructor(private httpService: HttpService) {
@@ -110,43 +108,47 @@ export class FacturaElectronicaComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.consultarLista();
+      this.consultarListaEmitir();
     });
     this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: utilidades['factura_electronica_emitir'] })
+      ActualizarMapeo({ dataMapeo: utilidades['factura_electronica_emitir'] }),
     );
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarLista() {
+  consultarListaEmitir() {
     this._limpiarSeleccionados();
-    zip(
-      this._generalService.consultarDatosLista(
-        this.arrParametrosConsultaEmitir
-      ),
-      this._generalService.consultarDatosLista(
-        this.arrParametrosConsultaNotificar
-      )
-    ).subscribe((respuesta: any) => {
-      this.arrDocumentosEmitirCantidadRegistros =
-        respuesta[0]?.registros?.length;
-      this.arrDocumentosEmitir = respuesta[0]?.registros?.map(
+    this._generalService.consultaApi<RespuestaApi<any[]>>(
+      'general/documento/',
+      this.arrParametrosConsultaEmitir,
+    ).subscribe((respuesta) => {
+      this.totalDocumentosEmitir.set(respuesta.count);
+      this.arrDocumentosEmitir = respuesta?.results?.map(
         (documento: any) => ({
           ...documento,
           ...{
             selected: false,
           },
-        })
+        }),
       );
-      this.arrDocumentosNotificarCantidadRegistros =
-        respuesta[1]?.registros?.length;
-      this.arrDocumentosNotificar = respuesta[1]?.registros?.map(
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  consultarListaNotificar() {
+    this._limpiarSeleccionados();
+    this._generalService.consultaApi<RespuestaApi<any[]>>(
+      'general/documento/',
+      this.arrParametrosConsultaNotificar,
+    ).subscribe((respuesta) => {
+      this.totalDocumentosNotificar.set(respuesta.count);
+      this.arrDocumentosNotificar = respuesta?.results?.map(
         (documento: any) => ({
           ...documento,
           ...{
             selected: false,
           },
-        })
+        }),
       );
       this.changeDetectorRef.detectChanges();
     });
@@ -215,13 +217,13 @@ export class FacturaElectronicaComponent extends General implements OnInit {
             tap(() => {
               this.arrRegistrosSeleccionadosEmitir =
                 this.arrRegistrosSeleccionadosEmitir.filter(
-                  (item) => item !== documento_id
+                  (item) => item !== documento_id,
                 );
-              this.consultarLista();
+              this.consultarListaEmitir();
             }),
             tap(() => {
               this.emitirSelectTodo = false;
-            })
+            }),
           )
           .subscribe();
       });
@@ -230,7 +232,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
       this.alertaService.mensajeError(
         'Error',
-        'No tiene registros seleccionados'
+        'No tiene registros seleccionados',
       );
     }
   }
@@ -244,13 +246,13 @@ export class FacturaElectronicaComponent extends General implements OnInit {
             tap(() => {
               this.arrRegistrosSeleccionadosNotificar =
                 this.arrRegistrosSeleccionadosNotificar.filter(
-                  (item) => item !== documento_id
+                  (item) => item !== documento_id,
                 );
-              this.consultarLista();
+              this.consultarListaNotificar();
             }),
             tap(() => {
               this.notificarSelectTodo = false;
-            })
+            }),
           )
           .subscribe();
       });
@@ -260,161 +262,80 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       this.changeDetectorRef.detectChanges();
       this.alertaService.mensajeError(
         'Error',
-        'No tiene registros seleccionados'
+        'No tiene registros seleccionados',
       );
     }
   }
 
   visualizarTap(tap: string) {
     this.store.dispatch(ActualizarMapeo({ dataMapeo: utilidades[tap] }));
-    this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
-    this.arrParametrosConsultaNotificar.filtros =
-      this.filtroPermanenteNotificar;
-    // limpiar
-    this.consultarLista();
+    
+    if(tap === 'factura_electronica_emitir') {
+      this.arrParametrosConsultaEmitir = this.filtroPermanenteEmitir;
+      this.consultarListaEmitir();
+    } else {
+      this.arrParametrosConsultaNotificar = this.filtroPermanenteNotificar;
+      this.consultarListaNotificar();
+    }
   }
 
   private _limpiarSeleccionados() {
     this.arrRegistrosSeleccionadosEmitir = [];
+    this.arrRegistrosSeleccionadosNotificar = [];
   }
 
-  obtenerFiltrosEmitir(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsultaEmitir.filtros = [
-          ...this.filtroPermanenteEmitir,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
-      }
-    }
-    this.consultarLista();
-  }
+  obtenerFiltrosEmitir(filtros: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filtros);
 
-  obtenerFiltrosNotificar(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsultaNotificar.filtros = [
-          ...this.filtroPermanenteNotificar,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsultaNotificar.filtros =
-          this.filtroPermanenteNotificar;
-      }
-    }
-    this.consultarLista();
-  }
-
-  aumentarDesplazamientoEmitir() {
-    this.paginacionEmitirDesde =
-      this.paginacionEmitirDesde + this.arrParametrosConsultaEmitir.limite;
-    this.paginacionEmitirHasta =
-      this.paginacionEmitirHasta + this.arrParametrosConsultaEmitir.limite;
-    this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
-    this.consultarLista();
-  }
-
-  disminuirDesplazamientoEmitir() {
-    if (this.paginacionEmitirDesde > 0) {
-      let nuevoValor =
-        this.paginacionEmitirDesde - this.arrParametrosConsultaEmitir.limite;
-      this.paginacionEmitirHasta =
-        this.paginacionEmitirHasta - this.arrParametrosConsultaEmitir.limite;
-      this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
-      this.consultarLista();
-    }
-  }
-
-  calcularValorMostrarEmitir(evento: any) {
-    if (evento.target.value) {
-      let valorInicial = evento.target.value;
-      if (valorInicial.includes('-')) {
-        let [limite, desplazamiento] = valorInicial.split('-');
-        desplazamiento = desplazamiento - limite + 1;
-        if (limite > 0) {
-          limite -= 1;
-          if (desplazamiento > 0) {
-            this.arrParametrosConsultaEmitir.desplazar = desplazamiento;
-            this.arrParametrosConsultaEmitir.limite = parseInt(limite);
-            this.consultarLista();
-          }
-        }
-        if (desplazamiento < 0) {
-          evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
-        }
-      } else {
-        this.arrParametrosConsultaEmitir.desplazar = parseInt(valorInicial);
-        this.arrParametrosConsultaEmitir.limite = 1;
-        this.consultarLista();
-      }
+    if (filtros.length >= 1) {
+      this.arrParametrosConsultaEmitir = {
+        ...this.filtroPermanenteEmitir,
+        ...apiParams,
+      };
     } else {
-      evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
-      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirHasta;
-      this.arrParametrosConsultaEmitir.limite = this.paginacionEmitirDesde;
-      this.consultarLista();
+      this.arrParametrosConsultaEmitir = this.filtroPermanenteEmitir;
     }
+
+    this.consultarListaEmitir();
   }
 
-  aumentarDesplazamientoNotificar() {
-    this.paginacionNotificarDesde =
-      this.paginacionNotificarDesde +
-      this.arrParametrosConsultaNotificar.limite;
-    this.paginacionNotificarHasta =
-      this.paginacionNotificarHasta +
-      this.arrParametrosConsultaNotificar.limite;
-    this.arrParametrosConsultaNotificar.desplazar =
-      this.paginacionNotificarDesde;
-    this.consultarLista();
-  }
+  obtenerFiltrosNotificar(filtros: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filtros);
 
-  disminuirDesplazamientoNotificar() {
-    if (this.paginacionNotificarDesde > 0) {
-      let nuevoValor =
-        this.paginacionNotificarDesde -
-        this.arrParametrosConsultaNotificar.limite;
-      this.paginacionNotificarHasta =
-        this.paginacionNotificarHasta -
-        this.arrParametrosConsultaNotificar.limite;
-      this.paginacionNotificarDesde = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.arrParametrosConsultaNotificar.desplazar =
-        this.paginacionNotificarDesde;
-      this.consultarLista();
-    }
-  }
-
-  calcularValorMostrarNotificar(evento: any) {
-    if (evento.target.value) {
-      let valorInicial = evento.target.value;
-      if (valorInicial.includes('-')) {
-        let [limite, desplazamiento] = valorInicial.split('-');
-        desplazamiento = desplazamiento - limite + 1;
-        if (limite > 0) {
-          limite -= 1;
-          if (desplazamiento > 0) {
-            this.arrParametrosConsultaNotificar.desplazar = desplazamiento;
-            this.arrParametrosConsultaNotificar.limite = limite;
-            this.consultarLista();
-          }
-        }
-        if (desplazamiento < 0) {
-          evento.target.value = `${this.paginacionNotificarDesde}-${this.paginacionNotificarHasta}`;
-        }
-      } else {
-        this.arrParametrosConsultaNotificar.desplazar = parseInt(valorInicial);
-        this.arrParametrosConsultaNotificar.limite = 1;
-        this.consultarLista();
-      }
+    if (filtros.length >= 1) {
+      this.arrParametrosConsultaNotificar = {
+        ...this.filtroPermanenteNotificar,
+        ...apiParams,
+      };
     } else {
-      evento.target.value = `${this.paginacionNotificarDesde}-${this.paginacionNotificarHasta}`;
-      this.arrParametrosConsultaNotificar.desplazar =
-        this.paginacionNotificarHasta;
-      this.arrParametrosConsultaNotificar.limite =
-        this.paginacionNotificarDesde;
-      this.consultarLista();
+      this.arrParametrosConsultaNotificar = this.filtroPermanenteNotificar;
     }
+
+    this.consultarListaNotificar();
+  }
+
+  onPageChangeEmitir(page: number): void {
+    this.currentPageEmitir.set(page);
+
+    this.arrParametrosConsultaEmitir = {
+      ...this.arrParametrosConsultaEmitir,
+      page,
+    };
+
+    this.consultarListaEmitir();
+  }
+
+  onPageChangeNotificar(page: number): void {
+    this.currentPageNotificar.set(page);
+
+    this.arrParametrosConsultaNotificar = {
+      ...this.arrParametrosConsultaNotificar,
+      page,
+    };
+
+    this.consultarListaNotificar();
   }
 
   confirmarDescartar() {
@@ -438,7 +359,7 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         return this._facturaElectronicaService.descartarFacturas({
           id: registroId,
         });
-      }
+      },
     );
 
     forkJoin(solicitudes)
@@ -446,8 +367,8 @@ export class FacturaElectronicaComponent extends General implements OnInit {
         finalize(() => {
           this.checkboxAll.nativeElement.checked = false;
           this.emitirSelectTodo = false;
-          this.consultarLista();
-        })
+          this.consultarListaEmitir();
+        }),
       )
       .subscribe({
         next: () => {
@@ -456,4 +377,3 @@ export class FacturaElectronicaComponent extends General implements OnInit {
       });
   }
 }
-  

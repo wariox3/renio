@@ -4,6 +4,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -16,15 +17,15 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { documentos } from '@comun/extra/mapeo-entidades/informes';
+import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { MovimientoAuxiliarGeneral } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { finalize } from 'rxjs';
+
 
 @Component({
   selector: 'app-auxiliar-general',
@@ -36,8 +37,9 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
-    BaseFiltroComponent,
-  ],
+    CuentasComponent,
+    ContactosComponent
+],
   templateUrl: './auxiliar-general.component.html',
   styleUrl: './auxiliar-general.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,22 +47,17 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 export class AxiliarGeneralComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
-  private _parametrosConsulta: any = {
-    modelo: 'ConMovimiento',
-    serializador: 'Informe',
-    filtros: [],
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-  };
-
   public cuentasAgrupadas: MovimientoAuxiliarGeneral[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
   public filtroKey = 'contabilidad_auxiliargeneral';
-
+  public cargandoCuentas = signal<boolean>(false);
+  public cuentaDesdeNombre = signal<string>('');
+  public cuentaDesdeCodigo = signal<string>('');
+  public cuentaHastaNombre = signal<string>('');
+  public cuentaHastaCodigo = signal<string>('');
+  public contactoNombreCorto = signal<string>('');
   private _descargarArchivosService = inject(DescargarArchivosService);
 
   constructor() {
@@ -68,56 +65,8 @@ export class AxiliarGeneralComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this._cargarFiltrosPredeterminados();
-    this._construirFiltros();
     this._initFormularioFiltros();
-    this.activatedRoute.queryParams.subscribe(() => {
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['auxiliar_general'] }),
-      );
-      this._consultarInformes(this._parametrosConsulta);
-    });
     this.changeDetectorRef.detectChanges();
-  }
-
-  private _cargarFiltrosPredeterminados() {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-
-    // Primer día del mes actual
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
-      .toISOString()
-      .split('T')[0];
-
-    // Último día del mes actual
-    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
-      .toISOString()
-      .split('T')[0];
-
-    const filtroValue = [
-      {
-        propiedad: 'fecha',
-        operadorFiltro: 'range',
-        valor1: firstDayOfMonth,
-        valor2: lastDayOfMonth,
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        operador: 'range',
-        campo: 'fecha',
-      },
-      {
-        propiedad: 'cierre',
-        operadorFiltro: 'false',
-        valor1: false,
-        tipo: 'Booleano',
-        operador: 'exact',
-        campo: 'cierre',
-      },
-    ];
-
-    localStorage.setItem(this.filtroKey, JSON.stringify(filtroValue));
   }
 
   private _initFormularioFiltros() {
@@ -140,7 +89,14 @@ export class AxiliarGeneralComponent extends General implements OnInit {
         // anio: [currentYear, Validators.required],
         fecha_desde: [firstDayOfMonth, Validators.required],
         fecha_hasta: [lastDayOfMonth, Validators.required],
-        cierre: [],
+        incluir_cierre: [false],
+        cuenta_con_movimiento: [false],
+        comprobante: [''],
+        nombre_corto: [''],
+        cuenta_desde: [''],
+        cuenta_hasta: [''],
+        contacto: [''],
+        numero: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -151,9 +107,11 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     );
   }
 
-  private _consultarInformes(parametros: any) {
+  private _consultarInformes(parametros: GenerarAuxiliarGeneral) {
+    this.cargandoCuentas.set(true);
     this.contabilidadInformesService
       .consultarAuxiliarGeneral(parametros)
+      .pipe(finalize(() => this.cargandoCuentas.set(false)))
       .subscribe({
         next: (respuesta) => {
           this.cuentasAgrupadas = respuesta.registros;
@@ -173,47 +131,20 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     this.totalDebito = 0;
   }
 
-  private _construirFiltros() {
-    this._limpiarFiltros();
-
-    const filtroGuardado = localStorage.getItem(this.filtroKey);
-
-    if (filtroGuardado) {
-      const parametrosConsulta: ParametrosFiltros = {
-        ...this._parametrosConsulta,
-        filtros: [...JSON.parse(filtroGuardado)],
-      };
-
-      this._parametrosConsulta = parametrosConsulta;
-    }
-  }
-
-  private _limpiarFiltros() {
-    this._parametrosConsulta.filtros = [];
-  }
-
-  obtenerFiltros(arrfiltros: any[]) {
-    if (arrfiltros.length >= 1) {
-      this._parametrosConsulta.filtros = arrfiltros;
-      this.changeDetectorRef.detectChanges();
-    } else {
-      this._parametrosConsulta.filtros = [];
-    }
-
-    this.changeDetectorRef.detectChanges();
-    this._consultarInformes(this._parametrosConsulta);
-  }
-
-  aplicarFiltro() {
-    // this._construirFiltros();
-    this._consultarInformes(this._parametrosConsulta);
+  imprimir() {
+    // this._httpService.descargarArchivo(
+    //   'contabilidad/movimiento/informe-balance-prueba/',
+    //   {
+    //     parametros: this.formularioFiltros.value,
+    //     pdf: true,
+    //   },
+    // );
   }
 
   descargarExcel() {
     this._descargarArchivosService.descargarExcel(
       {
-        ...this._parametrosConsulta,
-        limite: 5000,
+        parametros: this.formularioFiltros.value,
         excel: true,
       },
       'contabilidad/movimiento/informe-auxiliar-general/',
@@ -235,4 +166,50 @@ export class AxiliarGeneralComponent extends General implements OnInit {
       return null;
     };
   }
+
+  generar() {
+    this._consultarInformes(this.formularioFiltros.value);
+  }
+
+
+  agregarCuentaDesdeSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.cuentaDesdeNombre.set(cuenta.nombre);
+    this.cuentaDesdeCodigo.set(cuenta.codigo);
+  }
+
+  agregarCuentaHastaSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.cuentaHastaNombre.set(cuenta.nombre);
+    this.cuentaHastaCodigo.set(cuenta.codigo);
+  }
+
+  agregarContactoSeleccionado(contacto: {
+    id: number;
+    nombre_corto: string;
+    numero_identificacion: string;
+    plazo_pago__dias: number;
+    plazo_pago_id: number;
+    plazo_pago_proveedor__dias: number;
+    plazo_pago_proveedor_id: number;
+  }) {
+    this.formularioFiltros.get('contacto')?.setValue(contacto.id);
+    this.contactoNombreCorto.set(contacto.nombre_corto);
+  }
+}
+
+interface GenerarAuxiliarGeneral {
+  fecha_desde: string;
+  fecha_hasta: string;
+  incluir_cierre: boolean;
+  cuenta_movimiento: boolean;
+  comprobante: string;
 }

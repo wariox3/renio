@@ -43,16 +43,11 @@ export class SeleccionarGrupoComponent extends General implements OnInit {
 
   getGrupos() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>({
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'ConGrupo',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarConGrupo[]>(
+        'contabilidad/grupo/seleccionar/',
+      )
       .subscribe((response) => {
-        this.grupos.set(response.registros);
+        this.grupos.set(response);
         this._sugerirPrimerValor();
       });
   }
@@ -61,7 +56,7 @@ export class SeleccionarGrupoComponent extends General implements OnInit {
     if (this.sugerirPrimerValor && !this.isEdicion) {
       const grupos = this.grupos();
       if (grupos.length) {
-        this.selectChange.emit(grupos[0].grupo_id);
+        this.selectChange.emit(grupos[0].id);
       }
     }
   }

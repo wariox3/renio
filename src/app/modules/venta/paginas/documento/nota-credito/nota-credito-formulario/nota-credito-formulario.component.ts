@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -14,16 +22,20 @@ import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/busc
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
-import { HttpService } from '@comun/services/http.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
+import ContactoFormularioComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -39,11 +51,6 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -60,7 +67,7 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
     BuscarAvanzadoComponent,
     CardComponent,
     AnimacionFadeInOutDirective,
-    ContactoFormulario,
+    ContactoFormularioComponent,
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
@@ -85,7 +92,7 @@ export default class FacturaDetalleComponent
   public arrSede: RegistroAutocompletarGenSede[] = [];
   private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
-  habilitarCargar = signal(false)
+  habilitarCargar = signal(false);
   @ViewChild('referenciaInput') referenciaInput!: ElementRef<HTMLInputElement>;
 
   public _modulo: string;
@@ -191,7 +198,6 @@ export default class FacturaDetalleComponent
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private facturaService: FacturaService,
     private modalService: NgbModal,
   ) {
@@ -359,7 +365,7 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
-        this.habilitarCargar.set(true);
+      this.habilitarCargar.set(true);
     }
 
     this.formularioFactura?.markAsDirty();
@@ -824,12 +830,10 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsTouched();
 
     if (campo === 'contacto') {
-      this._inicializarFormulario(dato.contacto_id);
-      this._limpiarDocumentoReferencia(dato.contacto_id);
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this._inicializarFormulario(dato.id);
+      this._limpiarDocumentoReferencia(dato.id);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
     if (campo === 'metodo_pago') {
       this.formularioFactura.get(campo)?.setValue(dato.metodo_pago_id);
@@ -852,39 +856,25 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
-        this.habilitarCargar.set(true);
+      this.habilitarCargar.set(true);
     }
     this.changeDetectorRef.detectChanges();
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-        {
-          propiedad: 'cliente',
-          valor1: 'True',
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          nombre_corto__icontains: '',
+          cliente: 'True',
+          limite: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -892,42 +882,22 @@ export default class FacturaDetalleComponent
   }
 
   consultarDocumentoReferencia(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'numero__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-        {
-          propiedad: 'contacto_id',
-          valor1: this.formularioFactura.get('contacto')?.value,
-        },
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: 100,
-        },
-        {
-          propiedad: 'estado_aprobado',
-          valor1: true,
-        },
-      ],
-      limite: 5,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenDocumento',
-      serializador: 'Referencia',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumentoReferencia>(
-        arrFiltros,
+      .consultaApi<RegistroAutocompletarGenDocumentoReferencia>(
+        'general/documento/',
+        {
+          numero__icontains: `${event?.target.value}`,
+          contacto_id: this.formularioFactura.get('contacto')?.value,
+          documento_tipo__documento_clase_id: 100,
+          estado_aprobado: 'True',
+          limit: 5,
+          serializador: 'referencia',
+        },
       )
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta.results;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -1109,15 +1079,12 @@ export default class FacturaDetalleComponent
 
   private _consultarInformacion() {
     return zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
-        {
-          modelo: 'GenSede',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenSede>(
+        'general/sede/seleccionar/',
       ),
     ).pipe(
-      tap((respuesta) => {
-        this.arrSede = respuesta[0].registros;
+      tap((respuesta: any) => {
+        this.arrSede = respuesta[0];
         if (!this.detalle) {
           this._initSugerencias();
         }
@@ -1134,7 +1101,7 @@ export default class FacturaDetalleComponent
   private _sugerirSede(posicion: number) {
     if (this.arrSede.length > 0) {
       this.formularioFactura.patchValue({
-        sede: this.arrSede?.[posicion].sede_id,
+        sede: this.arrSede?.[posicion].id,
       });
     }
   }
@@ -1149,14 +1116,20 @@ export default class FacturaDetalleComponent
   }
 
   cargarDocumentoReferencia() {
-    const documentoRef = this.formularioFactura.get('documento_referencia')?.value;
-    if(this.habilitarCargar()){
-      this.facturaService.consultarDetalle(documentoRef).subscribe((respuesta) => {
-        this._formularioFacturaService.poblarDocumentoDetalle(respuesta.documento.detalles, false);
-        this.changeDetectorRef.detectChanges();
-      })
+    const documentoRef = this.formularioFactura.get(
+      'documento_referencia',
+    )?.value;
+    if (this.habilitarCargar()) {
+      this.facturaService
+        .consultarDetalle(documentoRef)
+        .subscribe((respuesta) => {
+          this._formularioFacturaService.poblarDocumentoDetalle(
+            respuesta.documento.detalles,
+            false,
+          );
+          this.changeDetectorRef.detectChanges();
+        });
       this.habilitarCargar.set(false);
-    } 
+    }
   }
-  
 }

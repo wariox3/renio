@@ -17,17 +17,15 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { MovimientoAuxiliarCuenta } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { finalize } from 'rxjs';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
+import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 
 interface DataAgrupada {
   [cuentaClaseId: number | string]: {
@@ -58,7 +56,8 @@ interface DataAgrupada {
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
-    BaseFiltroComponent,
+    CuentasComponent,
+    ContactosComponent,
   ],
   templateUrl: './auxiliar-cuenta.component.html',
   styleUrl: './auxiliar-cuenta.component.scss',
@@ -82,6 +81,10 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
   public totalDebito: number = 0;
   public totalCredito: number = 0;
   public cargandoCuentas = signal<boolean>(false);
+  public cuentaDesdeNombre = signal<string>('');
+  public cuentaDesdeCodigo = signal<string>('');
+  public cuentaHastaNombre = signal<string>('');
+  public cuentaHastaCodigo = signal<string>('');
   public filtroKey = 'contabilidad_auxiliarcuenta';
 
   private _httpService = inject(HttpService);
@@ -95,7 +98,6 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     this._initFormularioFiltros();
     this.changeDetectorRef.detectChanges();
   }
-
 
   private _initFormularioFiltros() {
     const currentDate = new Date();
@@ -120,7 +122,10 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
         incluir_cierre: [false],
         cuenta_con_movimiento: [false],
         comprobante: [''],
-        cuenta: ['']
+        cuenta: [''],
+        cuenta_desde: [''],
+        cuenta_hasta: [''],
+        contacto: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -165,7 +170,7 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     );
   }
 
-    descargarExcel() {
+  descargarExcel() {
     this._descargarArchivosService.descargarExcel(
       {
         parametros: this.formularioFiltros.value,
@@ -202,9 +207,30 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     };
   }
 
-    generar() {
+  generar() {
     this._consultarInformes(this.formularioFiltros.value);
   }
+
+  agregarCuentaDesdeSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.cuentaDesdeNombre.set(cuenta.nombre);
+    this.cuentaDesdeCodigo.set(cuenta.codigo);
+  }
+
+  agregarCuentaHastaSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.cuentaHastaNombre.set(cuenta.nombre);
+    this.cuentaHastaCodigo.set(cuenta.codigo);
+  }
+
 }
 
 interface GenerarAuxiliarCuenta {

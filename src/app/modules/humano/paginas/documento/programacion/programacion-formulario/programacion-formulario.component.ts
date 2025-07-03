@@ -49,7 +49,7 @@ export default class ContratoFormularioComponent
   extends General
   implements OnInit, OnDestroy
 {
-  grupoSeleccionado: any;
+  grupoSeleccionado: RegistroAutocompletarHumGrupo | undefined;
   arrPagoTipo: RegistroAutocompletarHumPagoTipo[];
   arrGrupo: RegistroAutocompletarHumGrupo[] = [];
   formularioProgramacion: FormGroup;
@@ -80,14 +80,14 @@ export default class ContratoFormularioComponent
         if (value) {
           this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
             let valor = Number(value);
-            return grupo.grupo_id === valor;
+            return grupo.id === valor;
           });
           if (this.grupoSeleccionado !== undefined) {
             this.actualizarValidacion(
-              this.grupoSeleccionado.grupo_periodo_dias,
+              this.grupoSeleccionado.periodo__dias,
             );
             this.formularioProgramacion.patchValue({
-              periodo: this.grupoSeleccionado.grupo_periodo_id,
+              periodo: this.grupoSeleccionado.periodo_id,
             });
           }
         } else {
@@ -111,7 +111,7 @@ export default class ContratoFormularioComponent
           // llamar actualizar validacion
           if (this.grupoSeleccionado) {
             this.actualizarValidacion(
-              this.grupoSeleccionado.grupo_periodo_dias,
+              this.grupoSeleccionado.periodo__dias,
             );
           }
         }
@@ -234,22 +234,21 @@ export default class ContratoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumPagoTipo>(
+      this._generalService.consultaApi<RegistroAutocompletarHumPagoTipo[]>(
+      'humano/pago_tipo/seleccionar/',
         {
-          modelo: 'HumPagoTipo',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarHumGrupo>(
+          limit: 100
+        }
+    ),
+      this._generalService.consultaApi<RegistroAutocompletarHumGrupo[]>(
+        'humano/grupo/seleccionar/',
         {
-          limite_conteo: 10000,
-          modelo: 'HumGrupo',
-          serializador: 'ListaAutocompletar',
-        },
+          limit: 100
+        }
       ),
     ).subscribe((respuesta) => {
-      this.arrPagoTipo = respuesta[0].registros;
-      this.arrGrupo = respuesta[1].registros;
+      this.arrPagoTipo = respuesta[0];
+      this.arrGrupo = respuesta[1];
 
       if (this.detalle) {
         this.consultarDetalle();
@@ -338,13 +337,13 @@ export default class ContratoFormularioComponent
 
         this.grupoSeleccionado = this.arrGrupo.find((grupo) => {
           let valor = Number(respuesta.grupo_id);
-          return grupo.grupo_id === valor;
+          return grupo.id === valor;
         });
 
         if (this.grupoSeleccionado !== undefined) {
-          this.actualizarValidacion(this.grupoSeleccionado.grupo_periodo_dias);
+          this.actualizarValidacion(this.grupoSeleccionado.periodo__dias);
           this.formularioProgramacion.patchValue({
-            periodo: this.grupoSeleccionado.grupo_periodo_id,
+            periodo: this.grupoSeleccionado.periodo_id,
           });
         }
 

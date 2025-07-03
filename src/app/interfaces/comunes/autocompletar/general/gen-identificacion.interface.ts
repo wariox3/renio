@@ -1,5 +1,5 @@
 export interface RegistroAutocompletarGenIdentificacion {
-  identificacion_id: number;
-  identificacion_nombre: string;
-  identificacion_tipo_persona_id: number;
+  id: number;
+  nombre: string;
+  tipo_persona: number;
 }

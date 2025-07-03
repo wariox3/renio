@@ -7,7 +7,6 @@ import {
 } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import {
-  AfterViewInit,
   Component,
   computed,
   ElementRef,
@@ -18,7 +17,7 @@ import {
   OnInit,
   Output,
   signal,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   FormBuilder,
@@ -30,7 +29,9 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
@@ -44,8 +45,8 @@ import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompl
 import { RegistroAutocompletarGenPrecio } from '@interfaces/comunes/autocompletar/general/gen-precio.interface';
 import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
 import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/general/gen-tipo-persona.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -60,9 +61,6 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-contacto-formulario',
@@ -100,27 +98,25 @@ export default class ContactoFormularioComponent
 {
   formularioContacto: FormGroup;
   informacionContacto: any;
-  arrCiudades: RegistroAutocompletarGenCiudad[];
+  arrCiudades: any[];
   arrIdentificacion: RegistroAutocompletarGenIdentificacion[];
   arrIdentificacionSignal = signal<RegistroAutocompletarGenIdentificacion[]>(
     [],
   );
-  arrTipoPersona: RegistroAutocompletarGenTipoPersona[];
-  arrBancos: RegistroAutocompletarGenBanco[];
-  arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
-  arrRegimen: RegistroAutocompletarGenRegimen[];
-  arrAsesores: RegistroAutocompletarGenAsesor[];
-  arrPrecios: RegistroAutocompletarGenPrecio[];
-  arrPagos: RegistroAutocompletarGenPlazoPago[];
-  ciudadSeleccionada: RegistroAutocompletarGenCiudad | null;
+  arrTipoPersona: any[];
+  arrBancos: any[];
+  arrCuentasBancos: any[];
+  arrRegimen: any[];
+  arrAsesores: any[];
+  arrPrecios: any[];
+  arrPagos: any[];
+  ciudadSeleccionada: any | null;
   filtroIdentificacionSignal = signal(1);
   identificacionIdApiDetalleSignal = signal(0);
 
   filteredIdentificacionSignal = computed(() =>
     this.arrIdentificacionSignal().filter(
-      (item) =>
-        item.identificacion_tipo_persona_id ===
-        this.filtroIdentificacionSignal(),
+      (item) => item.tipo_persona === this.filtroIdentificacionSignal(),
     ),
   );
 
@@ -472,13 +468,11 @@ export default class ContactoFormularioComponent
           nombre2: null,
           apellido1: null,
           apellido2: null,
-          identificacion:
-            this.filteredIdentificacionSignal()[0].identificacion_id,
+          identificacion: this.filteredIdentificacionSignal()[0].id,
         });
       } else {
         this.formularioContacto.patchValue({
-          identificacion:
-            this.filteredIdentificacionSignal()[0].identificacion_id,
+          identificacion: this.filteredIdentificacionSignal()[0].id,
         });
       }
     } else {
@@ -496,8 +490,7 @@ export default class ContactoFormularioComponent
       this.setValidators('nombre_corto', [Validators.maxLength(200)]);
       if (this.accion === 'nuevo') {
         this.formularioContacto.patchValue({
-          identificacion:
-            this.filteredIdentificacionSignal()[0].identificacion_id,
+          identificacion: this.filteredIdentificacionSignal()[0].id,
         });
       }
       if (this.accion === 'editar') {
@@ -593,27 +586,15 @@ export default class ContactoFormularioComponent
   }
 
   consultarCiudad(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenCiudad',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenCiudad>(
+        'general/ciudad/seleccionar/',
+        { nombre__icontains: `${event?.target.value}` },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrCiudades = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrCiudades = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -622,70 +603,46 @@ export default class ContactoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenIdentificacion>(
-        {
-          modelo: 'GenIdentificacion',
-          serializador: 'ListaAutocompletar',
-          ordenamientos: ['orden'],
-        },
+      this._generalService.consultaApi<
+        RegistroAutocompletarGenIdentificacion[]
+      >('general/identificacion/seleccionar/'),
+      this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
+        'general/regimen/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
-        {
-          modelo: 'GenRegimen',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
+        'general/tipo_persona/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
-        {
-          modelo: 'GenTipoPersona',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPrecio[]>(
+        'general/precio/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPrecio>(
-        {
-          modelo: 'GenPrecio',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenAsesor[]>(
+        'general/asesor/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
-        {
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago[]>(
+        'general/plazo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenBanco[]>(
+        'general/banco/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenBanco>(
-        {
-          modelo: 'GenBanco',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
-        {
-          modelo: 'GenCuentaBancoClase',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
+      this._generalService.consultaApi<
+        RegistroAutocompletarGenCuentaBancoClase[]
+      >('general/cuenta_banco_clase/seleccionar/'),
     ).subscribe((respuesta: any) => {
-      this.arrIdentificacionSignal.set(respuesta[0].registros);
-      this.arrIdentificacion = respuesta[0].registros;
-      this.arrRegimen = respuesta[1].registros;
-      this.arrTipoPersona = respuesta[2].registros;
-      this.arrPrecios = respuesta[3].registros;
-      this.arrAsesores = respuesta[4].registros;
-      this.arrPagos = respuesta[5].registros;
-      this.arrBancos = respuesta[6].registros;
-      this.arrCuentasBancos = respuesta[7].registros;
+
+      this.arrIdentificacionSignal.set(respuesta[0]);
+      this.arrIdentificacion = respuesta[0];
+      this.arrRegimen = respuesta[1];
+      this.arrTipoPersona = respuesta[2];
+      this.arrPrecios = respuesta[3];
+      this.arrAsesores = respuesta[4];
+      this.arrPagos = respuesta[5];
+      this.arrBancos = respuesta[6];
+      this.arrCuentasBancos = respuesta[7];
       this.changeDetectorRef.detectChanges();
       this.formularioContacto.patchValue({
-        identificacion:
-          this.filteredIdentificacionSignal()[0].identificacion_id,
+        identificacion: this.filteredIdentificacionSignal()[0].id,
       });
+      this.changeDetectorRef.detectChanges();
     });
   }
 
@@ -701,7 +658,7 @@ export default class ContactoFormularioComponent
         this.ciudadSeleccionada = dato.nombre;
         this.formularioContacto
           .get('ciudad_nombre')
-          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
+          ?.setValue(`${dato.nombre} - ${dato.estado__nombre}`);
         this.formularioContacto.get('ciudad')?.setValue(dato.id);
       }
     }

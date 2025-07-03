@@ -12,7 +12,7 @@ export class EmpresaService {
   constructor(private httpService: HttpService) {}
 
   consultarDetalle(id: string) {
-    return this.httpService.get<any>(`general/empresa/${id}/`);
+    return this.httpService.getDetalle<any>(`general/empresa/${id}/`);
   }
 
   actualizarDatosEmpresa(id: number, data: any) {

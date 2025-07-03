@@ -29,12 +29,10 @@ import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompl
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import {
-  AcumuladorImpuestos,
-  PagoFormulario,
-} from '@interfaces/comunes/factura/factura.interface';
+import { PagoFormulario } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -349,10 +347,10 @@ export default class CuentaCobroFormularioComponent
   }
 
   // TODO: Preguntar sobre esta logica (se requiere en todos los componentes?)
-  agregarPagoSeleccionado(item: any, index: number) {
+  agregarPagoSeleccionado(item: CuentaBancoSeleccionar, index: number) {
     this.pagos.controls[index].patchValue({
-      cuenta_banco: item.cuenta_banco_id,
-      cuenta_banco_nombre: item.cuenta_banco_nombre,
+      cuenta_banco: item.id,
+      cuenta_banco_nombre: item.nombre,
     });
     const pagoFormGroup = this.pagos.at(index) as FormGroup;
 
@@ -425,31 +423,19 @@ export default class CuentaCobroFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'cliente',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          cliente: 'True',
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -553,11 +539,11 @@ export default class CuentaCobroFormularioComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      if (dato.contacto_id && dato.contacto_nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
+      if (dato.id && dato.nombre_corto) {
+        this.formularioFactura.get(campo)?.setValue(dato.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.contacto_nombre_corto);
+          ?.setValue(dato.nombre_corto);
       }
       if (dato.id && dato.nombre_corto) {
         this.formularioFactura.get(campo)?.setValue(dato.id);
@@ -618,36 +604,24 @@ export default class CuentaCobroFormularioComponent
 
   private _consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
-        {
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
+        'general/plazo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
-        {
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenAsesor>(
+        'general/asesor/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
-        {
-          modelo: 'GenSede',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenSede>(
+        'general/sede/seleccionar/',
       ),
       this._empresaService.obtenerConfiguracionEmpresa(1),
-    ).subscribe((respuesta) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.arrAsesor = respuesta[2].registros;
-      this.arrSede = respuesta[3].registros;
+    ).subscribe((respuesta: any) => {
+      this.arrMetodosPago = respuesta[0];
+      this.arrPlazoPago = respuesta[1];
+      this.arrAsesor = respuesta[2];
+      this.arrSede = respuesta[3];
       this.requiereAsesor = respuesta[4].venta_asesor;
       this.requiereSede = respuesta[4].venta_sede;
 

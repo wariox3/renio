@@ -135,7 +135,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
               nuevo: 'inventario/administracion/nuevo',
               detalle: 'inventario/administracion/detalle',
             },
-            endpoint: 'general/almacen',
+            endpoint: 'inventario/almacen',
             queryParams: {
               ordering: '-id',
             },

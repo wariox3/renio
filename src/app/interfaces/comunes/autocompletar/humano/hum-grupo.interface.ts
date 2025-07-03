@@ -1,4 +1,6 @@
 export interface RegistroAutocompletarHumGrupo {
-  grupo_id: number;
-  grupo_nombre: string;
+  id: number;
+  nombre: string;
+  periodo__dias: number;
+  periodo_id: number;
 }

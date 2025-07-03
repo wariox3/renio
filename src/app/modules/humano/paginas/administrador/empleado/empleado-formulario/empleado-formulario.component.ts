@@ -225,17 +225,6 @@ export default class EmpleadoFormularioComponent
     );
   }
 
-  getErroresFormulario() {
-    const errores: Record<string, any> = {};
-    Object.keys(this.formularioEmpleado.controls).forEach((controlName) => {
-      const control = this.formularioEmpleado.get(controlName);
-      if (control?.errors) {
-        errores[controlName] = control.errors;
-      }
-    });
-    return errores;
-  }
-
   enviarFormulario() {
     if (this.formularioEmpleado.valid) {
       this.guardando$.next(true);
@@ -387,27 +376,15 @@ export default class EmpleadoFormularioComponent
   }
 
   consultarCiudad(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenCiudad',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenCiudad[]>(
+        'general/ciudad/seleccionar/',
+        {
+          nombre__icontains: event?.target.value,
+        })
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrCiudades = respuesta.registros;
+          this.arrCiudades = respuesta;
           this.changeDetectorRef.detectChanges();
         })
       )
@@ -426,7 +403,7 @@ export default class EmpleadoFormularioComponent
         this.ciudadSeleccionada = dato.nombre;
         this.formularioEmpleado
           .get('ciudad_nombre')
-          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
+          ?.setValue(`${dato.nombre} - ${dato.estado__nombre}`);
         this.formularioEmpleado.get('ciudad')?.setValue(dato.id);
       }
     }
@@ -439,63 +416,39 @@ export default class EmpleadoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenIdentificacion>(
-        {
-          modelo: 'GenIdentificacion',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenIdentificacion[]>(
+        'general/identificacion/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
-        {
-          modelo: 'GenRegimen',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
+        'general/regimen/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
-        {
-          modelo: 'GenTipoPersona',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
+        'general/tipo_persona/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPrecio>(
-        {
-          modelo: 'GenPrecio',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenPrecio[]>(
+        'general/precio/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
-        {
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenAsesor[]>(
+        'general/asesor/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago[]>(
+        'general/plazo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenBanco>(
-        {
-          modelo: 'GenBanco',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenBanco[]>(
+        'general/banco/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoClase>(
-        {
-          modelo: 'GenCuentaBancoClase',
-          serializador: 'ListaAutocompletar',
-        }
+      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoClase[]>(
+        'general/cuenta_banco_clase/seleccionar/',
       )
     ).subscribe((respuesta) => {
-      this.arrIdentificacion = respuesta[0].registros;
-      this.arrRegimen = respuesta[1].registros;
-      this.arrTipoPersona = respuesta[2].registros;
-      this.arrPrecios = respuesta[3].registros;
-      this.arrAsesores = respuesta[4].registros;
-      this.arrPagos = respuesta[5].registros;
-      this.arrBancos = respuesta[6].registros;
-      this.arrCuentasBancos = respuesta[7].registros;
+      this.arrIdentificacion = respuesta[0];
+      this.arrRegimen = respuesta[1];
+      this.arrTipoPersona = respuesta[2];
+      this.arrPrecios = respuesta[3];
+      this.arrAsesores = respuesta[4];
+      this.arrPagos = respuesta[5];
+      this.arrBancos = respuesta[6];
+      this.arrCuentasBancos = respuesta[7];
       this.changeDetectorRef.detectChanges();
     });
   }

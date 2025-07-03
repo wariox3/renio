@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -169,21 +165,15 @@ export default class FacturaDetalleComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
-        {
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
+        'general/plazo_pago/seleccionar/',
       ),
     ).subscribe((respuesta: any) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
+      this.arrMetodosPago = respuesta[0];
+      this.arrPlazoPago = respuesta[1];
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -261,12 +251,11 @@ export default class FacturaDetalleComponent
       this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
     if (campo === 'documento_referencia') {
-      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('documento_referencia')?.setValue(dato.id);
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
     }
-
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     this.changeDetectorRef.detectChanges();
@@ -293,12 +282,10 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
-      this._inicializarFormulario(dato.contacto_id);
-      this._limpiarDocumentoReferencia(dato.contacto_id);
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this._inicializarFormulario(dato.id);
+      this._limpiarDocumentoReferencia(dato.id);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
       if (campo === 'contactoNuevoModal') {
         this.formularioFactura.get('contacto')?.setValue(dato.id);
         this.formularioFactura
@@ -351,7 +338,9 @@ export default class FacturaDetalleComponent
       }
     }
     if (campo === 'documento_referencia') {
-      this.formularioFactura.get(campo)?.setValue(dato.id);
+      console.log(dato);
+
+      this.formularioFactura.get('documento_referencia')?.setValue(dato.id);
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
@@ -360,31 +349,19 @@ export default class FacturaDetalleComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'proveedor',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          proveedor: 'True',
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -392,39 +369,19 @@ export default class FacturaDetalleComponent
   }
 
   consultarDocumentoReferencia(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'numero__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'contacto_id',
-          valor1: this.formularioFactura.get('contacto')?.value,
-        },
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: 303,
-        },
-        {
-          propiedad: 'estado_aprobado',
-          valor1: true,
-        },
-      ],
-      limite: 5,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenDocumento',
-      serializador: 'Referencia',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>('general/documento/', {
+        numero__icontains: `${event?.target.value}`,
+        contacto_id: this.formularioFactura.get('contacto')?.value,
+        documento_tipo__documento_clase_id: 303,
+        estado_aprobado: 'True',
+        limit: 5,
+        serializador: 'referencia',
+      })
       .pipe(
         throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta.results;
           this.changeDetectorRef.detectChanges();
         }),
       )

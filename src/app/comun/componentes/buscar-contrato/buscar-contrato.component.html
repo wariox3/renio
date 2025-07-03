@@ -52,8 +52,8 @@
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contrato', contrato)"
               >
-                {{ contrato.contrato_contacto_numero_identificacion }}
-                {{ contrato.contrato_contacto_nombre_corto }}
+                {{ contrato.contacto__numero_identificacion }}
+                {{ contrato.contacto__nombre_corto }}
               </button>
             </ng-container>
             } @else { @if (cargandoEmpleados$ | async) {

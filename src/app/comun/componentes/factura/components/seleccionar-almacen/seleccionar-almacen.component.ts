@@ -16,8 +16,7 @@ import {
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, of, switchMap } from 'rxjs';
@@ -70,16 +69,10 @@ export class SeleccionarAlmacenComponent
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.getAlmacenes({
-      filtros: [],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'InvAlmacen',
-      serializador: 'ListaAutocompletar',
-    }).subscribe((respuesta) => {
-      this.almacenes.set(respuesta.registros);
+    this._generalService.consultaApi<RegistroAutocompletarInvAlmacen[]>(
+      'inventario/almacen/seleccionar/'
+    ).subscribe((respuesta) => {
+      this.almacenes.set(respuesta);
       this._sugerirPrimerValor();
     });
     this.searchControl.setValue(this.itemNombre);
@@ -100,7 +93,7 @@ export class SeleccionarAlmacenComponent
         }),
       )
       .subscribe((resultado) => {
-        this.almacenes.set(resultado.registros);
+        this.almacenes.set(resultado);
       });
   }
 
@@ -115,29 +108,15 @@ export class SeleccionarAlmacenComponent
     this.emitirItemSeleccionado.emit(almacen);
   }
 
-  getAlmacenes(filtros: ParametrosFiltros) {
-    return this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
+  getAlmacenes(filtros: { [key: string]: any }) {
+    return this._generalService.consultaApi<RegistroAutocompletarInvAlmacen[]>(
+      'inventario/almacen/seleccionar/',
       filtros,
     );
   }
 
   consultarItems(event: string | null) {
-    let filtros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'InvAlmacen',
-      serializador: 'ListaAutocompletar',
-    };
-
-    return this.getAlmacenes(filtros);
+    return this.getAlmacenes({ nombre__icontains: event });
   }
 
   private _sugerirPrimerValor() {

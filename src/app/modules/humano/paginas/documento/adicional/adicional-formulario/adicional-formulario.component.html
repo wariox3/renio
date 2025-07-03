@@ -41,7 +41,7 @@
           ></label>
           <ng-select
             [items]="arrConceptosAdicional"
-            bindValue="concepto_id"
+            bindValue="id"
             formControlName="concepto"
             notFoundText="Sin elementos"
             (change)="seleccionarConceptoAdcional($event)"
@@ -49,11 +49,11 @@
             class="select2Custom"
           >
             <ng-template ng-label-tmp let-item="item">
-              {{ item.concepto_id }} - {{ item.concepto_nombre }}
+              {{ item.id }} - {{ item.nombre }}
             </ng-template>
 
             <ng-template ng-option-tmp let-item="item">
-              {{ item.concepto_id }} - {{ item.concepto_nombre }}
+              {{ item.id }} - {{ item.nombre }}
             </ng-template>
           </ng-select>
           <ng-container

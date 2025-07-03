@@ -10,14 +10,13 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
 import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.interface';
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { Rutas } from '@interfaces/menu/configuracion.interface';
 
 @Component({
   selector: 'app-grupo-formulario',

@@ -19,8 +19,6 @@ import {
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { FiltrosAplicados } from '@interfaces/comunes/componentes/filtros/filtros-aplicados.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -32,6 +30,7 @@ import {
   switchMap,
   tap,
 } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-buscar-empleado',
@@ -51,15 +50,12 @@ export class BuscarEmpleadoComponent
   implements OnInit, OnChanges
 {
   formularioEmpleado: FormGroup;
-  arrEmpleados: any[] = [];
+  arrEmpleados: RegistroAutocompletarGenContacto[] = [];
   public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   public busquedaEmpleado = new Subject<string>();
-  filtrosPermanentes: FiltrosAplicados[] = [
-    {
-      propiedad: 'empleado',
-      valor1: true,
-    },
-  ];
+  filtrosPermanentes: ParametrosApi = {
+    empleado: 'True',
+  };
   @Input() informacionEmpleado = {
     identificacion: '',
     empleado: '',
@@ -101,7 +97,7 @@ export class BuscarEmpleadoComponent
         distinctUntilChanged(),
         switchMap((valor: string) => {
           return this.consultarEmpleadosPorNombre(valor);
-        })
+        }),
       )
       .subscribe();
   }
@@ -129,94 +125,68 @@ export class BuscarEmpleadoComponent
 
   consultarEmpleados(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
-    let filtros: FiltrosAplicados[] = [
-      {
-        propiedad,
-        valor1: valor,
-      },
+    let parametros: ParametrosApi = {
       ...this.filtrosPermanentes,
-    ];
-
-    let arrFiltros: ParametrosFiltros = {
-      filtros,
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
+      [propiedad]: valor,
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto[]>(
+        'general/contacto/seleccionar/',
+        parametros,
+      )
       .pipe(
         tap((respuesta) => {
-          this.arrEmpleados = respuesta.registros;
+          this.arrEmpleados = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
-        finalize(() => this.cargandoEmpleados$.next(false))
+        finalize(() => this.cargandoEmpleados$.next(false)),
       )
       .subscribe();
   }
 
   consultarEmpleadosPorNombre(valor: string) {
-    let filtros: FiltrosAplicados[] = [];
+    let parametros: ParametrosApi = {};
 
     if (!valor.length) {
-      filtros = [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${valor}`,
-        },
+      parametros = {
         ...this.filtrosPermanentes,
-      ];
+        nombre_corto__icontains: `${valor}`,
+      };
     } else if (isNaN(Number(valor))) {
-      filtros = [
+      parametros = {
         ...this.filtrosPermanentes,
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${valor}`,
-        },
-      ];
+        nombre_corto__icontains: `${valor}`,
+      };
     } else {
-      filtros = [
-        {
-          propiedad: 'numero_identificacion__icontains',
-          valor1: `${Number(valor)}`,
-        },
+      parametros = {
         ...this.filtrosPermanentes,
-      ];
+        numero_identificacion__icontains: `${Number(valor)}`,
+      };
     }
 
-    let arrFiltros: ParametrosFiltros = {
-      filtros,
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     return this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto[]>(
+        'general/contacto/seleccionar/',
+        parametros,
+      )
       .pipe(
         tap((respuesta) => {
-          this.arrEmpleados = respuesta.registros;
+          this.arrEmpleados = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
-        finalize(() => this.cargandoEmpleados$.next(false))
+        finalize(() => this.cargandoEmpleados$.next(false)),
       );
   }
 
-  modificarCampoFormulario(campo: string, dato: any) {
+  modificarCampoFormulario(campo: string, dato: RegistroAutocompletarGenContacto) {
     this.formularioEmpleado?.markAsDirty();
     this.formularioEmpleado?.markAsTouched();
     if (campo === 'contrato') {
-      this.formularioEmpleado.get(campo)?.setValue(dato.contrato_id);
+      this.formularioEmpleado.get(campo)?.setValue(dato.id);
       this.formularioEmpleado
         .get('contrato_nombre')
-        ?.setValue(dato.contrato_contacto_nombre_corto);
+        ?.setValue(dato.nombre_corto);
       this.formularioEmpleado
         .get('identificacion')
         ?.setValue(dato.numero_identificacion);

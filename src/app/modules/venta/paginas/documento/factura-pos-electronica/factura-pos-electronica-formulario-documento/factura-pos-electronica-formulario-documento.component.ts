@@ -36,8 +36,8 @@ import ContactoFormularioComponent from '@modulos/general/paginas/contacto/conta
     NgbDropdownModule,
     ContactoFormularioComponent,
     BuscarAvanzadoComponent,
-    ContactDetalleComponent
-],
+    ContactDetalleComponent,
+  ],
   templateUrl: 'factura-pos-electronica-formulario-documento.component.html',
   styleUrl: './factura-pos-electronica-formulario-documento.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,17 +73,17 @@ export class FacturaFormularioDocumentoComponent
     {
       propiedad: 'id',
       titulo: 'id',
-      campoTipo: 'IntegerField'
+      campoTipo: 'IntegerField',
     },
     {
       propiedad: 'numero_identificacion',
       titulo: 'identificacion',
-      campoTipo: 'CharField'
+      campoTipo: 'CharField',
     },
     {
       propiedad: 'nombre_corto',
       titulo: 'nombre_corto',
-      campoTipo: 'CharField'
+      campoTipo: 'CharField',
     },
   ];
 
@@ -99,12 +99,6 @@ export class FacturaFormularioDocumentoComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      if (dato.contacto_id && dato.contacto_nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-        this.formularioFactura
-          .get('contactoNombre')
-          ?.setValue(dato.contacto_nombre_corto);
-      }
       if (dato.id && dato.nombre_corto) {
         this.formularioFactura.get(campo)?.setValue(dato.id);
         this.formularioFactura
@@ -163,31 +157,19 @@ export class FacturaFormularioDocumentoComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'cliente',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          cliente: 'True',
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -289,61 +271,36 @@ export class FacturaFormularioDocumentoComponent
 
   private _consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
         {
-          filtros: [
-            {
-              propiedad: 'nombre__icontains',
-              valor1: '',
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
+        'general/plazo_pago/seleccionar/',
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenAsesor>(
+      this._generalService.consultaApi<RegistroAutocompletarGenAsesor>(
+        'general/asesor/seleccionar/',
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenAsesor',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
+      this._generalService.consultaApi<RegistroAutocompletarGenSede>(
+        'general/sede/seleccionar/',
         {
-          filtros: [],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'GenSede',
-          serializador: 'ListaAutocompletar',
+          limit: 10,
         },
       ),
       this._empresaService.obtenerConfiguracionEmpresa(1),
     ).subscribe((respuesta: any) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.arrAsesor = respuesta[2].registros;
-      this.arrSede = respuesta[3].registros;
+      this.arrMetodosPago = respuesta[0];
+      this.arrPlazoPago = respuesta[1];
+      this.arrAsesor = respuesta[2];
+      this.arrSede = respuesta[3];
       this.requiereAsesor = respuesta[4].venta_asesor;
       this.requiereSede = respuesta[4].venta_sede;
       this.changeDetectorRef.detectChanges();

@@ -258,43 +258,24 @@ export default class DepreciacionFormularioComponent
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
-    if (campo === 'contacto') {
-      this.formularioAsiento.get(campo)?.setValue(dato.contacto_id);
-      this.formularioAsiento
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
-      this._actualizarDetallesContactoSinDocumentoAfectado();
-    }
-
-    if (campo === 'contacto-ver-mas') {
-      this.formularioAsiento.get('contacto')?.setValue(dato.id);
-      this.formularioAsiento.get('contactoNombre')?.setValue(dato.nombre_corto);
-    }
-
+    this.formularioAsiento.get('contacto')?.setValue(dato.id);
+    this.formularioAsiento.get('contactoNombre')?.setValue(dato.nombre_corto);
     this.changeDetectorRef.detectChanges();
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContactos = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrContactos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -444,35 +425,22 @@ export default class DepreciacionFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConComprobante>(
+      this._generalService.consultaApi<RegistroAutocompletarConComprobante>(
+        'contabilidad/comprobante/seleccionar/',
         {
-          filtros: [
-            {
-              propiedad: 'permite_asiento',
-              valor1: true,
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'ConComprobante',
-          serializador: 'ListaAutocompletar',
+          permite_asiento: 'True',
+          limit: 10,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
+      this._generalService.consultaApi<RegistroAutocompletarConGrupo>(
+        'contabilidad/grupo/seleccionar/',
         {
           limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'ConGrupo',
-          serializador: 'ListaAutocompletar',
         },
       ),
     ).subscribe((respuesta: any) => {
-      this.arrComprobantes = respuesta[0].registros;
-      this.arrGrupo = respuesta[1].registros;
+      this.arrComprobantes = respuesta[0];
+      this.arrGrupo = respuesta[1];
       this.changeDetectorRef.detectChanges();
     });
   }

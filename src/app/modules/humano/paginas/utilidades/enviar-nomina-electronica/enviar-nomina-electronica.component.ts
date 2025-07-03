@@ -8,22 +8,28 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ENVIAR_NOMINA_ELECTRONICA_FILTERS } from '@modulos/humano/domain/mapeo/enviar-nomina-electronica.mapeo';
 import { TranslateModule } from '@ngx-translate/core';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { CardComponent } from '../../../../../comun/componentes/card/card.component';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { PaginadorComponent } from "../../../../../comun/componentes/ui/tabla/paginador/paginador.component";
 
 @Component({
   selector: 'app-enviar-nomina-electronica',
   standalone: true,
-  imports: [CardComponent, BaseFiltroComponent, TranslateModule, CommonModule],
+  imports: [CardComponent, TranslateModule, CommonModule, FiltroComponent, PaginadorComponent],
   templateUrl: './enviar-nomina-electronica.component.html',
   styleUrl: './enviar-nomina-electronica.component.css',
 })
@@ -33,40 +39,30 @@ export class EnviarNominaElectronicaComponent
 {
   private _generalService = inject(GeneralService);
   private _httpService = inject(HttpService);
+  private _filterTransformerService = inject(FilterTransformerService);
 
   documentos = signal<any[]>([]);
+  currentPage = signal(1);
+  totalPages = signal(1);
   itemsSeleccionados = signal<number[]>([]);
   paginacionEmitirDesde: number = 1;
   paginacionEmitirHasta: number = 50;
   checkboxSelectAll: any;
   emitirSelectTodo: string = 'emitirSelectTodo';
   cantidadDocumentos = signal<number>(0);
+  ENVIAR_NOMINA_ELECTRONICA_FILTERS = ENVIAR_NOMINA_ELECTRONICA_FILTERS;
 
-  filtroPermanenteEmitir: Filtros[] = [
-    {
-      propiedad: 'estado_aprobado',
-      valor1: true,
-    },
-    {
-      propiedad: 'estado_electronico',
-      valor1: false,
-    },
-    {
-      propiedad: 'estado_electronico_descartado',
-      valor1: false,
-    },
-    {
-      propiedad: 'documento_tipo',
-      valor1: 15,
-    },
-  ];
-  arrParametrosConsultaEmitir: ParametrosFiltros = {
-    filtros: this.filtroPermanenteEmitir,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    modelo: 'GenDocumento',
+  filtroPermanenteEmitir: ParametrosApi = {
+    estado_aprobado: 'True',
+    estado_electronico: 'False',
+    estado_electronico_descartado: 'False',
+    documento_tipo: '15',
+    valor1: 15,
+    limit: 50,
+  };
+
+  arrParametrosConsultaEmitir: ParametrosApi = {
+    ...this.filtroPermanenteEmitir,
   };
 
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
@@ -84,76 +80,40 @@ export class EnviarNominaElectronicaComponent
 
   consultarLista() {
     this._generalService
-      .consultarDatosLista(this.arrParametrosConsultaEmitir)
-      .subscribe((respuesta: any) => {
-        this.cantidadDocumentos.set(respuesta.registros.length);
-        this.documentos.set(respuesta.registros);
+      .consultaApi<
+        RespuestaApi<any[]>
+      >('general/documento/', this.arrParametrosConsultaEmitir)
+      .subscribe((respuesta) => {
+        this.cantidadDocumentos.set(respuesta.count);
+        this.documentos.set(respuesta.results);
       });
   }
 
-  obtenerFiltrosEmitir(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsultaEmitir.filtros = [
-          ...this.filtroPermanenteEmitir,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
-      }
-    }
+  onPageChange(page: number): void {
+    this.currentPage.set(page);
+
+    this.arrParametrosConsultaEmitir = {
+      ...this.arrParametrosConsultaEmitir,
+      page,
+    };
+
     this.consultarLista();
   }
 
-  aumentarDesplazamientoEmitir() {
-    this.paginacionEmitirDesde =
-      this.paginacionEmitirDesde + this.arrParametrosConsultaEmitir.limite;
-    this.paginacionEmitirHasta =
-      this.paginacionEmitirHasta + this.arrParametrosConsultaEmitir.limite;
-    this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
-    this.consultarLista();
-  }
+  filterChange(filtros: FilterCondition[]) {
+    const parametros =
+      this._filterTransformerService.transformToApiParams(filtros);
 
-  disminuirDesplazamientoEmitir() {
-    if (this.paginacionEmitirDesde > 0) {
-      let nuevoValor =
-        this.paginacionEmitirDesde - this.arrParametrosConsultaEmitir.limite;
-      this.paginacionEmitirHasta =
-        this.paginacionEmitirHasta - this.arrParametrosConsultaEmitir.limite;
-      this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
-      this.consultarLista();
-    }
-  }
-
-  calcularValorMostrarEmitir(evento: any) {
-    if (evento.target.value) {
-      let valorInicial = evento.target.value;
-      if (valorInicial.includes('-')) {
-        let [limite, desplazamiento] = valorInicial.split('-');
-        desplazamiento = desplazamiento - limite + 1;
-        if (limite > 0) {
-          limite -= 1;
-          if (desplazamiento > 0) {
-            this.arrParametrosConsultaEmitir.desplazar = desplazamiento;
-            this.arrParametrosConsultaEmitir.limite = parseInt(limite);
-            this.consultarLista();
-          }
-        }
-        if (desplazamiento < 0) {
-          evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
-        }
-      } else {
-        this.arrParametrosConsultaEmitir.desplazar = parseInt(valorInicial);
-        this.arrParametrosConsultaEmitir.limite = 1;
-        this.consultarLista();
-      }
+    if (filtros.length >= 1) {
+      this.arrParametrosConsultaEmitir = {
+        ...this.arrParametrosConsultaEmitir,
+        ...parametros,
+      };
     } else {
-      evento.target.value = `${this.paginacionEmitirDesde}-${this.paginacionEmitirHasta}`;
-      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirHasta;
-      this.arrParametrosConsultaEmitir.limite = this.paginacionEmitirDesde;
-      this.consultarLista();
+      this.arrParametrosConsultaEmitir = this.filtroPermanenteEmitir;
     }
+
+    this.consultarLista();
   }
 
   emitir() {
@@ -202,9 +162,12 @@ export class EnviarNominaElectronicaComponent
 
   private _descartar() {
     const solicitudes = this.itemsSeleccionados().map((registroId) => {
-      return this._httpService.post('general/documento/electronico_descartar/', {
-        id: registroId,
-      });
+      return this._httpService.post(
+        'general/documento/electronico_descartar/',
+        {
+          id: registroId,
+        },
+      );
     });
 
     forkJoin(solicitudes)
@@ -230,7 +193,6 @@ export class EnviarNominaElectronicaComponent
     }
 
     this.changeDetectorRef.detectChanges();
-    console.log(this.itemsSeleccionados());
   }
 
   manejarCheckGlobal(event: any) {
@@ -241,7 +203,6 @@ export class EnviarNominaElectronicaComponent
     }
 
     this.changeDetectorRef.detectChanges();
-    console.log(this.itemsSeleccionados());
   }
 
   seleccionar(id: number) {

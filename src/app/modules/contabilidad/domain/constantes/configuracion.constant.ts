@@ -168,6 +168,9 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
               detalle: 'contabilidad/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              serializador: 'lista'
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {

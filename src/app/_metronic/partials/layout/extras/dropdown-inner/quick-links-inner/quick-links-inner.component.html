@@ -6,6 +6,14 @@
 
 <div class="row g-0">
   <div class="col-12">
+    <div
+      class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom"
+    >
+      <span class="fs-5 fw-bold text-gray-800 mb-0">Aplicaciones</span>
+    </div>
+  </div>
+
+  <div class="col-6">
     <a
       (click)="navegarPos()"
       class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom cursor-pointer"
@@ -18,53 +26,51 @@
         <span class="path5"></span>
       </i>
       <span class="fs-5 fw-bold text-gray-800 mb-0">POS</span>
-      <span class="fs-7 text-gray-400">Comercializa y emite facturas electrónicas.</span>
-    </a>
-  </div>
-
-  <!-- <div class="col-6">
-    <a
-      class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-bottom cursor-pointer"
-    >
-      <app-keenicon
-        name="com010.svg"
-        class="fs-3x text-primary mb-2"
-      ></app-keenicon>
-      <span class="fs-5 fw-bold text-gray-800 mb-0">Administration</span>
-      <span class="fs-7 text-gray-400">Console</span>
+      <!-- <span class="fs-7 text-gray-400"
+      >Comercializa y emite facturas electrónicas.</span
+    > -->
     </a>
   </div>
 
   <div class="col-6">
     <a
-      class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end cursor-pointer"
+      (click)="navegarTransporte()"
+      class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom cursor-pointer"
     >
-      <app-keenicon
-        name="abs042.svg"
-        class="fs-3x text-primary mb-2"
-      ></app-keenicon>
-      <span class="fs-5 fw-bold text-gray-800 mb-0">Projects</span>
-      <span class="fs-7 text-gray-400">Pending Tasks</span>
+      <i class="ki-duotone ki-delivery fs-3x text-primary mb-2">
+        <span class="path1"></span>
+        <span class="path2"></span>
+        <span class="path3"></span>
+        <span class="path4"></span>
+        <span class="path5"></span>
+      </i>
+      <span class="fs-5 fw-bold text-gray-800 mb-0">Transporte</span>
+      <!-- <span class="fs-7 text-gray-400"
+      >Comercializa y emite facturas electrónicas.</span
+    > -->
     </a>
   </div>
 
   <div class="col-6">
     <a
-      class="d-flex flex-column flex-center h-100 p-6 bg-hover-light cursor-pointer"
+      (click)="navegarTurnos()"
+      class="d-flex flex-column flex-center h-100 p-6 bg-hover-light border-end border-bottom cursor-pointer"
     >
-      <app-keenicon
-        name="fin006.svg"
-        class="fs-3x text-primary mb-2"
-      ></app-keenicon>
-      <span class="fs-5 fw-bold text-gray-800 mb-0">Customers</span>
-      <span class="fs-7 text-gray-400">Latest cases</span>
+      <i class="ki-duotone ki-time fs-3x text-primary mb-2">
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+      <span class="fs-5 fw-bold text-gray-800 mb-0">Turnos</span>
+      <!-- <span class="fs-7 text-gray-400"
+      >Comercializa y emite facturas electrónicas.</span
+    > -->
     </a>
-  </div> -->
-</div>
+  </div>
 
-<!-- <div class="py-2 text-center border-top">
+  <!-- <div class="py-2 text-center border-top">
   <a routerLink="/crafted/pages/profile" class="btn btn-color-gray-600 btn-active-color-primary">
     View All
     <app-keenicon name="arr064.svg" class="fs-5"></app-keenicon>
   </a>
 </div> -->
+</div>

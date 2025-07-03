@@ -20,11 +20,11 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   standalone: true,
   imports: [CommonModule, TranslateModule, NgbDropdownModule],
   templateUrl: './almacenes.component.html',
-  styleUrl: './almacenes.component.scss'
+  styleUrl: './almacenes.component.scss',
 })
 export class AlmacenesComponent extends General {
   itemSeleccionado: any | null = null;
-  arrAlmacenes: any[];
+  arrAlmacenes: RegistroAutocompletarInvAlmacen[];
   @Input() almacenNombre: string = '';
   @Input() estadoAprobado: false;
   @Input() campoInvalido: any = false;
@@ -40,63 +40,47 @@ export class AlmacenesComponent extends General {
     super();
   }
 
-  validarValor(){
-    if(this.inputItem.nativeElement.value === ''){
-      this.emitirLineaVacia.emit(true)
+  validarValor() {
+    if (this.inputItem.nativeElement.value === '') {
+      this.emitirLineaVacia.emit(true);
     }
   }
 
-  agregarAlmacen(item: any) {
+  agregarAlmacen(item: RegistroAutocompletarInvAlmacen) {
     this.itemSeleccionado = item;
-    this.almacenNombre = item.almacen_nombre;
+    this.almacenNombre = item.nombre;
     this.emitirAlmacen.emit(item);
   }
 
   consultarAlmacenes(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>({
-        filtros: [
-          {
-            propiedad: 'nombre__icontains',
-            valor1: `${event?.target.value}`,
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'InvAlmacen',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarInvAlmacen[]>(
+        'inventario/almacen/seleccionar/',
+        {
+          nombre__icontains: event?.target.value,
+        },
+      )
       .subscribe((respuesta) => {
-        this.arrAlmacenes = respuesta.registros;
+        this.arrAlmacenes = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
 
   aplicarFiltrosContactos(event: any) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>({
-        filtros: [
-          {
-            propiedad: 'nombre__icontains',
-            valor1: `${event?.target.value}`,
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'InvAlmacen',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarInvAlmacen[]>(
+        'inventario/almacen/seleccionar/',
+
+        {
+          nombre__icontains: event?.target.value,
+        },
+      )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrAlmacenes = respuesta.registros;
+          this.arrAlmacenes = respuesta;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }

@@ -32,8 +32,8 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
 export default class AsesorDetalleComponent extends General implements OnInit {
   sede: Sede = {
     nombre: '',
-    grupo_nombre: '',
-    grupo_id: 0,
+    grupo__nombre: '',
+    grupo: 0,
   };
 
   constructor(private sedeService: SedeService) {

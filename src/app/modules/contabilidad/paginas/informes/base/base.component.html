@@ -1,21 +1,79 @@
-<div class="filtros">
-  <ng-content select="[base-filtros]"></ng-content>
-  <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
-    <section card-body>
-      <app-base-filtro
-        (emitirFiltros)="obtenerFiltros($event)"
-        [_tipo]="'DOCUMENTO'"
-        [localstorageKey]="filtroKey"
-      ></app-base-filtro>
-    </section>
-  </app-card>
-</div>
+<app-card [titulo]="'Parámetros'">
+  <section card-body>
+    <form [formGroup]="formularioFiltros">
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-md-6 col-lg-3">
+          <label class="form-label fw-semibold">Fecha desde</label>
+          <input
+            type="date"
+            formControlName="fecha_desde"
+            class="form-control"
+            placeholder="Seleccione fecha inicial"
+          />
+        </div>
+        <div class="col-12 col-md-6 col-lg-3">
+          <label class="form-label fw-semibold">Fecha hasta</label>
+          <input
+            type="date"
+            formControlName="fecha_hasta"
+            class="form-control"
+            placeholder="Seleccione fecha final"
+          />
+        </div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <label class="form-label">Cuenta desde</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaDesdeCodigo()"
+            [cuentaNombre]="cuentaDesdeNombre()"
+            (emitirArrCuentas)="agregarCuentaDesdeSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
+        <div class="col-12 col-md-3 col-lg-3">
+          <label class="form-label">Cuenta hasta</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaHastaCodigo()"
+            [cuentaNombre]="cuentaHastaNombre()"
+            (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
+          ></app-comun-cuentas>
+        </div>
+      </div>
 
+      <div class="row g-4 mb-4">
+        <div class="col-12 col-md-3 col-lg-6">
+          <label class="form-label fw-semibold">Contacto</label>
+          <app-comun-contactos
+            [contactoNombre]="contactoNombreCorto()"
+            (emitirContacto)="agregarContactoSeleccionado($event)"
+          ></app-comun-contactos>
+        </div>
+      </div>
+    </form>
+  </section>
+</app-card>
 <app-card [titulo]="'MENU.FUNCIONALIDAD.BASE'">
   <section card-body>
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
         <app-comun-btn-exportar (emitirExportarExcel)="descargarExcel()" />
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary"
+          #btnGuardar
+          (click)="generar()"
+          [disabled]="cargandoCuentas()"
+        >
+          @if (cargandoCuentas()) {
+            <div class="spinner-border spinner-border-sm mx-4" role="status">
+              <span class="sr-only">Generando...</span>
+            </div>
+          } @else {
+            Generar
+          }
+        </button>
       </div>
     </div>
     <div class="table-responsive">
@@ -24,42 +82,55 @@
       >
         <thead>
           <tr class="text-gray-800 bg-gray-100">
-            <th class="text-center" translate="LISTAS.CONMOVIENTO.CUENTA"></th>
-            <th class="text-center" translate="LISTAS.CONMOVIENTO.NOMBRE"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.ID"></th>
             <th
               class="text-center"
-              translate="LISTAS.CONMOVIENTO.CONTACTO"
+              translate="LISTAS.CONMOVIENTO.COMPROBANTE_NOMBRE"
+            ></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.NUMERO"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.FECHA"></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CUENTA_CODIGO"
             ></th>
             <th
               class="text-center"
-              translate="LISTAS.CONMOVIENTO.ANTERIOR"
+              translate="LISTAS.CONMOVIENTO.CUENTA_NOMBRE"
+            ></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_ID"
+            ></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_NUMERO_IDENTIFICACION"
+            ></th>
+            <th
+              class="text-center"
+              translate="LISTAS.CONMOVIENTO.CONTACTO_NOMBRE_CORTO"
             ></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.DEBITO"></th>
             <th class="text-center" translate="LISTAS.CONMOVIENTO.CREDITO"></th>
-            <th class="text-center" translate="LISTAS.CONMOVIENTO.ACTUAL"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.BASE"></th>
+            <th class="text-center" translate="LISTAS.CONMOVIENTO.DETALLE"></th>
           </tr>
         </thead>
         <tbody>
           @for (item of cuentasAgrupadas; track $index) {
             <tr>
-              <td>{{ item.codigo }}</td>
-              <td style="text-align: left">{{ item.nombre }}</td>
-              <td style="text-align: left">{{ item.contacto_nombre_corto }}</td>
-              <td>{{ item.saldo_anterior | currency: "$" }}</td>
-              <td>{{ item.debito | currency: "$" }}</td>
-              <td>{{ item.credito | currency: "$" }}</td>
-              <td>{{ item.saldo_actual | currency: "$" }}</td>
-            </tr>
-          }
-          @if (cuentasAgrupadas.length > 0) {
-            <tr>
-              <td></td>
-              <td style="text-align: left" class="fw-bold">Total</td>
-              <td></td>
-              <td></td>
-              <td>{{ totalDebito | currency: "$" }}</td>
-              <td>{{ totalCredito | currency: "$" }}</td>
-              <td></td>
+              <td>{{ item.id }}</td>
+              <td>{{ item.comprobante_nombre }}</td>
+              <td>{{ item.numero }}</td>
+              <td>{{ item.fecha }}</td>
+              <td>{{ item.cuenta_codigo }}</td>
+              <td>{{ item.cuenta_nombre }}</td>
+              <td>{{ item.contacto_id }}</td>
+              <td>{{ item.contacto_numero_identificacion }}</td>
+              <td>{{ item.contacto_nombre_corto }}</td>
+              <td class="text-end">{{ item.debito | currency: "$" }}</td>
+              <td class="text-end">{{ item.credito | currency: "$" }}</td>
+              <td class="text-end">{{ item.base | currency: "$" }}</td>
+              <td>{{ item.detalle }}</td>
             </tr>
           }
         </tbody>

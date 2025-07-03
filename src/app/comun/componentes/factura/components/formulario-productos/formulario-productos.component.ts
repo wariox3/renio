@@ -18,7 +18,6 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 import {
   DocumentoDetalleFactura,
   DocumentoFacturaRespuesta,
@@ -32,6 +31,7 @@ import { SeleccionarAlmacenComponent } from '../seleccionar-almacen/seleccionar-
 import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grupo.component';
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 
 @Component({
   selector: 'app-formulario-productos',

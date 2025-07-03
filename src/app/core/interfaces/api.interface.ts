@@ -4,3 +4,7 @@ export interface RespuestaApi<T> {
     previous: string | null;
     results: T[];
 }
+
+export interface ParametrosApi {
+  [key: string]: string | number | boolean;    
+}

@@ -13,7 +13,7 @@ export class ExistenciaService {
   private readonly _generalService = inject(GeneralService);
   private readonly _httpService = inject(HttpService);
   private readonly _parametrosConsulta = signal<ParametrosFiltros>({
-    limite: 50,
+    limite: 30,
     desplazar: 0,
     ordenamientos: [],
     limite_conteo: 0,

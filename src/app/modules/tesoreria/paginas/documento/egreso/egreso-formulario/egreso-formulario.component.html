@@ -44,7 +44,7 @@
                 (click)="modificarCampoFormulario('contacto', contacto)"
                 (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
-                {{ contacto.contacto_nombre_corto }}
+                {{ contacto.nombre_corto }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -250,9 +250,9 @@
                     <thead>
                       <tr class="bg-gray-100">
                         <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
-                        <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO'"></th>
+                        <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTO__ID'"></th>
                         <th
-                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO'"
+                          [translate]="'LISTAS.DOCUMENTO.DOCUMENTO_TIPO_ID'"
                         ></th>
                         <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                         <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
@@ -522,11 +522,10 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltrosModal($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      (filtersApply)="obtenerFiltrosModal($event)"
+      [availableFields]="CUENTAS_COBRAR_FILTERS"
+    ></app-filtro>
     <div class="d-flex justify-content-between my-3">
       <div class="col-12 col-md-6">
         <div class="form-check form-check-custom form-check-solid">
@@ -560,7 +559,6 @@
           <tr class="bg-gray-100">
             <th [translate]="'LISTAS.DOCUMENTO.ID'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
-            <th [translate]="'LISTAS.DOCUMENTO.CODIGO'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.DOCUMENTOTIPONOMBRE'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.FECHA'"></th>
             <th [translate]="'LISTAS.DOCUMENTO.FECHA_VENCE'"></th>
@@ -602,9 +600,6 @@
             </td>
             <td>
               {{ item["numero"] }}
-            </td>
-            <td>
-              {{ item["documento_tipo"] }}
             </td>
             <td>
               {{ item["documento_tipo_nombre"] }}

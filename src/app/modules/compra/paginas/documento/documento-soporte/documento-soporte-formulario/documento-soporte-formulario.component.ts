@@ -1,10 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import {
-  FormArray,
-  FormsModule,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -19,7 +15,6 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
@@ -36,6 +31,7 @@ import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { DocumentoSoporteInformacionExtraComponent } from '../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -124,7 +120,7 @@ export default class FacturaDetalleComponent
     this.consultarInformacion();
     this.mostrarDocumentoReferencia.set(true);
     this.active = 1;
-    
+
     if (this.detalle) {
       this.modoEdicion.set(true);
     } else {
@@ -140,29 +136,22 @@ export default class FacturaDetalleComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenMetodoPago>(
-        {
-          modelo: 'GenMetodoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenPlazoPago>(
-        {
-          modelo: 'GenPlazoPago',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
+        'general/plazo_pago/seleccionar/',
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenFormaPago>(
+      this._generalService.consultaApi<RegistroAutocompletarGenFormaPago>(
+        'general/forma_pago/seleccionar/',
         {
-          modelo: 'GenFormaPago',
-          serializador: 'ListaAutocompletar',
-          ordenamientos: ['id'],
+          ordenamientos: 'id',
         },
       ),
     ).subscribe((respuesta: any) => {
-      this.arrMetodosPago = respuesta[0].registros;
-      this.arrPlazoPago = respuesta[1].registros;
-      this.formaPagoLista = respuesta[2].registros;
+      this.arrMetodosPago = respuesta[0];
+      this.arrPlazoPago = respuesta[1];
+      this.formaPagoLista = respuesta[2];
       this._sugerirPrimerValorFormaPago();
       this.changeDetectorRef.detectChanges();
     });
@@ -177,10 +166,8 @@ export default class FacturaDetalleComponent
   }
 
   recibirAlmacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
-    this.formularioFactura.get('almacen')?.setValue(almacen.almacen_id);
-    this.formularioFactura
-      .get('almacen_nombre')
-      ?.setValue(almacen.almacen_nombre);
+    this.formularioFactura.get('almacen')?.setValue(almacen.id);
+    this.formularioFactura.get('almacen_nombre')?.setValue(almacen.nombre);
   }
 
   recibirAlmacenVacio() {
@@ -267,10 +254,8 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this.formularioFactura.get(campo)?.setValue(dato.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
 
       if (campo === 'contactoNuevoModal') {
         this.formularioFactura.get(campo)?.setValue(dato.id);
@@ -334,31 +319,19 @@ export default class FacturaDetalleComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-        {
-          propiedad: 'proveedor',
-          valor1: 'True',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          proveedor: 'True',
+          nombre_corto__icontains: `${event?.target.value}`,
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrMovimientosClientes = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -448,7 +421,7 @@ export default class FacturaDetalleComponent
     if (!this.detalle) {
       if (this.formaPagoLista.length > 0) {
         this.formularioFactura.patchValue({
-          forma_pago: this.formaPagoLista?.[0].forma_pago_id,
+          forma_pago: this.formaPagoLista?.[0].id,
         });
       }
     }

@@ -54,8 +54,8 @@ export class DocumentoSoporteInformacionExtraComponent implements OnInit {
   ) {
     if (resolucion) {
       this.formularioFactura.patchValue({
-        resolucion: resolucion?.resolucion_id,
-        resolucion_numero: resolucion?.resolucion_numero,
+        resolucion: resolucion?.id,
+        resolucion_numero: resolucion?.numero,
       });
     } else {
       this.formularioFactura.patchValue({

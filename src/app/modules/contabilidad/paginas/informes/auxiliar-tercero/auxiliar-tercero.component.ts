@@ -17,20 +17,14 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { HttpService } from '@comun/services/http.service';
-import {
-  MovimientoAuxiliarTercero,
-  MovimientoBalancePruebaTercero,
-} from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoAuxiliarTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { finalize } from 'rxjs';
+import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuentas.component";
+import { ContactosComponent } from "../../../../../comun/componentes/contactos/contactos.component";
 
 @Component({
   selector: 'app-auxiliar-tercero',
@@ -42,8 +36,9 @@ import { finalize } from 'rxjs';
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
-    BaseFiltroComponent,
-  ],
+    CuentasComponent,
+    ContactosComponent
+],
   templateUrl: './auxiliar-tercero.component.html',
   styleUrl: './auxiliar-tercero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -51,17 +46,6 @@ import { finalize } from 'rxjs';
 export class AuxiliarTerceroComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
-  private _httpService = inject(HttpService);
-
-  private _parametrosConsulta: any = {
-    modelo: 'ConMovimiento',
-    serializador: 'Informe',
-    filtros: [],
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-  };
 
   public cuentasAgrupadas: MovimientoAuxiliarTercero[] = [];
   public formularioFiltros: FormGroup;
@@ -69,7 +53,11 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
   public totalCredito: number = 0;
   public filtroKey = 'contabilidad_auxiliartercero';
   public cargandoCuentas = signal<boolean>(false);
-
+  public cuentaDesdeNombre = signal<string>('');
+  public cuentaDesdeCodigo = signal<string>('');
+  public cuentaHastaNombre = signal<string>('');
+  public cuentaHastaCodigo = signal<string>('');
+  public contactoNombreCorto = signal<string>('');
   private _descargarArchivosService = inject(DescargarArchivosService);
 
   constructor() {
@@ -104,7 +92,12 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
         incluir_cierre: [false],
         cuenta_con_movimiento: [false],
         numero_identificacion: [''],
-        nombre_corto: ['']
+        nombre_corto: [''],
+        cuenta_desde: [''],
+        cuenta_hasta: [''],
+        contacto: [''],
+        numero: [''],
+        comprobante: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -178,6 +171,40 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
   generar() {
     this._consultarInformes(this.formularioFiltros.value);
   }
+
+  agregarCuentaDesdeSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.cuentaDesdeNombre.set(cuenta.nombre);
+    this.cuentaDesdeCodigo.set(cuenta.codigo);
+  }
+
+  agregarCuentaHastaSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.cuentaHastaNombre.set(cuenta.nombre);
+    this.cuentaHastaCodigo.set(cuenta.codigo);
+  }
+
+  agregarContactoSeleccionado(contacto: {
+    id: number;
+    nombre_corto: string;
+    numero_identificacion: string;
+    plazo_pago__dias: number;
+    plazo_pago_id: number;
+    plazo_pago_proveedor__dias: number;
+    plazo_pago_proveedor_id: number;
+  }) {
+    this.formularioFiltros.get('contacto')?.setValue(contacto.id);
+    this.contactoNombreCorto.set(contacto.nombre_corto);
+  }
+
 }
 
 interface GenerarAuxiliarTercero {

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 import { ModalProgramacionDetalleEditarContratoComponent } from '../../../modal-programacion-detalle-editar-contrato/modal-programacion-detalle-editar-contrato.component';
 import { ModalProgramacionDetalleNominaResumenComponent } from '../../../modal-programacion-detalle-nomina-resumen/modal-programacion-detalle-nomina-resumen.component';
 import { TablaContratosService } from '../../services/tabla-contratos.service';
@@ -31,14 +31,7 @@ export class TablaEncabezadoGeneralComponent extends General implements OnInit {
     this._tablaContratosService.arrProgramacionDetalle;
   public isCheckedSeleccionarTodos =
     this._tablaContratosService.isCheckedSeleccionarTodos;
-  public parametrosConsulta = signal<ParametrosFiltros>({
-    limite: 0,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'HumProgramacionDetalle',
-    filtros: [],
-  });
+  public parametrosConsulta = signal<ParametrosApi>({});
 
   @Input() programacion: ProgramacionRespuesta = {
     id: 0,
@@ -74,7 +67,7 @@ export class TablaEncabezadoGeneralComponent extends General implements OnInit {
     periodo_nombre: '',
     pago_prima: false,
     pago_interes: false,
-    pago_cesantia: false
+    pago_cesantia: false,
   };
 
   constructor() {
@@ -87,41 +80,34 @@ export class TablaEncabezadoGeneralComponent extends General implements OnInit {
 
   inicializarParametrosConsulta() {
     this.parametrosConsulta.set({
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.detalle,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: ['contrato_id'],
-      limite_conteo: 10000,
-      modelo: 'HumProgramacionDetalle',
+      programacion_id: this.detalle,
+      limit: 1000,
+      ordering: 'contrato_id',
+      // modelo: 'HumProgramacionDetalle',
     });
   }
 
   orderPor(nombre: string, i: number) {
     this._tablaContratosService.ordenarPor(nombre);
 
-    this.parametrosConsulta.update((parametros) => {
-      const nuevosOrdenamientos = [...parametros.ordenamientos];
-      nuevosOrdenamientos[i] = this.ordenamientoValor();
-      return {
-        ...parametros,
-        ordenamientos: nuevosOrdenamientos,
-      };
-    });
+    // this.parametrosConsulta.update((parametros) => {
+    //   const nuevosOrdenamientos = [...parametros.ordenamientos];
+    //   nuevosOrdenamientos[i] = this.ordenamientoValor();
+    //   return {
+    //     ...parametros,
+    //     ordenamientos: nuevosOrdenamientos,
+    //   };
+    // });
 
-    this._tablaContratosService
-      .consultarListaContratos(this.parametrosConsulta())
-      .subscribe();
+    // this._tablaContratosService
+    //   .consultarListaContratos(this.parametrosConsulta())
+    //   .subscribe();
   }
 
   toggleSelectAll(event: Event) {
     const seleccionarTodos = event.target as HTMLInputElement;
     this._tablaContratosService.toggleAllSelectoresEliminar(
-      seleccionarTodos.checked
+      seleccionarTodos.checked,
     );
   }
 

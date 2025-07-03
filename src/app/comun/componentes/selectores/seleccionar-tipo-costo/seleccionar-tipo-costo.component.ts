@@ -44,16 +44,14 @@ export class SeleccionarTipoCostoComponent extends General implements OnInit {
 
   getTipoCostos() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumTipoCosto>({
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'HumTipoCosto',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarHumTipoCosto[]>(
+        'humano/tipo_costo/seleccionar/',
+        {
+          limit: 100,
+        },
+      )
       .subscribe((response) => {
-        this.tipoCostos.set(response.registros);
+        this.tipoCostos.set(response);
         this._sugerirPrimerValor();
       });
   }
@@ -62,7 +60,7 @@ export class SeleccionarTipoCostoComponent extends General implements OnInit {
     if (this.sugerirPrimerValor && !this.isEdicion) {
       const grupos = this.tipoCostos();
       if (grupos.length) {
-        this.selectChange.emit(grupos[0].tipo_costo_id);
+        this.selectChange.emit(grupos[0].id);
       }
     }
   }

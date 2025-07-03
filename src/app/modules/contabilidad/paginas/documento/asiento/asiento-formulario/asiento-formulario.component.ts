@@ -1,4 +1,4 @@
-  import { CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -14,13 +14,17 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocompletar/contabilidad/con-comprobante.interface';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -30,11 +34,6 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
-import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -62,7 +61,7 @@ export default class AsientoFormularioComponent
   extends General
   implements OnInit
 {
-  private _operacionesService = inject(OperacionesService)
+  private _operacionesService = inject(OperacionesService);
 
   formularioAsiento: FormGroup;
   active: Number;
@@ -273,10 +272,10 @@ export default class AsientoFormularioComponent
 
   modificarCampoFormulario(campo: string, dato: any) {
     if (campo === 'contacto') {
-      this.formularioAsiento.get(campo)?.setValue(dato.contacto_id);
+      this.formularioAsiento.get(campo)?.setValue(dato.id);
       this.formularioAsiento
         .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+        ?.setValue(dato.nombre_corto);
       this._actualizarDetallesContactoSinDocumentoAfectado();
     }
 
@@ -289,26 +288,15 @@ export default class AsientoFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        { nombre_corto__icontains: `${event?.target.value}` },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContactos = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrContactos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -352,9 +340,12 @@ export default class AsientoFormularioComponent
       const pago = detalleControl.get('precio')?.value || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
       if (naturaleza === 'C') {
-        this.totalCredito += this._operacionesService.redondear(Number(pago), 2)
+        this.totalCredito += this._operacionesService.redondear(
+          Number(pago),
+          2,
+        );
       } else {
-        this.totalDebito += this._operacionesService.redondear(Number(pago), 2)
+        this.totalDebito += this._operacionesService.redondear(Number(pago), 2);
       }
       this.changeDetectorRef.detectChanges();
     });
@@ -422,9 +413,9 @@ export default class AsientoFormularioComponent
 
   agregarCuentaSeleccionado(cuenta: any, index: number) {
     this.detalles.controls[index].patchValue({
-      cuenta: cuenta.cuenta_id,
-      cuenta_codigo: cuenta.cuenta_codigo,
-      cuenta_nombre: cuenta.cuenta_nombre,
+      cuenta: cuenta.id,
+      cuenta_codigo: cuenta.codigo,
+      cuenta_nombre: cuenta.nombre,
       naturaleza: 'D',
     });
 
@@ -436,7 +427,7 @@ export default class AsientoFormularioComponent
   agregarContactoSeleccionado(contacto: any, index: number) {
     this.detalles.controls[index].patchValue({
       contacto: contacto.contacto_id,
-      contacto_nombre_corto: contacto.contacto_nombre_corto,
+      contacto_nombre_corto: contacto.nombre_corto,
     });
 
     this.formularioAsiento.markAsTouched();
@@ -465,35 +456,15 @@ export default class AsientoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConComprobante>(
-        {
-          filtros: [
-            {
-              propiedad: 'permite_asiento',
-              valor1: true,
-            },
-          ],
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'ConComprobante',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarConComprobante>(
+        'contabilidad/comprobante/seleccionar/', {permite_asiento: 'True'}
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
-        {
-          limite: 10,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'ConGrupo',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarConGrupo>(
+        'contabilidad/grupo/seleccionar/',
       ),
     ).subscribe((respuesta: any) => {
-      this.arrComprobantes = respuesta[0].registros;
-      this.arrGrupo = respuesta[1].registros;
+      this.arrComprobantes = respuesta[0];
+      this.arrGrupo = respuesta[1];
       this.changeDetectorRef.detectChanges();
     });
   }

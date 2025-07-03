@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
@@ -9,6 +8,14 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 import { GeneralService } from '@comun/services/general.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
+import { FiltroComponent } from '../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { MOVIMIENTO_FILTERS } from '@modulos/contabilidad/domain/mapeos/movimiento.mapeo';
 
 @Component({
   selector: 'app-movimiento-lista',
@@ -18,7 +25,7 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     CardComponent,
     TablaComponent,
     TranslateModule,
-    BaseFiltroComponent,
+    FiltroComponent,
   ],
   templateUrl: './movimiento-lista.component.html',
   styleUrl: './movimiento-lista.component.scss',
@@ -27,39 +34,31 @@ export class MovimientoListaComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
   filtroPermanente = [];
-  arrParametrosConsulta: any = {
-    filtros: [],
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    modelo: 'ConMovimiento',
-  };
   private _generalService = inject(GeneralService);
+  private _filterTransformerService = inject(FilterTransformerService);
 
+  public MOVIMIENTO_FILTERS = MOVIMIENTO_FILTERS;
 
-  constructor(
-    private descargarArchivosService: DescargarArchivosService
-  ) {
+  constructor(private descargarArchivosService: DescargarArchivosService) {
     super();
   }
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['ConMovimiento'] })
+        ActualizarMapeo({ dataMapeo: documentos['ConMovimiento'] }),
       );
       this.consultarLista();
     });
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarLista() {
+  consultarLista(parametros?: ParametrosApi) {
     this._generalService
-      .consultarDatosLista(this.arrParametrosConsulta)
-      .subscribe((respuesta: any) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
+      .consultaApi<RespuestaApi<any>>('contabilidad/movimiento/', parametros)
+      .subscribe((respuesta) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrDocumentos = respuesta.results.map((documento) => ({
           id: documento.id,
           fecha: documento.fecha,
           numero: documento.numero,
@@ -75,43 +74,28 @@ export class MovimientoListaComponent extends General implements OnInit {
       });
   }
 
-  obtenerFiltros(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsulta.filtros = [
-          ...this.filtroPermanente,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsulta.filtros = this.filtroPermanente;
-      }
-    }
-    this.consultarLista();
-  }
+  obtenerFiltros(filtros: FilterCondition[]) {
+    const parametros =
+      this._filterTransformerService.transformToApiParams(filtros);
 
-  cambiarOrdemiento(ordenamiento: string) {
-    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-      this.consultarLista();
+    this.consultarLista(parametros);
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.consultarLista();
-  }
-
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
-    this.consultarLista();
+    this.consultarLista({
+      page: data.desplazamiento,
+    });
   }
 
   descargarExcel() {
     this.descargarArchivosService.descargarExcelDocumentos({
-      ...this.arrParametrosConsulta,
-      ...{
-        limite: this.cantidad_registros,
-        excel: true
-      },
+      filtros: [],
+      desplazar: 0,
+      ordenamientos: [],
+      limite_conteo: 10000,
+      modelo: 'ConMovimiento',
+      limite: this.cantidad_registros,
+      excel: true,
     });
   }
 }

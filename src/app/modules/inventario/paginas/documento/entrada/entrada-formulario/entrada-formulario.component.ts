@@ -16,6 +16,7 @@ import { ContactosComponent } from '@comun/componentes/contactos/contactos.compo
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { SeleccionarProductoComponent } from '@comun/componentes/factura/components/seleccionar-producto/seleccionar-producto.component';
 import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
+import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
@@ -38,7 +39,6 @@ import {
   tap,
   zip,
 } from 'rxjs';
-import { ImportarDetallesComponent } from '../../../../../../comun/componentes/importar-detalles/importar-detalles.component';
 
 @Component({
   selector: 'app-entrada-formulario',
@@ -120,22 +120,22 @@ export default class EntradaFormularioComponent
 
   contactoSeleccionado(contacto: any) {
     this.formularioEntrada.patchValue({
-      contacto: contacto.contacto_id,
-      contactoNombre: contacto.contacto_nombre_corto,
+      contacto: contacto.id,
+      contactoNombre: contacto.nombre_corto,
     });
   }
 
   almacenSeleccionado(almacen: any) {
     this.formularioEntrada.patchValue({
-      almacen: almacen.almacen_id,
-      almacenNombre: almacen.almacen_nombre,
+      almacen: almacen.id,
+      almacenNombre: almacen.nombre,
     });
   }
 
   almacenSeleccionadoDetalle(item: any, indexFormulario: number) {
     this.detalles.controls[indexFormulario].patchValue({
-      almacen: item.almacen_id,
-      almacenNombre: item.almacen_nombre,
+      almacen: item.id,
+      almacenNombre: item.nombre,
     });
     this.changeDetectorRef.detectChanges();
   }
@@ -407,22 +407,14 @@ export default class EntradaFormularioComponent
 
   private _consultarInformacion() {
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarInvAlmacen>(
-        {
-          filtros: [],
-          limite: 1,
-          desplazar: 0,
-          ordenamientos: [],
-          limite_conteo: 10000,
-          modelo: 'InvAlmacen',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalService.consultaApi<RegistroAutocompletarInvAlmacen>(
+        'inventario/almacen/seleccionar/'
       ),
-    ).subscribe((respuesta) => {
-      let arrAlmacenes = respuesta[0].registros[0];
+    ).subscribe((respuesta: any) => {
+      let arrAlmacenes = respuesta[0];
       this.formularioEntrada.patchValue({
-        almacen: arrAlmacenes.almacen_id,
-        almacenNombre: arrAlmacenes.almacen_nombre,
+        almacen: arrAlmacenes[0].id,
+        almacenNombre: arrAlmacenes[0].nombre,
       });
       this.changeDetectorRef.detectChanges();
     });

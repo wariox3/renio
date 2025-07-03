@@ -8,6 +8,7 @@ import { ProvisionService } from '@modulos/humano/servicios/provision.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { CuentasComponent } from '../../../../../../comun/componentes/cuentas/cuentas.component';
 import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-provision-lista',
@@ -40,15 +41,13 @@ export class ProvisionListaComponent
 
   private _getConceptos() {
     this._generalService
-      .consultarDatosAutoCompletar<HumConfiguracionProvision>({
-        limite: 1000,
-        desplazar: 0,
-        ordenamientos: ['orden'],
-        limite_conteo: 10000,
-        modelo: 'HumConfiguracionProvision',
+      .consultaApi<RespuestaApi<HumConfiguracionProvision>>(
+        'humano/configuracion_provision/',
+        {
+        page_size: 100,
       })
       .subscribe((respuesta) => {
-        this.provisiones.set(respuesta.registros);
+        this.provisiones.set(respuesta.results);
       });
   }
 
@@ -59,7 +58,7 @@ export class ProvisionListaComponent
   ) {
     this._provisionService
       .actualizarProvision(cuentaId, {
-        [campoNombre]: cuenta.cuenta_id,
+        [campoNombre]: cuenta.id,
       })
       .subscribe(() => {
         this._getConceptos();

@@ -49,4 +49,25 @@ export const maestros = [
       'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/comprobante.xlsx',
     name: 'Comprobante',
   },
+  {
+    endpoint:
+      'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/impuestos.xlsx',
+    name: 'Impuestos',
+  },
+  {
+    endpoint: 'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_contrato_tipo.xlsx',
+    name: 'Tipo contrato',
+  },
+  {
+    endpoint: 'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_banco.xlsx',
+    name: 'Banco',
+  },
+  {
+    endpoint: 'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/gen_cuenta_banco_clase.xlsx',
+    name: 'Cuenta banco clase',
+  },
+  {
+    endpoint: 'https://semantica.sfo3.digitaloceanspaces.com/renio/maestros/hum_costo_tipo.xlsx',
+    name: 'Costo tipo',
+  },
 ];

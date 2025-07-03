@@ -49,13 +49,9 @@
             </option>
             <option
               *ngFor="let contrato_tipo of arrContratoTipo"
-              [value]="contrato_tipo.contrato_tipo_id"
-              [selected]="
-                contrato_tipo.contrato_tipo_id ===
-                formularioContrato.controls.contrato_tipo_id
-              "
+              [value]="contrato_tipo.id"
             >
-              {{ contrato_tipo.contrato_tipo_nombre }}
+              {{ contrato_tipo.nombre }}
             </option>
           </select>
           <ng-container
@@ -87,14 +83,8 @@
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
-            <option
-              *ngFor="let grupo of arrGrupo"
-              [value]="grupo.grupo_id"
-              [selected]="
-                grupo.grupo_id === formularioContrato.controls.grupo_id
-              "
-            >
-              {{ grupo.grupo_nombre }}
+            <option *ngFor="let grupo of arrGrupo" [value]="grupo.id">
+              {{ grupo.nombre }}
             </option>
           </select>
           <ng-container
@@ -337,13 +327,13 @@
             </option>
             <option
               *ngFor="let tiempo of autocompletarTiempo"
-              [value]="tiempo.tiempo_id"
+              [value]="tiempo.id"
               [selected]="
-                tiempo.tiempo_id ===
+                tiempo.id ===
                 formularioContrato.controls['tiempo']!.value
               "
             >
-              {{ tiempo.tiempo_nombre }}
+              {{ tiempo.nombre }}
             </option>
           </select>
           <ng-container
@@ -395,8 +385,8 @@
           ></label>
           <ng-select
             [items]="autocompletarCargo"
-            bindLabel="cargo_nombre"
-            bindValue="cargo_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="cargo"
             notFoundText="Sin elementos"
             (change)="seleccionarCargoAdcional($event)"
@@ -515,13 +505,13 @@
             </option>
             <option
               *ngFor="let tipo_cotizante of autocompletarTipoCotizante"
-              [value]="tipo_cotizante.tipo_cotizante_id"
+              [value]="tipo_cotizante.id"
               [selected]="
-                tipo_cotizante.tipo_cotizante_id ===
+                tipo_cotizante.id ===
                 formularioContrato.controls['tipo_cotizante']!.value
               "
             >
-              {{ tipo_cotizante.tipo_cotizante_nombre }}
+              {{ tipo_cotizante.nombre }}
             </option>
           </select>
           <ng-container
@@ -556,13 +546,13 @@
             </option>
             <option
               *ngFor="let subtipo_cotizante of autocompletarSubtipoCotizante"
-              [value]="subtipo_cotizante.subtipo_cotizante_id"
+              [value]="subtipo_cotizante.id"
               [selected]="
-                subtipo_cotizante.subtipo_cotizante_id ===
+                subtipo_cotizante.id ===
                 formularioContrato.controls['subtipo_cotizante']!.value
               "
             >
-              {{ subtipo_cotizante.subtipo_cotizante_nombre }}
+              {{ subtipo_cotizante.nombre }}
             </option>
           </select>
           <ng-container
@@ -599,12 +589,12 @@
             </option>
             <option
               *ngFor="let salud of autocompletarSalud"
-              [value]="salud.salud_id"
+              [value]="salud.id"
               [selected]="
-                salud.salud_id === formularioContrato.controls['salud']!.value
+                salud.id === formularioContrato.controls['salud']!.value
               "
             >
-              {{ salud.salud_nombre }}
+              {{ salud.nombre }}
             </option>
           </select>
           <ng-container
@@ -623,8 +613,8 @@
           ></label>
           <ng-select
             [items]="arrEntidadSalud"
-            bindLabel="entidad_nombre"
-            bindValue="entidad_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="entidad_salud"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
@@ -667,13 +657,13 @@
             </option>
             <option
               *ngFor="let pension of autocompletarPension"
-              [value]="pension.pension_id"
+              [value]="pension.id"
               [selected]="
-                pension.pension_id ===
+                pension.id ===
                 formularioContrato.controls['pension']!.value
               "
             >
-              {{ pension.pension_nombre }}
+              {{ pension.nombre }}
             </option>
           </select>
           <ng-container
@@ -692,8 +682,8 @@
           ></label>
           <ng-select
             [items]="arrEntidadPension"
-            bindLabel="entidad_nombre"
-            bindValue="entidad_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="entidad_pension"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
@@ -721,8 +711,8 @@
           ></label>
           <ng-select
             [items]="arrEntidadCaja"
-            bindLabel="entidad_nombre"
-            bindValue="entidad_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="entidad_caja"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
@@ -746,8 +736,8 @@
           ></label>
           <ng-select
             [items]="arrEntidadCesantias"
-            bindLabel="entidad_nombre"
-            bindValue="entidad_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="entidad_cesantias"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
@@ -790,13 +780,13 @@
             </option>
             <option
               *ngFor="let riesgo of autocompletarRiesgo"
-              [value]="riesgo.riesgo_id"
+              [value]="riesgo.id"
               [selected]="
-                riesgo.riesgo_id ===
+                riesgo.id ===
                 formularioContrato.controls['riesgo']!.value
               "
             >
-              {{ riesgo.riesgo_nombre }}
+              {{ riesgo.nombre }}
             </option>
           </select>
           <ng-container
@@ -831,13 +821,13 @@
             </option>
             <option
               *ngFor="let sucursal of autocompletarSucursal"
-              [value]="sucursal.sucursal_id"
+              [value]="sucursal.id"
               [selected]="
-                sucursal.sucursal_id ===
+                sucursal.id ===
                 formularioContrato.controls['sucursal']!.value
               "
             >
-              {{ sucursal.sucursal_nombre }}
+              {{ sucursal.nombre }}
             </option>
           </select>
           <ng-container
@@ -883,13 +873,13 @@
             </option>
             <option
               *ngFor="let tipo_costo of autocompletarTipoCosto"
-              [value]="tipo_costo.tipo_costo_id"
+              [value]="tipo_costo.id"
               [selected]="
-                tipo_costo.tipo_costo_id ===
+                tipo_costo.id ===
                 formularioContrato.controls['tipo_costo']!.value
               "
             >
-              {{ tipo_costo.tipo_costo_nombre }}
+              {{ tipo_costo.nombre }}
             </option>
           </select>
         </div>

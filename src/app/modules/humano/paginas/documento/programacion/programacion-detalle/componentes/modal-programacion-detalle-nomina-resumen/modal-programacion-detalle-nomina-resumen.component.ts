@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, signal, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Pago } from '@modulos/humano/interfaces/pago.interface';
 import {
   NgbDropdown,
@@ -11,7 +9,11 @@ import {
   NgbModal,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, map, switchMap, tap, throttleTime } from 'rxjs';
+import { map, of, switchMap, tap } from 'rxjs';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-modal-programacion-detalle-nomina-resumen',
@@ -102,51 +104,39 @@ export class ModalProgramacionDetalleNominaResumenComponent {
 
   consultarNominaProgramacionDetalleResumen() {
     this._generalService
-      .consultarDatosLista<{ cantidad_registros: number; registros: any[] }>({
-        filtros: [
-          {
-            propiedad: 'programacion_detalle_id',
-            valor1: this.programacionId,
-          },
-        ],
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenDocumento',
+      .consultaApi<RespuestaApi<any>>('general/documento/', {
+        programacion_detalle_id: this.programacionId,
       })
       .pipe(
         switchMap((respuestaLista) => {
-          this.pago = respuestaLista.registros[0];
+          if (!respuestaLista.results?.length) {
+            return of(null);
+          }
+          
+          this.pago = respuestaLista.results?.[0];
 
-          return this._generalService.consultarDatosLista<{
-            cantidad_registros: number;
-            registros: any[];
-          }>({
-            filtros: [
-              {
-                propiedad: 'documento_id',
-                valor1: respuestaLista.registros[0].id,
-              },
-            ],
-            desplazar: 0,
-            ordenamientos: [],
-            limite_conteo: 10000,
-            modelo: 'GenDocumentoDetalle',
-          });
+          return this._generalService.consultaApi<RespuestaApi<any>>(
+            'general/documento_detalle/',
+            {
+              documento_id: this.pago.id,
+            },
+          );
         }),
         map((respuestaDetalle) => {
-          let registros = respuestaDetalle.registros.map((registro) => ({
+          let registros = respuestaDetalle?.results.map((registro) => ({
             ...registro,
             editarLinea: false,
           }));
-          respuestaDetalle.registros = registros;
-          return respuestaDetalle;
+
+          return {
+            ...respuestaDetalle,
+            results: registros,
+          }
         }),
         tap((respuestaDetalle) => {
-          this.cantidadRegistrosProgramacionDetalle.set(
-            respuestaDetalle.cantidad_registros
-          );
-          this.pagoDetalles = respuestaDetalle.registros;
-        })
+          this.cantidadRegistrosProgramacionDetalle.set(respuestaDetalle.count || 0);
+          this.pagoDetalles = respuestaDetalle.results;
+        }),
       )
       .subscribe();
   }
@@ -159,13 +149,13 @@ export class ModalProgramacionDetalleNominaResumenComponent {
 
   retirarNominaProgramacionDetalleResumen(index: number) {
     this.pagoDetalles = this.pagoDetalles.filter(
-      (pago: any, indexPago: number) => indexPago !== index
+      (pago: any, indexPago: number) => indexPago !== index,
     );
   }
 
   editarNominaProgramacionDetalleResumen(index: number) {
     this.visualizarBtnGuardarNominaProgramacionDetalleResumen.update(
-      (valor: any) => !valor
+      (valor: any) => !valor,
     );
     let registros = this.pagoDetalles.map((pago: any, indexPago: number) => {
       if (indexPago === index) {
@@ -177,30 +167,20 @@ export class ModalProgramacionDetalleNominaResumenComponent {
   }
 
   consultarConceptos(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'HumConcepto',
-      serializador: 'ListaAutocompletar',
+    let arrFiltros: ParametrosApi = {
+      nombre__icontains: `${event?.target.value}`,
+      limit: 1000,
     };
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoAdicional>(
-        arrFiltros
+      .consultaApi<RegistroAutocompletarHumConceptoAdicional[]>(
+        'humano/concepto/seleccionar/',
+        arrFiltros,
       )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
           //this.arrConceptos = respuesta.registros;
-        })
+        }),
       )
       .subscribe();
   }

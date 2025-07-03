@@ -23,12 +23,15 @@
           }}<strong>${{ usuarioVrSaldo | number }}</strong
           >{{
             "FORMULARIOS.MENSAJES.COMUNES.ALERTASUSPENCIONMENSAJE2" | translate
-          }}<strong>{{ usuarioFechaLimitePago | date : "YYYY-MM-dd" }}</strong>
+          }}<strong>{{ usuarioFechaLimitePago | date: "YYYY-MM-dd" }}</strong>
         </span>
         <!--end::Content-->
       </div>
     </div>
-    <div class="col-2">
+    <div class="col-2 gap-2">
+      <button (click)="actualizarPago()" class="btn btn-primary btn-sm">
+        Actualizar pago
+      </button>
       <button (click)="navegar()" class="btn btn-primary btn-sm float-end">
         Pagar
       </button>
@@ -38,11 +41,12 @@
 </div>
 <!--end::Alert-->
 <!--begin::Alert-->
-<div class="alert alert-danger" *ngIf="usuarioVrSaldo > 0 && usuarioFechaLimitePago < hoy">
+<div
+  class="alert alert-danger"
+  *ngIf="usuarioVrSaldo > 0 && usuarioFechaLimitePago < hoy"
+>
   <div class="row align-items-center">
-
     <div class="col-10 d-flex align-items-center">
-
       <i class="ki-duotone ki-information-3 fs-2hx text-danger me-4">
         <span class="path1"></span>
         <span class="path2"></span>
@@ -50,7 +54,6 @@
       </i>
 
       <div class="d-flex flex-column pe-0 pe-sm-10">
-
         <h4 class="fw-semibold text-danger">
           Se cumplió la fecha límite de su pago
         </h4>
@@ -61,7 +64,6 @@
           nuestra infraestructura y la remuneración de nuestros chicos. Si tiene
           alguna duda puede comunicarse por WhatsApp 3205015059.
         </span>
-
       </div>
     </div>
   </div>

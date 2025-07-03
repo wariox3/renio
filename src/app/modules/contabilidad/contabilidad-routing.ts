@@ -141,7 +141,7 @@ export const routes: Route[] = [
       },
       {
         path: 'auxiliar_tercero',
-        data: { breadcrumb: 'auxiliartercero' },
+        data: { breadcrumb: 'auxiliarcontacto' },
         loadComponent: () =>
           import(
             './paginas/informes/auxiliar-tercero/auxiliar-tercero.component'

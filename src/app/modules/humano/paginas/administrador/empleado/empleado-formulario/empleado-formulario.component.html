@@ -29,14 +29,14 @@
             <option value="">Seleccionar...</option>
             <ng-container *ngFor="let identificacion of arrIdentificacion">
               <option
-                [value]="identificacion.identificacion_id"
+                [value]="identificacion.id"
                 [selected]="
-                  identificacion.identificacion_id ===
+                  identificacion.id ===
                   formularioEmpleado.value.identificacion
                 "
-                *ngIf="identificacion.identificacion_id !== 6"
+                *ngIf="identificacion.id !== 6"
               >
-                {{ identificacion.identificacion_nombre }}
+                {{ identificacion.nombre }}
               </option>
             </ng-container>
           </select>
@@ -428,7 +428,7 @@
               "
               (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
             >
-              {{ ciudad.nombre }} - {{ ciudad.estado_nombre }}
+              {{ ciudad.nombre }} - {{ ciudad.estado__nombre }}
             </button>
           </div>
         </div>
@@ -659,13 +659,13 @@
           >
             @for (item of arrCuentasBancos; track $index) {
             <option
-              [value]="item.cuenta_banco_clase_id"
+              [value]="item.id"
               [selected]="
-                item.cuenta_banco_clase_id ===
+                item.id ===
                 formularioEmpleado.value.cuenta_banco_clase
               "
             >
-              {{ item.cuenta_banco_clase_nombre }}
+              {{ item.nombre }}
             </option>
             }
           </select>

@@ -28,9 +28,9 @@
             </option>
             <option
               *ngFor="let pagoTipo of arrPagoTipo"
-              [value]="pagoTipo.pago_tipo_id"
+              [value]="pagoTipo.id"
             >
-              {{ pagoTipo.pago_tipo_nombre }}
+              {{ pagoTipo.nombre }}
             </option>
           </select>
           <ng-container
@@ -96,15 +96,15 @@
             </option>
             <option
               *ngFor="let grupo of arrGrupo"
-              [value]="grupo.grupo_id"
+              [value]="grupo.id"
               [selected]="
-                grupo.grupo_id ===
+                grupo.id ===
                 formularioProgramacion.controls['grupo']!.value
                   ? formularioProgramacion.controls['grupo']!.value
                   : ''
               "
             >
-              {{ grupo.grupo_nombre }}
+              {{ grupo.nombre }}
             </option>
           </select>
           <ng-container
@@ -210,11 +210,11 @@
             <div class="fv-plugins-message-container">
               <div class="fv-help-block">
                 <span
-                  *ngIf="grupoSeleccionado?.grupo_periodo_dias"
+                  *ngIf="grupoSeleccionado?.periodo__dias"
                   role="alert"
                 >
                   Fecha hasta debe contener
-                  {{ grupoSeleccionado?.grupo_periodo_dias }} días a partir de
+                  {{ grupoSeleccionado?.periodo__dias }} días a partir de
                   la fecha desde.
                 </span>
               </div>

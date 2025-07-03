@@ -28,21 +28,21 @@ export class ContabilidadInformesService extends Subdominio {
   consultarCertificadoRetencion(parametros: any = {}) {
     return this.httpService.post<RespuestaInformeBalancePrueba>(
       `contabilidad/movimiento/informe-certificado-retencion/`,
-      parametros,
+      { parametros },
     );
   }
 
   consultarBalancesTerceros(parametros: any = {}) {
     return this.httpService.post<RespuestaInformeBalancePruebaTerceros>(
       `contabilidad/movimiento/informe-balance-prueba-tercero/`,
-      {parametros},
+      { parametros },
     );
   }
 
   consultarBase(parametros: any = {}) {
     return this.httpService.post<RespuestaInformeBalancePruebaTerceros>(
       `contabilidad/movimiento/informe-base/`,
-      parametros,
+      { parametros },
     );
   }
 
@@ -63,6 +63,6 @@ export class ContabilidadInformesService extends Subdominio {
   consultarAuxiliarGeneral(parametros: any = {}) {
     return this.httpService.post<{
       registros: MovimientoAuxiliarGeneral[];
-    }>(`contabilidad/movimiento/informe-auxiliar-general/`, parametros);
+    }>(`contabilidad/movimiento/informe-auxiliar-general/`, {parametros});
   }
 }

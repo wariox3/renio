@@ -1,30 +1,20 @@
 <div class="tabla">
   <app-card [titulo]="'MENU.FUNCIONALIDAD.ENVIANOMINAELECTRONICA'">
     <section card-body>
-      <app-base-filtro
-        (emitirFiltros)="obtenerFiltrosEmitir($event)"
-        [persistirFiltros]="false"
-        [_tipo]="'DOCUMENTO'"
-      ></app-base-filtro>
+      <app-filtro
+        (filtersApply)="filterChange($event)"
+        [availableFields]="ENVIAR_NOMINA_ELECTRONICA_FILTERS"
+      ></app-filtro>
       <div class="row mb-4 justify-content-between gap-sm-5">
         <div class="col-md-5 col-sm-12 d-flex align-items-center gap-3 mb-2">
-          <i
-            (click)="disminuirDesplazamientoEmitir()"
-            class="bi bi-arrow-left fs-2x cursor-pointer"
-          ></i>
-          <input
-            type="text"
-            class="form-control form-control-sm w-100px"
-            [value]="paginacionEmitirDesde + 1 + '-' + paginacionEmitirHasta"
-            (blur)="calcularValorMostrarEmitir($event)"
-          />
-          <span>de</span>
-          <span>{{ cantidadDocumentos() }}</span>
-          <i
-            (click)="aumentarDesplazamientoEmitir()"
-            class="bi bi-arrow-right fs-2x cursor-pointer"
-          ></i>
+          <app-paginador
+            [currentPage]="currentPage()"
+            [totalPages]="totalPages()"
+            (pageChange)="onPageChange($event)"
+            [totalItems]="cantidadDocumentos()"
+          ></app-paginador>
         </div>
+
         <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
           <div class="btn-group contenedor-btn-group" data-toggle="buttons">
             <button
@@ -114,7 +104,10 @@
                   </ng-template>
                 }
               </td>
-              <td class="w-20px" *ngIf="documento.estado_electronico_enviado === false">
+              <td
+                class="w-20px"
+                *ngIf="documento.estado_electronico_enviado === false"
+              >
                 <label>
                   <i
                     class="fa-regular fs-2x cursor-pointer"

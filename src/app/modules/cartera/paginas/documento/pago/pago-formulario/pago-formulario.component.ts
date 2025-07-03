@@ -9,16 +9,23 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { GeneralService } from '@comun/services/general.service';
+import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
+import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { CUENTAS_COBRAR_FILTERS } from '@modulos/cartera/domain/mapeos/cuentas-cobrar.mapeo';
+import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -28,19 +35,13 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { asyncScheduler, Subject, takeUntil, tap, throttleTime } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 import { ContactosComponent } from '../../../../../../comun/componentes/contactos/contactos.component';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { RegistroAutocompletarGenDocumento } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
-import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { OperacionesService } from '@comun/componentes/factura/services/operaciones.service';
-import { RegistroAutocompletarGenCuentaBanco } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { Rutas } from '@interfaces/menu/configuracion.interface';
-import { CarteraService } from '@modulos/cartera/services/cartera.service';
-import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { FiltroComponent } from '../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -55,7 +56,6 @@ import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.serv
     CardComponent,
     NgbNavModule,
     BuscarAvanzadoComponent,
-    BaseFiltroComponent,
     SoloNumerosDirective,
     CuentasComponent,
     ContactoFormulario,
@@ -63,6 +63,7 @@ import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.serv
     TituloAccionComponent,
     ContactosComponent,
     SeleccionarGrupoComponent,
+    FiltroComponent,
   ],
 })
 export default class PagoFormularioComponent
@@ -72,7 +73,10 @@ export default class PagoFormularioComponent
   private _operacionesService = inject(OperacionesService);
   private _configModuleService = inject(ConfigModuleService);
   private _cuentaBancoSerive = inject(CuentaBancoService);
+  private _filterTransformerService = inject(FilterTransformerService);
 
+
+  CUENTAS_COBRAR_FILTERS = CUENTAS_COBRAR_FILTERS;
   formularioFactura: FormGroup;
   active: Number;
   arrContactos: any[] = [];
@@ -91,11 +95,11 @@ export default class PagoFormularioComponent
   theme_value = localStorage.getItem('kt_theme_mode_value');
   arrBancos: RegistroAutocompletarGenCuentaBanco[] = [];
   mostrarTodosLosClientes = signal(false);
-  arrFiltrosEmitidosAgregarDocumento: any[] = [];
-  arrFiltrosPermanenteAgregarDocumento: any[] = [
-    { propiedad: 'documento_tipo__cobrar', valor1: true },
-    { propiedad: 'pendiente__gt', valor1: 0 },
-  ];
+  arrFiltrosEmitidosAgregarDocumento: ParametrosApi = {};
+  arrFiltrosPermanenteAgregarDocumento: ParametrosApi = {
+    documento_tipo__cobrar: 'True',
+    pendiente__gt: 0,
+  };
 
   private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
@@ -181,9 +185,9 @@ export default class PagoFormularioComponent
   }
 
   consultarInformacion() {
-    this._cuentaBancoSerive.
-      consultarCuentaBanco({
-        ordering: "id"
+    this._cuentaBancoSerive
+      .consultarCuentaBanco({
+        ordering: 'id',
       })
       .subscribe((respuesta) => {
         this.arrBancos = respuesta.results;
@@ -313,15 +317,17 @@ export default class PagoFormularioComponent
 
   modificarCampoFormulario(campo: string, dato: any) {
     if (campo === 'contacto') {
-      this.formularioFactura.get(campo)?.setValue(dato.contacto_id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.contacto_nombre_corto);
+      this.formularioFactura.patchValue({
+        contacto: dato.id,
+        contactoNombre: dato.nombre_corto,
+      });
       this._actualizarDetallesContactoSinDocumentoAfectado();
     }
     if (campo === 'contacto-vermas') {
-      this.formularioFactura.get('contacto')?.setValue(dato.id);
-      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
+      this.formularioFactura.patchValue({
+        contacto: dato.id,
+        contactoNombre: dato.nombre_corto,
+      });
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -346,28 +352,15 @@ export default class PagoFormularioComponent
   }
 
   consultarCliente(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre_corto__icontains',
-          valor1: `${event?.target.value}`,
-          valor2: '',
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenContacto',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenContacto>(arrFiltros)
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        { nombre_corto__icontains: `${event?.target.value}` },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrContactos = respuesta.registros;
+        tap((respuesta: any) => {
+          this.arrContactos = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -375,58 +368,53 @@ export default class PagoFormularioComponent
   }
 
   consultarDocumentos() {
-    let filtros: any[] = [];
+    let filtros: ParametrosApi = {
+      limit: 50,
+      ordering: 'numero',
+      serializador: 'adicionar',
+    };
     if (this.mostrarTodosLosClientes()) {
-      filtros = this.arrFiltrosPermanenteAgregarDocumento;
-      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
-        filtros = [
+      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
+        filtros = {
+          ...filtros,
           ...this.arrFiltrosPermanenteAgregarDocumento,
           ...this.arrFiltrosEmitidosAgregarDocumento,
-        ];
-        this.changeDetectorRef.detectChanges();
+        };
       }
     } else {
-      filtros = [
-        {
-          propiedad: 'contacto_id',
-          valor1: this.formularioFactura.get('contacto')?.value,
-          tipo: 'CharField',
-        },
+      filtros = {
+        ...filtros,
+        contacto_id: this.formularioFactura.get('contacto')?.value,
         ...this.arrFiltrosPermanenteAgregarDocumento,
-      ];
-      if (this.arrFiltrosEmitidosAgregarDocumento.length >= 1) {
-        filtros = [...filtros, ...this.arrFiltrosEmitidosAgregarDocumento];
+      };
+
+      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
+        filtros = { ...this.arrFiltrosEmitidosAgregarDocumento };
       }
-      this.changeDetectorRef.detectChanges();
     }
 
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumento>({
+      .consultaApi<RegistroAutocompletarGenDocumento>(
+        'general/documento/',
         filtros,
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: ['numero'],
-        limite_conteo: 10000,
-        modelo: 'GenDocumento',
-        serializador: 'Adicionar',
-      })
-      .subscribe((respuesta) => {
-        this.arrDocumentos = respuesta.registros.map((documento) => ({
+      )
+      .subscribe((respuesta: any) => {
+        this.arrDocumentos = respuesta.results.map((documento: any) => ({
           id: documento.id,
           numero: documento.numero,
           fecha: documento.fecha,
           fecha_vence: documento.fecha_vence,
-          contacto: documento.contacto_id,
-          contacto_nombre: documento.contacto_nombre_corto,
+          contacto: documento.contacto,
+          contacto__nombre_corto: documento.contacto__nombre_corto,
           subtotal: documento.subtotal,
           impuesto: documento.impuesto,
           total: documento.total,
           pendiente: documento.pendiente,
-          cuenta: documento.documento_tipo_cuenta_cobrar_id,
-          cuenta_codigo: documento.documento_tipo_cuenta_cobrar_cuenta_codigo,
+          cuenta: documento.documento_tipo__cuenta_cobrar_id,
+          cuenta_codigo: documento.documento_tipo__cuenta_cobrar__codigo,
           documento_tipo_operacion: documento.documento_tipo_operacion,
           documento_tipo: documento.documento_tipo,
-          documento_tipo_nombre: documento.documento_tipo_nombre,
+          documento_tipo__nombre: documento.documento_tipo__nombre,
           afectado: documento.afectado,
           naturaleza: 'C',
         }));
@@ -466,12 +454,12 @@ export default class PagoFormularioComponent
         id: [null],
         tipo_registro: ['C'],
         documento_afectado: [documentoSeleccionado.id],
-        documento_afectado_documento_tipo_nombre: [
-          documentoSeleccionado.documento_tipo_nombre,
+        documento_tipo__nombre: [
+          documentoSeleccionado.documento_tipo__nombre,
         ],
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
-        contacto_nombre: [documentoSeleccionado.contacto_nombre],
+        contacto__nombre_corto: [documentoSeleccionado.contacto__nombre_corto],
         precio: [documentoSeleccionado.pendiente],
         seleccionado: [false],
         cuenta: [documentoSeleccionado.cuenta],
@@ -562,8 +550,11 @@ export default class PagoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  obtenerFiltrosModal(arrfiltros: any[]) {
-    this.arrFiltrosEmitidosAgregarDocumento = arrfiltros;
+  obtenerFiltrosModal(arrfiltros: any) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(arrfiltros);
+
+    this.arrFiltrosEmitidosAgregarDocumento = apiParams;
     if (arrfiltros.length === 0 && this.mostrarTodosLosClientes() === true) {
       this.mostrarTodosLosClientes.set(false);
     }
@@ -645,9 +636,9 @@ export default class PagoFormularioComponent
 
   agregarCuentaSeleccionado(cuenta: any, index: number) {
     this.detalles.controls[index].patchValue({
-      cuenta: cuenta.cuenta_id,
-      cuenta_codigo: cuenta.cuenta_codigo,
-      cuenta_nombre: cuenta.cuenta_nombre,
+      cuenta: cuenta.id,
+      cuenta_codigo: cuenta.codigo,
+      cuenta_nombre: cuenta.nombre,
       naturaleza: 'D',
     });
 
@@ -658,8 +649,8 @@ export default class PagoFormularioComponent
 
   agregarContactoSeleccionado(contacto: any, index: number) {
     this.detalles.controls[index].patchValue({
-      contacto: contacto.contacto_id,
-      contacto_nombre: contacto.contacto_nombre_corto,
+      contacto: contacto.id,
+      contacto_nombre: contacto.nombre_corto,
     });
 
     this.formularioFactura.markAsTouched();

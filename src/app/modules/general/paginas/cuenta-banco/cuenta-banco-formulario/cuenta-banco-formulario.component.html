@@ -57,8 +57,8 @@
 
           <ng-select
             [items]="arrCuentasTipos"
-            bindLabel="cuenta_banco_tipo_nombre"
-            bindValue="cuenta_banco_tipo_id"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="cuenta_banco_tipo"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
@@ -151,13 +151,13 @@
           >
             @for (item of arrCuentasBancos; track $index) {
             <option
-              [value]="item.cuenta_banco_clase_id"
+              [value]="item.id"
               [selected]="
-                item.cuenta_banco_clase_id ===
+                item.id ===
                 formularioCuentaBanco.value.cuenta_banco_clase
               "
             >
-              {{ item.cuenta_banco_clase_nombre }}
+              {{ item.nombre }}
             </option>
             }
           </select>

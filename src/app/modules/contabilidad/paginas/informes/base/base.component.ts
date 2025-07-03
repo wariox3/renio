@@ -4,6 +4,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -16,15 +17,13 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { documentos } from '@comun/extra/mapeo-entidades/informes';
+import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { MovimientoBalancePruebaTercero } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BaseFiltroComponent } from '../../../../../comun/componentes/base-filtro/base-filtro.component';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 
 @Component({
   selector: 'app-base',
@@ -36,7 +35,8 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
-    BaseFiltroComponent,
+    CuentasComponent,
+    ContactosComponent,
   ],
   templateUrl: './base.component.html',
   styleUrl: './base.component.scss',
@@ -45,79 +45,25 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 export class BaseComponent extends General implements OnInit {
   private contabilidadInformesService = inject(ContabilidadInformesService);
   private _formBuilder = inject(FormBuilder);
-  private _parametrosConsulta: any = {
-    modelo: 'ConMovimiento',
-    serializador: 'Informe',
-    filtros: [],
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-  };
-
+  private _descargarArchivosService = inject(DescargarArchivosService);
   public cuentasAgrupadas: MovimientoBalancePruebaTercero[] = [];
   public formularioFiltros: FormGroup;
   public totalDebito: number = 0;
   public totalCredito: number = 0;
-  public filtroKey = 'contabilidad_base';
-
-  private _descargarArchivosService = inject(DescargarArchivosService);
+  public cargandoCuentas = signal<boolean>(false);
+  public cuentaDesdeCodigo = signal<string>('');
+  public cuentaHastaNombre = signal<string>('');
+  public cuentaHastaCodigo = signal<string>('');
+  public cuentaDesdeNombre = signal<string>('');
+  public contactoNombreCorto = signal<string>('');
 
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    this._cargarFiltrosPredeterminados();
     this._initFormularioFiltros();
-    this._construirFiltros();
-    this.activatedRoute.queryParams.subscribe(() => {
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['base'] }),
-      );
-      this._consultarInformes(this._parametrosConsulta);
-    });
     this.changeDetectorRef.detectChanges();
-  }
-
-  private _cargarFiltrosPredeterminados() {
-    const currentDate = new Date();
-    const currentYear = currentDate.getFullYear();
-    const currentMonth = currentDate.getMonth();
-
-    // Primer día del mes actual
-    const firstDayOfMonth = new Date(currentYear, currentMonth, 1)
-      .toISOString()
-      .split('T')[0];
-
-    // Último día del mes actual
-    const lastDayOfMonth = new Date(currentYear, currentMonth + 1, 0)
-      .toISOString()
-      .split('T')[0];
-
-    const filtroValue = [
-      {
-        propiedad: 'fecha',
-        operadorFiltro: 'range',
-        valor1: firstDayOfMonth,
-        valor2: lastDayOfMonth,
-        tipo: 'DateField',
-        busquedaAvanzada: 'false',
-        modeloBusquedaAvanzada: '',
-        operador: 'range',
-        campo: 'fecha',
-      },
-      {
-        propiedad: 'cierre',
-        operadorFiltro: 'false',
-        valor1: false,
-        tipo: 'Booleano',
-        operador: 'exact',
-        campo: 'cierre',
-      },
-    ];
-
-    localStorage.setItem(this.filtroKey, JSON.stringify(filtroValue));
   }
 
   private _initFormularioFiltros() {
@@ -137,10 +83,13 @@ export class BaseComponent extends General implements OnInit {
 
     this.formularioFiltros = this._formBuilder.group(
       {
-        // anio: [currentYear, Validators.required],
         fecha_desde: [firstDayOfMonth, Validators.required],
         fecha_hasta: [lastDayOfMonth, Validators.required],
-        cierre: [],
+        cuenta_desde: [''],
+        cuenta_hasta: [''],
+        cuenta_desde_codigo: [''],
+        cuenta_hasta_codigo: [''],
+        contacto_id: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -151,7 +100,7 @@ export class BaseComponent extends General implements OnInit {
     );
   }
 
-  private _consultarInformes(parametros: any) {
+  private _consultarInformes(parametros: GenerarBalancePrueba) {
     this.contabilidadInformesService.consultarBase(parametros).subscribe({
       next: (respuesta) => {
         this.cuentasAgrupadas = respuesta.registros;
@@ -171,47 +120,14 @@ export class BaseComponent extends General implements OnInit {
     this.totalDebito = 0;
   }
 
-  private _construirFiltros() {
-    this._limpiarFiltros();
-
-    const filtroGuardado = localStorage.getItem(this.filtroKey);
-
-    if (filtroGuardado) {
-      const parametrosConsulta: ParametrosFiltros = {
-        ...this._parametrosConsulta,
-        filtros: [...JSON.parse(filtroGuardado)],
-      };
-
-      this._parametrosConsulta = parametrosConsulta;
-    }
-  }
-
-  private _limpiarFiltros() {
-    this._parametrosConsulta.filtros = [];
-  }
-
-  obtenerFiltros(arrfiltros: any[]) {
-    if (arrfiltros.length >= 1) {
-      this._parametrosConsulta.filtros = arrfiltros;
-      this.changeDetectorRef.detectChanges();
-    } else {
-      this._parametrosConsulta.filtros = [];
-    }
-
-    this.changeDetectorRef.detectChanges();
-    this._consultarInformes(this._parametrosConsulta);
-  }
-
-  aplicarFiltro() {
-    this._construirFiltros();
-    this._consultarInformes(this._parametrosConsulta);
+  generar() {
+    this._consultarInformes(this.formularioFiltros.value);
   }
 
   descargarExcel() {
     this._descargarArchivosService.descargarExcel(
       {
-        ...this._parametrosConsulta,
-        limite: 5000,
+        parametros: this.formularioFiltros.value,
         excel: true,
       },
       'contabilidad/movimiento/informe-base/',
@@ -233,4 +149,47 @@ export class BaseComponent extends General implements OnInit {
       return null;
     };
   }
+
+  agregarCuentaDesdeSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_desde_codigo')?.setValue(cuenta.codigo);
+    this.cuentaDesdeNombre.set(cuenta.nombre);
+    this.cuentaDesdeCodigo.set(cuenta.codigo);
+  }
+
+  agregarCuentaHastaSeleccionado(cuenta: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_hasta_codigo')?.setValue(cuenta.codigo);
+    this.cuentaHastaNombre.set(cuenta.nombre);
+    this.cuentaHastaCodigo.set(cuenta.codigo);
+  }
+
+  agregarContactoSeleccionado(contacto: {
+    id: number;
+    nombre_corto: string;
+    numero_identificacion: string;
+    plazo_pago__dias: number;
+    plazo_pago_id: number;
+    plazo_pago_proveedor__dias: number;
+    plazo_pago_proveedor_id: number;
+  }) {
+    this.formularioFiltros.get('contacto_id')?.setValue(contacto.id);
+    this.contactoNombreCorto.set(contacto.nombre_corto);
+  }
+}
+
+interface GenerarBalancePrueba {
+  fecha_desde: string;
+  fecha_hasta: string;
+  incluir_cierre: boolean;
+  cuenta_movimiento: boolean;
 }

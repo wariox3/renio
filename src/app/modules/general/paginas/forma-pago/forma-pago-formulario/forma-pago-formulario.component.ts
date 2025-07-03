@@ -26,6 +26,7 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
 
 @Component({
   selector: 'app-forma-pago-nuevo',
@@ -167,10 +168,10 @@ export default class FormaPagoFormularioComponent
       });
   }
 
-  agregarCuentaCobrarSeleccionado(cuenta: any) {
-    this.formularioFormaPago.get('cuenta')?.setValue(cuenta.cuenta_id);
-    this.cuentaNombre = cuenta.cuenta_nombre;
-    this.cuentaCodigo = cuenta.cuenta_codigo;
+  agregarCuentaCobrarSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
+    this.formularioFormaPago.get('cuenta')?.setValue(cuenta.id);
+    this.cuentaNombre = cuenta.nombre;
+    this.cuentaCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 

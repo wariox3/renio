@@ -1,5 +1,7 @@
 export interface RegistroAutocompletarGenAsesor {
-  asesor_id: number;
-  asesor_nombre_corto: string;
+  id: number;
+  nombre_corto: string;
+  celular: string;
+  correo: string;
 }
     

@@ -9,8 +9,8 @@
     {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
   </option>
   @for (tipoCosto of tipoCostos(); track $index) {
-    <option [value]="tipoCosto.tipo_costo_id">
-      {{ tipoCosto.tipo_costo_nombre }}
+    <option [value]="tipoCosto.id">
+      {{ tipoCosto.nombre }}
     </option>
   }
 </select>

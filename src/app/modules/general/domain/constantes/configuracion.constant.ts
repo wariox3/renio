@@ -174,6 +174,9 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
               detalle: 'general/administracion/detalle',
             },
             endpoint: 'general/contacto',
+            queryParams: {
+              serializador: 'lista',
+            },
             parametrosHttpConfig: {
               modelo: 'GenContacto',
               filtros: {

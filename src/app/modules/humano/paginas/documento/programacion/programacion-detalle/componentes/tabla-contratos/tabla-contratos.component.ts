@@ -11,10 +11,8 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { PaginadorComponent } from '@comun/componentes/paginador/paginador.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { PROGRAMACION_DETALLE_FILTERS } from '@modulos/humano/domain/mapeo/programacion-detalle.mapeo';
 import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 import { RespuestaProgramacionContrato } from '@modulos/humano/interfaces/respuesta-programacion-contratos.interface';
 import { ProgramacionDetalleService } from '@modulos/humano/servicios/programacion-detalle.service';
@@ -26,6 +24,11 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize, forkJoin, tap } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FiltroComponent } from '../../../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { PaginadorComponent } from "../../../../../../../../comun/componentes/ui/tabla/paginador/paginador.component";
 import { TablaEncabezadoCesantiaComponent } from './componentes/tabla-encabezado-cesantia/tabla-encabezado-cesantia.component.component';
 import { TablaEncabezadoGeneralComponent } from './componentes/tabla-encabezado-general/tabla-encabezado-general.component';
 import { TablaEncabezadoPrimaComponent } from './componentes/tabla-encabezado-prima/tabla-encabezado-prima.component';
@@ -35,8 +38,6 @@ import { TablaContratosService } from './services/tabla-contratos.service';
   selector: 'app-tabla-contratos',
   standalone: true,
   imports: [
-    BaseFiltroComponent,
-    PaginadorComponent,
     NgbDropdownModule,
     NgbTooltipModule,
     TranslateModule,
@@ -44,7 +45,9 @@ import { TablaContratosService } from './services/tabla-contratos.service';
     TablaEncabezadoPrimaComponent,
     TablaEncabezadoGeneralComponent,
     TablaEncabezadoCesantiaComponent,
-  ],
+    FiltroComponent,
+    PaginadorComponent
+],
   templateUrl: './tabla-contratos.component.html',
   styleUrl: './tabla-contratos.component.scss',
 })
@@ -53,21 +56,19 @@ export class TablaContratosComponent extends General implements OnInit {
   private _programacionService = inject(ProgramacionService);
   private _programacionDetalleService = inject(ProgramacionDetalleService);
   private _tablaContratosService = inject(TablaContratosService);
+  private _filterTransformerService = inject(FilterTransformerService);
 
+  PROGRAMACION_DETALLE_FILTERS = PROGRAMACION_DETALLE_FILTERS;
   cantidadRegistros = computed(() =>
     this._tablaContratosService.cantidadRegistros(),
   );
   ordenadoTabla = signal('');
   cargandoContratos = signal(false);
+  currentPage = signal(1);
   isCheckedSeleccionarTodos =
     this._tablaContratosService.isCheckedSeleccionarTodos;
-  arrParametrosConsulta = signal<ParametrosFiltros>({
-    limite: 0,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'HumProgramacionDetalle',
-    filtros: [],
+  arrParametrosConsulta = signal<ParametrosApi>({
+    // modelo: 'HumProgramacionDetalle',
   });
   arrProgramacionDetalle = signal<RespuestaProgramacionContrato[]>([]);
   registrosAEliminar = this._tablaContratosService.registrosAEliminar;
@@ -127,57 +128,58 @@ export class TablaContratosComponent extends General implements OnInit {
       .subscribe();
   }
 
-  obtenerFiltrosContratos(data: any[]) {
-    this.inicializarParametrosConsulta();
-    if (data.length > 0) {
+  filterChange(filters: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+
+    if (Object.keys(apiParams).length > 0) {
       this.arrParametrosConsulta.update((parametros) => ({
         ...parametros,
-        filtros: [...parametros.filtros, ...data],
+        ...apiParams,
       }));
-    } else {
-      this.inicializarParametrosConsulta();
     }
+
     this.consultarDatos();
   }
+
+  // obtenerFiltrosContratos(data: any[]) {
+  //   this.inicializarParametrosConsulta();
+  //   if (data.length > 0) {
+  //     this.arrParametrosConsulta.update((parametros) => ({
+  //       ...parametros,
+  //       filtros: [...parametros.filtros, ...data],
+  //     }));
+  //   } else {
+  //     this.inicializarParametrosConsulta();
+  //   }
+  //   this.consultarDatos();
+  // }
 
   inicializarParametrosConsulta() {
     this.arrParametrosConsulta.set({
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          valor1: this.detalle,
-        },
-      ],
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: ['contrato_id'],
-      limite_conteo: 10000,
-      modelo: 'HumProgramacionDetalle',
+      programacion_id: this.detalle,
+      ordering: 'contrato_id',
+      limit: 1000,
+      // modelo: 'HumProgramacionDetalle',
     });
+
     let filtroDetalleContratos = localStorage.getItem(`documento_programacion`);
     if (filtroDetalleContratos !== null) {
       let filtroPermanente = JSON.parse(filtroDetalleContratos);
-      this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
-        ...arrParametrosConsulta,
-        filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
-      }));
+      // this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
+      //   ...arrParametrosConsulta,
+      //   filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
+      // }));
     }
   }
 
-  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+  cambiarPaginacion(page: number) {
+    this.currentPage.set(page);
     this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
       ...arrParametrosConsulta,
-      limite: data.desplazamiento,
-      desplazar: data.limite,
+      page: page,
     }));
-    this.consultarDatos();
-  }
 
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
-      ...arrParametrosConsulta,
-      desplazar: desplazamiento,
-    }));
     this.consultarDatos();
   }
 
@@ -199,10 +201,10 @@ export class TablaContratosComponent extends General implements OnInit {
     let filtroDetalleContratos = localStorage.getItem(`documento_programacion`);
     if (filtroDetalleContratos !== null) {
       let filtroPermanente = JSON.parse(filtroDetalleContratos);
-      this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
-        ...arrParametrosConsulta,
-        filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
-      }));
+      // this.arrParametrosConsulta.update((arrParametrosConsulta) => ({
+      //   ...arrParametrosConsulta,
+      //   filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
+      // }));
     }
     this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
     this.dropdown.close();

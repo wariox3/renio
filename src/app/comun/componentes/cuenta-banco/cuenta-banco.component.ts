@@ -12,11 +12,10 @@ import {
 } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { Item } from '@interfaces/general/item.interface';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-comun-cuenta-banco',
@@ -30,8 +29,8 @@ import { asyncScheduler, tap, throttleTime } from 'rxjs';
   ],
 })
 export class CuentaBancoComponent extends General implements AfterViewInit {
-  itemSeleccionado: any | null = null;
-  arrItemsLista: any[];
+  itemSeleccionado: CuentaBancoSeleccionar | null = null;
+  arrItemsLista: CuentaBancoSeleccionar[];
   @Input() itemNombre: string = '';
   @Input() estado_aprobado: boolean = false;
   @Input() campoInvalido: any = false;
@@ -57,7 +56,7 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
     }
   }
 
-  agregarItem(item: any) {
+  agregarItem(item: CuentaBancoSeleccionar) {
     this.itemSeleccionado = item;
     if (this.campoInvalido) {
       this.campoInvalido = false;
@@ -67,51 +66,24 @@ export class CuentaBancoComponent extends General implements AfterViewInit {
   }
 
   consultarItems(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenCuentaBanco',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<Item>(arrFiltros)
+      .consultaApi<CuentaBancoSeleccionar[]>(
+        'general/cuenta_banco/seleccionar/',
+        { nombre__icontains: event?.target.value })
       .subscribe((respuesta) => {
-        this.arrItemsLista = respuesta.registros;
+        this.arrItemsLista = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
 
   aplicarFiltrosItems(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenCuentaBanco',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<Item>(arrFiltros)
+      .consultaApi<CuentaBancoSeleccionar[]>(
+        'general/cuenta_banco/seleccionar/',
+        { nombre__icontains: event?.target.value })
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrItemsLista = respuesta.registros;
+          this.arrItemsLista = respuesta;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
         })

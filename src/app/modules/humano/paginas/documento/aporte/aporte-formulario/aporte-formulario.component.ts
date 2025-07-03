@@ -10,18 +10,17 @@ import {
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { FechasService } from '@comun/services/fechas.service';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { AutocompletarRegistros } from '@interfaces/comunes/autocompletar/autocompletar';
+import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
+import { Configuracion } from '@modulos/humano/interfaces/aporte';
 import { AporteService } from '@modulos/humano/servicios/aporte.service';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { GeneralService } from '@comun/services/general.service';
-import { RegistroHumEntidadLista } from '@interfaces/comunes/autocompletar/humano/hum-entidad.interface';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { Configuracion } from '@modulos/humano/interfaces/aporte';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
@@ -165,12 +164,12 @@ export default class AporteFormularioComponent
   }
 
   consultarInformacion() {
-    zip(
-      this.httpService.get<RespuestaApi<any>>('humano/sucursal/'),
-    ).subscribe((respuesta: any) => {
-      this.arrSucursales = respuesta[0].results;
-      this.changeDetectorRef.detectChanges();
-    });
+    zip(this.httpService.get<RespuestaApi<any>>('humano/sucursal/')).subscribe(
+      (respuesta: any) => {
+        this.arrSucursales = respuesta[0].results;
+        this.changeDetectorRef.detectChanges();
+      },
+    );
   }
 
   private _consultarEntidadRiesgoPredefinida() {
@@ -193,19 +192,12 @@ export default class AporteFormularioComponent
 
   private _consultarEntidadesRiesgoLista() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
-        modelo: 'HumEntidad',
-        filtros: [
-          {
-            operador: 'exact',
-            propiedad: 'riesgo',
-            valor1: true,
-          },
-        ],
+      .consultaApi<RegistroHumEntidadLista>('humano/entidad/seleccionar/', {
+        riesgo: 'True',
       })
       .subscribe({
-        next: (response) => {
-          this.listaEntidadesRiesgo = response.registros;
+        next: (response: any) => {
+          this.listaEntidadesRiesgo = response;
           this.changeDetectorRef.detectChanges();
         },
       });
@@ -213,21 +205,14 @@ export default class AporteFormularioComponent
 
   private _consultarEntidadesIcbfLista() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
-        modelo: 'HumEntidad',
-        filtros: [
-          {
-            operador: 'exact',
-            propiedad: 'icbf',
-            valor1: true,
-          },
-        ],
+      .consultaApi<RegistroHumEntidadLista>('humano/entidad/seleccionar/', {
+        icbf: 'True',
       })
       .subscribe({
-        next: (response) => {
-          this.listaEntidadesIcbf = response.registros;
+        next: (response: any) => {
+          this.listaEntidadesIcbf = response;
           if (!this.detalle) {
-            this._sugerirSeleccion(response.registros?.[0], 'entidad_icbf');
+            this._sugerirSeleccion(response[0], 'entidad_icbf');
           }
           this.changeDetectorRef.detectChanges();
         },
@@ -247,21 +232,17 @@ export default class AporteFormularioComponent
 
   private _consultarEntidadesSenaLista() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroHumEntidadLista>({
-        modelo: 'HumEntidad',
-        filtros: [
-          {
-            operador: 'exact',
-            propiedad: 'sena',
-            valor1: true,
-          },
-        ],
-      })
+      .consultaApi<RegistroHumEntidadLista>(
+        'humano/entidad/seleccionar/',
+        {
+          sena: 'True',
+        },
+      )
       .subscribe({
-        next: (response) => {
-          this.listaEntidadesSena = response.registros;
+        next: (response: any) => {
+          this.listaEntidadesSena = response;
           if (!this.detalle) {
-            this._sugerirSeleccion(response.registros?.[0], 'entidad_sena');
+            this._sugerirSeleccion(response[0], 'entidad_sena');
           }
           this.changeDetectorRef.detectChanges();
         },

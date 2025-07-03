@@ -24,12 +24,12 @@ import {
 } from '@interfaces/comunes/factura/factura.interface';
 import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
 import { FechasService } from '../fechas.service';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-almacen.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { Router } from '@angular/router';
 import { informacionMenuItem } from '@interfaces/menu/menu';
 import { ConfigModuleService } from '../application/config-modulo.service';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 
 @Injectable({
   providedIn: 'any',
@@ -193,10 +193,10 @@ export class FormularioFacturaService {
     } else {
       this.detalles.controls[indexFormulario]
         .get('almacen')
-        ?.setValue(almacen.almacen_id);
+        ?.setValue(almacen.id);
       this.detalles.controls[indexFormulario]
         .get('almacen_nombre')
-        ?.setValue(almacen.almacen_nombre);
+        ?.setValue(almacen.nombre);
     }
   }
 
@@ -212,10 +212,10 @@ export class FormularioFacturaService {
     } else {
       this.detalles.controls[indexFormulario]
         .get('contacto')
-        ?.setValue(contacto.contacto_id);
+        ?.setValue(contacto.id);
       this.detalles.controls[indexFormulario]
         .get('contacto_nombre')
-        ?.setValue(contacto.contacto_nombre_corto);
+        ?.setValue(contacto.nombre_corto);
     }
   }
 
@@ -648,9 +648,9 @@ export class FormularioFacturaService {
     this._reiniciarSelectorCuenta(indexFormulario);
 
     this.detalles.controls[indexFormulario].patchValue({
-      cuenta: item.cuenta_id,
-      cuenta_codigo: item.cuenta_codigo,
-      cuenta_nombre: item.cuenta_nombre,
+      cuenta: item.id,
+      cuenta_codigo: item.codigo,
+      cuenta_nombre: item.nombre,
       cantidad: 1,
     });
 

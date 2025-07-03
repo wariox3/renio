@@ -15,11 +15,9 @@ import {
 import { General } from '@comun/clases/general';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-seleccionar-resolucion',
@@ -40,7 +38,7 @@ export class SeleccionarResolucionComponent
   @Input() documentoEnlazado: boolean;
   @Input() campoInvalido: any = false;
   @Input() iniciarFocusInputBusqueda: boolean = true;
-  @Input() filtrosExternos: Filtros[];
+  @Input() filtrosExternos: { [key: string]: any } = {}
   @Output()
   itemSeleccionadoEvent: EventEmitter<RegistroAutocompletarGenResolucion | null> =
     new EventEmitter();
@@ -82,28 +80,13 @@ export class SeleccionarResolucionComponent
   }
 
   consultarCuentas(event: any) {
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenResolucion',
-      serializador: 'ListaAutocompletar',
-    };
-
-    if (this.filtrosExternos) {
-      if (this.filtrosExternos.length) {
-        arrFiltros.filtros = [...arrFiltros.filtros, ...this.filtrosExternos];
-      }
-    }
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenResolucion>(
-        arrFiltros,
+      .consultaApi<RegistroAutocompletarGenResolucion[]>(
+        'general/resolucion/seleccionar/',
+         this.filtrosExternos,
       )
       .subscribe((respuesta) => {
-        this.resoluciones = respuesta.registros;
+        this.resoluciones = respuesta;
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -111,16 +94,12 @@ export class SeleccionarResolucionComponent
   aplicarFiltrosCuentas(event: any) {
     const valor = event?.target?.value;
     const valorCasteado = Number(valor);
-    let filtros: Filtros[] = [];
+    let filtros: { [key: string]: any } = {};
 
     if (valorCasteado) {
-      filtros = [
-        {
-          propiedad: 'numero',
-          operador: 'contains',
-          valor1: valorCasteado,
-        },
-      ];
+      filtros = {
+        numero__icontains: valorCasteado,
+      };
     }
 
     if (!valor) {
@@ -128,28 +107,19 @@ export class SeleccionarResolucionComponent
     }
 
     if (this.filtrosExternos) {
-      if (this.filtrosExternos.length) {
-        filtros = [...filtros, ...this.filtrosExternos];
+      if (Object.keys(this.filtrosExternos).length) {
+        filtros = { ...filtros, ...this.filtrosExternos };
       }
     }
 
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [...filtros],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenResolucion',
-      serializador: 'ListaAutocompletar',
-    };
-
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenResolucion>(
-        arrFiltros,
+      .consultaApi<RegistroAutocompletarGenResolucion[]>(
+        'general/resolucion/seleccionar/',
+        filtros,
       )
       .pipe(
         tap((respuesta) => {
-          this.resoluciones = respuesta.registros;
+          this.resoluciones = respuesta;
           this.inputItem.nativeElement.focus();
           this.changeDetectorRef.detectChanges();
         }),

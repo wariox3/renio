@@ -47,7 +47,7 @@
                 (click)="modificarCampoFormulario('contacto', contacto)"
                 (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
-                {{ contacto.contacto_nombre_corto }}
+                {{ contacto.nombre_corto }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -248,12 +248,12 @@
             </option>
             <option
               *ngFor="let sede of arrSede"
-              [value]="sede.sede_id"
+              [value]="sede.id"
               [selected]="
-                sede.sede_id === formularioFactura.controls.sede.value
+                sede.id === formularioFactura.controls.sede.value
               "
             >
-              {{ sede.sede_nombre }}
+              {{ sede.nombre }}
             </option>
           </select>
         </div>

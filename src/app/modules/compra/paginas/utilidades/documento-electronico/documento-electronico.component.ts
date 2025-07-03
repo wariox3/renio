@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
+import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { GeneralService } from '@comun/services/general.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { catchError, of, tap, zip } from 'rxjs';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { catchError, of, tap } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { DOCUMENTO_ELECTRONICO_FILTERS } from '@modulos/compra/domain/mapeos/documento-electronico.mapeo';
+import { FiltroComponent } from '@comun/componentes/ui/tabla/filtro/filtro.component';
+import { PaginadorComponent } from '../../../../../comun/componentes/ui/tabla/paginador/paginador.component';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -23,40 +26,21 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    BaseFiltroComponent,
+    FiltroComponent,
+    PaginadorComponent,
   ],
 })
 export class DocumentoElectronicoComponent extends General implements OnInit {
-  filtroPermanenteEmitir: Filtros[] = [
-    {
-      propiedad: 'estado_aprobado',
-      valor1: true,
-    },
-    {
-      propiedad: 'estado_electronico',
-      valor1: false,
-    },
-    {
-      propiedad: 'estado_electronico_descartado',
-      valor1: false,
-    },
-    {
-      propiedad: 'documento_tipo__electronico',
-      valor1: true,
-    },
-    {
-      propiedad: 'documento_tipo__documento_clase__grupo',
-      valor1: 3,
-    },
-  ];
-  arrParametrosConsultaEmitir: ParametrosFiltros = {
-    filtros: this.filtroPermanenteEmitir,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    modelo: 'GenDocumento',
+  filtroPermanenteEmitir: ParametrosApi = {
+    estado_aprobado: 'True',
+    estado_electronico: 'False',
+    estado_electronico_descartado: 'False',
+    documento_tipo__electronico: 'True',
+    documento_tipo__documento_clase__grupo: 3,
+    limit: 50,
   };
+
+  arrParametrosConsultaEmitir: ParametrosApi = this.filtroPermanenteEmitir;
   arrDocumentosEmitir: any = [];
   arrDocumentosNotificar: any = [];
   arrRegistrosSeleccionadosNotificar: number[] = [];
@@ -65,9 +49,14 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
   notificarSelectTodo = false;
   tabActive = 1;
   paginacionEmitirDesde: number = 0;
-  paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir.limite;
+  paginacionEmitirHasta: number = this.arrParametrosConsultaEmitir
+    .limit as number;
   cantidad_registros: number = 0;
+  availableFields = DOCUMENTO_ELECTRONICO_FILTERS;
   private readonly _generalService = inject(GeneralService);
+  private _filterTransformerService = inject(FilterTransformerService);
+  currentPage = signal(1);
+  totalPages = signal(1);
 
   constructor(private httpService: HttpService) {
     super();
@@ -78,26 +67,34 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
       this.consultarLista();
     });
     this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: utilidades['factura_electronica_emitir'] })
+      ActualizarMapeo({ dataMapeo: utilidades['factura_electronica_emitir'] }),
     );
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
-    zip(
-      this._generalService.consultarDatosLista(this.arrParametrosConsultaEmitir)
-    ).subscribe((respuesta: any) => {
-      this.cantidad_registros = respuesta[0].cantidad_registros;
-      this.arrDocumentosEmitir = respuesta[0].registros.map(
-        (documento: any) => ({
+    this._generalService
+      .consultaApi('general/documento/', this.arrParametrosConsultaEmitir)
+      .subscribe((respuesta: any) => {
+        this.cantidad_registros = respuesta.count;
+        this.arrDocumentosEmitir = respuesta.results.map((documento: any) => ({
           ...documento,
           ...{
             selected: false,
           },
-        })
-      );
-      this.changeDetectorRef.detectChanges();
-    });
+        }));
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  onPageChange(page: number): void {
+    this.currentPage.set(page);
+    this.arrParametrosConsultaEmitir;
+    this.arrParametrosConsultaEmitir = {
+      ...this.filtroPermanenteEmitir,
+      page,
+    };
+    this.consultarLista();
   }
 
   agregarRegistrosNotificar(id: number) {
@@ -163,24 +160,24 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
             tap(() => {
               this.arrRegistrosSeleccionadosEmitir =
                 this.arrRegistrosSeleccionadosEmitir.filter(
-                  (item) => item !== documento_id
+                  (item) => item !== documento_id,
                 );
               this.consultarLista();
             }),
             catchError(() => {
               this.alertaService.mensajeError(
                 'Error',
-                `No al emitir documento: ${documento_id}`
+                `No al emitir documento: ${documento_id}`,
               );
               return of(null);
-            })
+            }),
           )
           .subscribe();
       });
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No tiene registros seleccionados'
+        'No tiene registros seleccionados',
       );
     }
   }
@@ -198,50 +195,46 @@ export class DocumentoElectronicoComponent extends General implements OnInit {
     } else {
       this.alertaService.mensajeError(
         'Error',
-        'No tiene registros seleccionados'
+        'No tiene registros seleccionados',
       );
     }
   }
 
   visualizarTap(tap: string) {
-    this.store.dispatch(ActualizarMapeo({ dataMapeo: utilidades[tap] }));
-    this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
-    this.consultarLista();
+    // this.store.dispatch(ActualizarMapeo({ dataMapeo: utilidades[tap] }));
+    // this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
+    // this.consultarLista();
   }
 
-  obtenerFiltrosEmitir(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsultaEmitir.filtros = [
-          ...this.filtroPermanenteEmitir,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsultaEmitir.filtros = this.filtroPermanenteEmitir;
-      }
-    }
+  obtenerFiltrosEmitir(filters: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
+    this.arrParametrosConsultaEmitir = {
+      ...this.filtroPermanenteEmitir,
+      ...apiParams,
+    };
     this.consultarLista();
   }
 
   aumentarDesplazamientoEmitir() {
-    this.paginacionEmitirDesde =
-      this.paginacionEmitirDesde + this.arrParametrosConsultaEmitir.limite;
-    this.paginacionEmitirHasta =
-      this.paginacionEmitirHasta + this.arrParametrosConsultaEmitir.limite;
-    this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
-    this.consultarLista();
+    // this.paginacionEmitirDesde =
+    //   this.paginacionEmitirDesde + this.arrParametrosConsultaEmitir.limite;
+    // this.paginacionEmitirHasta =
+    //   this.paginacionEmitirHasta + this.arrParametrosConsultaEmitir.limite;
+    // this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
+    // this.consultarLista();
   }
 
   disminuirDesplazamientoEmitir() {
-    if (this.paginacionEmitirDesde > 0) {
-      let nuevoValor =
-        this.paginacionEmitirDesde - this.arrParametrosConsultaEmitir.limite;
-      this.paginacionEmitirHasta =
-        this.paginacionEmitirHasta - this.arrParametrosConsultaEmitir.limite;
-      this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
-      this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
-      this.consultarLista();
-    }
+    // if (this.paginacionEmitirDesde > 0) {
+    //   let nuevoValor =
+    //     this.paginacionEmitirDesde - this.arrParametrosConsultaEmitir.limite;
+    //   this.paginacionEmitirHasta =
+    //     this.paginacionEmitirHasta - this.arrParametrosConsultaEmitir.limite;
+    //   this.paginacionEmitirDesde = nuevoValor <= 1 ? 0 : nuevoValor;
+    //   this.arrParametrosConsultaEmitir.desplazar = this.paginacionEmitirDesde;
+    //   this.consultarLista();
+    // }
   }
 
   calcularValorMostrarEmitir(evento: any) {

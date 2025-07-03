@@ -1,6 +1,6 @@
 export interface RegistroAutocompletarHumEntidad {
-  entidad_id: number;
-  entidad_nombre: string;
+  id: number;
+  nombre: string;
 }
 
 export interface RegistroHumEntidadLista {
