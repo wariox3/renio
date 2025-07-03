@@ -73,6 +73,8 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
 
   initForm() {
     this.formularioConfiguracion = this.formBuilder.group({
+      empresa: [1],
+      id: [1],
       hum_factor: [
         '',
         Validators.compose([

@@ -44,8 +44,7 @@ export class ProvisionListaComponent
       .consultaApi<RespuestaApi<HumConfiguracionProvision>>(
         'humano/configuracion_provision/',
         {
-        limit: 1000,
-        ordering: 'orden',
+        page_size: 100,
       })
       .subscribe((respuesta) => {
         this.provisiones.set(respuesta.results);
