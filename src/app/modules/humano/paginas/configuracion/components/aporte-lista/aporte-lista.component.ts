@@ -9,6 +9,7 @@ import { ProvisionService } from '@modulos/humano/servicios/provision.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { CuentasComponent } from '../../../../../../comun/componentes/cuentas/cuentas.component';
 import { AporteService } from '@modulos/humano/servicios/aporte.service';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-aporte-lista',
@@ -38,15 +39,15 @@ export class AporteListaComponent extends General implements OnInit, OnDestroy {
 
   private _getConceptos() {
     this._generalService
-      .consultarDatosAutoCompletar<HumConfiguracionAporte>({
-        limite: 1000,
-        desplazar: 0,
-        ordenamientos: ['orden'],
-        limite_conteo: 10000,
-        modelo: 'HumConfiguracionAporte',
-      })
+      .consultaApi<RespuestaApi<HumConfiguracionAporte>>(
+        'humano/configuracion_aporte/',
+        {
+          limit: 1000,
+          ordering: 'orden',
+        },
+      )
       .subscribe((respuesta) => {
-        this.provisiones.set(respuesta.registros);
+        this.provisiones.set(respuesta.results);
       });
   }
 
