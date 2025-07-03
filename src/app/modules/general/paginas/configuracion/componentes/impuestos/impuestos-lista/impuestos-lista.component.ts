@@ -6,6 +6,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { SiNoPipe } from '@pipe/si-no.pipe';
 import { ImpuestoEditarComponent } from '../impuesto-editar/impuesto-editar.component';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-impuestos-lista',
@@ -35,16 +36,14 @@ export class ImpuestosListaComponent implements OnInit {
 
   consultarInformacion() {
     this._generalService
-      .consultarDatosLista({
-        filtros: [],
-        limite: 50,
-        limite_conteo: 10000,
-        desplazar: 0,
-        ordenamientos: ['id'],
-        modelo: 'GenImpuesto',
+      .consultaApi<RespuestaApi<any>>(
+        'general/impuesto/',
+        {
+        limit: 50,
+        ordering: 'id',
       })
-      .subscribe((respuesta: any) => {
-        this.arrImpuestoSignal.set(respuesta.registros);
+      .subscribe((respuesta) => {
+        this.arrImpuestoSignal.set(respuesta.results);
       });
   }
 
