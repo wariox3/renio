@@ -132,18 +132,13 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     if (this.formularioConfiguracion.valid) {
       this.empresaService
         .configuracionEmpresa(1, this.formularioConfiguracion.value)
-        .pipe(
-          tap((respuestaActualizacion: any) => {
-            if (respuestaActualizacion.actualizacion) {
-              this.alertaService.mensajaExitoso(
-                this.translateService.instant(
-                  'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
-                ),
-              );
-            }
-          }),
-        )
-        .subscribe();
+        .subscribe(() => {
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant(
+              'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
+            ),
+          );
+        });
     } else {
       this.formularioConfiguracion.markAllAsTouched();
     }
