@@ -20,14 +20,11 @@ import { General } from '@comun/clases/general';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digito-verificacion.service';
 import { GeneralService } from '@comun/services/general.service';
-import {} from '@interfaces/comunes/autocompletar/autocompletar';
+import { } from '@interfaces/comunes/autocompletar/autocompletar';
 import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
 import { RegistroAutocompletarGenIdentificacion } from '@interfaces/comunes/autocompletar/general/gen-identificacion.interface';
 import { RegistroAutocompletarGenRegimen } from '@interfaces/comunes/autocompletar/general/gen-regimen.interface';
 import { RegistroAutocompletarGenTipoPersona } from '@interfaces/comunes/autocompletar/general/gen-tipo-persona.interface';
-import { Regimen } from '@interfaces/general/regimen.interface';
-import { TipoIdentificacion } from '@interfaces/general/tipo-identificacion.interface';
-import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import {
   NgbDropdown,
@@ -40,14 +37,11 @@ import { empresaActualizacionAction } from '@redux/actions/empresa.actions';
 import { obtenerEmpresaId } from '@redux/selectors/empresa.selectors';
 import { provideNgxMask } from 'ngx-mask';
 import {
-  asyncScheduler,
-  of,
   Subject,
   switchMap,
   takeUntil,
   tap,
-  throttleTime,
-  zip,
+  zip
 } from 'rxjs';
 
 @Component({
@@ -72,10 +66,10 @@ export class EmpresaFormularioComponent extends General implements OnInit {
   formularioEmpresa: FormGroup;
   planSeleccionado: Number = 2;
   ciudadSeleccionada: string | null;
-  arrCiudades: any[] = [];
-  arrIdentificacion: TipoIdentificacion[] = [];
-  arrTipoPersona: TipoPersona[] = [];
-  arrRegimen: Regimen[] = [];
+  arrCiudades: RegistroAutocompletarGenCiudad[] = [];
+  arrIdentificacion: RegistroAutocompletarGenIdentificacion[] = [];
+  arrTipoPersona: RegistroAutocompletarGenTipoPersona[] = [];
+  arrRegimen: RegistroAutocompletarGenRegimen[] = [];
   arrResoluciones: any[] = [];
   rededoc_id: null | number = null;
   @Input() empresaId!: string;
@@ -105,29 +99,20 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   consultarInformacion() {
     zip(
-      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenIdentificacion>(
-        {
-          modelo: 'GenIdentificacion',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalServices.consultaApi<
+        RegistroAutocompletarGenIdentificacion[]
+      >('general/identificacion/seleccionar/'),
+      this._generalServices.consultaApi<RegistroAutocompletarGenRegimen[]>(
+        'general/regimen/seleccionar/',
       ),
-      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenRegimen>(
-        {
-          modelo: 'GenRegimen',
-          serializador: 'ListaAutocompletar',
-        },
-      ),
-      this._generalServices.consultarDatosAutoCompletar<RegistroAutocompletarGenTipoPersona>(
-        {
-          modelo: 'GenTipoPersona',
-          serializador: 'ListaAutocompletar',
-        },
+      this._generalServices.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
+        'general/tipo_persona/seleccionar/',
       ),
       this.empresaService.consultarDetalle(this.empresaId),
-    ).subscribe((respuesta: any) => {
-      this.arrIdentificacion = respuesta[0].registros;
-      this.arrRegimen = respuesta[1].registros;
-      this.arrTipoPersona = respuesta[2].registros;
+    ).subscribe((respuesta) => {
+      this.arrIdentificacion = respuesta[0];
+      this.arrRegimen = respuesta[1];
+      this.arrTipoPersona = respuesta[2];
       this.rededoc_id = respuesta[3].rededoc_id;
       this.formularioEmpresa.patchValue({
         nombre_corto: respuesta[3].nombre_corto,
@@ -229,24 +214,16 @@ export class EmpresaFormularioComponent extends General implements OnInit {
 
   consultarCiudad(event: any) {
     this._generalServices
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenCiudad>({
-        filtros: [
-          {
-            propiedad: 'nombre__icontains',
-            valor1: `${event?.target.value}`,
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenCiudad',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarGenCiudad[]>(
+        'general/ciudad/seleccionar/',
+        {
+          nombre__icontains: `${event?.target.value}`,
+          limit: 100,
+        },
+      )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta) => {
-          this.arrCiudades = respuesta.registros;
+          this.arrCiudades = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -264,7 +241,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         this.formularioEmpresa.get(campo)?.setValue(dato.id);
         this.formularioEmpresa
           .get('ciudad_nombre')
-          ?.setValue(`${dato.nombre} - ${dato.estado_nombre}`);
+          ?.setValue(`${dato.nombre} - ${dato.estado__nombre}`);
       }
     }
     if (campo === 'ciudad_nombre') {

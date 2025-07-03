@@ -175,9 +175,9 @@
         <option value="">Seleccionar...</option>
         <option
           *ngFor="let identificacion of arrIdentificacion"
-          [value]="identificacion.identificacion_id"
+          [value]="identificacion.id"
         >
-          {{ identificacion.identificacion_nombre }}
+          {{ identificacion.nombre }}
         </option>
       </select>
       <ng-container
@@ -236,7 +236,7 @@
             ngbDropdownItem
             (click)="modificarCampoFormulario('ciudad', ciudad)"
           >
-            {{ ciudad.nombre }} - {{ ciudad.estado_nombre }}
+            {{ ciudad.nombre }} - {{ ciudad.estado__nombre }}
           </button>
         </ng-container>
         <div class="dropdown-divider"></div>
@@ -395,8 +395,8 @@
         }"
       >
         <option value="">Seleccionar...</option>
-        <option *ngFor="let regimen of arrRegimen" [value]="regimen.regimen_id">
-          {{ regimen.regimen_nombre }}
+        <option *ngFor="let regimen of arrRegimen" [value]="regimen.id">
+          {{ regimen.nombre }}
         </option>
       </select>
       <ng-container
@@ -428,9 +428,9 @@
         <option value="">Seleccionar...</option>
         <option
           *ngFor="let tipoPersona of arrTipoPersona"
-          [value]="tipoPersona.tipo_persona_id"
+          [value]="tipoPersona.id"
         >
-          {{ tipoPersona.tipo_persona_nombre }}
+          {{ tipoPersona.nombre }}
         </option>
       </select>
       <ng-container
