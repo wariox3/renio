@@ -23,6 +23,7 @@ import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocomp
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-empresa-documento-tipo-editar',
@@ -132,27 +133,15 @@ export class EmpresaDocumentoTipoEditarComponent
       resolucionId = this.idEditarInformacion;
     }
 
-    let arrFiltros: ParametrosFiltros = {
-      filtros: [
-        {
-          propiedad: 'numero__icontains',
-          valor1: ``,
-        },
-        {
-          propiedad: this.tipoRolucion,
-          valor1: true,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'GenResolucion',
-      serializador: 'ListaAutocompletar',
+    let arrFiltros: ParametrosApi = {
+      numero__icontains: '',
+      [this.tipoRolucion]: "True",
+      limit: 10,
     };
 
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenResolucion>(
+      this._generalService.consultaApi<RegistroAutocompletarGenResolucion>(
+        'general/resolucion/seleccionar/',
         arrFiltros
       ),
       this.empresaService.consultarDocumentoTipoDetalle(resolucionId)
@@ -174,17 +163,17 @@ export class EmpresaDocumentoTipoEditarComponent
 
   agregarCuentaPagarSeleccionado(cuenta: any) {
     this.formularioDocumentoTipo.patchValue({
-      cuenta_pagar: cuenta.cuenta_id,
-      cuenta_pagar_codigo: cuenta.cuenta_codigo,
-      cuenta_pagar_nombre: cuenta.cuenta_nombre,
+      cuenta_pagar: cuenta.id,
+      cuenta_pagar_codigo: cuenta.codigo,
+      cuenta_pagar_nombre: cuenta.nombre,
     });
   }
 
   agregarCuentaCobrarSeleccionado(cuenta: any) {
     this.formularioDocumentoTipo.patchValue({
-      cuenta_cobrar: cuenta.cuenta_id,
-      cuenta_cobrar_codigo: cuenta.cuenta_codigo,
-      cuenta_cobrar_nombre: cuenta.cuenta_nombre,
+      cuenta_cobrar: cuenta.id,
+      cuenta_cobrar_codigo: cuenta.codigo,
+      cuenta_cobrar_nombre: cuenta.nombre,
     });
   }
 
