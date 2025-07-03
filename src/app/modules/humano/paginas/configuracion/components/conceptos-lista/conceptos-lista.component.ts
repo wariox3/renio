@@ -19,6 +19,8 @@ import { ConceptoService } from '@modulos/humano/servicios/concepto.service';
 import { finalize } from 'rxjs';
 import { RegistroAutocompletarHumConceptoCuenta } from '@interfaces/comunes/autocompletar/humano/hum-concepto-cuenta.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
 
 @Component({
   selector: 'app-conceptos-lista',
@@ -73,42 +75,31 @@ export class DocumentoDocumentoTipoComponent
 
   private _getConceptos() {
     this._generalService
-      .consultarDatosAutoCompletar<Concepto>({
-        limite: 1000,
-        desplazar: 0,
-        ordenamientos: ['id'],
-        limite_conteo: 10000,
-        modelo: 'HumConcepto',
+      .consultaApi<RespuestaApi<Concepto>>('humano/concepto/', {
+        limit: 1000,
+        ordering: ['id'],
       })
       .subscribe((respuesta) => {
-        this.conceptosLista.set(respuesta.registros);
+        this.conceptosLista.set(respuesta.results);
       });
   }
 
-  private _getCuentaConceptos(filtros: ParametrosFiltros) {
+  private _getCuentaConceptos(filtros: ParametrosApi) {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumConceptoCuenta>(
+      .consultaApi<RespuestaApi<RegistroAutocompletarHumConceptoCuenta>>(
+        'humano/concepto_cuenta/',
         filtros,
       )
       .subscribe((respuesta) => {
-        this.cuentaConceptoLista.set(respuesta.registros);
+        this.cuentaConceptoLista.set(respuesta.results);
       });
   }
 
   private _consultarCuentaConceptoPorConceptoId(conceptoId: number) {
     return this._getCuentaConceptos({
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: ['id'],
-      limite_conteo: 10000,
-      modelo: 'HumConceptoCuenta',
-      filtros: [
-        {
-          operador: 'exact',
-          propiedad: 'concepto',
-          valor1: conceptoId,
-        },
-      ],
+      limit: 1000,
+      ordering: 'id',
+      concepto: conceptoId,
     });
   }
 
@@ -184,10 +175,10 @@ export class DocumentoDocumentoTipoComponent
     }
   }
 
-  agregarCuentaCobrarSeleccionado(cuenta: any) {
-    this.formularioConceptoCuenta.get('cuenta')?.setValue(cuenta.cuenta_id);
-    this.cuentaCobrarNombre = cuenta.cuenta_nombre;
-    this.cuentaCobrarCodigo = cuenta.cuenta_codigo;
+  agregarCuentaCobrarSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
+    this.formularioConceptoCuenta.get('cuenta')?.setValue(cuenta.id);
+    this.cuentaCobrarNombre = cuenta.nombre;
+    this.cuentaCobrarCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();
   }
 
@@ -204,7 +195,7 @@ export class DocumentoDocumentoTipoComponent
       })
       .subscribe(() => {
         this.alertaService.mensajaExitoso('Se actualizo con exito!');
-        this._consultarCuentaConceptoPorConceptoId(this.conceptoSelecionado.id); 
+        this._consultarCuentaConceptoPorConceptoId(this.conceptoSelecionado.id);
       });
   }
 
@@ -223,9 +214,6 @@ export class DocumentoDocumentoTipoComponent
     >,
   ): boolean {
     // Verificar si ya existe un ítem con el mismo tipo_costo_id y cuenta_id
-    return lista.some(
-      (item) =>
-        item.tipo_costo_id === nuevoItem.tipo_costo_id
-    );
+    return lista.some((item) => item.tipo_costo_id === nuevoItem.tipo_costo_id);
   }
 }
