@@ -227,13 +227,8 @@ export class FormularioProductosComponent
     });
   }
 
-  agregarItemsSeleccionados(items: any[]) {
-    items.forEach((item, index) => {
-      this.agregarNuevoItem('I');
-      const itemAdaptado = this._adapterService.adaptarItem(item);
-      this.recibirItemSeleccionado(itemAdaptado, index);
-    });
-
+  actualizarDocumento() {
+    this._cargarVista();
     this.modalService.dismissAll();
   }
 

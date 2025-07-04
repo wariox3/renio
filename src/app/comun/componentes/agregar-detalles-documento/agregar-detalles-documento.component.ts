@@ -143,7 +143,7 @@ export class AgregarDetallesDocumentoComponent implements OnInit {
         documento_id: this.detalleId,
         documento_detalle_ids: this.itemsSeleccionados(),
       }).subscribe((res) => {
-        console.log(res); 
+        this.itemsSeleccionadosEvent.emit()
       });
   }
 }
