@@ -25,6 +25,7 @@ export class AlertaSuspensionComponent extends General implements OnInit {
   usuarioFechaLimitePago: Date;
   usuarioVrSaldo: number;
   hoy: Date = new Date();
+  usuarioID = 0;
   private _facturacionService = inject(FacturacionService);
 
   constructor() {
@@ -36,14 +37,17 @@ export class AlertaSuspensionComponent extends General implements OnInit {
       this.store.select(obtenerUsuarioSuspencion),
       this.store.select(obtenerUsuarioFechaLimitePago),
       this.store.select(obtenerUsuarioVrSaldo),
-    ]).subscribe((respuesta: any) => {
+      this.store.select(obtenerUsuarioId),
+    ]).subscribe((respuesta) => {
       this.visualizarAlerta = respuesta[0];
       this.usuarioFechaLimitePago = new Date(respuesta[1]);
       this.usuarioFechaLimitePago.setDate(
         this.usuarioFechaLimitePago.getDate() + 1,
       );
       this.usuarioVrSaldo = respuesta[2];
+      this.usuarioID = respuesta[3];
     });
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -52,29 +56,23 @@ export class AlertaSuspensionComponent extends General implements OnInit {
   }
 
   actualizarPago() {
-    this.store
-      .select(obtenerUsuarioId)
-      .pipe(
-        switchMap((respuestaUsuarioId) =>
-          this._facturacionService.obtenerUsuarioVrSaldo(respuestaUsuarioId),
-        ),
-        tap((respuesta) => {
-          if (respuesta.saldo > 0) {
-            this.alertaService.mensajeInformativo(
-              'Información',
-              `El usuario aún cuenta con pagos pendientes. Si ya realizó el pago, por favor comuníquese con nuestro equipo de soporte al WhatsApp 333 2590638`,
-            );
-          } else {
-            this.store.dispatch(
-              usuarioActionActualizarVrSaldo({
-                vr_saldo: 0,
-              }),
-            );
-            this.visualizarAlerta = false;
-            this.changeDetectorRef.detectChanges();
-          }
-        }),
-      )
-      .subscribe();
+    this._facturacionService
+      .obtenerUsuarioVrSaldo(this.usuarioID)
+      .subscribe((respuesta) => {
+        if (respuesta.saldo > 0) {
+          this.alertaService.mensajeInformativo(
+            'Información',
+            `El usuario aún cuenta con pagos pendientes. Si ya realizó el pago, por favor comuníquese con nuestro equipo de soporte al WhatsApp 333 2590638`,
+          );
+        } else {
+          this.store.dispatch(
+            usuarioActionActualizarVrSaldo({
+              vr_saldo: 0,
+            }),
+          );
+          this.visualizarAlerta = false;
+          this.changeDetectorRef.detectChanges();
+        }
+      });
   }
 }
