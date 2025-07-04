@@ -140,7 +140,7 @@ export class AgregarDetallesDocumentoComponent implements OnInit {
 
   agregarDetalles() {
       this.httpService.post<any>(`general/documento_detalle/agregar_documento_detalle/`, {
-        id: this.detalleId,
+        documento_id: this.detalleId,
         documento_detalle_ids: this.itemsSeleccionados(),
       }).subscribe((res) => {
         console.log(res); 
