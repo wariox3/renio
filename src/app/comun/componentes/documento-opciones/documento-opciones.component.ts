@@ -11,6 +11,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
 import { ArchivosService } from '@comun/services/archivos/archivos.service';
 import { ProcesadorArchivosService } from '@comun/services/archivos/procesador-archivos.service';
@@ -21,20 +22,24 @@ import { Modelo } from '@comun/type/modelo.type';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar/contabilidad/con-movimiento.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
-import { NgbDropdownModule, NgbModal, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbNavModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BehaviorSubject, finalize, switchMap, tap, zip } from 'rxjs';
+import { BehaviorSubject, finalize, tap, zip } from 'rxjs';
 import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.component';
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
-import { PaginadorComponent } from '../paginador/paginador.component';
 import { TablaComponent } from '../tabla/tabla.component';
-import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
-import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
-import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
+import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
+import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -43,12 +48,12 @@ import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.i
     CommonModule,
     NgbDropdownModule,
     TablaComponent,
-    PaginadorComponent,
     TranslateModule,
     SeleccionarContactoComponent,
     AnimationFadeInUpDirective,
     CargarArchivosComponent,
     NgbNavModule,
+    PaginadorComponent,
   ],
   templateUrl: './documento-opciones.component.html',
   styleUrl: './documento-opciones.component.scss',
@@ -58,15 +63,12 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   private readonly _generalService = inject(GeneralService);
   private readonly _descargarArchivosService = inject(DescargarArchivosService);
   private readonly _documentoService = inject(DocumentoService);
-  private readonly _archivosService = inject(ArchivosService);
-  private readonly _procesadorArchivosService = inject(
-    ProcesadorArchivosService,
-  );
   private _facturaService = inject(FacturaService);
 
   public arrGrupo: RegistroAutocompletarConGrupo[] = [];
   public encabezadoDocumento: DocumentoFacturaRespuesta | null = null;
   public arrDocumentos: any[];
+  public arrDocumentosCorregir: any[];
   public sedes: RegistroAutocompletarGenSede[] = [];
   public arrDocumentosGrupo: { grupo: string; detalle_id: number }[] = [];
   public cantidadRegistros: number;
@@ -77,15 +79,12 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public totalCredito = 0;
   public active: Number;
   public cargandoAccion = signal<boolean>(false);
+  public currentPage = signal(1);
+  public totalPages = signal(1);
 
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
-  public parametrosConsulta: ParametrosFiltros = {
+  public parametrosConsulta: ParametrosApi = {
     limite: 51,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'ConMovimiento',
-    filtros: [],
   };
   public cantidadRegistrosCorregir = signal(0);
 
@@ -112,13 +111,9 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe((parametro) => {
       this.documentoId = this.detalle;
-      this.parametrosConsulta.filtros = [
-        {
-          propiedad: 'documento_id',
-          valor1: this.documentoId,
-        },
-      ];
-      this.parametrosConsulta.modelo = this.opciones.modelo;
+      this.parametrosConsulta = {
+        documento_id: this.documentoId,
+      };
     });
   }
 
@@ -163,19 +158,20 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     });
   }
 
-  cambiarOrdemiento(ordenamiento: string) {
-    (this.parametrosConsulta.ordenamientos[0] = ordenamiento),
-      this._consultarInformacionTabla();
-  }
-
-  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.parametrosConsulta.limite = data.desplazamiento;
-    this.parametrosConsulta.desplazar = data.limite;
+  onPageChange(page: number) {
+    this.parametrosConsulta = {
+      ...this.parametrosConsulta,
+      page,
+    };
     this._consultarInformacionTabla();
   }
 
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.parametrosConsulta.desplazar = desplazamiento;
+  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+    this.parametrosConsulta = {
+      ...this.parametrosConsulta,
+      page: data.desplazamiento,
+    };
+    
     this._consultarInformacionTabla();
   }
 
@@ -252,12 +248,13 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   private _consultarInformacionTabla() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarConMovimiento>(
+      .consultaApi<RespuestaApi<RegistroAutocompletarConMovimiento>>(
+        'contabilidad/movimiento/',
         this.parametrosConsulta,
       )
       .subscribe((respuesta) => {
-        this.cantidadRegistros = respuesta.cantidad_registros;
-        this.arrDocumentos = respuesta.registros.map((documento) => ({
+        this.cantidadRegistros = respuesta.count;
+        this.arrDocumentos = respuesta.results.map((documento) => ({
           id: documento.id,
           fecha: documento.fecha,
           numero: documento.numero,
@@ -294,7 +291,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           );
           if (!respuesta.documento.estado_contabilizado) {
             this._abirModal(this.corregirContent);
-            this.arrDocumentos = respuesta.documento.detalles;
+            this.arrDocumentosCorregir = respuesta.documento.detalles;
             this.encabezadoDocumento = respuesta.documento;
           } else {
             this.alertaService.mensajeError(
@@ -307,21 +304,21 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       .subscribe();
 
     zip(
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarConGrupo>(
+      this._generalService.consultaApi<RegistroAutocompletarConGrupo[]>(
+        'contabilidad/grupo/seleccionar/',
         {
-          modelo: 'ConGrupo',
-          serializador: 'ListaAutocompletar',
+          limit: 100,
         },
       ),
-      this._generalService.consultarDatosAutoCompletar<RegistroAutocompletarGenSede>(
+      this._generalService.consultaApi<RegistroAutocompletarGenSede[]>(
+        'general/sede/seleccionar/',
         {
-          modelo: 'GenSede',
-          serializador: 'ListaAutocompletar',
+          limit: 100,
         },
       ),
     ).subscribe((respuesta) => {
-      this.arrGrupo = respuesta[0].registros;
-      this.sedes = respuesta[1].registros;
+      this.arrGrupo = respuesta[0];
+      this.sedes = respuesta[1];
     });
   }
 
@@ -359,11 +356,11 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
         contacto: contacto?.id || null,
       })
       .subscribe(() => {
-        const posicion = this.arrDocumentos.findIndex(
+        const posicion = this.arrDocumentosCorregir.findIndex(
           (documento) => documento.id === documentoId,
         );
         if (posicion >= 0 && contacto) {
-          this.arrDocumentos[posicion].contacto_nombre_corto =
+          this.arrDocumentosCorregir[posicion].contacto_nombre_corto =
             contacto?.nombre_corto || '';
         }
         this.alertaService.mensajaExitoso('Se actualizó la información');

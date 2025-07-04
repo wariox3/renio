@@ -72,8 +72,6 @@
         [visualizarBtnColumnas]="false"
         [visualizarBtnExportarZip]="false"
         (emitirExportarExcel)="descargarExcel()"
-        (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-        (emitirOrdenamiento)="cambiarOrdemiento($event)"
         (emitirPaginacion)="cambiarPaginacion($event)"
       >
         <section botones-extra-derecha>
@@ -293,11 +291,12 @@
         ></a>
         <ng-template ngbNavContent>
           <div class="d-flex justify-content-between mb-4">
-            <app-comun-paginador
-              [cantidadRegistros]="cantidadRegistrosCorregir()"
-              (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-              (emitirPaginacion)="cambiarPaginacion($event)"
-            ></app-comun-paginador>
+            <app-paginador
+            [currentPage]="currentPage()"
+            [totalPages]="totalPages()"
+            (pageChange)="onPageChange($event)"
+            [totalItems]="totalPages()"
+            ></app-paginador>
           </div>
           <div class="row">
             <div class="table-responsive-sm">
@@ -315,7 +314,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for (arrDocumento of arrDocumentos; track $index) {
+                  @for (arrDocumento of arrDocumentosCorregir; track $index) {
                     <tr>
                       <td>
                         {{ arrDocumento.id }}
