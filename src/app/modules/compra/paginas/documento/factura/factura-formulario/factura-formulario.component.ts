@@ -20,8 +20,8 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import {
@@ -43,7 +43,7 @@ import { ImportarPersonalizadoComponent } from '../../../../../../comun/componen
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.component';
 import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { AgregarDetallesDocumentoComponent } from "../../../../../../comun/componentes/agregar-detalles-documento/agregar-detalles-documento.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -70,7 +70,8 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
     FacturaCuentaComponent,
     SeleccionarGrupoComponent,
     SeleccionarAlmacenComponent,
-  ],
+    AgregarDetallesDocumentoComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
 import {
+  DocumentoDetalleFactura,
   DocumentoImpuestoFacturaRespuesta,
   ImpuestoFormulario,
   ImpuestoRespuestaConsulta,
+  RespuestaAgregarDocumentoItem,
 } from '@interfaces/comunes/factura/factura.interface';
 
 @Injectable({
@@ -69,6 +71,21 @@ export class AdapterService {
       impuesto_venta: impuesto.impuesto_venta,
       impuesto_compra: impuesto.impuesto_compra,
       impuesto_operacion: impuesto.impuesto_operacion,
+    };
+  }
+
+  adaptarItem(item: RespuestaAgregarDocumentoItem): DocumentoDetalleFactura {
+    return {
+      id: item.id,
+      codigo: '',
+      nombre: item.item__nombre,
+      referencia: '',
+      costo: item.precio,
+      precio: item.precio,
+      impuestos: [],
+      cuenta_codigo: '',
+      cuenta_id: 0,
+      cuenta_nombre: '',
     };
   }
 }

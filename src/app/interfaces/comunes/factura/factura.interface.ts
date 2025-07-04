@@ -63,6 +63,21 @@ export interface RespuestaItem {
   item: DocumentoDetalleFactura;
 }
 
+export interface RespuestaAgregarDocumentoItem {
+  id: number;
+  item: number;
+  item__nombre: string;
+  grupo: number | null;
+  almacen: number;
+  almacen__nombre: string;
+  cantidad: number;
+  precio: number;
+  documento__numero: number;
+  documento__documento__tipo__nombre: string;
+  documento__contacto__nombre_corto: string;
+  documento__contacto__numero_identificacion: string;
+}
+
 export interface DocumentoDetalleFactura {
   id: number;
   codigo: string;
@@ -70,7 +85,7 @@ export interface DocumentoDetalleFactura {
   referencia: any;
   costo: number;
   precio: number;
-  producto: boolean;
+  producto?: boolean;
   servicio?: boolean;
   inventario?: boolean;
   existencia?: number;

@@ -4,12 +4,22 @@
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
         <button
+          (click)="abrirModal(modalImportarDesdeDocumento)"
+          class="btn btn-sm btn-secondary"
+          type="button"
+          [disabled]="deshabilitar"
+        >
+        Agregar desde documento
+      </button>
+      @if (this.detalle) {
+        <button
           (click)="agregarNuevoItem('I')"
           class="btn btn-sm btn-primary"
           type="button"
           [disabled]="deshabilitar"
           translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
         ></button>
+      }
       </div>
     </div>
   }
@@ -259,3 +269,28 @@
     </table>
   </div>
 </div>
+
+<ng-template #modalImportarDesdeDocumento let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Importar desde documento</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-agregar-detalles-documento
+    [columnas]="FACTURA_COMPRAS_CAMPOS_TABLA"
+    [configuracion]="{
+      endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
+      queryParams: {
+        documento_tipo: 9
+      }
+    }"
+    [detalleId]="detalle"
+    (itemsSeleccionadosEvent)="agregarItemsSeleccionados($event)"
+    ></app-agregar-detalles-documento>
+  </div>
+</ng-template>
