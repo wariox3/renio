@@ -32,7 +32,7 @@ import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grup
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
-import { AgregarDetallesDocumentoComponent } from "../../../agregar-detalles-documento/agregar-detalles-documento.component";
+import { AgregarDetallesDocumentoComponent } from '../../../agregar-detalles-documento/agregar-detalles-documento.component';
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import { AdapterService } from '../../services/adapter.service';
 
@@ -49,8 +49,8 @@ import { AdapterService } from '../../services/adapter.service';
     NgbTooltipModule,
     SeleccionarAlmacenComponent,
     SeleccionarGrupoComponent,
-    AgregarDetallesDocumentoComponent
-],
+    AgregarDetallesDocumentoComponent,
+  ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
 })
@@ -61,7 +61,6 @@ export class FormularioProductosComponent
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _facturaService = inject(FacturaService);
   private _unsubscribe$ = new Subject<void>();
-  private _adapterService = inject(AdapterService);
   private modalService = inject(NgbModal);
 
   public FACTURA_COMPRAS_CAMPOS_TABLA = FACTURA_COMPRAS_CAMPOS_TABLA;
