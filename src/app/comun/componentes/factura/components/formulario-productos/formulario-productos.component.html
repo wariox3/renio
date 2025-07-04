@@ -3,6 +3,7 @@
   @if (!estadoAprobado()) {
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
+        @if (this.detalle) {
         <button
           (click)="abrirModal(modalImportarDesdeDocumento)"
           class="btn btn-sm btn-secondary"
@@ -11,7 +12,7 @@
         >
         Agregar desde documento
       </button>
-      @if (this.detalle) {
+    }
         <button
           (click)="agregarNuevoItem('I')"
           class="btn btn-sm btn-primary"
@@ -19,7 +20,6 @@
           [disabled]="deshabilitar"
           translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
         ></button>
-      }
       </div>
     </div>
   }
