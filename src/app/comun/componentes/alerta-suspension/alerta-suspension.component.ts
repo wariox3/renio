@@ -75,7 +75,7 @@ export class AlertaSuspensionComponent
           this.alertaService.mensajeInformativo(
             'Información',
             `El usuario aún cuenta con pagos pendientes. Si ya realizó el pago, por favor comuníquese con nuestro equipo de soporte al WhatsApp 333 2590638`,
-          );
+          )
         } else {
           this.store.dispatch(
             usuarioActionActualizarVrSaldo({
