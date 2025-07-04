@@ -180,7 +180,9 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     // TODO: pendiente por refactorizar
     let url = 'http://localhost:4200/estado';
     if (environment.production) {
-      url = `${environment.dominioHttp}://app${environment.dominioApp}/estado`;
+      url = `${environment.dominioHttp}://${environment.dominioApp.slice(
+        1,
+      )}/estado`;
     }
 
     this.totalPagar.subscribe((total) => {
