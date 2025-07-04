@@ -12,6 +12,7 @@ export interface Usuario {
   fecha_limite_pago: Date;
   fecha_creacion: Date;
   vr_saldo: number;
+  vr_credito: number;
   verificado: boolean;
   es_socio: boolean;
   socio_id: string;

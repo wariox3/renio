@@ -7,6 +7,7 @@ import {
   usuarioActionActualizarIdioma,
   usuarioActionActualizarImagen,
   usuarioActionActualizarInformacionUsuario,
+  usuarioActionActualizarVrCredito,
   usuarioActionActualizarVrSaldo,
   usuarioActionInit,
 } from '@redux/actions/usuario.actions';
@@ -125,6 +126,29 @@ export class UsuarioEffects {
           if (coockieUsuario) {
             let jsonUsuario = JSON.parse(coockieUsuario);
             jsonUsuario.vr_saldo = action.vr_saldo;
+            if (environment.production) {
+              setCookie('usuario', JSON.stringify(jsonUsuario), {
+                path: '/',
+                domain: environment.dominioApp,
+              });
+            } else {
+              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+            }
+          }
+        }),
+      ),
+    { dispatch: false },
+  );
+
+  updateCookieVrCredito$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(usuarioActionActualizarVrCredito),
+        tap((action) => {
+          let coockieUsuario = getCookie('usuario');
+          if (coockieUsuario) {
+            let jsonUsuario = JSON.parse(coockieUsuario);
+            jsonUsuario.vr_credito = action.vr_credito;
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
                 path: '/',

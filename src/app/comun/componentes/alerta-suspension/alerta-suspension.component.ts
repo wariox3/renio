@@ -11,7 +11,10 @@ import {
 
 import { RouterModule } from '@angular/router';
 import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
-import { usuarioActionActualizarVrSaldo } from '@redux/actions/usuario.actions';
+import {
+  usuarioActionActualizarVrCredito,
+  usuarioActionActualizarVrSaldo,
+} from '@redux/actions/usuario.actions';
 import { combineLatest, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
@@ -75,16 +78,21 @@ export class AlertaSuspensionComponent
           this.alertaService.mensajeInformativo(
             'Información',
             `El usuario aún cuenta con pagos pendientes. Si ya realizó el pago, por favor comuníquese con nuestro equipo de soporte al WhatsApp 333 2590638`,
-          )
-        } else {
-          this.store.dispatch(
-            usuarioActionActualizarVrSaldo({
-              vr_saldo: 0,
-            }),
           );
+        } else {
           this.visualizarAlerta = false;
-          this.changeDetectorRef.detectChanges();
         }
+        this.store.dispatch(
+          usuarioActionActualizarVrSaldo({
+            vr_saldo: respuesta.saldo,
+          }),
+        );
+        this.store.dispatch(
+          usuarioActionActualizarVrCredito({
+            vr_credito: respuesta.credito,
+          }),
+        );
+        this.changeDetectorRef.detectChanges();
       });
   }
 }

@@ -1,9 +1,70 @@
+<div class="row">
+  <div class="col">
+    <div class="card card-dashed flex-center min-w-175px my-3 p-6">
+      <span class="fs-4 fw-semibold text-info pb-1 px-2">Creditos</span>
+      <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
+        $<span
+          data-kt-countup="true"
+          data-kt-countup-value="63,240.00"
+          class="counted"
+          data-kt-initialized="1"
+          [countUp]="vrCredito()"
+        ></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card card-dashed flex-center min-w-175px my-3 p-6">
+      <span class="fs-4 fw-semibold text-danger pb-1 px-2">Saldo</span>
+      <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
+        $<span
+          data-kt-countup="true"
+          data-kt-countup-value="2,600"
+          class="counted"
+          data-kt-initialized="1"
+          [countUp]="vrSaldo()"
+        ></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card card-dashed flex-center min-w-175px my-3 p-6">
+      <span class="fs-4 fw-semibold text-primary pb-1 px-2">Cupones</span>
+      <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
+        $<span
+          data-kt-countup="true"
+          data-kt-countup-value='783"'
+          class="counted"
+          data-kt-initialized="1"
+          [countUp]="vrCupones()"
+        ></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card card-dashed flex-center min-w-175px my-3 p-6">
+      <span class="fs-4 fw-semibold text-success pb-1 px-2">Balance</span>
+      <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
+        $<span
+          data-kt-countup="true"
+          data-kt-countup-value="8,530.00"
+          class="counted"
+          data-kt-initialized="1"
+          [countUp]="vrBalance()"
+        ></span>
+      </span>
+    </div>
+  </div>
+</div>
 <app-card>
   <section card-titulo>Facturación</section>
   <section card-body>
     <div class="row mb-5">
       <div class="col-12">
-        <div *ngIf="facturas.length > 0" class="mb-10 p-5 border">
+        <div class="mb-10 p-5 border">
           <div class="d-flex align-items-center justify-content-between">
             <h5
               class="mb-4"
@@ -25,6 +86,7 @@
                   <th
                     translate="FORMULARIOS.TITULOS.FACTURACION.DESCRIPCION"
                   ></th>
+                  <th></th>
                   <th
                     translate="FORMULARIOS.TITULOS.FACTURACION.IMPORTANTE"
                   ></th>
@@ -35,8 +97,20 @@
                 <tr *ngFor="let item of facturas">
                   <td>{{ item.fecha | date: "yyyy-MM-dd" }}</td>
                   <td>{{ item.tipo }}</td>
-                  <td class="text-end">
-                    {{ item.vr_total | currency: "$" }}
+                  <td class="text-center">
+                    @if (vrCredito() > 0) {
+                      <button
+                        (click)="
+                          abrirModalAplicarCredito(item, modalAplicarCredito)
+                        "
+                        class="btn btn-sm btn-info"
+                      >
+                        Aplicar creditos
+                      </button>
+                    }
+                  </td>
+                  <td class="text-end fw-bold fs-3">
+                    {{ item.vr_saldo | currency: "$" }}
                   </td>
                   <td class="w-20px">
                     <label [for]="item.id">
@@ -93,6 +167,50 @@
                       </div>
                     </div>
                   </div> -->
+          </div>
+          <div
+            class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6"
+          >
+            <!--begin::Icon-->
+
+            <i class="ki-duotone ki-tag fs-2tx text-primary me-8">
+              <span class="path1"></span>
+              <span class="path2"></span>
+              <span class="path3"></span>
+            </i>
+            <!--end::Icon-->
+
+            <!--begin::Wrapper-->
+            <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+              <!--begin::Content-->
+              <div class="mb-3 mb-md-0 fw-semibold">
+                <h4 class="text-gray-900 fw-bold">
+                  @if (vrCredito() > 0) {
+                    En hora buena, tienes créditos por aplicar.
+                  } @else {
+                    Uuuuuuu no tienes créditos, qué triste!
+                  }
+                </h4>
+
+                <div class="fs-6 text-gray-700 pe-7">
+                  Puedes aplicar total o parcialmente tus créditos ${{
+                    vrCredito() | number: "1.0-0"
+                  }}
+                  a los pagos. ¿Cómo puedes ganar créditos? Puedes ser socio
+                  RedDoc referenciando nuestra aplicación y ganando créditos
+                  cuando estos usuarios la usen. Contacta con un asesor.
+                </div>
+              </div>
+              <!--end::Content-->
+            </div>
+            <!--end::Wrapper-->
+            <button
+              type="button"
+              (click)="abrirModalContactarAsesor(modalContactarAsesor)"
+              class="btn btn-primary px-6 align-self-center text-nowrap"
+            >
+              Contactar asesor
+            </button>
           </div>
         </div>
 
@@ -321,3 +439,38 @@
     <app-historial-facturacion></app-historial-facturacion>
   </section>
 </app-card>
+
+<!--begin::Root-->
+<ng-template #modalContactarAsesor let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Contactar asesor</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-contactar-asesor></app-contactar-asesor>
+  </div>
+</ng-template>
+
+<!--begin::Root-->
+<ng-template #modalAplicarCredito let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Aplicar credito</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-aplicar-credito
+      [movimientoId]="movimientoId()"
+      (emitirCreditoAplicado)="actualizarInformarcion()"
+    ></app-aplicar-credito>
+  </div>
+</ng-template>

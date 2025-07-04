@@ -63,11 +63,11 @@ export class AuthService extends Subdominio implements OnDestroy {
     return this.http
       .post<Token>(
         `${this.URL_API_BASE}/seguridad/login/`,
-        { 
-          username: email, 
+        {
+          username: email,
           password: password,
           cf_turnstile_response: turnstileToken,
-          proyecto: 'REDDOC'
+          proyecto: 'REDDOC',
         },
         { context: noRequiereToken() },
       )
@@ -207,6 +207,7 @@ export class AuthService extends Subdominio implements OnDestroy {
           is_active: usuario.is_active,
           numero_identificacion: usuario.numero_identificacion,
           cargo: usuario.cargo,
+          vr_credito: usuario.vr_credito,
         },
       }),
     );

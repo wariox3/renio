@@ -8,6 +8,7 @@ import {
   usuarioActionActualizarImagen,
   usuarioActionActualizarVrSaldo,
   usuarioActionActualizarEstadoVerificado,
+  usuarioActionActualizarVrCredito,
 } from '../actions/usuario.actions';
 import { getCookie } from 'typescript-cookie';
 import { Usuario } from '@interfaces/usuario/usuario';
@@ -27,13 +28,14 @@ let parsedState: Usuario = {
   dominio: '',
   fecha_limite_pago: new Date(),
   vr_saldo: 0,
+  vr_credito: 0,
   fecha_creacion: new Date(),
   verificado: false,
   es_socio: false,
   socio_id: '',
   is_active: false,
   numero_identificacion: '',
-  cargo: ''
+  cargo: '',
 };
 
 export const initialState: Usuario = usuarioData
@@ -56,7 +58,17 @@ export const usuarioReducer = createReducer(
   }),
   on(
     usuarioActionActualizarInformacionUsuario,
-    (state, { nombre_corto, nombre, apellido, telefono, cargo, numero_identificacion }) => {
+    (
+      state,
+      {
+        nombre_corto,
+        nombre,
+        apellido,
+        telefono,
+        cargo,
+        numero_identificacion,
+      },
+    ) => {
       return {
         ...state,
         nombre_corto,
@@ -64,9 +76,9 @@ export const usuarioReducer = createReducer(
         apellido,
         telefono,
         cargo,
-        numero_identificacion
+        numero_identificacion,
       };
-    }
+    },
   ),
   on(usuarioActionActualizarIdioma, (state, { idioma }) => {
     return {
@@ -95,10 +107,19 @@ export const usuarioReducer = createReducer(
       vr_saldo,
     };
   }),
-  on(usuarioActionActualizarEstadoVerificado, (state, { estado_verificado }) => {
+  on(
+    usuarioActionActualizarEstadoVerificado,
+    (state, { estado_verificado }) => {
+      return {
+        ...state,
+        estado_verificado,
+      };
+    },
+  ),
+  on(usuarioActionActualizarVrCredito, (state, { vr_credito }) => {
     return {
       ...state,
-      estado_verificado,
+      vr_credito,
     };
-  })
+  }),
 );
