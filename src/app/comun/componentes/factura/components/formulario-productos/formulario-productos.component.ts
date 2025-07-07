@@ -75,6 +75,13 @@ export class FormularioProductosComponent
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() deshabilitar: boolean = false;
+  @Input() columnasTablaDatos: any = [];
+  @Input() configuracionDocumento = {
+    endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
+    queryParams: {
+      documento_tipo: 0
+    }
+  };
   @Output() emitirEnviarFormulario: EventEmitter<void>;
   @Output() emitirDocumentoDetalle: EventEmitter<DocumentoFacturaRespuesta>;
 

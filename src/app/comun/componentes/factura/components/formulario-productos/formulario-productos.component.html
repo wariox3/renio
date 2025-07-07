@@ -282,13 +282,8 @@
   </div>
   <div class="modal-body">
     <app-agregar-detalles-documento
-    [columnas]="FACTURA_COMPRAS_CAMPOS_TABLA"
-    [configuracion]="{
-      endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
-      queryParams: {
-        documento_tipo: 9
-      }
-    }"
+    [columnas]="columnasTablaDatos"
+    [configuracion]="configuracionDocumento"
     [detalleId]="detalle"
     (itemsSeleccionadosEvent)="actualizarDocumento()"
     ></app-agregar-detalles-documento>
