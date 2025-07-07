@@ -407,6 +407,13 @@
                   "
                   [formularioTipo]="'compra'"
                   [mostrarImportarDesdeDocumento]="true"
+                  [columnasTablaDatos]="FACTURA_COMPRAS_CAMPOS_TABLA"
+                  [configuracionDocumento]="{
+                    endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
+                    queryParams: {
+                      documento_tipo: 9
+                    }
+                  }"
                 ></app-formulario-productos>
               </ng-template>
             </li>

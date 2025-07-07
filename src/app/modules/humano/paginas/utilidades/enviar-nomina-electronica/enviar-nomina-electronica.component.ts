@@ -56,8 +56,7 @@ export class EnviarNominaElectronicaComponent
     estado_aprobado: 'True',
     estado_electronico: 'False',
     estado_electronico_descartado: 'False',
-    documento_tipo: '15',
-    valor1: 15,
+    documento_tipo_id: 15,
     limit: 50,
   };
 

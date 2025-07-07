@@ -43,7 +43,8 @@ import { ImportarPersonalizadoComponent } from '../../../../../../comun/componen
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.component';
 import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
-import { AgregarDetallesDocumentoComponent } from "../../../../../../comun/componentes/agregar-detalles-documento/agregar-detalles-documento.component";
+import { AgregarDetallesDocumentoComponent } from '../../../../../../comun/componentes/agregar-detalles-documento/agregar-detalles-documento.component';
+import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -70,8 +71,8 @@ import { AgregarDetallesDocumentoComponent } from "../../../../../../comun/compo
     FacturaCuentaComponent,
     SeleccionarGrupoComponent,
     SeleccionarAlmacenComponent,
-    AgregarDetallesDocumentoComponent
-],
+    AgregarDetallesDocumentoComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -91,6 +92,7 @@ export default class FacturaDetalleComponent
   public eliminarDetallesIds =
     this._formularioFacturaService.eliminarDetallesIds;
 
+  public FACTURA_COMPRAS_CAMPOS_TABLA = FACTURA_COMPRAS_CAMPOS_TABLA;
   formularioFactura: FormGroup;
   active: Number;
   arrMovimientosClientes: any[] = [];
@@ -317,9 +319,7 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
       this.formularioFactura.get(campo)?.setValue(dato.id);
-      this.formularioFactura
-        .get('contactoNombre')
-        ?.setValue(dato.nombre_corto);
+      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
       if (dato.id && dato.nombre_corto) {
         this.formularioFactura.get(campo)?.setValue(dato.id);
         this.formularioFactura
