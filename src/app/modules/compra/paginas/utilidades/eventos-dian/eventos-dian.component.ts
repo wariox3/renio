@@ -50,7 +50,7 @@ import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 })
 export class EventosDianComponent extends General implements OnInit {
   filtroPermanenteLista: ParametrosApi = {
-    documento_tipo: '5',
+    documento_tipo_id: '5',
     estado_aprobado: true,
     estado_electronico_evento: false,
     estado_electronico_descartado: false,
