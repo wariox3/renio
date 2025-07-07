@@ -239,7 +239,7 @@ export class ContenedorService extends Subdominio {
 
   consultarMovimientoSocio(socio_id: string) {
     return this.http.post(
-      `${this.URL_API_BASE}/contenedor/movimiento/consulta-socio/`,
+      `${this.URL_API_BASE}/contenedor/movimiento/consulta_credito/`,
       {
         socio_id,
       },

@@ -84,6 +84,7 @@
                 class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75"
               >
                 <tr class="fw-bold text-gray-800">
+                  <th>#</th>
                   <th translate="FORMULARIOS.TITULOS.FACTURACION.TIPO"></th>
                   <th translate="FORMULARIOS.TITULOS.FACTURACION.FECHA"></th>
                   <th
@@ -102,6 +103,7 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of facturas">
+                  <td>{{ item.id }}</td>
                   <td>{{ item.tipo }}</td>
                   <td>{{ item.fecha | date: "yyyy-MM-dd" }}</td>
                   <td>{{ item.descripcion }}</td>

@@ -1,5 +1,5 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
@@ -20,6 +20,7 @@ import { selecionModuloAction } from '@redux/actions/menu.actions';
 import {
   obtenerUsuarioFechaLimitePago,
   obtenerUsuarioId,
+  obtenerUsuarioSocio,
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
 import {
@@ -36,6 +37,7 @@ import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-edita
 import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 import { FormsModule } from '@angular/forms';
 import { ModulosManagerInit } from '@redux/actions/modulos-manager.action';
+import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-contenedor-lista',
@@ -70,6 +72,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   contenedor: Contenedor;
   procesando = false;
   searchTerm: string = '';
+  esSocio = signal<boolean>(false);
 
   constructor(
     private contenedorService: ContenedorService,
@@ -93,7 +96,9 @@ export class ContenedorListaComponent extends General implements OnInit {
     combineLatest([
       this.store.select(obtenerUsuarioFechaLimitePago),
       this.store.select(obtenerUsuarioVrSaldo),
+      this.store.select(obtenerUsuarioSocio),
     ]).subscribe((respuesta) => {
+      this.esSocio.set(respuesta[2]);
       this.usuarioFechaLimitePago = new Date(respuesta[0]);
       this.usuarioFechaLimitePago.setDate(
         this.usuarioFechaLimitePago.getDate() + 1,
