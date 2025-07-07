@@ -175,7 +175,7 @@ export class AlertaService {
         popup: 'animate__animated animate__fadeOutUp',
       },
     }).then(() => {
-      window.location.href = '/';
+      //window.location.href = '/';
     });
   }
 

@@ -23,7 +23,7 @@ import {
   DocumentoFacturaRespuesta,
   ImpuestoRespuestaConsulta,
 } from '@interfaces/comunes/factura/factura.interface';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 import { FacturaService } from '../../services/factura.service';
@@ -32,6 +32,9 @@ import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grup
 import { SeleccionarImpuestosComponent } from '../seleccionar-impuestos/seleccionar-impuestos.component';
 import { SeleccionarProductoComponent } from '../seleccionar-producto/seleccionar-producto.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { AgregarDetallesDocumentoComponent } from '../../../agregar-detalles-documento/agregar-detalles-documento.component';
+import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
+import { AdapterService } from '../../services/adapter.service';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -46,6 +49,7 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
     NgbTooltipModule,
     SeleccionarAlmacenComponent,
     SeleccionarGrupoComponent,
+    AgregarDetallesDocumentoComponent,
   ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
@@ -57,7 +61,9 @@ export class FormularioProductosComponent
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _facturaService = inject(FacturaService);
   private _unsubscribe$ = new Subject<void>();
+  private modalService = inject(NgbModal);
 
+  public FACTURA_COMPRAS_CAMPOS_TABLA = FACTURA_COMPRAS_CAMPOS_TABLA;
   public formularioFactura = this._formularioFacturaService.form;
   public themeValue = localStorage.getItem('kt_theme_mode_value');
   public modoEdicion = this._formularioFacturaService.modoEdicion;
@@ -180,14 +186,6 @@ export class FormularioProductosComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  // acumulador impuestos
-
-  // funciones documento formulario
-
-  // funciones formulario detalle
-
-  // funciones formulario impuestos
-
   // cargar vista
   private _cargarFormulario(id: number) {
     this._facturaService
@@ -221,7 +219,17 @@ export class FormularioProductosComponent
     }
   }
 
-  // funciones impuestos de formulario detalle
+  abrirModal(modal: any) {
+    this.modalService.open(modal, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
+  }
+
+  actualizarDocumento() {
+    this._cargarVista();
+    this.modalService.dismissAll();
+  }
 
   // metodos formulario
   get detalles(): FormArray {

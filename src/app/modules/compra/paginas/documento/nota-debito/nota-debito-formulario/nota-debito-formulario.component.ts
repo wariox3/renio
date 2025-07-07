@@ -392,7 +392,6 @@ export default class FacturaDetalleComponent
       nombre_corto__icontains: `${event?.target.value}`,
       proveedor: 'True',
       limit: 100,
-      modelo: 'GenContacto',
     };
 
     this._generalService

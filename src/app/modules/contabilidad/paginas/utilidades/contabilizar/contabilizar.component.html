@@ -1,11 +1,15 @@
 <div class="tabla">
   <app-card [titulo]="'MENU.FUNCIONALIDAD.CONTABILIZAR'">
     <section card-body>
-      <app-base-filtro
+      <!-- <app-base-filtro
         (emitirFiltros)="obtenerFiltros($event)"
         [persistirFiltros]="false"
         [_tipo]="'DOCUMENTO'"
-      ></app-base-filtro>
+      ></app-base-filtro> -->
+      <app-filtro
+        (filtersApply)="obtenerFiltros($event)"
+        [availableFields]="CONTABILIZAR_FILTERS"
+      ></app-filtro>
       <section>
         <div class="d-flex justify-content-between my-4">
           <app-comun-paginador
@@ -238,8 +242,8 @@
             >
               <option value="">Seleccionar</option>
               @for (documentoTipo of documentoTipos(); track $index) {
-                <option [value]="documentoTipo.documento_tipo_id">
-                  {{ documentoTipo.documento_tipo_nombre }}
+                <option [value]="documentoTipo.id">
+                  {{ documentoTipo.nombre }}
                 </option>
               }
             </select>
@@ -289,8 +293,6 @@
 
 @if (isContabilizando()) {
   <div class="fake-loading">
-    <span>
-      Contabilizando, espere un momento...
-    </span>
+    <span> Contabilizando, espere un momento... </span>
   </div>
 }

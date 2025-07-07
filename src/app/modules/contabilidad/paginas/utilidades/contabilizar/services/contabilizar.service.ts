@@ -2,59 +2,33 @@ import { inject, Injectable, signal } from '@angular/core';
 import { DocumentoService } from '@comun/services/documento/documento.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { RespuestaContabilizarLista } from '@modulos/contabilidad/interfaces/contabilizar.interface';
-import { finalize, forkJoin, tap } from 'rxjs';
+import { tap } from 'rxjs';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContabilizarService {
   private readonly _generalService = inject(GeneralService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
   private readonly _httpService = inject(HttpService);
   private readonly _documentoService = inject(DocumentoService);
-  private readonly _parametrosConsulta = signal<ParametrosFiltros>({
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'GenDocumento',
-    filtros: [
-      {
-        propiedad: 'estado_contabilizado',
-        operador: 'exact',
-        valor1: false,
-      },
-      {
-        propiedad: 'estado_aprobado',
-        operador: 'exact',
-        valor1: true,
-      },
-      {
-        propiedad: 'documento_tipo__contabilidad',
-        operador: 'exact',
-        valor1: true,
-      },
-    ],
+  private readonly _parametrosConsulta = signal<ParametrosApi>({
+    estado_contabilizado: 'False',
+    estado_aprobado: 'True',
+    documento_tipo__contabilidad: 'True',
   });
-  private readonly _filtrosPermanentes = signal<Filtros[]>([
-    {
-      propiedad: 'estado_contabilizado',
-      operador: 'exact',
-      valor1: false,
-    },
-    {
-      propiedad: 'estado_aprobado',
-      operador: 'exact',
-      valor1: true,
-    },
-    {
-      propiedad: 'documento_tipo__contabilidad',
-      operador: 'exact',
-      valor1: true,
-    },
-  ]);
+  private readonly _filtrosPermanentes = signal<ParametrosApi>({
+    estado_contabilizado: 'False',
+    estado_aprobado: 'True',
+    documento_tipo__contabilidad: 'True',
+  });
 
   public cantidadRegistros = signal(0);
   public registrosSeleccionados = signal<number[]>([]);
@@ -63,23 +37,20 @@ export class ContabilizarService {
 
   public consultarListaContabilizar() {
     return this._generalService
-      .consultarDatosAutoCompletar<RespuestaContabilizarLista>(
-        this._parametrosConsulta(),
-      )
+      .consultaApi<
+        RespuestaApi<RespuestaContabilizarLista>
+      >('general/documento/', this._parametrosConsulta())
       .pipe(
         tap((respuesta) => {
-          this.cantidadRegistros.set(respuesta.cantidad_registros);
-          this.contabilizarLista.set(respuesta.registros);
+          this.cantidadRegistros.set(respuesta.count);
+          this.contabilizarLista.set(respuesta.results);
         }),
       );
   }
 
   public reiniciarFiltros() {
-    this._parametrosConsulta.update((parametros) => {
-      return {
-        ...parametros,
-        filtros: this._filtrosPermanentes(),
-      };
+    this._parametrosConsulta.update(() => {
+      return this._filtrosPermanentes()
     });
   }
 
@@ -87,10 +58,10 @@ export class ContabilizarService {
     return this._documentoService.contabilizar({ ids });
   }
 
-  public actualizarFiltrosParametros(filtros: Filtros[]) {
+  public actualizarFiltrosParametros(filtros: ParametrosApi) {
     this._parametrosConsulta.update((parametros) => ({
       ...parametros,
-      filtros: [...parametros.filtros, ...filtros],
+      ...filtros,
     }));
   }
 
@@ -109,12 +80,14 @@ export class ContabilizarService {
     return this.contabilizarTodos(this.registrosSeleccionados());
   }
 
-  public aplicarFiltros(filtros: Filtros[]) {
+  public aplicarFiltros(filtros: FilterCondition[]) {
+    const parametros =
+      this._filterTransformerService.transformToApiParams(filtros);
+
+    this.reiniciarFiltros();
+
     if (filtros.length >= 1) {
-      this.reiniciarFiltros();
-      this.actualizarFiltrosParametros(filtros);
-    } else {
-      this.reiniciarFiltros();
+      this.actualizarFiltrosParametros(parametros);
     }
   }
 

@@ -43,7 +43,14 @@ export const usuarioActionActualizarVrSaldo = createAction(
   props<{ vr_saldo: number }>()
 );
 
+export const usuarioActionActualizarVrCredito = createAction(
+  '[Usuario] actualizar vr credito',
+  props<{ vr_credito: number }>()
+);
+
 export const usuarioActionActualizarEstadoVerificado = createAction(
   '[Usuario] actualizar estado verificado',
   props<{ estado_verificado: boolean }>()
 );
+
+

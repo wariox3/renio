@@ -117,7 +117,9 @@ export class ContenedorService extends Subdominio {
   }
 
   listaPlanes() {
-    return this.http.get<RespuestaApi<Plan>>(`${this.URL_API_BASE}/contenedor/plan/?ordering=orden`);
+    return this.http.get<RespuestaApi<Plan>>(
+      `${this.URL_API_BASE}/contenedor/plan/?ordering=orden`,
+    );
   }
 
   listaCiudades(arrFiltros: any) {
@@ -250,6 +252,13 @@ export class ContenedorService extends Subdominio {
       {
         subdominio,
       },
+    );
+  }
+
+  contenedorMovimientoAplicarFiltro(data: any) {
+    return this.http.post(
+      `${this.URL_API_BASE}/contenedor/movimiento/aplicar-credito/`,
+      data,
     );
   }
 

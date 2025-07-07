@@ -21,6 +21,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-seleccionar-contacto',
@@ -44,14 +45,8 @@ export class SeleccionarContactoComponent
   public itemSeleccionado: RegistroAutocompletarGenContacto | null = null;
   public contactos = signal<RegistroAutocompletarGenContacto[]>([]);
   public searchControl = new FormControl('');
-  public parametrosConsulta = signal<ParametrosFiltros>({
-    filtros: [],
-    limite: 10,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    modelo: 'GenContacto',
-    serializador: 'ListaAutocompletar',
+  public parametrosConsulta = signal<ParametrosApi>({
+    limit: 100,
   });
 
   @Input() estadoAprobado: boolean = false;
@@ -81,7 +76,7 @@ export class SeleccionarContactoComponent
   }
 
   initOpciones() {
-     this.getContactos(this.parametrosConsulta()).subscribe((respuesta: any) => {
+    this.getContactos(this.parametrosConsulta()).subscribe((respuesta: any) => {
       this.contactos.set(respuesta);
     });
   }
@@ -115,26 +110,19 @@ export class SeleccionarContactoComponent
     this.emitirItemSeleccionado.emit(almacen);
   }
 
-  getContactos(filtros: ParametrosFiltros) {
-    return this._generalService.consultaApi<RegistroAutocompletarGenContacto>(
-      'general/contacto/seleccionar',
+  getContactos(filtros: ParametrosApi) {
+    return this._generalService.consultaApi<RegistroAutocompletarGenContacto[]>(
+      'general/contacto/seleccionar/',
       filtros,
     );
   }
 
   consultarItems(event: string | null) {
-    let parametrosConsulta: ParametrosFiltros = this.parametrosConsulta();
+    let parametrosConsulta: ParametrosApi = this.parametrosConsulta();
 
     parametrosConsulta = {
       ...parametrosConsulta,
-      filtros: [
-        ...parametrosConsulta.filtros,
-        {
-          operador: 'icontains',
-          propiedad: 'nombre_corto',
-          valor1: `${event}`,
-        },
-      ],
+      nombre_corto__icontains: `${event}`,
     };
 
     return this.getContactos(parametrosConsulta);

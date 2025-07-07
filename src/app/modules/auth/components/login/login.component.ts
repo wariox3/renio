@@ -154,6 +154,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   numero_identificacion:
                     respuestaLogin.user.numero_identificacion,
                   cargo: respuestaLogin.user.cargo,
+                  vr_credito: respuestaLogin.user.vr_credito,
                 },
               }),
             );

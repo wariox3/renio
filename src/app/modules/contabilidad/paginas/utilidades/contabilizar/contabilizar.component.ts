@@ -16,12 +16,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
+import { DocumentoService } from '@comun/services/documento/documento.service';
+import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenDocumentoTipo } from '@interfaces/comunes/autocompletar/general/gen-documento-tipo.interface';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import {
   NgbDropdownModule,
@@ -30,11 +30,12 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { PaginadorComponent } from '../../../../../comun/componentes/paginador/paginador.component';
-import { ContabilizarService } from './services/contabilizar.service';
-import { FechasService } from '@comun/services/fechas.service';
-import { DocumentoService } from '@comun/services/documento/documento.service';
 import { finalize } from 'rxjs';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { PaginadorComponent } from '../../../../../comun/componentes/paginador/paginador.component';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { ContabilizarService } from './services/contabilizar.service';
+import { CONTABILIZAR_FILTERS } from '@modulos/contabilidad/domain/mapeos/contabilizar.mapeo';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -47,9 +48,9 @@ import { finalize } from 'rxjs';
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    BaseFiltroComponent,
     PaginadorComponent,
     ReactiveFormsModule,
+    FiltroComponent,
   ],
 })
 export default class ContabilizarComponent extends General implements OnInit {
@@ -60,6 +61,7 @@ export default class ContabilizarComponent extends General implements OnInit {
   private readonly _fechaService = inject(FechasService);
   private readonly _documentoService = inject(DocumentoService);
 
+  public CONTABILIZAR_FILTERS = CONTABILIZAR_FILTERS;
   public formularioDescontabilizar: FormGroup;
   public isContabilizando = signal<boolean>(false);
   public descontabilizando = signal<boolean>(false);
@@ -82,7 +84,6 @@ export default class ContabilizarComponent extends General implements OnInit {
     );
 
     this.iniciarFormulario();
-    this.getDocumentosTipos();
   }
 
   iniciarFormulario() {
@@ -107,23 +108,15 @@ export default class ContabilizarComponent extends General implements OnInit {
 
   getDocumentosTipos() {
     this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumentoTipo>({
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        filtros: [
-          {
-            propiedad: 'contabilidad',
-            operador: 'exact',
-            valor1: true,
-          },
-        ],
-        limite_conteo: 10000,
-        modelo: 'GenDocumentoTipo',
-        serializador: 'ListaAutocompletar',
-      })
+      .consultaApi<RegistroAutocompletarGenDocumentoTipo[]>(
+        'general/documento_tipo/seleccionar/',
+        {
+          limit: 50,
+          contabilidad: 'True',
+        },
+      )
       .subscribe((response) => {
-        this.documentoTipos.set(response.registros);
+        this.documentoTipos.set(response);
       });
   }
 
@@ -273,6 +266,7 @@ export default class ContabilizarComponent extends General implements OnInit {
   }
 
   abrirModal(content: any) {
+    this.getDocumentosTipos();
     this._modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
@@ -283,7 +277,7 @@ export default class ContabilizarComponent extends General implements OnInit {
     return this._contabilizarService.idEstaEnLista(id);
   }
 
-  obtenerFiltros(filtros: Filtros[]) {
+  obtenerFiltros(filtros: FilterCondition[]) {
     this._contabilizarService.aplicarFiltros(filtros);
     this.consultarLista();
   }

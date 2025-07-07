@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
+  inject,
   OnDestroy,
   Renderer2,
   signal,
@@ -15,18 +17,30 @@ import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.s
 import {
   NgbActiveModal,
   NgbDropdownModule,
+  NgbModal,
   NgbModalModule,
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
-import { obtenerUsuarioId } from '@redux/selectors/usuario.selectors';
-import { BehaviorSubject, zip } from 'rxjs';
+import {
+  obtenerUsuarioId,
+  obtenerUsuarioVrcredito,
+  obtenerUsuarioVrSaldo,
+} from '@redux/selectors/usuario.selectors';
+import { BehaviorSubject, Subject, takeUntil, zip } from 'rxjs';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { Consumo, Factura } from '@interfaces/facturacion/Facturacion';
 import { HistorialFacturacionComponent } from '../historial-facturacion/historial-facturacion.component';
 import { InformacionFacturacionComponent } from '../informacion-facturacion/informacion-facturacion.component';
+import { CountUpModule } from 'ngx-countup';
+import { ContactarAsesorComponent } from '../../../../comun/componentes/contactar-asesor/contactar-asesor.component';
+import { AplicarCreditoComponent } from '../../../../comun/componentes/aplicar-credito/aplicar-credito.component';
+import {
+  usuarioActionActualizarVrCredito,
+  usuarioActionActualizarVrSaldo,
+} from '@redux/actions/usuario.actions';
 
 @Component({
   selector: 'app-facturacion',
@@ -44,6 +58,9 @@ import { InformacionFacturacionComponent } from '../informacion-facturacion/info
     InformacionFacturacionComponent,
     NgbModalModule,
     NgbTooltipModule,
+    CountUpModule,
+    ContactarAsesorComponent,
+    AplicarCreditoComponent,
   ],
   providers: [NgbActiveModal],
 })
@@ -65,10 +82,24 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   codigoUsuario = 0;
   arrFacturasSeleccionados: any[] = [];
   arrFacturacionInformacion: any[] = [];
+  vrCredito = signal(0);
+  vrSaldo = signal(0);
+  vrCupones = signal(0);
+  movimientoId = signal(0);
   totalPagar = new BehaviorSubject(0);
   informacionFacturacion: number | null = null;
+  vrBalance = computed(() => this.vrCredito() - this.vrSaldo());
+  private readonly _modalService = inject(NgbModal);
+  private _unsubscribe$ = new Subject<void>();
 
   ngOnInit() {
+    this.store
+      .select(obtenerUsuarioVrcredito)
+      .subscribe((credito) => this.vrCredito.set(credito));
+    this.store
+      .select(obtenerUsuarioVrSaldo)
+      .subscribe((saldo) => this.vrSaldo.set(saldo));
+
     this.store.select(obtenerUsuarioId).subscribe((codigoUsuario) => {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
@@ -136,17 +167,18 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       (documento) => documento.id === item.id,
     );
     let valorActualPagar = this.totalPagar.getValue();
+    const vrSaldo = `${item.vr_saldo}00`;
 
     if (index !== -1) {
       this.totalPagar.next(
-        valorActualPagar - parseInt(item.vr_saldo_enmascarado),
+        valorActualPagar - parseInt(vrSaldo),
       );
       this.arrFacturasSeleccionados.splice(index, 1);
       this.removerIdRegistrosSeleccionados(item.id);
       this.changeDetectorRef.detectChanges();
     } else {
       this.totalPagar.next(
-        valorActualPagar + parseInt(item.vr_saldo_enmascarado),
+        valorActualPagar + parseInt(vrSaldo),
       );
       this.arrFacturasSeleccionados.push(item);
       this.agregarIdARegistrosSeleccionados(item.id);
@@ -180,9 +212,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     // TODO: pendiente por refactorizar
     let url = 'http://localhost:4200/estado';
     if (environment.production) {
-      url = `${environment.dominioHttp}://${environment.dominioApp.slice(
-        1,
-      )}/estado`;
+      url = `${environment.dominioHttp}://app${environment.dominioApp}/estado`;
     }
 
     this.totalPagar.subscribe((total) => {
@@ -306,5 +336,46 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         },
       }),
     );
+  }
+
+  abrirModalContactarAsesor(content: any) {
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
+  }
+
+  abrirModalAplicarCredito(item: any, content: any) {
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
+    this.movimientoId.set(item.id);
+  }
+
+  actualizarPago() {
+    this.facturacionService
+      .obtenerUsuarioVrSaldo(this.codigoUsuario)
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((respuesta) => {
+        this.store.dispatch(
+          usuarioActionActualizarVrSaldo({
+            vr_saldo: respuesta.saldo,
+          }),
+        );
+        this.store.dispatch(
+          usuarioActionActualizarVrCredito({
+            vr_credito: respuesta.credito,
+          }),
+        );
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  actualizarInformarcion() {
+    this.actualizarPago();
+    this.consultarInformacion();
   }
 }

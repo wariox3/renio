@@ -1096,6 +1096,7 @@ export class FormularioFacturaService {
     documentoDetalle: DocumentoFacturaDetalleRespuesta[],
     poblarConId = true,
   ) {
+    this.detalles.clear();
     documentoDetalle.forEach((detalle, indexFormulario) => {
       const documentoDetalleGrupo = this._formBuilder.group({
         cuenta: [detalle.cuenta],

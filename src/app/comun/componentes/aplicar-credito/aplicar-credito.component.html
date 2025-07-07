@@ -1,0 +1,64 @@
+<form [formGroup]="formularioAplicarCredito" (ngSubmit)="aplicarCredito()">
+  <div class="row">
+    <div class="col-10">
+      <label class="form-label required">Créditos para aplicar</label>
+      <input class="form-control" type="number" formControlName="valor"         [ngClass]="{
+          'is-invalid':
+            formularioAplicarCredito.controls['valor'].touched &&
+            formularioAplicarCredito.controls['valor'].invalid,
+          'is-valid':
+            formularioAplicarCredito.controls['valor'].touched &&
+            formularioAplicarCredito.controls['valor'].valid,
+        }"/>
+    </div>
+
+    <div class="col-2 d-flex align-items-end">
+      <button class="btn btn-primary self-end" type="submit">Aplicar</button>
+    </div>
+  </div>
+        <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+          control: formularioAplicarCredito.controls['valor'],
+        }"
+      ></ng-container>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'min',
+          cantidadCaracteres: '1000',
+          message: 'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
+          control: formularioAplicarCredito.controls['valor'],
+        }"
+      ></ng-container>
+      <ng-container
+        *ngTemplateOutlet="
+          formError;
+          context: {
+            control: formularioAplicarCredito.get('valor'),
+            validation: 'maxExcedido',
+            message: 'No puede superar el saldo o crédito disponible',
+          }
+        "
+      ></ng-container>
+</form>
+
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -11,8 +11,11 @@ import {
 
 import { RouterModule } from '@angular/router';
 import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
-import { usuarioActionActualizarVrSaldo } from '@redux/actions/usuario.actions';
-import { combineLatest, switchMap, tap } from 'rxjs';
+import {
+  usuarioActionActualizarVrCredito,
+  usuarioActionActualizarVrSaldo,
+} from '@redux/actions/usuario.actions';
+import { combineLatest, Subject, switchMap, takeUntil, tap } from 'rxjs';
 
 @Component({
   selector: 'app-comun-alerta-suspension',
@@ -20,11 +23,16 @@ import { combineLatest, switchMap, tap } from 'rxjs';
   imports: [CommonModule, TranslateModule, RouterModule],
   standalone: true,
 })
-export class AlertaSuspensionComponent extends General implements OnInit {
+export class AlertaSuspensionComponent
+  extends General
+  implements OnInit, OnDestroy
+{
   visualizarAlerta = false;
   usuarioFechaLimitePago: Date;
   usuarioVrSaldo: number;
   hoy: Date = new Date();
+  usuarioID = 0;
+  private _unsubscribe$ = new Subject<void>();
   private _facturacionService = inject(FacturacionService);
 
   constructor() {
@@ -36,15 +44,25 @@ export class AlertaSuspensionComponent extends General implements OnInit {
       this.store.select(obtenerUsuarioSuspencion),
       this.store.select(obtenerUsuarioFechaLimitePago),
       this.store.select(obtenerUsuarioVrSaldo),
-    ]).subscribe((respuesta: any) => {
-      this.visualizarAlerta = respuesta[0];
-      this.usuarioFechaLimitePago = new Date(respuesta[1]);
-      this.usuarioFechaLimitePago.setDate(
-        this.usuarioFechaLimitePago.getDate() + 1,
-      );
-      this.usuarioVrSaldo = respuesta[2];
-    });
+      this.store.select(obtenerUsuarioId),
+    ])
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((respuesta) => {
+        this.visualizarAlerta = respuesta[0];
+        this.usuarioFechaLimitePago = new Date(respuesta[1]);
+        this.usuarioFechaLimitePago.setDate(
+          this.usuarioFechaLimitePago.getDate() + 1,
+        );
+        this.usuarioVrSaldo = respuesta[2];
+        this.usuarioID = respuesta[3];
+      });
+
     this.changeDetectorRef.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
   }
 
   navegar() {
@@ -52,29 +70,29 @@ export class AlertaSuspensionComponent extends General implements OnInit {
   }
 
   actualizarPago() {
-    this.store
-      .select(obtenerUsuarioId)
-      .pipe(
-        switchMap((respuestaUsuarioId) =>
-          this._facturacionService.obtenerUsuarioVrSaldo(respuestaUsuarioId),
-        ),
-        tap((respuesta) => {
-          if (respuesta.saldo > 0) {
-            this.alertaService.mensajeInformativo(
-              'Información',
-              `El usuario aún cuenta con pagos pendientes. Si ya realizó el pago, por favor comuníquese con nuestro equipo de soporte al WhatsApp 333 2590638`,
-            );
-          } else {
-            this.store.dispatch(
-              usuarioActionActualizarVrSaldo({
-                vr_saldo: 0,
-              }),
-            );
-            this.visualizarAlerta = false;
-            this.changeDetectorRef.detectChanges();
-          }
-        }),
-      )
-      .subscribe();
+    this._facturacionService
+      .obtenerUsuarioVrSaldo(this.usuarioID)
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((respuesta) => {
+        if (respuesta.saldo > 0) {
+          this.alertaService.mensajeInformativo(
+            'Información',
+            `El usuario aún cuenta con pagos pendientes. Si ya realizó el pago, por favor comuníquese con nuestro equipo de soporte al WhatsApp 333 2590638`,
+          );
+        } else {
+          this.visualizarAlerta = false;
+        }
+        this.store.dispatch(
+          usuarioActionActualizarVrSaldo({
+            vr_saldo: respuesta.saldo,
+          }),
+        );
+        this.store.dispatch(
+          usuarioActionActualizarVrCredito({
+            vr_credito: respuesta.credito,
+          }),
+        );
+        this.changeDetectorRef.detectChanges();
+      });
   }
 }
