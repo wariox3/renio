@@ -70,6 +70,7 @@ export class FormularioProductosComponent
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
 
   @Input() mostrarDocumentoReferencia: boolean = false;
+  @Input() mostrarImportarDesdeDocumento: boolean = false;
   @Input() cuentasConImpuestos: boolean = false;
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';

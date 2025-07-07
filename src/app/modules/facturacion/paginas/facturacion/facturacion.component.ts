@@ -29,7 +29,7 @@ import {
   obtenerUsuarioVrcredito,
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
-import { BehaviorSubject, Subject, takeUntil, zip } from 'rxjs';
+import { BehaviorSubject, Subject, Subscription, takeUntil, zip } from 'rxjs';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { Consumo, Factura } from '@interfaces/facturacion/Facturacion';
 import { HistorialFacturacionComponent } from '../historial-facturacion/historial-facturacion.component';
@@ -91,6 +91,10 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   vrBalance = computed(() => this.vrCredito() - this.vrSaldo());
   private readonly _modalService = inject(NgbModal);
   private _unsubscribe$ = new Subject<void>();
+
+  private wompiSubscription: Subscription | null = null;
+  private wompiHash: string = '';
+  private wompiReferencia: string = '';
 
   ngOnInit() {
     this.store
@@ -170,85 +174,89 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     const vrSaldo = `${item.vr_saldo}00`;
 
     if (index !== -1) {
-      this.totalPagar.next(
-        valorActualPagar - parseInt(vrSaldo),
-      );
+      this.totalPagar.next(valorActualPagar - parseInt(vrSaldo));
       this.arrFacturasSeleccionados.splice(index, 1);
       this.removerIdRegistrosSeleccionados(item.id);
       this.changeDetectorRef.detectChanges();
     } else {
-      this.totalPagar.next(
-        valorActualPagar + parseInt(vrSaldo),
-      );
+      this.totalPagar.next(valorActualPagar + parseInt(vrSaldo));
       this.arrFacturasSeleccionados.push(item);
       this.agregarIdARegistrosSeleccionados(item.id);
       this.changeDetectorRef.detectChanges();
     }
 
-    let referencia = '';
-    referencia = this.arrFacturasSeleccionados
-      .map((factura: Factura, index: number, array: Factura[]) => {
-        if (index === array.length - 1) {
-          return factura.id;
-        } else {
-          return factura.id + '-';
-        }
-      })
-      .join('');
+    // Solo actualizar la referencia y solicitar el hash si hay facturas seleccionadas
+    if (this.arrFacturasSeleccionados.length > 0) {
+      let referencia = this.arrFacturasSeleccionados
+        .map((factura: Factura, index: number, array: Factura[]) => {
+          if (index === array.length - 1) {
+            return factura.id;
+          } else {
+            return factura.id + '-';
+          }
+        })
+        .join('');
 
-    if (referencia !== '') {
       this.contenedorServices
         .contenedorGenerarIntegridad({
           referencia,
           monto: `${this.totalPagar.getValue()}`,
         })
         .subscribe((respuesta) => {
-          this.habitarBtnWompi(respuesta.hash, referencia);
+          this.wompiHash = respuesta.hash;
+          this.wompiReferencia = referencia;
+          this.actualizarBotonWompi();
         });
+    } else {
+      // Si no hay facturas seleccionadas, limpiar el botón
+      this.wompiHash = '';
+      this.wompiReferencia = '';
+      this.actualizarBotonWompi();
     }
   }
 
-  habitarBtnWompi(hash: string, referencia: string) {
-    // TODO: pendiente por refactorizar
-    let url = 'http://localhost:4200/estado';
-    if (environment.production) {
-      url = `${environment.dominioHttp}://app${environment.dominioApp}/estado`;
+  // Método separado para actualizar el botón de Wompi
+  actualizarBotonWompi() {
+    const wompiWidget = document.getElementById('wompiWidget');
+    if (!wompiWidget) {
+      console.error('Elemento wompiWidget no encontrado');
+      return;
     }
 
-    this.totalPagar.subscribe((total) => {
-      const wompiWidget = document.getElementById('wompiWidget');
-      if (total > 0) {
-        const script = this.renderer.createElement('script');
-        this.renderer.setAttribute(
-          script,
-          'src',
-          'https://checkout.wompi.co/widget.js',
-        );
-        this.renderer.setAttribute(script, 'data-render', 'button');
-        this.renderer.setAttribute(
-          script,
-          'data-public-key',
-          environment.llavePublica,
-        );
-        this.renderer.setAttribute(script, 'data-currency', 'COP');
-        this.renderer.setAttribute(
-          script,
-          'data-amount-in-cents',
-          total.toString(),
-        );
-        this.renderer.setAttribute(script, 'data-redirect-url', url);
-        this.renderer.setAttribute(script, 'data-reference', referencia);
-        this.renderer.setAttribute(script, 'data-signature:integrity', hash);
-        while (wompiWidget?.firstChild) {
-          wompiWidget!.removeChild(wompiWidget!.firstChild);
-        }
-        this.renderer.appendChild(wompiWidget, script);
-      } else {
-        while (wompiWidget?.firstChild) {
-          wompiWidget!.removeChild(wompiWidget!.firstChild);
-        }
-      }
-    });
+    // Limpiar el contenedor
+    wompiWidget.innerHTML = '';
+
+    const total = this.totalPagar.getValue();
+    
+    // Solo crear el botón si hay un monto a pagar y tenemos hash y referencia
+    if (total > 0 && this.wompiHash && this.wompiReferencia) {
+      // Obtener la URL de redirección según el entorno
+      const url = environment.production
+        ? `${environment.dominioHttp}://app${environment.dominioApp}/estado`
+        : 'http://localhost:4200/estado';
+        
+      const script = this.renderer.createElement('script');
+
+      // Configurar atributos
+      const attributes = {
+        src: 'https://checkout.wompi.co/widget.js',
+        'data-render': 'button',
+        'data-public-key': environment.llavePublica,
+        'data-currency': 'COP',
+        'data-amount-in-cents': total.toString(),
+        'data-redirect-url': url,
+        'data-reference': this.wompiReferencia,
+        'data-signature:integrity': this.wompiHash,
+      };
+
+      // Aplicar atributos al script
+      Object.entries(attributes).forEach(([key, value]) => {
+        this.renderer.setAttribute(script, key, value);
+      });
+
+      // Añadir el script al contenedor
+      this.renderer.appendChild(wompiWidget, script);
+    }
   }
 
   consultarDetalle() {
@@ -336,6 +344,16 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         },
       }),
     );
+
+    // Cancelar la suscripción de Wompi
+    if (this.wompiSubscription) {
+      this.wompiSubscription.unsubscribe();
+      this.wompiSubscription = null;
+    }
+
+    // Completar el subject de unsubscribe
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
   }
 
   abrirModalContactarAsesor(content: any) {
@@ -377,5 +395,12 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   actualizarInformarcion() {
     this.actualizarPago();
     this.consultarInformacion();
+    this.arrFacturasSeleccionados = [];
+    this.registrosSeleccionados.set([]);
+    this.totalPagar.next(0);
+    this.wompiHash = '';
+    this.wompiReferencia = '';
+    this.actualizarBotonWompi();
+    this.changeDetectorRef.detectChanges();
   }
 }
