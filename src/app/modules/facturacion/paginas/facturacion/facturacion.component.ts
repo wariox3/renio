@@ -167,17 +167,18 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       (documento) => documento.id === item.id,
     );
     let valorActualPagar = this.totalPagar.getValue();
+    const vrSaldo = `${item.vr_saldo}00`;
 
     if (index !== -1) {
       this.totalPagar.next(
-        valorActualPagar - parseInt(item.vr_saldo_enmascarado),
+        valorActualPagar - parseInt(vrSaldo),
       );
       this.arrFacturasSeleccionados.splice(index, 1);
       this.removerIdRegistrosSeleccionados(item.id);
       this.changeDetectorRef.detectChanges();
     } else {
       this.totalPagar.next(
-        valorActualPagar + parseInt(item.vr_saldo_enmascarado),
+        valorActualPagar + parseInt(vrSaldo),
       );
       this.arrFacturasSeleccionados.push(item);
       this.agregarIdARegistrosSeleccionados(item.id);
