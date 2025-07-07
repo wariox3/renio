@@ -3,7 +3,7 @@
   @if (!estadoAprobado()) {
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
-        @if (this.detalle) {
+        @if (this.detalle && mostrarImportarDesdeDocumento) {
         <button
           (click)="abrirModal(modalImportarDesdeDocumento)"
           class="btn btn-sm btn-secondary"
