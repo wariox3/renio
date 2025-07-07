@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col">
     <div class="card card-dashed flex-center min-w-175px my-3 p-6">
-      <span class="fs-4 fw-semibold text-info pb-1 px-2">Creditos</span>
+      <span class="fs-4 fw-semibold text-success pb-1 px-2">Creditos</span>
       <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
         $<span
           data-kt-countup="true"
@@ -9,21 +9,6 @@
           class="counted"
           data-kt-initialized="1"
           [countUp]="vrCredito()"
-        ></span>
-      </span>
-    </div>
-  </div>
-
-  <div class="col">
-    <div class="card card-dashed flex-center min-w-175px my-3 p-6">
-      <span class="fs-4 fw-semibold text-danger pb-1 px-2">Saldo</span>
-      <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
-        $<span
-          data-kt-countup="true"
-          data-kt-countup-value="2,600"
-          class="counted"
-          data-kt-initialized="1"
-          [countUp]="vrSaldo()"
         ></span>
       </span>
     </div>
@@ -46,11 +31,26 @@
 
   <div class="col">
     <div class="card card-dashed flex-center min-w-175px my-3 p-6">
-      <span class="fs-4 fw-semibold text-success pb-1 px-2">Balance</span>
+      <span class="fs-4 fw-semibold text-info pb-1 px-2">Pedidos</span>
       <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
         $<span
           data-kt-countup="true"
           data-kt-countup-value="8,530.00"
+          class="counted"
+          data-kt-initialized="1"
+          [countUp]="vrSaldo()"
+        ></span>
+      </span>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="card card-dashed flex-center min-w-175px my-3 p-6">
+      <span class="fs-4 fw-semibold text-danger pb-1 px-2">Saldo</span>
+      <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
+        $<span
+          data-kt-countup="true"
+          data-kt-countup-value="2,600"
           class="counted"
           data-kt-initialized="1"
           [countUp]="vrBalance()"
@@ -59,6 +59,8 @@
     </div>
   </div>
 </div>
+
+
 <app-card>
   <section card-titulo>Facturación</section>
   <section card-body>
@@ -77,17 +79,22 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA4"
           ></p>
           <div class="table-responsive">
-            <table class="table table-row-bordered align-middle gy-4 gs-9">
+            <table class="table table-bordered align-middle gy-4 gs-9">
               <thead
                 class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75"
               >
                 <tr class="fw-bold text-gray-800">
+                  <th translate="FORMULARIOS.TITULOS.FACTURACION.TIPO"></th>
                   <th translate="FORMULARIOS.TITULOS.FACTURACION.FECHA"></th>
                   <th
                     translate="FORMULARIOS.TITULOS.FACTURACION.DESCRIPCION"
                   ></th>
-                  <th></th>
                   <th
+                    class="text-center"
+                    translate="FORMULARIOS.TITULOS.FACTURACION.CREDITOS"
+                  ></th>
+                  <th
+                    class="text-center"
                     translate="FORMULARIOS.TITULOS.FACTURACION.IMPORTANTE"
                   ></th>
                   <th></th>
@@ -95,15 +102,16 @@
               </thead>
               <tbody>
                 <tr *ngFor="let item of facturas">
-                  <td>{{ item.fecha | date: "yyyy-MM-dd" }}</td>
                   <td>{{ item.tipo }}</td>
+                  <td>{{ item.fecha | date: "yyyy-MM-dd" }}</td>
+                  <td>{{ item.descripcion }}</td>
                   <td class="text-center">
                     @if (vrCredito() > 0) {
                       <button
                         (click)="
                           abrirModalAplicarCredito(item, modalAplicarCredito)
                         "
-                        class="btn btn-sm btn-info"
+                        class="btn btn-sm btn-success"
                       >
                         Aplicar creditos
                       </button>
@@ -138,12 +146,7 @@
                 </tr>
               </tbody>
             </table>
-            <div class="text-muted">
-              <p>
-                * La factura electrónica se envía al correo o podrá descargarla
-                en la pestaña historial después de realizar el pago.
-              </p>
-            </div>
+            
             <!-- <div
                     class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-3 p-4"
                   >
@@ -212,8 +215,15 @@
               Contactar asesor
             </button>
           </div>
+          <div class="text-muted mt-4">
+            <p>
+              * La factura electrónica se envía al correo o podrá descargarla
+              en la pestaña historial después de realizar el pago.
+            </p>
+          </div>
         </div>
 
+        
         <div class="mb-10 p-5 border">
           <h5
             class="d-inline-block"

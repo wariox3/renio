@@ -324,6 +324,7 @@ export const locale = {
           ESTIMADO: 'Valor estimado',
           FECHAPAGO: 'Fecha de pago',
           TIPOPAGO: 'pago tipo',
+          TIPO: 'Tipo',
           TOTALUSO: 'Uso total',
           SALDO: 'Saldo',
           PAGOSANTICIPADOS: 'Pagos anticipados',
