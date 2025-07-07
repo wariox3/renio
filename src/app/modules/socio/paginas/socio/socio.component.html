@@ -76,7 +76,9 @@
                       <tr class="fw-bold text-gray-800">
                         <th>Id</th>
                         <th>Tipo</th>
-                        <th>Fecha</th>
+                        <th>Descripción</th>
+                        <th>Fecha y hora</th>
+                        <th>Referencia</th>
                         <th>Cuenta</th>
                         <th class="text-center">Total</th>
                       </tr>
@@ -85,8 +87,10 @@
                       <tr *ngFor="let movimiento of arrMovimientos">
                         <td>{{ movimiento.id }}</td>
                         <td>{{ movimiento.tipo }}</td>
-                        <td>{{ movimiento.fecha | date : "yyyy-MM-dd" }}</td>
-                        <td>{{ movimiento.usuario_username }}</td>
+                        <td>{{ movimiento.descripcion }}</td>
+                        <td>{{ movimiento.fecha | date : "yyyy-MM-dd HH:mm" }}</td>
+                        <td>{{ movimiento.movimiento_referencia_id }}</td>
+                        <td>{{ movimiento.movimiento_referencia__usuario__username }}</td>
                         <td class="text-end">
                           {{ movimiento.vr_total | currency : "$" }}
                         </td>

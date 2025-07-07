@@ -10,6 +10,11 @@
             translate="FORMULARIOS.TITULOS.CONTENEDOR.TITULO"
             class="fw-bolder m-0"
           ></h3>
+          @if (esSocio()) {
+            <span class="badge badge-light-primary ms-2 fs-8 fw-bold">
+              Eres socio RedDoc
+            </span>
+          }
         </div>
         <button
           translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
