@@ -13,8 +13,6 @@ import {
 import { General } from '@comun/clases/general';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { documentos } from '@comun/extra/mapeo-entidades/documentos';
-import { ArchivosService } from '@comun/services/archivos/archivos.service';
-import { ProcesadorArchivosService } from '@comun/services/archivos/procesador-archivos.service';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { DocumentoService } from '@comun/services/documento/documento.service';
 import { GeneralService } from '@comun/services/general.service';
@@ -23,7 +21,6 @@ import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar
 import { RegistroAutocompletarConMovimiento } from '@interfaces/comunes/autocompletar/contabilidad/con-movimiento.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { ArchivoRespuesta } from '@interfaces/comunes/lista/archivos.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -35,11 +32,14 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { BehaviorSubject, finalize, tap, zip } from 'rxjs';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.component';
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
 import { TablaComponent } from '../tabla/tabla.component';
 import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
-import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -81,7 +81,6 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public cargandoAccion = signal<boolean>(false);
   public currentPage = signal(1);
   public totalPages = signal(1);
-
   public estadosBotonEliminar$ = new BehaviorSubject<boolean[]>([]);
   public parametrosConsulta: ParametrosApi = {
     limite: 51,
@@ -97,7 +96,8 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
     modelo: 'ConMovimiento',
   };
   @Input({ required: true }) documento: any;
-
+  @Input() permiteContabilizar: boolean = true;
+  @Input() permiteCorregir: boolean = true;
   @Output() itemDesaprobadoEvent: EventEmitter<void>;
   @Output() recargarDatosEvent: EventEmitter<void>;
   @ViewChild('corregirContent') corregirContent!: TemplateRef<any>;
@@ -171,7 +171,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       ...this.parametrosConsulta,
       page: data.desplazamiento,
     };
-    
+
     this._consultarInformacionTabla();
   }
 
@@ -248,10 +248,9 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
 
   private _consultarInformacionTabla() {
     this._generalService
-      .consultaApi<RespuestaApi<RegistroAutocompletarConMovimiento>>(
-        'contabilidad/movimiento/',
-        this.parametrosConsulta,
-      )
+      .consultaApi<
+        RespuestaApi<RegistroAutocompletarConMovimiento>
+      >('contabilidad/movimiento/', this.parametrosConsulta)
       .subscribe((respuesta) => {
         this.cantidadRegistros = respuesta.count;
         this.arrDocumentos = respuesta.results.map((documento) => ({
