@@ -1,7 +1,29 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
   <section class="d-flex align-items-center gap-4">
     <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estadoAprobado()">
-      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+      @if (detalle) {
+        <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+          <app-importar-detalles
+            endpoint="general/documento_detalle/importar_detalle_compra/"
+            [archivoEjemplo]="{
+              nombre: 'ejemplo_entrada',
+              path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/Importar_detalle_entrada.xlsx',
+            }"
+            [estadoHabilitado]="estadoAprobado()"
+          >
+            <section botones-extra>
+              <button
+                type="button"
+                ngbDropdownItem
+                (click)="abrirModal(modalImportar)"
+              >
+                Importar zip
+              </button>
+            </section>  
+          </app-importar-detalles>
+        </div>
+      }
+      <!-- <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
         <div ngbDropdown>
           <button
             type="button"
@@ -21,7 +43,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div> -->
     </app-comun-encabezado-formulario-nuevo>
   </section>
   <app-card>
@@ -409,10 +431,11 @@
                   [mostrarImportarDesdeDocumento]="true"
                   [columnasTablaDatos]="FACTURA_COMPRAS_CAMPOS_TABLA"
                   [configuracionDocumento]="{
-                    endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
+                    endpoint:
+                      'general/documento_detalle/lista_agregar_documento_detalle/',
                     queryParams: {
-                      documento_tipo: 9
-                    }
+                      documento_tipo: 9,
+                    },
                   }"
                 ></app-formulario-productos>
               </ng-template>

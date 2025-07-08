@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -60,6 +60,7 @@ import {
 import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
+import { ImportarDetallesComponent } from "../../../../../../comun/componentes/importar-detalles/importar-detalles.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -84,7 +85,8 @@ import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco
     TituloAccionComponent,
     AlmacenesComponent,
     SeleccionarResolucionComponent,
-  ],
+    ImportarDetallesComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
