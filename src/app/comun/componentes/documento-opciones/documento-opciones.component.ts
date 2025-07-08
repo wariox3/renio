@@ -77,7 +77,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public documentoId: number;
   public totalDebito = 0;
   public totalCredito = 0;
-  public active: Number;
+  public active: Number = 1;
   public cargandoAccion = signal<boolean>(false);
   public currentPage = signal(1);
   public totalPages = signal(1);
@@ -289,9 +289,9 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
             respuesta.documento.detalles.length,
           );
           if (!respuesta.documento.estado_contabilizado) {
-            this._abirModal(this.corregirContent);
             this.arrDocumentosCorregir = respuesta.documento.detalles;
             this.encabezadoDocumento = respuesta.documento;
+            this._abirModal(this.corregirContent);
           } else {
             this.alertaService.mensajeError(
               'Error',
