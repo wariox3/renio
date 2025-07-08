@@ -374,13 +374,11 @@ export default class PagoFormularioComponent
       serializador: 'adicionar',
     };
     if (this.mostrarTodosLosClientes()) {
-      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
         filtros = {
           ...filtros,
           ...this.arrFiltrosPermanenteAgregarDocumento,
           ...this.arrFiltrosEmitidosAgregarDocumento,
         };
-      }
     } else {
       filtros = {
         ...filtros,

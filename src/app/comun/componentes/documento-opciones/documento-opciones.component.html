@@ -20,11 +20,15 @@
     <button ngbDropdownItem (click)="abrirModalArchivos(archivosContent)">
       Archivos
     </button>
-    <button ngbDropdownItem (click)="abrirModalContabilidad(content)">
+    <button
+      ngbDropdownItem
+      (click)="abrirModalContabilidad(content)"
+      [disabled]="!permiteContabilizar"
+    >
       Contabilidad
     </button>
     <button
-      [disabled]="opcionesDesaprobarBoton.deshabilitado"
+      [disabled]="opcionesDesaprobarBoton.deshabilitado || !permiteCorregir"
       ngbDropdownItem
       (click)="consultarInformacionCorregir(corregirContent)"
     >
@@ -44,7 +48,7 @@
     ></button>
   </div>
   <div class="modal-body">
-    @if(cantidadRegistros <= 50){
+    @if (cantidadRegistros <= 50) {
       @if (totalDebito !== totalCredito) {
         <div class="row">
           <div class="col-12">
@@ -247,11 +251,7 @@
   </div>
   <div class="modal-body">
     <div class="row mb-5">
-        <div
-        class="col-md-6 col-sm-12"
-        ngbDropdown
-        #MetodoDropdown="ngbDropdown"
-      >
+      <div class="col-md-6 col-sm-12" ngbDropdown #MetodoDropdown="ngbDropdown">
         <label
           class="form-label"
           translate="FORMULARIOS.CAMPOS.FACTURA.SEDE"
@@ -281,109 +281,128 @@
           [(activeId)]="active"
           class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
         >
-        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
-          <a
-          class="nav-link"
-          [ngClass]="{ 'text-primary': active === 1 }"
-          ngbNavLink
-          data-bs-toggle="tab"
-          translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
-        ></a>
-        <ng-template ngbNavContent>
-          <div class="d-flex justify-content-between mb-4">
-            <app-paginador
-            [currentPage]="currentPage()"
-            [totalPages]="totalPages()"
-            (pageChange)="onPageChange($event)"
-            [totalItems]="totalPages()"
-            ></app-paginador>
-          </div>
-          <div class="row">
-            <div class="table-responsive-sm">
-              <table id="tableDetalles" class="table table-bordered table-sm">
-                <thead>
-                  <tr class="bg-gray-100">
-                    <th class="bg-gray-100" style="width: 50px">Id</th>
-                    <td>Item</td>
-                    <td>Cantidad</td>
-                    <td>Precio</td>
-                    <td>Subtotal</td>
-                    <td class="w-150px">Base</td>
-                    <td>Grupo</td>
-                    <td>Contacto</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  @for (arrDocumento of arrDocumentosCorregir; track $index) {
-                    <tr>
-                      <td>
-                        {{ arrDocumento.id }}
-                      </td>
-                      <td>
-                        {{ arrDocumento.item_nombre }}
-                      </td>
-                      <td>
-                        {{ arrDocumento.cantidad }}
-                      </td>
-                      <td class="text-end">
-                        {{ arrDocumento.precio | number: "1.0-0" }}
-                      </td>
-                      <td class="text-end">
-                        {{ arrDocumento.subtotal | number: "1.0-0" }}
-                      </td>
-                      <td class="text-end">
-                        @if (arrDocumento.tipo_registro === "C") {
-                          <input
-                            [value]="arrDocumento.base"
-                            type="number"
-                            (blur)="actualizarBase($event, arrDocumento.id)"
-                            formControlName="base"
-                            class="form-control-sm form-control"
-                            appSoloNumeros
-                          />
-                        }
-                      </td>
-                      <td>
-                        <select
-                          class="form-select form-select-sm"
-                          (change)="actualizarGrupo($event, arrDocumento.id)"
-                        >
-                          <option value="">
-                            {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-                          </option>
-                          <option
-                            *ngFor="let grupo of arrGrupo"
-                            [value]="grupo.id"
-                            [selected]="grupo.id === arrDocumento.grupo_id"
-                          >
-                            {{ grupo.nombre }}
-                          </option>
-                        </select>
-                      </td>
-                      <td>
-                        @if (arrDocumento.tipo_registro === "C") {
-                          <app-seleccionar-contacto
-                            [itemNombre]="arrDocumento.contacto_nombre_corto"
-                            (emitirItemSeleccionado)="
-                              actualizarContactoSeleccionado($event, arrDocumento.id)
-                            "
-                            (emitirLineaVacia)="
-                              actualizarContactoSeleccionado($event, arrDocumento.id)
-                            "
-                          ></app-seleccionar-contacto>
-                        }
-                      </td>
-                    </tr>
-                  }
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </ng-template>
-        </li>
-      </ul>
-    </div>
-      <div [ngbNavOutlet]="nav" class="mt-2"></div>
+          <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 1 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+            ></a>
+            <ng-template ngbNavContent>
+              <div class="d-flex justify-content-between mb-4">
+                <app-paginador
+                  [currentPage]="currentPage()"
+                  [totalPages]="totalPages()"
+                  (pageChange)="onPageChange($event)"
+                  [totalItems]="totalPages()"
+                ></app-paginador>
+              </div>
+              <div class="row">
+                <div class="table-responsive-sm">
+                  <table
+                    id="tableDetalles"
+                    class="table table-bordered table-sm"
+                  >
+                    <thead>
+                      <tr class="bg-gray-100">
+                        <th class="bg-gray-100" style="width: 50px">Id</th>
+                        <td>Item</td>
+                        <td>Cantidad</td>
+                        <td>Precio</td>
+                        <td>Subtotal</td>
+                        <td class="w-150px">Base</td>
+                        <td>Grupo</td>
+                        <td>Contacto</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      @for (
+                        arrDocumento of arrDocumentosCorregir;
+                        track $index
+                      ) {
+                        <tr>
+                          <td>
+                            {{ arrDocumento.id }}
+                          </td>
+                          <td>
+                            {{ arrDocumento.item_nombre }}
+                          </td>
+                          <td>
+                            {{ arrDocumento.cantidad }}
+                          </td>
+                          <td class="text-end">
+                            {{ arrDocumento.precio | number: "1.0-0" }}
+                          </td>
+                          <td class="text-end">
+                            {{ arrDocumento.subtotal | number: "1.0-0" }}
+                          </td>
+                          <td class="text-end">
+                            @if (arrDocumento.tipo_registro === "C") {
+                              <input
+                                [value]="arrDocumento.base"
+                                type="number"
+                                (blur)="actualizarBase($event, arrDocumento.id)"
+                                formControlName="base"
+                                class="form-control-sm form-control"
+                                appSoloNumeros
+                              />
+                            }
+                          </td>
+                          <td>
+                            <select
+                              class="form-select form-select-sm"
+                              (change)="
+                                actualizarGrupo($event, arrDocumento.id)
+                              "
+                            >
+                              <option value="">
+                                {{
+                                  "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR"
+                                    | translate
+                                }}
+                              </option>
+                              <option
+                                *ngFor="let grupo of arrGrupo"
+                                [value]="grupo.id"
+                                [selected]="grupo.id === arrDocumento.grupo_id"
+                              >
+                                {{ grupo.nombre }}
+                              </option>
+                            </select>
+                          </td>
+                          <td>
+                            @if (arrDocumento.tipo_registro === "C") {
+                              <app-seleccionar-contacto
+                                [itemNombre]="
+                                  arrDocumento.contacto_nombre_corto
+                                "
+                                (emitirItemSeleccionado)="
+                                  actualizarContactoSeleccionado(
+                                    $event,
+                                    arrDocumento.id
+                                  )
+                                "
+                                (emitirLineaVacia)="
+                                  actualizarContactoSeleccionado(
+                                    $event,
+                                    arrDocumento.id
+                                  )
+                                "
+                              ></app-seleccionar-contacto>
+                            }
+                          </td>
+                        </tr>
+                      }
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </ng-template>
+          </li>
+        </ul>
       </div>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
+  </div>
 </ng-template>

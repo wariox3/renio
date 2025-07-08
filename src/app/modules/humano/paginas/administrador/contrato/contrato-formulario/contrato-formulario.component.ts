@@ -468,14 +468,14 @@ export default class ContratoFormularioComponent
         ?.setValue(parseInt(dato.id));
       this.formularioContrato
         .get('ciudad_contrato_nombre')
-        ?.setValue(dato.nombre);
+        ?.setValue(`${dato.nombre} - ${dato.estado__nombre}`);
     }
 
     if (campo === 'ciudad_labora') {
       this.formularioContrato.get('ciudad_labora')?.setValue(parseInt(dato.id));
       this.formularioContrato
         .get('ciudad_labora_nombre')
-        ?.setValue(dato.nombre);
+        ?.setValue(`${dato.nombre} - ${dato.estado__nombre}`);
     }
 
     this.changeDetectorRef.detectChanges();
@@ -507,9 +507,9 @@ export default class ContratoFormularioComponent
           salario_integral: respuesta.salario_integral,
           comentario: respuesta.comentario,
           ciudad_contrato: respuesta.ciudad_contrato_id,
-          ciudad_contrato_nombre: respuesta.ciudad_contrato_nombre,
+          ciudad_contrato_nombre: `${respuesta.ciudad_contrato_nombre} - ${respuesta.estado_contrato_nombre}`,
           ciudad_labora: respuesta.ciudad_labora_id,
-          ciudad_labora_nombre: respuesta.ciudad_labora_nombre,
+          ciudad_labora_nombre: `${respuesta.ciudad_labora_nombre} - ${respuesta.estado_labora_nombre}`,
           entidad_salud: respuesta.entidad_salud_id,
           entidad_caja: respuesta.entidad_caja_id,
           entidad_pension: respuesta.entidad_pension_id,

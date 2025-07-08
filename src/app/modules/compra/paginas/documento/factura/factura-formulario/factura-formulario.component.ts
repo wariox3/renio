@@ -45,6 +45,7 @@ import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.compone
 import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
 import { AgregarDetallesDocumentoComponent } from '../../../../../../comun/componentes/agregar-detalles-documento/agregar-detalles-documento.component';
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
+import { ImportarDetallesComponent } from "../../../../../../comun/componentes/importar-detalles/importar-detalles.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -72,7 +73,8 @@ import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabl
     SeleccionarGrupoComponent,
     SeleccionarAlmacenComponent,
     AgregarDetallesDocumentoComponent,
-  ],
+    ImportarDetallesComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -510,6 +512,12 @@ export default class FacturaDetalleComponent
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
     });
+  }
+
+
+  consultarDetalle() {
+    // Notificar a través del servicio que se debe actualizar el documento
+    this._formularioFacturaService.notificarActualizacionDocumento();
   }
 
   autocompletarEncabezado(respuestaFacturaCompra: RespuestaFacturaCompraZip) {

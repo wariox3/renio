@@ -22,7 +22,7 @@ import {
   ImpuestoRespuestaConsulta,
   PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
-import { BehaviorSubject, Subject, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, takeUntil } from 'rxjs';
 import { FechasService } from '../fechas.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -64,6 +64,17 @@ export class FormularioFacturaService {
   });
   public estadoAprobado = signal<boolean>(false);
   public form$ = this.formSubject.asObservable();
+
+  // Subject para comunicar la actualización del documento
+  private actualizarDocumentoSubject = new Subject<void>();
+  
+  // Observable que pueden suscribirse los componentes
+  public actualizarDocumento$ = this.actualizarDocumentoSubject.asObservable();
+  
+  // Método para notificar que se debe actualizar el documento
+  notificarActualizacionDocumento() {
+    this.actualizarDocumentoSubject.next();
+  }
 
   constructor() {
     this._configModuleService.currentModelConfig$

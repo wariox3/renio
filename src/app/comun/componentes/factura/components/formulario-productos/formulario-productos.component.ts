@@ -93,6 +93,14 @@ export class FormularioProductosComponent
 
   ngOnInit(): void {
     this._cargarVista();
+    
+    // Suscribirse al observable de actualización de documento
+    this._formularioFacturaService.actualizarDocumento$
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe(() => {
+        console.log('actualizarDocumento$');
+        this.actualizarDocumento();
+      });
   }
 
   // listeners

@@ -1,5 +1,19 @@
 <form [formGroup]="formularioFactura" (ngSubmit)="formSubmit()">
-  <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
+  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estadoAprobado()">
+    @if (detalle) {
+      <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
+        <app-importar-detalles
+          endpoint="general/documento_detalle/importar_detalle_venta/"
+          [archivoEjemplo]="{
+            nombre: 'ejemplo_entrada',
+            path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/Importar_detalle_venta.xlsx',
+          }"
+          [estadoHabilitado]="estadoAprobado()"
+          (emitirDetallesAgregados)="consultarDetalle()"
+        ></app-importar-detalles>
+      </div>
+    }
+  </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion [nombreModelo]="'facturaventa'"></app-comun-titulo-accion>
