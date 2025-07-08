@@ -514,6 +514,12 @@ export default class FacturaDetalleComponent
     });
   }
 
+
+  consultarDetalle() {
+    // Notificar a través del servicio que se debe actualizar el documento
+    this._formularioFacturaService.notificarActualizacionDocumento();
+  }
+
   autocompletarEncabezado(respuestaFacturaCompra: RespuestaFacturaCompraZip) {
     const comentario =
       respuestaFacturaCompra.comentario.length <= 0

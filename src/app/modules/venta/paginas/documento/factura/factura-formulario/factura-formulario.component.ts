@@ -765,6 +765,10 @@ export default class FacturaDetalleComponent
     }
   }
 
+  consultarDetalle() {
+    this._formularioFacturaService.notificarActualizacionDocumento();
+  }
+
   agregarResolucionSeleccionado(
     resolucion: RegistroAutocompletarGenResolucion | null,
   ) {

@@ -9,6 +9,7 @@
             path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/Importar_detalle_entrada.xlsx',
           }"
           [estadoHabilitado]="estadoAprobado()"
+          (emitirDetallesAgregados)="consultarDetalle()"
         ></app-importar-detalles>
       </div>
     }
