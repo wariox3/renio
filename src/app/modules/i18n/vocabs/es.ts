@@ -1617,7 +1617,7 @@ export const locale = {
       104: 'Cuenta de cobro',
       105: 'Factura pos electrónica',
       106: 'Pedido cliente',
-      107: 'Factura de pos',
+      107: 'Factura pos',
       200: 'Pago',
       201: 'Saldo inicial',
       300: 'Factura de compra',
