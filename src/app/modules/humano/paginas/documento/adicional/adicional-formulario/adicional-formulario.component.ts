@@ -178,14 +178,14 @@ export default class AdicionalFormularioComponent
   consultarDetalle() {
     this.adicionalService
       .consultarDetalle(this.detalle)
-      .subscribe((respuesta: any) => {
+      .subscribe((respuesta) => {
         this.formularioAdicional.patchValue({
-          concepto: respuesta.concepto_id,
-          concepto_nombre: respuesta.concepto_nombre,
-          contrato: respuesta.contrato_id,
-          contrato_nombre: respuesta.contrato_contacto_nombre_corto,
+          concepto: respuesta.concepto,
+          concepto_nombre: respuesta.concepto__nombre,
+          contrato: respuesta.contrato,
+          contrato_nombre: respuesta.contrato__contacto__nombre_corto,
           contrato_numero_identificacion:
-            respuesta.contrato_contacto_numero_identificacion,
+            respuesta.contrato__contacto__numero_identificacion,
           detalle: respuesta.detalle,
           horas: respuesta.horas,
           valor: respuesta.valor,
