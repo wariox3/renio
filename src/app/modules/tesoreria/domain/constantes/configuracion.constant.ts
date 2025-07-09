@@ -81,6 +81,9 @@ export const TESORERIA_CONFIGURACION: ModuloConfig = {
                   'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/SaldoInicial.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
+                parametrosExternos: {
+                  documento_tipo_id: 19,
+                },
               },
             },
             ui: {

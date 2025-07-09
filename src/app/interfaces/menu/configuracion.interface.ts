@@ -50,6 +50,7 @@ export interface ArchivosImportar {
   rutaEjemplo: string;
   verBotonImportar: boolean;
   verBotonEjemplo: boolean;
+  parametrosExternos?: { [key: string]: any };
 }
 export interface ModeloDocumentacion {
   id: number;

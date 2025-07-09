@@ -80,6 +80,9 @@ export const CARTERA_CONFIGURACION: ModuloConfig = {
                 rutaEjemplo: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/SaldoInicial.xlsx',
                 verBotonEjemplo: true,
                 verBotonImportar: true,
+                parametrosExternos: {
+                  documento_tipo_id: 18,
+                } 
               },
             },
             ui: {

@@ -70,7 +70,7 @@ export class ImportarAdministradorComponent
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
   @Input() modelo: string;
-  @Input() filtrosExternos: any;
+  @Input() filtrosExternos: { [key: string]: any };
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
 
@@ -148,33 +148,17 @@ export class ImportarAdministradorComponent
     
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
-        let nombreFiltro = `documento_${this.importarConfig.nombre?.toLowerCase()}`;
-        let filtroPermamente: any = [];
         this.cargardoDocumento.set(true);
 
         let data: any = {
+          ...this.filtrosExternos,
           archivo_base64,
         };
 
         if (this.importarConfig.documentoId) {
           data['documento_tipo_id'] = this.importarConfig.documentoId;
         }
-
-        if (this.soloNuevos) {
-          data['solo_nuevos'] = this.soloNuevos;
-        }
-
-        const filtroPermanenteStr = localStorage.getItem(
-          `${nombreFiltro}_filtro_importar_fijo`,
-        );
-        if (filtroPermanenteStr !== null) {
-          filtroPermamente = JSON.parse(filtroPermanenteStr);
-          Object.keys(filtroPermamente).forEach((key) => {
-            const filtro = filtroPermamente[key];
-            data[filtro.propiedad] = filtro.valor1;
-          });
-        }
-
+        
         if (this.filtrosExternos !== undefined) {
           Object.keys(this.filtrosExternos).forEach((key) => {
             const filtro = this.filtrosExternos[key];
