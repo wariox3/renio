@@ -75,8 +75,8 @@ export default class FacturaDetalleComponent
 
   active: Number;
   arrMovimientosClientes: any[] = [];
-  arrMetodosPago: any[] = [];
-  arrPlazoPago: any[] = [];
+  arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
+  arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   plazo_pago_dias: any = 0;
@@ -320,7 +320,7 @@ export default class FacturaDetalleComponent
 
   consultarCliente(event: any) {
     this._generalService
-      .consultaApi<RegistroAutocompletarGenContacto>(
+      .consultaApi<RegistroAutocompletarGenContacto[]>(
         'general/contacto/seleccionar/',
         {
           proveedor: 'True',
@@ -329,8 +329,7 @@ export default class FacturaDetalleComponent
         },
       )
       .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta: any) => {
+        tap((respuesta) => {
           this.arrMovimientosClientes = respuesta;
           this.changeDetectorRef.detectChanges();
         }),
