@@ -74,6 +74,9 @@ export class ImportarAdministradorComponent
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
   private _unsubscribe$ = new Subject<void>();
 
+  // Almacenar todos los errores sin procesar
+  private erroresCompletos: any[] = [];
+
   constructor(
     private modalService: NgbModal,
     private httpService: HttpService,
@@ -87,6 +90,9 @@ export class ImportarAdministradorComponent
   abrirModalContactoNuevo(content: any) {
     this.archivoNombre = '';
     this.errorImportar = [];
+    this.cantidadErrores = 0;
+    this.erroresCompletos = [];
+    this.changeDetectorRef.detectChanges();
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       backdrop: 'static',
@@ -97,6 +103,8 @@ export class ImportarAdministradorComponent
   cerrarModal() {
     this.modalService.dismissAll();
     this.errorImportar = [];
+    this.cantidadErrores = 0;
+    this.erroresCompletos = [];
     this.changeDetectorRef.detectChanges();
   }
 
@@ -132,6 +140,12 @@ export class ImportarAdministradorComponent
   }
 
   subirArchivo(archivo_base64: string) {
+    // Reiniciar los errores antes de una nueva importación
+    this.cantidadErrores = 0;
+    this.errorImportar = [];
+    this.erroresCompletos = [];
+    this.changeDetectorRef.detectChanges();
+    
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
         let nombreFiltro = `documento_${this.importarConfig.nombre?.toLowerCase()}`;
@@ -217,26 +231,64 @@ export class ImportarAdministradorComponent
       .subscribe((parametro) => {
         let nombreArchivo = `errores_${this.importarConfig.nombre}.xlsx`;
         
-        const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
-          this.errorImportar,
-        );
-        const workbook: XLSX.WorkBook = {
-          Sheets: { data: worksheet },
-          SheetNames: ['data'],
-        };
-        const excelBuffer: any = XLSX.write(workbook, {
-          bookType: 'xlsx',
-          type: 'array',
-        });
-        const data: Blob = new Blob([excelBuffer], {
-          type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-        });
-        saveAs(data, nombreArchivo); // Nombre del archivo Excel a descargar
+        // Procesar todos los errores para el Excel, pero en lotes para evitar bloqueos
+        this.cargardoDocumento.set(true);
+        
+        // Usar setTimeout para permitir que la UI se actualice antes de iniciar el procesamiento
+        setTimeout(() => {
+          const procesarPorLotes = async () => {
+            const erroresCompletos: any[] = [];
+            const tamanoLote = 500; // Tamaño de lote razonable
+            
+            // Procesar en lotes
+            for (let i = 0; i < this.erroresCompletos.length; i += tamanoLote) {
+              const lote = this.erroresCompletos.slice(i, i + tamanoLote);
+              
+              // Procesar cada lote
+              const erroresLote = lote.reduce((acc: any[], errorItem: any) => {
+                const erroresFormateados = Object.entries(errorItem.errores).map(([campo, mensajes]: any) => ({
+                  fila: errorItem.fila,
+                  campo: campo,
+                  error: Array.isArray(mensajes) ? mensajes.join(', ') : mensajes,
+                }));
+                return [...acc, ...erroresFormateados];
+              }, []);
+              
+              erroresCompletos.push(...erroresLote);
+              
+              // Permitir que el navegador respire entre lotes
+              await new Promise(resolve => setTimeout(resolve, 0));
+            }
+            
+            // Crear y descargar el Excel con todos los errores
+            const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(erroresCompletos);
+            const workbook: XLSX.WorkBook = {
+              Sheets: { data: worksheet },
+              SheetNames: ['data'],
+            };
+            const excelBuffer: any = XLSX.write(workbook, {
+              bookType: 'xlsx',
+              type: 'array',
+            });
+            const data: Blob = new Blob([excelBuffer], {
+              type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+            });
+            saveAs(data, nombreArchivo);
+            
+            this.cargardoDocumento.set(false);
+            this.changeDetectorRef.detectChanges();
+          };
+          
+          procesarPorLotes();
+        }, 100);
       })
       .unsubscribe();
   }
 
   private _adaptarErroresImportar(errores: any[]) {
+    // Guardar los errores completos para exportación
+    this.erroresCompletos = errores;
+    
     of(...errores)
       .pipe(
         mergeMap((errorItem) =>
@@ -250,7 +302,7 @@ export class ImportarAdministradorComponent
             ),
           ),
         ),
-        take(100), // Limita la cantidad de errores procesados a 100
+        take(100), // Mantener el límite para la visualización en UI
         toArray(),
       )
       .subscribe((result) => {
