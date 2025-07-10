@@ -53,6 +53,7 @@ import {
   zip,
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 
 @Component({
   selector: 'app-factura-pos-formulario',
@@ -106,35 +107,8 @@ export default class FacturaPosFormularioComponent
   public arrSede: RegistroAutocompletarGenSede[] = [];
   public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
   public requiereAsesor: boolean = false;
-  public camposBuscarAvanzado = [
-    'id',
-    'identificacion_abreviatura',
-    'numero_identificacion',
-    'nombre_corto',
-  ];
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-  public filtrosPermanentes = [
-    {
-      propiedad: 'cliente',
-      valor1: 'True',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
 
   public theme_value = localStorage.getItem('kt_theme_mode_value');
 
