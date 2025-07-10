@@ -184,20 +184,13 @@ export class TablaContratosComponent extends General implements OnInit {
   }
 
   descargarExcelDetalle() {
-    const modelo = 'HumProgramacionDetalle';
-    const params = {
-      modelo,
-      serializador: 'Excel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          operador: 'exact',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 10000,
+    const params: ParametrosApi = {
+      serializador: 'informe_programacion_detalle',
+      excel_informe: 'True',
+      programacion_id: this.programacion.id,
     };
+    ;
+
     let filtroDetalleContratos = localStorage.getItem(`documento_programacion`);
     if (filtroDetalleContratos !== null) {
       let filtroPermanente = JSON.parse(filtroDetalleContratos);
@@ -206,7 +199,7 @@ export class TablaContratosComponent extends General implements OnInit {
       //   filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
       // }));
     }
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this._descargarArchivosService.exportarExcel('humano/programacion_detalle', params);
     this.dropdown.close();
   }
 
