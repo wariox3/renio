@@ -32,6 +32,7 @@ import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/param
 import { PagoFormulario } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
+import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -105,35 +106,9 @@ export default class CuentaCobroFormularioComponent
   public arrSede: any[] = [];
   public requiereAsesor: boolean = false;
   public requiereSede: boolean = false;
-  public camposBuscarAvanzado = [
-    'id',
-    'identificacion_abreviatura',
-    'numero_identificacion',
-    'nombre_corto',
-  ];
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-  public filtrosPermanentes = [
-    {
-      propiedad: 'cliente',
-      valor1: 'True',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
+
 
   public theme_value = localStorage.getItem('kt_theme_mode_value');
 
