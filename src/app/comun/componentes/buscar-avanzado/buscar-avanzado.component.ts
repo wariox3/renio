@@ -41,7 +41,7 @@ export class BuscarAvanzadoComponent extends General {
   @Input() tituloModal = '';
   @Input() consultarModelo = ''; //BORRAR
   @Input() campoLista: any[] = [];
-  @Input() campoFiltros: string[] = [];
+  @Input() campoFiltros: any[] = [];
   @Input() filtrosPermanentes: any = {};
   @Input() consultarTipo: 'Administrador' | 'Documento'; //borrar
   @Output() emitirRegistroSeleccionado: EventEmitter<any> = new EventEmitter();
