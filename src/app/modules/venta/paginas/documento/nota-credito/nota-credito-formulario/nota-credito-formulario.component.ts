@@ -866,7 +866,7 @@ export default class FacturaDetalleComponent
       .consultaApi<RegistroAutocompletarGenContacto>(
         'general/contacto/seleccionar/',
         {
-          nombre_corto__icontains: '',
+          nombre_corto__icontains: `${event?.target.value}`,
           cliente: 'True',
           limite: 10,
         },

@@ -5,6 +5,7 @@ import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interfa
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { RespuestaContabilizarLista } from '@modulos/contabilidad/interfaces/contabilizar.interface';
 import { finalize, forkJoin, tap } from 'rxjs';
+import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +13,16 @@ import { finalize, forkJoin, tap } from 'rxjs';
 export class ExistenciaService {
   private readonly _generalService = inject(GeneralService);
   private readonly _httpService = inject(HttpService);
-  private readonly _parametrosConsulta = signal<ParametrosFiltros>({
-    limite: 30,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'GenDocumentoDetalle',
-    filtros: [],
+  private readonly _parametrosConsulta = signal<ParametrosApi>({
+    limit: 30,
+    serializador: 'informe_inventario',
+    inventario: 'True',
   });
-  private readonly _filtrosPermanentes = signal<Filtros[]>([]);
+  private readonly _filtrosPermanentes = signal<ParametrosApi>({
+    limit: 30,
+    serializador: 'informe_inventario',
+    inventario: 'True',
+  });
 
   public cantidadRegistros = signal(0);
   public registrosSeleccionados = signal<number[]>([]);
@@ -29,13 +31,14 @@ export class ExistenciaService {
 
   public consultarListaContabilizar() {
     return this._generalService
-      .consultarDatosAutoCompletar<RespuestaContabilizarLista>(
+      .consultaApi<RespuestaApi<RespuestaContabilizarLista>>(
+        'general/documento_detalle/',
         this._parametrosConsulta(),
       )
       .pipe(
         tap((respuesta) => {
-          this.cantidadRegistros.set(respuesta.cantidad_registros);
-          this.contabilizarLista.set(respuesta.registros);
+          this.cantidadRegistros.set(respuesta.count);
+          this.contabilizarLista.set(respuesta.results);
         }),
       );
   }
@@ -43,8 +46,7 @@ export class ExistenciaService {
   public reiniciarFiltros() {
     this._parametrosConsulta.update((parametros) => {
       return {
-        ...parametros,
-        filtros: this._filtrosPermanentes(),
+        ...this._filtrosPermanentes(),
       };
     });
   }
@@ -55,28 +57,17 @@ export class ExistenciaService {
     });
   }
 
-  public actualizarFiltrosParametros(filtros: Filtros[]) {
+  public actualizarFiltrosParametros(filtros: ParametrosApi) {
     this._parametrosConsulta.update((parametros) => ({
       ...parametros,
-      filtros: [...parametros.filtros, ...filtros],
+      ...filtros,
     }));
   }
 
-  public actualizarPaginacion(data: {
-    desplazamiento: number;
-    limite: number;
-  }) {
+  public actualizarPaginacion(page: number) {
     this._parametrosConsulta.update((parametros) => ({
       ...parametros,
-      limite: data.desplazamiento,
-      desplazar: data.limite,
-    }));
-  }
-
-  actualizarOrdenamiento(ordenamiento: string) {
-    this._parametrosConsulta.update((parametros) => ({
-      ...parametros,
-      ordenamientos: [ordenamiento],
+      page,
     }));
   }
 
@@ -92,8 +83,8 @@ export class ExistenciaService {
     );
   }
 
-  public aplicarFiltros(filtros: Filtros[]) {
-    if (filtros.length >= 1) {
+  public aplicarFiltros(filtros: ParametrosApi) {
+    if (Object.keys(filtros).length >= 1) {
       this.reiniciarFiltros();
       this.actualizarFiltrosParametros(filtros);
     } else {

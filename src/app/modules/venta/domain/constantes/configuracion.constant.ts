@@ -114,7 +114,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             endpoint: 'general/documento',
             queryParams: {
               documento_tipo_id: 1,
-              serializador: 'lista',
+              serializador: 'lista_venta',
               ordering: 'estado_aprobado,-fecha,-numero,-id',
             },
             parametrosHttpConfig: {
@@ -271,40 +271,40 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             },
           },
         },
-        {
-          key: 200,
-          nombreModelo: 'PAGO',
-          documentacion: {
-            id: 1017,
-          },
-          ajustes: {
-            rutas: {
-              lista: DocLista,
-              nuevo: DocNuevo,
-              editar: DocEditar,
-              detalle: DocDetalle,
-            },
-            endpoint: 'general/documento',
-            queryParams: {
-              documento_tipo_id: 4,
-              serializador: 'lista',
-              ordering: 'estado_aprobado,-fecha,-numero,-id',
-            },
-            parametrosHttpConfig: {
-              modelo: 'GenDocumento',
-              filtros: {
-                ui: DOCUMENTO_FILTERS,
-              },
-            },
-            ui: {
-              verIconoDerecha: true,
-              verBotonNuevo: true,
-              verColumnaEditar: true,
-              verBotonEliminar: true,
-              verColumnaSeleccionar: true,
-            },
-          },
-        },
+        // {
+        //   key: 200,
+        //   nombreModelo: 'PAGO',
+        //   documentacion: {
+        //     id: 1017,
+        //   },
+        //   ajustes: {
+        //     rutas: {
+        //       lista: DocLista,
+        //       nuevo: DocNuevo,
+        //       editar: DocEditar,
+        //       detalle: DocDetalle,
+        //     },
+        //     endpoint: 'general/documento',
+        //     queryParams: {
+        //       documento_tipo_id: 4,
+        //       serializador: 'lista',
+        //       ordering: 'estado_aprobado,-fecha,-numero,-id',
+        //     },
+        //     parametrosHttpConfig: {
+        //       modelo: 'GenDocumento',
+        //       filtros: {
+        //         ui: DOCUMENTO_FILTERS,
+        //       },
+        //     },
+        //     ui: {
+        //       verIconoDerecha: true,
+        //       verBotonNuevo: true,
+        //       verColumnaEditar: true,
+        //       verBotonEliminar: true,
+        //       verColumnaSeleccionar: true,
+        //     },
+        //   },
+        // },
         {
           key: 104,
           nombreModelo: 'CUENTADECOBRO',

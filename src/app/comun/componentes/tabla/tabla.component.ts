@@ -88,6 +88,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
     rutaEjemplo: string | undefined;
     verBotonImportar: boolean | undefined;
     verBotonEjemplo: boolean | undefined;
+    parametrosExternos?: { [key: string]: any };
   };
   @Input() _tipo: string;
   @Input() cargando: boolean | null = false;

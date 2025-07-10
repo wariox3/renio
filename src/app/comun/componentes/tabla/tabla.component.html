@@ -25,6 +25,7 @@
       }
       @if (visualizarBtnImportar) {
         <app-importar-administrador
+          [filtrosExternos]="importarConfig.parametrosExternos || {}"
           [importarConfig]="importarConfig"
           role="group"
           (emitirDetallesAgregados)="solicitarConsultarTabla()"

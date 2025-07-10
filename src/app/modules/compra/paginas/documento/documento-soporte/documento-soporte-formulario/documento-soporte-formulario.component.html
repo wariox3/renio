@@ -4,7 +4,9 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'documentosoporte'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'documentosoporte'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -211,11 +213,7 @@
             <option
               *ngFor="let plazoPago of arrPlazoPago"
               [value]="plazoPago.id"
-              [selected]="
-                plazoPago.id ===
-                formularioFactura.controls.plazo_pago_id
-              "
-              [attr.data-dias]="plazoPago.plazo_dias"
+              [attr.data-dias]="plazoPago.dias"
             >
               {{ plazoPago.nombre }}
             </option>

@@ -1528,7 +1528,8 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
-      nombre: 'DOCUMENTO_NUMERO',
+      nombre: 'DOCUMENTO__NUMERO',
+      nombreAbreviado: 'DOCUMENTO_NUMERO',
       nombreAbreviadoFiltro: 'DOCUMENTO_NUMERO_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO_AFECTADO__NUMERO',
       campoTipo: 'IntegerField',
@@ -1537,7 +1538,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'DOCUMENTO_AFECTADO_DOCUMENTO_TIPO_NOMBRE',
+      nombre: 'DOCUMENTO__DOCUMENTO_TIPO__NOMBRE',
       nombreAbreviado: 'TIPO',
       nombreFiltroRelacion: 'DOCUMENTO_AFECTADO__DOCUMENTO_TIPO__NOMBRE',
       campoTipo: 'CharField',
@@ -1546,7 +1547,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'DOCUMENTO_FECHA',
+      nombre: 'DOCUMENTO__FECHA',
       nombreAbreviado: 'FECHA',
       nombreAbreviadoFiltro: 'DOCUMENTO_FECHA_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO_AFECTADO__FECHA',
@@ -1556,7 +1557,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
-      nombre: 'DOCUMENTO_AFECTADO_CONTACTO_NOMBRE_CORTO',
+      nombre: 'DOCUMENTO__CONTACTO__NOMBRE_CORTO',
       nombreAbreviado: 'CONTACTO',
       nombreAbreviadoFiltro: 'CONTACTO_NOMBRE_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO_AFECTADO__CONTACTO__NOMBRE_CORTO',
@@ -1566,7 +1567,8 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'ITEM_NOMBRE',
+      nombre: 'ITEM__NOMBRE',
+      nombreAbreviado: 'ITEM_NOMBRE',
       nombreAbreviadoFiltro: 'ITEM_NOMBRE_FILTRO',
       nombreFiltroRelacion: 'ITEM__NOMBRE',
       campoTipo: 'CharField',

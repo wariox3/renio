@@ -7,15 +7,17 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { TablaComponent } from '../../../../../comun/componentes/tabla/tabla.component';
+import { FiltroComponent } from "../../../../../comun/componentes/ui/tabla/filtro/filtro.component";
 import { ExistenciaService } from './services/historial-movimientos.service';
+import { HISTORIAL_MOVIMIENTO_FILTERS } from '@modulos/inventario/domain/mapeos/historial-movimiento.mapeo';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -27,15 +29,17 @@ import { ExistenciaService } from './services/historial-movimientos.service';
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    BaseFiltroComponent,
     TablaComponent,
-  ],
+    FiltroComponent
+],
 })
 export default class HistorialMovimientosComponent extends General implements OnInit {
   private readonly _existenciaService = inject(ExistenciaService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
 
   public itemsLista = this._existenciaService.contabilizarLista;
   public cantidadRegistros = this._existenciaService.cantidadRegistros;
+  public CAMPOS_FILTRO = HISTORIAL_MOVIMIENTO_FILTERS;
 
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
@@ -54,23 +58,14 @@ export default class HistorialMovimientosComponent extends General implements On
     this._existenciaService.consultarListaContabilizar().subscribe();
   }
 
-  obtenerFiltros(filtros: Filtros[]) {
-    this._existenciaService.aplicarFiltros(filtros);
+  obtenerFiltros(filtros: FilterCondition[]) {
+    const apiParams = this._filterTransformerService.transformToApiParams(filtros);
+    this._existenciaService.aplicarFiltros(apiParams);
     this.consultarLista();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this._existenciaService.actualizarPaginacion(data);
-    this.consultarLista();
-  }
-
-  cambiarDesplazamiento(desplazamiento: number) {
-    this._existenciaService.cambiarDesplazamiento(desplazamiento);
-    this.consultarLista();
-  }
-
-  cambiarOrdemiento(ordenamiento: string) {
-    this._existenciaService.actualizarOrdenamiento(ordenamiento)
+    this._existenciaService.actualizarPaginacion(data.desplazamiento);
     this.consultarLista();
   }
 }
