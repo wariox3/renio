@@ -983,7 +983,8 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
-      nombre: 'DOCUMENTO_ID',
+      nombre: 'DOCUMENTO',
+      nombreAbreviado: 'documento_id',
       campoTipo: 'Fk',
       visibleTabla: true,
       visibleFiltro: false,
@@ -991,7 +992,7 @@ export const documentos: MapeoDocumentos = {
       esFk: true,
     },
     {
-      nombre: 'documento_contacto_numero_identificacion',
+      nombre: 'documento__contacto__numero_identificacion',
       nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
       nombreAbreviadoFiltro: 'EMPLEADO_IDENTIFICACION_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO__CONTACTO__NUMERO_IDENTIFICACION',
@@ -1001,7 +1002,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'documento_contacto_nombre_corto',
+      nombre: 'documento__contacto__nombre_corto',
       nombreAbreviado: 'EMPLEADO',
       nombreAbreviadoFiltro: 'EMPLEADO_NOMBRE_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO__CONTACTO__NOMBRE_CORTO',
@@ -1011,7 +1012,8 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'documento_fecha',
+      nombre: 'documento__fecha',
+      nombreAbreviado: 'documento_fecha',
       nombreFiltroRelacion: 'DOCUMENTO__FECHA',
       campoTipo: 'DateField',
       visibleTabla: true,
@@ -1019,7 +1021,8 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'documento_fecha_hasta',
+      nombre: 'documento__fecha_hasta',
+      nombreAbreviado: 'documento_fecha_hasta',
       nombreFiltroRelacion: 'DOCUMENTO__FECHA_HASTA',
       campoTipo: 'DateField',
       visibleTabla: true,
@@ -1068,7 +1071,8 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'PAGO',
+      nombre: 'PAGO_OPERADO',
+      nombreAbreviado: 'PAGO',
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: false,

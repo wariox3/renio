@@ -95,9 +95,9 @@ export class NominaComponent extends General implements OnInit {
 
   descargarExcel() {
     const params: ParametrosApi = {
+      ...this.parametrosApi,
       serializador: 'informe_nomina',
       excel_informe: 'True',
-      documento_tipo__documento_clase_id: 701,
     };
 
     this._descargarArchivosService.exportarExcel('general/documento', params);
