@@ -24,7 +24,9 @@ import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO, NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -68,7 +70,6 @@ export default class FacturaDetalleComponent
 {
   private _formularioFacturaService = inject(FormularioFacturaService);
 
-  public filtrosPermanentesNotaCredito = {};
   public modoEdicion = this._formularioFacturaService.modoEdicion;
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
@@ -118,68 +119,10 @@ export default class FacturaDetalleComponent
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
-  public campoListaDocReferencia: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'documento_tipo_nombre',
-      titulo: 'documento_tipo',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'numero',
-      titulo: 'numero',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'fecha',
-      titulo: 'fecha',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'contacto_numero_identificacion',
-      titulo: 'contacto_numero_identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'contacto_nombre_corto',
-      titulo: 'contacto_nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'total',
-      titulo: 'total',
-      campoTipo: 'IntegerField',
-      aplicaFormatoNumerico: true,
-    },
-  ];
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-  public filtrosPermanentes = [
-    {
-      propiedad: 'cliente',
-      valor1: 'True',
-      valor2: '',
-    },
-  ];
+  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentesNotaCredito = NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE;
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
 
   private readonly _generalService = inject(GeneralService);
 
@@ -726,20 +669,10 @@ export default class FacturaDetalleComponent
   }
 
   private _inicializarFormulario(contactoId: string) {
-    this.filtrosPermanentesNotaCredito = [
-      {
-        propiedad: 'contacto_id',
-        valor1: contactoId,
-      },
-      {
-        propiedad: 'documento_tipo__documento_clase_id',
-        valor1: 100,
-      },
-      {
-        propiedad: 'estado_aprobado',
-        valor1: true,
-      },
-    ];
+    this.filtrosPermanentesNotaCredito = {
+      ...NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
+      contacto_id: contactoId,
+    };
   }
 
   modificarCampoFormulario(campo: string, dato: any) {

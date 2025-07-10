@@ -30,17 +30,15 @@ import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
 import {
-  CONTACTO_FILTERS,
   CONTACTO_FILTRO_PERMANENTE_CLIENTE,
-  CONTACTO_LISTA_BUSCAR_AVANZADO,
+  CONTACTO_LISTA_BUSCAR_AVANZADO
 } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import ContactoFormularioComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO, NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/venta/domain/mapeos/documento-referencia-nota-credito.mapeo';
+import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO, NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,

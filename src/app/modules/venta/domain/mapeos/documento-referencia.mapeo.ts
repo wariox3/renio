@@ -29,3 +29,11 @@ export const NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE: Record<
   documento_tipo__documento_clase_id: 100,
   estado_aprobado: 'True',
 };
+
+export const NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE: Record<
+  string,
+  any
+> = {
+  documento_tipo__documento_clase_id: 100,
+  estado_aprobado: 'True',
+};
