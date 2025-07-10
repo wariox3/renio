@@ -117,13 +117,12 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcel(
+    this.descargarArchivosService.exportarExcel(
+      'cartera/informe/pendiente-corte',
       {
         ...this.queryParams,
-        limite: 5000,
-        excel: true,
+        excel_informe: 'True',
       },
-      'cartera/informe/pendiente-corte/',
     );
   }
 
