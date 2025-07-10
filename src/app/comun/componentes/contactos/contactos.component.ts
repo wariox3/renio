@@ -45,7 +45,7 @@ export class ContactosComponent extends General {
     }
   }
 
-  agregarContacto(item: any) {
+  agregarContacto(item: RegistroAutocompletarGenContacto) {
     this.itemSeleccionado = item;
     this.contactoNombre = item.nombre_corto;
     this.emitirContacto.emit(item);

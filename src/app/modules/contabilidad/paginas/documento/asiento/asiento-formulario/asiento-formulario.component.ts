@@ -424,9 +424,9 @@ export default class AsientoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarContactoSeleccionado(contacto: any, index: number) {
+  agregarContactoSeleccionado(contacto: RegistroAutocompletarGenContacto, index: number) {
     this.detalles.controls[index].patchValue({
-      contacto: contacto.contacto_id,
+      contacto: contacto.id,
       contacto_nombre_corto: contacto.nombre_corto,
     });
 
