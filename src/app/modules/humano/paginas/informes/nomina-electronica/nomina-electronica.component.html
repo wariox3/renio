@@ -1,12 +1,11 @@
 <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
   <section card-body>
-    <app-base-filtro
-      (emitirFiltros)="obtenerFiltros($event)"
-      [persistirFiltros]="false"
-      [_tipo]="'DOCUMENTO'"
-    ></app-base-filtro>
+    <app-filtro
+      (filtersApply)="obtenerFiltros($event)"
+      [availableFields]="CAMPOS_FILTRO"
+    ></app-filtro>
   </section>
-</app-card>
+</app-card> 
 <app-card [titulo]="'MENU.FUNCIONALIDAD.NOMINAELECTRONICA'">
   <section card-body>
     <div class="table-responsive-sm table-loading">
@@ -14,7 +13,7 @@
         [modelo]="'NOMINAELECTRONICA'"
         [_tipo]="'DOCUMENTO'"
         [datos]="arrDocumentos"
-        [cantidad_registros]="cantidad_registros"
+        [cantidad_registros]="cantidadRegistros()"
         [visualizarColumnaEditar]="false"
         [visualizarColumnaDetalle]="false"
         [visualizarColumnaSeleccionar]="false"
@@ -23,8 +22,6 @@
         [visualizarBtnNuevo]="false"
         [visualizarBtnEliminar]="false"
         [visualizarBtnExportarZip]="false"
-        (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-        (emitirOrdenamiento)="cambiarOrdemiento($event)"
         (emitirPaginacion)="cambiarPaginacion($event)"
         (emitirExportarExcel)="descargarExcel()"
       >
