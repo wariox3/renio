@@ -34,8 +34,8 @@ import { interval, take } from 'rxjs';
 import { ImportarAdministradorComponent } from '../importar-administrador/importar-administrador.component';
 import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.component';
 import { ModalDocumentoDetallesComponent } from './components/modal-documento-detalles/modal-documento-detalles.component';
-import { ModalDocumentoReferenciaComponent } from "./components/modal-documento-referencia/modal-documento-referencia.component";
-import { PaginadorComponent } from "../ui/tabla/paginador/paginador.component"
+import { ModalDocumentoReferenciaComponent } from './components/modal-documento-referencia/modal-documento-referencia.component';
+import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
 @Component({
   selector: 'app-comun-tabla',
   templateUrl: './tabla.component.html',
@@ -54,15 +54,15 @@ import { PaginadorComponent } from "../ui/tabla/paginador/paginador.component"
     SpinnerLoaderComponent,
     ModalDocumentoDetallesComponent,
     ModalDocumentoReferenciaComponent,
-    PaginadorComponent
-],
+    PaginadorComponent,
+  ],
 })
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
   private _modalService = inject(NgbModal);
 
   currentPage = signal(1);
-  totalPages = signal(1); 
+  totalPages = signal(1);
   @Input() totalItems: number = 0;
   tamanoEncabezado = 0;
   arrCantidadRegistro = [50, 100, 200];
@@ -169,7 +169,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   onPageChange(page: number): void {
-    this.currentPage.set(page); 
+    this.currentPage.set(page);
     this.emitirPaginacion.emit({
       desplazamiento: this.currentPage(),
       limite: this.registrosVisiables,
@@ -495,7 +495,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   visualizarBtnEstado(item: any) {
     // Verificar si item tiene la propiedad estado_aprobado
-    if (item.hasOwnProperty('estado_aprobado')) {
+    if (item.hasOwnProperty('estado_generado')) {
+      return !item['estado_generado'].valor;
+    } else if (item.hasOwnProperty('estado_aprobado')) {
       return !item['estado_aprobado'].valor;
     } else if (item.hasOwnProperty('estado_terminado')) {
       return !item['estado_terminado'].valor;
