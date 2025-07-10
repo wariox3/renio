@@ -3,6 +3,7 @@ export interface RespuestaAporteDetalle {
   aporte_contrato_contrato_contacto_numero_identificacion: string;
   aporte_contrato_contrato_contacto_nombre_corto: string;
   aport_contrato_contrato_id: number;
+  aporte_contrato: number;
   ingreso: boolean;
   retiro: boolean;
   variacion_permanente_salario: boolean;

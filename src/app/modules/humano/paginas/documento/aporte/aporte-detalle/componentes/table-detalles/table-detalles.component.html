@@ -1,17 +1,10 @@
-<!-- <app-base-filtro
-  (emitirFiltros)="obtenerFiltros($event)"
-  [localstorageKey]="'aporte_detalle'"
-  [_tipo]="'DOCUMENTO'"
-></app-base-filtro> -->
-
-<app-filtro [availableFields]="filtrosContratos" ></app-filtro>
+<app-filtro [availableFields]="filtrosContratos" (filtersApply)="filterChange($event)"></app-filtro>
 
 <div class="d-flex justify-content-between my-4">
-  <app-comun-paginador
-    [cantidadRegistros]="cantidadRegistros()"
-    (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-    (emitirPaginacion)="cambiarPaginacion($event)"
-  ></app-comun-paginador>
+  <app-paginador
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="cantidadRegistros()"
+  ></app-paginador>
   <div class="btn-group contenedor-btn-group" role="group">
     <div class="btn-group" ngbDropdown #OpcionesDropdown="ngbDropdown">
       <button
@@ -25,7 +18,7 @@
       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
         <button (click)="descargarExcelDetalle()" ngbDropdownItem>
           {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
-        </button>
+        </button> 
       </div>
     </div>
   </div>
@@ -183,7 +176,7 @@
             {{ aporteDetalle.aporte_contrato__contrato__contacto__nombre_corto }}
           </td>
           <td>
-            {{ aporteDetalle.aporte_contrato__contrato__contacto_id }}
+            {{ aporteDetalle.aporte_contrato }}
           </td>
           <td class="text-center">
             {{ aporteDetalle.ingreso | siNo }}
