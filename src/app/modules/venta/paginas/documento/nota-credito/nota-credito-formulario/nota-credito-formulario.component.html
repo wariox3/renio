@@ -67,6 +67,8 @@
             </span>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
+                [consultarUrl]="'general/contacto/'"
+                [tituloModal]="'contacto'"
                 [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
@@ -212,6 +214,8 @@
             <div class="dropdown-divider"></div>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
+                [consultarUrl]="'general/documento/'"
+                [tituloModal]="'documento'"
                 [consultarModelo]="'GenDocumento'"
                 [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
