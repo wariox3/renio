@@ -1,7 +1,6 @@
-import { campoBuscarAvanzada } from "src/app/core/interfaces/buscar-avanzado.interface";
+import { FilterField } from 'src/app/core/interfaces/filtro.interface';
 
-
-export const DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO: campoBuscarAvanzada[] = [
+export const DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO: FilterField[] = [
   { name: 'id', displayName: 'ID', type: 'number' },
   { name: 'numero', displayName: 'numero', type: 'number' },
   { name: 'fecha', displayName: 'fecha', type: 'date' },
@@ -20,21 +19,13 @@ export const DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO: campoBuscarAvanzada[] =
     displayName: '[contacto]  nombre',
     type: 'string',
   },
-  { name: 'total', displayName: 'Total', type: 'number', aplicaFormatoNumerico: true },
+  { name: 'total', displayName: 'Total', type: 'number' },
 ];
 
-export const NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE: Record<
+export const NOTA_AJUSTE_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE: Record<
   string,
   any
 > = {
-  documento_tipo__documento_clase_id: 100,
-  estado_aprobado: 'True',
-};
-
-export const NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE: Record<
-  string,
-  any
-> = {
-  documento_tipo__documento_clase_id: 100,
+  documento_tipo__documento_clase_id: 303,
   estado_aprobado: 'True',
 };

@@ -9,10 +9,9 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
-import { BaseFiltroComponent } from '../base-filtro/base-filtro.component';
-import { FiltroComponent } from '../ui/tabla/filtro/filtro.component';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FiltroComponent } from '../ui/tabla/filtro/filtro.component';
+import { TipoDatoPipe } from '@pipe/tipoDato.pipe';
 
 @Component({
   selector: 'app-comun-buscar-avanzado',
@@ -21,10 +20,10 @@ import { FilterTransformerService } from 'src/app/core/services/filter-transform
     CommonModule,
     NgbDatepickerModule,
     KeysPipe,
-    BaseFiltroComponent,
     TranslateModule,
     NgbTooltipModule,
     FiltroComponent,
+    TipoDatoPipe
   ],
   templateUrl: './buscar-avanzado.component.html',
   styleUrls: ['./buscar-avanzado.component.scss'],
@@ -108,40 +107,6 @@ export class BuscarAvanzadoComponent extends General {
   seleccionar(item: any, index: number) {
     this.modalService.dismissAll();
     this.emitirRegistroSeleccionado.emit(item[index][0]);
-  }
-
-  // Función para determinar el tipo de dato y aplicar formato si es necesario
-  getTipoDato(campo: any) {
-    // Verifica si se proporciona un campo
-    if (campo) {
-      // Switch para manejar diferentes tipos de campo
-      switch (campo.campoTipo) {
-        case 'number':
-          if (campo.aplicaFormatoNumerico) {
-            // Formatea el valor con dos decimales y comas para separar miles
-            let formattedValue = campo.valor
-              .toFixed(2)
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-            return `${formattedValue}`;
-          }
-          return campo.valor;
-        // Si el campo es de tipo booleano
-        case 'Booleano':
-          return campo.valor ? 'SI' : 'NO';
-        case 'Porcentaje':
-          if (typeof campo.valor === 'string') {
-            return `${parseFloat(campo.valor.replace(',', '.'))}`;
-          } else if (campo.valor !== null && campo.valor !== undefined) {
-            // Convierte `valor` a cadena si no es null o undefined
-            return `${parseFloat(String(campo.valor).replace(',', '.'))}`;
-          } else {
-            return '0'; // O algún valor predeterminado adecuado
-          }
-        default:
-          return campo.valor;
-      }
-    }
   }
 
   private _reiniciarFiltros() {

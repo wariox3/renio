@@ -54,7 +54,8 @@
                 'text-center': item[key].campoTipo === 'Booleano',
               }"
             >
-              {{ getTipoDato(item[key]) }}
+              {{ item[key] | appTipoDato }}
+              <!-- {{ getTipoDato(item[key]) }} -->
             </td>
             <td class="text-center">
               <button
