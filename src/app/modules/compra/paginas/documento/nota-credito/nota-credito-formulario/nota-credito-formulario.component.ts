@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -32,10 +39,19 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap, zip } from 'rxjs';
-import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../../factura/factura-cuenta/factura-cuenta.component';
+import {
+  CONTACTO_FILTRO_PERMANENTE_PROVEEDOR,
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO } from '@modulos/compra/domain/mapeos/documento-referencia.mapeo';
+import { NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/compra/domain/mapeos/documento-referencia.mapeo';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -75,7 +91,6 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.mostrarDocumentoReferencia;
   public acumuladorDebitosCreditos =
     this._formularioFacturaService.acumuladorDebitosCreditos;
-  public filtrosPermanentesNotaCredito = {};
   public formularioFactura = this._formularioFacturaService.form;
 
   active: Number;
@@ -88,67 +103,10 @@ export default class FacturaDetalleComponent
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
-  public campoListaDocReferencia: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'documento_tipo_nombre',
-      titulo: 'documento_tipo',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'numero',
-      titulo: 'numero',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'fecha',
-      titulo: 'fecha',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'contacto_numero_identificacion',
-      titulo: 'contacto_numero_identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'contacto_nombre_corto',
-      titulo: 'contacto_nombre_corto',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'total',
-      titulo: 'total',
-      campoTipo: 'IntegerField',
-      aplicaFormatoNumerico: true,
-    },
-  ];
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-  public filtrosPermanentes = [
-    {
-      propiedad: 'proveedor',
-      valor1: 'True',
-    },
-  ];
+  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentesContacto = CONTACTO_FILTRO_PERMANENTE_PROVEEDOR;
+  public filtrosPermanentesNotaCredito = {};
 
   constructor(
     private formBuilder: FormBuilder,
@@ -343,20 +301,10 @@ export default class FacturaDetalleComponent
   }
 
   private _inicializarFormulario(contactoId: string) {
-    this.filtrosPermanentesNotaCredito = [
-      {
-        propiedad: 'contacto_id',
-        valor1: contactoId,
-      },
-      {
-        propiedad: 'documento_tipo__documento_clase_id',
-        valor1: 300,
-      },
-      {
-        propiedad: 'estado_aprobado',
-        valor1: true,
-      },
-    ];
+    this.filtrosPermanentesNotaCredito = {
+      contacto_id: contactoId,
+      ...NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
+    };
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -373,7 +321,9 @@ export default class FacturaDetalleComponent
           .get('contactoNombre')
           ?.setValue(dato.nombre_corto);
       }
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_proveedor_id);
+      this.formularioFactura
+        .get('plazo_pago')
+        ?.setValue(dato.plazo_pago_proveedor_id);
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_proveedor__dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
