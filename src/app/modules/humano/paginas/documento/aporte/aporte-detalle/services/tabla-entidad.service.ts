@@ -1,22 +1,16 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { GeneralService } from '@comun/services/general.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { RespuestaAporteEntidad } from '@modulos/humano/interfaces/respuesta-aporte-entidad.interface';
 import { tap } from 'rxjs';
+import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TablaEntidadService {
   private readonly _generalService = inject(GeneralService);
-  private readonly _parametrosConsulta = signal<ParametrosFiltros>({
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'HumAporteDetalle',
-    filtros: [],
+  private readonly _parametrosConsulta = signal<ParametrosApi>({
+    limit: 50,
   });
 
   public cantidadRegistros = signal(0);
@@ -43,7 +37,7 @@ export class TablaEntidadService {
         id: item.id,
         tipo: item.tipo,
         entidad_id: item.entidad_id,
-        entidad_nombre: item.entidad_nombre,
+        entidad__nombre: item.entidad__nombre,
         cotizacion: item.cotizacion,
       });
 
@@ -55,14 +49,15 @@ export class TablaEntidadService {
 
   public consultarListaEntidades() {
     return this._generalService
-      .consultarDatosAutoCompletar<RespuestaAporteEntidad>(
+      .consultaApi<RespuestaApi<RespuestaAporteEntidad>>(
+        'humano/aporte_entidad',
         this._parametrosConsulta()
       )
       .pipe(
         tap((respuesta) => {
-          this.cantidadRegistros.set(respuesta.cantidad_registros);
-          this.aporteEntidadLista.set(respuesta.registros);
-          const registrosAgrupados = this._groupByTipo(respuesta.registros);
+          this.cantidadRegistros.set(respuesta.count);
+          this.aporteEntidadLista.set(respuesta.results);
+          const registrosAgrupados = this._groupByTipo(respuesta.results);
           this.aporteEntidadListaAgrupada.set(registrosAgrupados);
           this.totalGeneral.set(this.getTotalGeneral());
         })
@@ -78,43 +73,23 @@ export class TablaEntidadService {
 
   public inicializarParametros(detalleId: number) {
     this._parametrosConsulta.set({
-      limite: 50,
-      desplazar: 0,
-      ordenamientos: ['tipo'],
-      limite_conteo: 0,
-      modelo: 'HumAporteEntidad',
-      filtros: [
-        {
-          propiedad: 'aporte_id',
-          operador: 'exact',
-          valor1: detalleId,
-        },
-      ],
+      limit: 50,
+      ordering: 'tipo',
+      aporte_id: detalleId,
     });
   }
 
-  public actualizarFiltrosParametros(filtros: Filtros[]) {
+  public actualizarFiltrosParametros(filtros: ParametrosApi) {
     this._parametrosConsulta.update((parametros) => ({
       ...parametros,
-      filtros: [...parametros.filtros, ...filtros],
+      ...filtros,
     }));
   }
 
-  public actualizarPaginacion(data: {
-    desplazamiento: number;
-    limite: number;
-  }) {
+  public actualizarPaginacion(page: number) {
     this._parametrosConsulta.update((parametros) => ({
       ...parametros,
-      limite: data.desplazamiento,
-      desplazar: data.limite,
-    }));
-  }
-
-  public cambiarDesplazamiento(desplazamiento: number) {
-    this._parametrosConsulta.update((parametros) => ({
-      ...parametros,
-      desplazar: desplazamiento,
+      page: page,
     }));
   }
 
