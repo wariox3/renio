@@ -72,13 +72,16 @@
             </span>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
+                [consultarUrl]="'general/contacto/'"
+                [tituloModal]="'contacto'"
                 [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
                 [campoLista]="campoListaContacto"
-                [filtrosPermanentes]="filtrosPermanentes"
+                [campoFiltros]="campoListaContacto"
+                [filtrosPermanentes]="filtrosPermanentesContacto"
               >
               </app-comun-buscar-avanzado>
             </button>
