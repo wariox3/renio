@@ -4,7 +4,7 @@
       <img
         [src]="base64 !== '' ? base64 : recibirImagen"
         alt=""
-        class="image-input-wrapper w-160px h-160px cursor-pointer"
+        [ngClass]="{'image-input-wrapper': true, 'cursor-pointer': true}" [ngStyle]="{'width': width, 'height': height}"
         style="user-select: none"
         (click)="fileInput.click()"
       />
