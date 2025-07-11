@@ -29,3 +29,8 @@ export const CONTACTO_LISTA_BUSCAR_AVANZADO: FilterField[] = [
 export const CONTACTO_FILTRO_PERMANENTE_CLIENTE: Record<string, any> = {
   cliente: 'True',
 };
+
+export const CONTACTO_FILTRO_PERMANENTE_PROVEEDOR: Record<string, any> = {
+  proveedor: 'True',
+};
+
