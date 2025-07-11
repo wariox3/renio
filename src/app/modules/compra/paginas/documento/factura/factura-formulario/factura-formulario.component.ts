@@ -21,13 +21,17 @@ import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompl
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import {
   ContactoFacturaZip,
   RespuestaFacturaCompraZip,
 } from '@modulos/compra/interfaces/factura-formulario.interface';
+import {
+  CONTACTO_FILTRO_PERMANENTE_CLIENTE,
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -39,13 +43,11 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
 import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { ImportarDetallesComponent } from '../../../../../../comun/componentes/importar-detalles/importar-detalles.component';
 import { ImportarPersonalizadoComponent } from '../../../../../../comun/componentes/importar-personalizado/importar-personalizado.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../factura-cuenta/factura-cuenta.component';
 import { FacturaInformacionExtraComponent } from '../factura-informacion-extra/factura-informacion-extra.component';
-import { AgregarDetallesDocumentoComponent } from '../../../../../../comun/componentes/agregar-detalles-documento/agregar-detalles-documento.component';
-import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
-import { ImportarDetallesComponent } from "../../../../../../comun/componentes/importar-detalles/importar-detalles.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -72,9 +74,8 @@ import { ImportarDetallesComponent } from "../../../../../../comun/componentes/i
     FacturaCuentaComponent,
     SeleccionarGrupoComponent,
     SeleccionarAlmacenComponent,
-    AgregarDetallesDocumentoComponent,
-    ImportarDetallesComponent
-],
+    ImportarDetallesComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -104,30 +105,8 @@ export default class FacturaDetalleComponent
   visualizarCampoDocumentoReferencia = false;
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
-
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-  public filtrosPermanentes = [
-    {
-      propiedad: 'proveedor',
-      valor1: 'True',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
 
   constructor(
     private httpService: HttpService,
@@ -513,7 +492,6 @@ export default class FacturaDetalleComponent
       size: 'xl',
     });
   }
-
 
   consultarDetalle() {
     // Notificar a través del servicio que se debe actualizar el documento

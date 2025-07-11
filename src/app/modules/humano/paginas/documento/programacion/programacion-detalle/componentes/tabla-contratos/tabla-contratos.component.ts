@@ -28,7 +28,7 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { FiltroComponent } from '../../../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
-import { PaginadorComponent } from "../../../../../../../../comun/componentes/ui/tabla/paginador/paginador.component";
+import { PaginadorComponent } from '../../../../../../../../comun/componentes/ui/tabla/paginador/paginador.component';
 import { TablaEncabezadoCesantiaComponent } from './componentes/tabla-encabezado-cesantia/tabla-encabezado-cesantia.component.component';
 import { TablaEncabezadoGeneralComponent } from './componentes/tabla-encabezado-general/tabla-encabezado-general.component';
 import { TablaEncabezadoPrimaComponent } from './componentes/tabla-encabezado-prima/tabla-encabezado-prima.component';
@@ -46,8 +46,8 @@ import { TablaContratosService } from './services/tabla-contratos.service';
     TablaEncabezadoGeneralComponent,
     TablaEncabezadoCesantiaComponent,
     FiltroComponent,
-    PaginadorComponent
-],
+    PaginadorComponent,
+  ],
   templateUrl: './tabla-contratos.component.html',
   styleUrl: './tabla-contratos.component.scss',
 })
@@ -184,19 +184,10 @@ export class TablaContratosComponent extends General implements OnInit {
   }
 
   descargarExcelDetalle() {
-    const modelo = 'HumProgramacionDetalle';
-    const params = {
-      modelo,
-      serializador: 'Excel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          operador: 'exact',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 10000,
+    const params: ParametrosApi = {
+      serializador: 'informe_programacion_detalle',
+      excel_informe: 'True',
+      programacion_id: this.programacion.id,
     };
     let filtroDetalleContratos = localStorage.getItem(`documento_programacion`);
     if (filtroDetalleContratos !== null) {
@@ -206,45 +197,32 @@ export class TablaContratosComponent extends General implements OnInit {
       //   filtros: [...arrParametrosConsulta.filtros, ...filtroPermanente],
       // }));
     }
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this._descargarArchivosService.exportarExcel(
+      'humano/programacion_detalle',
+      params,
+    );
     this.dropdown.close();
   }
 
   descargarExcelNomina() {
-    const modelo = 'GenDocumento';
-    const params = {
-      modelo,
-      serializador: 'NominaExcel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'programacion_detalle__programacion_id',
-          operador: 'exact',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 10000,
+    const params: ParametrosApi = {
+      serializador: 'informe_nomina',
+      excel_informe: 'True',
+      programacion_detalle__programacion_id: this.programacion.id,
     };
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+
+    this._descargarArchivosService.exportarExcel('general/documento', params);
     this.dropdown.close();
   }
 
   descargarExcelNominaDetalle() {
-    const modelo = 'GenDocumentoDetalle';
-    const params = {
-      modelo,
-      serializador: 'NominaExcel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'documento__programacion_detalle__programacion_id',
-          operador: 'exact',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 10000,
+    const params: ParametrosApi = {
+      serializador: 'informe_nomina_detalle',
+      excel_informe: 'True',
+      documento__programacion_detalle__programacion_id: this.programacion.id,
     };
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+
+    this._descargarArchivosService.exportarExcel('general/documento_detalle', params);
     this.dropdown.close();
   }
 

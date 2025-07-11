@@ -20,6 +20,7 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import ContactoFormularioComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -67,37 +68,8 @@ export default class PedidoClienteFormularioComponent
   formularioPedido: FormGroup;
   clientes = signal<RegistroAutocompletarGenContacto[]>([]);
   public _modulo: string;
-
-  public camposBuscarAvanzado = [
-    'id',
-    'identificacion_abreviatura',
-    'numero_identificacion',
-    'nombre_corto',
-  ];
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-
-  public filtrosPermanentes = [
-    {
-      propiedad: 'cliente',
-      valor1: 'True',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
 
   ngOnInit() {
     this.initFormualrio();

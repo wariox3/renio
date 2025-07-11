@@ -91,4 +91,13 @@ export const documentoHumProgramacion: MapeoDocumento[] = [
     visibleFiltro: true,
     ordenable: false,
   },
+  {
+    nombre: 'ESTADO_GENERADO',
+    toolTip: 'ESTADO_GENERADO',
+    nombreAbreviado: 'ESTADO_GENERADO_ABREVIATURA',
+    campoTipo: 'Booleano',
+    visibleTabla: true,
+    visibleFiltro: true,
+    ordenable: false,
+  },
 ];

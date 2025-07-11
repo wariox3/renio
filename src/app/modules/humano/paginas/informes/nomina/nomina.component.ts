@@ -1,15 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
+import { FiltroComponent } from '@comun/componentes/ui/tabla/filtro/filtro.component';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { NominaInforme } from '@modulos/compra/interfaces/nomina-informe.interface';
+import { NOMINA_INFORME_FILTERS } from '@modulos/humano/domain/mapeo/nomina-informe.mapeo';
 
 @Component({
   selector: 'app-nomina',
@@ -19,30 +26,26 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     CardComponent,
     TablaComponent,
     TranslateModule,
-    BaseFiltroComponent,
+    FiltroComponent,
   ],
   templateUrl: './nomina.component.html',
 })
 export class NominaComponent extends General implements OnInit {
+  private _filterTransformService = inject(FilterTransformerService);
   private _descargarArchivosService = inject(DescargarArchivosService);
+  public CAMPOS_FILTRO = NOMINA_INFORME_FILTERS;
   arrDocumentos: any = [];
-  cantidad_registros!: number;
-  filtroPermanente = [
-    {
-      propiedad: 'documento_tipo__documento_clase_id',
-      valor1: 701,
-    },
-  ];
-  arrParametrosConsulta: ParametrosFiltros = {
-    modelo: 'GenDocumento',
-    serializador: 'Nomina',
-    filtros: this.filtroPermanente,
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 10000,
-    documento_clase_id: 701,
+  cantidadRegistros = signal<number>(0);
+  parametrosApiPermanente: ParametrosApi = {
+    documento_tipo__documento_clase_id: 701,
+    serializador: 'nomina',
+    limit: 50,
   };
+
+  parametrosApi: ParametrosApi = {
+    ...this.parametrosApiPermanente,
+  };
+
   private readonly _generalService = inject(GeneralService);
 
   constructor() {
@@ -50,84 +53,54 @@ export class NominaComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['humano_nomina'] })
-      );
-      this.consultarLista();
-    });
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: documentos['humano_nomina'] }),
+    );
+    this.consultarLista();
     this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
     this._generalService
-      .consultarDatosLista<any>(this.arrParametrosConsulta)
+      .consultaApi<
+        RespuestaApi<NominaInforme>
+      >('general/documento/', this.parametrosApi)
       .subscribe((respuesta) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrDocumentos = respuesta.registros.map((documento: any) => ({
-          id: documento.id,
-          numero: documento.numero,
-          fecha: documento.fecha,
-          fecha_hasta: documento.fecha_hasta,
-          contacto_id: documento.contacto_id,
-          contacto_numero_identificacion:
-            documento.contacto_numero_identificacion,
-          contacto_nombre_corto: documento.contacto_nombre_corto,
-          salario: documento.salario,
-          devengado: documento.devengado,
-          deduccion: documento.deduccion,
-          total: documento.total,
-          estado_aprobado: documento.estado_aprobado,
-          estado_anulado: documento.estado_anulado,
-        }));
+        this.cantidadRegistros.set(respuesta.count);
+        this.arrDocumentos = respuesta.results;
         this.changeDetectorRef.detectChanges();
       });
   }
 
-  obtenerFiltros(arrFiltrosExtra: any) {
-    if (arrFiltrosExtra !== null) {
-      if (arrFiltrosExtra.length >= 1) {
-        this.arrParametrosConsulta.filtros = [
-          ...this.filtroPermanente,
-          ...arrFiltrosExtra,
-        ];
-      } else {
-        this.arrParametrosConsulta.filtros = this.filtroPermanente;
-      }
-    }
-    this.consultarLista();
-  }
+  obtenerFiltros(filtros: FilterCondition[]) {
+    const apiParams =
+      this._filterTransformService.transformToApiParams(filtros);
 
-  cambiarOrdemiento(ordenamiento: string) {
-    (this.arrParametrosConsulta.ordenamientos[0] = ordenamiento),
-      this.consultarLista();
+    this.parametrosApi = {
+      ...this.parametrosApiPermanente,
+      ...apiParams,
+    };
+
+    this.consultarLista();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.arrParametrosConsulta.limite = data.desplazamiento;
-    this.arrParametrosConsulta.desplazar = data.limite;
-    this.consultarLista();
-  }
+    this.parametrosApi = {
+      ...this.parametrosApi,
+      page: data.desplazamiento,
+    };
 
-  cambiarDesplazamiento(desplazamiento: number) {
-    this.arrParametrosConsulta.desplazar = desplazamiento;
     this.consultarLista();
   }
 
   descargarExcel() {
-    const params = {
-      modelo: 'GenDocumento',
-      serializador: 'NominaExcel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'documento_tipo__documento_clase_id',
-          valor1: 701,
-        },
-      ],
+    const params: ParametrosApi = {
+      ...this.parametrosApi,
+      serializador: 'informe_nomina',
+      excel_informe: 'True',
     };
 
-    this._descargarArchivosService.descargarExcelDocumentos(params);
+    this._descargarArchivosService.exportarExcel('general/documento', params);
     this.changeDetectorRef.detectChanges();
   }
 }

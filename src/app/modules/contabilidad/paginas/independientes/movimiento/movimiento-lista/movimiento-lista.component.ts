@@ -33,7 +33,8 @@ import { MOVIMIENTO_FILTERS } from '@modulos/contabilidad/domain/mapeos/movimien
 export class MovimientoListaComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  filtroPermanente = [];
+  parametrosApiPermanente: ParametrosApi = {};
+  parametrosApi: ParametrosApi = {};
   private _generalService = inject(GeneralService);
   private _filterTransformerService = inject(FilterTransformerService);
 
@@ -44,18 +45,16 @@ export class MovimientoListaComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['ConMovimiento'] }),
-      );
-      this.consultarLista();
-    });
+    this.store.dispatch(
+      ActualizarMapeo({ dataMapeo: documentos['ConMovimiento'] }),
+    );
+    this.consultarLista();
     this.changeDetectorRef.detectChanges();
   }
 
-  consultarLista(parametros?: ParametrosApi) {
+  consultarLista() {
     this._generalService
-      .consultaApi<RespuestaApi<any>>('contabilidad/movimiento/', parametros)
+      .consultaApi<RespuestaApi<any>>('contabilidad/movimiento/', this.parametrosApi)
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.count;
         this.arrDocumentos = respuesta.results.map((documento) => ({
@@ -78,24 +77,31 @@ export class MovimientoListaComponent extends General implements OnInit {
     const parametros =
       this._filterTransformerService.transformToApiParams(filtros);
 
-    this.consultarLista(parametros);
+    this.parametrosApi = {
+      ...this.parametrosApiPermanente,
+      ...parametros,
+    };
+
+    this.consultarLista();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.consultarLista({
+    this.parametrosApi = {
+      ...this.parametrosApi,
       page: data.desplazamiento,
-    });
+    };
+
+    this.consultarLista();
   }
 
   descargarExcel() {
-    this.descargarArchivosService.descargarExcelDocumentos({
-      filtros: [],
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'ConMovimiento',
-      limite: this.cantidad_registros,
-      excel: true,
-    });
+    const params: ParametrosApi = {
+      ...this.parametrosApi,
+      serializador: 'informe_movimiento',
+      excel_informe: 'True',
+    };
+
+    this.descargarArchivosService.exportarExcel('contabilidad/movimiento', params);
+    this.changeDetectorRef.detectChanges();
   }
 }

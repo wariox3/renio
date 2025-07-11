@@ -13,7 +13,7 @@ export class LiquidacionService extends Subdominio {
 
   getLiquidacionPorId(id: number) {
     return this.httpService.getDetalle<Liquidacion>(
-      `humano/liquidacion/${id}/`,
+      `humano/liquidacion/${id}/?serializador=detalle`,
     );
   }
 

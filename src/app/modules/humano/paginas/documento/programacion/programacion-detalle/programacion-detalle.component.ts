@@ -944,23 +944,15 @@ export default class ProgramacionDetalleComponent
   }
 
   descargarExcelDetalle() {
-    const modelo = 'HumProgramacionDetalle';
-    const params = {
-      modelo,
+    const params: ParametrosApi = {
       serializador: 'Excel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'programacion_id',
-          operador: 'exact',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 10000,
+      excel_informe: 'True',
+      programacion_id: this.programacion.id,
     };
-    const filtroDetalleContratos = localStorage.getItem(
-      `documento_programacion`,
-    );
+    
+    // const filtroDetalleContratos = localStorage.getItem(
+    //   `documento_programacion`,
+    // );
 
     // TODO: Ajustar a nueva implementacion
     // if (filtroDetalleContratos !== null) {
@@ -971,7 +963,7 @@ export default class ProgramacionDetalleComponent
     //   ];
     // }
 
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this._descargarArchivosService.exportarExcel('humano/programacion_detalle', params);
     this.dropdown.close();
     this.changeDetectorRef.detectChanges();
   }

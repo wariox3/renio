@@ -7,16 +7,18 @@ import {
   ViewChild,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { PaginadorComponent } from '../../../../../comun/componentes/paginador/paginador.component';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ExistenciaService } from './services/existencia.service';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { TablaComponent } from '../../../../../comun/componentes/tabla/tabla.component';
+import { ExistenciaService } from './services/existencia.service';
+import { FiltroComponent } from "@comun/componentes/ui/tabla/filtro/filtro.component";
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -28,12 +30,14 @@ import { TablaComponent } from '../../../../../comun/componentes/tabla/tabla.com
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    BaseFiltroComponent,
     TablaComponent,
-  ],
+    FiltroComponent
+],
 })
 export default class ExistenciaComponent extends General implements OnInit {
   private readonly _existenciaService = inject(ExistenciaService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
+  private readonly _descargarArchivosService = inject(DescargarArchivosService);
 
   public itemsLista = this._existenciaService.contabilizarLista;
   public cantidadRegistros = this._existenciaService.cantidadRegistros;
@@ -55,23 +59,27 @@ export default class ExistenciaComponent extends General implements OnInit {
     this._existenciaService.consultarListaContabilizar().subscribe();
   }
 
-  obtenerFiltros(filtros: Filtros[]) {
-    this._existenciaService.aplicarFiltros(filtros);
+  obtenerFiltros(filtros: FilterCondition[]) {
+    const parametros = this._filterTransformerService.transformToApiParams(filtros);
+    this._existenciaService.aplicarFiltros(parametros);
     this.consultarLista();
   }
 
-  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this._existenciaService.actualizarPaginacion(data);
+  cambiarPaginacion(page: number) {
+    this._existenciaService.actualizarPaginacion(page);
     this.consultarLista();
   }
 
-  cambiarDesplazamiento(desplazamiento: number) {
-    this._existenciaService.cambiarDesplazamiento(desplazamiento);
-    this.consultarLista();
-  }
+  descargarExcel() {
+    const parametros: ParametrosApi = {
+      ...this._existenciaService.getParametrosConsular,
+      serializador: 'informe_existencia',
+      excel_informe: 'True',
+    }
 
-  cambiarOrdemiento(ordenamiento: string) {
-    this._existenciaService.actualizarOrdenamiento(ordenamiento)
-    this.consultarLista();
+    this._descargarArchivosService.exportarExcel(
+      'general/item',
+      parametros,
+    );
   }
 }

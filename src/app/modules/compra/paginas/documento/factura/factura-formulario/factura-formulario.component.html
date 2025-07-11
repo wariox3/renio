@@ -20,7 +20,7 @@
               >
                 Importar zip
               </button>
-            </section>  
+            </section>
           </app-importar-detalles>
         </div>
       }
@@ -116,12 +116,15 @@
             </span>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
+                [consultarUrl]="'general/contacto/'"
+                [tituloModal]="'contacto'"
                 [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
                 [campoLista]="campoListaContacto"
+                [campoFiltros]="campoListaContacto"
                 [filtrosPermanentes]="filtrosPermanentes"
               >
               </app-comun-buscar-avanzado>

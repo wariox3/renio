@@ -32,6 +32,7 @@ import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/f
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { DocumentoSoporteInformacionExtraComponent } from '../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -84,29 +85,8 @@ export default class FacturaDetalleComponent
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-  public filtrosPermanentes = [
-    {
-      propiedad: 'proveedor',
-      valor1: 'True',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentesContacto = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
 
   constructor(
     private httpService: HttpService,

@@ -9,6 +9,7 @@ import { ADICIONAL_FILTERS } from '../mapeo/adicional.mapeo';
 import { CREDITO_FILTERS } from '../mapeo/credito.mapeo';
 import { NOVEDAD_FILTERS } from '../mapeo/novedad.mapeo';
 import { LIQUIDACION_FILTERS } from '../mapeo/liquidacion.mapeo';
+import { SEGURIDAD_SOCIAL_FILTERS } from '../mapeo/seguridad-social.mapeo';
 
 const DocLista = 'humano/documento/lista';
 const DocNuevo = 'humano/documento/nuevo';
@@ -71,6 +72,9 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             },
             parametrosHttpConfig: {
               modelo: 'HumAporte',
+              filtros: {
+                ui: SEGURIDAD_SOCIAL_FILTERS,
+              },
             },
             ui: {
               verBotonEliminar: true,
