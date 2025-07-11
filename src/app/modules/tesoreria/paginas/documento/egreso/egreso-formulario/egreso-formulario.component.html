@@ -56,6 +56,7 @@
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
               <ng-template #content let-modal>
                 <div class="modal-body">
+
                   <app-contacto-formulario
                     [ocultarBtnAtras]="true"
                     (emitirGuardoRegistro)="cerrarModal($event)"
@@ -66,12 +67,15 @@
             </span>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
+                [consultarUrl]="'general/contacto/'"
+                [tituloModal]="'contacto'"
                 [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
-                [campoLista]="campoLista"
+                [campoLista]="campoListaContacto"
+                [campoFiltros]="campoListaContacto"
               >
               </app-comun-buscar-avanzado>
             </button>

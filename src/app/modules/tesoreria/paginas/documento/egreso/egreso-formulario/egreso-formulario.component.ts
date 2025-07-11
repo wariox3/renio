@@ -42,6 +42,7 @@ import {
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { EgresoDocumentoAdicionar } from '@modulos/tesoreria/interfaces/egreso.interface';
+import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 
 @Component({
   selector: 'app-egreso-formulario',
@@ -98,23 +99,7 @@ export default class EgresoFormularioComponent
   };
 
   public mostrarTodasCuentasPorPagar: boolean = false;
-  public campoLista: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   private _generalService = inject(GeneralService);
 
   constructor(
