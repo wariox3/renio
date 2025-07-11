@@ -42,6 +42,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { FiltroComponent } from '../../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -74,7 +75,9 @@ export default class PagoFormularioComponent
   private _configModuleService = inject(ConfigModuleService);
   private _cuentaBancoSerive = inject(CuentaBancoService);
   private _filterTransformerService = inject(FilterTransformerService);
-
+  private _destroy$ = new Subject<void>();
+  private _rutas: Rutas | undefined;
+  private readonly _generalService = inject(GeneralService);
 
   CUENTAS_COBRAR_FILTERS = CUENTAS_COBRAR_FILTERS;
   formularioFactura: FormGroup;
@@ -101,28 +104,7 @@ export default class PagoFormularioComponent
     pendiente__gt: 0,
   };
 
-  private _destroy$ = new Subject<void>();
-  private _rutas: Rutas | undefined;
-
-  public campoLista: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-
-  private readonly _generalService = inject(GeneralService);
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
 
   constructor(
     private formBuilder: FormBuilder,
