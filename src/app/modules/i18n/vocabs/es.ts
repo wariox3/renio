@@ -910,6 +910,7 @@ export const locale = {
         TOTAL: 'Total',
         NETO: 'Neto',
         ESTADO_APROBADO_ABREVIATURA: 'Apr',
+        ESTADO_GENERADO_ABREVIATURA: 'Gen',
         ESTADO_ANULADO_ABREVIATURA: 'Anu',
         ESTADO_ELECTRONICO_ABREVIATURA: 'Ele',
         ESTADO_CONTABILIZADO_ABREVIATURA: 'Con',
