@@ -352,7 +352,7 @@
                       </button>
                       <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                         <button
-                          (click)="descargarExcelDetalle()"
+                          (click)="descargarExcelContrato()"
                           ngbDropdownItem
                         >
                           {{
@@ -414,7 +414,6 @@
                         <div>Nombre</div>
                       </th>
                       <th
-                        (click)="orderPor('contrato_id', 0)"
                         [ngClass]="{ 'cursor-pointer user-select-none': true }"
                         class="bg-gray-100"
                       >
@@ -450,7 +449,6 @@
                         </div>
                       </th>
                       <th
-                        (click)="orderPor('fecha_desde', 0)"
                         [ngClass]="{ 'cursor-pointer user-select-none': true }"
                         class="bg-gray-100"
                       >
@@ -480,7 +478,6 @@
                         </div>
                       </th>
                       <th
-                        (click)="orderPor('fecha_hasta', 0)"
                         [ngClass]="{ 'cursor-pointer user-select-none': true }"
                         class="bg-gray-100"
                       >

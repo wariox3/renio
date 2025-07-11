@@ -95,16 +95,13 @@ export class TableDetallesComponent extends General {
   }
 
   descargarExcelDetalle() {
-    const modelo = 'HumAporteDetalle';
     const params = {
-      modelo,
-      serializador: 'Excel',
-      excel: true,
-      limite: 10000,
-      // filtros: [...this.arrParametrosConsulta().filtros],
+      ...this.parametrosApi(),
+      serializador: 'informe_aporte_detalle',
+      excel_informe: 'True',
     };
 
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this._descargarArchivosService.exportarExcel('humano/aporte_detalle', params);
     this.dropdown.close();
   }
 

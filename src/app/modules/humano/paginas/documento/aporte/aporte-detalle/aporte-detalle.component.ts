@@ -37,8 +37,11 @@ import { TableDetallesComponent } from './componentes/table-detalles/table-detal
 import { TableEntidadComponent } from './componentes/table-entidad/table-entidad.component';
 import { FiltrosDetalleAporteContratos } from './constantes';
 import { TablaEntidadService } from './services/tabla-entidad.service';
-import { PaginadorComponent } from "@comun/componentes/ui/tabla/paginador/paginador.component";
-import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -60,8 +63,8 @@ import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
     TableEntidadComponent,
     FiltroComponent,
     TableDetallesComponent,
-    PaginadorComponent
-],
+    PaginadorComponent,
+  ],
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
 })
@@ -119,7 +122,7 @@ export default class AporteDetalleComponent
   registroSeleccionado: number;
   registroAdicionalSeleccionado: number;
   formularioAporteContrato: FormGroup;
-  parametrosConsultaContratos: any = {};
+  parametrosConsultaContratos: ParametrosApi = {};
   cantidadRegistros = signal(0);
 
   // Nos permite manipular el dropdown desde el codigo
@@ -147,20 +150,11 @@ export default class AporteDetalleComponent
   }
 
   inicializarParametrosConsulta() {
-    // this.parametrosConsultaContratos = {
-    //   filtros: [
-    //     {
-    //       propiedad: 'aporte_id',
-    //       valor1: this.detalle,
-    //     },
-    //   ],
-    //   limite: 1000,
-    //   desplazar: 0,
-    //   ordenamientos: ['contrato_id'],
-    //   limite_conteo: 10000,
-    //   modelo: 'HumAporteContrato',
-    // };
-    //this.changeDetectorRef.detectChanges();
+    this.parametrosConsultaContratos = {
+      aporte_id: this.detalle,
+      limit: 1000,
+      ordering: 'contrato_id',
+    };
   }
 
   consultarDatosDetalle() {
@@ -279,7 +273,7 @@ export default class AporteDetalleComponent
     this._generalService
       .consultaApi<RespuestaApi<any>>('humano/aporte_contrato/', {
         aporte_id: this.detalle,
-        ...filtros
+        ...filtros,
       })
       .subscribe((respuesta) => {
         this.cantidadRegistros.set(respuesta.count);
@@ -298,17 +292,17 @@ export default class AporteDetalleComponent
       });
   }
 
-  descargarExcelDetalle() {
-    const modelo = 'HumAporteContrato';
+  descargarExcelContrato() {
     const params = {
-      modelo,
-      serializador: 'Excel',
-      excel: true,
-      limite: 10000,
-      filtros: [...this.parametrosConsultaContratos.filtros],
+      ...this.parametrosConsultaContratos,
+      serializador: 'informe_aporte_contrato',
+      excel_informe: 'True',
     };
 
-    this.descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this.descargarArchivosService.exportarExcel(
+      'humano/aporte_contrato',
+      params,
+    );
     this.dropdown.close();
     this.changeDetectorRef.detectChanges();
   }
@@ -358,17 +352,6 @@ export default class AporteDetalleComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  orderPor(nombre: string, i: number) {
-    if (this.ordenadoTabla.charAt(0) == '-') {
-      this.ordenadoTabla = nombre.toLowerCase();
-    } else {
-      this.ordenadoTabla = `-${nombre.toLowerCase()}`;
-    }
-    this.parametrosConsultaContratos.ordenamientos[i] = this.ordenadoTabla;
-    this.consultarDatos();
-    this.changeDetectorRef.detectChanges();
-  }
-
   toggleSelectAll(event: Event) {
     const seleccionarTodos = event.target as HTMLInputElement;
     this.isCheckedSeleccionarTodos = !this.isCheckedSeleccionarTodos;
@@ -406,24 +389,6 @@ export default class AporteDetalleComponent
     } else {
       // Si el registro no está en el array, lo agrega
       this.registrosAEliminar.push(id);
-    }
-  }
-
-  obtenerFiltros(data: any[]) {
-    this.inicializarParametrosConsulta();
-    if (data.length > 0) {
-      this.parametrosConsultaContratos.filtros = [
-        ...this.parametrosConsultaContratos.filtros,
-        ...data,
-      ];
-    } else {
-      this.inicializarParametrosConsulta();
-    }
-    this.consultarDatos();
-
-    if (this.tableDetallesComponent) {
-      this.tableDetallesComponent.inicializarParametrosConsulta();
-      this.tableDetallesComponent.consultarDatos();
     }
   }
 

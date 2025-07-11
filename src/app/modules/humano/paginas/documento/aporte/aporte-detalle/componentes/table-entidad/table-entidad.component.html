@@ -1,9 +1,8 @@
 <div class="d-flex justify-content-between my-4">
-  <app-comun-paginador
-    [cantidadRegistros]="cantidadRegistros()"
-    (emitirDesplazamiento)="cambiarDesplazamiento($event)"
-    (emitirPaginacion)="cambiarPaginacion($event)"
-  ></app-comun-paginador>
+  <app-paginador
+    [totalItems]="cantidadRegistros()"
+    (pageChange)="cambiarPaginacion($event)"
+  ></app-paginador>
   <div class="btn-group contenedor-btn-group" role="group">
     <div class="btn-group" ngbDropdown #OpcionesDropdown="ngbDropdown">
       <button
@@ -43,7 +42,7 @@
           {{ entidad.tipo }}
         </td>
         <td>
-          {{ entidad.entidad_nombre }}
+          {{ entidad.entidad__nombre }}
         </td>
         <td class="text-end">
           {{ entidad.cotizacion | number }}
