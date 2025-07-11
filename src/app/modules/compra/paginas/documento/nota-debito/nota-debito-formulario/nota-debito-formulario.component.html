@@ -72,13 +72,16 @@
             </span>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
+                [consultarUrl]="'general/contacto/'"
+                [tituloModal]="'contacto'"
                 [consultarModelo]="'GenContacto'"
                 [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
                 [campoLista]="campoListaContacto"
-                [filtrosPermanentes]="filtrosPermanentes"
+                [campoFiltros]="campoListaContacto"
+                [filtrosPermanentes]="filtrosPermanentesContacto"
               >
               </app-comun-buscar-avanzado>
             </button>
@@ -201,7 +204,9 @@
             aria-labelledby="dropdownBasic1"
             class="dropdown-menu"
           >
-            <ng-container *ngFor="let referencia of arrMovimientosDocumentosReferencia()">
+            <ng-container
+              *ngFor="let referencia of arrMovimientosDocumentosReferencia()"
+            >
               <button
                 type="button"
                 ngbDropdownItem
@@ -215,13 +220,16 @@
             <div class="dropdown-divider"></div>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
+                [consultarUrl]="'general/documento/'"
+                [tituloModal]="'documento'"
                 [consultarModelo]="'GenDocumento'"
                 [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
                 "
-                [filtrosPermanentes]="filtrosPermanentesNotaCredito"
+                [filtrosPermanentes]="filtrosPermanentesNotaDebito"
                 [campoLista]="campoListaDocReferencia"
+                [campoFiltros]="campoListaDocReferencia"
               >
               </app-comun-buscar-avanzado>
             </button>
