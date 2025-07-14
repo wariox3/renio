@@ -12,13 +12,18 @@
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
+      <app-comun-btn-anular
+      [btnDisable]="!nominaElectronica.estado_aprobado || nominaElectronica.estado_anulado"
+      (emitirAnular)="anular()"
+    ></app-comun-btn-anular>
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="emitir()"
         [disabled]="
           !nominaElectronica.estado_aprobado ||
-          nominaElectronica.estado_electronico_enviado
+          nominaElectronica.estado_electronico_enviado ||
+          nominaElectronica.estado_anulado
         "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EMITIR" | translate }}
