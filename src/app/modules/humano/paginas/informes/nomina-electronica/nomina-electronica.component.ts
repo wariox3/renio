@@ -6,7 +6,7 @@ import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
-import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface.';
+import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import {
