@@ -2,7 +2,7 @@
   <section card-body>
     <form class="row g-4" [formGroup]="formularioFiltros">
       <div class="col-12 col-md-6 col-lg-3">
-        <label class="form-label fw-semibold">Fecha desde</label>
+        <label class="form-label fw-semibold">Fecha hasta</label>
         <input
           type="date"
           class="form-control"
@@ -58,10 +58,10 @@
         <thead>
           <tr class="text-gray-800 bg-gray-100">
             <th class="text-center">Id</th>
+            <th class="text-center">Tipo</th>
             <th class="text-center">Número</th>
             <th class="text-center">Fecha</th>
             <th class="text-center">Vence</th>
-            <th class="text-center">Documento</th>
             <th class="text-center">Identificación</th>
             <th class="text-center">Contacto</th>
             <th class="text-center">Subtotal</th>
@@ -74,10 +74,10 @@
           @for (cuenta of cuentas(); track $index) {
             <tr>
               <td>{{ cuenta.id }}</td>
+              <td>{{ cuenta.documento_tipo__nombre }}</td>
               <td>{{ cuenta.numero }}</td>
               <td>{{ cuenta.fecha }}</td>
               <td>{{ cuenta.fecha_vence }}</td>
-              <td>{{ cuenta.documento_tipo__nombre }}</td>
               <td>{{ cuenta.contacto__numero_identificacion }}</td>
               <td>{{ cuenta.contacto__nombre_corto }}</td>
               <td>{{ cuenta.subtotal | currency: "$" }}</td>

@@ -76,11 +76,11 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this.descargarArchivosService.exportarExcel(
+    this.descargarArchivosService.exportarExcelPersonalizado(
       'cartera/informe/pendiente-corte',
       {
-        ...this.queryParams,
-        excel_informe: 'True',
+        fecha: this.formularioFiltros.value.fecha,
+        excel: 'True',
       },
     );
   }

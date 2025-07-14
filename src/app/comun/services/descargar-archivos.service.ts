@@ -35,6 +35,16 @@ export class DescargarArchivosService {
     );
   }
 
+  exportarExcelPersonalizado(endpoint: string, queries: { [key: string]: any }) {
+    const query = this._filterTransformerService.toQueryString({
+      ...queries,
+    });
+    
+    this.httpService.descargarArchivoPorGet(
+      `${endpoint}/${query ? `?${query}` : ''}`,
+    );
+  }
+
   descargarZipDocumentos(arrParametrosConsulta: any) {
     this.httpService.descargarArchivo(
       'general/funcionalidad/lista/',
