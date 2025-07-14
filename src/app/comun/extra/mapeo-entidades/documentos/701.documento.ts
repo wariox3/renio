@@ -25,7 +25,7 @@ export const documento701: MapeoDocumento[] = [
     ordenable: true,
   },
   {
-    nombre: 'FECHA',
+    nombre: 'FECHA_DESDE',
     nombreAbreviado: 'DESDE',
     campoTipo: 'DateField',
     visibleTabla: true,
