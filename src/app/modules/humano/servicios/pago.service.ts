@@ -16,7 +16,7 @@ export class PagoService extends Subdominio {
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.get<PagoRespuesta>(`general/documento/${id}/`);
+    return this.httpService.get<PagoRespuesta>(`general/documento/${id}/detalle/`);
   }
 
   actualizarDatosProgramacion(id: number, data: any) {

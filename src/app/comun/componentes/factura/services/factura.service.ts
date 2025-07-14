@@ -14,6 +14,6 @@ export class FacturaService extends Subdominio {
   consultarDetalleFactura(id: number) {
     return this.httpService.getDetalle<{
       documento: DocumentoFacturaRespuesta;
-    }>(`general/documento/${id}/`);
+    }>(`general/documento/${id}/detalle/`);
   }
 }

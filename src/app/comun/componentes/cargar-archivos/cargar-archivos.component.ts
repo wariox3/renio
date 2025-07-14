@@ -233,7 +233,7 @@ export class CargarArchivosComponent extends General implements OnInit {
         next: () => {
           this._consultarArchivos();
           this.alertaService.mensajaExitoso(
-            'La imagen se ha cargado exitosamente!',
+            '¡El archivo se ha cargado exitosamente!',
           );
         },
       });

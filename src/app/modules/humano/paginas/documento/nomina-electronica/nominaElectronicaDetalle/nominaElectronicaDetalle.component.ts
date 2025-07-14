@@ -11,8 +11,14 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { BaseEstadosComponent } from '../../../../../../comun/componentes/base-estados/base-estados.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
-import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface.';
-import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/documento-opciones/documento-opciones.component";
+import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import {
+  NominaElectronica,
+  NominaElectronicaDetalle,
+  NominaElectronicaDetalleNomina,
+} from '@modulos/humano/interfaces/nomina-electronica.interface';
+import { NominaElectronicaTablaDetalleComponent } from "../nomina-electronica-tabla-detalle/nomina-electronica-tabla-detalle.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -25,7 +31,8 @@ import { DocumentoOpcionesComponent } from "../../../../../../comun/componentes/
     NgbNavModule,
     BaseEstadosComponent,
     TituloAccionComponent,
-    DocumentoOpcionesComponent
+    DocumentoOpcionesComponent,
+    NominaElectronicaTablaDetalleComponent
 ],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',
@@ -36,59 +43,37 @@ export default class NominaElectronicaDetalleComponent
 {
   active: Number;
 
-  nominaElectronica: NominaElectronica = {
+  nominaElectronica: NominaElectronicaDetalleNomina = {
     id: 0,
+    documento_tipo__nombre: '',
+    numero: 0,
+    fecha: '',
+    soporte: null,
     contacto_id: 0,
-    contacto_numero_identificacion: '',
-    contacto_nombre_corto: '',
-    descuento: 0,
-    base_impuesto: 0,
-    subtotal: 0,
-    afectado: 0,
-    pendiente: 0,
-    impuesto: 0,
-    total: 0,
+    contacto__numero_identificacion: '',
+    contacto__nombre_corto: '',
     devengado: 0,
     deduccion: 0,
     base_cotizacion: 0,
     base_prestacion: 0,
-    salario: 0,
-    estado_aprobado: false,
-    documento_tipo_id: 0,
-    metodo_pago_id: undefined,
-    metodo_pago_nombre: '',
-    estado_anulado: false,
-    comentario: undefined,
-    estado_electronico: false,
-    estado_electronico_enviado: false,
-    estado_electronico_notificado: false,
-    soporte: undefined,
-    orden_compra: undefined,
-    plazo_pago_id: undefined,
-    plazo_pago_nombre: '',
-    documento_referencia_id: undefined,
-    documento_referencia_numero: '',
-    electronico_id: undefined,
-    asesor: undefined,
-    asesor_nombre_corto: undefined,
-    sede: undefined,
-    sede_nombre: undefined,
-    programacion_detalle_id: undefined,
-    contrato_id: undefined,
-    detalles: [],
-    pagos: [],
-    numero: null,
+    subtotal: 0,
+    impuesto: 0,
+    total: 0,
     cue: null,
-    fecha: null,
-    fecha_hasta: null,
-    fecha_vence: null
+    estado_aprobado: false,
+    estado_anulado: false,
+    estado_electronico: false,
+    estado_electronico_evento: false,
+    estado_contabilizado: false,
+    estado_electronico_enviado: false,
   };
-  arrNominas: any[] = [];
+
+  arrNominas: NominaElectronicaDetalle[] = [];
   private _generalService = inject(GeneralService);
 
   constructor(
     private nominaElectronicaService: NominaElectronicaService,
-    private httpService: HttpService
+    private httpService: HttpService,
   ) {
     super();
   }
@@ -99,16 +84,22 @@ export default class NominaElectronicaDetalleComponent
 
   consultarDetalle() {
     zip(
-      this.nominaElectronicaService.consultarDetalle(this.detalle),
-      this._generalService.consultarDatosLista<any>({
-        filtros: [
-          { propiedad: 'documento_referencia_id', valor1: this.detalle },
-        ],
-        modelo: 'GenDocumento',
-      })
+      this._generalService.consultaApi<NominaElectronicaDetalleNomina>(
+        `general/documento/${this.detalle}/`,
+        {
+          serializador: 'detalle_nomina',
+        },
+      ),
+      this._generalService.consultaApi<RespuestaApi<NominaElectronicaDetalle>>(
+        'general/documento/',
+        {
+          documento_referencia_id: this.detalle,
+          serializador: 'lista_nomina',
+        },
+      ),
     ).subscribe((respuesta) => {
-      this.nominaElectronica = respuesta[0].documento;
-      this.arrNominas = respuesta[1].registros;      
+      this.nominaElectronica = respuesta[0];
+      this.arrNominas = respuesta[1].results;
       this.changeDetectorRef.detectChanges();
     });
   }
@@ -137,17 +128,17 @@ export default class NominaElectronicaDetalleComponent
         switchMap((respuesta) =>
           respuesta
             ? this.nominaElectronicaService.consultarDetalle(this.detalle)
-            : EMPTY
+            : EMPTY,
         ),
         tap((respuestaConsultaDetalle: any) => {
           this.nominaElectronica = respuestaConsultaDetalle.documento;
           if (respuestaConsultaDetalle) {
             this.alertaService.mensajaExitoso(
-              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO')
+              this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
             this.changeDetectorRef.detectChanges();
           }
-        })
+        }),
       )
       .subscribe();
   }

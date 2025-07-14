@@ -54,6 +54,7 @@ export class EnviarNominaElectronicaComponent
 
   filtroPermanenteEmitir: ParametrosApi = {
     estado_aprobado: 'True',
+    estado_anulado: 'False',
     estado_electronico: 'False',
     estado_electronico_descartado: 'False',
     documento_tipo_id: 15,

@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
@@ -11,11 +18,10 @@ import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { RegistroAutocompletarGenDocumento, RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
+import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
@@ -26,10 +32,19 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
+import { tap, zip } from 'rxjs';
+import {
+  ParametrosApi,
+  RespuestaApi,
+} from 'src/app/core/interfaces/api.interface';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import { FacturaCuentaComponent } from '../../factura/factura-cuenta/factura-cuenta.component';
-import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import {
+  CONTACTO_FILTRO_PERMANENTE_PROVEEDOR,
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO, NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/compra/domain/mapeos/documento-referencia.mapeo';
+
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -61,7 +76,6 @@ export default class FacturaDetalleComponent
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
-  public filtrosPermanentesNotaCredito = {};
   public modoEdicion = this._formularioFacturaService.modoEdicion;
   public acumuladorImpuesto =
     this._formularioFacturaService.acumuladorImpuestos;
@@ -74,7 +88,9 @@ export default class FacturaDetalleComponent
 
   active: Number;
   arrMovimientosClientes: any[] = [];
-  arrMovimientosDocumentosReferencia = signal<RegistroAutocompletarGenDocumentoReferencia[]>([]);
+  arrMovimientosDocumentosReferencia = signal<
+    RegistroAutocompletarGenDocumentoReferencia[]
+  >([]);
   arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
   arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
   plazo_pago_dias: any = 0;
@@ -82,67 +98,10 @@ export default class FacturaDetalleComponent
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
-  public campoListaDocReferencia: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'documento_tipo_nombre',
-      titulo: 'documento_tipo',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'numero',
-      titulo: 'numero',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'fecha',
-      titulo: 'fecha',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'contacto_numero_identificacion',
-      titulo: 'contacto_numero_identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'contacto_nombre_corto',
-      titulo: 'contacto_nombre_corto',
-      campoTipo: 'CharField',
-    },
-    {
-      propiedad: 'total',
-      titulo: 'total',
-      campoTipo: 'IntegerField',
-      aplicaFormatoNumerico: true,
-    },
-  ];
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-  public filtrosPermanentes = [
-    {
-      propiedad: 'proveedor',
-      valor1: 'True',
-    },
-  ];
+  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
+  public filtrosPermanentesContacto = CONTACTO_FILTRO_PERMANENTE_PROVEEDOR;
+  public filtrosPermanentesNotaDebito = {};
 
   constructor(
     private facturaService: FacturaService,
@@ -307,20 +266,10 @@ export default class FacturaDetalleComponent
   }
 
   private _inicializarFormulario(contactoId: string) {
-    this.filtrosPermanentesNotaCredito = [
-      {
-        propiedad: 'contacto_id',
-        valor1: contactoId,
-      },
-      {
-        propiedad: 'documento_tipo__documento_clase_id',
-        valor1: 300,
-      },
-      {
-        propiedad: 'estado_aprobado',
-        valor1: true,
-      },
-    ];
+    this.filtrosPermanentesNotaDebito = {
+      contacto_id: contactoId,
+      ...NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
+    };
   }
 
   recibirDocumentoDetalle(documento: DocumentoFacturaRespuesta) {
@@ -342,7 +291,9 @@ export default class FacturaDetalleComponent
           .get('contactoNombre')
           ?.setValue(dato.nombre_corto);
       }
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_proveedor_id);
+      this.formularioFactura
+        .get('plazo_pago')
+        ?.setValue(dato.plazo_pago_proveedor_id);
       if (dato.plazo_pago_dias > 0) {
         this.plazo_pago_dias = dato.plazo_pago_proveedor__dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;

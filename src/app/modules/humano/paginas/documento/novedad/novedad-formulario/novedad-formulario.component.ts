@@ -37,6 +37,7 @@ import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/busc
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { NOVEDAD_FILTERS_LISTA_BUSCAR_AVANZADO } from '@modulos/humano/domain/mapeo/novedad.mapeo';
 
 @Component({
   selector: 'app-novedad-formulario',
@@ -81,25 +82,9 @@ export default class CreditoFormularioComponent
   arrContratos: any[] = [];
   arrNovedadTipos: RegistroAutocompletarHumNovedadTipo[] = [];
   public novedadReferenciaLista = signal<HumNovedadLista[]>([]);
-  public filtrosNovedadReferencia = signal<Filtros[]>([]);
+  public filtrosNovedadReferencia = signal({});
   public mostrarCampoNovedadReferencia = signal<boolean>(false);
-  public campoLista: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'fecha_desde',
-      titulo: 'FECHADESDE',
-      campoTipo: 'DateField',
-    },
-    {
-      propiedad: 'fecha_hasta',
-      titulo: 'FECHAHASTA',
-      campoTipo: 'DateField',
-    },
-  ];
+  public campoLista = NOVEDAD_FILTERS_LISTA_BUSCAR_AVANZADO;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -372,8 +357,8 @@ export default class CreditoFormularioComponent
       this._getNovedadesReferenciaLista(
         this.filtrosNovedadReferencia(),
       ).subscribe({
-        next: (response) => {
-          this.novedadReferenciaLista.set(response.registros);
+        next: (response: any) => {
+          this.novedadReferenciaLista.set(response);
         },
       });
     } else {
@@ -381,11 +366,11 @@ export default class CreditoFormularioComponent
     }
   }
 
-  private _getNovedadesReferenciaLista(filtros: Filtros[]) {
-    return this._generalService.consultarDatosAutoCompletar<HumNovedadLista>({
-      modelo: 'HumNovedad',
+  private _getNovedadesReferenciaLista(filtros: any) {
+    return this._generalService.consultaApi<HumNovedadLista>(
+      'humano/novedad/seleccionar/',
       filtros,
-    });
+    );
   }
 
   public recibirEventoNovedadReferencia(evento: Event) {
@@ -396,22 +381,18 @@ export default class CreditoFormularioComponent
   }
 
   private _buscarNovedadReferenciaListaById(id: number) {
-    let filtros: Filtros[] = [...this.filtrosNovedadReferencia()];
+    let filtros = this.filtrosNovedadReferencia();
 
     if (id) {
-      filtros = [
+      filtros = {
         ...filtros,
-        {
-          operador: 'exact',
-          propiedad: 'id',
-          valor1: id,
-        },
-      ];
+        id: id,
+      };
     }
 
     this._getNovedadesReferenciaLista(filtros).subscribe({
-      next: (response) => {
-        this.novedadReferenciaLista.set(response.registros);
+      next: (response: any) => {
+        this.novedadReferenciaLista.set(response);
       },
     });
   }
@@ -427,17 +408,9 @@ export default class CreditoFormularioComponent
     contratoId: number,
     novedadTipoId: number,
   ) {
-    this.filtrosNovedadReferencia.set([
-      {
-        operador: 'exact',
-        propiedad: 'contrato_id',
-        valor1: contratoId,
-      },
-      {
-        operador: 'exact',
-        propiedad: 'novedad_tipo_id',
-        valor1: novedadTipoId,
-      },
-    ]);
+    this.filtrosNovedadReferencia.set({
+      contrato_id: contratoId,
+      novedad_tipo_id: novedadTipoId,
+    });
   }
 }

@@ -28,7 +28,7 @@ export class SalidaService {
   consultarDetalle(id: number) {
     return this._httpService.getDetalle<{
       documento: DocumentoInventarioRespuesta;
-    }>(`general/documento/${id}/`);
+    }>(`general/documento/${id}/detalle/`);
   }
 
 }

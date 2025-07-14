@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
-import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface.';
+import { NominaElectronica } from '@modulos/humano/interfaces/nomina-electronica.interface';
 import { NominaElectronicaGenerar } from '../interfaces/nomina-electronica-generar.interface';
 import { GenerarNominaElectronicaResumen } from '../interfaces/nomina-electronica-resumen.interface';
 
@@ -15,7 +15,7 @@ export class NominaElectronicaService extends Subdominio {
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.getDetalle<{ documento: NominaElectronica }>(`general/documento/${id}/`);
+    return this.httpService.getDetalle<{ documento: NominaElectronica }>(`general/documento/${id}/detalle/`);
   }
 
   generarNominaElectronica(data: NominaElectronicaGenerar) {

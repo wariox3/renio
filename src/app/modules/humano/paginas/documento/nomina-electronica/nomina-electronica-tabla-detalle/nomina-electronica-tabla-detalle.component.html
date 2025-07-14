@@ -1,0 +1,39 @@
+<div class="table-responsive">
+    <table
+      id="tableDetalles"
+      class="table table-bordered table-row-gray-500"
+    >
+      <thead class="bg-gray-100">
+        <tr class="fw-bold text-gray-800">
+          <th>Id</th>
+          <th>Desde</th>
+          <th>Hasta</th>
+          <th>Cod</th>
+          <th>Identificación</th>
+          <th>Empleado</th>
+          <th>Base cotización</th>
+          <th>Base prestación</th>
+          <th class="text-center">Devengado</th>
+          <th class="text-center">Deducción</th>
+          <th class="text-center">Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for(detalle of nominaDetalles(); track $index){
+        <tr>
+          <td>{{ detalle.id }}</td>
+          <td>{{ detalle.documento__fecha_desde }}</td>
+          <td>{{ detalle.documento__fecha_hasta }}</td>
+          <td>{{ detalle.documento__contacto }}</td>
+          <td>{{ detalle.documento__contacto__numero_identificacion }}</td>
+          <td>{{ detalle.documento__contacto__nombre_corto }}</td>
+          <td class="text-end">{{ detalle.base_cotizacion | number : "1.2-2" }}</td>
+          <td class="text-end">{{ detalle.base_prestacion | number : "1.2-2" }}</td>
+          <td class="text-end">{{ detalle.devengado | number : "1.2-2" }}</td>
+          <td class="text-end">{{ detalle.deduccion | number : "1.2-2" }}</td>
+          <td class="text-end">{{ detalle.total | number : "1.2-2" }}</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>

@@ -51,6 +51,8 @@ export class CargarImagenComponent extends General implements OnChanges {
   @Output() dataFormulario: EventEmitter<any> = new EventEmitter();
   @Output() eliminarLogo: EventEmitter<any> = new EventEmitter();
   @Input() recibirImagen: string | null = '';
+  @Input() width: string = '160px';
+  @Input() height: string = '160px';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes.recibirImagen.currentValue) {

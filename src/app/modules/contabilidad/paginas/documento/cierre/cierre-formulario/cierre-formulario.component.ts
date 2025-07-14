@@ -27,7 +27,6 @@ import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
@@ -40,6 +39,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, finalize, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { CierreService } from './services/cierre.service';
+import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 
 @Component({
   selector: 'app-cierre-formulario',
@@ -69,6 +69,7 @@ export default class CierreFormularioComponent
 {
   private readonly _modalService = inject(NgbModal);
   private readonly _cierreService = inject(CierreService);
+  private readonly _generalService = inject(GeneralService);
 
   formularioCierre: FormGroup;
   formularioResultado: FormGroup;
@@ -98,27 +99,8 @@ export default class CierreFormularioComponent
   registrosSeleccionados = this._cierreService.registrosSeleccionados;
   cargandoTabla = signal<boolean>(false);
   guardando = signal<boolean>(false);
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
-
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
-
-  private readonly _generalService = inject(GeneralService);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -302,10 +284,13 @@ export default class CierreFormularioComponent
 
   consultarCliente(event: any) {
     this._generalService
-      .consultaApi<RegistroAutocompletarGenContacto>('general/contacto/seleccionar/', {
-        nombre_corto__icontains: `${event?.target.value}`,
-        limit: 10,
-      })
+      .consultaApi<RegistroAutocompletarGenContacto>(
+        'general/contacto/seleccionar/',
+        {
+          nombre_corto__icontains: `${event?.target.value}`,
+          limit: 10,
+        },
+      )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta: any) => {
@@ -580,9 +565,7 @@ export default class CierreFormularioComponent
   }
 
   agregarCuentaUtilidadSeleccionado(cuenta: any) {
-    this.formularioResultado
-      .get('cuenta_cierre_id')
-      ?.setValue(cuenta.id);
+    this.formularioResultado.get('cuenta_cierre_id')?.setValue(cuenta.id);
     this.cuentaUtilidadNombre = cuenta.nombre;
     this.cuentaUtilidadCodigo = cuenta.codigo;
     this.changeDetectorRef.detectChanges();

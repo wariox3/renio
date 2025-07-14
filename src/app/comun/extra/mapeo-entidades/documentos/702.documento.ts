@@ -9,6 +9,14 @@ export const documento702: MapeoDocumento[] = [
     ordenable: true,
   },
   {
+    nombre: 'DOCUMENTO_TIPO__NOMBRE',
+    nombreAbreviado: 'TIPO',
+    campoTipo: 'CharField',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: false,
+  },
+  {
     nombre: 'NUMERO',
     campoTipo: 'IntegerField',
     visibleTabla: true,
@@ -16,7 +24,7 @@ export const documento702: MapeoDocumento[] = [
     ordenable: true,
   },
   {
-    nombre: 'FECHA',
+    nombre: 'FECHA_DESDE',
     nombreAbreviado: 'DESDE',
     campoTipo: 'DateField',
     visibleTabla: true,
