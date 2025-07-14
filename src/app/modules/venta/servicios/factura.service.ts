@@ -40,7 +40,7 @@ export class FacturaService {
   consultarDetalle(id: number) {
     return this.httpService.getDetalle<{
       documento: DocumentoFacturaRespuesta;
-    }>(`general/documento/${id}/`);
+    }>(`general/documento/${id}/detalle/`);
   }
 
   aprobar(data: number) {
