@@ -160,6 +160,7 @@
                   <thead class="bg-gray-100">
                     <tr class="fw-bold text-gray-800">
                       <th>Id</th>
+                      <th>Tipo</th>
                       <th>Número</th>
                       <th>Desde</th>
                       <th>Hasta</th>
@@ -168,10 +169,10 @@
                       <th>Empleado</th>
                       <th>Base cotización</th>
                       <th>Base prestación</th>
-                      <th>Salario</th>
-                      <th>Devengado</th>
-                      <th>Deducción</th>
-                      <th>Total</th>
+                      <th class="text-center">Salario</th>
+                      <th class="text-center">Devengado</th>
+                      <th class="text-center">Deducción</th>
+                      <th class="text-center">Total</th>
                       <th>Apr</th>
                       <th>Anu</th>
                     </tr>
@@ -180,6 +181,7 @@
                     @for(nomina of arrNominas; track $index){
                     <tr>
                       <td>{{ nomina.id }}</td>
+                      <td>{{ nomina.documento_tipo__nombre }}</td>
                       <td>{{ nomina.numero }}</td>
                       <td>{{ nomina.fecha }}</td>
                       <td>{{ nomina.fecha_hasta }}</td>
