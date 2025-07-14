@@ -22,8 +22,8 @@ import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.va
 import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocompletar/contabilidad/con-comprobante.interface';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -81,24 +81,7 @@ export default class AsientoFormularioComponent
   theme_value = localStorage.getItem('kt_theme_mode_value');
   arrComprobantes: RegistroAutocompletarConComprobante[] = [];
   arrGrupo: RegistroAutocompletarConGrupo[] = [];
-
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
 
   private readonly _generalService = inject(GeneralService);
 
@@ -273,9 +256,7 @@ export default class AsientoFormularioComponent
   modificarCampoFormulario(campo: string, dato: any) {
     if (campo === 'contacto') {
       this.formularioAsiento.get(campo)?.setValue(dato.id);
-      this.formularioAsiento
-        .get('contactoNombre')
-        ?.setValue(dato.nombre_corto);
+      this.formularioAsiento.get('contactoNombre')?.setValue(dato.nombre_corto);
       this._actualizarDetallesContactoSinDocumentoAfectado();
     }
 
@@ -424,7 +405,10 @@ export default class AsientoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  agregarContactoSeleccionado(contacto: RegistroAutocompletarGenContacto, index: number) {
+  agregarContactoSeleccionado(
+    contacto: RegistroAutocompletarGenContacto,
+    index: number,
+  ) {
     this.detalles.controls[index].patchValue({
       contacto: contacto.id,
       contacto_nombre_corto: contacto.nombre_corto,
@@ -457,7 +441,8 @@ export default class AsientoFormularioComponent
   consultarInformacion() {
     zip(
       this._generalService.consultaApi<RegistroAutocompletarConComprobante>(
-        'contabilidad/comprobante/seleccionar/', {permite_asiento: 'True'}
+        'contabilidad/comprobante/seleccionar/',
+        { permite_asiento: 'True' },
       ),
       this._generalService.consultaApi<RegistroAutocompletarConGrupo>(
         'contabilidad/grupo/seleccionar/',

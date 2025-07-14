@@ -12,14 +12,13 @@ import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConComprobante } from '@interfaces/comunes/autocompletar/contabilidad/con-comprobante.interface';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { DepreciacionService } from '@modulos/contabilidad/servicios/depreciacion.service';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -29,9 +28,9 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime, zip } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { DepreciacionService } from '@modulos/contabilidad/servicios/depreciacion.service';
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 
 @Component({
   selector: 'app-pago-formulario',
@@ -74,24 +73,7 @@ export default class DepreciacionFormularioComponent
   theme_value = localStorage.getItem('kt_theme_mode_value');
   arrComprobantes: RegistroAutocompletarConComprobante[] = [];
   arrGrupo: RegistroAutocompletarConGrupo[] = [];
-
-  public campoListaContacto: CampoLista[] = [
-    {
-      propiedad: 'id',
-      titulo: 'id',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'numero_identificacion',
-      titulo: 'identificacion',
-      campoTipo: 'IntegerField',
-    },
-    {
-      propiedad: 'nombre_corto',
-      titulo: 'nombre_corto',
-      campoTipo: 'IntegerField',
-    },
-  ];
+  public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
 
   private readonly _generalService = inject(GeneralService);
   private readonly _depreciacionService = inject(DepreciacionService);
