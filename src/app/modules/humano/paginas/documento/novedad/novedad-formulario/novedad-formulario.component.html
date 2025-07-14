@@ -4,7 +4,9 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'novedad'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'novedad'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -24,7 +26,7 @@
                 formularioAdicional.controls['novedad_tipo'].invalid,
               'is-valid':
                 formularioAdicional.controls['novedad_tipo'].touched &&
-                formularioAdicional.controls['novedad_tipo'].valid
+                formularioAdicional.controls['novedad_tipo'].valid,
             }"
           >
             <option value="">Seleccionar...</option>
@@ -43,7 +45,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['novedad_tipo']
+              control: formularioAdicional.controls['novedad_tipo'],
             }"
           ></ng-container>
         </div>
@@ -56,7 +58,7 @@
             [informacionContrato]="{
               identificacion: formularioAdicional.value.contrato_identificacion,
               contrato: formularioAdicional.value.contrato,
-              contrato_nombre: formularioAdicional.value.contrato_nombre
+              contrato_nombre: formularioAdicional.value.contrato_nombre,
             }"
             [formularioError]="
               (formularioAdicional.controls['contrato'].hasError('required') &&
@@ -70,7 +72,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['contrato']
+              control: formularioAdicional.controls['contrato'],
             }"
           ></ng-container>
         </div>
@@ -93,7 +95,7 @@
                 formularioAdicional.controls['fecha_desde'].invalid,
               'is-valid':
                 formularioAdicional.controls['fecha_desde'].touched &&
-                formularioAdicional.controls['fecha_desde'].valid
+                formularioAdicional.controls['fecha_desde'].valid,
             }"
           />
           <ng-container
@@ -101,7 +103,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['fecha_desde']
+              control: formularioAdicional.controls['fecha_desde'],
             }"
           ></ng-container>
         </div>
@@ -121,7 +123,7 @@
                 formularioAdicional.controls['fecha_hasta'].invalid,
               'is-valid':
                 formularioAdicional.controls['fecha_hasta'].touched &&
-                formularioAdicional.controls['fecha_hasta'].valid
+                formularioAdicional.controls['fecha_hasta'].valid,
             }"
           />
           <ng-container
@@ -129,7 +131,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['fecha_hasta']
+              control: formularioAdicional.controls['fecha_hasta'],
             }"
           ></ng-container>
           <ng-container
@@ -139,7 +141,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.RANGOFECHASDESDEHASTA'
                 | translate,
-              control: formularioAdicional.controls['fecha_hasta']
+              control: formularioAdicional.controls['fecha_hasta'],
             }"
           ></ng-container>
         </div>
@@ -193,12 +195,13 @@
               <div class="dropdown-divider"></div>
               <button type="button" ngbDropdownItem>
                 <app-comun-buscar-avanzado
-                  [consultarModelo]="'HumNovedad'"
-                  [consultarTipo]="'Administrador'"
+                  [consultarUrl]="'humano/novedad/'"
+                  [tituloModal]="'novedad'"
                   (emitirRegistroSeleccionado)="
                     modificarCampoFormulario('novedad_referencia', $event)
                   "
                   [campoLista]="campoLista"
+                  [campoFiltros]="campoLista"
                   [filtrosPermanentes]="filtrosNovedadReferencia()"
                 >
                 </app-comun-buscar-avanzado>
@@ -207,195 +210,204 @@
           </div>
         </div>
       </div>
-      } @if(novedad_tipo.value === '7' ){
-      <div class="row mb-5" [@fadeInOut]>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.DIASDINERO"
-          ></label>
-          <input
-            formControlName="dias_dinero"
-            class="form-control"
-            type="number"
-            min="0"
-            [ngClass]="{
-              'is-invalid':
-                formularioAdicional.controls['dias_dinero'].touched &&
-                formularioAdicional.controls['dias_dinero'].invalid,
-              'is-valid':
-                formularioAdicional.controls['dias_dinero'].touched &&
-                formularioAdicional.controls['dias_dinero'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'min',
-              cantidadCaracteres: '0',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
-              control: formularioAdicional.controls['dias_dinero']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['dias_dinero']
-            }"
-          ></ng-container>
+      }
+      @if (novedad_tipo.value === "7") {
+        <div class="row mb-5" [@fadeInOut]>
+          <div class="col-12 col-md-6">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.DIASDINERO"
+            ></label>
+            <input
+              formControlName="dias_dinero"
+              class="form-control"
+              type="number"
+              min="0"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicional.controls['dias_dinero'].touched &&
+                  formularioAdicional.controls['dias_dinero'].invalid,
+                'is-valid':
+                  formularioAdicional.controls['dias_dinero'].touched &&
+                  formularioAdicional.controls['dias_dinero'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'min',
+                cantidadCaracteres: '0',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
+                control: formularioAdicional.controls['dias_dinero'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioAdicional.controls['dias_dinero'],
+              }"
+            ></ng-container>
+          </div>
+          <div class="col-12 col-md-6">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.FECHADESDEPERIODO"
+            ></label>
+            <input
+              formControlName="fecha_desde_periodo"
+              class="form-control"
+              type="date"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicional.controls['fecha_desde_periodo'].touched &&
+                  formularioAdicional.controls['fecha_desde_periodo'].invalid,
+                'is-valid':
+                  formularioAdicional.controls['fecha_desde_periodo'].touched &&
+                  formularioAdicional.controls['fecha_desde_periodo'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioAdicional.controls['fecha_desde_periodo'],
+              }"
+            ></ng-container>
+          </div>
         </div>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.FECHADESDEPERIODO"
-          ></label>
-          <input
-            formControlName="fecha_desde_periodo"
-            class="form-control"
-            type="date"
-            [ngClass]="{
-              'is-invalid':
-                formularioAdicional.controls['fecha_desde_periodo'].touched &&
-                formularioAdicional.controls['fecha_desde_periodo'].invalid,
-              'is-valid':
-                formularioAdicional.controls['fecha_desde_periodo'].touched &&
-                formularioAdicional.controls['fecha_desde_periodo'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['fecha_desde_periodo']
-            }"
-          ></ng-container>
+        <div class="row mb-5" [@fadeInOut]>
+          <div class="col-12 col-md-6">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.DIASDISFRUTADOS"
+            ></label>
+            <input
+              formControlName="dias_disfrutados"
+              class="form-control"
+              type="number"
+              min="0"
+              [ngClass]="{
+                'is-invalid':
+                  (formularioAdicional.controls['dias_disfrutados'].touched &&
+                    formularioAdicional.controls['dias_disfrutados'].invalid) ||
+                  formularioAdicional.errors?.fechaInvalida,
+                'is-valid':
+                  formularioAdicional.controls['dias_disfrutados'].touched &&
+                  formularioAdicional.controls['dias_disfrutados'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'min',
+                cantidadCaracteres: '0',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
+                control: formularioAdicional.controls['dias_disfrutados'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioAdicional.controls['dias_disfrutados'],
+              }"
+            ></ng-container>
+          </div>
+          <div class="col-12 col-md-6">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.FECHAHASTAPERIODO"
+            ></label>
+            <input
+              formControlName="fecha_hasta_periodo"
+              class="form-control"
+              type="date"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicional.controls['fecha_hasta_periodo'].touched &&
+                  formularioAdicional.controls['fecha_hasta_periodo'].invalid,
+                'is-valid':
+                  formularioAdicional.controls['fecha_hasta_periodo'].touched &&
+                  formularioAdicional.controls['fecha_hasta_periodo'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'rangoFechasInvalido',
+                message:
+                  'FORMULARIOS.VALIDACIONES.NOVEDAD.ERRORFECHAPERIODOSINVALIDA'
+                  | translate,
+                control: formularioAdicional.controls['fecha_hasta_periodo'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioAdicional.controls['fecha_hasta_periodo'],
+              }"
+            ></ng-container>
+          </div>
         </div>
-      </div>
-      <div class="row mb-5" [@fadeInOut]>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.DIASDISFRUTADOS"
-          ></label>
-          <input
-            formControlName="dias_disfrutados"
-            class="form-control"
-            type="number"
-            min="0"
-            [ngClass]="{
-              'is-invalid':
-                (formularioAdicional.controls['dias_disfrutados'].touched &&
-                  formularioAdicional.controls['dias_disfrutados'].invalid) ||
-                formularioAdicional.errors?.fechaInvalida,
-              'is-valid':
-                formularioAdicional.controls['dias_disfrutados'].touched &&
-                formularioAdicional.controls['dias_disfrutados'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'min',
-              cantidadCaracteres: '0',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
-              control: formularioAdicional.controls['dias_disfrutados']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['dias_disfrutados']
-            }"
-          ></ng-container>
+        <div class="row mb-5" [@fadeInOut]>
+          <div class="col-12 col-md-6">
+            <label
+              class="form-label required"
+              translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.DIASDISFRUTADOSREALES"
+            ></label>
+            <input
+              formControlName="dias_disfrutados_reales"
+              class="form-control"
+              type="number"
+              id="dias_disfrutados_reales"
+              min="1"
+              [ngClass]="{
+                'is-invalid':
+                  formularioAdicional.controls['dias_disfrutados_reales']
+                    .touched &&
+                  formularioAdicional.controls['dias_disfrutados_reales']
+                    .invalid,
+                'is-valid':
+                  formularioAdicional.controls['dias_disfrutados_reales']
+                    .touched &&
+                  formularioAdicional.controls['dias_disfrutados_reales'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'min',
+                cantidadCaracteres: '1',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
+                control:
+                  formularioAdicional.controls['dias_disfrutados_reales'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control:
+                  formularioAdicional.controls['dias_disfrutados_reales'],
+              }"
+            ></ng-container>
+          </div>
         </div>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.FECHAHASTAPERIODO"
-          ></label>
-          <input
-            formControlName="fecha_hasta_periodo"
-            class="form-control"
-            type="date"
-            [ngClass]="{
-              'is-invalid':
-                formularioAdicional.controls['fecha_hasta_periodo'].touched &&
-                formularioAdicional.controls['fecha_hasta_periodo'].invalid,
-              'is-valid':
-                formularioAdicional.controls['fecha_hasta_periodo'].touched &&
-                formularioAdicional.controls['fecha_hasta_periodo'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'rangoFechasInvalido',
-              message:
-                'FORMULARIOS.VALIDACIONES.NOVEDAD.ERRORFECHAPERIODOSINVALIDA'
-                | translate,
-              control: formularioAdicional.controls['fecha_hasta_periodo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['fecha_hasta_periodo']
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5" [@fadeInOut]>
-        <div class="col-12 col-md-6">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.HUMANO.NOVEDAD.DIASDISFRUTADOSREALES"
-          ></label>
-          <input
-            formControlName="dias_disfrutados_reales"
-            class="form-control"
-            type="number"
-            id="dias_disfrutados_reales"
-            min="1"
-            [ngClass]="{
-              'is-invalid':
-                formularioAdicional.controls['dias_disfrutados_reales']
-                  .touched &&
-                formularioAdicional.controls['dias_disfrutados_reales'].invalid,
-              'is-valid':
-                formularioAdicional.controls['dias_disfrutados_reales']
-                  .touched &&
-                formularioAdicional.controls['dias_disfrutados_reales'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'min',
-              cantidadCaracteres: '1',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.VALORMINIMO' | translate,
-              control: formularioAdicional.controls['dias_disfrutados_reales']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioAdicional.controls['dias_disfrutados_reales']
-            }"
-          ></ng-container>
-        </div>
-      </div>
       }
     </section>
   </app-card>
