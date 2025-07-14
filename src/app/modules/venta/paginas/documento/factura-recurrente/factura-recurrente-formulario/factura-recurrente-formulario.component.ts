@@ -34,6 +34,7 @@ import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
+import { DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO, DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO } from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -123,6 +124,8 @@ export default class FacturaRecurrenteFormularioComponent
   theme_value = localStorage.getItem('kt_theme_mode_value');
   public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
+  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO
+  public campoFiltrosDocReferencia = DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO
 
   constructor(
     private formBuilder: FormBuilder,

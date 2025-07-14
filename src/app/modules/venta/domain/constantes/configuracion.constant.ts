@@ -502,7 +502,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           key: 'GenAsesor',
           nombreModelo: 'ASESOR',
           documentacion: {
-            id: 1072,
+            id: 1073,
           },
           ajustes: {
             rutas: {

@@ -69,8 +69,6 @@
               <app-comun-buscar-avanzado
                 [consultarUrl]="'general/contacto/'"
                 [tituloModal]="'contacto'"
-                [consultarModelo]="'GenContacto'"
-                [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
@@ -217,8 +215,6 @@
               <app-comun-buscar-avanzado
                 [consultarUrl]="'general/documento/'"
                 [tituloModal]="'documento'"
-                [consultarModelo]="'GenDocumento'"
-                [consultarTipo]="'Documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
                 "

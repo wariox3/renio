@@ -92,7 +92,7 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
           key: 'GenItem',
           nombreModelo: 'Item',
           documentacion: {
-            id: 1078,
+            id: 1037,
           },
           ajustes: {
             rutas: {
