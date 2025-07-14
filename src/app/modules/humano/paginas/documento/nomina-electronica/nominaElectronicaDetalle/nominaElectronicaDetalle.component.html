@@ -219,6 +219,13 @@
               </div>
             </ng-template>
           </li>
+
+          <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+            <a class="nav-link" [ngClass]="{ 'text-primary': active === 2 }" ngbNavLink data-bs-toggle="tab">Detalle</a>
+            <ng-template ngbNavContent>
+              <app-nomina-electronica-tabla-detalle [documentoId]="nominaElectronica.id"></app-nomina-electronica-tabla-detalle>
+            </ng-template>
+          </li>
         </ul>
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
       </div>

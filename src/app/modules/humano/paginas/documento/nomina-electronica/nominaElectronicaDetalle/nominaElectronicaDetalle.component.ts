@@ -18,6 +18,7 @@ import {
   NominaElectronicaDetalle,
   NominaElectronicaDetalleNomina,
 } from '@modulos/humano/interfaces/nomina-electronica.interface';
+import { NominaElectronicaTablaDetalleComponent } from "../nomina-electronica-tabla-detalle/nomina-electronica-tabla-detalle.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -31,7 +32,8 @@ import {
     BaseEstadosComponent,
     TituloAccionComponent,
     DocumentoOpcionesComponent,
-  ],
+    NominaElectronicaTablaDetalleComponent
+],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',
 })
