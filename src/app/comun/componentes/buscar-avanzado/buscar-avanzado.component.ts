@@ -38,11 +38,9 @@ export class BuscarAvanzadoComponent extends General {
   public filtros = {};
   @Input() consultarUrl = '';
   @Input() tituloModal = '';
-  @Input() consultarModelo = ''; //BORRAR
   @Input() campoLista: any[] = [];
   @Input() campoFiltros: any[] = [];
   @Input() filtrosPermanentes: any = {};
-  @Input() consultarTipo: 'Administrador' | 'Documento'; //borrar
   @Output() emitirRegistroSeleccionado: EventEmitter<any> = new EventEmitter();
 
   constructor(private modalService: NgbModal) {

@@ -70,8 +70,6 @@
               <app-comun-buscar-avanzado
                 [consultarUrl]="'general/contacto/'"
                 [tituloModal]="'contacto'"
-                [consultarModelo]="'GenContacto'"
-                [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
@@ -447,14 +445,16 @@
               <div class="dropdown-divider"></div>
               <button type="button" ngbDropdownItem>
                 <app-comun-buscar-avanzado
-                  [consultarModelo]="'GenDocumento'"
-                  [consultarTipo]="'Documento'"
+                  [consultarUrl]="'general/documento/'"
+                  [tituloModal]="'documento'"
                   (emitirRegistroSeleccionado)="
                     actualizarFormulario($event, 'documento_referencia')
                   "
+                  [campoLista]="campoListaDocReferencia"
+                  [campoFiltros]="campoListaDocReferencia"
                 >
                 </app-comun-buscar-avanzado>
-              </button>
+              </button>x
             </div>
 
             <ng-container
