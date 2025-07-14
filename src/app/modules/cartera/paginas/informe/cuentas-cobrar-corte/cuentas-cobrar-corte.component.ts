@@ -10,15 +10,12 @@ import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from "@comun/componentes/btn-exportar/btn-exportar.component";
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import { CUENTAS_COBRAR_CORTE_FILTERS } from '@modulos/cartera/domain/mapeos/cuentas-cobrar-corte.mapeo';
 import { CuentasCobrarCorte } from '@modulos/cartera/interfaces/cuentas-cobrar-corte.interface';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
-import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
-import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Component({
   selector: 'app-cuentas-cobrar-corte',
@@ -27,8 +24,6 @@ import { FilterTransformerService } from 'src/app/core/services/filter-transform
   templateUrl: './cuentas-cobrar-corte.component.html',
 })
 export class CuentasCobrarCorteComponent extends General implements OnInit {
-  private _filterTransformerService = inject(FilterTransformerService);
-  private _fechaService = inject(FechasService);
   private _generalService = inject(GeneralService);
   private _formBuilder = inject(FormBuilder);
 
@@ -80,15 +75,6 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
       });
   }
 
-  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.queryParams = {
-      ...this.queryParams,
-      ...this.filtros,
-      page: data.desplazamiento,
-    };
-    this.consultarLista();
-  }
-
   descargarExcel() {
     this.descargarArchivosService.exportarExcel(
       'cartera/informe/pendiente-corte',
@@ -97,18 +83,6 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
         excel_informe: 'True',
       },
     );
-  }
-
-  filterChange(filters: FilterCondition[]) {
-    const apiParams =
-      this._filterTransformerService.transformToApiParams(filters);
-
-    this.queryParams = {
-      ...this.queryParams,
-      ...apiParams,
-    };
-
-    this.consultarLista();
   }
 
   generar() {
