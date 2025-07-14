@@ -22,6 +22,13 @@
           class="form-control"
           placeholder="Seleccione fecha final"
         />
+        <!-- Error messages for date validation -->
+        <div *ngIf="formularioFiltros.errors?.['fechaInvalida'] && (formularioFiltros.touched || formularioFiltros.dirty)" class="text-danger mt-1">
+          La fecha desde no puede ser mayor a la fecha hasta
+        </div>
+        <div *ngIf="formularioFiltros.errors?.['diferenteAnio'] && (formularioFiltros.touched || formularioFiltros.dirty)" class="text-danger mt-1">
+          Ambas fechas deben estar en el mismo año
+        </div>
       </div>
 
       <div class="col-12 col-md-3 col-lg-3">
@@ -103,7 +110,7 @@
           class="btn btn-sm btn-primary"
           #btnGuardar
           (click)="generar()"
-          [disabled]="cargandoCuentas()"
+          [disabled]="cargandoCuentas() || formularioFiltros.invalid"
         >
           @if (cargandoCuentas()) {
             <div class="spinner-border spinner-border-sm mx-4" role="status">
