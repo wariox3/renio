@@ -54,6 +54,9 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
+import { AlmacenesComponent } from "@comun/componentes/almacenes/almacenes.component";
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -74,7 +77,8 @@ import {
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-  ],
+    AlmacenesComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -91,6 +95,7 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.mostrarDocumentoReferencia;
   public formularioFactura = this._formularioFacturaService.form;
   public arrSede: RegistroAutocompletarGenSede[] = [];
+  public arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
   private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
   habilitarCargar = signal(false);
@@ -124,11 +129,11 @@ export default class FacturaDetalleComponent
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
-  arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   dataUrl: any;
+  public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
   plazo_pago_dias: any = 0;
   documentoDetalleSeleccionarTodos = false;
   arrRegistrosEliminar: number[] = [];
@@ -150,7 +155,12 @@ export default class FacturaDetalleComponent
 
   ngOnInit() {
     this._configurarModuleListener();
-    this._consultarInformacion().subscribe();
+    this._consultarInformacion().subscribe(
+      () => {
+        this.almacenSeleccionado(this.arrAlmacenes[0]);
+        this.changeDetectorRef.detectChanges();
+      }
+    );
     this.active = 1;
     this.mostrarDocumentoReferencia.set(true);
     if (this.detalle) {
@@ -1017,9 +1027,18 @@ export default class FacturaDetalleComponent
       this._generalService.consultaApi<RegistroAutocompletarGenSede>(
         'general/sede/seleccionar/',
       ),
+      this._generalService.consultaApi<RegistroAutocompletarInvAlmacen>(
+        'inventario/almacen/seleccionar/',
+      ),
+      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
+        'general/metodo_pago/seleccionar/',
+      ),
     ).pipe(
       tap((respuesta: any) => {
         this.arrSede = respuesta[0];
+        this.arrAlmacenes = respuesta[1];
+        this.arrMetodosPago = respuesta[2];
+        
         if (!this.detalle) {
           this._initSugerencias();
         }
@@ -1067,4 +1086,20 @@ export default class FacturaDetalleComponent
       this.habilitarCargar.set(false);
     }
   }
+
+  almacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
+      this.formularioFactura.patchValue({
+        almacen: almacen?.id,
+        almacen_nombre: almacen?.nombre,
+      });
+    }
+  
+    limpiarCampoAlmacen(item: any) {
+      this.formularioFactura.patchValue({
+        almacen: null,
+        almacen_nombre: null,
+      });
+      this.changeDetectorRef.detectChanges();
+    }
+  
 }
