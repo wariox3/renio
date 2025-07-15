@@ -16,7 +16,6 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
-import { SeleccionarResolucionComponent } from '@comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
@@ -28,7 +27,6 @@ import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompleta
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import {
@@ -61,8 +59,7 @@ import {
   forkJoin,
   of,
   tap,
-  throttleTime,
-  zip,
+  throttleTime
 } from 'rxjs';
 
 @Component({
@@ -87,7 +84,6 @@ import {
     TituloAccionComponent,
     EncabezadoFormularioNuevoComponent,
     AlmacenesComponent,
-    SeleccionarResolucionComponent,
   ],
 })
 export default class CuentaCobroFormularioComponent

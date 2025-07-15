@@ -547,16 +547,18 @@ export default class FacturaPosFormularioComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      if (dato.id && dato.nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.id);
+      const contacto = dato as RegistroAutocompletarGenContacto;
+
+      if (contacto.id && contacto.nombre_corto) {
+        this.formularioFactura.get(campo)?.setValue(contacto.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
+          ?.setValue(contacto.nombre_corto);
       }
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
+      this.formularioFactura.get('plazo_pago')?.setValue(contacto.plazo_pago_id);
 
-      if (dato.plazo_pago_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_dias;
+      if (contacto.plazo_pago__dias > 0) {
+        this.plazo_pago_dias = contacto.plazo_pago__dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10);
         const fechaActual = this._convertirFecha(
           this.formularioFactura.get('fecha')?.value,
