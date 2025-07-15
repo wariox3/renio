@@ -10,11 +10,13 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { SeleccionarResolucionComponent } from '@comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
@@ -26,16 +28,25 @@ import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompleta
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
+import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { PagoFormulario } from '@interfaces/comunes/factura/factura.interface';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import {
+  DocumentoFacturaRespuesta,
+  PagoFormulario,
+} from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import {
+  CONTACTO_FILTRO_PERMANENTE_CLIENTE,
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO, DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO } from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
+import {
+  DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO,
+  DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -47,6 +58,7 @@ import {
   asyncScheduler,
   BehaviorSubject,
   catchError,
+  forkJoin,
   of,
   tap,
   throttleTime,
@@ -74,6 +86,8 @@ import {
     NgbDropdownModule,
     TituloAccionComponent,
     EncabezadoFormularioNuevoComponent,
+    AlmacenesComponent,
+    SeleccionarResolucionComponent,
   ],
 })
 export default class CuentaCobroFormularioComponent
@@ -101,16 +115,18 @@ export default class CuentaCobroFormularioComponent
 
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
-  public arrMetodosPago: any[] = [];
-  public arrPlazoPago: any[] = [];
-  public arrAsesor: any[] = [];
-  public arrSede: any[] = [];
+  public arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
+  public arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
+  public arrAsesor: RegistroAutocompletarGenAsesor[] = [];
+  public arrSede: RegistroAutocompletarGenSede[] = [];
+  public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
   public requiereAsesor: boolean = false;
   public requiereSede: boolean = false;
   public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
-  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO
-  public campoFiltrosDocReferencia = DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO
+  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
+  public campoFiltrosDocReferencia =
+    DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO;
 
   public theme_value = localStorage.getItem('kt_theme_mode_value');
 
@@ -120,7 +136,15 @@ export default class CuentaCobroFormularioComponent
   }
 
   ngOnInit() {
-    this._consultarInformacion();
+    this._consultarInformacion().subscribe(() => {
+      this._actualizarPlazoPago(
+        this.formularioFactura.get('plazo_pago')?.value,
+      );
+
+      this.almacenSeleccionado(this.arrAlmacenes[0]);
+      this.changeDetectorRef.detectChanges();
+    });
+
     this.active = 1; // navigation tab
 
     if (this.detalle) {
@@ -158,6 +182,15 @@ export default class CuentaCobroFormularioComponent
     }
 
     return true;
+  }
+
+  private _actualizarPlazoPago(plazoPagoId: number) {
+    this.arrPlazoPago.find((plazoPago) => {
+      if (plazoPago.id === plazoPagoId) {
+        this.plazo_pago_dias = plazoPago.dias;
+        this.cambiarFechaVence();
+      }
+    });
   }
 
   private _esValidaLogicaDeFacturacion(): boolean {
@@ -470,7 +503,7 @@ export default class CuentaCobroFormularioComponent
     this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
   }
 
-  cambiarFechaVence(event: any) {
+  cambiarFechaVence() {
     const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
     this.formularioFactura.get('plazo_pago')?.value;
     const diasNumero = parseInt(this.plazo_pago_dias, 10);
@@ -507,6 +540,10 @@ export default class CuentaCobroFormularioComponent
     });
   }
 
+  recibirDocumentoDetalleRespuesta(evento: DocumentoFacturaRespuesta) {
+    this._actualizarPlazoPago(evento.plazo_pago_id);
+  }
+
   cerrarModal(contacto: Contacto) {
     this.modificarCampoFormulario('contacto', contacto);
     this._modalService.dismissAll();
@@ -516,23 +553,25 @@ export default class CuentaCobroFormularioComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      if (dato.id && dato.nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.id);
+      const contacto = dato as RegistroAutocompletarGenContacto;
+
+      if (contacto.id && contacto.nombre_corto) {
+        this.formularioFactura.get(campo)?.setValue(contacto.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
+          ?.setValue(contacto.nombre_corto);
       }
-      if (dato.id && dato.nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.id);
-        this.formularioFactura
-          .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
-      }
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
-      if (dato.plazo_pago_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_dias;
-        const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
-        const fechaActual = new Date(); // Obtener la fecha actual
+
+      this.formularioFactura
+        .get('plazo_pago')
+        ?.setValue(contacto.plazo_pago_id);
+      if (contacto.plazo_pago__dias > 0) {
+        this.plazo_pago_dias = contacto.plazo_pago__dias;
+        const diasNumero = parseInt(this.plazo_pago_dias, 10);
+        const fechaActual = this._convertirFecha(
+          this.formularioFactura.get('fecha')?.value,
+        );
+
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
           fechaActual.getMonth() + 1
@@ -544,14 +583,11 @@ export default class CuentaCobroFormularioComponent
           .padStart(2, '0')}`;
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
-      }
-
-      if (
-        this.parametrosUrl?.documento_clase == 2 ||
-        this.parametrosUrl?.documento_clase == 3
-      ) {
-        this.visualizarCampoDocumentoReferencia = true;
-        this.changeDetectorRef.detectChanges();
+      } else {
+        this.plazo_pago_dias = 0;
+        this.formularioFactura
+          .get('fecha_vence')
+          ?.setValue(this.formularioFactura.get('fecha')?.value);
       }
     }
     if (campo === 'metodo_pago') {
@@ -579,45 +615,89 @@ export default class CuentaCobroFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  private _convertirFecha(fecha: string) {
+    const fechaString = fecha; // Obtener la fecha como string
+    const [year, month, day] = fechaString.split('-').map(Number); // Dividir en año, mes, día
+    const fechaFactura = new Date(year, month - 1, day); // Crear el objeto Date
+
+    return fechaFactura;
+  }
+
   private _consultarInformacion() {
-    zip(
-      this._generalService.consultaApi<RegistroAutocompletarGenMetodoPago>(
-        'general/metodo_pago/seleccionar/',
-      ),
-      this._generalService.consultaApi<RegistroAutocompletarGenPlazoPago>(
-        'general/plazo_pago/seleccionar/',
-      ),
-      this._generalService.consultaApi<RegistroAutocompletarGenAsesor>(
-        'general/asesor/seleccionar/',
-      ),
-      this._generalService.consultaApi<RegistroAutocompletarGenSede>(
-        'general/sede/seleccionar/',
-      ),
-      this._empresaService.obtenerConfiguracionEmpresa(1),
-    ).subscribe((respuesta: any) => {
-      this.arrMetodosPago = respuesta[0];
-      this.arrPlazoPago = respuesta[1];
-      this.arrAsesor = respuesta[2];
-      this.arrSede = respuesta[3];
-      this.requiereAsesor = respuesta[4].venta_asesor;
-      this.requiereSede = respuesta[4].venta_sede;
+    return forkJoin({
+      metodosPago: this._generalService
+        .consultaApi<
+          RegistroAutocompletarGenMetodoPago[]
+        >('general/metodo_pago/seleccionar/')
+        .pipe(catchError(() => of([]))),
+      plazoPago: this._generalService
+        .consultaApi<
+          RegistroAutocompletarGenPlazoPago[]
+        >('general/plazo_pago/seleccionar/')
+        .pipe(catchError(() => of([]))),
+      asesores: this._generalService
+        .consultaApi<
+          RegistroAutocompletarGenAsesor[]
+        >('general/asesor/seleccionar/')
+        .pipe(catchError(() => of([]))),
+      sedes: this._generalService
+        .consultaApi<
+          RegistroAutocompletarGenSede[]
+        >('general/sede/seleccionar/')
+        .pipe(catchError(() => of([]))),
+      almacenes: this._generalService
+        .consultaApi<
+          RegistroAutocompletarInvAlmacen[]
+        >('inventario/almacen/seleccionar/')
+        .pipe(catchError(() => of([]))),
+    }).pipe(
+      tap((respuesta) => {
+        this.arrMetodosPago = respuesta.metodosPago;
+        this.arrPlazoPago = respuesta.plazoPago;
+        this.arrAsesor = respuesta.asesores;
+        this.arrSede = respuesta.sedes;
+        this.arrAlmacenes = respuesta.almacenes;
+        if (!this.detalle) {
+          this._initSugerencias();
+        }
 
-      if (!this.detalle) {
-        this._initSugerencias();
-      }
-
-      this.changeDetectorRef.detectChanges();
-    });
+        this.changeDetectorRef.detectChanges();
+      }),
+    );
   }
 
   private _initSugerencias() {
     this._sugerirSede(0);
+    this._sugeriAsesor(0);
   }
 
   private _sugerirSede(posicion: number) {
     if (this.arrSede.length > 0) {
       this.formularioFactura.patchValue({
-        sede: this.arrSede?.[posicion].sede_id,
+        sede: this.arrSede?.[posicion].id,
+      });
+    }
+  }
+
+  almacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
+    this.formularioFactura.patchValue({
+      almacen: almacen?.id,
+      almacen_nombre: almacen?.nombre,
+    });
+  }
+
+  limpiarCampoAlmacen(item: any) {
+    this.formularioFactura.patchValue({
+      almacen: null,
+      almacen_nombre: null,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _sugeriAsesor(posicion: number) {
+    if (this.arrAsesor.length > 0) {
+      this.formularioFactura.patchValue({
+        asesor: this.arrAsesor?.[posicion].id,
       });
     }
   }
