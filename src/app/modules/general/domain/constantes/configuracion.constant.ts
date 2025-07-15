@@ -315,7 +315,7 @@ export const GENERAL_CONFIGURACION: ModuloConfig = {
           key: null,
           nombreModelo: 'CUENTASCOBRAR',
           documentacion: {
-            id: 1041,
+            id: 1045,
           },
           ajustes: {
             rutas: {

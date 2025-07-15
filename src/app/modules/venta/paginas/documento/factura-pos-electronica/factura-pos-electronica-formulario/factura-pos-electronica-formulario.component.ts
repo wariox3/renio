@@ -55,6 +55,7 @@ import {
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO } from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
 
 @Component({
   selector: 'app-factura-pos-formulario',
@@ -111,7 +112,7 @@ export default class FacturaPosFormularioComponent
   public requiereAsesor: boolean = false;
   public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
-
+  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO
   public theme_value = localStorage.getItem('kt_theme_mode_value');
 
   constructor() {

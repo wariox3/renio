@@ -1,41 +1,39 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { General } from '@comun/clases/general';
+import { BtnExportarComponent } from "@comun/componentes/btn-exportar/btn-exportar.component";
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
-import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import { CUENTAS_COBRAR_CORTE_FILTERS } from '@modulos/cartera/domain/mapeos/cuentas-cobrar-corte.mapeo';
 import { CuentasCobrarCorte } from '@modulos/cartera/interfaces/cuentas-cobrar-corte.interface';
 import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { finalize } from 'rxjs';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
-import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
-import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
-import { FiltroComponent } from "../../../../../comun/componentes/ui/tabla/filtro/filtro.component";
 
 @Component({
   selector: 'app-cuentas-cobrar-corte',
   standalone: true,
-  imports: [
-    CommonModule,
-    CardComponent,
-    TablaComponent,
-    TranslateModule,
-    FiltroComponent
-],
+  imports: [CommonModule, CardComponent, TranslateModule, ReactiveFormsModule, BtnExportarComponent],
   templateUrl: './cuentas-cobrar-corte.component.html',
 })
 export class CuentasCobrarCorteComponent extends General implements OnInit {
-  private _filterTransformerService = inject(FilterTransformerService);
-  private _fechaService = inject(FechasService);
   private _generalService = inject(GeneralService);
+  private _formBuilder = inject(FormBuilder);
+
+  public formularioFiltros: FormGroup;
+  public cargandoCuentas = signal(false);
+  public cuentas = signal<CuentasCobrarCorte[]>([]);
+
   CAMPOS_FILTRO = CUENTAS_COBRAR_CORTE_FILTERS;
   filtros: ParametrosApi = {};
-  arrDocumentos: CuentasCobrarCorte[] = [];
-  cantidad_registros!: number;
+  cantidadRegistros = signal<number>(0);
   queryParams: ParametrosApi = {
     limit: 50,
     serializador: 'Informe',
@@ -48,106 +46,46 @@ export class CuentasCobrarCorteComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    this._cargarFiltrosPredeterminados();
-    this._construirFiltros();
-    this.activatedRoute.queryParams.subscribe((parametro) => {
-      this.store.dispatch(
-        ActualizarMapeo({ dataMapeo: documentos['cuentas_cobrar_corte'] }),
-      );
-      this.consultarLista();
-    });
-    this.changeDetectorRef.detectChanges();
+    this._initFormularioFiltros();
   }
 
-  private _cargarFiltrosPredeterminados() {
-    const currentDate = this._fechaService.obtenerFechaActualFormateada();
-    this.queryParams = {
-      ...this.queryParams,
-      fecha: currentDate,
-    };
+  private _initFormularioFiltros() {
+    const currentDate = new Date();
 
-    const filtroValue = [
-      {
-        propiedad: 'fecha',
-        operadorFiltro: 'exact',
-        valor1: currentDate,
-        tipo: 'DateField',
-        operador: 'exact',
-        campo: 'fecha',
-      },
-    ];
+    const hoy = currentDate.toISOString().split('T')[0];
 
-    localStorage.setItem(this.filtroKey, JSON.stringify(filtroValue));
+    this.formularioFiltros = this._formBuilder.group({
+      fecha: [hoy, Validators.required],
+    });
   }
 
   consultarLista(queryParams: ParametrosApi = {}) {
+    this.cargandoCuentas.set(true);
     this._generalService
-      .consultaApi<{ registros: CuentasCobrarCorte[], cantidad_registros: number }>(
-        'cartera/informe/pendiente-corte/',
-        this.queryParams)
+      .consultaApi<{
+        registros: CuentasCobrarCorte[];
+        cantidad_registros: number;
+      }>('cartera/informe/pendiente-corte/', {
+        ...queryParams,
+      })
+      .pipe(finalize(() => this.cargandoCuentas.set(false)))
       .subscribe((respuesta) => {
-        this.cantidad_registros = respuesta.cantidad_registros;
-        this.arrDocumentos = respuesta.registros.map((documento) => ({
-          id: documento.id,
-          abono: documento.abono,
-          numero: documento.numero,
-          fecha: documento.fecha,
-          fecha_vence: documento.fecha_vence,
-          documento_tipo_id: documento.documento_tipo_id,
-          documento_tipo_nombre: documento.documento_tipo_nombre,
-          contacto_numero_identificacion:
-            documento.contacto_numero_identificacion,
-          contacto_nombre_corto: documento.contacto_nombre_corto,
-          subtotal: documento.subtotal,
-          impuesto: documento.impuesto,
-          total: documento.total,
-          saldo: documento.saldo,
-        }));
-        this.changeDetectorRef.detectChanges();
+        this.cantidadRegistros.set(respuesta.cantidad_registros);
+        this.cuentas.set(respuesta.registros);
       });
   }
 
-  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this.queryParams = {
-      ...this.queryParams,
-      ...this.filtros,
-      page: data.desplazamiento,
-    };
-    this.consultarLista();
-  }
-
   descargarExcel() {
-    this.descargarArchivosService.exportarExcel(
+    this.descargarArchivosService.exportarExcelPersonalizado(
       'cartera/informe/pendiente-corte',
       {
-        ...this.queryParams,
-        excel_informe: 'True',
+        fecha: this.formularioFiltros.value.fecha,
+        excel: 'True',
       },
     );
   }
 
-  filterChange(filters: FilterCondition[]) {
-      const apiParams =
-        this._filterTransformerService.transformToApiParams(filters);
-  
-      this.queryParams = {
-        ...this.queryParams,
-        ...apiParams,
-      };
-
-      this.consultarLista();
-    }
-
-  private _construirFiltros() {
-    const filtroGuardado = localStorage.getItem(this.filtroKey);
-
-    // if (filtroGuardado) {
-    //   const parametrosConsulta: ParametrosFiltros = {
-    //     ...this.arrParametrosConsulta,
-    //     filtros: [...JSON.parse(filtroGuardado)],
-    //   };
-
-    //   this.arrParametrosConsulta = parametrosConsulta;
-    // }
+  generar() {
+    this.consultarLista(this.formularioFiltros.value);
   }
 }

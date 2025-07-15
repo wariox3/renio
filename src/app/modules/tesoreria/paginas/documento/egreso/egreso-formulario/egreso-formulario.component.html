@@ -69,8 +69,6 @@
               <app-comun-buscar-avanzado
                 [consultarUrl]="'general/contacto/'"
                 [tituloModal]="'contacto'"
-                [consultarModelo]="'GenContacto'"
-                [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "

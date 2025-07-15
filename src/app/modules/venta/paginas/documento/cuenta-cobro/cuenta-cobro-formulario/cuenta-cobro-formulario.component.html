@@ -71,8 +71,6 @@
               <app-comun-buscar-avanzado
                 [consultarUrl]="'general/contacto/'"
                 [tituloModal]="'contacto'"
-                [consultarModelo]="'GenContacto'"
-                [consultarTipo]="'Administrador'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'contacto')
                 "
@@ -337,9 +335,7 @@
             <option
               *ngFor="let sede of arrSede"
               [value]="sede.id"
-              [selected]="
-                sede.id === formularioFactura.controls.sede.value
-              "
+              [selected]="sede.id === formularioFactura.controls.sede.value"
             >
               {{ sede.nombre }}
             </option>
@@ -420,85 +416,90 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div
-          class="col-md-6 col-sm-12"
-          *ngIf="visualizarCampoDocumentoReferencia"
-          appAnimacionFadeInOut
-          ngbDropdown
-          #DocumentoReferenciaDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
-          ></label>
-          <div class="position-relative">
-            <input
-              type="text"
-              class="form-control"
-              ngbDropdownAnchor
-              formControlName="documento_referencia_numero"
-              (focus)="
-                consultarDocumentoReferencia($event);
-                DocumentoReferenciaDropdown.open()
-              "
-              (keyup)="consultarDocumentoReferencia($event)"
-              [ngClass]="{
-                'is-invalid':
-                  formularioFactura.controls['documento_referencia_numero']
-                    .touched &&
-                  formularioFactura.controls['documento_referencia_numero']
-                    .invalid,
-                'is-valid':
-                  formularioFactura.controls['documento_referencia_numero']
-                    .touched &&
-                  formularioFactura.controls['documento_referencia_numero']
-                    .valid,
-              }"
-            />
-            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
-              <i class="bi bi-search fs-2"></i>
-            </div>
-          </div>
+        @if (visualizarCampoDocumentoReferencia) {
           <div
-            ngbDropdownMenu
-            aria-labelledby="dropdownBasic1"
-            class="dropdown-menu"
+            class="col-md-6 col-sm-12"
+            appAnimacionFadeInOut
+            ngbDropdown
+            #DocumentoReferenciaDropdown="ngbDropdown"
           >
-            <ng-container *ngFor="let referencia of arrMovimientosClientes">
-              <button
-                type="button"
-                ngbDropdownItem
-                (click)="
-                  modificarCampoFormulario('documento_referencia', referencia)
+            <label
+              class="form-label"
+              translate="FORMULARIOS.CAMPOS.FACTURA.DOCUMENTOREFERENCIA"
+            ></label>
+            <div class="position-relative">
+              <input
+                type="text"
+                class="form-control"
+                ngbDropdownAnchor
+                formControlName="documento_referencia_numero"
+                (focus)="
+                  consultarDocumentoReferencia($event);
+                  DocumentoReferenciaDropdown.open()
                 "
+                (keyup)="consultarDocumentoReferencia($event)"
+                [ngClass]="{
+                  'is-invalid':
+                    formularioFactura.controls['documento_referencia_numero']
+                      .touched &&
+                    formularioFactura.controls['documento_referencia_numero']
+                      .invalid,
+                  'is-valid':
+                    formularioFactura.controls['documento_referencia_numero']
+                      .touched &&
+                    formularioFactura.controls['documento_referencia_numero']
+                      .valid,
+                }"
+              />
+              <div
+                class="position-absolute translate-middle-y top-50 end-0 me-3"
               >
-                {{ referencia.numero }}
+                <i class="bi bi-search fs-2"></i>
+              </div>
+            </div>
+            <div
+              ngbDropdownMenu
+              aria-labelledby="dropdownBasic1"
+              class="dropdown-menu"
+            >
+              <ng-container *ngFor="let referencia of arrMovimientosClientes">
+                <button
+                  type="button"
+                  ngbDropdownItem
+                  (click)="
+                    modificarCampoFormulario('documento_referencia', referencia)
+                  "
+                >
+                  {{ referencia.numero }}
+                </button>
+              </ng-container>
+              <div class="dropdown-divider"></div>
+              <button type="button" ngbDropdownItem>
+                <app-comun-buscar-avanzado
+                  [consultarUrl]="'general/documento/'"
+                  [tituloModal]="'documento'"
+                  (emitirRegistroSeleccionado)="
+                    actualizarFormulario($event, 'documento_referencia')
+                  "
+                  [campoLista]="campoListaDocReferencia"
+                  [campoFiltros]="campoFiltrosDocReferencia"
+                >
+                </app-comun-buscar-avanzado>
               </button>
-            </ng-container>
-            <div class="dropdown-divider"></div>
-            <button type="button" ngbDropdownItem>
-              <app-comun-buscar-avanzado
-                [consultarModelo]="'GenDocumento'"
-                [consultarTipo]="'Documento'"
-                (emitirRegistroSeleccionado)="
-                  actualizarFormulario($event, 'documento_referencia')
-                "
-              >
-              </app-comun-buscar-avanzado>
-            </button>
-          </div>
+            </div>
 
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '50',
-              control: formularioFactura.controls['documento_referencia'],
-            }"
-          ></ng-container>
-        </div>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '50',
+                control: formularioFactura.controls['documento_referencia'],
+              }"
+            ></ng-container>
+          </div>
+        }
       </div>
       <div class="row mb-5">
         <div class="col-md-12 col-sm-12">

@@ -1,31 +1,93 @@
 <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
   <section card-body>
-    <app-filtro
-      [availableFields]="CAMPOS_FILTRO"
-      (filtersApply)="filterChange($event)"
-    ></app-filtro>
+    <form class="row g-4" [formGroup]="formularioFiltros">
+      <div class="col-12 col-md-6 col-lg-3">
+        <label class="form-label fw-semibold">Fecha hasta</label>
+        <input
+          type="date"
+          class="form-control"
+          placeholder="Seleccione fecha inicial"
+          formControlName="fecha"
+        />
+      </div>
+    </form>
   </section>
 </app-card>
 <app-card [titulo]="'MENU.FUNCIONALIDAD.CUENTASCOBRARCORTE'">
   <section card-body>
-    <div class="table-responsive-sm table-loading">
-      <app-comun-tabla
-        [modelo]="'CUENTASCOBRARCORTE'"
-        [_tipo]="'DOCUMENTO'"
-        [datos]="arrDocumentos"
-        [cantidad_registros]="cantidad_registros"
-        [visualizarColumnaEditar]="false"
-        [visualizarColumnaDetalle]="false"
-        [visualizarColumnaSeleccionar]="false"
-        [visualizarBtnImportar]="false"
-        [visualizarBtnExportar]="true"
-        [visualizarBtnNuevo]="false"
-        [visualizarBtnEliminar]="false"
-        [visualizarBtnExportarZip]="false"
-        (emitirPaginacion)="cambiarPaginacion($event)"
-        (emitirExportarExcel)="descargarExcel()"
+    <div class="d-flex justify-content-end mb-4">
+      <div class="btn-group btn-sm shadow-sm">
+        <app-comun-btn-exportar (emitirExportarExcel)="descargarExcel()" />
+        <!-- <button
+          type="submit"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          #btnGuardar
+          translate="FORMULARIOS.BOTONES.COMUNES.PDF"
+          (click)="imprimir()"
+        ></button> -->
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary"
+          #btnGuardar
+          (click)="generar()"
+          [disabled]="cargandoCuentas()"
+        >
+          @if (cargandoCuentas()) {
+            <div class="spinner-border spinner-border-sm mx-4" role="status">
+              <span class="sr-only">Generando...</span>
+            </div>
+          } @else {
+            Generar
+          }
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="table-responsive"
+      [ngClass]="{ 'table-loading': cargandoCuentas() }"
+    >
+      @if (cargandoCuentas()) {
+        <div class="table-loading-message" style="margin-top: 2rem">
+          Cargando...
+        </div>
+      }
+      <table
+        class="table table-hover table-bordered table-rounded border gy-2 gs-2"
       >
-      </app-comun-tabla>
+        <thead>
+          <tr class="text-gray-800 bg-gray-100">
+            <th class="text-center">Id</th>
+            <th class="text-center">Tipo</th>
+            <th class="text-center">Número</th>
+            <th class="text-center">Fecha</th>
+            <th class="text-center">Vence</th>
+            <th class="text-center">Identificación</th>
+            <th class="text-center">Contacto</th>
+            <th class="text-center">Subtotal</th>
+            <th class="text-center">Impuesto</th>
+            <th class="text-center">Total</th>
+            <th class="text-center">Saldo</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (cuenta of cuentas(); track $index) {
+            <tr>
+              <td>{{ cuenta.id }}</td>
+              <td>{{ cuenta.documento_tipo__nombre }}</td>
+              <td>{{ cuenta.numero }}</td>
+              <td>{{ cuenta.fecha }}</td>
+              <td>{{ cuenta.fecha_vence }}</td>
+              <td>{{ cuenta.contacto__numero_identificacion }}</td>
+              <td>{{ cuenta.contacto__nombre_corto }}</td>
+              <td>{{ cuenta.subtotal | currency: "$" }}</td>
+              <td>{{ cuenta.impuesto | currency: "$" }}</td>
+              <td>{{ cuenta.total | currency: "$" }}</td>
+              <td>{{ cuenta.saldo | currency: "$" }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
     </div>
   </section>
 </app-card>

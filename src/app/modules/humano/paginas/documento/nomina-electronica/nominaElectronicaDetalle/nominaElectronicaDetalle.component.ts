@@ -19,6 +19,7 @@ import {
   NominaElectronicaDetalleNomina,
 } from '@modulos/humano/interfaces/nomina-electronica.interface';
 import { NominaElectronicaTablaDetalleComponent } from "../nomina-electronica-tabla-detalle/nomina-electronica-tabla-detalle.component";
+import { BtnAnularComponent } from "@comun/componentes/btn-anular/btn-anular.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -32,7 +33,8 @@ import { NominaElectronicaTablaDetalleComponent } from "../nomina-electronica-ta
     BaseEstadosComponent,
     TituloAccionComponent,
     DocumentoOpcionesComponent,
-    NominaElectronicaTablaDetalleComponent
+    NominaElectronicaTablaDetalleComponent,
+    BtnAnularComponent
 ],
   templateUrl: './nominaElectronicaDetalle.component.html',
   styleUrl: './nominaElectronicaDetalle.component.scss',
@@ -141,5 +143,29 @@ export default class NominaElectronicaDetalleComponent
         }),
       )
       .subscribe();
+  }
+
+  anular() {
+    this.alertaService
+    .anularSinReversa()
+    .pipe(
+      switchMap((respuesta) => {
+        if (respuesta.isConfirmed) {
+          return this.httpService.post('general/documento/anular/', {
+            id: this.detalle,
+          });
+        }
+        return EMPTY;
+      }),
+      tap((respuesta: any) => {
+        if (respuesta) {
+          this.consultarDetalle();
+          this.alertaService.mensajaExitoso(
+            this.translateService.instant('MENSAJES.DOCUMENTOANULADO')
+          );
+        }
+      })
+    )
+    .subscribe();
   }
 }

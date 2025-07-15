@@ -150,10 +150,23 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
       const desde = formGroup.get(fechaDesde)?.value;
       const hasta = formGroup.get(fechaHasta)?.value;
 
-      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
-      if (desde && hasta && new Date(desde) > new Date(hasta)) {
+      if (!desde || !hasta) {
+        return null;
+      }
+
+      const desdeDate = new Date(desde);
+      const hastaDate = new Date(hasta);
+      
+      // Check if fecha_desde is greater than fecha_hasta
+      if (desdeDate > hastaDate) {
         return { fechaInvalida: true };
       }
+      
+      // Check if both dates are in the same year
+      if (desdeDate.getFullYear() !== hastaDate.getFullYear()) {
+        return { diferenteAnio: true };
+      }
+      
       return null;
     };
   }
