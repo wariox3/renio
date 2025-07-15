@@ -272,13 +272,16 @@ export default class ProgramacionDetalleComponent
     );
 
     if (filtroDetalleContratos !== null) {
-      const filtroTransformado = this._filterTransformerService.transformToApiParams(JSON.parse(filtroDetalleContratos))
+      const filtroTransformado =
+        this._filterTransformerService.transformToApiParams(
+          JSON.parse(filtroDetalleContratos),
+        );
       this.parametrosApi = {
         ...this.parametrosApi,
-        ...filtroTransformado
-      }
+        ...filtroTransformado,
+      };
     }
-      
+
     this.changeDetectorRef.detectChanges();
   }
 
@@ -949,7 +952,7 @@ export default class ProgramacionDetalleComponent
       excel_informe: 'True',
       programacion_id: this.programacion.id,
     };
-    
+
     // const filtroDetalleContratos = localStorage.getItem(
     //   `documento_programacion`,
     // );
@@ -963,7 +966,10 @@ export default class ProgramacionDetalleComponent
     //   ];
     // }
 
-    this._descargarArchivosService.exportarExcel('humano/programacion_detalle', params);
+    this._descargarArchivosService.exportarExcel(
+      'humano/programacion_detalle',
+      params,
+    );
     this.dropdown.close();
     this.changeDetectorRef.detectChanges();
   }
@@ -1125,6 +1131,12 @@ export default class ProgramacionDetalleComponent
         this.alertaService.mensajaExitoso('Documento desaprobado con exito!');
         this.consultarDatos();
       },
+    });
+  }
+
+  imprimirNominas() {
+    this.httpService.descargarArchivo('humano/programacion/imprimir-nominas/', {
+      id: this.detalle,
     });
   }
 
