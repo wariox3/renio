@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -42,6 +42,7 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-nota-debito-formulario',
@@ -107,7 +108,7 @@ export default class FacturaDetalleComponent
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: RegistroAutocompletarGenContacto[] = [];
-  referencias: RegistroAutocompletarGenDocumentoReferencia[] = [];
+  referencias = signal<RegistroAutocompletarGenDocumentoReferencia[]>([]);
   arrMetodosPago: any[] = [];
   arrPlazoPago: any[] = [];
   arrDetallesEliminado: number[] = [];
@@ -732,22 +733,29 @@ export default class FacturaDetalleComponent
   }
 
   consultarDocumentoReferencia(event: any) {
+    const numero = event?.target.value;
+    let parametros = {}
+
+    if (numero) {
+      parametros = {
+        numero__icontains: `${numero}`,
+      }
+    }
+
     this._generalService
-      .consultaApi<RegistroAutocompletarGenDocumentoReferencia>(
+      .consultaApi<RespuestaApi<RegistroAutocompletarGenDocumentoReferencia>>(
         'general/documento/',
         {
-          numero__icontains: `${event?.target.value}`,
+          ...parametros,
           contacto_id: this.formularioFactura.get('contacto')?.value,
-          documento_tipo__documento_clase_id: 100,
-          estado_aprobado: 'True',
           limit: 5,
           serializador: 'referencia',
+          ...NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
         },
       )
       .pipe(
-        throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta: any) => {
-          this.referencias = respuesta.results;
+        tap((respuesta) => {
+          this.referencias.set(respuesta.results);
           this.changeDetectorRef.detectChanges();
         }),
       )
