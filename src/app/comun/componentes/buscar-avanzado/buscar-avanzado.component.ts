@@ -52,7 +52,7 @@ export class BuscarAvanzadoComponent extends General {
     this.consultarLista();
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
+      size: 'xl',
     });
     this.changeDetectorRef.detectChanges();
   }

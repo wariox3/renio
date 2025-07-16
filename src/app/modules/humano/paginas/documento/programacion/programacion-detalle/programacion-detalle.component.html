@@ -136,6 +136,15 @@
           >
             Importar horas
           </button>
+          <button
+            ngbDropdownItem
+            (click)="imprimirNominas()"
+            [disabled]="
+              arrProgramacionDetalle.length === 0 || programacion.estado_generado === false
+            "
+          >
+            Importar nominas
+          </button>
         </div>
       </div>
     </div>

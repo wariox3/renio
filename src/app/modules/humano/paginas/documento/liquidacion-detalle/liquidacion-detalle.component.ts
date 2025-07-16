@@ -63,7 +63,7 @@ export default class LiquidacionDetalleComponent
   }
 
   imprimir() {
-    this.httpService.descargarArchivo('general/documento/imprimir/', {
+    this.httpService.descargarArchivo('humano/liquidacion/imprimir/', {
       filtros: [],
       limite: 50,
       desplazar: 0,
@@ -71,8 +71,7 @@ export default class LiquidacionDetalleComponent
       limite_conteo: 10000,
       modelo: '',
       tipo: '',
-      documento_tipo_id: 22,
-      documento_id: this.detalle,
+      id: this.detalle,
     });
   }
 

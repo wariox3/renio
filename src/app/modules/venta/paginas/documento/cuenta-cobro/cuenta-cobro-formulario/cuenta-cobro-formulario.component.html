@@ -45,7 +45,6 @@
                 type="button"
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
                 {{ contacto.nombre_corto }}
               </button>
@@ -110,7 +109,7 @@
                 formularioFactura.controls['fecha'].touched &&
                 formularioFactura.controls['fecha'].valid,
             }"
-            (change)="cambiarFechaVence($event)"
+            (change)="cambiarFechaVence()"
           />
           <ng-container
             [ngTemplateOutlet]="formError"
@@ -211,10 +210,7 @@
             <option
               *ngFor="let plazoPago of arrPlazoPago"
               [value]="plazoPago.id"
-              [selected]="
-                plazoPago.id === formularioFactura.controls.plazo_pago_id
-              "
-              [attr.data-dias]="plazoPago.plazo_dias"
+              [attr.data-dias]="plazoPago.dias"
             >
               {{ plazoPago.nombre }}
             </option>
@@ -309,7 +305,7 @@
 
       <div class="row mb-5">
         <div
-          class="col-md-6 col-sm-12"
+          class="col-md-3 col-sm-12"
           ngbDropdown
           #MetodoDropdown="ngbDropdown"
         >
@@ -341,6 +337,65 @@
             </option>
           </select>
         </div>
+
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Almacen</label>
+          <app-comun-almacenes
+            [almacenNombre]="formularioFactura.get('almacen_nombre')?.value"
+            [campoInvalido]="
+              formularioFactura.controls['almacen'].touched &&
+              formularioFactura.controls['almacen'].invalid
+            "
+            (emitirAlmacen)="almacenSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCampoAlmacen($event)"
+          >
+          </app-comun-almacenes>
+        </div>
+
+        <div
+          class="col-md-6 col-sm-12"
+          ngbDropdown
+          #MetodoDropdown="ngbDropdown"
+        >
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="metodo_pago"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['metodo_pago'].touched &&
+                formularioFactura.controls['metodo_pago'].invalid,
+              'is-valid':
+                formularioFactura.controls['metodo_pago'].touched &&
+                formularioFactura.controls['metodo_pago'].valid,
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let metodoPago of arrMetodosPago"
+              [value]="metodoPago.id"
+              [selected]="
+                metodoPago.id ===
+                formularioFactura.controls['metodo_pago'].value
+              "
+            >
+              {{ metodoPago.nombre }}
+            </option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['metodo_pago'],
+            }"
+          ></ng-container>
+        </div>
       </div>
 
       <div class="row mb-5">
@@ -369,14 +424,8 @@
             <option value="">
               {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
             </option>
-            <option
-              *ngFor="let asesor of arrAsesor"
-              [value]="asesor.asesor_id"
-              [selected]="
-                asesor.asesor_id === formularioFactura.controls.asesor_id
-              "
-            >
-              {{ asesor.asesor_nombre_corto }}
+            <option *ngFor="let asesor of arrAsesor" [value]="asesor.id">
+              {{ asesor.nombre_corto }}
             </option>
           </select>
         </div>
@@ -407,10 +456,10 @@
             </option>
             <option
               *ngFor="let sede of arrSede"
-              [value]="sede.sede_id"
-              [selected]="sede.sede_id === formularioFactura.controls.sede_id"
+              [value]="sede.id"
+              [selected]="sede.id === formularioFactura.controls.sede.value"
             >
-              {{ sede.sede_nombre }}
+              {{ sede.nombre }}
             </option>
           </select>
         </div>
@@ -553,6 +602,9 @@
               <ng-template ngbNavContent>
                 <app-formulario-productos
                   [formularioTipo]="'venta'"
+                  (emitirDocumentoDetalle)="
+                    recibirDocumentoDetalleRespuesta($event)
+                  "
                 ></app-formulario-productos>
               </ng-template>
             </li>
@@ -663,6 +715,158 @@
                         </ng-container>
                       </tbody>
                     </table>
+                  </div>
+                </div>
+              </ng-template>
+            </li>
+
+            <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+              <a
+                class="nav-link"
+                [ngClass]="{ 'text-primary': active === 3 }"
+                ngbNavLink
+                data-bs-toggle="tab"
+                translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
+              ></a>
+              <ng-template ngbNavContent>
+                <div class="row mb-5">
+                  <div class="col-md-6 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
+                    ></label>
+                    <input
+                      formControlName="orden_compra"
+                      class="form-control"
+                      type="text"
+                      autocomplete="off"
+                      (blur)="modificarCampoFormulario('orden_compra', null)"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioFactura.controls['orden_compra'].touched &&
+                          formularioFactura.controls['orden_compra'].invalid,
+                        'is-valid':
+                          formularioFactura.controls['orden_compra'].touched &&
+                          formularioFactura.controls['orden_compra'].valid,
+                      }"
+                    />
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '50',
+                        control: formularioFactura.controls['orden_compra'],
+                      }"
+                    ></ng-container>
+                  </div>
+                  <div
+                    class="col-md-6 col-sm-12"
+                    ngbDropdown
+                    #MetodoDropdown="ngbDropdown"
+                  >
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.ASESOR"
+                    ></label>
+                    <select
+                      class="form-select"
+                      formControlName="asesor"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioFactura.controls['asesor'].touched &&
+                          formularioFactura.controls['asesor'].invalid,
+                        'is-valid':
+                          formularioFactura.controls['asesor'].touched &&
+                          formularioFactura.controls['asesor'].valid,
+                      }"
+                    >
+                      <option value="">
+                        {{
+                          "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate
+                        }}
+                      </option>
+                      <option
+                        *ngFor="let asesor of arrAsesor"
+                        [value]="asesor.id"
+                        [selected]="
+                          asesor.id === formularioFactura.controls.asesor.value
+                        "
+                      >
+                        {{ asesor.nombre_corto }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md-6 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.REMISION"
+                    ></label>
+                    <input
+                      formControlName="remision"
+                      class="form-control"
+                      type="text"
+                      autocomplete="off"
+                      (blur)="modificarCampoFormulario('remision', null)"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioFactura.controls['remision'].touched &&
+                          formularioFactura.controls['remision'].invalid,
+                        'is-valid':
+                          formularioFactura.controls['remision'].touched &&
+                          formularioFactura.controls['remision'].valid,
+                      }"
+                    />
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '50',
+                        control: formularioFactura.controls['remision'],
+                      }"
+                    ></ng-container>
+                  </div>
+                 
+                </div>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioFactura.controls['comentario'].touched &&
+                          formularioFactura.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioFactura.controls['comentario'].touched &&
+                          formularioFactura.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioFactura.controls['comentario'],
+                      }"
+                    ></ng-container>
                   </div>
                 </div>
               </ng-template>

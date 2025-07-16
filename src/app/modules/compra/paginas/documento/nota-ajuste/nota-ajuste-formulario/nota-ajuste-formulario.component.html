@@ -214,9 +214,6 @@
             <option
               *ngFor="let plazoPago of arrPlazoPago"
               [value]="plazoPago.id"
-              [selected]="
-                plazoPago.id === formularioFactura.controls.plazo_pago_id
-              "
               [attr.data-dias]="plazoPago.dias"
             >
               {{ plazoPago.nombre }}
@@ -260,9 +257,6 @@
             <option
               *ngFor="let metodoPago of arrMetodosPago"
               [value]="metodoPago.id"
-              [selected]="
-                metodoPago.id === formularioFactura.controls.metodo_pago_id
-              "
             >
               {{ metodoPago.nombre }}
             </option>

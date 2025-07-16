@@ -1,16 +1,16 @@
-import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { Component, OnInit } from '@angular/core';
 import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
-import { General } from '@comun/clases/general';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { ContactoService } from '@modulos/general/servicios/contacto.service';
+import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
-import { CardComponent } from '@comun/componentes/card/card.component';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { ContactoService } from '@modulos/general/servicios/contacto.service';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 
 @Component({
@@ -39,6 +39,7 @@ export default class ContactoDetalleComponent
   extends General
   implements OnInit
 {
+
   contacto: Contacto = {
     identificacion: 0,
     numero_identificacion: 0,
@@ -101,4 +102,5 @@ export default class ContactoDetalleComponent
         this.changeDetectorRef.detectChanges();
       });
   }
+
 }

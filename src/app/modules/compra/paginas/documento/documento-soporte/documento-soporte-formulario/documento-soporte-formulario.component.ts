@@ -15,9 +15,9 @@ import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocomple
 import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { Contacto } from '@interfaces/general/contacto';
+import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -31,8 +31,6 @@ import { SeleccionarAlmacenComponent } from '../../../../../../comun/componentes
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { DocumentoSoporteInformacionExtraComponent } from '../documento-soporte-informacion-extra/documento-soporte-informacion-extra.component';
-import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
-import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 @Component({
   selector: 'app-documento-soporte-formulario',
   standalone: true,
@@ -234,21 +232,22 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
-      this.formularioFactura.get(campo)?.setValue(dato.id);
-      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
+      const contacto = dato as RegistroAutocompletarGenContacto;
+      this.formularioFactura.get(campo)?.setValue(contacto.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(contacto.nombre_corto);
 
       if (campo === 'contactoNuevoModal') {
-        this.formularioFactura.get(campo)?.setValue(dato.id);
+        this.formularioFactura.get(campo)?.setValue(contacto.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
+          ?.setValue(contacto.nombre_corto);
       }
 
       this.formularioFactura
         .get('plazo_pago')
-        ?.setValue(dato.plazo_pago_proveedor_id);
-      if (dato.plazo_pago_proveedor_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_proveedor_dias;
+        ?.setValue(contacto.plazo_pago_proveedor_id);
+      if (contacto.plazo_pago_proveedor__dias > 0) {
+        this.plazo_pago_dias = contacto.plazo_pago_proveedor__dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
         let fechaInicio = this.formularioFactura.get('fecha')?.value;
         const fechaActual = new Date(fechaInicio);
@@ -263,6 +262,11 @@ export default class FacturaDetalleComponent
           .padStart(2, '0')}`;
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+      } else {
+        this.plazo_pago_dias = 0;
+        this.formularioFactura
+          .get('fecha_vence')
+          ?.setValue(this.formularioFactura.get('fecha')?.value);
       }
 
       if (

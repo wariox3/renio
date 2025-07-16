@@ -196,10 +196,11 @@
           </div>
           <div
             ngbDropdownMenu
+            container="body"
             aria-labelledby="dropdownBasic1"
             class="dropdown-menu"
           >
-            <ng-container *ngFor="let referencia of arrMovimientosClientes">
+            <ng-container *ngFor="let referencia of referencias()">
               <button
                 type="button"
                 ngbDropdownItem
@@ -207,7 +208,7 @@
                   modificarCampoFormulario('documento_referencia', referencia)
                 "
               >
-                {{ referencia.numero }}
+                {{ referencia.numero }} - {{ referencia.fecha }} - {{ referencia.documento_tipo__nombre }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
@@ -240,7 +241,7 @@
 
       <div class="row mb-5">
         <div
-          class="col-md-6 col-sm-12"
+          class="col-md-3 col-sm-12"
           ngbDropdown
           #MetodoDropdown="ngbDropdown"
         >
@@ -274,41 +275,68 @@
             </option>
           </select>
         </div>
-      </div>
 
-      <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
+        <div class="col-md-3 col-sm-12">
+          <label class="form-label">Almacen</label>
+          <app-comun-almacenes
+            [almacenNombre]="formularioFactura.get('almacen_nombre')?.value"
+            [campoInvalido]="
+              formularioFactura.controls['almacen'].touched &&
+              formularioFactura.controls['almacen'].invalid
+            "
+            (emitirAlmacen)="almacenSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCampoAlmacen($event)"
+          >
+          </app-comun-almacenes>
+        </div>
+
+        <div
+          class="col-md-6 col-sm-12"
+          ngbDropdown
+          #MetodoDropdown="ngbDropdown"
+        >
           <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+            class="form-label required"
+            style="z-index: -1; position: relative"
+            translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
           ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            (blur)="modificarCampoFormulario('comentario', null)"
-            rows="3"
+          <select
+            class="form-select"
+            formControlName="metodo_pago"
             [ngClass]="{
               'is-invalid':
-                formularioFactura.controls['comentario'].touched &&
-                formularioFactura.controls['comentario'].invalid,
+                formularioFactura.controls['metodo_pago'].touched &&
+                formularioFactura.controls['metodo_pago'].invalid,
               'is-valid':
-                formularioFactura.controls['comentario'].touched &&
-                formularioFactura.controls['comentario'].valid,
+                formularioFactura.controls['metodo_pago'].touched &&
+                formularioFactura.controls['metodo_pago'].valid,
             }"
-          ></textarea>
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let metodoPago of arrMetodosPago"
+              [value]="metodoPago.id"
+              [selected]="
+                metodoPago.id ===
+                formularioFactura.controls['metodo_pago'].value
+              "
+            >
+              {{ metodoPago.nombre }}
+            </option>
+          </select>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '500',
-              control: formularioFactura.controls['comentario'],
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['metodo_pago'],
             }"
           ></ng-container>
         </div>
       </div>
+
       <div class="row mb-5">
         <div class="col-12">
           <ul
@@ -658,7 +686,41 @@
                 data-bs-toggle="tab"
                 translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
               ></a>
-              <ng-template ngbNavContent> </ng-template>
+              <ng-template ngbNavContent>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioFactura.controls['comentario'].touched &&
+                          formularioFactura.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioFactura.controls['comentario'].touched &&
+                          formularioFactura.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioFactura.controls['comentario'],
+                      }"
+                    ></ng-container>
+                  </div>
+                </div>  
+              </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>

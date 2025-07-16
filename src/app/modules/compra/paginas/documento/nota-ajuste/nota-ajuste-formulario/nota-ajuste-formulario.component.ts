@@ -72,8 +72,8 @@ export default class FacturaDetalleComponent
 
   active: Number;
   arrMovimientosClientes: any[] = [];
-  arrMetodosPago: any[] = [];
-  arrPlazoPago: any[] = [];
+  arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
+  arrPlazoPago: RegistroAutocompletarGenPlazoPago[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
   plazo_pago_dias: any = 0;
@@ -220,21 +220,22 @@ export default class FacturaDetalleComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto' || campo === 'contactoNuevoModal') {
-      this._inicializarFormulario(dato.id);
-      this._limpiarDocumentoReferencia(dato.id);
-      this.formularioFactura.get(campo)?.setValue(dato.id);
-      this.formularioFactura.get('contactoNombre')?.setValue(dato.nombre_corto);
+      const contacto = dato as RegistroAutocompletarGenContacto;
+      this._inicializarFormulario(contacto.id.toString());
+      this._limpiarDocumentoReferencia(contacto.id.toString());
+      this.formularioFactura.get(campo)?.setValue(contacto.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(contacto.nombre_corto);
       if (campo === 'contactoNuevoModal') {
-        this.formularioFactura.get('contacto')?.setValue(dato.id);
+        this.formularioFactura.get('contacto')?.setValue(contacto.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
+          ?.setValue(contacto.nombre_corto);
       }
       this.formularioFactura
         .get('plazo_pago')
-        ?.setValue(dato.plazo_pago_proveedor_id);
-      if (dato.plazo_pago_proveedor_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_proveedor_dias;
+        ?.setValue(contacto.plazo_pago_proveedor_id);
+      if (contacto.plazo_pago_proveedor__dias > 0) {
+        this.plazo_pago_dias = contacto.plazo_pago_proveedor__dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
         let fechaInicio = this.formularioFactura.get('fecha')?.value;
         const fechaActual = new Date(fechaInicio);
@@ -249,6 +250,11 @@ export default class FacturaDetalleComponent
           .padStart(2, '0')}`;
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+      } else {
+        this.plazo_pago_dias = 0;
+        this.formularioFactura
+          .get('fecha_vence')
+          ?.setValue(this.formularioFactura.get('fecha')?.value);
       }
 
       if (
