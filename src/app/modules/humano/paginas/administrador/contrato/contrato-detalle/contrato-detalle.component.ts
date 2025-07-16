@@ -19,7 +19,10 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
 import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
-import { MotivoTerminacion, ProgramacionContrato } from '@modulos/humano/interfaces/contrato.interface';
+import {
+  MotivoTerminacion,
+  ProgramacionContrato,
+} from '@modulos/humano/interfaces/contrato.interface';
 import { ContratoService } from '@modulos/humano/servicios/contrato.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -194,11 +197,9 @@ export default class ContratoDetalleComponent
   }
 
   private _consultarMotivosTerminacion() {
-    this.contratoService
-      .consultarMotivosTerminacion()
-      .subscribe((response) => {
-        this.motivosTerminacion.set(response.results);
-      });
+    this.contratoService.consultarMotivosTerminacion().subscribe((response) => {
+      this.motivosTerminacion.set(response.results);
+    });
   }
 
   evniarFormularioTerminar() {
@@ -249,5 +250,14 @@ export default class ContratoDetalleComponent
     this.formularioTerminar.patchValue({
       motivo_terminacion: event.id,
     });
+  }
+
+  cerfiticadoLAboral() {
+    this._httpService.descargarArchivo(
+      'humano/contrato/imprimir-certificado-laboral/',
+      {
+        id: this.detalle,
+      },
+    );
   }
 }

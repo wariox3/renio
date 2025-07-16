@@ -37,11 +37,33 @@
         </div>
       </div>
     </div>
+    <div
+      class="btn-group"
+      ngbDropdown
+      autoClose="outside"
+      #OpcionesDropdown="ngbDropdown"
+    >
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        id="dropdownBasic1"
+        ngbDropdownToggle
+      >
+        Formato
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem (click)="cerfiticadoLAboral()">
+          Certificado laboral
+        </button>
+      </div>
+    </div>
   </section>
 </div>
 <app-card>
   <section card-titulo>
-    <app-comun-titulo-accion [nombreModelo]="'contrato'"></app-comun-titulo-accion>
+    <app-comun-titulo-accion
+      [nombreModelo]="'contrato'"
+    ></app-comun-titulo-accion>
   </section>
   <section card-body>
     <div class="table-responsive-sm">
@@ -255,10 +277,7 @@
 
 <app-card>
   <section card-titulo>
-    {{
-      "FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTABILIDAD"
-        | translate
-    }}
+    {{ "FORMULARIOS.CAMPOS.GENERAL.CONTRATO.CONTABILIDAD" | translate }}
   </section>
   <section card-body>
     <table class="table table-bordered table-sm">
@@ -345,9 +364,7 @@
             </div>
           </div>
           <div class="col-12">
-            <label
-              class="form-label required"
-            >Movito terminación</label>
+            <label class="form-label required">Movito terminación</label>
             <ng-select
               [items]="motivosTerminacion()"
               bindLabel="nombre"
@@ -363,7 +380,8 @@
               [ngTemplateOutlet]="formError"
               [ngTemplateOutletContext]="{
                 validation: 'required',
-                message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
                 control: formularioTerminar.controls['motivo_terminacion_id'],
               }"
             ></ng-container>
