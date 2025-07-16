@@ -20,5 +20,7 @@ export interface RegistroAutocompletarGenDocumento {
 
 export interface RegistroAutocompletarGenDocumentoReferencia {
   id: number;
+  documento_tipo__nombre: string;
+  fecha: string
   numero: number;
 }

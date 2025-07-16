@@ -57,6 +57,7 @@ import {
 import { AlmacenesComponent } from "@comun/componentes/almacenes/almacenes.component";
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -129,6 +130,7 @@ export default class FacturaDetalleComponent
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
+  referencias = signal<RegistroAutocompletarGenDocumentoReferencia[]>([]);
   arrPlazoPago: any[] = [];
   arrDetallesEliminado: number[] = [];
   arrImpuestosEliminado: number[] = [];
@@ -827,22 +829,29 @@ export default class FacturaDetalleComponent
   }
 
   consultarDocumentoReferencia(event: any) {
+    const numero = event?.target.value;
+    let parametros = {}
+
+    if (numero) {
+      parametros = {
+        numero__icontains: `${numero}`,
+      }
+    }
+
     this._generalService
-      .consultaApi<RegistroAutocompletarGenDocumentoReferencia>(
+      .consultaApi<RespuestaApi<RegistroAutocompletarGenDocumentoReferencia>>(
         'general/documento/',
         {
-          numero__icontains: `${event?.target.value}`,
+          ...parametros,
           contacto_id: this.formularioFactura.get('contacto')?.value,
-          documento_tipo__documento_clase_id: 100,
-          estado_aprobado: 'True',
           limit: 5,
           serializador: 'referencia',
+          ...NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
         },
       )
       .pipe(
-        throttleTime(600, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta: any) => {
-          this.arrMovimientosClientes = respuesta.results;
+        tap((respuesta) => {
+          this.referencias.set(respuesta.results);
           this.changeDetectorRef.detectChanges();
         }),
       )

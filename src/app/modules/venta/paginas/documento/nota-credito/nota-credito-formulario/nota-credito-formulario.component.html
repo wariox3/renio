@@ -199,7 +199,7 @@
             aria-labelledby="dropdownBasic1"
             class="dropdown-menu"
           >
-            <ng-container *ngFor="let referencia of arrMovimientosClientes">
+            <ng-container *ngFor="let referencia of referencias()">
               <button
                 type="button"
                 ngbDropdownItem
@@ -207,7 +207,7 @@
                   modificarCampoFormulario('documento_referencia', referencia)
                 "
               >
-                {{ referencia.numero }}
+                {{ referencia.numero }} - {{ referencia.fecha }} - {{ referencia.documento_tipo__nombre }}
               </button>
             </ng-container>
             <div class="dropdown-divider"></div>
