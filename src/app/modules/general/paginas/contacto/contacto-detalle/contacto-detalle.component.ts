@@ -1,5 +1,5 @@
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
 import { General } from '@comun/clases/general';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -12,6 +12,7 @@ import { Contacto } from '@interfaces/general/contacto';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-contacto-detalle',
@@ -39,6 +40,8 @@ export default class ContactoDetalleComponent
   extends General
   implements OnInit
 {
+  private _httpService = inject(HttpService);
+
   contacto: Contacto = {
     identificacion: 0,
     numero_identificacion: 0,
@@ -100,5 +103,11 @@ export default class ContactoDetalleComponent
         this.contacto = respuesta;
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  cerfiticadoLAboral() {
+    this._httpService.descargarArchivo('humano/contrato/imprimir-certificado-laboral/', {
+      id: this.detalle,
+    });
   }
 }
