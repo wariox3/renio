@@ -90,7 +90,7 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
           key: 'HumLiquidacion',
           nombreModelo: 'liquidacion',
           documentacion: {
-            id: 1082
+            id: 1082,
           },
           ajustes: {
             rutas: {
@@ -147,7 +147,23 @@ export const HUMANO_CONFIGURACION: ModuloConfig = {
             parametrosHttpConfig: {
               modelo: 'GenDocumento',
               filtros: {
-                ui: DOCUMENTO_FILTERS,
+                ui: [
+                  ...DOCUMENTO_FILTERS,
+                  {
+                    name: 'documento_tipo_id',
+                    displayName: '[Documento] tipo',
+                    type: 'relation',
+                    relationConfig: {
+                      endpoint: 'general/documento_tipo/seleccionar/',
+                      valueField: 'id',
+                      displayField: 'nombre',
+                      searchField: 'nombre__icontains',
+                      queryParams: {
+                        documento_clase_id: 701,
+                      },
+                    }
+                  },
+                ],
               },
             },
             ui: {
