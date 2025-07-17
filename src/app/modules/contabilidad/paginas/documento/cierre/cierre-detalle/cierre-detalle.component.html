@@ -14,8 +14,8 @@
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="navegarEditar(cierre.id)"
-        [disabled]="cierre.estado_aprobado || !cierre.id"
+        (click)="navegarEditar(cierre()?.id)"
+        [disabled]="cierre()?.estado_aprobado || !cierre()?.id"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
@@ -23,7 +23,7 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
-        [disabled]="cierre.estado_aprobado"
+        [disabled]="cierre()?.estado_aprobado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
@@ -31,11 +31,7 @@
         type="button"
         class="btn btn-sm btn-danger"
         (click)="anular()"
-        [disabled]="
-          !cierre.estado_aprobado ||
-          cierre.estado_anulado ||
-          cierre.estado_electronico_enviado
-        "
+        [disabled]="!cierre()?.estado_aprobado || cierre()?.estado_anulado"
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.ANULAR" | translate }}
       </button>
@@ -52,9 +48,9 @@
         [opciones]="{
           modelo: 'ConMovimiento',
         }"
-        (itemDesaprobadoEvent)="consultardetalle()"
+        (itemDesaprobadoEvent)="desaprobado()"
         [opcionesDesaprobarBoton]="{
-          deshabilitado: !cierre.estado_aprobado || cierre.estado_anulado,
+          deshabilitado: !cierre()?.estado_aprobado || cierre()?.estado_anulado || false,
         }"
         [documento]="cierre"
       ></app-comun-documento-opciones>
@@ -66,7 +62,9 @@
 </div>
 <app-card>
   <section card-titulo>
-    <app-comun-titulo-accion [nombreModelo]="'cierre'"></app-comun-titulo-accion>
+    <app-comun-titulo-accion
+      [nombreModelo]="'cierre'"
+    ></app-comun-titulo-accion>
   </section>
   <section card-body>
     <table class="table table-bordered table-sm">
@@ -76,31 +74,31 @@
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.FACTURA.NUMERO"
           ></td>
-          <td>{{ cierre.numero }}</td>
+          <td>{{ cierre()?.numero }}</td>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="LISTAS.DOCUMENTO.CONTACTO"
           ></td>
-          <td colspan="3">{{ cierre.contacto_nombre_corto }}</td>
+          <td colspan="3">{{ cierre()?.contacto__nombre_corto }}</td>
         </tr>
         <tr>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.FACTURA.FECHA"
           ></td>
-          <td>{{ cierre.fecha }}</td>
+          <td>{{ cierre()?.fecha }}</td>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
           ></td>
-          <td>{{ cierre.grupo_contabilidad_nombre }}</td>
+          <td>{{ cierre()?.grupo__nombre }}</td>
         </tr>
         <tr>
           <td
             class="fw-bold text-gray-800 fs-6 bg-gray-100"
             translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
           ></td>
-          <td colspan="5">{{ cierre.comentario }}</td>
+          <td colspan="5">{{ cierre()?.comentario }}</td>
         </tr>
       </tbody>
     </table>
@@ -121,6 +119,48 @@
               translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
             ></a>
             <ng-template ngbNavContent>
+              <div class="d-flex justify-content-between my-3">
+                <app-paginador
+                  [totalItems]="cantidadRegistros()"
+                  [totalPages]="totalPages()"
+                  (pageChange)="onPageChange($event)"
+                  [currentPage]="currentPage()"
+                ></app-paginador>
+
+                <div class="btn-group contenedor-btn-group">
+                  <div class="btn-group" ngbDropdown #OpcionesDropdown="ngbDropdown">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+                      id="dropdownBasic1"
+                      ngbDropdownToggle
+                    >
+                      {{ "FORMULARIOS.BOTONES.COMUNES.EXCEL" | translate }}
+                    </button>
+                    <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                      <button (click)="descargarExcelDetalle()" ngbDropdownItem>
+                        {{ "FORMULARIOS.BOTONES.COMUNES.DETALLE" | translate }}
+                      </button>
+                    </div>
+                  </div>
+                  <button
+                    (click)="abrirModalResultados(modalResultadosContent)"
+                    class="btn btn-sm btn-primary"
+                    type="button"
+                    [disabled]="cierre()?.estado_aprobado || cierre()?.estado_anulado"
+                  >
+                    Cargar
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-danger"
+                    (click)="eliminarItems()"
+                    [disabled]="cierre()?.estado_aprobado || cierre()?.estado_anulado"
+                  >
+                    Eliminar todos
+                  </button>
+                </div>
+              </div>
               <div
                 class="table-responsive-sm"
                 [ngClass]="{ 'table-loading': cargandoTabla() }"
@@ -140,73 +180,43 @@
                         [translate]="'LISTAS.DOCUMENTO.ID'"
                         style="width: 50px"
                       ></th>
-                      <th [translate]="'LISTAS.DOCUMENTO.NUMERO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CONTACTO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.CUENTA'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.GRUPO'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.NATURALEZA'"></th>
+                      <th [translate]="'LISTAS.DOCUMENTO.VALOR'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.BASE'"></th>
-                      <th [translate]="'LISTAS.DOCUMENTO.TOTAL'"></th>
                       <th [translate]="'LISTAS.DOCUMENTO.DETALLE'"></th>
                     </tr>
                   </thead>
                   <tbody>
-                    <tr *ngFor="let documento of cierre.detalles">
+                    <tr *ngFor="let documento of detalles()">
                       <td>
                         {{ documento.id }}
                       </td>
                       <td>
-                        {{ documento.numero }}
+                        {{ documento.contacto__nombre_corto }}
                       </td>
                       <td>
-                        {{ documento.contacto_nombre_corto }}
+                        {{ documento.cuenta__codigo }}
                       </td>
                       <td>
-                        {{ documento.cuenta_codigo }}
-                        {{ documento.cuenta_nombre }}
-                      </td>
-                      <td>
-                        {{ documento.grupo_nombre }}
+                        <!-- {{ documento.grupo__nombre }} -->
                       </td>
                       <td>
                         {{ documento.naturaleza }}
                       </td>
                       <td class="text-end">
-                        {{ documento.base | number }}
+                        {{ documento.precio | number }}
                       </td>
                       <td class="text-end">
-                        {{ documento.precio | number }}
+                        {{ documento.base | number }}
                       </td>
                       <td>
                         {{ documento.detalle }}
                       </td>
                     </tr>
                   </tbody>
-                </table>
-              </div>
-              <div class="d-flex justify-content-end mb-5">
-                <table>
-                  <tr *ngIf="getTotalDebito() > 0">
-                    <td class="text-end">Débito:</td>
-                    <td class="text-end">
-                      {{ getTotalDebito() | currency: "$" }}
-                    </td>
-                  </tr>
-                  <tr *ngIf="getTotalCredito() > 0">
-                    <td class="text-end">Crédito:</td>
-                    <td class="text-end">
-                      {{ getTotalCredito() | currency: "$" }}
-                    </td>
-                  </tr>
-                  <!-- <tr>
-                    <td
-                      class="text-end"
-                      translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
-                    ></td>
-                    <td class="text-end">
-                      {{ cierre.total | currency: "$" }}
-                    </td>
-                  </tr> -->
                 </table>
               </div>
             </ng-template>
@@ -227,3 +237,87 @@
     </div>
   </section>
 </app-card>
+
+<ng-template #modalResultadosContent let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Resultados</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioResultado">
+      <section class="row mb-5">
+        <div class="col-sm-12">
+          <label class="form-label required">Cuenta desde</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaDesdeCodigo()"
+            [cuentaNombre]="cuentaDesdeNombre()"
+            [campoInvalido]="
+              formularioResultado.get('cuenta_desde_id')?.touched &&
+              formularioResultado.get('cuenta_desde_id')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaDesdeSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaDesdeSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </section>
+      <section class="row mb-5">
+        <div class="col-sm-12">
+          <label class="form-label required">Cuenta hasta</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaHastaCodigo()"
+            [cuentaNombre]="cuentaHastaNombre()"
+            [campoInvalido]="
+              formularioResultado.get('cuenta_hasta_codigo')?.touched &&
+              formularioResultado.get('cuenta_hasta_codigo')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaHastaSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaHastaSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </section>
+      <section class="row mb-5">
+        <div class="col-sm-12">
+          <label class="form-label required">Cuenta cierre</label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [cuentaCodigo]="cuentaUtilidadCodigo()"
+            [cuentaNombre]="cuentaUtilidadNombre()"
+            [campoInvalido]="
+              formularioResultado.get('cuenta_cierre_codigo')?.touched &&
+              formularioResultado.get('cuenta_cierre_codigo')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaUtilidadSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaUtilidadSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </section>
+      <section class="d-flex justify-content-end">
+        <button
+          type="submit"
+          class="btn btn-sm btn-primary"
+          (click)="enviarFormularioResultados()"
+          [disabled]="formularioResultado.invalid || cargandoResultados()"
+        >
+          @if (cargandoResultados()) {
+            <div class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Cargando...</span>
+            </div>
+            Cargando...
+          } @else {
+            Cargar
+          }
+        </button>
+      </section>
+    </form>
+  </div>
+</ng-template>

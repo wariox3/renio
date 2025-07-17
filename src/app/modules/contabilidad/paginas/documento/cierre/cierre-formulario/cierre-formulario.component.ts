@@ -8,26 +8,23 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
-  AbstractControl,
   FormArray,
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
+  Validators
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { ImportarDetallesComponent } from '@comun/componentes/importar-detalles/importar-detalles.component';
-import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarConGrupo } from '@interfaces/comunes/autocompletar/contabilidad/con-grupo.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import ContactDetalleComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
@@ -39,7 +36,6 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, finalize, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { CierreService } from './services/cierre.service';
-import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
 
 @Component({
   selector: 'app-cierre-formulario',
@@ -54,10 +50,8 @@ import { CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/c
     CardComponent,
     NgbNavModule,
     BuscarAvanzadoComponent,
-    SoloNumerosDirective,
     CuentasComponent,
     ContactDetalleComponent,
-    ContactosComponent,
     ImportarDetallesComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
@@ -471,160 +465,11 @@ export default class CierreFormularioComponent
     });
   }
 
-  private _actualizarDetallesContactoSinDocumentoAfectado() {
-    const detallesArray = this.formularioCierre.get('detalles') as FormArray;
-
-    if (detallesArray.length <= 0) {
-      return false;
-    }
-
-    detallesArray.controls.forEach((control: AbstractControl) => {
-      if (control.get('id')?.value === null) {
-        const contacto =
-          this.formularioCierre.get('contacto')?.value !== ''
-            ? this.formularioCierre.get('contacto')?.value
-            : null;
-
-        const contactoNombre =
-          this.formularioCierre.get('contactoNombre')?.value !== ''
-            ? this.formularioCierre.get('contactoNombre')?.value
-            : null;
-
-        control.patchValue({
-          contacto: contacto,
-          contacto_nombre_corto: contactoNombre,
-        });
-
-        this.formularioCierre.markAsTouched();
-        this.formularioCierre.markAsDirty();
-        this.changeDetectorRef.detectChanges();
-      }
-    });
-  }
-
-  abrirModalResultados(content: any) {
-    this._abrirModal(content);
-  }
-
-  private _abrirModal(content: any) {
-    this._modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
-    });
-  }
-
-  enviarFormularioResultados() {
-    this.cargandoResultados.set(true);
-    this.facturaService
-      .cargarResultados(this.formularioResultado.value)
-      .pipe(
-        finalize(() => {
-          this.cargandoResultados.set(false);
-          this.limpiarCuentaDesdeSeleccionado();
-          this.limpiarCuentaHastaSeleccionado();
-          this.limpiarCuentaUtilidadSeleccionado();
-          this.modalService.dismissAll();
-        }),
-      )
-      .subscribe((response) => {
-        this.consultardetalle();
-        this.alertaService.mensajaExitoso('Resultados cargados con exito!');
-      });
-  }
-
-  agregarCuentaDesdeSeleccionado(cuenta: any) {
-    this.formularioResultado
-      .get('cuenta_desde_codigo')
-      ?.setValue(cuenta.codigo);
-    this.cuentaDesdeNombre = cuenta.nombre;
-    this.cuentaDesdeCodigo = cuenta.codigo;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  limpiarCuentaDesdeSeleccionado() {
-    this.formularioResultado.get('cuenta_desde_codigo')?.setValue(null);
-    this.cuentaDesdeNombre = '';
-    this.cuentaDesdeCodigo = '';
-    this.changeDetectorRef.detectChanges();
-  }
-
-  agregarCuentaHastaSeleccionado(cuenta: any) {
-    this.formularioResultado
-      .get('cuenta_hasta_codigo')
-      ?.setValue(cuenta.codigo);
-    this.cuentaHastaNombre = cuenta.nombre;
-    this.cuentaHastaCodigo = cuenta.codigo;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  limpiarCuentaHastaSeleccionado() {
-    this.formularioResultado.get('cuenta_hasta_codigo')?.setValue(null);
-    this.cuentaHastaNombre = '';
-    this.cuentaHastaCodigo = '';
-    this.changeDetectorRef.detectChanges();
-  }
-
-  agregarCuentaUtilidadSeleccionado(cuenta: any) {
-    this.formularioResultado.get('cuenta_cierre_id')?.setValue(cuenta.id);
-    this.cuentaUtilidadNombre = cuenta.nombre;
-    this.cuentaUtilidadCodigo = cuenta.codigo;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  limpiarCuentaUtilidadSeleccionado() {
-    this.formularioResultado.get('cuenta_cierre_id')?.setValue(null);
-    this.cuentaUtilidadNombre = '';
-    this.cuentaUtilidadCodigo = '';
-    this.changeDetectorRef.detectChanges();
-  }
-
-  manejarCheckItem(event: any, id: number) {
-    if (event.target.checked) {
-      this._agregarItemAListaEliminar(id);
-    } else {
-      this._removerItemDeListaEliminar(id);
-    }
-
-    this.changeDetectorRef.detectChanges();
-  }
-
-  manejarCheckGlobal(event: any) {
-    if (event.target.checked) {
-      this._agregarTodosLosItemsAListaEliminar();
-    } else {
-      this._removerTodosLosItemsAListaEliminar();
-    }
-
-    this.changeDetectorRef.detectChanges();
-  }
-
-  estoyEnListaEliminar(id: number): boolean {
-    return this._cierreService.idEstaEnLista(id);
-  }
-
-  private _agregarTodosLosItemsAListaEliminar() {
-    this._cierreService.agregarTodosARegistrosSeleccionados(
-      this.formularioCierre.controls.detalles.value,
-    );
-  }
-
-  private _removerTodosLosItemsAListaEliminar() {
-    this._cierreService.reiniciarRegistrosSeleccionados();
-  }
-
-  private _agregarItemAListaEliminar(id: number) {
-    this._cierreService.agregarIdARegistrosSeleccionados(id);
-  }
-
-  private _removerItemDeListaEliminar(id: number) {
-    this._cierreService.removerIdRegistrosSeleccionados(id);
-  }
-
   eliminarItems() {
-    this.registrosSeleccionados().forEach((id) => {
-      this.eliminarDocumento(id);
-    });
-    this._removerTodosLosItemsAListaEliminar();
-    this.checkboxAll.nativeElement.checked = false;
+    // this.registrosSeleccionados().forEach((id) => {
+    //   this.eliminarDocumento(id);
+    // });
+    // this._removerTodosLosItemsAListaEliminar();
+    // this.checkboxAll.nativeElement.checked = false;
   }
 }
