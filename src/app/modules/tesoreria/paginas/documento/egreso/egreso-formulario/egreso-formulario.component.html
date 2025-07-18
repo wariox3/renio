@@ -2,7 +2,9 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'egreso'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'egreso'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -56,7 +58,6 @@
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
               <ng-template #content let-modal>
                 <div class="modal-body">
-
                   <app-contacto-formulario
                     [ocultarBtnAtras]="true"
                     (emitirGuardoRegistro)="cerrarModal($event)"
@@ -154,9 +155,7 @@
             <ng-container *ngFor="let banco of arrBancos">
               <option
                 [value]="banco.id"
-                [selected]="
-                  banco.id === formularioEgreso.value.cuenta_banco
-                "
+                [selected]="banco.id === formularioEgreso.value.cuenta_banco"
               >
                 {{ banco.nombre }}
               </option>
@@ -452,8 +451,8 @@
                 ngbNavLink
                 data-bs-toggle="tab"
               >
-            Más información
-            </a>
+                Más información
+              </a>
               <ng-template ngbNavContent>
                 <div class="row mb-5">
                   <div class="col-md-12 col-sm-12">
@@ -481,13 +480,15 @@
                       [ngTemplateOutletContext]="{
                         validation: 'maxlength',
                         message:
-                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
                         cantidadCaracteres: '500',
                         control: formularioEgreso.controls['comentario'],
                       }"
                     ></ng-container>
                   </div>
-                </div> </ng-template>
+                </div>
+              </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
