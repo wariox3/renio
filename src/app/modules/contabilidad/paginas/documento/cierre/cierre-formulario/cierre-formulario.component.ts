@@ -149,7 +149,7 @@ export default class CierreFormularioComponent
       ],
       comentario: [null],
       total: [0],
-      grupo_contabilidad: [''],
+      grupo_contabilidad: ['', Validators.compose([Validators.required])],
       grupo_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
