@@ -173,39 +173,6 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-          ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            (blur)="modificarCampoFormulario('comentario', null)"
-            rows="3"
-            [ngClass]="{
-              'is-invalid':
-                formularioEgreso.controls['comentario'].touched &&
-                formularioEgreso.controls['comentario'].invalid,
-              'is-valid':
-                formularioEgreso.controls['comentario'].touched &&
-                formularioEgreso.controls['comentario'].valid,
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '500',
-              control: formularioEgreso.controls['comentario'],
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
         <div class="col-12">
           <ul
             ngbNav
@@ -484,9 +451,43 @@
                 [ngClass]="{ 'text-primary': tapActivo === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
-              ></a>
-              <ng-template ngbNavContent> </ng-template>
+              >
+            Más información
+            </a>
+              <ng-template ngbNavContent>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioEgreso.controls['comentario'].touched &&
+                          formularioEgreso.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioEgreso.controls['comentario'].touched &&
+                          formularioEgreso.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioEgreso.controls['comentario'],
+                      }"
+                    ></ng-container>
+                  </div>
+                </div> </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
