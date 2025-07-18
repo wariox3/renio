@@ -36,6 +36,8 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, finalize, tap, throttleTime, zip } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { CierreService } from './services/cierre.service';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { DetalleCierreEncabezado } from '@modulos/contabilidad/interfaces/cierre.interface';
 
 @Component({
   selector: 'app-cierre-formulario',
@@ -155,60 +157,25 @@ export default class CierreFormularioComponent
 
   consultardetalle() {
     this.cargandoTabla.set(true);
-    this.facturaService
-      .consultarDetalle(this.detalle)
+    this._generalService
+      .consultaApi<DetalleCierreEncabezado>(
+        `general/documento/${this.detalle}/`,
+        {
+          serializador: 'detalle_cierre',
+        },
+      )
       .pipe(finalize(() => this.cargandoTabla.set(false)))
       .subscribe((respuesta) => {
-        this.estado_aprobado = respuesta.documento.estado_aprobado;
+        this.estado_aprobado = respuesta.estado_aprobado;
         this.formularioCierre.patchValue({
-          contacto: respuesta.documento.contacto_id,
-          contactoNombre: respuesta.documento.contacto_nombre_corto,
-          fecha: respuesta.documento.fecha,
-          comentario: respuesta.documento.comentario,
-          total: respuesta.documento.total,
-          cuenta: respuesta.documento.cuenta_id,
-          grupo_contabilidad: respuesta.documento.grupo_contabilidad_id,
-          grupo_contabilidad_nombre:
-            respuesta.documento.grupo_contabilidad_nombre,
+          contacto: respuesta.contacto_id,
+          contactoNombre: respuesta.contacto__nombre_corto,
+          fecha: respuesta.fecha,
+          comentario: respuesta.comentario,
+          grupo_contabilidad_nombre: respuesta.grupo_contabilidad__nombre,
+          grupo_contabilidad: respuesta.grupo_contabilidad,
         });
-
-        this.detalles.clear();
-        respuesta.documento.detalles.forEach((detalle: any) => {
-          const detalleFormGroup = this.formBuilder.group({
-            id: [detalle.id],
-            documento_afectado: [detalle.documento_afectado_id],
-            tipo_registro: detalle.tipo_registro,
-            numero: [detalle.numero],
-            contacto: [
-              detalle.documento_afectado_contacto_id
-                ? detalle.documento_afectado_contacto_id
-                : detalle.contacto_id,
-            ],
-            contacto_nombre_corto: [
-              detalle.documento_afectado_id
-                ? detalle.documento_afectado_contacto_nombre_corto
-                : detalle.contacto_nombre_corto,
-            ],
-            precio: [detalle.precio],
-            seleccionado: [false],
-            cuenta: detalle.cuenta,
-            cuenta_codigo: detalle.cuenta_codigo,
-            cuenta_nombre: detalle.cuenta_nombre,
-            grupo: detalle.grupo_id,
-            naturaleza: detalle.naturaleza,
-            base: detalle.base,
-            detalle: detalle.detalle,
-            cantidad: detalle.cantidad,
-          });
-          this.detalles.push(detalleFormGroup);
-        });
-        if (respuesta.documento.estado_aprobado) {
-          this.formularioCierre.disable();
-        } else {
-          this.formularioCierre.markAsPristine();
-          this.formularioCierre.markAsUntouched();
-        }
-        this.calcularTotales();
+        
         this.changeDetectorRef.detectChanges();
       });
   }
@@ -463,13 +430,5 @@ export default class CierreFormularioComponent
       this.arrGrupo = respuesta[0];
       this.changeDetectorRef.detectChanges();
     });
-  }
-
-  eliminarItems() {
-    // this.registrosSeleccionados().forEach((id) => {
-    //   this.eliminarDocumento(id);
-    // });
-    // this._removerTodosLosItemsAListaEliminar();
-    // this.checkboxAll.nativeElement.checked = false;
   }
 }
