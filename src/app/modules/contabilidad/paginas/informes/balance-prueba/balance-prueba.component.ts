@@ -21,6 +21,7 @@ import { ContactosComponent } from '@comun/componentes/contactos/contactos.compo
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
+import { fechasDeMismoAnio } from '@comun/validaciones/fechas-mismo-anio.validator';
 import { MovimientoBalancePrueba } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
@@ -96,7 +97,7 @@ export class BalancePruebaComponent extends General implements OnInit {
         cuenta_hasta: [''],
       },
       {
-        validator: this.fechaDesdeMenorQueFechaHasta(
+        validator: fechasDeMismoAnio(
           'fecha_desde',
           'fecha_hasta',
         ),
@@ -146,35 +147,6 @@ export class BalancePruebaComponent extends General implements OnInit {
       },
       'contabilidad/movimiento/informe-balance-prueba/',
     );
-  }
-
-  fechaDesdeMenorQueFechaHasta(
-    fechaDesde: string,
-    fechaHasta: string,
-  ): ValidatorFn {
-    return (formGroup: AbstractControl): { [key: string]: any } | null => {
-      const desde = formGroup.get(fechaDesde)?.value;
-      const hasta = formGroup.get(fechaHasta)?.value;
-
-      if (!desde || !hasta) {
-        return null;
-      }
-
-      const desdeDate = new Date(desde);
-      const hastaDate = new Date(hasta);
-      
-      // Check if fecha_desde is greater than fecha_hasta
-      if (desdeDate > hastaDate) {
-        return { fechaInvalida: true };
-      }
-      
-      // Check if both dates are in the same year
-      if (desdeDate.getFullYear() !== hastaDate.getFullYear()) {
-        return { diferenteAnio: true };
-      }
-      
-      return null;
-    };
   }
 
   generar() {
