@@ -8,6 +8,7 @@ export interface DetalleCuenta {
     contacto__numero_identificacion: string;
     contacto__nombre_corto: string;
     cuenta__codigo: string;
+    grupo__nombre: string;
 }
 
 export interface DetalleCierreEncabezado {
