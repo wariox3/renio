@@ -151,6 +151,20 @@
               </div>
             </div>
           </div>
+          <div
+            *ngIf="
+              formularioCierre.controls.fecha?.touched &&
+              formularioCierre.controls.fecha?.hasError('noEs31Diciembre')
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  La fecha debe ser del 31 de diciembre
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="col-12 col-md-6">
           <label

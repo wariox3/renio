@@ -12,7 +12,10 @@ import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
-  Validators
+  Validators,
+  AbstractControl,
+  ValidationErrors,
+  ValidatorFn,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
@@ -140,12 +143,7 @@ export default class CierreFormularioComponent
       contactoNombre: [''],
       fecha: [
         fechaVencimientoInicial,
-        Validators.compose([
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(200),
-          Validators.pattern(/^[a-z-0-9.-_]*$/),
-        ]),
+        Validators.compose([Validators.required, this.validarFecha31Diciembre()]),
       ],
       comentario: [null],
       total: [0],
@@ -153,6 +151,28 @@ export default class CierreFormularioComponent
       grupo_nombre: [''],
       detalles: this.formBuilder.array([]),
     });
+  }
+
+  /**
+   * Valida si la fecha es 31 de diciembre
+   * @param control FormControl a validar
+   * @returns objeto de error si la fecha no es 31 de diciembre, null si es válida
+   */
+  validarFecha31Diciembre(): ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const fechaString = control.value;
+      const fecha = new Date(fechaString);
+      const mes = fecha.getMonth(); // 0-11, donde 11 es diciembre
+      const dia = fecha.getDate() + 1;
+
+      // Verificamos si la fecha es 31 de diciembre
+      if (mes === 11 && dia === 31) {
+        return null; // La fecha es válida (31 de diciembre)
+      }
+
+      // Si no es 31 de diciembre, devolvemos un error
+      return { noEs31Diciembre: true };
+    };
   }
 
   consultardetalle() {
@@ -175,7 +195,7 @@ export default class CierreFormularioComponent
           grupo_contabilidad_nombre: respuesta.grupo_contabilidad__nombre,
           grupo_contabilidad: respuesta.grupo_contabilidad,
         });
-        
+
         this.changeDetectorRef.detectChanges();
       });
   }

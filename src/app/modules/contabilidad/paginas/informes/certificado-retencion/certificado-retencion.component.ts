@@ -91,8 +91,8 @@ export class CertificadoRetencionComponent extends General implements OnInit {
         cuenta_desde: [''],
         cuenta_hasta: [''],
         contacto_id: [''],
-        cuenta_desde_codigo: [''],
-        cuenta_hasta_codigo: [''],
+        cuenta_codigo_desde: [''],
+        cuenta_codigo_hasta: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -173,7 +173,7 @@ export class CertificadoRetencionComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
-    this.formularioFiltros.get('cuenta_desde_codigo')?.setValue(cuenta.codigo);
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue(cuenta.codigo);
     this.cuentaDesdeNombre.set(cuenta.nombre);
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
@@ -184,7 +184,7 @@ export class CertificadoRetencionComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
-    this.formularioFiltros.get('cuenta_hasta_codigo')?.setValue(cuenta.codigo);
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue(cuenta.codigo);
     this.cuentaHastaNombre.set(cuenta.nombre);
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }

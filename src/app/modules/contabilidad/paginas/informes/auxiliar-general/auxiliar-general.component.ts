@@ -94,7 +94,9 @@ export class AxiliarGeneralComponent extends General implements OnInit {
         comprobante: [''],
         nombre_corto: [''],
         cuenta_desde: [''],
+        cuenta_codigo_desde: [''],
         cuenta_hasta: [''],
+        cuenta_codigo_hasta: [''],
         contacto: [''],
         numero: [''],
       },
@@ -178,6 +180,7 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue(cuenta.codigo);
     this.cuentaDesdeNombre.set(cuenta.nombre);
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
@@ -188,6 +191,7 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue(cuenta.codigo);
     this.cuentaHastaNombre.set(cuenta.nombre);
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }

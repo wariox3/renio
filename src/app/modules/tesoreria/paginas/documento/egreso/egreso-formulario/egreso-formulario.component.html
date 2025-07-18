@@ -2,7 +2,9 @@
   <app-comun-encabezado-formulario-nuevo></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'egreso'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'egreso'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -56,7 +58,6 @@
               {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
               <ng-template #content let-modal>
                 <div class="modal-body">
-
                   <app-contacto-formulario
                     [ocultarBtnAtras]="true"
                     (emitirGuardoRegistro)="cerrarModal($event)"
@@ -154,9 +155,7 @@
             <ng-container *ngFor="let banco of arrBancos">
               <option
                 [value]="banco.id"
-                [selected]="
-                  banco.id === formularioEgreso.value.cuenta_banco
-                "
+                [selected]="banco.id === formularioEgreso.value.cuenta_banco"
               >
                 {{ banco.nombre }}
               </option>
@@ -168,39 +167,6 @@
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
               control: formularioEgreso.controls['cuenta_banco'],
-            }"
-          ></ng-container>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-12 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-          ></label>
-          <textarea
-            formControlName="comentario"
-            class="form-control"
-            id="exampleFormControlTextarea1"
-            (blur)="modificarCampoFormulario('comentario', null)"
-            rows="3"
-            [ngClass]="{
-              'is-invalid':
-                formularioEgreso.controls['comentario'].touched &&
-                formularioEgreso.controls['comentario'].invalid,
-              'is-valid':
-                formularioEgreso.controls['comentario'].touched &&
-                formularioEgreso.controls['comentario'].valid,
-            }"
-          ></textarea>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '500',
-              control: formularioEgreso.controls['comentario'],
             }"
           ></ng-container>
         </div>
@@ -484,9 +450,45 @@
                 [ngClass]="{ 'text-primary': tapActivo === 2 }"
                 ngbNavLink
                 data-bs-toggle="tab"
-                translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
-              ></a>
-              <ng-template ngbNavContent> </ng-template>
+              >
+                Más información
+              </a>
+              <ng-template ngbNavContent>
+                <div class="row mb-5">
+                  <div class="col-md-12 col-sm-12">
+                    <label
+                      class="form-label"
+                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
+                    ></label>
+                    <textarea
+                      formControlName="comentario"
+                      class="form-control"
+                      id="exampleFormControlTextarea1"
+                      (blur)="modificarCampoFormulario('comentario', null)"
+                      rows="3"
+                      [ngClass]="{
+                        'is-invalid':
+                          formularioEgreso.controls['comentario'].touched &&
+                          formularioEgreso.controls['comentario'].invalid,
+                        'is-valid':
+                          formularioEgreso.controls['comentario'].touched &&
+                          formularioEgreso.controls['comentario'].valid,
+                      }"
+                    ></textarea>
+                    <ng-container
+                      [ngTemplateOutlet]="formError"
+                      [ngTemplateOutletContext]="{
+                        validation: 'maxlength',
+                        message:
+                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
+                          | translate,
+                        cantidadCaracteres: '500',
+                        control: formularioEgreso.controls['comentario'],
+                      }"
+                    ></ng-container>
+                  </div>
+                </div>
+              </ng-template>
             </li>
           </ul>
           <div [ngbNavOutlet]="nav" class="mt-2"></div>
