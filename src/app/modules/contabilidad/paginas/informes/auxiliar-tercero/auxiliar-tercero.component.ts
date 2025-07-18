@@ -23,8 +23,8 @@ import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/con
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
-import { CuentasComponent } from "../../../../../comun/componentes/cuentas/cuentas.component";
-import { ContactosComponent } from "../../../../../comun/componentes/contactos/contactos.component";
+import { CuentasComponent } from '../../../../../comun/componentes/cuentas/cuentas.component';
+import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 
 @Component({
   selector: 'app-auxiliar-tercero',
@@ -37,8 +37,8 @@ import { ContactosComponent } from "../../../../../comun/componentes/contactos/c
     TranslateModule,
     BtnExportarComponent,
     CuentasComponent,
-    ContactosComponent
-],
+    ContactosComponent,
+  ],
   templateUrl: './auxiliar-tercero.component.html',
   styleUrl: './auxiliar-tercero.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -94,7 +94,9 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
         numero_identificacion: [''],
         nombre_corto: [''],
         cuenta_desde: [''],
+        cuenta_codigo_desde: [''],
         cuenta_hasta: [''],
+        cuenta_codigo_hasta: [''],
         contacto: [''],
         numero: [''],
         comprobante: [''],
@@ -178,6 +180,7 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue(cuenta.codigo);
     this.cuentaDesdeNombre.set(cuenta.nombre);
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
@@ -188,6 +191,7 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue(cuenta.codigo);
     this.cuentaHastaNombre.set(cuenta.nombre);
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }
@@ -204,7 +208,6 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     this.formularioFiltros.get('contacto')?.setValue(contacto.id);
     this.contactoNombreCorto.set(contacto.nombre_corto);
   }
-
 }
 
 interface GenerarAuxiliarTercero {

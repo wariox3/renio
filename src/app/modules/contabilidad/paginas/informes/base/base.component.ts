@@ -87,8 +87,8 @@ export class BaseComponent extends General implements OnInit {
         fecha_hasta: [lastDayOfMonth, Validators.required],
         cuenta_desde: [''],
         cuenta_hasta: [''],
-        cuenta_desde_codigo: [''],
-        cuenta_hasta_codigo: [''],
+        cuenta_codigo_desde: [''],
+        cuenta_codigo_hasta: [''],
         contacto_id: [''],
       },
       {
@@ -156,7 +156,7 @@ export class BaseComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
-    this.formularioFiltros.get('cuenta_desde_codigo')?.setValue(cuenta.codigo);
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue(cuenta.codigo);
     this.cuentaDesdeNombre.set(cuenta.nombre);
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
@@ -167,8 +167,7 @@ export class BaseComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
-    this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
-    this.formularioFiltros.get('cuenta_hasta_codigo')?.setValue(cuenta.codigo);
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue(cuenta.codigo);
     this.cuentaHastaNombre.set(cuenta.nombre);
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }

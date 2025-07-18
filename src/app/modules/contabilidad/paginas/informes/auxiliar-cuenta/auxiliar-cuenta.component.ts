@@ -125,6 +125,8 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
         cuenta: [''],
         cuenta_desde: [''],
         cuenta_hasta: [''],
+        cuenta_codigo_desde: [''],
+        cuenta_codigo_hasta: [''],
         contacto: [''],
       },
       {
@@ -217,6 +219,7 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue(cuenta.codigo);
     this.cuentaDesdeNombre.set(cuenta.nombre);
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
@@ -227,6 +230,7 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     codigo: string;
   }) {
     this.formularioFiltros.get('cuenta_hasta')?.setValue(cuenta.id);
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue(cuenta.codigo);
     this.cuentaHastaNombre.set(cuenta.nombre);
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }
@@ -240,4 +244,6 @@ interface GenerarAuxiliarCuenta {
   cuenta_movimiento: boolean;
   comprobante: string;
   cuenta: string;
+  cuenta_desde: string;
+  cuenta_hasta: string;
 }
