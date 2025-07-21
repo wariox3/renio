@@ -31,10 +31,16 @@ import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/busc
 import { PagoFormulario } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import {
+  CONTACTO_FILTRO_PERMANENTE_CLIENTE,
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import ContactoFormulario from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO, DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO } from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
+import {
+  DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO,
+  DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -43,6 +49,10 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { SeleccionarResolucionComponent } from "@comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component";
+import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -65,7 +75,9 @@ import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-  ],
+    AlmacenesComponent,
+    SeleccionarResolucionComponent
+],
 })
 export default class FacturaRecurrenteFormularioComponent
   extends General
@@ -124,8 +136,11 @@ export default class FacturaRecurrenteFormularioComponent
   theme_value = localStorage.getItem('kt_theme_mode_value');
   public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
-  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO
-  public campoFiltrosDocReferencia = DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO
+  public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
+  public campoFiltrosDocReferencia =
+    DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO;
+    public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
+
 
   constructor(
     private formBuilder: FormBuilder,
@@ -169,6 +184,10 @@ export default class FacturaRecurrenteFormularioComponent
         'general/sede/seleccionar/',
       ),
       this.empresaService.obtenerConfiguracionEmpresa(1),
+      this._generalService
+        .consultaApi<
+          RegistroAutocompletarInvAlmacen[]
+        >('inventario/almacen/seleccionar/')
     ).subscribe((respuesta: any) => {
       this.arrMetodosPago = respuesta[0];
       this.arrPlazoPago = respuesta[1];
@@ -176,9 +195,11 @@ export default class FacturaRecurrenteFormularioComponent
       this.arrSede = respuesta[3];
       this.requiereAsesor = respuesta[4].venta_asesor;
       this.requiereSede = respuesta[4].venta_sede;
+      this.arrAlmacenes = respuesta[5];
 
       if (!this.detalle) {
         this._initSugerencias();
+        this.almacenSeleccionado(this.arrAlmacenes[0]);
       }
 
       this.changeDetectorRef.detectChanges();
@@ -807,8 +828,8 @@ export default class FacturaRecurrenteFormularioComponent
         {
           nombre_corto__icontains: `${event?.target.value}`,
           cliente: 'True',
-          limit: 10
-        }
+          limit: 10,
+        },
       )
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
@@ -1098,13 +1119,53 @@ export default class FacturaRecurrenteFormularioComponent
 
   private _initSugerencias() {
     this._sugerirSede(0);
+    this._sugeriAsesor(0);
   }
 
   private _sugerirSede(posicion: number) {
     if (this.arrSede.length > 0) {
       this.formularioFactura.patchValue({
-        sede: this.arrSede?.[posicion].sede_id,
+        sede: this.arrSede?.[posicion].id,
       });
     }
   }
+
+  private _sugeriAsesor(posicion: number) {
+    if (this.arrAsesor.length > 0) {
+      this.formularioFactura.patchValue({
+        asesor: this.arrAsesor?.[posicion].id,
+      });
+    }
+  }
+
+  almacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
+    this.formularioFactura.patchValue({
+      almacen: almacen?.id,
+      almacen_nombre: almacen?.nombre,
+    });
+  }
+
+  limpiarCampoAlmacen(item: any) {
+    this.formularioFactura.patchValue({
+      almacen: null,
+      almacen_nombre: null,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+   agregarResolucionSeleccionado(
+      resolucion: RegistroAutocompletarGenResolucion | null,
+    ) {
+      if (resolucion) {
+        this.formularioFactura.patchValue({
+          resolucion: resolucion?.id,
+          resolucion_numero: resolucion?.numero,
+        });
+      } else {
+        this.formularioFactura.patchValue({
+          resolucion: null,
+          resolucion_numero: '',
+        });
+      }
+    }
 }
