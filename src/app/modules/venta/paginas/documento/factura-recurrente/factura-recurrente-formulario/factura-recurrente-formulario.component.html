@@ -806,26 +806,6 @@
                       }"
                     ></ng-container>
                   </div>
-                  <div class="col-md-6 col-sm-12">
-                    <label
-                      translate="FORMULARIOS.TITULOS.COMUNES.RESOLUCION"
-                      class="form-label"
-                    ></label>
-                    <app-seleccionar-resolucion
-                      [iniciarFocusInputBusqueda]="false"
-                      [style]="'height: 3.4rem;'"
-                      [iniciarFocusInputBusqueda]="false"
-                      [valorInicial]="
-                        formularioFactura.get('resolucion_numero')?.value
-                      "
-                      (itemSeleccionadoEvent)="
-                        agregarResolucionSeleccionado($event)
-                      "
-                      [filtrosExternos]="{
-                        venta: 'True',
-                      }"
-                    ></app-seleccionar-resolucion>
-                  </div>
                 </div>
                 <div class="row mb-5">
                   <div class="col-md-12 col-sm-12">
