@@ -51,7 +51,7 @@ export class FacturacionService extends Subdominio {
   }
 
   obtenerUsuarioVrSaldo(usuario_id: number) {
-    return this.http.get<{ saldo: number, credito: number }>(
+    return this.http.get<{ saldo: number, credito: number, abono: number }>(
       `${this.URL_API_BASE}/seguridad/usuario/saldo/${usuario_id}/`,
     );
   }

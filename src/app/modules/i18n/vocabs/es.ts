@@ -321,7 +321,7 @@ export const locale = {
             'Esta es una estimación de la cantidad que debe pagar de este usuario en el mes hasta la fecha después de créditos y pagos por adelantado.',
           TEXTOAYUDA4: 'Seleccione las facturas para pago.',
           CONSUMO: 'Consumos',
-          ESTIMADO: 'Valor estimado',
+          ESTIMADO: 'Pago estimado',
           FECHAPAGO: 'Fecha de pago',
           TIPOPAGO: 'pago tipo',
           TIPO: 'Tipo',

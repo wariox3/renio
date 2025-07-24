@@ -26,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
 import {
   obtenerUsuarioId,
+  obtenerUsuarioVrAbono,
   obtenerUsuarioVrcredito,
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
@@ -38,6 +39,7 @@ import { CountUpModule } from 'ngx-countup';
 import { ContactarAsesorComponent } from '../../../../comun/componentes/contactar-asesor/contactar-asesor.component';
 import { AplicarCreditoComponent } from '../../../../comun/componentes/aplicar-credito/aplicar-credito.component';
 import {
+  usuarioActionActualizarVrAbono,
   usuarioActionActualizarVrCredito,
   usuarioActionActualizarVrSaldo,
 } from '@redux/actions/usuario.actions';
@@ -86,7 +88,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   arrFacturacionInformacion: any[] = [];
   vrCredito = signal(0);
   vrSaldo = signal(0);
-  vrCupones = signal(0);
+  vrAbonos = signal(0);
   movimientoId = signal(0);
   totalPagar = new BehaviorSubject(0);
   informacionFacturacion: number | null = null;
@@ -110,6 +112,9 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       this.codigoUsuario = codigoUsuario;
       this.changeDetectorRef.detectChanges();
     });
+    this.store.select(obtenerUsuarioVrAbono).subscribe((abono) => {
+      this.vrAbonos.set(abono);
+    });
     this.store.dispatch(
       configuracionVisualizarBreadCrumbsAction({
         configuracion: {
@@ -117,7 +122,22 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         },
       }),
     );
+    this.actualizarSaldo();
     this.consultarInformacion();
+  }
+
+  private actualizarSaldo() {
+    this.facturacionService.obtenerUsuarioVrSaldo(this.codigoUsuario).subscribe((respuesta) => {
+      this.vrSaldo.set(respuesta.saldo);
+      this.vrCredito.set(respuesta.credito);
+      this.vrAbonos.set(respuesta.abono);
+
+      this.store.dispatch(
+        usuarioActionActualizarVrAbono({
+          vr_abono: respuesta.abono,
+        }),
+      );
+    });
   }
 
   consultarInformacion() {
@@ -134,9 +154,8 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       if (this.arrFacturacionInformacion.length > 0) {
         this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
       }
-      respuesta[1].consumos.map((consumo: Consumo) => {
-        this.consumoTotal += consumo.vr_total;
-      });
+
+      this.consumoTotal = respuesta[1].total_consumo;
 
       this.facturas.forEach((factura) => {
         this.agregarRegistrosPagar(factura);

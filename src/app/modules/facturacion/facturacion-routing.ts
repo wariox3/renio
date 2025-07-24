@@ -8,5 +8,12 @@ export const routes: Route[] = [
         (c) => c.FacturacionComponent
       ),
   },
+  {
+    path: 'realizar-pago',
+    loadComponent: () =>
+      import('./paginas/realizar-pago/realizar-pago.component').then(
+        (c) => c.RealizarPagoComponent
+      ),
+  },
 ];
 
