@@ -41,6 +41,7 @@ import {
   usuarioActionActualizarVrCredito,
   usuarioActionActualizarVrSaldo,
 } from '@redux/actions/usuario.actions';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-facturacion',
@@ -61,6 +62,7 @@ import {
     CountUpModule,
     ContactarAsesorComponent,
     AplicarCreditoComponent,
+    RouterLink
   ],
   providers: [NgbActiveModal],
 })
@@ -190,9 +192,9 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       let referencia = this.arrFacturasSeleccionados
         .map((factura: Factura, index: number, array: Factura[]) => {
           if (index === array.length - 1) {
-            return factura.id;
+            return `P${factura.id}`;
           } else {
-            return factura.id + '-';
+            return `P${factura.id}_`;
           }
         })
         .join('');

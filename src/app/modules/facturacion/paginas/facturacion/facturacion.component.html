@@ -1,3 +1,47 @@
+<div
+  class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6 mb-2"
+>
+  <!--begin::Icon-->
+
+  <i class="ki-duotone ki-tag fs-2tx text-primary me-8">
+    <span class="path1"></span>
+    <span class="path2"></span>
+    <span class="path3"></span>
+  </i>
+  <!--end::Icon-->
+
+  <!--begin::Wrapper-->
+  <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+    <!--begin::Content-->
+    <div class="mb-3 mb-md-0 fw-semibold">
+      <h4 class="text-gray-900 fw-bold">
+        @if (vrCredito() > 0) {
+          En hora buena, tienes créditos por aplicar.
+        } @else {
+          Uuuuuuu no tienes créditos, qué triste!
+        }
+      </h4>
+
+      <div class="fs-6 text-gray-700 pe-7">
+        Puedes aplicar total o parcialmente tus créditos ${{
+          vrCredito() | number: "1.0-0"
+        }}
+        a los pagos. ¿Cómo puedes ganar créditos? Puedes ser socio RedDoc
+        referenciando nuestra aplicación y ganando créditos cuando estos
+        usuarios la usen. Contacta con un asesor.
+      </div>
+    </div>
+    <!--end::Content-->
+  </div>
+  <!--end::Wrapper-->
+  <button
+    type="button"
+    (click)="abrirModalContactarAsesor(modalContactarAsesor)"
+    class="btn btn-primary px-6 align-self-center text-nowrap"
+  >
+    Contactar asesor
+  </button>
+</div>
 <div class="row">
   <div class="col">
     <div class="card card-dashed flex-center min-w-175px my-3 p-6">
@@ -60,24 +104,24 @@
   </div>
 </div>
 
-
 <app-card>
   <section card-titulo>Facturación</section>
+  <section card-propiedades>
+    <button class="btn btn-primary align-self-center" 
+    routerLink="realizar-pago"
+    >Hacer un pago</button>
+  </section>
   <section card-body>
     <div class="row mb-5">
       <div class="col-12">
-        <div class="mb-10 p-5 border">
-          <div class="d-flex align-items-center justify-content-between">
+        <div class="mb-10">
+          <div class="d-flex align-items-center justify-content-between mb-3">
             <h5
-              class="mb-4"
+              class="mb-4 fs-2"
               translate="FORMULARIOS.TITULOS.FACTURACION.PENDIENTE"
             ></h5>
             <div class="card-toolbar" id="wompiWidget"></div>
           </div>
-          <p
-            class="text-gray-700"
-            translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA4"
-          ></p>
           <div class="table-responsive">
             <table class="table table-bordered align-middle gy-4 gs-9">
               <thead
@@ -148,7 +192,7 @@
                 </tr>
               </tbody>
             </table>
-            
+
             <!-- <div
                     class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-3 p-4"
                   >
@@ -173,59 +217,8 @@
                     </div>
                   </div> -->
           </div>
-          <div
-            class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6"
-          >
-            <!--begin::Icon-->
-
-            <i class="ki-duotone ki-tag fs-2tx text-primary me-8">
-              <span class="path1"></span>
-              <span class="path2"></span>
-              <span class="path3"></span>
-            </i>
-            <!--end::Icon-->
-
-            <!--begin::Wrapper-->
-            <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
-              <!--begin::Content-->
-              <div class="mb-3 mb-md-0 fw-semibold">
-                <h4 class="text-gray-900 fw-bold">
-                  @if (vrCredito() > 0) {
-                    En hora buena, tienes créditos por aplicar.
-                  } @else {
-                    Uuuuuuu no tienes créditos, qué triste!
-                  }
-                </h4>
-
-                <div class="fs-6 text-gray-700 pe-7">
-                  Puedes aplicar total o parcialmente tus créditos ${{
-                    vrCredito() | number: "1.0-0"
-                  }}
-                  a los pagos. ¿Cómo puedes ganar créditos? Puedes ser socio
-                  RedDoc referenciando nuestra aplicación y ganando créditos
-                  cuando estos usuarios la usen. Contacta con un asesor.
-                </div>
-              </div>
-              <!--end::Content-->
-            </div>
-            <!--end::Wrapper-->
-            <button
-              type="button"
-              (click)="abrirModalContactarAsesor(modalContactarAsesor)"
-              class="btn btn-primary px-6 align-self-center text-nowrap"
-            >
-              Contactar asesor
-            </button>
-          </div>
-          <div class="text-muted mt-4">
-            <p>
-              * La factura electrónica se envía al correo o podrá descargarla
-              en la pestaña historial después de realizar el pago.
-            </p>
-          </div>
         </div>
 
-        
         <div class="mb-10 p-5 border">
           <h5
             class="d-inline-block"
