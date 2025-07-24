@@ -9,6 +9,7 @@ import {
   usuarioActionActualizarVrSaldo,
   usuarioActionActualizarEstadoVerificado,
   usuarioActionActualizarVrCredito,
+  usuarioActionActualizarVrAbono,
 } from '../actions/usuario.actions';
 import { getCookie } from 'typescript-cookie';
 import { Usuario } from '@interfaces/usuario/usuario';
@@ -29,6 +30,7 @@ let parsedState: Usuario = {
   fecha_limite_pago: new Date(),
   vr_saldo: 0,
   vr_credito: 0,
+  vr_abono: 0,
   fecha_creacion: new Date(),
   verificado: false,
   es_socio: false,
@@ -122,4 +124,10 @@ export const usuarioReducer = createReducer(
       vr_credito,
     };
   }),
+  on(usuarioActionActualizarVrAbono, (state, { vr_abono }) => { 
+    return {
+      ...state,
+      vr_abono,
+    };
+  })
 );

@@ -4,7 +4,7 @@
       class="border-bottom border-gray-200 fs-6 text-gray-600 fw-bold bg-light bg-opacity-75"
     >
       <tr class="fw-bold text-gray-800">
-        <th>Id</th>
+        <th>#</th>
         <th>Tipo</th>
         <th>Fecha</th>
         <th>Total</th>
@@ -16,14 +16,16 @@
         <td>{{ movimiento.id }}</td>
         <td>{{ movimiento.tipo }}</td>
         <td>{{ movimiento.fecha | date: "yyyy-MM-dd" }}</td>
-        <td class="text-end">$ {{ movimiento.vr_total | number }}</td>
+        <td class="text-end">$ {{ movimiento.vr_total_operado | number }}</td>
         <td class="text-center">
-          <i
-            placement="end"
-            ngbTooltip="Descargar documento"
-            class="fa-solid fa-download cursorPointer"
-            (click)="descargarDocumento(movimiento.id)"
-          ></i>
+          @if (movimiento.tipo === "PEDIDO") {
+            <i
+              placement="end"
+              ngbTooltip="Descargar documento"
+              class="fa-solid fa-download cursorPointer"
+              (click)="descargarDocumento(movimiento.id)"
+            ></i>
+          }
         </td>
       </tr>
     </tbody>

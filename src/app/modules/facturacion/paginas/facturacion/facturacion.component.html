@@ -1,3 +1,47 @@
+<div
+  class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6 mb-2"
+>
+  <!--begin::Icon-->
+
+  <i class="ki-duotone ki-tag fs-2tx text-primary me-8">
+    <span class="path1"></span>
+    <span class="path2"></span>
+    <span class="path3"></span>
+  </i>
+  <!--end::Icon-->
+
+  <!--begin::Wrapper-->
+  <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
+    <!--begin::Content-->
+    <div class="mb-3 mb-md-0 fw-semibold">
+      <h4 class="text-gray-900 fw-bold">
+        @if (vrCredito() > 0) {
+          En hora buena, tienes créditos por aplicar.
+        } @else {
+          Uuuuuuu no tienes créditos, qué triste!
+        }
+      </h4>
+
+      <div class="fs-6 text-gray-700 pe-7">
+        Puedes aplicar total o parcialmente tus créditos ${{
+          vrCredito() | number: "1.0-0"
+        }}
+        a los pagos. ¿Cómo puedes ganar créditos? Puedes ser socio RedDoc
+        referenciando nuestra aplicación y ganando créditos cuando estos
+        usuarios la usen. Contacta con un asesor.
+      </div>
+    </div>
+    <!--end::Content-->
+  </div>
+  <!--end::Wrapper-->
+  <button
+    type="button"
+    (click)="abrirModalContactarAsesor(modalContactarAsesor)"
+    class="btn btn-primary px-6 align-self-center text-nowrap"
+  >
+    Contactar asesor
+  </button>
+</div>
 <div class="row">
   <div class="col">
     <div class="card card-dashed flex-center min-w-175px my-3 p-6">
@@ -16,14 +60,14 @@
 
   <div class="col">
     <div class="card card-dashed flex-center min-w-175px my-3 p-6">
-      <span class="fs-4 fw-semibold text-primary pb-1 px-2">Cupones</span>
+      <span class="fs-4 fw-semibold text-primary pb-1 px-2">Anticipos</span>
       <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
         $<span
           data-kt-countup="true"
           data-kt-countup-value='783"'
           class="counted"
           data-kt-initialized="1"
-          [countUp]="vrCupones()"
+          [countUp]="vrAbonos()"
         ></span>
       </span>
     </div>
@@ -31,7 +75,7 @@
 
   <div class="col">
     <div class="card card-dashed flex-center min-w-175px my-3 p-6">
-      <span class="fs-4 fw-semibold text-info pb-1 px-2">Pedidos</span>
+      <span class="fs-4 fw-semibold text-info pb-1 px-2">Pendiente</span>
       <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
         $<span
           data-kt-countup="true"
@@ -60,24 +104,25 @@
   </div>
 </div>
 
-
 <app-card>
   <section card-titulo>Facturación</section>
+  <section card-propiedades>
+    @if (!(facturas.length > 0)) {
+    <button class="btn btn-primary align-self-center" 
+    routerLink="realizar-pago"
+    >Hacer un pago</button>
+    }
+  </section>
   <section card-body>
     <div class="row mb-5">
       <div class="col-12">
-        <div class="mb-10 p-5 border">
-          <div class="d-flex align-items-center justify-content-between">
+        <div class="mb-10">
+          <div class="d-flex align-items-center justify-content-between mb-3">
             <h5
-              class="mb-4"
-              translate="FORMULARIOS.TITULOS.FACTURACION.PENDIENTE"
+              class="mb-4 fs-2"
             ></h5>
             <div class="card-toolbar" id="wompiWidget"></div>
           </div>
-          <p
-            class="text-gray-700"
-            translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA4"
-          ></p>
           <div class="table-responsive">
             <table class="table table-bordered align-middle gy-4 gs-9">
               <thead
@@ -148,7 +193,7 @@
                 </tr>
               </tbody>
             </table>
-            
+
             <!-- <div
                     class="notice d-flex bg-light-warning rounded border-warning border border-dashed mb-3 p-4"
                   >
@@ -173,59 +218,8 @@
                     </div>
                   </div> -->
           </div>
-          <div
-            class="notice d-flex bg-light-primary rounded border-primary border border-dashed p-6"
-          >
-            <!--begin::Icon-->
-
-            <i class="ki-duotone ki-tag fs-2tx text-primary me-8">
-              <span class="path1"></span>
-              <span class="path2"></span>
-              <span class="path3"></span>
-            </i>
-            <!--end::Icon-->
-
-            <!--begin::Wrapper-->
-            <div class="d-flex flex-stack flex-grow-1 flex-wrap flex-md-nowrap">
-              <!--begin::Content-->
-              <div class="mb-3 mb-md-0 fw-semibold">
-                <h4 class="text-gray-900 fw-bold">
-                  @if (vrCredito() > 0) {
-                    En hora buena, tienes créditos por aplicar.
-                  } @else {
-                    Uuuuuuu no tienes créditos, qué triste!
-                  }
-                </h4>
-
-                <div class="fs-6 text-gray-700 pe-7">
-                  Puedes aplicar total o parcialmente tus créditos ${{
-                    vrCredito() | number: "1.0-0"
-                  }}
-                  a los pagos. ¿Cómo puedes ganar créditos? Puedes ser socio
-                  RedDoc referenciando nuestra aplicación y ganando créditos
-                  cuando estos usuarios la usen. Contacta con un asesor.
-                </div>
-              </div>
-              <!--end::Content-->
-            </div>
-            <!--end::Wrapper-->
-            <button
-              type="button"
-              (click)="abrirModalContactarAsesor(modalContactarAsesor)"
-              class="btn btn-primary px-6 align-self-center text-nowrap"
-            >
-              Contactar asesor
-            </button>
-          </div>
-          <div class="text-muted mt-4">
-            <p>
-              * La factura electrónica se envía al correo o podrá descargarla
-              en la pestaña historial después de realizar el pago.
-            </p>
-          </div>
         </div>
 
-        
         <div class="mb-10 p-5 border">
           <h5
             class="d-inline-block"
@@ -237,7 +231,7 @@
             Mes actual
           </span>
           <br />
-          <b style="font-size: 24px">{{ consumoTotal | currency: "$ " }}</b>
+          <b style="font-size: 24px">{{ consumoTotal | number: "1.0-0" }}</b>
           <p
             class="text-gray-700"
             translate="FORMULARIOS.TITULOS.FACTURACION.TEXTOAYUDA2"
@@ -252,19 +246,24 @@
                 <p translate="FORMULARIOS.TITULOS.FACTURACION.FECHAPAGO"></p>
               </div>
               <div class="col-sm-12 col-md-3">
-                <b>{{ 0 | currency: "$ " }}</b>
+                <b>{{ vrAbonos() | number: "1.0-0" }}</b>
                 <p translate="FORMULARIOS.TITULOS.FACTURACION.PAGOSANTICIPADOS">
                   <i class="ki-outline ki-information-2 ms-2"></i>
                 </p>
               </div>
               <div class="col-sm-12 col-md-3">
-                <b>{{ consumoTotal | currency: "$ " }}</b>
+                <b>{{ consumoTotal | number: "1.0-0" }}</b>
                 <p translate="FORMULARIOS.TITULOS.FACTURACION.TOTALUSO">
                   <i class="ki-outline ki-information-2 ms-2"></i>
                 </p>
               </div>
               <div class="col-sm-12 col-md-3">
-                <b>{{ consumoTotal | currency: "$ " }}</b>
+                @if(vrAbonos() > consumoTotal){
+                  <b>{{ 0 | number: "1.0-0" }}</b>
+                }
+                @else{
+                  <b>{{ consumoTotal - vrAbonos() | number: "1.0-0" }}</b>
+                }
                 <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
                   <i class="ki-outline ki-information-2 ms-2"></i>
                 </p>

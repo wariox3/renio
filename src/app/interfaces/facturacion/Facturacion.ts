@@ -23,14 +23,15 @@ export interface Consumo {
 
 export interface Consumos {
   consumos: Consumo[];
+  total_consumo: number;
 }
 
 export interface Movimiento {
   id: number
   tipo: string
   fecha: string
-  fecha_vence: string
   vr_total: number
+  vr_total_operado: number;
   vr_afectado: number
   vr_saldo: number
   vr_saldo_enmascarado: string

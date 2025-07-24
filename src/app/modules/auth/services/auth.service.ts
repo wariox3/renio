@@ -199,6 +199,7 @@ export class AuthService extends Subdominio implements OnDestroy {
           idioma: usuario.idioma,
           dominio: usuario.dominio,
           fecha_limite_pago: new Date(usuario.fecha_limite_pago),
+          vr_abono: usuario.vr_abono,
           vr_saldo: usuario.vr_saldo,
           fecha_creacion: new Date(usuario.fecha_creacion),
           verificado: usuario.verificado,
