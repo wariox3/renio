@@ -55,6 +55,8 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
   estimatedAmount = signal(0);
   vrAbonos = signal(0);
   usuarioId: number = 0;
+  monthsArray = Array.from({length: 12}, (_, i) => i + 1); // Array del 1 al 12
+  calculatedAmount = signal(0);
 
   // Wompi related properties
   wompiHash: string = '';
@@ -69,7 +71,6 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
     });
     this.store.select(obtenerUsuarioVrAbono).subscribe((abono) => {
       this.vrAbonos.set(abono);
-      console.log(this.vrAbonos());
     });
     this.consultarValorEstimado(this.usuarioId);
   }
@@ -110,6 +111,7 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
     this.pagoForm = this.fb.group({
       paymentType: ['estimated', Validators.required],
       customAmount: [0, [Validators.required, Validators.min(1)]],
+      months: [12, [Validators.required, Validators.min(1), Validators.max(12)]],
     });
 
     // Suscribirse a los cambios en el valor personalizado
@@ -121,31 +123,58 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
         debounceTime(500),
       )
       .subscribe(() => {
-        if (this.paymentType === 'custom' && this.pagoForm.valid) {
-          this.generateWompiReference();
-        }
+        if (this.paymentType !== 'custom' || !this.pagoForm.valid) return;
+        this.generateWompiReference();
       });
+      
+    // Actualizar el monto calculado cuando cambie el número de meses
+    this.updateCalculatedAmount();
   }
 
   get paymentType(): string {
-    return this.pagoForm.get('paymentType')?.value;
+    return this.pagoForm?.get('paymentType')?.value || 'estimated';
   }
 
   get customAmount(): number {
-    return this.pagoForm.get('customAmount')?.value;
+    return this.pagoForm?.get('customAmount')?.value || 0;
+  }
+  
+  get months(): number {
+    return this.pagoForm?.get('months')?.value || 1;
   }
 
   get customAmountControl() {
-    return this.pagoForm.get('customAmount');
+    return this.pagoForm?.get('customAmount');
   }
 
   onPaymentTypeChange(type: string): void {
+    if (!this.pagoForm) return;
+    
     this.pagoForm.patchValue({
       paymentType: type,
     });
+    
+    // Actualizar el monto calculado si es pago por múltiples meses
+    if (type === 'multiMonth') {
+      this.updateCalculatedAmount();
+    }
 
     // Update Wompi button when payment type changes
     this.generateWompiReference();
+  }
+  
+  onMonthsChange(): void {
+    if (!this.pagoForm) return;
+    
+    this.updateCalculatedAmount();
+    this.generateWompiReference();
+  }
+  
+  private updateCalculatedAmount(): void {
+    const baseAmount = this.estimatedAmount();
+    const months = this.months;
+    
+    this.calculatedAmount.set(baseAmount * months);
   }
 
   /**
@@ -153,16 +182,32 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
    * and requests a hash for integrity validation
    */
   generateWompiReference(): void {
-    if (!this.pagoForm.valid) {
+    // Verificar que el formulario sea válido
+    if (!this.pagoForm?.valid) {
+      console.log('Formulario inválido, no se generará referencia Wompi');
       return;
     }
 
-    const amount =
-      this.paymentType === 'estimated'
-        ? this.estimatedAmount()
-        : this.customAmount;
+    // Obtener el monto según el tipo de pago
+    let amount = 0;
+    
+    if (this.paymentType === 'estimated') {
+      amount = this.estimatedAmount();
+    } else if (this.paymentType === 'multiMonth') {
+      amount = this.calculatedAmount();
+    } else if (this.paymentType === 'custom') {
+      amount = this.customAmount;
+    }
 
-    if (amount <= 0) {
+    // Verificar que el monto sea válido
+    if (!amount || amount <= 0) {
+      console.log('Monto inválido:', amount);
+      return;
+    }
+
+    // Verificar que tengamos un ID de usuario
+    if (!this.usuarioId) {
+      console.log('ID de usuario no disponible');
       return;
     }
 
@@ -177,8 +222,6 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
     const dateFormat = `${year}${month}${day}${hours}${minutes}${seconds}`;
     const reference = `A${this.usuarioId}-${dateFormat}`;
 
-    console.log(reference);
-
     // Request hash from backend
     this.contenedorService
       .contenedorGenerarIntegridad({
@@ -186,11 +229,25 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
         monto: `${amount}00`, // Convert to cents
       })
       .pipe(takeUntil(this._unsubscribe$))
-      .subscribe((response) => {
-        this.wompiHash = response.hash;
-        this.wompiReferencia = reference;
-        this.actualizarBotonWompi();
-        this.changeDetectorRef.detectChanges();
+      .subscribe({
+        next: (response) => {
+          if (!response || !response.hash) {
+            console.error('Respuesta inválida al generar hash');
+            return;
+          }
+          
+          this.wompiHash = response.hash;
+          this.wompiReferencia = reference;
+          this.actualizarBotonWompi();
+          this.changeDetectorRef.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error al generar hash para Wompi:', err);
+          this.alertaService.mensajeError(
+            'Error',
+            'No se pudo generar el hash para el pago. Por favor, intente nuevamente.'
+          );
+        }
       });
   }
 
@@ -198,50 +255,76 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
    * Updates the Wompi payment button in the DOM
    */
   actualizarBotonWompi(): void {
+    // Verificar que existe el contenedor del widget
     const wompiWidget = document.getElementById('wompiWidget');
     if (!wompiWidget) {
-      console.error('Elemento wompiWidget no encontrado');
+      console.error('Elemento wompiWidget no encontrado en el DOM');
       return;
     }
 
-    // Clear the container
+    // Limpiar el contenedor
     wompiWidget.innerHTML = '';
 
-    // Get payment amount based on selected payment type
-    const amount =
-      this.paymentType === 'estimated'
-        ? this.estimatedAmount()
-        : this.customAmount;
+    // Obtener el monto según el tipo de pago
+    let amount = 0;
+    
+    if (this.paymentType === 'estimated') {
+      amount = this.estimatedAmount();
+    } else if (this.paymentType === 'multiMonth') {
+      amount = this.calculatedAmount();
+    } else if (this.paymentType === 'custom') {
+      amount = this.customAmount;
+    }
 
-    // Only create the button if there's an amount to pay and we have hash and reference
-    if (amount > 0 && this.wompiHash && this.wompiReferencia) {
-      // Get redirect URL based on environment
+    // Verificar que tenemos todos los datos necesarios
+    if (amount <= 0) {
+      console.error('Monto inválido para Wompi:', amount);
+      return;
+    }
+    
+    if (!this.wompiHash) {
+      console.error('Hash de Wompi no disponible');
+      return;
+    }
+    
+    if (!this.wompiReferencia) {
+      console.error('Referencia de Wompi no disponible');
+      return;
+    }
+    
+    console.log('Actualizando botón Wompi. Monto:', amount, 'Hash:', this.wompiHash, 'Referencia:', this.wompiReferencia);
+    
+    try {
+      // Obtener la URL de redirección según el entorno
       const url = environment.production
-      ? `${environment.dominioHttp}://app${environment.dominioApp}/facturacion`
-      : 'http://localhost:4200/facturacion';
-
-      // Create script element for Wompi widget
+        ? `${environment.dominioHttp}://app${environment.dominioApp}/facturacion`
+        : 'http://localhost:4200/facturacion';
+  
+      // Crear el elemento script para el widget de Wompi
       const script = this.renderer.createElement('script');
-
-      // Set attributes for the Wompi script
+  
+      // Establecer los atributos para el script de Wompi
       const attributes = {
         src: 'https://checkout.wompi.co/widget.js',
         'data-render': 'button',
         'data-public-key': environment.llavePublica,
         'data-currency': 'COP',
-        'data-amount-in-cents': `${amount}00`, // Convert to cents
+        'data-amount-in-cents': `${amount}00`, // Convertir a centavos
         'data-redirect-url': url,
         'data-reference': this.wompiReferencia,
         'data-signature:integrity': this.wompiHash,
       };
-
-      // Apply attributes to the script
+  
+      // Aplicar los atributos al script
       Object.entries(attributes).forEach(([key, value]) => {
         this.renderer.setAttribute(script, key, value);
       });
-
-      // Add the script to the container
+  
+      // Añadir el script al contenedor
       this.renderer.appendChild(wompiWidget, script);
+      console.log('Botón Wompi actualizado correctamente');
+    } catch (error) {
+      console.error('Error al crear el botón de Wompi:', error);
     }
   }
 
