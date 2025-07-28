@@ -49,7 +49,7 @@ export const obtenerUsuarioNombreCompleto = createSelector(
 
 export const obtenerUsuarioImagen = createSelector(
   Usuario,
-  (Usuario) => Usuario.imagen
+  (Usuario) => Usuario.imagen_thumbnail
 );
 
 export const obtenerUsuarioidioma = createSelector(

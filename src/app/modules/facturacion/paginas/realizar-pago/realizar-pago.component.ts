@@ -230,7 +230,6 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
     const seconds = String(today.getSeconds()).padStart(2, '0');
     const dateFormat = `${year}${month}${day}${hours}${minutes}${seconds}`;
     const reference = `A${this.usuarioId}-${this.informacionFacturacionId}-${dateFormat}`;
-    console.log(reference);
 
     // Request hash from backend
     this.contenedorService

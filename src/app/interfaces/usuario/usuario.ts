@@ -2,6 +2,7 @@ export interface Usuario {
   id: number;
   username: string;
   imagen: string;
+  imagen_thumbnail: string;
   nombre_corto: string;
   nombre: string | null;
   apellido: string | null;
