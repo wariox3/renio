@@ -179,6 +179,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     
     if (this.arrFacturacionInformacion.length > 0) {
       this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
+      this.facturacionService.setInformacionFacturacionId(this.informacionFacturacion);
       this.existeInformacionFacturacion.set(true);
     } else {
       this.informacionFacturacion = null;
@@ -201,12 +202,16 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     this.registrosSeleccionados.set(itemsFiltrados);
   }
 
+  private mostrarErrorInformacionFacturacion() {
+    this.alertaService.mensajeError(
+      'Error',
+      'Debe seleccionar la información de facturación antes de realizar el pago',
+    );
+  }
+
   agregarRegistrosPagar(item: Factura) {
     if (this.informacionFacturacion === null || '') {
-      this.alertaService.mensajeError(
-        'Error',
-        'Debe seleccionar la información de facturación antes de realizar el pago',
-      );
+      this.mostrarErrorInformacionFacturacion();
       return;
     }
 
@@ -239,6 +244,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
           }
         })
         .join('');
+
 
       this.contenedorServices
         .contenedorGenerarIntegridad({
@@ -313,6 +319,8 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         this.arrFacturacionInformacion = respuesta.informaciones_facturacion;
         if (this.arrFacturacionInformacion.length > 0) {
           this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
+          // Set the ID in the service to share with other components using the Observable
+          this.facturacionService.setInformacionFacturacionId(this.informacionFacturacion);
         }
         this.changeDetectorRef.detectChanges();
       });
@@ -454,5 +462,13 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     this.arrFacturasSeleccionados = [];
     this.registrosSeleccionados.set([]);
     this.totalPagar.next(0);
+  }
+
+  irRealizarPago() {
+    if (this.informacionFacturacion === null || '') {
+      this.mostrarErrorInformacionFacturacion();
+      return;
+    }
+    this.router.navigate(['/facturacion/realizar-pago']);
   }
 }

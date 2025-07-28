@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { FechasService } from '@comun/services/fechas.service';
 import { Consumos, Facturas } from '@interfaces/facturacion/Facturacion';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,19 @@ export class FacturacionService extends Subdominio {
     private fechaServices: FechasService,
   ) {
     super();
+  }
+
+  // BehaviorSubject to store and share the informacionFacturacion ID
+  private _informacionFacturacionId = new BehaviorSubject<number | null>(null);
+
+  // Observable to expose the informacionFacturacion ID to components
+  get informacionFacturacionId$(): Observable<number | null> {
+    return this._informacionFacturacionId.asObservable();
+  }
+
+  // Method to update the informacionFacturacion ID
+  setInformacionFacturacionId(id: number | null): void {
+    this._informacionFacturacionId.next(id);
   }
 
   facturacion(usuario_id: number) {

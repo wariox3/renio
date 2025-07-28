@@ -57,6 +57,7 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
   usuarioId: number = 0;
   monthsArray = Array.from({length: 12}, (_, i) => i + 1); // Array del 1 al 12
   calculatedAmount = signal(0);
+  informacionFacturacionId: any;
 
   // Wompi related properties
   wompiHash: string = '';
@@ -72,6 +73,14 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
     this.store.select(obtenerUsuarioVrAbono).subscribe((abono) => {
       this.vrAbonos.set(abono);
     });
+    
+    // Subscribe to the informacionFacturacionId Observable
+    this.facturacionService.informacionFacturacionId$
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe(id => {
+        this.informacionFacturacionId = id;
+      });
+    
     this.consultarValorEstimado(this.usuarioId);
   }
 
@@ -220,7 +229,8 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
     const minutes = String(today.getMinutes()).padStart(2, '0');
     const seconds = String(today.getSeconds()).padStart(2, '0');
     const dateFormat = `${year}${month}${day}${hours}${minutes}${seconds}`;
-    const reference = `A${this.usuarioId}-${dateFormat}`;
+    const reference = `A${this.usuarioId}-${this.informacionFacturacionId}-${dateFormat}`;
+    console.log(reference);
 
     // Request hash from backend
     this.contenedorService
@@ -291,8 +301,6 @@ export class RealizarPagoComponent implements OnInit, OnDestroy {
       console.error('Referencia de Wompi no disponible');
       return;
     }
-    
-    console.log('Actualizando botón Wompi. Monto:', amount, 'Hash:', this.wompiHash, 'Referencia:', this.wompiReferencia);
     
     try {
       // Obtener la URL de redirección según el entorno
