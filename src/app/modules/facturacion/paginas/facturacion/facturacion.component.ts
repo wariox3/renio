@@ -64,7 +64,7 @@ import { RouterLink } from '@angular/router';
     CountUpModule,
     ContactarAsesorComponent,
     AplicarCreditoComponent,
-    RouterLink
+    RouterLink,
   ],
   providers: [NgbActiveModal],
 })
@@ -91,6 +91,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   vrAbonos = signal(0);
   movimientoId = signal(0);
   totalPagar = new BehaviorSubject(0);
+  existeInformacionFacturacion = signal(false);
   informacionFacturacion: number | null = null;
   vrBalance = computed(() => this.vrCredito() - this.vrSaldo());
   private readonly _modalService = inject(NgbModal);
@@ -123,21 +124,25 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       }),
     );
     this.actualizarSaldo();
+
+    // Consultar informacion de facturacion
     this.consultarInformacion();
   }
 
   private actualizarSaldo() {
-    this.facturacionService.obtenerUsuarioVrSaldo(this.codigoUsuario).subscribe((respuesta) => {
-      this.vrSaldo.set(respuesta.saldo);
-      this.vrCredito.set(respuesta.credito);
-      this.vrAbonos.set(respuesta.abono);
+    this.facturacionService
+      .obtenerUsuarioVrSaldo(this.codigoUsuario)
+      .subscribe((respuesta) => {
+        this.vrSaldo.set(respuesta.saldo);
+        this.vrCredito.set(respuesta.credito);
+        this.vrAbonos.set(respuesta.abono);
 
-      this.store.dispatch(
-        usuarioActionActualizarVrAbono({
-          vr_abono: respuesta.abono,
-        }),
-      );
-    });
+        this.store.dispatch(
+          usuarioActionActualizarVrAbono({
+            vr_abono: respuesta.abono,
+          }),
+        );
+      });
   }
 
   consultarInformacion() {
@@ -150,18 +155,35 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     ).subscribe((respuesta) => {
       this.facturas = respuesta[0].movimientos;
       this.consumos = respuesta[1].consumos;
-      this.arrFacturacionInformacion = respuesta[2].informaciones_facturacion;
-      if (this.arrFacturacionInformacion.length > 0) {
-        this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
+      this.consumoTotal = respuesta[1].total_consumo;
+      
+      this.procesarInformacionFacturacion(respuesta[2].informaciones_facturacion);
+
+
+      if (this.existeInformacionFacturacion()) {
+        this.agregarRegistrosPagarFactura(this.facturas);
       }
 
-      this.consumoTotal = respuesta[1].total_consumo;
-
-      this.facturas.forEach((factura) => {
-        this.agregarRegistrosPagar(factura);
-      });
       this.changeDetectorRef.detectChanges();
     });
+  }
+
+  private agregarRegistrosPagarFactura(facturas: Factura[]) {
+    facturas.forEach((factura) => {
+      this.agregarRegistrosPagar(factura);
+    });
+  }
+
+  private procesarInformacionFacturacion(informacionFacturacion: any[]) {
+    this.arrFacturacionInformacion = informacionFacturacion;
+    
+    if (this.arrFacturacionInformacion.length > 0) {
+      this.informacionFacturacion = this.arrFacturacionInformacion[0].id;
+      this.existeInformacionFacturacion.set(true);
+    } else {
+      this.informacionFacturacion = null;
+      this.existeInformacionFacturacion.set(false);
+    }
   }
 
   public idEstaEnLista(id: number): boolean {
@@ -211,9 +233,9 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       let referencia = this.arrFacturasSeleccionados
         .map((factura: Factura, index: number, array: Factura[]) => {
           if (index === array.length - 1) {
-            return `P${factura.id}`;
+            return `P${factura.id}-${this.informacionFacturacion}`;
           } else {
-            return `P${factura.id}_`;
+            return `P${factura.id}-${this.informacionFacturacion}_`;
           }
         })
         .join('');
@@ -230,10 +252,14 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
         });
     } else {
       // Si no hay facturas seleccionadas, limpiar el botón
-      this.wompiHash = '';
-      this.wompiReferencia = '';
-      this.actualizarBotonWompi();
+      this.limpiarBotonWompi();
     }
+  }
+
+  private limpiarBotonWompi() {
+    this.wompiHash = '';
+    this.wompiReferencia = '';
+    this.actualizarBotonWompi();
   }
 
   // Método separado para actualizar el botón de Wompi
@@ -248,14 +274,14 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     wompiWidget.innerHTML = '';
 
     const total = this.totalPagar.getValue();
-    
+
     // Solo crear el botón si hay un monto a pagar y tenemos hash y referencia
     if (total > 0 && this.wompiHash && this.wompiReferencia) {
       // Obtener la URL de redirección según el entorno
       const url = environment.production
         ? `${environment.dominioHttp}://app${environment.dominioApp}/estado`
         : 'http://localhost:4200/estado';
-        
+
       const script = this.renderer.createElement('script');
 
       // Configurar atributos
@@ -332,6 +358,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   }
 
   eliminarInformacionFacturacion(informacion_id: any) {
+    this.limpiarBotonWompi();
     this.facturacionService
       .eliminarInformacionFacturacion(informacion_id)
       .subscribe((respuesta) => {
@@ -340,16 +367,14 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
             'Se ha eliminado correctamente la información de facturación',
           );
         }
+        
         this.facturacionService
           .informacionFacturacion(this.codigoUsuario)
           .subscribe((respuesta) => {
-            this.arrFacturacionInformacion =
-              respuesta.informaciones_facturacion;
-            if (this.arrFacturacionInformacion.length > 0) {
-              this.informacionFacturacion =
-                this.arrFacturacionInformacion[0].id;
-            } else {
-              this.informacionFacturacion = null;
+            this.procesarInformacionFacturacion(respuesta.informaciones_facturacion);
+            this.limpiarInformacionFacturacion();
+            if (this.existeInformacionFacturacion()) {
+              this.agregarRegistrosPagarFactura(this.facturas);
             }
             this.changeDetectorRef.detectChanges();
           });
@@ -423,5 +448,11 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     this.wompiReferencia = '';
     this.actualizarBotonWompi();
     this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarInformacionFacturacion() {
+    this.arrFacturasSeleccionados = [];
+    this.registrosSeleccionados.set([]);
+    this.totalPagar.next(0);
   }
 }

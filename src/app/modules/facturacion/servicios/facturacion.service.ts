@@ -36,7 +36,7 @@ export class FacturacionService extends Subdominio {
   }
 
   informacionFacturacion(usuario_id: number) {
-    return this.http.post<any>(
+    return this.http.post<{ informaciones_facturacion: any[] }>(
       `${this.URL_API_BASE}/contenedor/informacion_facturacion/consulta-usuario/`,
       {
         usuario_id,
