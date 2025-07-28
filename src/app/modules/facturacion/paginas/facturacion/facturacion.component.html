@@ -109,7 +109,7 @@
   <section card-propiedades>
     @if (!(facturas.length > 0)) {
     <button class="btn btn-primary align-self-center" 
-    routerLink="realizar-pago"
+    (click)="irRealizarPago()"
     >Hacer un pago</button>
     }
   </section>
@@ -168,6 +168,7 @@
                     {{ item.vr_saldo | currency: "$" }}
                   </td>
                   <td class="w-20px">
+                    @if (arrFacturacionInformacion.length > 0) {
                     <label [for]="item.id">
                       <i
                         class="cursor-pointer"
@@ -189,6 +190,7 @@
                         (change)="agregarRegistrosPagar(item)"
                       />
                     </label>
+                    }
                   </td>
                 </tr>
               </tbody>
@@ -218,6 +220,136 @@
                     </div>
                   </div> -->
           </div>
+
+          <div
+          class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9 mt-1"
+          data-kt-buttons="true"
+          data-kt-buttons-target="[data-kt-button='true']"
+          data-kt-initialized="1"
+        >
+          <div class="col" *ngFor="let informacion of arrFacturacionInformacion">
+            <label
+              class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative"
+              [ngClass]="{
+                active: informacionFacturacion === informacion.id,
+              }"
+              (click)="informacionFacturacion = informacion.id"
+              data-kt-button="true"
+              style="cursor: pointer"
+            >
+              <div class="d-flex align-items-stretch justify-content-between w-100">
+                <div>
+                  <div class="text-start">
+                    <span class="fs-6 text-gray-800 d-block">
+                      {{ getIdentificacionPrefix(informacion.identificacion_id) }}
+                      {{ informacion.numero_identificacion }}
+                    </span>
+                    <span class="fs-6 fw-bold text-gray-800 d-block">
+                      {{ informacion.nombre_corto }}
+                    </span>
+                    <span class="fs-6 text-gray-800 d-block">
+                      {{ informacion.telefono }}
+                    </span>
+                    <span class="fs-6 text-gray-800 d-block">
+                      {{ informacion.direccion }}
+                    </span>
+                    <span class="fs-6 text-gray-800 d-block">
+                      {{ informacion.ciudad_nombre }} -
+                      {{ informacion.ciudad_estado_nombre }}
+                    </span>
+                  </div>
+                </div>
+                <div
+                  class="d-flex flex-column justify-content-between align-items: flex-end;"
+                >
+                  <div class="align-self-end">
+                    <app-informacion-facturacion
+                      [informacion_id]="informacion.id"
+                      [validarNuevoEditar]="false"
+                      (emitirActualizacion)="consultarDetalle()"
+                    ></app-informacion-facturacion>
+                  </div>
+                  <i
+                    ngbTooltip="Eliminar"
+                    placement="right"
+                    class="ki-duotone ki-trash fs-3x text-danger align-self-end me-3 mb-2"
+                    (click)="confirmarEliminarFacturacion(informacion.id)"
+                    style="cursor: pointer"
+                  >
+                    <span class="path1"></span>
+                    <span class="path2"></span>
+                    <span class="path3"></span>
+                    <span class="path4"></span>
+                    <span class="path5"></span>
+                  </i>
+                </div>
+              </div>
+    
+              <!-- <div
+                    class="d-flex align-items-center justify-content-between w-100"
+                  >
+                    <div class="text-start">
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{
+                          getIdentificacionPrefix(
+                            informacion.identificacion_id
+                          )
+                        }}
+                        {{ informacion.numero_identificacion }}
+                      </span>
+                      <span class="fs-6 fw-bold text-gray-800 d-block">
+                        {{ informacion.nombre_corto }}
+                      </span>
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{ informacion.telefono }}
+                      </span>
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{ informacion.direccion }}
+                      </span>
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{ informacion.ciudad_nombre_mascara }}
+                      </span>
+                    </div>
+                    <div class="position-absolute top-0 end-0 mt-3 me-3">
+                      <app-informacion-facturacion
+                        [informacion_id]="informacion.id"
+                        [validarNuevoEditar]="false"
+                        (emitirActualizacion)="consultarDetalle()"
+                      ></app-informacion-facturacion>
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex align-items-end justify-content-end position-absolute bottom-0 end-0 mb-3 me-3"
+                  >
+                    <i
+                      class="ki-duotone ki-trash fs-3x text-danger"
+                      (click)="
+                        eliminarInformacionFacturacion(informacion.id)
+                      "
+                      style="cursor: pointer"
+                    >
+                      <span class="path1"></span>
+                      <span class="path2"></span>
+                      <span class="path3"></span>
+                      <span class="path4"></span>
+                      <span class="path5"></span>
+                    </i>
+                  </div> -->
+            </label>
+          </div>
+          <div class="col">
+            <label
+              class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative active"
+              data-kt-button="true"
+              style="cursor: pointer"
+            >
+              <app-informacion-facturacion
+                [validarNuevoEditar]="true"
+                (emitirActualizacion)="consultarDetalle()"
+              ></app-informacion-facturacion>
+            </label>
+          </div>
+        </div>
         </div>
 
         <div class="mb-10 p-5 border">
@@ -304,141 +436,6 @@
             </table>
           </div>
         </div>
-      </div>
-    </div>
-  </section>
-</app-card>
-
-<app-card>
-  <section card-titulo>Información facturación</section>
-  <section card-body>
-    <div
-      class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9"
-      data-kt-buttons="true"
-      data-kt-buttons-target="[data-kt-button='true']"
-      data-kt-initialized="1"
-    >
-      <div class="col" *ngFor="let informacion of arrFacturacionInformacion">
-        <label
-          class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative"
-          [ngClass]="{
-            active: informacionFacturacion === informacion.id,
-          }"
-          (click)="informacionFacturacion = informacion.id"
-          data-kt-button="true"
-          style="cursor: pointer"
-        >
-          <div class="d-flex align-items-stretch justify-content-between w-100">
-            <div>
-              <div class="text-start">
-                <span class="fs-6 text-gray-800 d-block">
-                  {{ getIdentificacionPrefix(informacion.identificacion_id) }}
-                  {{ informacion.numero_identificacion }}
-                </span>
-                <span class="fs-6 fw-bold text-gray-800 d-block">
-                  {{ informacion.nombre_corto }}
-                </span>
-                <span class="fs-6 text-gray-800 d-block">
-                  {{ informacion.telefono }}
-                </span>
-                <span class="fs-6 text-gray-800 d-block">
-                  {{ informacion.direccion }}
-                </span>
-                <span class="fs-6 text-gray-800 d-block">
-                  {{ informacion.ciudad_nombre }} -
-                  {{ informacion.ciudad_estado_nombre }}
-                </span>
-              </div>
-            </div>
-            <div
-              class="d-flex flex-column justify-content-between align-items: flex-end;"
-            >
-              <div class="align-self-end">
-                <app-informacion-facturacion
-                  [informacion_id]="informacion.id"
-                  [validarNuevoEditar]="false"
-                  (emitirActualizacion)="consultarDetalle()"
-                ></app-informacion-facturacion>
-              </div>
-              <i
-                ngbTooltip="Eliminar"
-                placement="right"
-                class="ki-duotone ki-trash fs-3x text-danger align-self-end me-3 mb-2"
-                (click)="confirmarEliminarFacturacion(informacion.id)"
-                style="cursor: pointer"
-              >
-                <span class="path1"></span>
-                <span class="path2"></span>
-                <span class="path3"></span>
-                <span class="path4"></span>
-                <span class="path5"></span>
-              </i>
-            </div>
-          </div>
-
-          <!-- <div
-                class="d-flex align-items-center justify-content-between w-100"
-              >
-                <div class="text-start">
-                  <span class="fs-6 text-gray-800 d-block">
-                    {{
-                      getIdentificacionPrefix(
-                        informacion.identificacion_id
-                      )
-                    }}
-                    {{ informacion.numero_identificacion }}
-                  </span>
-                  <span class="fs-6 fw-bold text-gray-800 d-block">
-                    {{ informacion.nombre_corto }}
-                  </span>
-                  <span class="fs-6 text-gray-800 d-block">
-                    {{ informacion.telefono }}
-                  </span>
-                  <span class="fs-6 text-gray-800 d-block">
-                    {{ informacion.direccion }}
-                  </span>
-                  <span class="fs-6 text-gray-800 d-block">
-                    {{ informacion.ciudad_nombre_mascara }}
-                  </span>
-                </div>
-                <div class="position-absolute top-0 end-0 mt-3 me-3">
-                  <app-informacion-facturacion
-                    [informacion_id]="informacion.id"
-                    [validarNuevoEditar]="false"
-                    (emitirActualizacion)="consultarDetalle()"
-                  ></app-informacion-facturacion>
-                </div>
-              </div>
-              <div
-                class="d-flex align-items-end justify-content-end position-absolute bottom-0 end-0 mb-3 me-3"
-              >
-                <i
-                  class="ki-duotone ki-trash fs-3x text-danger"
-                  (click)="
-                    eliminarInformacionFacturacion(informacion.id)
-                  "
-                  style="cursor: pointer"
-                >
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                  <span class="path3"></span>
-                  <span class="path4"></span>
-                  <span class="path5"></span>
-                </i>
-              </div> -->
-        </label>
-      </div>
-      <div class="col">
-        <label
-          class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative active"
-          data-kt-button="true"
-          style="cursor: pointer"
-        >
-          <app-informacion-facturacion
-            [validarNuevoEditar]="true"
-            (emitirActualizacion)="consultarDetalle()"
-          ></app-informacion-facturacion>
-        </label>
       </div>
     </div>
   </section>

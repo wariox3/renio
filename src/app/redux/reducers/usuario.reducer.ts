@@ -20,6 +20,7 @@ let parsedState: Usuario = {
   id: 0,
   username: '',
   imagen: '',
+  imagen_thumbnail: '',
   nombre_corto: '',
   nombre: '',
   apellido: '',
