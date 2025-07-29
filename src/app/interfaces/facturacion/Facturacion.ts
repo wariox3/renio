@@ -35,6 +35,7 @@ export interface Movimiento {
   vr_afectado: number
   vr_saldo: number
   vr_saldo_enmascarado: string
+  factura_id: number
 }
 
 export interface Movimientos {

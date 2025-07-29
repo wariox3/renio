@@ -28,6 +28,7 @@ export class ModalProgramacionDetalleNominaResumenComponent {
     numero: undefined,
     fecha: '',
     fecha_vence: undefined,
+    fecha_desde: undefined,
     fecha_hasta: undefined,
     contacto_id: 0,
     contacto_numero_identificacion: '',

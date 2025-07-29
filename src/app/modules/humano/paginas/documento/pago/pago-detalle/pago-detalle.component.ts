@@ -51,7 +51,7 @@ export default class ProgramacionDetalleComponent
   pago: any = {
     id: null,
     contacto_id: '',
-    fecha: '',
+    fecha_desde: '',
     fecha_hasta: '',
     detalles: [],
   };
