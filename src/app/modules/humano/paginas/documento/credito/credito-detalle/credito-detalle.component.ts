@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
@@ -52,7 +52,7 @@ export default class CreditoDetalleComponent extends General {
     aplica_cesantia: false
   };
 
-  arrCreditoPagos: any;
+  arrCreditoPagos = signal<any[]>([]);
   active: Number;
 
   private readonly _generalService = inject(GeneralService);
@@ -76,22 +76,26 @@ export default class CreditoDetalleComponent extends General {
 
   consultarCreditoPagos() {
     this._generalService
-      .consultarDatosAutoCompletar<any>({
-        filtros: [
-          {
-            propiedad: 'credito_id',
-            valor1: this.credito.id,
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenDocumentoDetalle',
-      })
-      .subscribe((respuesta: any) => {
-        this.arrCreditoPagos = respuesta.registros;
-        this.changeDetectorRef.detectChanges();
+      .consultaApi(
+        'general/documento_detalle/',
+        {
+          credito_id: this.credito.id,
+          serializador: 'credito_pago',
+        }
+      ).subscribe((respuesta: any) => {
+        this.arrCreditoPagos.set(respuesta.results);
       });
+      //     },
+      //   ],
+      //   limite: 10,
+      //   desplazar: 0,
+      //   ordenamientos: [],
+      //   limite_conteo: 10000,
+      //   modelo: 'GenDocumentoDetalle',
+      // })
+      // .subscribe((respuesta: any) => {
+      //   this.arrCreditoPagos = respuesta.registros;
+      //   this.changeDetectorRef.detectChanges();
+      // });
   }
 }

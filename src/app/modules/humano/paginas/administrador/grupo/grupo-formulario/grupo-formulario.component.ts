@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -38,10 +38,9 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
 })
 export default class GrupoFormularioComponent
   extends General
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   formularioGrupo: FormGroup;
-  listaPeriodos$: Observable<any> = new Observable();
+  listaPeriodos = signal<RegistroAutocompletarHumPerido[]>([]);
 
   private readonly _generalService = inject(GeneralService);
   private readonly _configModuleService = inject(ConfigModuleService)
@@ -86,13 +85,17 @@ export default class GrupoFormularioComponent
   }
 
   consultarPeriodos() {
-    this.listaPeriodos$ = this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarHumPerido>({
-        limite_conteo: 10000,
-        modelo: 'HumPeriodo',
-        serializador: 'ListaAutocompletar',
-      })
-      .pipe(map((respuesta) => respuesta.registros));
+    this._generalService
+      .consultaApi<RegistroAutocompletarHumPerido[]>(
+        'humano/periodo/seleccionar/',
+        {
+          limit: 10000,
+        },
+      )
+      .pipe(takeUntil(this._destroy$))
+      .subscribe((respuesta) => {
+        this.listaPeriodos.set(respuesta);
+      });
   }
 
   enviarFormulario() {

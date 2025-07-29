@@ -106,24 +106,15 @@ export class ContenedorFormularioComponent extends General implements OnInit {
 
   consultarCiudad(event: any) {
     let arrFiltros = {
-      filtros: [
-        {
-          propiedad: 'nombre__icontains',
-          valor1: `${event?.target.value}`,
-        },
-      ],
-      limite: 10,
-      desplazar: 0,
-      ordenamientos: [],
-      limite_conteo: 10000,
-      modelo: 'CtnCiudad',
+      'nombre__icontains': `${event?.target.value}`,
+      limit: 10,
     };
     this.contenedorService
       .listaCiudades(arrFiltros)
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta: any) => {
-          this.arrCiudades = respuesta.registros;
+          this.arrCiudades = respuesta;
           this.changeDetectorRef.detectChanges();
         })
       )

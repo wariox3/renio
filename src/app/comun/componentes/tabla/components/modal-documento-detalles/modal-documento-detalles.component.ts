@@ -33,7 +33,7 @@ export class ModalDocumentoDetallesComponent implements OnInit {
 
   getLista() {
     this._documentoDetallesService.consultarLista().subscribe((response) => {
-      this.documentoDetalles.set(response.registros);
+      this.documentoDetalles.set(response.results);
     });
   }
 

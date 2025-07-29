@@ -14,13 +14,6 @@ export class DescargarArchivosService {
 
   constructor() {}
 
-  descargarExcelDocumentos(arrParametrosConsulta: any) {
-    this.httpService.descargarArchivo(
-      'general/funcionalidad/lista/',
-      arrParametrosConsulta,
-    );
-  }
-
   descargarExcel(arrParametrosConsulta: any, url: string) {
     this.httpService.descargarArchivo(url, arrParametrosConsulta);
   }
@@ -29,7 +22,7 @@ export class DescargarArchivosService {
     const query = this._filterTransformerService.toQueryString({
       ...queries,
     });
-    
+
     this.httpService.descargarArchivoPorGet(
       `${endpoint}/?excel=1${query ? `&${query}` : ''}`,
     );
@@ -39,24 +32,18 @@ export class DescargarArchivosService {
     const query = this._filterTransformerService.toQueryString({
       ...queries,
     });
-    
+
     this.httpService.descargarArchivoPorGet(
       `${endpoint}/${query ? `?${query}` : ''}`,
     );
   }
 
   descargarZipDocumentos(arrParametrosConsulta: any) {
-    this.httpService.descargarArchivo(
-      'general/funcionalidad/lista/',
-      arrParametrosConsulta,
-    );
+
   }
 
   descargarExcelAdminsitrador(modelo: string, arrParametrosConsulta: any) {
-    this.httpService.descargarArchivo(
-      `general/funcionalidad/lista/`,
-      arrParametrosConsulta,
-    );
+
   }
 
   descargarExcelDocumentoDetalle(arrParametrosConsulta: any) {

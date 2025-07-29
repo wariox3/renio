@@ -2,30 +2,29 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
-import { HttpService } from '@comun/services/http.service';
-import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
-import { TranslateModule } from '@ngx-translate/core';
-import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-xml.component';
+import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 import { GeneralService } from '@comun/services/general.service';
+import { HttpService } from '@comun/services/http.service';
+import { EVENTOS_DIAN_FILTERS } from '@modulos/compra/domain/mapeos/eventos_dian.mapeo';
+import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import {
   NgbDropdownModule,
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateModule } from '@ngx-translate/core';
 import { SiNoPipe } from '@pipe/si-no.pipe';
+import { ActualizarMapeo } from '@redux/actions/menu.actions';
 import { catchError, of, tap } from 'rxjs';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { PaginadorComponent } from '../../../../../comun/componentes/ui/tabla/paginador/paginador.component';
 import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
 import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
 import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
-import { PaginadorComponent } from '../../../../../comun/componentes/ui/tabla/paginador/paginador.component';
-import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
-import { EVENTOS_DIAN_FILTERS } from '@modulos/compra/domain/mapeos/eventos_dian.mapeo';
-import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -37,7 +36,6 @@ import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
     TranslateModule,
     NgbDropdownModule,
     NgbNavModule,
-    BaseFiltroComponent,
     VisualizarEstadosEventosDianComponent,
     GestionEstadosEventosDianComponent,
     EditarEventosDianComponent,

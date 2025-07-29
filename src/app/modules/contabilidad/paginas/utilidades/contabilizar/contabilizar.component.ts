@@ -183,13 +183,18 @@ export default class ContabilizarComponent extends General implements OnInit {
       ];
     }
 
-    this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenDocumentoTipo>(
-        filtros,
-      )
-      .subscribe((response) => {
-        this._descontabilizarDocumentos(response.registros);
-      });
+
+    this._generalService.consultaApi(
+      'general/documento/',
+      {
+        fecha_gte: this.formularioDescontabilizar.get('fecha_desde')?.value,
+        fecha_lte: this.formularioDescontabilizar.get('fecha_hasta')?.value,
+        estado_contabilizado: true,
+        limit: 1000
+      }
+    ).subscribe((response: any) => {
+      this._descontabilizarDocumentos(response.results);
+    });
   }
 
   private _descontabilizarDocumentos(documentos: any[]) {

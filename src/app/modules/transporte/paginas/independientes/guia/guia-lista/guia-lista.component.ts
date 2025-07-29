@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { mapeoIndependientes } from '@comun/extra/mapeo-entidades/independientes';
@@ -18,7 +17,6 @@ import { ActualizarMapeo } from '@redux/actions/menu.actions';
     CardComponent,
     TablaComponent,
     TranslateModule,
-    BaseFiltroComponent,
   ],
   templateUrl: './guia-lista.component.html',
   styleUrl: './guia-lista.component.scss',

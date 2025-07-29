@@ -1,10 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { DocumentoService } from '@comun/services/documento/documento.service';
 import { GeneralService } from '@comun/services/general.service';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import { GenDocumentoDetalle } from '@interfaces/general/documento-detalle.interface';
-import { RespuestaContabilizarLista } from '@modulos/contabilidad/interfaces/contabilizar.interface';
 import { tap } from 'rxjs';
 
 @Injectable({
@@ -12,13 +9,8 @@ import { tap } from 'rxjs';
 })
 export class ModalDocumentoDetallesService {
   private readonly _generalService = inject(GeneralService);
-  private readonly _parametrosConsulta = signal<ParametrosFiltros>({
-    limite: 50,
-    desplazar: 0,
-    ordenamientos: [],
-    limite_conteo: 0,
-    modelo: 'GenDocumentoDetalle',
-    filtros: [],
+  private readonly _parametrosConsulta = signal({
+    limit: 50,
   });
   private readonly _filtrosPermanentes = signal<Filtros[]>([]);
 
@@ -28,14 +20,11 @@ export class ModalDocumentoDetallesService {
   public lista = signal<GenDocumentoDetalle[]>([]);
 
   public consultarLista() {
-    return this._generalService
-      .consultarDatosAutoCompletar<GenDocumentoDetalle>(
-        this._parametrosConsulta(),
-      )
+    return this._generalService.consultaApi('general/documento_detalle/', this._parametrosConsulta())
       .pipe(
-        tap((respuesta) => {
-          this.cantidadRegistros.set(respuesta.cantidad_registros);
-          this.lista.set(respuesta.registros);
+        tap((respuesta: any) => {
+          this.cantidadRegistros.set(respuesta.count);
+          this.lista.set(respuesta.results);
         }),
       );
   }
@@ -43,13 +32,7 @@ export class ModalDocumentoDetallesService {
   public initParametrosConsulta(documentoAfectadoId: number) {
     this._parametrosConsulta.update((parametros) => ({
       ...parametros,
-      filtros: [
-        {
-          propiedad: 'documento_afectado',
-          operador: 'exact',
-          valor1: documentoAfectadoId,
-        },
-      ],
+      'documento_afectado_id': documentoAfectadoId,
     }));
   }
 
@@ -62,10 +45,10 @@ export class ModalDocumentoDetallesService {
     });
   }
   public actualizarFiltrosParametros(filtros: Filtros[]) {
-    this._parametrosConsulta.update((parametros) => ({
-      ...parametros,
-      filtros: [...parametros.filtros, ...filtros],
-    }));
+    // this._parametrosConsulta.update((parametros) => ({
+    //   ...parametros,
+    //   filtros: [...parametros.filtros, ...filtros],
+    // }));
   }
 
   public actualizarPaginacion(data: {
@@ -74,7 +57,7 @@ export class ModalDocumentoDetallesService {
   }) {
     this._parametrosConsulta.update((parametros) => ({
       ...parametros,
-      limite: data.desplazamiento,
+      limit: data.desplazamiento,
       desplazar: data.limite,
     }));
   }
