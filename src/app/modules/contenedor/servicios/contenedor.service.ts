@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { FechasService } from '@comun/services/fechas.service';
@@ -127,38 +127,34 @@ export class ContenedorService extends Subdominio {
   }
 
   listaCiudades(arrFiltros: any) {
-    console.log(arrFiltros);
+    let params = new HttpParams();
+    Object.keys(arrFiltros).forEach(key => {
+      if (arrFiltros[key] !== null && arrFiltros[key] !== undefined) {
+        params = params.append(key, arrFiltros[key].toString());
+      }
+    });
 
-    return this._generalService.consultaApi(
-      `contenedor/ciudad/`,
-      arrFiltros,
+    return this.http.get(
+      `${this.URL_API_BASE}/contenedor/ciudad/seleccionar/?${params}`,
     );
   }
 
   listaTipoIdentificacion() {
-    return this._generalService.consultaApi(
-      `contenedor/identificacion/`,
-      {
-        limit: 10,
-      },
+
+    return this.http.get(
+      `${this.URL_API_BASE}/contenedor/identificacion/?limit=10`,
     );
   }
 
   listaRegimen() {
-    return this._generalService.consultaApi(
-      `contenedor/regimen/`,
-      {
-        limit: 10,
-      },
+    return this.http.get(
+      `${this.URL_API_BASE}/contenedor/regimen/?limit=10`,
     );
   }
 
   listaTipoPersona() {
-    return this._generalService.consultaApi(
-      `contenedor/tipo_persona/`,
-      {
-        limit: 10,
-      },
+    return this.http.get(
+      `${this.URL_API_BASE}/contenedor/tipo_persona/?limit=10`,
     );
   }
 

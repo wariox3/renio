@@ -114,7 +114,7 @@ export class ContenedorFormularioComponent extends General implements OnInit {
       .pipe(
         throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
         tap((respuesta: any) => {
-          this.arrCiudades = respuesta.results;
+          this.arrCiudades = respuesta;
           this.changeDetectorRef.detectChanges();
         })
       )
