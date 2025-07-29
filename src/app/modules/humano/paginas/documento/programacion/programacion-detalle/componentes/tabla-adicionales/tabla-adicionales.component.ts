@@ -1,23 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input, signal, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
+import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
 import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { ProgramacionAdicional } from '@modulos/humano/interfaces/programacion-adicional.interface';
 import { ProgramacionRespuesta } from '@modulos/humano/interfaces/programacion.interface';
 import { RespuestaProgramacionDetalleAdicionales } from '@modulos/humano/interfaces/respuesta-programacion-adicionales.interface';
 import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asignarArchivoImportacionDetalle } from '@redux/actions/archivo-importacion.actions';
 import { finalize } from 'rxjs';
-import { ModalProgramacionDetalleAdicionalComponent } from '../modal-programacion-detalle-adicional/modal-programacion-detalle-adicional.component';
-import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { ModalProgramacionEditarAdicionalComponent } from '../modal-programacion-editar-adiciona/modal-programacion-editar-adicional.component';
 import {
   ParametrosApi,
   RespuestaApi,
 } from 'src/app/core/interfaces/api.interface';
+import { ModalProgramacionEditarAdicionalComponent } from '../modal-programacion-editar-adiciona/modal-programacion-editar-adicional.component';
 
 @Component({
   selector: 'app-tabla-adicionales',
@@ -27,7 +25,6 @@ import {
     TranslateModule,
     NgbTooltipModule,
     ImportarAdministradorComponent,
-    ModalProgramacionDetalleAdicionalComponent,
     ModalProgramacionEditarAdicionalComponent,
   ],
   templateUrl: './tabla-adicionales.component.html',
@@ -90,8 +87,6 @@ export class TablaAdicionalesComponent extends General {
     pago_interes: false,
     pago_cesantia: false,
   };
-  @ViewChild(ModalProgramacionDetalleAdicionalComponent)
-  modalProgramacionDetalleAdicionalComponent: ModalProgramacionDetalleAdicionalComponent;
   @ViewChild(ModalProgramacionEditarAdicionalComponent)
   modalProgramacionEditarAdicionalComponent: ModalProgramacionEditarAdicionalComponent;
 
@@ -201,7 +196,4 @@ export class TablaAdicionalesComponent extends General {
     this.modalProgramacionEditarAdicionalComponent.abrirModalEditar(id);
   }
 
-  abrirModalDetalle(id: number) {
-    this.modalProgramacionDetalleAdicionalComponent.abrirModal(id);
-  }
 }
