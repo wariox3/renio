@@ -6,20 +6,17 @@ import {
   OnInit,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
+import { CUENTA_PAGAR_FILTERS } from '@modulos/tesoreria/domain/mapeos/cartera.mapeo';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
-import { DocumentoService } from 'src/app/core/services/documento.service';
-import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
 import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { DocumentoService } from 'src/app/core/services/documento.service';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
-import { CUENTA_PAGAR_FILTERS } from '@modulos/tesoreria/domain/mapeos/cartera.mapeo';
+import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
 
 @Component({
   selector: 'app-cuentas-pagar',
