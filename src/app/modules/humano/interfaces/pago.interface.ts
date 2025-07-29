@@ -7,6 +7,7 @@ export interface Pago {
   numero: any;
   fecha: string;
   fecha_vence: any;
+  fecha_desde: any;
   fecha_hasta: any;
   contacto_id: number;
   contacto_numero_identificacion: string;
