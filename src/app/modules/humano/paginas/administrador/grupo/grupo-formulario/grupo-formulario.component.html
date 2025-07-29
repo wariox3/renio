@@ -54,9 +54,9 @@
             translate="FORMULARIOS.CAMPOS.HUMANO.PROGRAMACION.PERIODO"
           ></label>
           <ng-select
-            [items]="listaPeriodos$ | async"
-            bindLabel="periodo_nombre"
-            bindValue="periodo_id"
+            [items]="listaPeriodos()"
+            bindLabel="nombre"
+            bindValue="id"
             formControlName="periodo"
             notFoundText="Sin elementos"
             placeholder="Selecciona un elemento"
