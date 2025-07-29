@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { FechasService } from '@comun/services/fechas.service';
+import { GeneralService } from '@comun/services/general.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { Movimientos } from '@interfaces/facturacion/Facturacion';
 import { Regimen } from '@interfaces/general/regimen.interface';
@@ -22,6 +23,9 @@ import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
   providedIn: 'root',
 })
 export class ContenedorService extends Subdominio {
+
+  private _generalService = inject(GeneralService);
+
   constructor(
     private http: HttpClient,
     private fechaServices: FechasService,
@@ -123,50 +127,37 @@ export class ContenedorService extends Subdominio {
   }
 
   listaCiudades(arrFiltros: any) {
-    return this.http.post<Ciudad[]>(
-      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
+    console.log(arrFiltros);
+
+    return this._generalService.consultaApi(
+      `contenedor/ciudad/`,
       arrFiltros,
     );
   }
 
   listaTipoIdentificacion() {
-    return this.http.post<TipoIdentificacionLista[]>(
-      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
+    return this._generalService.consultaApi(
+      `contenedor/identificacion/`,
       {
-        filtros: [],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'CtnIdentificacion',
+        limit: 10,
       },
     );
   }
 
   listaRegimen() {
-    return this.http.post<Regimen[]>(
-      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
+    return this._generalService.consultaApi(
+      `contenedor/regimen/`,
       {
-        filtros: [],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'CtnRegimen',
+        limit: 10,
       },
     );
   }
 
   listaTipoPersona() {
-    return this.http.post<TipoPersona[]>(
-      `${this.URL_API_BASE}/contenedor/funcionalidad/lista-autocompletar/`,
+    return this._generalService.consultaApi(
+      `contenedor/tipo_persona/`,
       {
-        filtros: [],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'CtnTipoPersona',
+        limit: 10,
       },
     );
   }

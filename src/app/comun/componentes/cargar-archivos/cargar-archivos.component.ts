@@ -110,39 +110,29 @@ export class CargarArchivosComponent extends General implements OnInit {
   }
 
   private _consultarArchivos() {
-    let filtros: Filtros[] = [];
+    let filtros = {};
 
     if (this.documentoId) {
-      filtros = [
+      filtros = {
         ...filtros,
-        {
-          propiedad: 'documento_id',
-          valor1: this.documentoId,
-        },
-      ];
+        'documento_id': this.documentoId,
+      };
     } else if (this.codigo && this.modeloNombre) {
-      filtros = [
+      filtros = {
         ...filtros,
-        {
-          propiedad: 'codigo',
-          valor1: Number(this.codigo),
-        },
-        {
-          propiedad: 'modelo',
-          valor1: this.modeloNombre,
-        },
-      ];
+        'codigo': Number(this.codigo),
+        'modelo': this.modeloNombre,
+      };
     }
 
-    this._generalService
-      .consultarDatosAutoCompletar<ArchivoRespuesta>({
-        modelo: 'GenArchivo',
-        filtros: filtros,
-      })
+    this._generalService.consultaApi<ArchivoRespuesta>(
+      'general/archivo/',
+      filtros,
+    )
       .subscribe({
-        next: (response) => {
+        next: (response: any) => {
           this._limpiarBotonesEliminar();
-          this.listaArchivos = response.registros;
+          this.listaArchivos = response.results;
 
           this.listaArchivos.forEach(() =>
             this._agregarEstadoABotonesEliminar(),

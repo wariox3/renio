@@ -1,11 +1,6 @@
 <div class="tabla">
   <app-card [titulo]="'MENU.FUNCIONALIDAD.CONTABILIZAR'">
     <section card-body>
-      <!-- <app-base-filtro
-        (emitirFiltros)="obtenerFiltros($event)"
-        [persistirFiltros]="false"
-        [_tipo]="'DOCUMENTO'"
-      ></app-base-filtro> -->
       <app-filtro
         (filtersApply)="obtenerFiltros($event)"
         [availableFields]="CONTABILIZAR_FILTERS"

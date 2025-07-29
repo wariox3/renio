@@ -164,13 +164,13 @@
               <option value="">Seleccionar...</option>
               <option
                 *ngFor="let identificacion of arrIdentificacion"
-                [value]="identificacion.identificacion_id"
+                [value]="identificacion.id"
                 [selected]="
-                  identificacion.identificacion_id ===
+                  identificacion.id ===
                   formularioInformacion.value.identificacion
                 "
               >
-                {{ identificacion.identificacion_nombre }}
+                {{ identificacion.nombre }}
               </option>
             </select>
             <ng-container
@@ -239,7 +239,7 @@
                 "
                 (pointerenter)="modificarCampoFormulario('ciudad_id', ciudad)"
               >
-                {{ ciudad.nombre }} - {{ ciudad.estado_nombre }}
+                {{ ciudad.nombre }} - {{ ciudad.estado__nombre }}
               </button>
             </div>
           </div>

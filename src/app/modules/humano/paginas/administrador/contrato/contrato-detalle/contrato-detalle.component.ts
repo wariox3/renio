@@ -47,8 +47,7 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export default class ContratoDetalleComponent
   extends General
-  implements OnInit
-{
+  implements OnInit {
   private _formBuilder = inject(FormBuilder);
   private _modalService = inject(NgbModal);
   private _httpService = inject(HttpService);
@@ -150,41 +149,32 @@ export default class ContratoDetalleComponent
   }
 
   private _consultarListaGeneral() {
-    this._generalService
-      .consultarDatosAutoCompletar<{
-        contrato_id: number;
-        fecha_ultimo_pago: string;
-        fecha_ultimo_pago_prima: string;
-        fecha_ultimo_pago_cesantia: string;
-        fecha_ultimo_pago_vacacion: string;
-      }>({
-        limite: 50,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'HumContrato',
-        serializador: 'ParametrosIniciales',
-        filtros: [
-          {
-            propiedad: 'id',
-            operador: 'exact',
-            valor1: this.contrato.id,
-          },
-        ],
-      })
-      .subscribe((response) => {
-        const fechaActual = this._fechasService.obtenerFechaActualFormateada();
-        this.formularioParametrosIniciales.patchValue({
-          fecha_ultimo_pago:
-            response.registros[0].fecha_ultimo_pago || fechaActual,
-          fecha_ultimo_pago_prima:
-            response.registros?.[0].fecha_ultimo_pago_prima || fechaActual,
-          fecha_ultimo_pago_cesantia:
-            response.registros?.[0].fecha_ultimo_pago_cesantia || fechaActual,
-          fecha_ultimo_pago_vacacion:
-            response.registros?.[0].fecha_ultimo_pago_vacacion || fechaActual,
-        });
+    this._generalService.consultaApi<{
+      contrato_id: number;
+      fecha_ultimo_pago: string;
+      fecha_ultimo_pago_prima: string;
+      fecha_ultimo_pago_cesantia: string;
+      fecha_ultimo_pago_vacacion: string;
+    }>(
+      'humano/contrato/',
+      {
+        limit: 50,
+        serializador: 'parametros_iniciales',
+        id: this.contrato.id,
+      },
+    ).subscribe((response: any) => {
+      const fechaActual = this._fechasService.obtenerFechaActualFormateada();
+      this.formularioParametrosIniciales.patchValue({
+        fecha_ultimo_pago:
+          response.results[0].fecha_ultimo_pago || fechaActual,
+        fecha_ultimo_pago_prima:
+          response.results?.[0].fecha_ultimo_pago_prima || fechaActual,
+        fecha_ultimo_pago_cesantia:
+          response.results?.[0].fecha_ultimo_pago_cesantia || fechaActual,
+        fecha_ultimo_pago_vacacion:
+          response.results?.[0].fecha_ultimo_pago_vacacion || fechaActual,
       });
+    })
   }
 
   abrirModal(content: any) {

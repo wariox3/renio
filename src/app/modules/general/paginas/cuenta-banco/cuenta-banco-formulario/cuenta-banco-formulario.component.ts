@@ -210,32 +210,6 @@ export default class CuentaBancoFormularioComponent
       });
   }
 
-  consultarCiudad(event: any) {
-    this._generalService
-      .consultarDatosAutoCompletar<RegistroAutocompletarGenCuentaBancoTipo>({
-        filtros: [
-          {
-            propiedad: 'nombre__icontains',
-            valor1: `${event?.target.value}`,
-          },
-        ],
-        limite: 10,
-        desplazar: 0,
-        ordenamientos: [],
-        limite_conteo: 10000,
-        modelo: 'GenCuentaBancoTipo',
-        serializador: 'ListaAutocompletar',
-      })
-      .pipe(
-        throttleTime(300, asyncScheduler, { leading: true, trailing: true }),
-        tap((respuesta) => {
-          this.arrCuentasTipos = respuesta.registros;
-          this.changeDetectorRef.detectChanges();
-        })
-      )
-      .subscribe();
-  }
-
   modificarCampoFormulario(campo: string, dato: any) {
     this.formularioCuentaBanco?.markAsDirty();
     this.formularioCuentaBanco?.markAsTouched();
