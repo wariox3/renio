@@ -1,39 +1,28 @@
 import { CommonModule } from '@angular/common';
 import {
-  ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   signal,
   TemplateRef,
-  ViewChild,
-  inject,
-  Output,
-  EventEmitter,
+  ViewChild
 } from '@angular/core';
 import {
-  FormBuilder,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule,
-  Validators,
+  ReactiveFormsModule
 } from '@angular/forms';
-import { AlertaService } from '@comun/services/alerta.service';
 import { GeneralService } from '@comun/services/general.service';
 import { AplicacionAccion } from '@comun/type/aplicaciones-acciones.type';
-import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
-import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { AdicionalService } from '@modulos/humano/servicios/adicional.service';
 import {
-  NgbDropdown,
   NgbDropdownModule,
-  NgbModal,
+  NgbModal
 } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, finalize, Subject, tap } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 @Component({
   selector: 'app-modal-programacion-detalle-adicional',
@@ -124,17 +113,6 @@ export class ModalProgramacionDetalleAdicionalComponent {
   }
 
   consultarRegistroDetalleAdicional() {
-    this._generalService
-      .consultarDatosLista<{
-        registros: any[];
-        cantidad_registros: number;
-      }>(this.arrParametrosConsultaAdicionalEditar)
-      .subscribe((respuesta) => {
-        if (respuesta.registros.length) {
-          const { registros } = respuesta;
-          const registro = registros[0];
-          this.adicional = registro;
-        }
-      });
+
   }
 }
