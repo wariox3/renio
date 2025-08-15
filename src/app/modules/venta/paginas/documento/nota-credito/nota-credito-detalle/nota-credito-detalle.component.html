@@ -243,6 +243,7 @@
                     [totalImpuestos]="totalImpuestos"
                     [totalGeneral]="totalGeneral"
                     [totalCantidad]="totalCantidad"
+                    [totalAfectado]="totalAfectado"
                   ></app-detalles-totales>
                   }
                 </div>
@@ -253,6 +254,43 @@
             <a
               class="nav-link"
               [ngClass]="{ 'text-primary': active === 2 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.PAGOS"
+            ></a>
+            <ng-template ngbNavContent>
+              <div class="table-responsive-sm">
+                <table id="tableDetalles" class="table table-bordered table-sm">
+                  <thead>
+                    <tr class="bg-gray-100">
+                      <th class="w-40px">Id</th>
+                      <th>Cuenta banco</th>
+                      <th>Nombre</th>
+                      <th>Pago</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <ng-container
+                      *ngFor="let pago of documento.pagos; let i = index"
+                    >
+                      <tr>
+                        <td class="w-40px">{{ pago.id }}</td>
+                        <td class="">{{ pago.cuenta_banco_id }}</td>
+                        <td class="">{{ pago.cuenta_banco_nombre }}</td>
+                        <td class="text-end">
+                          {{ pago.pago | number }}
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+            </ng-template>
+          </li>
+          <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 3 }"
               ngbNavLink
               data-bs-toggle="tab"
               translate="FORMULARIOS.TITULOS.FACTURACION.OTRAINFROMACION"
