@@ -15,6 +15,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
+import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
 import { Impuesto } from '@modulos/general/interfaces/impuesto.interface';
 import { ImpuestoService } from '@modulos/general/servicios/impuesto.service';
 import { TranslateModule } from '@ngx-translate/core';
@@ -78,11 +79,11 @@ export class ImpuestoEditarComponent extends General implements OnInit {
     });
   }
 
-  agregarCuentaSeleccionado(cuenta: any) {
+  agregarCuentaSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
     this.formularioImpuestoEditarCuenta.patchValue({
-      cuenta_id: cuenta.cuenta_id,
-      cuenta_codigo: cuenta.cuenta_codigo,
-      cuenta_nombre: cuenta.cuenta_nombre,
+      cuenta_id: cuenta.id,
+      cuenta_codigo: cuenta.codigo,
+      cuenta_nombre: cuenta.nombre,
     });
     this.formularioImpuestoEditarCuenta.markAsTouched();
     this.formularioImpuestoEditarCuenta.markAsDirty();
