@@ -63,6 +63,7 @@ export default class FacturaDetalleComponent extends General {
   totalImpuestos: number = 0;
   totalBase: number = 0;
   totalGeneral: number = 0;
+  totalAfectado: number = 0;
   subtotalGeneral: number = 0;
   totalNetoGeneral: number = 0;
   acumuladorImpuestos: any[] = [];
@@ -86,6 +87,7 @@ export default class FacturaDetalleComponent extends General {
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
+        this.totalAfectado = respuesta.documento.afectado;
         this.totalImpuestos = respuesta.documento.impuesto_operado;
         this._reniciarCamposTotales();
 
