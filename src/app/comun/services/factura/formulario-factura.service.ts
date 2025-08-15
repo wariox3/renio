@@ -1294,6 +1294,8 @@ export class FormularioFacturaService {
     });
     this.acumuladorImpuestos.set({});
     this.formSubject.next(this.createForm());
+    this.eliminarDetallesIds.set([]);
+    console.log(this.formSubject.value);
   }
 
   /**
