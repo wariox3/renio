@@ -234,7 +234,7 @@ export default class FacturaRecurrenteFormularioComponent
           this.changeDetectorRef.detectChanges();
           return null;
         });
-        if (this.totalAfectado > this.totalGeneral) {
+        if (this.totalPago.value > this.totalGeneral.value) {
           this.alertaService.mensajeError(
             'Error',
             'Los pagos agregados son superiores al total de la factura',
@@ -1036,7 +1036,7 @@ export default class FacturaRecurrenteFormularioComponent
     }
 
     this.pagos.removeAt(index);
-    this._limpiarTotalAfectado();
+    this._limpiarTotalPago();
     this._calcularTotalPagos();
     this.changeDetectorRef.detectChanges();
   }
@@ -1077,11 +1077,11 @@ export default class FacturaRecurrenteFormularioComponent
       pagoFormGroup.get(campo)?.patchValue(0);
     }
 
-    this._limpiarTotalAfectado();
+    this._limpiarTotalPago();
     this._calcularTotalPagos();
     this.changeDetectorRef.detectChanges();
 
-    if (this.totalAfectado.value > this.totalGeneral.value) {
+    if (this.totalPago.value > this.totalGeneral.value) {
       this.alertaService.mensajeError(
         'Error',
         'Los pagos agregados son superiores al total de la factura',
@@ -1098,19 +1098,19 @@ export default class FacturaRecurrenteFormularioComponent
       total += pagoRealizado.pago;
     });
 
-    this.totalAfectado.setValue(total);
+    this.totalPago.setValue(total);
   }
 
-  private _limpiarTotalAfectado() {
-    this.totalAfectado.setValue(0);
+  private _limpiarTotalPago() {
+    this.totalPago.setValue(0);
   }
 
   get totalGeneral() {
     return this.formularioFactura.get('total') as FormControl;
   }
 
-  get totalAfectado() {
-    return this.formularioFactura.get('afectado') as FormControl;
+  get totalPago() {
+    return this.formularioFactura.get('pago') as FormControl;
   }
 
   get pagosEliminados() {

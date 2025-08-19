@@ -533,13 +533,13 @@
                   {{ formularioFactura.value.total | currency: "$" }}
                 </td>
               </tr>
-              <tr *ngIf="formularioFactura.value.afectado > 0">
+              <tr *ngIf="formularioFactura.value.pago > 0">
                 <td
                   class="text-end"
                   translate="FORMULARIOS.TITULOS.FACTURACION.PAGO"
                 ></td>
                 <td class="text-end" style="padding-left: 24px">
-                  {{ formularioFactura.value.afectado | currency: "$" }}
+                  {{ formularioFactura.value.pago | currency: "$" }}
                 </td>
               </tr>
             </table>
