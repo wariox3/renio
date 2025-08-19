@@ -749,7 +749,6 @@ export default class FacturaDetalleComponent
           ...parametros,
           contacto_id: this.formularioFactura.get('contacto')?.value,
           limit: 5,
-          venta: 'True',
           serializador: 'referencia',
           ...NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
         },
