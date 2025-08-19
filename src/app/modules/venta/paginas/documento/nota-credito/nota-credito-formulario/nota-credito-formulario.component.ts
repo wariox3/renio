@@ -30,15 +30,18 @@ import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenSede } from '@interfaces/comunes/autocompletar/general/gen-sede.interface';
-import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
+import { DocumentoFacturaRespuesta, PagoFormulario } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
 import {
   CONTACTO_FILTRO_PERMANENTE_CLIENTE,
-  CONTACTO_LISTA_BUSCAR_AVANZADO
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
 } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import ContactoFormularioComponent from '@modulos/general/paginas/contacto/contacto-formulario/contacto-formulario.component';
-import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO, NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
+import {
+  DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO,
+  NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
+} from '@modulos/venta/domain/mapeos/documento-referencia.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -54,10 +57,14 @@ import {
   throttleTime,
   zip,
 } from 'rxjs';
-import { AlmacenesComponent } from "@comun/componentes/almacenes/almacenes.component";
+import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { CuentaBancoComponent } from '@comun/componentes/cuenta-banco/cuenta-banco.component';
+import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
+import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
+import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -67,6 +74,7 @@ import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
   imports: [
     CommonModule,
     FormsModule,
+    SoloNumerosDirective,
     ReactiveFormsModule,
     TranslateModule,
     NgbDropdownModule,
@@ -78,8 +86,9 @@ import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    AlmacenesComponent
-],
+    AlmacenesComponent,
+    CuentaBancoComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -127,6 +136,7 @@ export default class FacturaDetalleComponent
     total_bruto: 0,
     metodo_pago: null,
     detalles: [],
+    pagos: [],
   };
   acumuladorImpuestos: any[] = [];
   arrMovimientosClientes: any[] = [];
@@ -143,7 +153,8 @@ export default class FacturaDetalleComponent
   theme_value = localStorage.getItem('kt_theme_mode_value');
 
   public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
-  public filtrosPermanentesNotaCredito = NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE;
+  public filtrosPermanentesNotaCredito =
+    NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE;
   public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   public filtrosPermanentes = CONTACTO_FILTRO_PERMANENTE_CLIENTE;
 
@@ -157,12 +168,10 @@ export default class FacturaDetalleComponent
 
   ngOnInit() {
     this._configurarModuleListener();
-    this._consultarInformacion().subscribe(
-      () => {
-        this.almacenSeleccionado(this.arrAlmacenes[0]);
-        this.changeDetectorRef.detectChanges();
-      }
-    );
+    this._consultarInformacion().subscribe(() => {
+      this.almacenSeleccionado(this.arrAlmacenes[0]);
+      this.changeDetectorRef.detectChanges();
+    });
     this.active = 1;
     this.mostrarDocumentoReferencia.set(true);
     if (this.detalle) {
@@ -768,7 +777,6 @@ export default class FacturaDetalleComponent
     this.filtrosPermanentesNotaCredito = {
       ...NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE,
       contacto_id: contactoId,
-
     };
   }
 
@@ -830,12 +838,12 @@ export default class FacturaDetalleComponent
 
   consultarDocumentoReferencia(event: any) {
     const numero = event?.target.value;
-    let parametros = {}
+    let parametros = {};
 
     if (numero) {
       parametros = {
         numero__icontains: `${numero}`,
-      }
+      };
     }
 
     this._generalService
@@ -1047,7 +1055,7 @@ export default class FacturaDetalleComponent
         this.arrSede = respuesta[0];
         this.arrAlmacenes = respuesta[1];
         this.arrMetodosPago = respuesta[2];
-        
+
         if (!this.detalle) {
           this._initSugerencias();
         }
@@ -1086,10 +1094,12 @@ export default class FacturaDetalleComponent
       this.facturaService
         .consultarDetalle(documentoRef)
         .subscribe((respuesta) => {
+          this._formularioFacturaService.cargarPagos(respuesta.documento);
           this._formularioFacturaService.poblarDocumentoDetalle(
             respuesta.documento.detalles,
             false,
           );
+
           this.changeDetectorRef.detectChanges();
         });
       this.habilitarCargar.set(false);
@@ -1097,18 +1107,132 @@ export default class FacturaDetalleComponent
   }
 
   almacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
-      this.formularioFactura.patchValue({
-        almacen: almacen?.id,
-        almacen_nombre: almacen?.nombre,
-      });
+    this.formularioFactura.patchValue({
+      almacen: almacen?.id,
+      almacen_nombre: almacen?.nombre,
+    });
+  }
+
+  limpiarCampoAlmacen(item: any) {
+    this.formularioFactura.patchValue({
+      almacen: null,
+      almacen_nombre: null,
+    });
+    this.changeDetectorRef.detectChanges();
+  }
+
+  // pagos
+
+  agregarPagoSeleccionado(item: CuentaBancoSeleccionar, index: number) {
+    this.pagos.controls[index].patchValue({
+      cuenta_banco: item.id,
+      cuenta_banco_nombre: item.nombre,
+    });
+    const pagoFormGroup = this.pagos.at(index) as FormGroup;
+
+    this.formularioFactura.markAsTouched();
+    this.formularioFactura.markAsDirty();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  actualizarDetallePago(index: number, campo: string, evento: any) {
+    const pagoFormGroup = this.pagos.at(index) as FormGroup;
+    const valor = parseFloat(evento.target.value);
+
+    if (evento.target.value !== '') {
+      if (valor < 0) {
+        pagoFormGroup.get(campo)?.patchValue(0);
+      } else {
+        const valorRedondeado = this.redondear(valor, 2);
+        if (valorRedondeado <= this.formularioTotalGeneral.value) {
+          pagoFormGroup.get(campo)?.patchValue(valorRedondeado);
+        } else {
+          this.alertaService.mensajeError(
+            'Error',
+            'El valor ingresado del pago es mayor al total general',
+          );
+        }
+      }
+    } else {
+      pagoFormGroup.get(campo)?.patchValue(0);
     }
-  
-    limpiarCampoAlmacen(item: any) {
-      this.formularioFactura.patchValue({
-        almacen: null,
-        almacen_nombre: null,
-      });
+
+    this._limpiarTotalPago();
+    this._calcularTotalPagos();
+    this.changeDetectorRef.detectChanges();
+
+    if (this.totalPago.value > this.formularioTotalGeneral.value) {
+      this.alertaService.mensajeError(
+        'Error',
+        'Los pagos agregados son superiores al total de la factura',
+      );
+
+      pagoFormGroup.get('pago')?.setErrors({ valorCero: true });
       this.changeDetectorRef.detectChanges();
     }
-  
+  }
+
+  eliminarPago(index: number, id: number) {
+    if (id !== null) {
+      this.pagosEliminados.value.push(id);
+    }
+
+    this.pagos.removeAt(index);
+    this._limpiarTotalPago();
+    this._calcularTotalPagos();
+    this.changeDetectorRef.detectChanges();
+  }
+
+  private _limpiarTotalPago() {
+    this.totalPago.setValue(0);
+  }
+
+  private _calcularTotalPagos() {
+    let total: number = 0;
+    this.pagos.value.forEach((pagoRealizado: PagoFormulario) => {
+      total += pagoRealizado.pago;
+    });
+
+    this.totalPago.setValue(total);
+  }
+
+  agregarPago() {
+    if (this.detalles.length > 0) {
+      const pagoFormGroup = this.formBuilder.group({
+        cuenta_banco: [null, Validators.compose([Validators.required])],
+        cuenta_banco_nombre: [null],
+        pago: [
+          0,
+          [
+            validarPrecio(),
+            Validators.min(1),
+            Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
+          ],
+        ],
+        pagos_eliminados: this.formBuilder.array([]),
+        id: [null],
+      });
+      this.pagos.push(pagoFormGroup);
+      this.pagos?.markAllAsTouched();
+      this.changeDetectorRef.detectChanges();
+    } else {
+      this.alertaService.mensajeError('Error', 'Se requieren agragar detalles');
+    }
+  }
+
+  get pagos(): FormArray {
+    return this.formularioFactura.get('pagos') as FormArray;
+  }
+
+  get totalPago() {
+    return this.formularioFactura.get('pago') as FormControl;
+  }
+
+  get pagosEliminados() {
+    return this.formularioFactura.get('pagos_eliminados') as FormArray;
+  }
+
+  get formularioTotalGeneral() {
+    return this.formularioFactura.get('total') as FormControl;
+  }
 }

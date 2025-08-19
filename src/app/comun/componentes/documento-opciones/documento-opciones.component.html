@@ -272,6 +272,27 @@
           </option>
         </select>
       </div>
+      <div class="col-md-6 col-sm-12">
+        <label
+          class="form-label"
+          translate="FORMULARIOS.CAMPOS.FACTURA.RESOLUCION"
+        ></label>
+        <select
+          class="form-select form-select-sm"
+          (change)="actualizarResolucion($event)"
+        >
+          <option value="">
+            {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+          </option>
+          <option
+            *ngFor="let resolucion of resoluciones"
+            [value]="resolucion.id"
+            [selected]="encabezadoDocumento?.resolucion_id === resolucion.id"
+          >
+            {{ resolucion.numero }} {{ resolucion.prefijo }}
+          </option>
+        </select>
+      </div>
     </div>
     <div class="row mb-5">
       <div class="col-12">

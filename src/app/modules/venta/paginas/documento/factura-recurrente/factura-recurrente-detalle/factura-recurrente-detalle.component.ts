@@ -125,7 +125,7 @@ export default class FacturaRecurrenteDetalleComponent extends General implement
         this.totalImpuestos = respuesta.documento.impuesto_operado;
         this._reniciarCamposTotales();
 
-        this.totalAfectado = respuesta.documento.afectado;
+        this.totalAfectado = respuesta.documento.pago;
         respuesta.documento.detalles.map((item: any) => {
           const cantidad = item.cantidad;
           const precio = item.precio;

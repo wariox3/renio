@@ -65,5 +65,4 @@ export const NOTA_DEBITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE: Record<
 > = {
   estado_aprobado: 'True',
   documento_tipo__venta: 'True',
-  documento_tipo__operacion: -1,
 };

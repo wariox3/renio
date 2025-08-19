@@ -258,9 +258,23 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+    const savedFiltersString = localStorage.getItem(this.filtroKey());
+    let apiParams = {};
+
+    if (savedFiltersString) {
+      try {
+        const parsed = JSON.parse(savedFiltersString);
+        if (Array.isArray(parsed)) {
+          apiParams = this._filterTransformerService.transformToApiParams(parsed as FilterCondition[]);
+        }
+      } catch (e) {
+        console.error('Error parsing saved filters:', e);
+      }
+    }
     this._generalService
       .consultaApi<RespuestaApi<any>>(`${this._endpoint!}/`, {
         ...this.queryParams,
+        ...apiParams,
         page: data.desplazamiento,
       })
       .pipe(finalize(() => this.mostrarVentanaCargando$.next(false)))
