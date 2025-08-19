@@ -40,6 +40,7 @@ import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.comp
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
 import { TablaComponent } from '../tabla/tabla.component';
 import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
+import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 
 @Component({
   selector: 'app-comun-documento-opciones',
@@ -70,6 +71,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   public arrDocumentos: any[];
   public arrDocumentosCorregir: any[];
   public sedes: RegistroAutocompletarGenSede[] = [];
+  public resoluciones: RegistroAutocompletarGenResolucion[] = [];
   public arrDocumentosGrupo: { grupo: string; detalle_id: number }[] = [];
   public cantidadRegistros: number;
   public listaArchivos: ArchivoRespuesta[] = [];
@@ -93,13 +95,14 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   @Input({ required: true }) opciones: {
     modelo: Modelo;
   } = {
-    modelo: 'ConMovimiento',
-  };
+      modelo: 'ConMovimiento',
+    };
   @Input({ required: true }) documento: any;
   @Input() permiteContabilizar: boolean = true;
   @Input() permiteCorregir: boolean = true;
   @Output() itemDesaprobadoEvent: EventEmitter<void>;
   @Output() recargarDatosEvent: EventEmitter<void>;
+  @Output() actualizarDocumentoEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
   @ViewChild('corregirContent') corregirContent!: TemplateRef<any>;
 
   constructor() {
@@ -315,9 +318,16 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           limit: 100,
         },
       ),
+      this._generalService.consultaApi<RegistroAutocompletarGenResolucion[]>(
+        'general/resolucion/seleccionar/',
+        {
+          limit: 100,
+        },
+      ),
     ).subscribe((respuesta) => {
       this.arrGrupo = respuesta[0];
       this.sedes = respuesta[1];
+      this.resoluciones = respuesta[2];
     });
   }
 
@@ -342,6 +352,18 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
       })
       .subscribe(() => {
         this.alertaService.mensajaExitoso('Se actualizó la información');
+      });
+  }
+
+  actualizarResolucion(event: Event) {
+    const resolucion = (event.target as HTMLSelectElement).value;
+    this._facturaService
+      .actualizarEncabezado(this.documentoId, {
+        resolucion: resolucion,
+      })
+      .subscribe(() => {
+        this.alertaService.mensajaExitoso('Se actualizó la información');
+        this.actualizarDocumentoEvent.emit(true)
       });
   }
 
