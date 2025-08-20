@@ -138,7 +138,7 @@ export class FormularioFacturaService {
           null,
           [Validators.maxLength(50), cambiarVacioPorNulo.validar],
         ],
-        afectado: [0],
+        pago: [0],
         total_bruto: [0],
         comentario: [null, Validators.maxLength(500)],
         orden_compra: [null, Validators.maxLength(50)],
@@ -1211,7 +1211,7 @@ export class FormularioFacturaService {
       total += pagoRealizado.pago;
     });
 
-    this.totalAfectado.setValue(total);
+    this.totalPago.setValue(total);
   }
 
   // acumulador de impuestos
@@ -1232,8 +1232,8 @@ export class FormularioFacturaService {
     return this.form.get('pagos') as FormArray;
   }
 
-  get totalAfectado() {
-    return this.form.get('afectado') as FormControl;
+  get totalPago() {
+    return this.form.get('pago') as FormControl;
   }
 
   private _obtenerImpuestoFormulario(indexFormulario: number): FormArray {

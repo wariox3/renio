@@ -27,14 +27,23 @@ export class ItemService {
   }
 
   cargarImagen(itemId: number, base64: string) {
-    return this.httpService.post<{ mensaje: string }>(`general/item/cargar-imagen/`, {
-      base64,
-      id: itemId,
-    });
+    return this.httpService.post<{ mensaje: string }>(
+      `general/item/cargar-imagen/`,
+      {
+        base64,
+        id: itemId,
+      },
+    );
   }
 
   actualizarDatosItem(id: number, data: any) {
     return this.httpService.put<any>(`general/item/${id}/`, data);
+  }
+
+  eliminarImagen(id: number) {
+    return this.httpService.post(`general/item/eliminar-imagen/`, {
+      id,
+    });
   }
 
   consultarItemUso(id: number) {

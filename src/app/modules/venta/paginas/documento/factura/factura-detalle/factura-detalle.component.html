@@ -66,6 +66,7 @@
             modelo: 'ConMovimiento',
           }"
           (itemDesaprobadoEvent)="itemDesaprobadoEvent()"
+          (actualizarDocumentoEvent)="consultardetalle()"
           [opcionesDesaprobarBoton]="{
             deshabilitado:
               !documento.estado_aprobado ||

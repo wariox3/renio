@@ -621,6 +621,7 @@ export const locale = {
           ALMACEN: 'Almacen',
           REMISION: 'Remisión',
           FORMAPAGO: 'Forma de pago',
+          RESOLUCION: 'Resolución'
         },
         EMPRESA: {
           SUSCRIPTOR: 'Suscriptor',

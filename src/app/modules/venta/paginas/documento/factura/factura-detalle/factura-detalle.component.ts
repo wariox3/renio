@@ -128,7 +128,7 @@ export default class FacturaDetalleComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
-        this.totalAfectado = respuesta.documento.afectado;
+        this.totalAfectado = respuesta.documento.pago;
         this.totalImpuestos = respuesta.documento.impuesto_operado;
         this._reniciarCamposTotales();
 

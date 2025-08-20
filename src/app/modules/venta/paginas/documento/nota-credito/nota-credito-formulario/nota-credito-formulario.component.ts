@@ -1157,11 +1157,11 @@ export default class FacturaDetalleComponent
       pagoFormGroup.get(campo)?.patchValue(0);
     }
 
-    this._limpiarTotalAfectado();
+    this._limpiarTotalPago();
     this._calcularTotalPagos();
     this.changeDetectorRef.detectChanges();
 
-    if (this.totalAfectado.value > this.formularioTotalGeneral.value) {
+    if (this.totalPago.value > this.formularioTotalGeneral.value) {
       this.alertaService.mensajeError(
         'Error',
         'Los pagos agregados son superiores al total de la factura',
@@ -1178,13 +1178,13 @@ export default class FacturaDetalleComponent
     }
 
     this.pagos.removeAt(index);
-    this._limpiarTotalAfectado();
+    this._limpiarTotalPago();
     this._calcularTotalPagos();
     this.changeDetectorRef.detectChanges();
   }
 
-  private _limpiarTotalAfectado() {
-    this.totalAfectado.setValue(0);
+  private _limpiarTotalPago() {
+    this.totalPago.setValue(0);
   }
 
   private _calcularTotalPagos() {
@@ -1193,7 +1193,7 @@ export default class FacturaDetalleComponent
       total += pagoRealizado.pago;
     });
 
-    this.totalAfectado.setValue(total);
+    this.totalPago.setValue(total);
   }
 
   agregarPago() {
@@ -1224,8 +1224,8 @@ export default class FacturaDetalleComponent
     return this.formularioFactura.get('pagos') as FormArray;
   }
 
-  get totalAfectado() {
-    return this.formularioFactura.get('afectado') as FormControl;
+  get totalPago() {
+    return this.formularioFactura.get('pago') as FormControl;
   }
 
   get pagosEliminados() {
