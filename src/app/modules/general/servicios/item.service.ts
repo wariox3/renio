@@ -41,7 +41,9 @@ export class ItemService {
   }
 
   eliminarImagen(id: number) {
-    return this.httpService.delete(`general/item/eliminar-imagen/${id}/`, {});
+    return this.httpService.post(`general/item/eliminar-imagen/`, {
+      id,
+    });
   }
 
   consultarItemUso(id: number) {
