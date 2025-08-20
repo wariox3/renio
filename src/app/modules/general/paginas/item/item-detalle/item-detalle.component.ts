@@ -111,7 +111,7 @@ export default class ItemDetalleComponent extends General implements OnInit {
       .eliminarImagen(this.detalle)
       .subscribe((response) => {
         this.consultardetalle();
-        this.alertaService.mensajaExitoso(response.mensaje);
+        this.alertaService.mensajaExitoso('Imagen eliminada exitosamente');
       });
   }
 }
