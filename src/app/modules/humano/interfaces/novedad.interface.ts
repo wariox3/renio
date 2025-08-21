@@ -32,4 +32,5 @@ export interface Novedad {
   novedad_tipo_id: number;
   novedad_tipo_nombre: string;
   novedad_referencia_id: number | null;
+  detalle: string;
 }

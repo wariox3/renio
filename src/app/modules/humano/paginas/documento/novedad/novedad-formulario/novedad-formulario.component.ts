@@ -162,6 +162,7 @@ export default class CreditoFormularioComponent
         fecha_desde_periodo: [null],
         fecha_hasta_periodo: [null],
         novedad_referencia: [null],
+        detalle: [''],
       },
       {
         validator: [
@@ -249,6 +250,7 @@ export default class CreditoFormularioComponent
           fecha_desde: respuesta.fecha_desde,
           fecha_hasta: respuesta.fecha_hasta,
           novedad_referencia: respuesta.novedad_referencia_id,
+          detalle: respuesta.detalle,
         });
         this.changeDetectorRef.detectChanges();
       });
