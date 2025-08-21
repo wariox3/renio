@@ -22,6 +22,8 @@ import { FilterTransformerService } from 'src/app/core/services/filter-transform
   providedIn: 'root',
 })
 export class ContenedorService extends Subdominio {
+  totalItems: number = 0;
+  itemsPerPage: number = 5;
   private _generalService = inject(GeneralService);
   private _filterTransformService = inject(FilterTransformerService);
   private _cookieService = inject(CookieService);
@@ -83,6 +85,7 @@ export class ContenedorService extends Subdominio {
       ...parametros,
       serializador: 'lista',
       contenedor__reddoc: 'True',
+      page_size: this.itemsPerPage,
     });
 
     return this.http
@@ -90,10 +93,14 @@ export class ContenedorService extends Subdominio {
         RespuestaApi<ContenedorLista>
       >(`${this.URL_API_BASE}/contenedor/usuariocontenedor/?${params}`)
       .pipe(
-        map((res) => ({
-          ...res,
-          results: this._agregarPropiedades(res.results),
-        })),
+        map((res) => {
+          // Store the total count for pagination
+          this.totalItems = res.count;
+          return {
+            ...res,
+            results: this._agregarPropiedades(res.results),
+          };
+        }),
       );
   }
 

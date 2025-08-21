@@ -38,6 +38,7 @@ import { ContenedorService } from '../../servicios/contenedor.service';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
 import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 import { FormsModule } from '@angular/forms';
+import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
 import { ModulosManagerInit } from '@redux/actions/modulos-manager.action';
 import { Store } from '@ngrx/store';
 
@@ -58,9 +59,12 @@ import { Store } from '@ngrx/store';
     ContenedorInvitacionComponent,
     ContenedorEditarComponent,
     FormsModule,
+    PaginadorComponent,
   ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
+  private contenedorService = inject(ContenedorService);
+
   contenedores = signal<ContenedorLista[]>([]);
   fechaActual = new Date();
   usuarioFechaLimitePago: Date;
@@ -74,12 +78,13 @@ export class ContenedorListaComponent extends General implements OnInit {
   contenedor: ContenedorLista;
   procesando = false;
   searchTerm: string = '';
+  currentPage = signal<number>(1);
+  itemsPerPage: number = this.contenedorService.itemsPerPage;
   digitalOceanUrl = environment.digitalOceanUrl;
   private searchTerms = new Subject<string>();
   esSocio = signal<boolean>(false);
 
   constructor(
-    private contenedorService: ContenedorService,
     private subdominioService: SubdominioService,
     private modalService: NgbModal,
   ) {
@@ -138,7 +143,10 @@ export class ContenedorListaComponent extends General implements OnInit {
       .select(obtenerUsuarioId)
       .pipe(
         switchMap((respuestaUsuarioId) => {
-          const params: Record<string, any> = { usuario_id: respuestaUsuarioId };
+          const params: Record<string, any> = { 
+            usuario_id: respuestaUsuarioId,
+            page: this.currentPage(),
+          };
           
           // Agregar el parámetro de búsqueda solo si hay un término
           if (this.searchTerm) {
@@ -365,6 +373,16 @@ export class ContenedorListaComponent extends General implements OnInit {
   
   // Método para manejar cambios en el input de búsqueda
   onSearchChange(term: string) {
+    this.currentPage.set(1);
     this.searchTerms.next(term);
+  }
+  
+  cambiarPaginacion(page: number) {
+    this.currentPage.set(page);
+    this.consultarLista();
+  }
+  
+  get totalItems(): number {
+    return this.contenedorService.totalItems || 0;
   }
 }
