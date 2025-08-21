@@ -57,13 +57,20 @@ export class UsuarioEffects {
             jsonUsuario.telefono = action.telefono;
             jsonUsuario.nombre_corto = action.nombre_corto;
             jsonUsuario.idioma = action.idioma;
+            const tiempo = this._cookieService.calcularTiempoCookie(
+              environment.sessionLifeTime,
+            );
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
+                expires: tiempo,
                 path: '/',
                 domain: environment.dominioApp,
               });
             } else {
-              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+              setCookie('usuario', JSON.stringify(jsonUsuario), { 
+                expires: tiempo,
+                path: '/' 
+              });
             }
           }
         }),
@@ -80,13 +87,20 @@ export class UsuarioEffects {
           if (coockieUsuario) {
             let jsonUsuario = JSON.parse(coockieUsuario);
             jsonUsuario.idioma = action.idioma;
+            const tiempo = this._cookieService.calcularTiempoCookie(
+              environment.sessionLifeTime,
+            );
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
+                expires: tiempo,
                 path: '/',
                 domain: environment.dominioApp,
               });
             } else {
-              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+              setCookie('usuario', JSON.stringify(jsonUsuario), { 
+                expires: tiempo,
+                path: '/' 
+              });
             }
           }
         }),
@@ -103,13 +117,20 @@ export class UsuarioEffects {
           if (coockieUsuario) {
             let jsonUsuario = JSON.parse(coockieUsuario);
             jsonUsuario.imagen = action.imagen;
+            const tiempo = this._cookieService.calcularTiempoCookie(
+              environment.sessionLifeTime,
+            );
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
+                expires: tiempo,
                 path: '/',
                 domain: environment.dominioApp,
               });
             } else {
-              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+              setCookie('usuario', JSON.stringify(jsonUsuario), { 
+                expires: tiempo,
+                path: '/' 
+              });
             }
           }
         }),
@@ -126,13 +147,20 @@ export class UsuarioEffects {
           if (coockieUsuario) {
             let jsonUsuario = JSON.parse(coockieUsuario);
             jsonUsuario.vr_saldo = action.vr_saldo;
+            const tiempo = this._cookieService.calcularTiempoCookie(
+              environment.sessionLifeTime,
+            );
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
+                expires: tiempo,
                 path: '/',
                 domain: environment.dominioApp,
               });
             } else {
-              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+              setCookie('usuario', JSON.stringify(jsonUsuario), { 
+                expires: tiempo,
+                path: '/' 
+              });
             }
           }
         }),
@@ -149,13 +177,20 @@ export class UsuarioEffects {
           if (coockieUsuario) {
             let jsonUsuario = JSON.parse(coockieUsuario);
             jsonUsuario.vr_credito = action.vr_credito;
+            const tiempo = this._cookieService.calcularTiempoCookie(
+              environment.sessionLifeTime,
+            );
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
+                expires: tiempo,
                 path: '/',
                 domain: environment.dominioApp,
               });
             } else {
-              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+              setCookie('usuario', JSON.stringify(jsonUsuario), { 
+                expires: tiempo,
+                path: '/' 
+              });
             }
           }
         }),
@@ -172,13 +207,20 @@ export class UsuarioEffects {
           if (coockieUsuario) {
             let jsonUsuario = JSON.parse(coockieUsuario);
             jsonUsuario.estado_verificado = action.estado_verificado;
+            const tiempo = this._cookieService.calcularTiempoCookie(
+              environment.sessionLifeTime,
+            );
             if (environment.production) {
               setCookie('usuario', JSON.stringify(jsonUsuario), {
+                expires: tiempo,
                 path: '/',
                 domain: environment.dominioApp,
               });
             } else {
-              setCookie('usuario', JSON.stringify(jsonUsuario), { path: '/' });
+              setCookie('usuario', JSON.stringify(jsonUsuario), { 
+                expires: tiempo,
+                path: '/' 
+              });
             }
           }
         }),
