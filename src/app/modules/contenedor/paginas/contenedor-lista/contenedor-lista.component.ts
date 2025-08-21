@@ -1,5 +1,6 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Subject } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
@@ -31,6 +32,7 @@ import {
   of,
   switchMap,
   tap,
+  distinctUntilChanged,
 } from 'rxjs';
 import { ContenedorService } from '../../servicios/contenedor.service';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
@@ -72,6 +74,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   contenedor: ContenedorLista;
   procesando = false;
   searchTerm: string = '';
+  private searchTerms = new Subject<string>();
   esSocio = signal<boolean>(false);
 
   constructor(
@@ -92,6 +95,15 @@ export class ContenedorListaComponent extends General implements OnInit {
 
     this.consultarLista();
     this.limpiarEmpresa();
+    
+    // Configurar la búsqueda con debounce
+    this.searchTerms.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.consultarLista();
+    });
 
     combineLatest([
       this.store.select(obtenerUsuarioFechaLimitePago),
@@ -124,9 +136,17 @@ export class ContenedorListaComponent extends General implements OnInit {
     this.store
       .select(obtenerUsuarioId)
       .pipe(
-        switchMap((respuestaUsuarioId) =>
-          this.contenedorService.lista({ usuario_id: respuestaUsuarioId }),
-        ),
+        switchMap((respuestaUsuarioId) => {
+          const params: Record<string, any> = { usuario_id: respuestaUsuarioId };
+          
+          // Agregar el parámetro de búsqueda solo si hay un término
+          if (this.searchTerm) {
+            params['contenedor__nombre'] = this.searchTerm;
+          }
+          
+          return this.contenedorService.lista(params);
+        }),
+        
         tap((respuestaLista) => {
           respuestaLista.results.forEach(() =>
             this.visualizarLoader.push(false),
@@ -339,12 +359,11 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   get filteredContenedores() {
-    if (!this.searchTerm) {
-      return this.contenedores(); // Si no hay término de búsqueda, devuelve todos los items
-    }
-
-    return this.contenedores().filter((item) =>
-      item?.contenedor__nombre?.toLowerCase().includes(this.searchTerm?.toLowerCase()),
-    );
+    return this.contenedores();
+  }
+  
+  // Método para manejar cambios en el input de búsqueda
+  onSearchChange(term: string) {
+    this.searchTerms.next(term);
   }
 }
