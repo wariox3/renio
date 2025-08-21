@@ -55,6 +55,7 @@ export interface ContenedorLista {
 
 export interface ContenedorInvitacion {
   contenedor_id: number;
+  aplicacion: string;
   usuario_id: number;
   invitado: string;
 }
