@@ -38,7 +38,7 @@ import { tap } from 'rxjs';
 })
 export class ContenedorInvitacionComponent extends General implements OnInit {
   arrInvitaciones: ContenedorUsuariosInvicionAceptada[] = [];
-  formularioEmpresaInvitacion: FormGroup;
+  formularioEmpresaInvitacion: FormGroup;   
   contenedorNombre: string;
   usuarioCodigo = 0;
   @Input() contenedorCodigo: number;

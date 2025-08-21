@@ -11,8 +11,6 @@ export interface ContenedorLista {
   contenedor__ruteo: boolean;
   contenedor__plan_id: number;
   contenedor__plan__nombre: string;
-  contenedor__rol: string;
-  contenedor__subdominio: string;
   contenedor__plan__usuarios_base: number;
   usuario_id: number;
   seleccion: boolean;

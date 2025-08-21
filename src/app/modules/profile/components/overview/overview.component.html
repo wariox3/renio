@@ -28,18 +28,18 @@
               <p class="text-dark fw-bolder fs-6">
                 {{ contenedor.contenedor__nombre }}
                 <small class="badge badge-light-primary fs-8 fw-bold">{{
-                  contenedor.contenedor__rol
+                  contenedor.rol
                 }}</small>
               </p>
               <span class="text-muted fw-bold text-muted d-block fs-7">
-                {{ contenedor.contenedor__subdominio }}{{ dominioApp }}
+                {{ contenedor.contenedor__schema_name }}{{ dominioApp }}
               </span>
             </td>
             <td class="w-50px">
               <div
                 ngbDropdown
                 class="d-inline-block"
-                *ngIf="contenedor.contenedor__rol === 'propietario'"
+                *ngIf="contenedor.rol === 'propietario'"
               ></div>
             </td>
             <td>{{ contenedor.contenedor__usuarios }} / {{ contenedor.contenedor__plan__usuarios_base }}</td>

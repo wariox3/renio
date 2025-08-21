@@ -92,10 +92,10 @@
                         <span class="text-dark fw-bolder fs-6">{{
                           contenedor.contenedor__nombre
                         }}</span>
-                        <span>{{ contenedor.contenedor__subdominio }}{{ dominioApp }}</span>
+                        <span>{{ contenedor.contenedor__schema_name }}{{ dominioApp }}</span>
                         <div>
                           <span class="badge badge-light-primary fs-8 fw-bold">
-                            {{ contenedor.contenedor__rol }}
+                            {{ contenedor.rol }}
                           </span>
                         </div>
                         @if (contenedor.acceso_restringido) {
@@ -152,10 +152,10 @@
                         <button
                           translate="FORMULARIOS.BOTONES.CONTENEDOR.CONECTAR"
                           class="btn btn-bg-primary btn-color-white"
-                          (click)="seleccionarEmpresa(contenedor.contenedor__subdominio, i)"
+                          (click)="seleccionarEmpresa(contenedor.contenedor__schema_name, i)"
                           [disabled]="
                             contenedor.acceso_restringido &&
-                            contenedor.contenedor__rol !== 'control'
+                            contenedor.rol !== 'control'
                           "
                         ></button>
                       }
@@ -170,7 +170,7 @@
                         container="body"
                         class="d-inline-block"
                         display="dynamic"
-                        *ngIf="contenedor.contenedor__rol === 'propietario'"
+                        *ngIf="contenedor.rol === 'propietario'"
                       >
                         <button
                           type="button"
@@ -228,7 +228,7 @@
                               class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger"
                               (click)="
                                 eliminarEmpresa(
-                                  contenedor.contenedor__subdominio,
+                                  contenedor.contenedor__schema_name,
                                   contenedor.contenedor_id
                                 )
                               "
