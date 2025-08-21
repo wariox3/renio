@@ -93,6 +93,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
     if (this.formularioEmpresaInvitacion.valid) {
       this.contenedorService
         .enviarInvitacion({
+          aplicacion: 'reddoc',
           contenedor_id: this.contenedorCodigo,
           invitado: this.formFields.nombre.value,
           usuario_id: this.usuarioCodigo,

@@ -92,6 +92,7 @@ export class ContenedorService extends Subdominio {
       `${this.URL_API_BASE}/contenedor/usuariocontenedor/invitar/`,
       {
         accion: 'invitar',
+        aplicacion: data.aplicacion,
         contenedor_id: data.contenedor_id,
         usuario_id: data.usuario_id,
         invitado: data.invitado,
