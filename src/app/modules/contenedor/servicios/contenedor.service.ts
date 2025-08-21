@@ -5,9 +5,6 @@ import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { Movimientos } from '@interfaces/facturacion/Facturacion';
-import { Regimen } from '@interfaces/general/regimen.interface';
-import { TipoIdentificacionLista } from '@interfaces/general/tipo-identificacion.interface';
-import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
 import {
   Contenedor,
   ContenedorFormulario,
@@ -16,15 +13,15 @@ import {
   RespuestaConectar,
 } from '@interfaces/usuario/contenedor';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
-import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContenedorService extends Subdominio {
-
   private _generalService = inject(GeneralService);
+  private _filterTransformService = inject(FilterTransformerService);
 
   constructor(
     private http: HttpClient,
@@ -33,13 +30,14 @@ export class ContenedorService extends Subdominio {
     super();
   }
 
-  lista(usuario_id: number) {
-    return this.http.post<ContenedorLista>(
-      `${this.URL_API_BASE}/contenedor/usuariocontenedor/consulta-usuario/`,
-      {
-        usuario_id,
-        reddoc: true,
-      },
+  lista(parametros: Record<string, any>) {
+    const params = this._filterTransformService.toQueryString({
+      ...parametros,
+      serializador: 'lista',
+    });
+
+    return this.http.get<RespuestaApi<ContenedorLista>>(
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/?${params}`,
     );
   }
 
@@ -129,7 +127,7 @@ export class ContenedorService extends Subdominio {
 
   listaCiudades(arrFiltros: any) {
     let params = new HttpParams();
-    Object.keys(arrFiltros).forEach(key => {
+    Object.keys(arrFiltros).forEach((key) => {
       if (arrFiltros[key] !== null && arrFiltros[key] !== undefined) {
         params = params.append(key, arrFiltros[key].toString());
       }
@@ -141,16 +139,13 @@ export class ContenedorService extends Subdominio {
   }
 
   listaTipoIdentificacion() {
-
     return this.http.get(
       `${this.URL_API_BASE}/contenedor/identificacion/?limit=10`,
     );
   }
 
   listaRegimen() {
-    return this.http.get(
-      `${this.URL_API_BASE}/contenedor/regimen/?limit=10`,
-    );
+    return this.http.get(`${this.URL_API_BASE}/contenedor/regimen/?limit=10`);
   }
 
   listaTipoPersona() {

@@ -6,7 +6,7 @@ import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/sk
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
-import { Contenedor, Modulos } from '@interfaces/usuario/contenedor';
+import { Contenedor, ContenedorLista, Modulos } from '@interfaces/usuario/contenedor';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -59,7 +59,7 @@ import { Store } from '@ngrx/store';
   ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
-  contenedores = signal<Contenedor[]>([]);
+  contenedores = signal<ContenedorLista[]>([]);
   fechaActual = new Date();
   usuarioFechaLimitePago: Date;
   dominioApp = environment.dominioApp;
@@ -69,7 +69,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   VisalizarMensajeBloqueo = false;
   visualizarLoader: boolean[] = [];
   contenedorId: number;
-  contenedor: Contenedor;
+  contenedor: ContenedorLista;
   procesando = false;
   searchTerm: string = '';
   esSocio = signal<boolean>(false);
@@ -125,16 +125,16 @@ export class ContenedorListaComponent extends General implements OnInit {
       .select(obtenerUsuarioId)
       .pipe(
         switchMap((respuestaUsuarioId) =>
-          this.contenedorService.lista(respuestaUsuarioId),
+          this.contenedorService.lista({ usuario_id: respuestaUsuarioId }),
         ),
         tap((respuestaLista) => {
-          respuestaLista.contenedores.forEach(() =>
+          respuestaLista.results.forEach(() =>
             this.visualizarLoader.push(false),
           );
-          this.VisalizarMensajeBloqueo = !!respuestaLista.contenedores.find(
+          this.VisalizarMensajeBloqueo = !!respuestaLista.results.find(
             (contenedor) => contenedor.acceso_restringido === true,
           );
-          this.contenedores.set(respuestaLista.contenedores);
+          this.contenedores.set(respuestaLista.results);
           this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
         }),
@@ -328,7 +328,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 
-  abrirModal(content: any, contenedor_id: number, contenedor: Contenedor) {
+  abrirModal(content: any, contenedor_id: number, contenedor: ContenedorLista) {
     this.contenedorId = contenedor_id;
     this.contenedor = contenedor;
     this.modalService.open(content, {
@@ -344,7 +344,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     }
 
     return this.contenedores().filter((item) =>
-      item?.nombre?.toLowerCase().includes(this.searchTerm?.toLowerCase()),
+      item?.contenedor__nombre?.toLowerCase().includes(this.searchTerm?.toLowerCase()),
     );
   }
 }

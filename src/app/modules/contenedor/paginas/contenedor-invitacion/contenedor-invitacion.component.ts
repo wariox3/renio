@@ -13,6 +13,7 @@ import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import {
   Contenedor,
+  ContenedorLista,
   ContenedorUsuariosInvicionAceptada,
 } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
@@ -41,7 +42,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   contenedorNombre: string;
   usuarioCodigo = 0;
   @Input() contenedorCodigo: number;
-  @Input() contenedor: Contenedor;
+  @Input() contenedor: ContenedorLista;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -137,7 +138,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   }
 
   contenedorAlcanzoMaxUsuarios() {
-    const isAvailable = this.contenedor.usuarios >= this.contenedor.usuarios_base; 
+    const isAvailable = this.contenedor.contenedor__usuarios >= this.contenedor.contenedor__plan__usuarios_base; 
     
     if(isAvailable) {
       this.formularioEmpresaInvitacion.get('nombre')?.disable()

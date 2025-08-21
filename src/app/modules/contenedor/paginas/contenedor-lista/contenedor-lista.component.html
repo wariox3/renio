@@ -74,12 +74,12 @@
                 >
                   <td class="px-2">
                     <div class="d-flex align-items-center gap-3">
-                      @if (contenedor.imagen) {
+                      @if (contenedor.contenedor__imagen) {
                         <img
                           [src]="
-                            !contenedor.imagen.includes('logo_defecto')
-                              ? getImageUrl(contenedor.imagen)
-                              : contenedor.imagen
+                            !contenedor.contenedor__imagen.includes('logo_defecto')
+                              ? getImageUrl(contenedor.contenedor__imagen)
+                              : contenedor.contenedor__imagen
                           "
                           alt="Error al cargar logo"
                           width="120"
@@ -90,12 +90,12 @@
                       }
                       <div class="d-flex flex-column gap-2">
                         <span class="text-dark fw-bolder fs-6">{{
-                          contenedor.nombre
+                          contenedor.contenedor__nombre
                         }}</span>
-                        <span>{{ contenedor.subdominio }}{{ dominioApp }}</span>
+                        <span>{{ contenedor.contenedor__subdominio }}{{ dominioApp }}</span>
                         <div>
                           <span class="badge badge-light-primary fs-8 fw-bold">
-                            {{ contenedor.rol }}
+                            {{ contenedor.contenedor__rol }}
                           </span>
                         </div>
                         @if (contenedor.acceso_restringido) {
@@ -116,7 +116,7 @@
                     >
                       <span class="badge badge-light-info fs-8 fw-bold p-3">
                         <i class="bi bi-briefcase fs-2 text-info me-2"></i>
-                        {{ contenedor.plan_nombre }}</span
+                        {{ contenedor.contenedor__plan__nombre }}</span
                       >
                     </div>
                   </td>
@@ -126,7 +126,7 @@
                     >
                       <i class="bi bi-people me-2 fs-3 text-dark"></i>
 
-                      {{ contenedor.usuarios }} / {{ contenedor.usuarios_base }}
+                      {{ contenedor.contenedor__usuarios }} / {{ contenedor.contenedor__plan__usuarios_base }}
                     </div>
                   </td>
                   <td class="w-50px">
@@ -152,10 +152,10 @@
                         <button
                           translate="FORMULARIOS.BOTONES.CONTENEDOR.CONECTAR"
                           class="btn btn-bg-primary btn-color-white"
-                          (click)="seleccionarEmpresa(contenedor.subdominio, i)"
+                          (click)="seleccionarEmpresa(contenedor.contenedor__subdominio, i)"
                           [disabled]="
                             contenedor.acceso_restringido &&
-                            contenedor.rol !== 'control'
+                            contenedor.contenedor__rol !== 'control'
                           "
                         ></button>
                       }
@@ -170,7 +170,7 @@
                         container="body"
                         class="d-inline-block"
                         display="dynamic"
-                        *ngIf="contenedor.rol === 'propietario'"
+                        *ngIf="contenedor.contenedor__rol === 'propietario'"
                       >
                         <button
                           type="button"
@@ -228,7 +228,7 @@
                               class="menu-link px-3 cursor-pointer bg-hover-light-danger text-danger"
                               (click)="
                                 eliminarEmpresa(
-                                  contenedor.subdominio,
+                                  contenedor.contenedor__subdominio,
                                   contenedor.contenedor_id
                                 )
                               "
