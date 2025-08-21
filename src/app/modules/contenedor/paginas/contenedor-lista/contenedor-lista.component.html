@@ -78,9 +78,7 @@
                       @if (contenedor.contenedor__imagen) {
                         <img
                           [src]="
-                            !contenedor.contenedor__imagen.includes('logo_defecto')
-                              ? getImageUrl(contenedor.contenedor__imagen)
-                              : contenedor.contenedor__imagen
+                            digitalOceanUrl + contenedor.contenedor__imagen
                           "
                           alt="Error al cargar logo"
                           width="120"
@@ -93,7 +91,10 @@
                         <span class="text-dark fw-bolder fs-6">{{
                           contenedor.contenedor__nombre
                         }}</span>
-                        <span>{{ contenedor.contenedor__schema_name }}{{ dominioApp }}</span>
+                        <span
+                          >{{ contenedor.contenedor__schema_name
+                          }}{{ dominioApp }}</span
+                        >
                         <div>
                           <span class="badge badge-light-primary fs-8 fw-bold">
                             {{ contenedor.rol }}
@@ -127,7 +128,8 @@
                     >
                       <i class="bi bi-people me-2 fs-3 text-dark"></i>
 
-                      {{ contenedor.contenedor__usuarios }} / {{ contenedor.contenedor__plan__usuarios_base }}
+                      {{ contenedor.contenedor__usuarios }} /
+                      {{ contenedor.contenedor__plan__usuarios_base }}
                     </div>
                   </td>
                   <td class="w-50px">
@@ -153,7 +155,12 @@
                         <button
                           translate="FORMULARIOS.BOTONES.CONTENEDOR.CONECTAR"
                           class="btn btn-bg-primary btn-color-white"
-                          (click)="seleccionarEmpresa(contenedor.contenedor__schema_name, i)"
+                          (click)="
+                            seleccionarEmpresa(
+                              contenedor.contenedor__schema_name,
+                              i
+                            )
+                          "
                           [disabled]="
                             contenedor.acceso_restringido &&
                             contenedor.rol !== 'control'

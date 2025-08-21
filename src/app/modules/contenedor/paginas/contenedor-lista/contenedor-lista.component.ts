@@ -74,6 +74,7 @@ export class ContenedorListaComponent extends General implements OnInit {
   contenedor: ContenedorLista;
   procesando = false;
   searchTerm: string = '';
+  digitalOceanUrl = environment.digitalOceanUrl;
   private searchTerms = new Subject<string>();
   esSocio = signal<boolean>(false);
 

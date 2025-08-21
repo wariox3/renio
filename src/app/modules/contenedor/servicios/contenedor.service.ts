@@ -82,6 +82,7 @@ export class ContenedorService extends Subdominio {
     const params = this._filterTransformService.toQueryString({
       ...parametros,
       serializador: 'lista',
+      contenedor__reddoc: 'True',
     });
 
     return this.http

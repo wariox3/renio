@@ -31,6 +31,7 @@ export class OverviewComponent extends General implements OnInit {
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
+  digitalOceanUrl = environment.digitalOceanUrl;
   dominioApp = environment.dominioApp
   cargandoContederes = false;
 
