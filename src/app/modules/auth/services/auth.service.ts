@@ -109,10 +109,11 @@ export class AuthService extends Subdominio implements OnDestroy {
 
   registration(data: any) {
     return this.http.post<Usuario>(
-      `${this.URL_API_BASE}/seguridad/usuario/`,
+      `${this.URL_API_BASE}/seguridad/usuario/nuevo/`,
       {
         username: data.usuario,
         password: data.clave,
+        aplicacion: 'reddoc'
       },
       {
         context: noRequiereToken(),

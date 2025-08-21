@@ -107,27 +107,11 @@ export default class ItemDetalleComponent extends General implements OnInit {
   }
 
   eliminarLogo(event: boolean) {
-    // this.store
-    //   .select(obtenerUsuarioId)
-    //   .pipe(
-    //     switchMap((codigoUsuario) =>
-    //       this.resumenService.eliminarImagen(codigoUsuario)
-    //     ),
-    //     tap((respuestaEliminarImagen) => {
-    //       if (respuestaEliminarImagen.limpiar) {
-    //         this.store.dispatch(
-    //           usuarioActionActualizarImagen({
-    //             imagen: respuestaEliminarImagen.imagen,
-    //           })
-    //         );
-    //         this.alertaService.mensajaExitoso(
-    //           this.translateService.instant(
-    //             'FORMULARIOS.MENSAJES.COMUNES.ACTUALIZACION'
-    //           )
-    //         );
-    //       }
-    //     })
-    //   )
-    //   .subscribe();
+    this.itemService
+      .eliminarImagen(this.detalle)
+      .subscribe((response) => {
+        this.consultardetalle();
+        this.alertaService.mensajaExitoso('Imagen eliminada exitosamente');
+      });
   }
 }
