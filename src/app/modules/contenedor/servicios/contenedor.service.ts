@@ -23,7 +23,6 @@ import { FilterTransformerService } from 'src/app/core/services/filter-transform
 })
 export class ContenedorService extends Subdominio {
   totalItems: number = 0;
-  itemsPerPage: number = 5;
   private _generalService = inject(GeneralService);
   private _filterTransformService = inject(FilterTransformerService);
   private _cookieService = inject(CookieService);
@@ -85,7 +84,6 @@ export class ContenedorService extends Subdominio {
       ...parametros,
       serializador: 'lista',
       contenedor__reddoc: 'True',
-      page_size: this.itemsPerPage,
     });
 
     return this.http

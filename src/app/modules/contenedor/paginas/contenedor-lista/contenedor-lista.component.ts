@@ -79,7 +79,6 @@ export class ContenedorListaComponent extends General implements OnInit {
   procesando = false;
   searchTerm: string = '';
   currentPage = signal<number>(1);
-  itemsPerPage: number = this.contenedorService.itemsPerPage;
   digitalOceanUrl = environment.digitalOceanUrl;
   private searchTerms = new Subject<string>();
   esSocio = signal<boolean>(false);
