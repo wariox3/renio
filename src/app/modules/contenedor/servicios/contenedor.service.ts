@@ -8,6 +8,7 @@ import { Consumo } from '@interfaces/contenedor/consumo';
 import { Movimientos } from '@interfaces/facturacion/Facturacion';
 import {
   Contenedor,
+  ContenedorConfiguracionUsuario,
   ContenedorFormulario,
   ContenedorInvitacion,
   ContenedorInvitacionLista,
@@ -163,6 +164,12 @@ export class ContenedorService extends Subdominio {
   listaInvitaciones(contenedor_id: number) {
     return this.http.get<RespuestaApi<ContenedorInvitacionLista>>(
       `${this.URL_API_BASE}/contenedor/usuariocontenedor/?contenedor_id=${contenedor_id}`,
+    );
+  }
+
+  listaUsuarios(contenedor_id: number) {
+    return this.http.get<RespuestaApi<ContenedorConfiguracionUsuario>>(
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/?contenedor_id=${contenedor_id}&serializador=configuracion`,
     );
   }
 

@@ -113,7 +113,7 @@ export class AuthService extends Subdominio implements OnDestroy {
       {
         username: data.usuario,
         password: data.clave,
-        aplicacion: 'reddoc'
+        aplicacion: 'reddoc',
       },
       {
         context: noRequiereToken(),
@@ -223,6 +223,15 @@ export class AuthService extends Subdominio implements OnDestroy {
       `${this.URL_API_BASE}/seguridad/usuario/estado-verificado/`,
       {
         usuario_id,
+      },
+    );
+  }
+
+  actualizarUsuario(usuario_id: number, data: any) {
+    return this.http.patch<any>(
+      `${this.URL_API_BASE}/seguridad/usuario/${usuario_id}/`,
+      {
+        ...data,
       },
     );
   }

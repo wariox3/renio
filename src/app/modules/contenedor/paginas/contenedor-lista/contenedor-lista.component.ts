@@ -177,7 +177,7 @@ export class ContenedorListaComponent extends General implements OnInit {
       .subscribe();
   }
 
-  seleccionarEmpresa(subdominio: string, i: number) {
+  seleccionarEmpresa(subdominio: string, rol: string, i: number) {
     this.visualizarLoader[i] = true;
     this.contenedorService
       .contenedorConectar(subdominio)
@@ -213,7 +213,7 @@ export class ContenedorListaComponent extends General implements OnInit {
             id: 0,
             usuario_id: respuesta.usuario_id,
             contenedor_id: respuesta.id,
-            rol: '',
+            rol: rol,
             plan_id: respuesta.plan_id,
             subdominio: respuesta.subdominio,
             nombre: respuesta.nombre,
@@ -226,6 +226,9 @@ export class ContenedorListaComponent extends General implements OnInit {
             acceso_restringido: respuesta.acceso_restringido,
             seleccion: true,
           };
+
+          console.log(contenedor);
+
 
           const modulos: Modulos = {
             plan_cartera: respuesta.plan_cartera,

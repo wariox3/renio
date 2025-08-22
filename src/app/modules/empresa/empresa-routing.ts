@@ -1,4 +1,6 @@
 import { Route } from '@angular/router';
+import EmpresaUsuariosComponent from './paginas/empresa-usuarios/empresa-usuarios.component';
+import { propietarioGuard } from './guards/propietario.guard';
 
 export const routes: Route[] = [
   {
@@ -12,6 +14,11 @@ export const routes: Route[] = [
       import('./paginas/empresa-detalle/empresa-detalle.component').then(
         (c) => c.EmpresaDetalleComponent
       ),
+  },
+  {
+    path: 'usuarios',
+    component: EmpresaUsuariosComponent,
+    canActivate: [propietarioGuard]
   },
   {
     path: 'detalle/:empresacodigo',

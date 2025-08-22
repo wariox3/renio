@@ -1,0 +1,34 @@
+<form>
+  <div class="row">
+    <div class="col-6">
+      <label class="form-label">Operación</label>
+      <select
+        #selectGrupo
+        class="form-select form-select-sm"
+        (change)="onSelectChange($event, 'operacion_id')"
+      >
+        <option [value]="null">Seleccionar</option>
+        @for (operacion of operaciones(); track $index) {
+          <option [value]="operacion.id" [selected]="operacion.id === usuario?.usuario__operacion_id">
+            {{ operacion.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+    <div class="col-6">
+      <label class="form-label">Operación cargo</label>
+      <select
+        #selectCargo
+        class="form-select form-select-sm"
+        (change)="onSelectChange($event, 'operacion_cargo_id')"
+      >
+        <option [value]="null">Seleccionar</option>
+        @for (operacion of operaciones(); track $index) {
+          <option [value]="operacion.id" [selected]="operacion.id === usuario?.usuario__operacion_cargo_id">
+            {{ operacion.nombre }}
+          </option>
+        }
+      </select>
+    </div>
+  </div>
+</form>
