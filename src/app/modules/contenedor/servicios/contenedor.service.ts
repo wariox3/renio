@@ -10,6 +10,7 @@ import {
   Contenedor,
   ContenedorFormulario,
   ContenedorInvitacion,
+  ContenedorInvitacionLista,
   ContenedorLista,
   RespuestaConectar,
 } from '@interfaces/usuario/contenedor';
@@ -160,11 +161,8 @@ export class ContenedorService extends Subdominio {
   }
 
   listaInvitaciones(contenedor_id: number) {
-    return this.http.post(
-      `${this.URL_API_BASE}/contenedor/usuariocontenedor/consulta-contenedor/`,
-      {
-        contenedor_id,
-      },
+    return this.http.get<RespuestaApi<ContenedorInvitacionLista>>(
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/?contenedor_id=${contenedor_id}`,
     );
   }
 

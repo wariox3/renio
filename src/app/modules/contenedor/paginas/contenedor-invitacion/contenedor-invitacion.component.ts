@@ -8,13 +8,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
+import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import {
-  Contenedor,
-  ContenedorLista,
-  ContenedorUsuariosInvicionAceptada,
+  ContenedorInvitacionLista,
+  ContenedorLista
 } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
@@ -37,7 +36,7 @@ import { tap } from 'rxjs';
   ],
 })
 export class ContenedorInvitacionComponent extends General implements OnInit {
-  arrInvitaciones: ContenedorUsuariosInvicionAceptada[] = [];
+  arrInvitaciones: ContenedorInvitacionLista[] = [];
   formularioEmpresaInvitacion: FormGroup;   
   contenedorNombre: string;
   usuarioCodigo = 0;
@@ -61,8 +60,8 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   consultarLista() {
     this.contenedorService
       .listaInvitaciones(this.contenedorCodigo)
-      .subscribe((respuesta: any) => {
-        this.arrInvitaciones = respuesta.usuarios;
+      .subscribe((respuesta) => {
+        this.arrInvitaciones = respuesta.results;
         this.changeDetectorRef.detectChanges();
       });
   }

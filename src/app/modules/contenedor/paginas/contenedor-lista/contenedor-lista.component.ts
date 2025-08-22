@@ -303,6 +303,7 @@ export class ContenedorListaComponent extends General implements OnInit {
                       'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION',
                     ),
                   );
+                  this.currentPage.set(1);
                   this.consultarLista();
                 }),
                 debounceTime(500),

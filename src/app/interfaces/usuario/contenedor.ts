@@ -79,6 +79,15 @@ export interface ContenedorInvitacion {
   invitado: string;
 }
 
+export interface ContenedorInvitacionLista {
+  id: number;
+  usuario: number;
+  usuerio__nombre: string;
+  usuario__username: string;
+  contenedor: number;
+  rol: string;
+}
+
 export interface ContenedorUsuariosInvicionAceptada
   extends Omit<Contenedor, 'subdominio' | 'imagen' | 'seleccion'> {
   username: string;
