@@ -1,12 +1,13 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Subject } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';
-import { Contenedor, Modulos } from '@interfaces/usuario/contenedor';
+import { Contenedor, ContenedorLista, Modulos } from '@interfaces/usuario/contenedor';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
@@ -31,11 +32,13 @@ import {
   of,
   switchMap,
   tap,
+  distinctUntilChanged,
 } from 'rxjs';
 import { ContenedorService } from '../../servicios/contenedor.service';
 import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
 import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 import { FormsModule } from '@angular/forms';
+import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
 import { ModulosManagerInit } from '@redux/actions/modulos-manager.action';
 import { Store } from '@ngrx/store';
 
@@ -56,10 +59,13 @@ import { Store } from '@ngrx/store';
     ContenedorInvitacionComponent,
     ContenedorEditarComponent,
     FormsModule,
+    PaginadorComponent,
   ],
 })
 export class ContenedorListaComponent extends General implements OnInit {
-  contenedores = signal<Contenedor[]>([]);
+  private contenedorService = inject(ContenedorService);
+
+  contenedores = signal<ContenedorLista[]>([]);
   fechaActual = new Date();
   usuarioFechaLimitePago: Date;
   dominioApp = environment.dominioApp;
@@ -69,13 +75,16 @@ export class ContenedorListaComponent extends General implements OnInit {
   VisalizarMensajeBloqueo = false;
   visualizarLoader: boolean[] = [];
   contenedorId: number;
-  contenedor: Contenedor;
+  contenedor: ContenedorLista;
   procesando = false;
   searchTerm: string = '';
+  currentPage = signal<number>(1);
+  itemsPerPage: number = this.contenedorService.itemsPerPage;
+  digitalOceanUrl = environment.digitalOceanUrl;
+  private searchTerms = new Subject<string>();
   esSocio = signal<boolean>(false);
 
   constructor(
-    private contenedorService: ContenedorService,
     private subdominioService: SubdominioService,
     private modalService: NgbModal,
   ) {
@@ -92,6 +101,15 @@ export class ContenedorListaComponent extends General implements OnInit {
 
     this.consultarLista();
     this.limpiarEmpresa();
+    
+    // Configurar la búsqueda con debounce
+    this.searchTerms.pipe(
+      debounceTime(500),
+      distinctUntilChanged(),
+    ).subscribe(term => {
+      this.searchTerm = term;
+      this.consultarLista();
+    });
 
     combineLatest([
       this.store.select(obtenerUsuarioFechaLimitePago),
@@ -124,17 +142,28 @@ export class ContenedorListaComponent extends General implements OnInit {
     this.store
       .select(obtenerUsuarioId)
       .pipe(
-        switchMap((respuestaUsuarioId) =>
-          this.contenedorService.lista(respuestaUsuarioId),
-        ),
+        switchMap((respuestaUsuarioId) => {
+          const params: Record<string, any> = { 
+            usuario_id: respuestaUsuarioId,
+            page: this.currentPage(),
+          };
+          
+          // Agregar el parámetro de búsqueda solo si hay un término
+          if (this.searchTerm) {
+            params['contenedor__nombre'] = this.searchTerm;
+          }
+          
+          return this.contenedorService.lista(params);
+        }),
+        
         tap((respuestaLista) => {
-          respuestaLista.contenedores.forEach(() =>
+          respuestaLista.results.forEach(() =>
             this.visualizarLoader.push(false),
           );
-          this.VisalizarMensajeBloqueo = !!respuestaLista.contenedores.find(
+          this.VisalizarMensajeBloqueo = !!respuestaLista.results.find(
             (contenedor) => contenedor.acceso_restringido === true,
           );
-          this.contenedores.set(respuestaLista.contenedores);
+          this.contenedores.set(respuestaLista.results);
           this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
         }),
@@ -328,7 +357,7 @@ export class ContenedorListaComponent extends General implements OnInit {
     return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 
-  abrirModal(content: any, contenedor_id: number, contenedor: Contenedor) {
+  abrirModal(content: any, contenedor_id: number, contenedor: ContenedorLista) {
     this.contenedorId = contenedor_id;
     this.contenedor = contenedor;
     this.modalService.open(content, {
@@ -339,12 +368,21 @@ export class ContenedorListaComponent extends General implements OnInit {
   }
 
   get filteredContenedores() {
-    if (!this.searchTerm) {
-      return this.contenedores(); // Si no hay término de búsqueda, devuelve todos los items
-    }
-
-    return this.contenedores().filter((item) =>
-      item?.nombre?.toLowerCase().includes(this.searchTerm?.toLowerCase()),
-    );
+    return this.contenedores();
+  }
+  
+  // Método para manejar cambios en el input de búsqueda
+  onSearchChange(term: string) {
+    this.currentPage.set(1);
+    this.searchTerms.next(term);
+  }
+  
+  cambiarPaginacion(page: number) {
+    this.currentPage.set(page);
+    this.consultarLista();
+  }
+  
+  get totalItems(): number {
+    return this.contenedorService.totalItems || 0;
   }
 }

@@ -409,6 +409,38 @@
           </div>
         </div>
       }
+
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
+          ></label>
+          <textarea
+            formControlName="detalle"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            (blur)="modificarCampoFormulario('detalle', null)"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicional.controls['detalle'].touched &&
+                formularioAdicional.controls['detalle'].invalid,
+              'is-valid':
+                formularioAdicional.controls['detalle'].touched &&
+                formularioAdicional.controls['detalle'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicional.controls['detalle']
+            }"
+          ></ng-container>
+        </div>
+      </div>
     </section>
   </app-card>
 </form>

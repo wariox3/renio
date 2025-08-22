@@ -351,26 +351,18 @@ export default class PagoFormularioComponent
 
   consultarDocumentos() {
     let filtros: ParametrosApi = {
+      ...this.arrFiltrosPermanenteAgregarDocumento,
+      ...this.arrFiltrosEmitidosAgregarDocumento,
       limit: 50,
       ordering: 'numero',
       serializador: 'adicionar',
     };
-    if (this.mostrarTodosLosClientes()) {
-        filtros = {
-          ...filtros,
-          ...this.arrFiltrosPermanenteAgregarDocumento,
-          ...this.arrFiltrosEmitidosAgregarDocumento,
-        };
-    } else {
+
+    if (!this.mostrarTodosLosClientes()) {
       filtros = {
         ...filtros,
         contacto_id: this.formularioFactura.get('contacto')?.value,
-        ...this.arrFiltrosPermanenteAgregarDocumento,
       };
-
-      if (Object.keys(this.arrFiltrosEmitidosAgregarDocumento).length >= 1) {
-        filtros = { ...this.arrFiltrosEmitidosAgregarDocumento };
-      }
     }
 
     this._generalService
@@ -434,9 +426,7 @@ export default class PagoFormularioComponent
         id: [null],
         tipo_registro: ['C'],
         documento_afectado: [documentoSeleccionado.id],
-        documento_tipo__nombre: [
-          documentoSeleccionado.documento_tipo__nombre,
-        ],
+        documento_tipo__nombre: [documentoSeleccionado.documento_tipo__nombre],
         numero: [documentoSeleccionado.numero],
         contacto: [documentoSeleccionado.contacto],
         contacto__nombre_corto: [documentoSeleccionado.contacto__nombre_corto],
