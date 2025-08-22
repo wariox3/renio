@@ -82,6 +82,7 @@ export interface ContenedorInvitacion {
 export interface ContenedorInvitacionLista {
   id: number;
   usuario: number;
+  usuario__nombre: string;
   contenedor: number;
   rol: string;
 }
