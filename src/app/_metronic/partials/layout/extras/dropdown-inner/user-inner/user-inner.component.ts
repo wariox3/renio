@@ -1,5 +1,5 @@
 import { AsyncPipe, NgClass, NgFor, NgIf } from '@angular/common';
-import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
+import { Component, HostBinding, OnDestroy, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { SubdominioService } from '@comun/services/subdominio.service';
@@ -9,7 +9,7 @@ import { ContenedorActionBorrarInformacion } from '@redux/actions/contenedor.act
 import { ModulosManagerLimpiar } from '@redux/actions/modulos-manager.action';
 import { usuarioActionActualizarIdioma } from '@redux/actions/usuario.actions';
 import { obtenerConfiguracionVisualizarApp } from '@redux/selectors/configuracion.selectors';
-import { obtenerContenedorId } from '@redux/selectors/contenedor.selectors';
+import { obtenerContenedorId, obtenerContenedorRol } from '@redux/selectors/contenedor.selectors';
 import {
   obtenerEmpresaId,
   obtenerEmpresaNombre,
@@ -61,6 +61,7 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
   public contenedorId: string;
   public empresaId: string;
+  public contenedorRol = signal<string>('');
 
   constructor(
     private auth: AuthService,
@@ -81,9 +82,16 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
       this.visualizarMenuApps = VisualizarApp;
       this.changeDetectorRef.detectChanges();
     });
+    this._obtenerContenedorRol();
     this.changeDetectorRef.detectChanges();
 
     this._initStoreSuscripciones();
+  }
+
+  private _obtenerContenedorRol() {
+    this.store.select(obtenerContenedorRol).subscribe((rol) => {
+      this.contenedorRol.set(rol);
+    });
   }
 
   private _initStoreSuscripciones() {
@@ -133,6 +141,10 @@ export class UserInnerComponent extends General implements OnInit, OnDestroy {
 
   navegarAmiEmpresa() {
     this.router.navigate([`/empresa/detalle/${this.empresaId}/`]);
+  }
+
+  navegarAmiEmpresaUsuarios() {
+    this.router.navigate([`/empresa/usuarios`]);
   }
 
   navegarAmiEmpresaConfiguracion() {

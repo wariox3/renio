@@ -35,6 +35,14 @@ export interface Contenedor {
   seleccion: boolean;
 }
 
+export interface ContenedorConfiguracionUsuario {
+  usuario: number;
+  usuario__nombre: string;
+  usuario__username: string;
+  usuario__operacion_id: number;
+  usuario__operacion_cargo_id: number;
+}
+
 export interface RespuestaConectar {
   id: number;
   subdominio: string;

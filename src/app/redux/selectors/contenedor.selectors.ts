@@ -32,3 +32,13 @@ export const obtenerContenedorPlanId = createSelector(
   Contenedor,
   (Contenedor) => Contenedor.plan_id
 );
+
+export const obtenerContenedorRol = createSelector(
+  Contenedor,
+  (Contenedor) => Contenedor.rol
+);
+
+export const selectContenedorId = createSelector(
+  Contenedor,
+  (Contenedor) => Contenedor.contenedor_id
+);
