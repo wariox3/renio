@@ -331,7 +331,6 @@
           <div class="d-flex justify-content-center mt-4" *ngIf="contenedores().length > 0">
             <app-paginador
               (pageChange)="cambiarPaginacion($event)"
-              [itemsPerPage]="itemsPerPage"
               [totalItems]="totalItems"
               [currentPage]="currentPage()"
             ></app-paginador>
