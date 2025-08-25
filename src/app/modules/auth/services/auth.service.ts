@@ -107,6 +107,15 @@ export class AuthService extends Subdominio implements OnDestroy {
     this.router.navigate(['/auth/login']);
   }
 
+  limpiarCookies() {
+    this.tokenService.eliminarToken();
+    this.tokenService.eliminarRefreshToken();
+    this._cookieService.delete(cookieKey.USUARIO, '/');
+    this._cookieService.delete(cookieKey.EMPRESA, '/');
+    this._cookieService.delete(cookieKey.CONTENEDOR, '/');
+    this._cookieService.delete(cookieKey.CONFIGURACION, '/');
+  }
+
   registration(data: any) {
     return this.http.post<Usuario>(
       `${this.URL_API_BASE}/seguridad/usuario/nuevo/`,
