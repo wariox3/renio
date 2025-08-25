@@ -9,6 +9,7 @@ import { environment } from '@env/environment';
 })
 export class TokenService {
   private _cookieService = inject(CookieService);
+  private _domain = environment.production ? environment.dominioApp : 'localhost';
 
   constructor() {}
 
@@ -16,7 +17,7 @@ export class TokenService {
     this._cookieService.set(cookieKey.ACCESS_TOKEN, token, {
       expires: tiempo,
       path: '/',
-      domain: environment.production ? environment.dominioApp : 'localhost',
+      domain: this._domain,
     });
   }
 
@@ -26,14 +27,14 @@ export class TokenService {
   }
 
   eliminarToken() {
-    this._cookieService.delete(cookieKey.ACCESS_TOKEN, '/', environment.dominioApp);
+    this._cookieService.delete(cookieKey.ACCESS_TOKEN, '/', this._domain);
   }
 
   guardarRefreshToken(refreshToken: string, tiempo: Date) {
     this._cookieService.set(cookieKey.REFRESH_TOKEN, refreshToken, {
       expires: tiempo,
       path: '/',
-      domain: environment.production ? environment.dominioApp : 'localhost',
+      domain: this._domain,
     });
   }
 
@@ -43,7 +44,7 @@ export class TokenService {
   }
 
   eliminarRefreshToken() {
-    this._cookieService.delete(cookieKey.REFRESH_TOKEN, '/');
+    this._cookieService.delete(cookieKey.REFRESH_TOKEN, '/', this._domain);
   }
 
   validarToken() {
