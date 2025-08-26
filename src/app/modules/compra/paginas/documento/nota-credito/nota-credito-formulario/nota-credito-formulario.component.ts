@@ -23,14 +23,17 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
 import { GeneralService } from '@comun/services/general.service';
-import { HttpService } from '@comun/services/http.service';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
 import { RegistroAutocompletarGenDocumentoReferencia } from '@interfaces/comunes/autocompletar/general/gen-documento.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
+import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO, NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/compra/domain/mapeos/documento-referencia.mapeo';
+import {
+  CONTACTO_FILTRO_PERMANENTE_PROVEEDOR,
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -46,12 +49,6 @@ import {
 import { SeleccionarGrupoComponent } from '../../../../../../comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component';
 import ContactoFormulario from '../../../../../general/paginas/contacto/contacto-formulario/contacto-formulario.component';
 import { FacturaCuentaComponent } from '../../factura/factura-cuenta/factura-cuenta.component';
-import {
-  CONTACTO_FILTRO_PERMANENTE_PROVEEDOR,
-  CONTACTO_LISTA_BUSCAR_AVANZADO,
-} from '@modulos/general/domain/mapeos/contacto.mapeo';
-import { DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO } from '@modulos/compra/domain/mapeos/documento-referencia.mapeo';
-import { NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/compra/domain/mapeos/documento-referencia.mapeo';
 
 @Component({
   selector: 'app-nota-credito-formulario',
@@ -78,8 +75,7 @@ import { NOTA_CREDITO_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE } from '@modulos/co
 })
 export default class FacturaDetalleComponent
   extends General
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
@@ -107,10 +103,10 @@ export default class FacturaDetalleComponent
   public campoListaContacto = CONTACTO_LISTA_BUSCAR_AVANZADO;
   public filtrosPermanentesContacto = CONTACTO_FILTRO_PERMANENTE_PROVEEDOR;
   public filtrosPermanentesNotaCredito = {};
+  public habilitarCargar = signal(false);
 
   constructor(
     private formBuilder: FormBuilder,
-    private httpService: HttpService,
     private facturaService: FacturaService,
     private modalService: NgbModal,
   ) {
@@ -293,6 +289,7 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
+      this.habilitarCargar.set(true);
     }
 
     this.formularioFactura?.markAsDirty();
@@ -334,9 +331,9 @@ export default class FacturaDetalleComponent
         )
           .toString()
           .padStart(2, '0')}-${fechaActual
-          .getDate()
-          .toString()
-          .padStart(2, '0')}`;
+            .getDate()
+            .toString()
+            .padStart(2, '0')}`;
         // Suma los días a la fecha actual
         this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
       }
@@ -370,6 +367,7 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
+      this.habilitarCargar.set(true);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -483,4 +481,25 @@ export default class FacturaDetalleComponent
   onSeleccionarGrupoChange(id: number) {
     this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
   }
+
+  cargarDocumentoReferencia() {
+    const documentoRef = this.formularioFactura.get(
+      'documento_referencia',
+    )?.value;
+    if (this.habilitarCargar()) {
+      this.facturaService
+        .consultarDetalle(documentoRef)
+        .subscribe((respuesta) => {
+          this._formularioFacturaService.cargarPagos(respuesta.documento);
+          this._formularioFacturaService.poblarDocumentoDetalle(
+            respuesta.documento.detalles,
+            false,
+          );
+
+          this.changeDetectorRef.detectChanges();
+        });
+      this.habilitarCargar.set(false);
+    }
+  }
+
 }
