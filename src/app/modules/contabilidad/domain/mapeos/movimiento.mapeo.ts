@@ -5,4 +5,6 @@ export const MOVIMIENTO_FILTERS: FilterField[] = [
     { name: 'numero', displayName: 'Número', type: 'string' },
     { name: 'fecha', displayName: 'Fecha', type: 'date' },
     { name: 'cuenta__codigo', displayName: 'Cuenta codigo', type: 'string' },
+    { name: 'contacto__nombre_corto', displayName: '[Contacto] nombre', type: 'string'},
+    { name: 'contacto__numero_identificacion', displayName: '[Contacto] identificación', type: 'string'},
 ];
