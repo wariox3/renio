@@ -1,0 +1,63 @@
+<app-card [titulo]="'Usuarios'" [visualizarTitulo]="true">
+  <section card-body>
+    <div class="table-responsive-sm">
+      <table id="tableUsuarios" class="table table-bordered table-row-gray-500">
+        <thead>
+          <tr class="bg-gray-100">
+            <th style="width: 50px">Id</th>
+            <th>Nombre</th>
+            <th>Username</th>
+            <th>Operación</th>
+            <th>Cargo</th>
+            <th style="width: 50px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (usuario of usuarios(); track usuario.usuario) {
+          <tr>
+            <td style="width: 50px">{{ usuario.usuario }}</td>
+            <td class="w-50 text-start">
+              {{ usuario.usuario__nombre }}
+            </td>
+            <td>
+              {{ usuario.usuario__username }}
+            </td>
+            <td>
+              {{ usuario.usuario__operacion_id }}
+            </td>
+            <td>
+              {{ usuario.usuario__operacion_cargo_id }}
+            </td>
+            <td class="w-45px text-center">
+              <label (click)="navegarEditar(usuario, content)" class="cursor-pointer">
+                <i class="ki-duotone ki-notepad-edit hover-primary">
+                  <span class="path1"></span>
+                  <span class="path2"></span>
+                </i>
+              </label>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <ng-template #content let-modal>
+      <div class="modal-header">
+        <h3>Editar usuario</h3>
+        <button
+          type="button"
+          class="btn-close"
+          aria-label="Close"
+          (click)="modal.dismiss('Cross click')"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <!-- Placeholder for user edit component -->
+        <app-empresa-usuario-editar
+          [usuario]="usuarioSeleccionado()"
+          (usuarioActualizado)="onUsuarioActualizado()"
+        ></app-empresa-usuario-editar>
+      </div>
+    </ng-template>
+  </section>
+</app-card>

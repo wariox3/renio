@@ -3,28 +3,31 @@ import { Injectable, inject } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
+import { CookieService } from '@comun/services/infrastructure/cookie.service';
 import { Consumo } from '@interfaces/contenedor/consumo';
 import { Movimientos } from '@interfaces/facturacion/Facturacion';
-import { Regimen } from '@interfaces/general/regimen.interface';
-import { TipoIdentificacionLista } from '@interfaces/general/tipo-identificacion.interface';
-import { TipoPersona } from '@interfaces/general/tipo-persona.interface';
 import {
   Contenedor,
+  ContenedorConfiguracionUsuario,
   ContenedorFormulario,
   ContenedorInvitacion,
+  ContenedorInvitacionLista,
   ContenedorLista,
   RespuestaConectar,
 } from '@interfaces/usuario/contenedor';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
-import { Ciudad } from '@modulos/general/interfaces/ciudad.interface';
+import { map } from 'rxjs';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ContenedorService extends Subdominio {
-
+  totalItems: number = 0;
   private _generalService = inject(GeneralService);
+  private _filterTransformService = inject(FilterTransformerService);
+  private _cookieService = inject(CookieService);
 
   constructor(
     private http: HttpClient,
@@ -33,14 +36,72 @@ export class ContenedorService extends Subdominio {
     super();
   }
 
-  lista(usuario_id: number) {
-    return this.http.post<ContenedorLista>(
-      `${this.URL_API_BASE}/contenedor/usuariocontenedor/consulta-usuario/`,
-      {
-        usuario_id,
-        reddoc: true,
-      },
-    );
+  private _isContenedorRestringido(valorSaldo: number, fechaLimitePago: string) {
+    // Si no hay fecha límite, no hay restricción
+    if (!fechaLimitePago) {
+      return false;
+    }
+    
+    const fechaHoy = new Date();
+    const fechaLimite = new Date(fechaLimitePago);
+    
+    // Normalizar las fechas para comparar solo año, mes y día
+    const hoy = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth(), fechaHoy.getDate());
+    const limite = new Date(fechaLimite.getFullYear(), fechaLimite.getMonth(), fechaLimite.getDate());
+
+    // Si el saldo es mayor a 0 y la fecha límite ya pasó
+    if (valorSaldo > 0 && hoy > limite) {
+      return true; // Contenedor restringido
+    }
+
+    return false; // Contenedor no restringido
+  }
+
+  private _agregarPropiedades(contenedores: ContenedorLista[]) {
+    // Obtener el usuario de la cookie para verificar saldo y fecha límite
+    const usuarioCookie = this._cookieService?.get('usuario');
+    let valorSaldo = 0;
+    let fechaLimitePago = '';
+    
+    if (usuarioCookie) {
+      try {
+        const usuario = JSON.parse(usuarioCookie);
+        valorSaldo = usuario.vr_saldo || 0;
+        fechaLimitePago = usuario.fecha_limite_pago || '';
+      } catch (error) {
+        console.error('Error al parsear la cookie de usuario:', error);
+      }
+    }
+    
+    return contenedores.map((contenedor) => {
+      return {
+        ...contenedor,
+        acceso_restringido: this._isContenedorRestringido(valorSaldo, fechaLimitePago)
+      };
+    });
+  }
+
+  lista(parametros: Record<string, any>) {
+    const params = this._filterTransformService.toQueryString({
+      ...parametros,
+      serializador: 'lista',
+      contenedor__reddoc: 'True',
+    });
+
+    return this.http
+      .get<
+        RespuestaApi<ContenedorLista>
+      >(`${this.URL_API_BASE}/contenedor/usuariocontenedor/?${params}`)
+      .pipe(
+        map((res) => {
+          // Store the total count for pagination
+          this.totalItems = res.count;
+          return {
+            ...res,
+            results: this._agregarPropiedades(res.results),
+          };
+        }),
+      );
   }
 
   nuevo(data: ContenedorFormulario, usuario_id: number) {
@@ -101,11 +162,14 @@ export class ContenedorService extends Subdominio {
   }
 
   listaInvitaciones(contenedor_id: number) {
-    return this.http.post(
-      `${this.URL_API_BASE}/contenedor/usuariocontenedor/consulta-contenedor/`,
-      {
-        contenedor_id,
-      },
+    return this.http.get<RespuestaApi<ContenedorInvitacionLista>>(
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/?contenedor_id=${contenedor_id}`,
+    );
+  }
+
+  listaUsuarios(contenedor_id: number) {
+    return this.http.get<RespuestaApi<ContenedorConfiguracionUsuario>>(
+      `${this.URL_API_BASE}/contenedor/usuariocontenedor/?contenedor_id=${contenedor_id}&serializador=configuracion`,
     );
   }
 
@@ -129,7 +193,7 @@ export class ContenedorService extends Subdominio {
 
   listaCiudades(arrFiltros: any) {
     let params = new HttpParams();
-    Object.keys(arrFiltros).forEach(key => {
+    Object.keys(arrFiltros).forEach((key) => {
       if (arrFiltros[key] !== null && arrFiltros[key] !== undefined) {
         params = params.append(key, arrFiltros[key].toString());
       }
@@ -141,16 +205,13 @@ export class ContenedorService extends Subdominio {
   }
 
   listaTipoIdentificacion() {
-
     return this.http.get(
       `${this.URL_API_BASE}/contenedor/identificacion/?limit=10`,
     );
   }
 
   listaRegimen() {
-    return this.http.get(
-      `${this.URL_API_BASE}/contenedor/regimen/?limit=10`,
-    );
+    return this.http.get(`${this.URL_API_BASE}/contenedor/regimen/?limit=10`);
   }
 
   listaTipoPersona() {

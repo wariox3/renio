@@ -1,3 +1,22 @@
+export interface ContenedorLista {
+  id: number;
+  rol: string;
+  contenedor: string;
+  contenedor_id: number;
+  contenedor__nombre: string;
+  contenedor__usuarios: number;
+  contenedor__imagen: string;
+  contenedor__schema_name: string;
+  contenedor__reddoc: boolean;
+  contenedor__ruteo: boolean;
+  contenedor__plan_id: number;
+  contenedor__plan__nombre: string;
+  contenedor__plan__usuarios_base: number;
+  usuario_id: number;
+  seleccion: boolean;
+  acceso_restringido: boolean;
+}
+
 export interface Contenedor {
   id: number;
   usuario_id: number;
@@ -14,6 +33,14 @@ export interface Contenedor {
   ruteo: boolean;
   acceso_restringido: boolean;
   seleccion: boolean;
+}
+
+export interface ContenedorConfiguracionUsuario {
+  usuario: number;
+  usuario__nombre: string;
+  usuario__username: string;
+  usuario__operacion_id: number;
+  usuario__operacion_cargo_id: number;
 }
 
 export interface RespuestaConectar {
@@ -58,6 +85,15 @@ export interface ContenedorInvitacion {
   aplicacion: string;
   usuario_id: number;
   invitado: string;
+}
+
+export interface ContenedorInvitacionLista {
+  id: number;
+  usuario: number;
+  usuerio__nombre: string;
+  usuario__username: string;
+  contenedor: number;
+  rol: string;
 }
 
 export interface ContenedorUsuariosInvicionAceptada

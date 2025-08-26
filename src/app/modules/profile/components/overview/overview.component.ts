@@ -7,7 +7,7 @@ import {
 } from '@redux/selectors/usuario.selectors';
 import { switchMap } from 'rxjs';
 import { ContenedorService } from '../../../contenedor/servicios/contenedor.service';
-import { Contenedor } from '@interfaces/usuario/contenedor';
+import { Contenedor, ContenedorLista } from '@interfaces/usuario/contenedor';
 import { General } from '@comun/clases/general';
 import { SkeletonLoadingComponent } from '../../../../comun/componentes/skeleton-loading/skeleton-loading.component';
 import { NgIf, NgFor, NgOptimizedImage } from '@angular/common';
@@ -25,12 +25,13 @@ import { TranslateModule } from '@ngx-translate/core';
     ],
 })
 export class OverviewComponent extends General implements OnInit {
-  arrContenedores: Contenedor[] = [];
+  arrContenedores: ContenedorLista[] = [];
   usuarioImagen$ = this.store.select(obtenerUsuarioImagen);
   usuarioCorreo = this.store.select(obtenerUsuarioUserName);
   @ViewChild('btnGuardar', { read: ElementRef })
   btnGuardar!: ElementRef<HTMLButtonElement>;
   codigoUsuario = '';
+  digitalOceanUrl = environment.digitalOceanUrl;
   dominioApp = environment.dominioApp
   cargandoContederes = false;
 
@@ -47,10 +48,10 @@ export class OverviewComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges()
     this.store
       .select(obtenerUsuarioId)
-      .pipe(switchMap((usuarioId) => this.contenedorService.lista(usuarioId)))
+      .pipe(switchMap((usuarioId) => this.contenedorService.lista({ usuario_id: usuarioId })))
       .subscribe({
         next: (respuesta) => {
-          this.arrContenedores = respuesta.contenedores;
+          this.arrContenedores = respuesta.results;
           this.cargandoContederes = false;
           this.changeDetectorRef.detectChanges();
         },

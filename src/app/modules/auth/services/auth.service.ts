@@ -107,13 +107,22 @@ export class AuthService extends Subdominio implements OnDestroy {
     this.router.navigate(['/auth/login']);
   }
 
+  limpiarCookies() {
+    this.tokenService.eliminarToken();
+    this.tokenService.eliminarRefreshToken();
+    this._cookieService.delete(cookieKey.USUARIO, '/');
+    this._cookieService.delete(cookieKey.EMPRESA, '/');
+    this._cookieService.delete(cookieKey.CONTENEDOR, '/');
+    this._cookieService.delete(cookieKey.CONFIGURACION, '/');
+  }
+
   registration(data: any) {
     return this.http.post<Usuario>(
       `${this.URL_API_BASE}/seguridad/usuario/nuevo/`,
       {
         username: data.usuario,
         password: data.clave,
-        aplicacion: 'reddoc'
+        aplicacion: 'reddoc',
       },
       {
         context: noRequiereToken(),
@@ -223,6 +232,15 @@ export class AuthService extends Subdominio implements OnDestroy {
       `${this.URL_API_BASE}/seguridad/usuario/estado-verificado/`,
       {
         usuario_id,
+      },
+    );
+  }
+
+  actualizarUsuario(usuario_id: number, data: any) {
+    return this.http.patch<any>(
+      `${this.URL_API_BASE}/seguridad/usuario/${usuario_id}/`,
+      {
+        ...data,
       },
     );
   }

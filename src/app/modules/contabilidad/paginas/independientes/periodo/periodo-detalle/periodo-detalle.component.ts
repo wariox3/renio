@@ -157,7 +157,7 @@ export class PeriodoDetalleComponent
   consultarDetalle() {
     this.periodoService
       .consultarPeriodos({
-        page_size: 500
+        // page_size: 500
       })
       .pipe(
         takeUntil(this._destroy$),

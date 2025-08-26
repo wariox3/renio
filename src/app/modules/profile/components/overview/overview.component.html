@@ -14,9 +14,9 @@
             style="height: calc(82px - 0.6rem) !important"
           >
             <td style="width: 120px">
-              <ng-container *ngIf="contenedor.imagen">
+              <ng-container *ngIf="contenedor.contenedor__imagen">
                 <img
-                  [ngSrc]="contenedor.imagen"
+                  [ngSrc]="digitalOceanUrl + contenedor.contenedor__imagen"
                   [alt]="'Error al cargar logo'"
                   width="120"
                   height="120"
@@ -26,13 +26,13 @@
             </td>
             <td>
               <p class="text-dark fw-bolder fs-6">
-                {{ contenedor.nombre }}
+                {{ contenedor.contenedor__nombre }}
                 <small class="badge badge-light-primary fs-8 fw-bold">{{
                   contenedor.rol
                 }}</small>
               </p>
               <span class="text-muted fw-bold text-muted d-block fs-7">
-                {{ contenedor.subdominio }}{{ dominioApp }}
+                {{ contenedor.contenedor__schema_name }}{{ dominioApp }}
               </span>
             </td>
             <td class="w-50px">
@@ -42,7 +42,7 @@
                 *ngIf="contenedor.rol === 'propietario'"
               ></div>
             </td>
-            <td>{{ contenedor.usuarios }} / {{ contenedor.usuarios_base }}</td>
+            <td>{{ contenedor.contenedor__usuarios }} / {{ contenedor.contenedor__plan__usuarios_base }}</td>
           </tr>
         </ng-container>
         <ng-template #sinContenedores>
