@@ -607,6 +607,19 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
       modelos: [
         {
           key: null,
+          nombreModelo: 'CUENTASCOBRAR',
+          documentacion: {
+            id: 1045,
+          },
+          ajustes: {
+            rutas: {
+              lista: 'venta/informe/cuentas_cobrar',
+              nuevo: '',
+            },
+          },
+        },
+        {
+          key: null,
           nombreModelo: 'VENTASITEM',
           documentacion: {
             id: 1040,
