@@ -12,7 +12,7 @@
 
               <!--begin::Amount-->
               <span class="fs-2hx fw-bold text-gray-900 me-2 lh-1 ls-n2">{{
-                arrResumenCobrar.resumen.saldo_pendiente | number
+                arrResumenCobrar.resumen.saldo_pendiente | number:'1.0-0'
               }}</span>
               <!--end::Amount-->
 
@@ -57,7 +57,7 @@
               </div>
 
               <div class="fw-bolder text-gray-700 text-xxl-end">
-                ${{ arrResumenCobrar.vigente.saldo_pendiente | number }}
+                ${{ arrResumenCobrar.vigente.saldo_pendiente | number:'1.0-0' }}
               </div>
             </div>
 
@@ -70,7 +70,7 @@
                 </span>
               </div>
               <div class="fw-bolder text-gray-700 text-xxl-end">
-                ${{ arrResumenCobrar.vencido.saldo_pendiente | number }}
+                ${{ arrResumenCobrar.vencido.saldo_pendiente | number:'1.0-0' }}
               </div>
             </div>
           </div>
@@ -90,7 +90,7 @@
 
             <!--begin::Amount-->
             <span class="fs-2hx fw-bold text-gray-900 me-2 lh-1 ls-n2">{{
-              arrResumenPagar.resumen.saldo_pendiente | number
+              arrResumenPagar.resumen.saldo_pendiente | number:'1.0-0'
             }}</span>
             <!--end::Amount-->
 
@@ -130,7 +130,7 @@
               </span>
             </div>
             <div class="fw-bolder text-gray-700 text-xxl-end">
-              ${{ arrResumenPagar.vigente.saldo_pendiente | number }}
+              ${{ arrResumenPagar.vigente.saldo_pendiente | number:'1.0-0' }}
             </div>
           </div>
 
@@ -142,7 +142,7 @@
               </span>
             </div>
             <div class="fw-bolder text-gray-700 text-xxl-end">
-              ${{ arrResumenPagar.vencido.saldo_pendiente | number }}
+              ${{ arrResumenPagar.vencido.saldo_pendiente | number:'1.0-0' }}
             </div>
           </div>
         </div>

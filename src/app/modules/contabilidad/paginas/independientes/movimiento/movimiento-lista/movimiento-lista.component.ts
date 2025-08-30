@@ -33,7 +33,9 @@ import { MOVIMIENTO_FILTERS } from '@modulos/contabilidad/domain/mapeos/movimien
 export class MovimientoListaComponent extends General implements OnInit {
   arrDocumentos: any = [];
   cantidad_registros!: number;
-  parametrosApiPermanente: ParametrosApi = {};
+  parametrosApiPermanente: ParametrosApi = {
+    serializador: 'lista'
+  };
   parametrosApi: ParametrosApi = {};
   private _generalService = inject(GeneralService);
   private _filterTransformerService = inject(FilterTransformerService);
@@ -54,20 +56,24 @@ export class MovimientoListaComponent extends General implements OnInit {
 
   consultarLista() {
     this._generalService
-      .consultaApi<RespuestaApi<any>>('contabilidad/movimiento/', this.parametrosApi)
+      .consultaApi<RespuestaApi<any>>('contabilidad/movimiento/', {
+        ...this.parametrosApiPermanente,
+        ...this.parametrosApi,
+      })
       .subscribe((respuesta) => {
         this.cantidad_registros = respuesta.count;
         this.arrDocumentos = respuesta.results.map((documento) => ({
           id: documento.id,
           fecha: documento.fecha,
           numero: documento.numero,
-          contacto_nombre_corto: documento.contacto_nombre_corto,
-          comprobante: documento.comprobante_nombre,
-          cuenta: documento.cuenta_codigo,
-          grupo: documento.grupo_nombre,
+          contacto_nombre_corto: documento.contacto__nombre_corto,
+          comprobante: documento.comprobante__nombre,
+          cuenta: documento.cuenta__nombre,
+          grupo: documento.grupo__nombre,
           base: documento.base,
           debito: documento.debito,
           credito: documento.credito,
+          detalle: documento.detalle,
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -78,10 +84,8 @@ export class MovimientoListaComponent extends General implements OnInit {
       this._filterTransformerService.transformToApiParams(filtros);
 
     this.parametrosApi = {
-      ...this.parametrosApiPermanente,
       ...parametros,
     };
-
     this.consultarLista();
   }
 

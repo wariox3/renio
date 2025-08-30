@@ -18,26 +18,23 @@ import { General } from '@comun/clases/general';
 import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { GeneralService } from '@comun/services/general.service';
 import { validarRangoDeFechas } from '@comun/validaciones/rango-fechas.validator';
-import { RegistroAutocompletarHumContrato } from '@interfaces/comunes/autocompletar/humano/hum-contrato.interface';
 import {
   HumNovedadLista,
   RegistroAutocompletarHumNovedadTipo,
 } from '@interfaces/comunes/autocompletar/humano/hum-novedad-tipo.interface';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { NovedadService } from '@modulos/humano/servicios/novedad.service';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, Subject, takeUntil, tap, throttleTime } from 'rxjs';
-import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { BuscarAvanzadoComponent } from '../../../../../../comun/componentes/buscar-avanzado/buscar-avanzado.component';
-import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
 import { NOVEDAD_FILTERS_LISTA_BUSCAR_AVANZADO } from '@modulos/humano/domain/mapeo/novedad.mapeo';
+import { NovedadService } from '@modulos/humano/servicios/novedad.service';
+import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { TranslateModule } from '@ngx-translate/core';
+import { Subject, takeUntil, tap } from 'rxjs';
+import { BuscarAvanzadoComponent } from '../../../../../../comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 
 @Component({
   selector: 'app-novedad-formulario',
@@ -162,7 +159,7 @@ export default class CreditoFormularioComponent
         fecha_desde_periodo: [null],
         fecha_hasta_periodo: [null],
         novedad_referencia: [null],
-        detalle: [''],
+        detalle: [null, Validators.compose([cambiarVacioPorNulo.validar])],
       },
       {
         validator: [
