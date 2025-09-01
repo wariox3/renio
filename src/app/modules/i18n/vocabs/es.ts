@@ -1639,6 +1639,7 @@ export const locale = {
       703: 'Seguridad social',
       HUMPROGRAMACION: 'Programación de nómina',
       HUMAPORTE: 'Aporte seguridad social',
+      CUENTAS_COBRAR: 'Cuentas por cobrar',
       GENCONTACTO: 'Contacto',
       GENITEM: 'ítem',
       GENSEDE: 'Sede',

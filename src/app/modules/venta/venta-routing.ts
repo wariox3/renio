@@ -124,6 +124,14 @@ export const routes: Route[] = [
           ).then((c) => c.VentasItemsComponent),
       },
       {
+        path: 'cuentas_cobrar',
+        data: { breadcrumb: 'cuentascobrar' },
+        loadComponent: () =>
+          import(
+            '../cartera/paginas/informe/cuentas-cobrar/cuentas-cobrar.component'
+          ).then((c) => c.CuentasCobrarComponent),
+      },
+      {
         path: 'ventas_cliente',
         data: { breadcrumb: 'query:modelo' },
         loadComponent: () =>
