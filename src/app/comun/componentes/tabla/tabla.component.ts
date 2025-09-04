@@ -220,6 +220,10 @@ export class TablaComponent extends General implements OnInit, OnChanges {
                 .alinearAlaIzquierda
                 ? true
                 : false,
+              aplicaFormatoFechaIso: this.columnasVibles[clave]
+                .aplicaFormatoFechaIso
+                ? true
+                : false,
             };
           }
         }
@@ -279,6 +283,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   botonExtra(nombreComponente: BotonesExtras) {
+    if (nombreComponente.emitirValorCheck) {
+      this.eliminarRegistros()
+    }
     this.emitirClickBotonExtra.emit(nombreComponente);
   }
 
@@ -431,6 +438,20 @@ export class TablaComponent extends General implements OnInit, OnChanges {
             // Maneja el caso cuando `valor` es null o undefined
             return '0'; // O algún valor predeterminado adecuado
           }
+        case 'DateField':
+          if (campo.aplicaFormatoFechaIso) {
+            const dateObj = new Date(valor);
+
+            // Obtenemos año, mes y día
+            const year = dateObj.getFullYear();
+            const month = String(dateObj.getMonth() + 1).padStart(2, '0'); // +1 porque los meses van de 0 a 11
+            const day = String(dateObj.getDate()).padStart(2, '0');
+
+            // Formato YYYY-MM-DD
+            const fechaFormateada = `${year}-${month}-${day}`;
+            return fechaFormateada
+          }
+          return valor;
         // En caso de que el tipo de campo no sea ninguno de los anteriores
         default:
           // Devuelve el valor sin modificar

@@ -16,6 +16,7 @@ export type MapeoDocumento = {
     campoTipo: CampoTipo;
     stylePersonalizado?: { [key: string]: string } | null; // Para estilos css en línea tr
     classPersonalizado?: string;  // Para clases css en línea tr
+    aplicaFormatoFechaIso?: boolean;
 };
 
 
