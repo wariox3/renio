@@ -1,13 +1,16 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Subdominio } from '@comun/clases/subdomino';
 import { HttpService } from '@comun/services/http.service';
 import { DocumentoFacturaRespuesta } from '@interfaces/comunes/factura/factura.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class FacturaService {
-  constructor(private httpService: HttpService) {}
+  private _filterTransformerService = inject(FilterTransformerService);
+
+  constructor(private httpService: HttpService) { }
 
   guardarFactura(data: any) {
     return this.httpService.post<{ documento: DocumentoFacturaRespuesta }>(
@@ -71,6 +74,16 @@ export class FacturaService {
     return this.httpService.post<any>(
       'general/documento/cargar-cierre/',
       data,
+    );
+  }
+
+  consultarGuias(data: { documento_id: number }) {
+    const query = this._filterTransformerService.toQueryString({
+      ...data,
+    });
+
+    return this.httpService.getDetalle<{ documento: DocumentoFacturaRespuesta }>(
+      `general/documento_guia/?${query}`,
     );
   }
 }

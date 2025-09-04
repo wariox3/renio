@@ -4,4 +4,5 @@ export interface BotonesExtras {
   componenteNombre: string;
   nombreBoton: string;
   configuracionModal: ConfiguracionModal;
+  emitirValorCheck?: boolean;
 }

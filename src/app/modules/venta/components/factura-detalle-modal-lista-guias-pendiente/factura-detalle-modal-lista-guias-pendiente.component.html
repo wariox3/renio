@@ -1,0 +1,31 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Guías pendientes</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="cerrarModal()"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-comun-tabla
+      [modelo]="'DOCUMENTO'"
+      [_tipo]="'GUIA'"
+      [datos]="guias()"
+      [cantidad_registros]="cantidadRegistros()"
+      [visualizarBtnNuevo]="false"
+      [visualizarColumnaEditar]="false"
+      [visualizarColumnaDetalle]="false"
+      [visualizarBtnNuevo]="false"
+      [visualizarBtnImportar]="false"
+      [visualizarBtnEliminar]="false"
+      [visualizarBtnExportar]="false"
+      [botonesExtras]="botonesExtras"
+      (emitirPaginacion)="cambiarPaginacion($event)"
+      (emitirRegistraEliminar)="onSeleccionGuias($event)"
+      (emitirClickBotonExtra)="agregarGuias()"
+    >
+    </app-comun-tabla>
+  </div>
+</ng-template>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
@@ -21,6 +21,7 @@ import { EMPTY, Subject, switchMap, takeUntil, tap } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
+import { FacturaDetalleTabGuiasComponent } from '@modulos/venta/components/factura-detalle-tab-guias/factura-detalle-tab-guias.component';
 
 @Component({
   selector: 'app-factura-detalle',
@@ -42,7 +43,8 @@ import { Rutas } from '@interfaces/menu/configuracion.interface';
     BaseEstadosComponent,
     DetallesTotalesComponent,
     TituloAccionComponent,
-  ],
+    FacturaDetalleTabGuiasComponent
+],
 })
 export default class FacturaDetalleComponent
   extends General
