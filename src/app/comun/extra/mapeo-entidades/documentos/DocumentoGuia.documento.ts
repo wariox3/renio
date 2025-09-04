@@ -67,6 +67,30 @@ export const documentoGuia: MapeoDocumento[] = [
     ordenable: true,
   },
   {
+    nombre: 'FLETE',
+    campoTipo: 'IntegerField',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: true,
+    aplicaFormatoNumerico: true
+  },
+    {
+    nombre: 'MANEJO',
+    campoTipo: 'IntegerField',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: true,
+    aplicaFormatoNumerico: true
+  },
+  {
+    nombre: 'TOTAL',
+    campoTipo: 'IntegerField',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: true,
+    aplicaFormatoNumerico: true
+  },
+  {
     nombre: 'GUIA__ESTADO_ENTREGADO',
     nombreAbreviado: 'GUIA__ESTADO_ENTREGADO_ABREVIATURA',
     campoTipo: 'Booleano',
@@ -74,4 +98,5 @@ export const documentoGuia: MapeoDocumento[] = [
     visibleFiltro: false,
     ordenable: false,
   },
+
 ]

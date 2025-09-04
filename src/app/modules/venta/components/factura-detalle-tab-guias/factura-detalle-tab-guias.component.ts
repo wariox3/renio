@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, inject, Input, OnDestroy, OnInit, Output, signal, TemplateRef, ViewChild } from "@angular/core";
+import { Component, EventEmitter, inject, Input, OnChanges, OnDestroy, OnInit, Output, signal, SimpleChanges, TemplateRef, ViewChild } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { General } from "@comun/clases/general";
 import { TablaComponent } from "@comun/componentes/tabla/tabla.component";
@@ -20,7 +20,7 @@ import { FacturaModalAgregarGuiaComponent } from "../factura-modal-agregar-guia/
   imports: [TablaComponent, CommonModule, FacturaModalAgregarGuiaComponent, FacturaDetalleModalListaGuiasPendienteComponent],
   templateUrl: './factura-detalle-tab-guias.component.html',
 })
-export class FacturaDetalleTabGuiasComponent extends General implements OnDestroy, OnInit {
+export class FacturaDetalleTabGuiasComponent extends General implements OnDestroy, OnChanges, OnInit {
   private readonly _modalService = inject(NgbModal);
   private _activatedRoute = inject(ActivatedRoute);
   private _documentoGuiaService = inject(DocumentoGuiaService);
@@ -68,7 +68,34 @@ export class FacturaDetalleTabGuiasComponent extends General implements OnDestro
       ActualizarMapeo({ dataMapeo: documentos['documentoGuia'] })
     );
     this.consultarLista();
+    if (this.documento?.estado_aprobado) {
+      this.botonesExtras = []
+    }
     this.changeDetectorRef.detectChanges();
+  }
+
+ ngOnChanges(changes: SimpleChanges): void {
+    if (changes['documento'] && this.documento) {
+      if (this.documento.estado_aprobado) {
+        this.botonesExtras = [];
+      } else {
+        // Restaurar botones si se desaprueba
+        this.botonesExtras = [
+          {
+            componenteNombre: 'generar',
+            nombreBoton: 'Pendientes',
+            configuracionModal: { size: 'sm', titulo: '' },
+            emitirValorCheck: true,
+          },
+          {
+            componenteNombre: 'generar',
+            nombreBoton: 'Agregar',
+            configuracionModal: { size: 'sm', titulo: '' },
+            emitirValorCheck: true,
+          }
+        ];
+      }
+    }
   }
 
   ngOnDestroy(): void {
