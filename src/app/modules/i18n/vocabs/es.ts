@@ -341,6 +341,7 @@ export const locale = {
           OTRAINFROMACION: 'Otra información',
           MASINFORMACION: 'Más información',
           GUIA: 'Guía',
+          GUIAS: 'Guias',
           CUENTA: 'Cuenta',
           CUENTAS: 'Cuentas',
           GRUPO: 'Grupo',
@@ -809,6 +810,7 @@ export const locale = {
             DEDUCCION: 'Deduccion',
             DEVENGADO: 'Devengado',
             TOTAL: 'Total',
+            SALARIO: 'Salario',
           }
         },
         CONTABILIDAD: {
@@ -1348,6 +1350,7 @@ export const locale = {
         UNIDADES: 'Und',
         GUIA__ESTADO_ENTREGADO: 'Entregado',
         GUIA__ESTADO_ENTREGADO_ABREVIATURA: 'E',
+        TOTAL: 'Total',
       },
       CARGO: {
         ID: 'ID',

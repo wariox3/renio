@@ -48,6 +48,16 @@ export const documentoHumLiquidacion: MapeoDocumento[] = [
     visibleFiltro: true,
     ordenable: true,
   },
+    {
+    nombre: 'contrato__salario',
+    nombreAbreviado: 'SALARIO',
+    campoTipo: 'FloatField',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: false,
+    alinearAlaIzquierda: true,
+    aplicaFormatoNumerico: true,
+  },
   {
     nombre: 'DIAS',
     campoTipo: 'CharField',
