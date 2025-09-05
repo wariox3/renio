@@ -810,6 +810,7 @@ export const locale = {
             DEDUCCION: 'Deduccion',
             DEVENGADO: 'Devengado',
             TOTAL: 'Total',
+            SALARIO: 'Salario',
           }
         },
         CONTABILIDAD: {

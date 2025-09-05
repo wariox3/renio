@@ -3,6 +3,7 @@ export interface Liquidacion {
   fecha: string;
   contrato__contacto__numero_identificacion: string;
   contrato__contacto__nombre_corto: string;
+  contrato__salario: number;
   contrato_id: number;
   fecha_desde: string;
   fecha_hasta: string;
