@@ -992,7 +992,7 @@ export const documentos: MapeoDocumentos = {
       esFk: true,
     },
     {
-      nombre: 'contacto__numero_identificacion',
+      nombre: 'documento__contacto__numero_identificacion',
       nombreAbreviado: 'CONTACTO_NUMERO_IDENTIFICACION',
       nombreAbreviadoFiltro: 'EMPLEADO_IDENTIFICACION_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO__CONTACTO__NUMERO_IDENTIFICACION',
@@ -1002,7 +1002,7 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'contacto__nombre_corto',
+      nombre: 'documento__contacto__nombre_corto',
       nombreAbreviado: 'EMPLEADO',
       nombreAbreviadoFiltro: 'EMPLEADO_NOMBRE_FILTRO',
       nombreFiltroRelacion: 'DOCUMENTO__CONTACTO__NOMBRE_CORTO',
