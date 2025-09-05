@@ -1,0 +1,25 @@
+<div class="table-responsive-sm">
+  <app-comun-tabla
+    [modelo]="'DOCUMENTO'"
+    [_tipo]="'GUIA'"
+    [datos]="guias()"
+    [cantidad_registros]="cantidadRegistros()"
+    [visualizarBtnNuevo]="false"
+    [visualizarColumnaEditar]="false"
+    [visualizarColumnaDetalle]="false"
+    [visualizarBtnNuevo]="false"
+    [visualizarBtnImportar]="false"
+    [visualizarBtnEliminar]="!this.documento.estado_aprobado"
+    [visualizarColumnaSeleccionar]="!this.documento.estado_aprobado"
+    [visualizarBtnExportar]="false"
+    (emitirPaginacion)="cambiarPaginacion($event)"
+    (emitirRegistraEliminar)="onSeleccionGuias($event)"
+    [botonesExtras]="botonesExtras"
+    (emitirClickBotonExtra)="abrirModal($event)"
+  >
+    <section botones-extra-derecha>
+    </section>
+  </app-comun-tabla>
+</div>
+<app-despacho-modal-lista-guias-pendiente (registroExitoso)="consultarLista()"></app-despacho-modal-lista-guias-pendiente>
+<app-factura-modal-agregar-guia (registroExitoso)="consultarLista()"></app-factura-modal-agregar-guia>

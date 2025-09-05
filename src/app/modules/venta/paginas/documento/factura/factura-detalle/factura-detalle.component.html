@@ -329,6 +329,21 @@
               </div>
             </ng-template>
           </li>
+          <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 3 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.GUIAS"
+            ></a>
+            <ng-template ngbNavContent>
+              <app-factura-detalle-tab-guias
+                [documento]="documento"
+                (actualizarGuiasEvent)="consultardetalle()"
+              ></app-factura-detalle-tab-guias>
+            </ng-template>
+          </li>
         </ul>
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
         <div class="d-flex justify-content-end mb-5">

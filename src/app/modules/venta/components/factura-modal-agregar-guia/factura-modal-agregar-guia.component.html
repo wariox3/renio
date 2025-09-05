@@ -1,0 +1,72 @@
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Agregar guía</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioAgregarGuia" (ngSubmit)="guardar()">
+      <div class="d-flex flex-row gap-2 items-start">
+        <label class="form-label required">Guía</label>
+        <div>
+        <input
+          #inputGuia
+          formControlName="guia_id"
+          class="form-control"
+          type="number"
+          autocomplete="off"
+          [autofocus]="true"
+          min="1"
+          [ngClass]="{
+            'is-invalid':
+              formularioAgregarGuia.controls['guia_id'].touched &&
+              formularioAgregarGuia.controls['guia_id'].invalid,
+            'is-valid':
+              formularioAgregarGuia.controls['guia_id'].touched &&
+              formularioAgregarGuia.controls['guia_id'].valid,
+          }"
+        />
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+            control: formularioAgregarGuia.controls['guia_id'],
+          }"
+        ></ng-container>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'minlength',
+            message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
+            cantidadCaracteres: '8',
+            control: formularioAgregarGuia.controls['guia_id'],
+          }"
+        ></ng-container>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

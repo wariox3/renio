@@ -13,6 +13,7 @@ export type MapeoIndependientes = {
     modeloFk?: string;
     aplicaFormatoNumerico?: boolean;
     alinearAlaIzquierda?: boolean;
+    aplicaFormatoFechaIso?: boolean;
     campoTipo: CampoTipo;
   }[];
 };
