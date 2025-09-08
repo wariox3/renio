@@ -133,7 +133,7 @@ export class AuthService extends Subdominio implements OnDestroy {
   recuperarClave(email: string) {
     return this.http.post<RecuperarClaveVerificacion>(
       `${this.URL_API_BASE}/seguridad/usuario/cambio-clave-solicitar/`,
-      { username: email, accion: 'clave' },
+      { username: email, accion: 'clave', aplicacion: 'reddoc' },
       { context: noRequiereToken() },
     );
   }
