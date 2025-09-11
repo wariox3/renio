@@ -607,7 +607,9 @@ export default class ContactoFormularioComponent
         RegistroAutocompletarGenIdentificacion[]
       >('general/identificacion/seleccionar/'),
       this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
-        'general/regimen/seleccionar/',
+        'general/regimen/seleccionar/', {
+          inactivo: 'False'
+        }
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
         'general/tipo_persona/seleccionar/',
