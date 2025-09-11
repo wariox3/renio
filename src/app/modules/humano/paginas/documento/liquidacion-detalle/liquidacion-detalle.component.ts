@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
@@ -15,6 +15,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { CardComponent } from '../../../../../comun/componentes/card/card.component';
+import { TablaAdicionalesComponent } from "./componentes/tabla-adicionales/tabla-adicionales.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -29,22 +30,51 @@ import { CardComponent } from '../../../../../comun/componentes/card/card.compon
     NgbTooltipModule,
     BaseEstadosComponent,
     TituloAccionComponent,
+    TablaAdicionalesComponent
   ],
   templateUrl: './liquidacion-detalle.component.html',
   styleUrl: './liquidacion-detalle.component.scss',
 })
 export default class LiquidacionDetalleComponent
   extends General
-  implements OnInit
-{
+  implements OnInit {
   private liquidacionService = inject(LiquidacionService);
 
-  active: Number;
-  liquidacion = signal<Liquidacion | null>(null);
+  active: Number = 1;
+  liquidacion = signal<Liquidacion>({
+    id: 0,
+    fecha: '',
+    contrato__contacto__numero_identificacion: '',
+    contrato__contacto__nombre_corto: '',
+    contrato__salario: 0,
+    contrato_id: 0,
+    fecha_desde: '',
+    fecha_hasta: '',
+    total: 0,
+    dias: 0,
+    dias_cesantia: 0,
+    dias_prima: 0,
+    dias_vacacion: 0,
+    fecha_ultimo_pago: null,
+    fecha_ultimo_pago_prima: null,
+    fecha_ultimo_pago_cesantia: null,
+    fecha_ultimo_pago_vacacion: null,
+    cesantia: 0,
+    interes: 0,
+    prima: 0,
+    vacacion: 0,
+    deduccion: 0,
+    adicion: 0,
+    estado_generado: false,
+    estado_aprobado: false,
+    comentario: undefined
+  });
   generando = signal<boolean>(false);
   desgenerando = signal<boolean>(false);
   reliquiando = signal<boolean>(false);
   notificando = signal<boolean>(false);
+  @ViewChild(TablaAdicionalesComponent)
+  tablaAdicionalesComponent: TablaAdicionalesComponent;
 
   constructor(private httpService: HttpService) {
     super();
@@ -142,5 +172,9 @@ export default class LiquidacionDetalleComponent
         this.consultarDetalle();
       },
     });
+  }
+
+  private _consultarAdicionalesTab() {
+    this.tablaAdicionalesComponent.consultarDatos();
   }
 }
