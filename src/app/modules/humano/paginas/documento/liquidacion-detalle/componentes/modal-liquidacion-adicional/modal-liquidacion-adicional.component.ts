@@ -46,6 +46,7 @@ export class ModalLiquidacionAdicionalComponent {
   @ViewChild('contentModalAdicional') contentModalAdicional: TemplateRef<any>;
 
   abrirModalNuevo(operacion: '1' | '-1') {
+    this.accion.set('nuevo')
     this._consultarConceptosAdicionales(operacion)
     this.iniciarFormulario();
     this._iniciarSuscripcionesFormularioAdicionalLiquidacion(operacion);
