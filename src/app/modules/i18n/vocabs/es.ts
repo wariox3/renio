@@ -1084,6 +1084,7 @@ export const locale = {
         ADICION: 'Adición',
         ESTADO_GENERADO: 'Generado',
         DOCUMENTO__ID: 'Documento id',
+        CUENTA_BANCO_NOMBRE: 'Cuenta banco'
       },
       ITEM: {
         ID: 'ID',
