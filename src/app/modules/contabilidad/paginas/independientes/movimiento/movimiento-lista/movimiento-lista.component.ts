@@ -68,7 +68,7 @@ export class MovimientoListaComponent extends General implements OnInit {
           numero: documento.numero,
           contacto_nombre_corto: documento.contacto__nombre_corto,
           comprobante: documento.comprobante__nombre,
-          cuenta: documento.cuenta__nombre,
+          cuenta: documento.cuenta__codigo,
           grupo: documento.grupo__nombre,
           base: documento.base,
           debito: documento.debito,
