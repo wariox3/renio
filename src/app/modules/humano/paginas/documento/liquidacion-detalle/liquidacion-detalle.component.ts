@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
@@ -15,6 +15,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 import { CardComponent } from '../../../../../comun/componentes/card/card.component';
+import { TablaAdicionalesComponent } from "./componentes/tabla-adicionales/tabla-adicionales.component";
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -29,22 +30,24 @@ import { CardComponent } from '../../../../../comun/componentes/card/card.compon
     NgbTooltipModule,
     BaseEstadosComponent,
     TituloAccionComponent,
+    TablaAdicionalesComponent
   ],
   templateUrl: './liquidacion-detalle.component.html',
   styleUrl: './liquidacion-detalle.component.scss',
 })
 export default class LiquidacionDetalleComponent
   extends General
-  implements OnInit
-{
+  implements OnInit {
   private liquidacionService = inject(LiquidacionService);
 
-  active: Number;
-  liquidacion = signal<Liquidacion | null>(null);
+  active: Number = 1;
+  liquidacion = this.liquidacionService.liquidacionSignal;
   generando = signal<boolean>(false);
   desgenerando = signal<boolean>(false);
   reliquiando = signal<boolean>(false);
   notificando = signal<boolean>(false);
+  @ViewChild(TablaAdicionalesComponent)
+  tablaAdicionalesComponent: TablaAdicionalesComponent;
 
   constructor(private httpService: HttpService) {
     super();
@@ -57,9 +60,7 @@ export default class LiquidacionDetalleComponent
   consultarDetalle() {
     this.liquidacionService
       .getLiquidacionPorId(this.detalle)
-      .subscribe((respuesta) => {
-        this.liquidacion.set(respuesta);
-      });
+      .subscribe();
   }
 
   imprimir() {

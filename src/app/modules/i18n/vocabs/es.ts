@@ -269,7 +269,7 @@ export const locale = {
           TITULO: 'Contenedores',
           EDITAR: 'Editar contenedor',
           INVITAR: 'Invitaciones',
-          NUEVAINVITACION: 'Nueva invitación para',
+          NUEVAINVITACION: 'Nueva invitación',
           NUEVO: 'Nuevo contenedor',
           SUBDOMINIO: 'Subdominio',
           IMAGEN: 'Imagen',
@@ -1084,6 +1084,7 @@ export const locale = {
         ADICION: 'Adición',
         ESTADO_GENERADO: 'Generado',
         DOCUMENTO__ID: 'Documento id',
+        CUENTA_BANCO_NOMBRE: 'Cuenta banco'
       },
       ITEM: {
         ID: 'ID',

@@ -33,6 +33,15 @@ export const documento200: MapeoDocumento[] = [
     ordenable: false,
   },
   {
+    nombre: 'CUENTA_BANCO__NOMBRE',
+    nombreAbreviado: 'CUENTA_BANCO_NOMBRE',
+    nombreFiltroRelacion: 'CUENTA_BANCO__NOMBRE',
+    campoTipo: 'CharField',
+    visibleTabla: true,
+    visibleFiltro: false,
+    ordenable: false,
+  },
+  {
     nombre: 'SUBTOTAL',
     campoTipo: 'FloatField',
     visibleTabla: false,
