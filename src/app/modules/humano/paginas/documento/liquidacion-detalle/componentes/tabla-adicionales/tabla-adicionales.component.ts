@@ -6,9 +6,10 @@ import { Liquidacion } from '@modulos/humano/interfaces/liquidacion.interface';
 import { RespuestaLiquidacionAdicional } from '@modulos/humano/interfaces/respuesta-liquidacion-adicional.interface';
 import { ModalLiquidacionAdicionalComponent } from "@modulos/humano/paginas/documento/liquidacion-detalle/componentes/modal-liquidacion-adicional/modal-liquidacion-adicional.component";
 import { LiquidacionAdicionalService } from '@modulos/humano/servicios/liquidacion-adicional.service';
+import { LiquidacionService } from '@modulos/humano/servicios/liquidacion.service';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { finalize } from 'rxjs';
+import { catchError, forkJoin, of, switchMap } from 'rxjs';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
@@ -23,17 +24,14 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
   templateUrl: './tabla-adicionales.component.html',
 })
 export class TablaAdicionalesComponent implements OnChanges {
-
   private _generalService = inject(GeneralService);
   private _alertaService = inject(AlertaService);
+  private _liquidacionService = inject(LiquidacionService);
   private _liquidacionAdicionalService = inject(LiquidacionAdicionalService);
-
   public arrLiquidacionAdicional = signal<RespuestaLiquidacionAdicional[]>(
     [],
   );
   isCheckedSeleccionarTodos = signal(false);
-
-
   @Input() liquidacion: Liquidacion = {
     id: 0,
     fecha: '',
@@ -100,29 +98,34 @@ export class TablaAdicionalesComponent implements OnChanges {
 
 
   eliminarRegistros() {
-    if (this.registrosAEliminar().length > 0) {
-      this.registrosAEliminar().forEach((id) => {
-        this._liquidacionAdicionalService
-          .eliminar(id)
-          .pipe(
-            finalize(() => {
-              this.isCheckedSeleccionarTodos.set(false);
-            }),
-          )
-          .subscribe(() => {
-            this._alertaService.mensajaExitoso('Registro eliminado');
-            this.consultarDatos();
-          });
-      });
-    } else {
-      this._alertaService.mensajeError(
-        'Error',
-        'No se han seleccionado registros para eliminar',
-      );
-    }
-    this.registrosAEliminar.set([]);
-  }
+    const eliminaciones$ = this.registrosAEliminar().map(liquidacionId =>
+      this._liquidacionAdicionalService.eliminar(liquidacionId).pipe(
+        catchError(err => {
+          console.error(`Error al eliminar liquidacion adicional  ${liquidacionId}:`, err);
+          return of(null); // devolvemos algo para que forkJoin no falle
+        })
+      )
+    );
 
+    forkJoin(eliminaciones$)
+      .pipe(
+        switchMap(() =>
+          this._liquidacionService.getLiquidacionPorId(this.liquidacion.id)
+        )
+      )
+      .subscribe({
+        next: () => {
+          // Después de eliminar, volver a la primera página y recargar
+          this.isCheckedSeleccionarTodos.set(false);
+          this._alertaService.mensajaExitoso('Registro eliminado');
+          this.registrosAEliminar.set([]);
+        },
+        error: err => {
+          console.error('Error al eliminar conductor:', err);
+        },
+      });
+    this.consultarDatos();
+  }
 
   consultarDatos() {
     this.inicializarParametrosConsultaAdicional();

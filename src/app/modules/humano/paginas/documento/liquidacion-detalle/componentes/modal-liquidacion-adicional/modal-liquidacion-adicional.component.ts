@@ -1,15 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, signal, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { AlertaService } from '@comun/services/alerta.service';
 import { GeneralService } from '@comun/services/general.service';
-import { AplicacionAccion } from '@comun/type/aplicaciones-acciones.type';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
 import { LiquidacionAdicionalService } from '@modulos/humano/servicios/liquidacion-adicional.service';
+import { LiquidacionService } from '@modulos/humano/servicios/liquidacion.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
+import { switchMap } from 'rxjs';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
@@ -36,10 +36,11 @@ export class ModalLiquidacionAdicionalComponent {
   private _modalService = inject(NgbModal);
   private _generalService = inject(GeneralService);
   private _formBuilder = inject(FormBuilder);
+  private _liquidacionService = inject(LiquidacionService);
   private _liquidacionAdicionalService = inject(LiquidacionAdicionalService);
 
   @Input() liquidacionId: number;
-  @Output() emitirConsultarLista: EventEmitter<any> = new EventEmitter();
+  @Output() emitirConsultarLista: EventEmitter<boolean> = new EventEmitter();
 
   @ViewChild('contentModalAdicional') contentModalAdicional: TemplateRef<any>;
 
@@ -85,10 +86,17 @@ export class ModalLiquidacionAdicionalComponent {
   }
 
   private _nuevoAdicional() {
-    this._liquidacionAdicionalService.nuevo(this.formularioAdicionalLiquidacion.value).subscribe(() => {
-      this.cerrarModal()
-      this.emitirConsultarLista.emit();
-    })
+    this._liquidacionAdicionalService.nuevo(this.formularioAdicionalLiquidacion.value)
+      .pipe(
+        switchMap(() => this._liquidacionService.getLiquidacionPorId(this.liquidacionId)),
+      )
+      .subscribe({
+        next: () => {
+          this.cerrarModal();
+          this.emitirConsultarLista.emit(true);
+        },
+        error: (err) => console.error(err),
+      });
   }
 
   private _consultarConceptosAdicionales(operacion: '1' | '-1') {
