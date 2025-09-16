@@ -41,34 +41,7 @@ export default class LiquidacionDetalleComponent
   private liquidacionService = inject(LiquidacionService);
 
   active: Number = 1;
-  liquidacion = signal<Liquidacion>({
-    id: 0,
-    fecha: '',
-    contrato__contacto__numero_identificacion: '',
-    contrato__contacto__nombre_corto: '',
-    contrato__salario: 0,
-    contrato_id: 0,
-    fecha_desde: '',
-    fecha_hasta: '',
-    total: 0,
-    dias: 0,
-    dias_cesantia: 0,
-    dias_prima: 0,
-    dias_vacacion: 0,
-    fecha_ultimo_pago: null,
-    fecha_ultimo_pago_prima: null,
-    fecha_ultimo_pago_cesantia: null,
-    fecha_ultimo_pago_vacacion: null,
-    cesantia: 0,
-    interes: 0,
-    prima: 0,
-    vacacion: 0,
-    deduccion: 0,
-    adicion: 0,
-    estado_generado: false,
-    estado_aprobado: false,
-    comentario: undefined
-  });
+  liquidacion = this.liquidacionService.liquidacionSignal;
   generando = signal<boolean>(false);
   desgenerando = signal<boolean>(false);
   reliquiando = signal<boolean>(false);
@@ -87,9 +60,7 @@ export default class LiquidacionDetalleComponent
   consultarDetalle() {
     this.liquidacionService
       .getLiquidacionPorId(this.detalle)
-      .subscribe((respuesta) => {
-        this.liquidacion.set(respuesta);
-      });
+      .subscribe();
   }
 
   imprimir() {
@@ -172,9 +143,5 @@ export default class LiquidacionDetalleComponent
         this.consultarDetalle();
       },
     });
-  }
-
-  private _consultarAdicionalesTab() {
-    this.tablaAdicionalesComponent.consultarDatos();
   }
 }
