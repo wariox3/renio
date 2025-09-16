@@ -144,14 +144,6 @@ export class TablaAdicionalesComponent implements OnChanges {
     });
   }
 
-abrirModalEditar(liquidacionAdicional: RespuestaLiquidacionAdicional) {
-  let  tipo: '1' | '-1' = '1';
-  if (liquidacionAdicional.deduccion > 0) {
-    tipo = '-1';  // Es una deducción
-  }
-  this.ModalLiquidacionAdicionalComponent.abrirModalEditar(liquidacionAdicional.id, tipo);
-}
-
   abrirModalNuevoAdicional() {
     this.ModalLiquidacionAdicionalComponent.abrirModalNuevo('1');
   }

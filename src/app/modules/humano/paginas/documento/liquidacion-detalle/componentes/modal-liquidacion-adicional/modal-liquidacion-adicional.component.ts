@@ -26,8 +26,6 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
   templateUrl: './modal-liquidacion-adicional.component.html',
 })
 export class ModalLiquidacionAdicionalComponent {
-  accion = signal<Extract<AplicacionAccion, 'nuevo' | 'editar'>>('nuevo');
-
   formularioAdicionalLiquidacion: FormGroup;
   arrConceptosAdicional = signal<RegistroAutocompletarHumConceptoAdicional[]>(
     [],
@@ -46,7 +44,6 @@ export class ModalLiquidacionAdicionalComponent {
   @ViewChild('contentModalAdicional') contentModalAdicional: TemplateRef<any>;
 
   abrirModalNuevo(operacion: '1' | '-1') {
-    this.accion.set('nuevo')
     this._consultarConceptosAdicionales(operacion)
     this.iniciarFormulario();
     this._iniciarSuscripcionesFormularioAdicionalLiquidacion(operacion);
@@ -55,20 +52,6 @@ export class ModalLiquidacionAdicionalComponent {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
-  }
-
-  abrirModalEditar(id: number, operacion: '1' | '-1') {
-    this.accion.set('editar')
-    this._modalService.open(this.contentModalAdicional, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'lg',
-    });
-    this.registroAdicionalSeleccionado.set(id);
-    this._consultarConceptosAdicionales(operacion);
-    this.iniciarFormulario();
-    this.inicializarParametrosConsultaAdicionalDetalle(id);
-    this.consultarRegistroDetalleAdicional(id);
-    this._iniciarSuscripcionesFormularioAdicionalLiquidacion(operacion);
   }
 
   iniciarFormulario() {
@@ -94,11 +77,7 @@ export class ModalLiquidacionAdicionalComponent {
       this.formularioAdicionalLiquidacion.markAllAsTouched();
       return;
     }
-    if (this.accion() === 'nuevo') {
-      this._nuevoAdicional();
-    } else {
-      this._editarAdicional();
-    }
+    this._nuevoAdicional();
   }
 
   cerrarModal() {
@@ -110,33 +89,6 @@ export class ModalLiquidacionAdicionalComponent {
       this.cerrarModal()
       this.emitirConsultarLista.emit();
     })
-  }
-
-  private _editarAdicional() {
-    this._liquidacionAdicionalService.actualizarDatoAdicional(this.registroAdicionalSeleccionado(), this.formularioAdicionalLiquidacion.value).subscribe(() => {
-      this.cerrarModal()
-      this.emitirConsultarLista.emit();
-    })
-  }
-
-
-  inicializarParametrosConsultaAdicionalDetalle(id: number) {
-    this.arrParametrosConsultaAdicionalEditar = {
-      id,
-    };
-  }
-
-  consultarRegistroDetalleAdicional(id: number) {
-    this._liquidacionAdicionalService.getLiquidacionPorId(id)
-      .subscribe((respuesta) => {
-        this.formularioAdicionalLiquidacion.patchValue({
-          concepto: respuesta.concepto,
-          concepto_nombre: respuesta.concepto__nombre,
-          valor: respuesta.adicional > 0 ? respuesta.adicional : respuesta.deduccion,
-          deduccion: respuesta.deduccion,
-          adicional: respuesta.adicional,
-        });
-      });
   }
 
   private _consultarConceptosAdicionales(operacion: '1' | '-1') {

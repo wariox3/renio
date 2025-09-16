@@ -35,7 +35,6 @@
         <th class="bg-gray-100 text-center">Adicional</th>
         <th class="bg-gray-100 text-center">Deducción</th>
         @if (!liquidacion.estado_generado) {
-          <th class="text-center bg-gray-100"></th>
           <th class="text-center bg-gray-100">
             <label for="seleccionarTodos">
               <i
@@ -82,17 +81,6 @@
           </td>
 
           @if (!liquidacion.estado_generado) {
-            <td class="w-20px">
-              <label
-                class="cursor-pointer"
-                (click)="abrirModalEditar(liquidacionAdicional)"
-              >
-                <i class="ki-duotone ki-notepad-edit hover-primary">
-                  <span class="path1"></span>
-                  <span class="path2"></span>
-                </i>
-              </label>
-            </td>
             <td class="w-20px">
               <label [for]="liquidacionAdicional.id">
                 <i

@@ -27,6 +27,6 @@ export class LiquidacionAdicionalService extends Subdominio {
   }
 
   eliminar(id: number) {
-    return this.httpService.delete(`humano/liquidacion_adicional/${id}`, {})
+    return this.httpService.delete(`humano/liquidacion_adicional/${id}/`, {})
   }
 }
