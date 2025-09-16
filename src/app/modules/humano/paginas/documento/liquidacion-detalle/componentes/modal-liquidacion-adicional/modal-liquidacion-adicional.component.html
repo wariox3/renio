@@ -1,0 +1,102 @@
+<ng-template #contentModalAdicional let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Adicional</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioAdicionalLiquidacion">
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
+          ></label>
+          <ng-select
+            [items]="arrConceptosAdicional()"
+            bindLabel="nombre"
+            bindValue="id"
+            formControlName="concepto"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.VALOR"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="valor"
+            prefix="$ "
+            mask="separator.2"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalLiquidacion.controls['valor'].touched &&
+                formularioAdicionalLiquidacion.controls['valor'].invalid &&
+                formularioAdicionalLiquidacion.controls['valor'].hasError(
+                  'valorCero'
+                ),
+              'is-valid':
+                formularioAdicionalLiquidacion.controls['valor'].touched &&
+                formularioAdicionalLiquidacion.controls['valor'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalLiquidacion.controls['valor']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioAdicionalLiquidacion.controls['valor']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary btn-primary"
+      (click)="guardar()"
+      [disabled]="!formularioAdicionalLiquidacion.valid"
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </div>
+</ng-template>
+
+
+<!-- Errores -->
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  @if(control.hasError(validation) && (control.dirty || control.touched)){
+  <div class="fv-plugins-message-container">
+    <div class="fv-help-block">
+      <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+    </div>
+  </div>
+  }
+</ng-template>

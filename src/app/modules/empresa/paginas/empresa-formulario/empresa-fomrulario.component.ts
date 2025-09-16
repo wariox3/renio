@@ -103,7 +103,9 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         RegistroAutocompletarGenIdentificacion[]
       >('general/identificacion/seleccionar/'),
       this._generalServices.consultaApi<RegistroAutocompletarGenRegimen[]>(
-        'general/regimen/seleccionar/',
+        'general/regimen/seleccionar/', {
+          inactivo: 'False'
+        }
       ),
       this._generalServices.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
         'general/tipo_persona/seleccionar/',
@@ -114,7 +116,7 @@ export class EmpresaFormularioComponent extends General implements OnInit {
       this.arrRegimen = respuesta[1];
       this.arrTipoPersona = respuesta[2];
       this.rededoc_id = respuesta[3].rededoc_id;
-      this.formularioEmpresa.patchValue({ 
+      this.formularioEmpresa.patchValue({
         nombre_corto: respuesta[3].nombre_corto,
         correo: respuesta[3].correo,
         digito_verificacion: respuesta[3].digito_verificacion,
