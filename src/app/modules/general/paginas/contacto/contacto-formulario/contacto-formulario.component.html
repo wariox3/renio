@@ -157,8 +157,13 @@
                 class="btn btn-outline btn-outline-dashed btn-outline-primary btn-active-light-primary"
                 (click)="autocompletar()"
                 title="Autocompletar"
+                [disabled]="isAutocompleteLoading()"
               >
-                Autocompletar
+                <span *ngIf="!isAutocompleteLoading()">Autocompletar</span>
+                <span *ngIf="isAutocompleteLoading()" class="indicator-progress d-block">
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  Cargando...
+                </span>
               </button>
             }
           </div>

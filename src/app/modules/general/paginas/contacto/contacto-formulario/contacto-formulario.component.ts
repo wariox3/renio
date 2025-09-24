@@ -103,6 +103,8 @@ export default class ContactoFormularioComponent
   arrIdentificacionSignal = signal<RegistroAutocompletarGenIdentificacion[]>(
     [],
   );
+  // Signal para controlar el estado de carga del botón autocompletar
+  isAutocompleteLoading = signal<boolean>(false);
   arrTipoPersona: any[];
   arrBancos: any[];
   arrCuentasBancos: any[];
@@ -782,6 +784,9 @@ export default class ContactoFormularioComponent
     const tipoidentificacion =
       this.formularioContacto.get('identificacion')?.value;
 
+    // Activar el estado de carga
+    this.isAutocompleteLoading.set(true);
+
     this._contactoService
       .autocompletar({
         nit: numeroIdentificacion,
@@ -793,6 +798,7 @@ export default class ContactoFormularioComponent
             if (this.formularioContacto.get('tipo_persona')?.value === 2) {
               this.formularioContacto.patchValue({
                 nombre1: respuesta.nombre,
+                correo: null,
                 correo_facturacion_electronica: respuesta.correo,
               });
             } else {
@@ -802,8 +808,15 @@ export default class ContactoFormularioComponent
                 correo_facturacion_electronica: respuesta.correo,
               });
             }
+            this.changeDetectorRef.detectChanges();
           }
+          // Desactivar el estado de carga cuando se completa la petición
+          this.isAutocompleteLoading.set(false);
         },
+        error: () => {
+          // Desactivar el estado de carga en caso de error
+          this.isAutocompleteLoading.set(false);
+        }
       });
   }
 
