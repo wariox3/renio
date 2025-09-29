@@ -183,6 +183,19 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: null,
+          nombreModelo: 'INVENTARIOVALORIZADO',
+          documentacion: {
+            id: 1080,
+          },
+          ajustes: {
+            rutas: {
+              lista: 'inventario/informe/inventario_valorizado',
+              nuevo: '',
+            },
+          },
+        },
       ],
     },
   ],

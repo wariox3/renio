@@ -108,6 +108,7 @@ export const locale = {
         FORMAPAGO: 'Forma pago',
         GENFORMAPAGO: 'Forma pago',
         EXISTENCIA: 'Existencia',
+        INVENTARIOVALORIZADO: 'Inventario valorizado',
         HISTORIALMOVIMIENTOS: 'Historial movimientos',
         SEGURIDADSOCIAL: 'Aporte seguridad social',
         DEPRECIACION: 'Depreciación',
