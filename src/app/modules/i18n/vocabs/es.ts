@@ -1660,6 +1660,7 @@ export const locale = {
       702: 'Nómina electrónica',
       703: 'Seguridad social',
       HUMPROGRAMACION: 'Programación de nómina',
+      INVENTARIOVALORIZADO: 'Inventario valorizado',
       HUMAPORTE: 'Aporte seguridad social',
       CUENTAS_COBRAR: 'Cuentas por cobrar',
       GENCONTACTO: 'Contacto',
