@@ -498,6 +498,7 @@ export const locale = {
             REFERENCIA: 'Referencia',
             PRECIO: 'Precio',
             COSTO: 'Costo',
+            COSTOINICIAL: 'Costo inicial',
             PRODUCTO: 'Producto',
             SERVICIO: 'Servicio',
             INVENTARIO: 'Inventario',
