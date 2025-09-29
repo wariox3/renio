@@ -31,6 +31,14 @@ export const routes: Route[] = [
             './paginas/informes/historial-movimientos/historial-movimientos.component'
           ),
       },
+      {
+        path: 'inventario_valorizado',
+        data: { breadcrumb: 'inventariovalorizado' },
+        loadComponent: () =>
+          import(
+            './paginas/informes/inventario-valorizado/inventario-valorizado.component'
+          ),
+      },
     ],
   },
   {
