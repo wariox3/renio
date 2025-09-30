@@ -512,6 +512,8 @@ export const locale = {
             VENTA: 'Venta',
             FAVORITO: 'Favorito',
             INACTIVO: 'Inactivo',
+            CUENTACOSTOVENTA: 'Cuenta costo venta',
+            CUENTAINVENTARIO: 'Cuenta inventario',
           },
           CONTACTO: {
             PERSONATIPO: 'Tipo persona',
