@@ -24,6 +24,12 @@ export const routes: Route[] = [
           import('./paginas/informes/existencia/existencia.component'),
       },
       {
+        path: 'existencia_almacen',
+        data: { breadcrumb: 'existenciaalmacen' },
+        loadComponent: () =>
+          import('./paginas/informes/existencia-almacen/existencia-almacen.component'),
+      },
+      {
         path: 'historial_movimientos',
         data: { breadcrumb: 'historialmovimientos' },
         loadComponent: () =>
