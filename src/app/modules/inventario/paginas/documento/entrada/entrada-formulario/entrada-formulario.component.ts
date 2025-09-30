@@ -177,6 +177,7 @@ export default class EntradaFormularioComponent
       id: [null],
       tipo_registro: ['I'],
       subtotal: [0],
+      total_bruto: [0],
       total: [0],
     });
 
@@ -210,6 +211,7 @@ export default class EntradaFormularioComponent
         cantidad: item.cantidad,
         subtotal: item.subtotal,
         total: item.total,
+        total_bruto: item.total_bruto,
       });
     });
 
@@ -390,7 +392,7 @@ export default class EntradaFormularioComponent
     this.detalles.controls.forEach((control: any) => {
       subtotal += control.get('subtotal').value;
       total += control.get('total').value;
-      total_bruto += control.get('cantidad').value * control.get('precio').value;
+      total_bruto += control.get('total_bruto').value;
     });
 
     this.formularioEntrada.patchValue({
@@ -516,6 +518,7 @@ export default class EntradaFormularioComponent
         ],
         tipo_registro: [detalle.tipo_registro],
         subtotal: [detalle.subtotal || 0],
+        total_bruto: [detalle.total_bruto || 0],
         total: [detalle.total || 0],
       });
       this.detalles.push(documentoDetalleGrupo);
@@ -531,7 +534,8 @@ export default class EntradaFormularioComponent
     // Actualizar correctamente usando el método patchValue en el control específico
     this.detalles.controls[indexDetalle].patchValue({
       total: total,
-      subtotal: total
+      subtotal: total,
+      total_bruto: total,
     }, { emitEvent: false });
   }
 
