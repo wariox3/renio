@@ -565,9 +565,11 @@ export default class EntradaFormularioComponent
       'precio',
     );
 
-    this.totalCantidad.update(() => totalCantidad);
-    this.totalPrecio.update(() => totalPrecio);
+    const total = totalCantidad * totalPrecio;
 
-    this.total.update(() => this.totalCantidad() * this.totalPrecio());
+    this.totalCantidad.update(() => totalCantidad);
+    this.totalPrecio.update(() => total);
+
+    this.total.update(() => total);
   }
 }
