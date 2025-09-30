@@ -1716,7 +1716,8 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
     {
-      nombre: 'CANTIDAD',
+      nombre: 'CANTIDAD_OPERADA',
+      nombreAbreviado: 'CANTIDAD',
       campoTipo: 'IntegerField',
       visibleTabla: true,
       alinearAlaIzquierda: true,
