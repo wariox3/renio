@@ -1056,6 +1056,8 @@ export const locale = {
         DOCUMENTO_NUMERO_FILTRO: '[Documento] número',
         DOCUMENTO_FECHA_FILTRO: '[Documento] fecha',
         TOTAL_BRUTO: 'Total',
+        COSTO_PROMEDIO: 'Costo promedio',
+        COSTO_TOTAL: 'Costo total',
         MES: 'Mes',
         ANIO: 'Año',
         SUCURSAL_NOMBRE: 'Sucursal',

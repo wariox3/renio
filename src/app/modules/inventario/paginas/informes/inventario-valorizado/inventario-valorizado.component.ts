@@ -51,7 +51,7 @@ export default class InventarioValorizadoComponent extends General implements On
   ngOnInit(): void {
     this.consultarLista();
     this.store.dispatch(
-      ActualizarMapeo({ dataMapeo: documentos['existencia'] }),
+      ActualizarMapeo({ dataMapeo: documentos['inventario_valorizado'] }),
     );
   }
 
