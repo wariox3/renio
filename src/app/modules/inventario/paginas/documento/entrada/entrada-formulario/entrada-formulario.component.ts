@@ -252,6 +252,7 @@ export default class EntradaFormularioComponent
       item_nombre: item.nombre,
     });
     this._limpiarFormularioTotales();
+    this._calcularTotalesDetalle(indexFormulario);
     this._actualizarTotalesFormulario();
     this.changeDetectorRef.detectChanges();
   }
