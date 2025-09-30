@@ -176,6 +176,8 @@ export default class EntradaFormularioComponent
       almacenNombre: [almacenNombre],
       id: [null],
       tipo_registro: ['I'],
+      subtotal: [0],
+      total: [0],
     });
 
     this.formularioEntrada?.markAsDirty();
@@ -206,11 +208,13 @@ export default class EntradaFormularioComponent
         item: item.item,
         item_nombre: item.item_nombre,
         cantidad: item.cantidad,
+        subtotal: item.subtotal,
+        total: item.total,
       });
     });
 
     this._limpiarFormularioTotales();
-    this._actualizarFormulario();
+    this._actualizarTotalesFormulario();
   }
 
   onCantidadChange(i: number) {
@@ -246,7 +250,7 @@ export default class EntradaFormularioComponent
       item_nombre: item.nombre,
     });
     this._limpiarFormularioTotales();
-    this._actualizarFormulario();
+    this._actualizarTotalesFormulario();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -328,7 +332,8 @@ export default class EntradaFormularioComponent
     );
 
     this._limpiarFormularioTotales();
-    this._actualizarFormulario();
+    this._calcularTotalesDetalle(indexFormulario);
+    this._actualizarTotalesFormulario();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -338,7 +343,8 @@ export default class EntradaFormularioComponent
       { emitEvent: false }, // ❗ Evita disparar valueChanges de nuevo
     );
     this._limpiarFormularioTotales();
-    this._actualizarFormulario();
+    this._calcularTotalesDetalle(indexFormulario);
+    this._actualizarTotalesFormulario();
     this.changeDetectorRef.detectChanges();
   }
 
@@ -382,9 +388,9 @@ export default class EntradaFormularioComponent
     let total_bruto = 0;
 
     this.detalles.controls.forEach((control: any) => {
-      subtotal += control.get('precio').value * control.get('cantidad').value;
-      total += control.get('precio').value * control.get('cantidad').value;
-      total_bruto += control.get('precio').value * control.get('cantidad').value;
+      subtotal += control.get('subtotal').value;
+      total += control.get('total').value;
+      total_bruto += control.get('cantidad').value * control.get('precio').value;
     });
 
     this.formularioEntrada.patchValue({
@@ -509,42 +515,24 @@ export default class EntradaFormularioComponent
           ],
         ],
         tipo_registro: [detalle.tipo_registro],
+        subtotal: [detalle.subtotal || 0],
+        total: [detalle.total || 0],
       });
       this.detalles.push(documentoDetalleGrupo);
+      this._calcularTotalesDetalle(indexFormulario);
     });
-    this._actualizarFormulario();
+    this._actualizarTotalesFormulario();
     this.changeDetectorRef.detectChanges();
   }
 
-  private _actualizarDetallesContactoSinDocumentoAfectado() {
-    const detallesArray = this.formularioEntrada.get('detalles') as FormArray;
-
-    if (detallesArray.length <= 0) {
-      return false;
-    }
-
-    detallesArray.controls.forEach((control: AbstractControl) => {
-      if (control.get('id')?.value === null) {
-        const almacen =
-          this.formularioEntrada.get('almacen')?.value !== ''
-            ? this.formularioEntrada.get('almacen')?.value
-            : null;
-
-        const almacenNombre =
-          this.formularioEntrada.get('almacenNombre')?.value !== ''
-            ? this.formularioEntrada.get('almacenNombre')?.value
-            : null;
-
-        control.patchValue({
-          almacen: almacen,
-          almacenNombre: almacenNombre,
-        });
-
-        this.formularioEntrada.markAsTouched();
-        this.formularioEntrada.markAsDirty();
-        this.changeDetectorRef.detectChanges();
-      }
-    });
+  private _calcularTotalesDetalle(indexDetalle: number) {
+    const detalle = this.detalles.value[indexDetalle];
+    const total = detalle.cantidad * detalle.precio;
+    // Actualizar correctamente usando el método patchValue en el control específico
+    this.detalles.controls[indexDetalle].patchValue({
+      total: total,
+      subtotal: total
+    }, { emitEvent: false });
   }
 
   private _limpiarFormularioTotales() {
@@ -552,24 +540,24 @@ export default class EntradaFormularioComponent
     this.totalPrecio.set(0);
   }
 
-  private _actualizarFormulario() {
+  private _actualizarTotalesFormulario() {
     let totalCantidad = 0;
-    let totalPrecio = 0;
+    let totalGeneral = 0;
     totalCantidad += this._operaciones.sumarTotales(
       this.detalles.value,
       'cantidad',
     );
 
-    totalPrecio += this._operaciones.sumarTotales(
+    totalGeneral += this._operaciones.sumarTotales(
       this.detalles.value,
-      'precio',
+      'subtotal',
     );
 
-    const total = totalCantidad * totalPrecio;
+    
 
     this.totalCantidad.update(() => totalCantidad);
-    this.totalPrecio.update(() => total);
+    this.totalPrecio.update(() => totalGeneral);
 
-    this.total.update(() => total);
+    this.total.update(() => totalGeneral);
   }
 }
