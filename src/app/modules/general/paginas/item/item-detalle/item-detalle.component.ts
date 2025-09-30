@@ -12,6 +12,7 @@ import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CargarArchivosComponent } from '../../../../../comun/componentes/cargar-archivos/cargar-archivos.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CargarImagenComponent } from '../../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'app-item-detalle',
@@ -56,6 +57,9 @@ export default class ItemDetalleComponent extends General implements OnInit {
   @Input() informacionFormulario: any;
   @ViewChild('inputImpuestos', { static: false })
   inputImpuestos: HTMLInputElement;
+  public digitalOceanUrl = environment.digitalOceanUrl;
+  public placeholderImage = 'assets/media/custom/placeholder-image.png';
+
 
   constructor(private itemService: ItemService) {
     super();

@@ -34,10 +34,7 @@
       class="symbol symbol-100px symbol-lg-160px symbol-fixed position-relative"
     >
       <app-cargar-imagen
-        [recibirImagen]="
-          item.imagen ||
-          'https://semantica.sfo3.digitaloceanspaces.com/renio/images/placeholder.jpg'
-        "
+        [recibirImagen]="item.imagen && item.imagen !== '' ? digitalOceanUrl + item.imagen : placeholderImage"
         (dataFormulario)="recuperarBase64($event)"
         (eliminarLogo)="eliminarLogo($event)"
         [width]="'220px'"
