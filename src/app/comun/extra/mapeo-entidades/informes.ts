@@ -1533,22 +1533,6 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
-      nombre: 'PRECIO',
-      campoTipo: 'IntegerField',
-      visibleTabla: true,
-      visibleFiltro: false,
-      ordenable: false,
-      aplicaFormatoNumerico: true,
-    },
-    {
-      nombre: 'COSTO',
-      campoTipo: 'IntegerField',
-      visibleTabla: true,
-      visibleFiltro: false,
-      ordenable: false,
-      aplicaFormatoNumerico: true,
-    },
-    {
       nombre: 'PRODUCTO',
       campoTipo: 'Booleano',
       visibleTabla: false,
