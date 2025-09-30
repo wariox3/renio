@@ -1598,6 +1598,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,
+      aplicaFormatoNumerico: true,
       alinearAlaIzquierda: true,
       ordenable: false,
     }, {
@@ -1605,6 +1606,7 @@ export const documentos: MapeoDocumentos = {
       campoTipo: 'IntegerField',
       visibleTabla: true,
       visibleFiltro: true,
+      aplicaFormatoNumerico: true,
       alinearAlaIzquierda: true,
       ordenable: false,
     },
