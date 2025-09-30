@@ -1742,5 +1742,14 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: true,
     },
+    {
+      nombre: 'SUBTOTAL',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      aplicaFormatoNumerico: true,
+      alinearAlaIzquierda: true,
+      visibleFiltro: true,
+      ordenable: true,
+    },
   ],
 };
