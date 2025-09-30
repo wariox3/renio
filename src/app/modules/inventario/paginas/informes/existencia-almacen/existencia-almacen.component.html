@@ -1,0 +1,36 @@
+<div class="filtros">
+  <app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
+    <section card-body>
+      <app-filtro
+        (filtersApply)="obtenerFiltros($event)"
+        [availableFields]="[]"
+      ></app-filtro>
+    </section>
+  </app-card>
+</div>
+
+<div class="tabla">
+  <app-card [titulo]="'MENU.FUNCIONALIDAD.EXISTENCIAALMACEN'">
+    <section card-body>
+      <div class="table-responsive-sm table-loading">
+        <app-comun-tabla
+          [modelo]="'EXISTENCIA'"
+          [_tipo]="'DOCUMENTO'"
+          [datos]="itemsLista()"
+          [cantidad_registros]="cantidadRegistros()"
+          [visualizarColumnaEditar]="false"
+          [visualizarColumnaDetalle]="false"
+          [visualizarColumnaSeleccionar]="false"
+          [visualizarBtnImportar]="false"
+          [visualizarBtnExportar]="true"
+          [visualizarBtnNuevo]="false"
+          [visualizarBtnEliminar]="false"
+          [visualizarBtnExportarZip]="false"
+          (emitirExportarExcel)="descargarExcel()"
+          (emitirPaginacion)="cambiarPaginacion($event)"
+        >
+        </app-comun-tabla>
+      </div>
+    </section>
+  </app-card>
+</div>

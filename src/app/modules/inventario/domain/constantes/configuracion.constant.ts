@@ -172,6 +172,19 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
         },
         {
           key: null,
+          nombreModelo: 'EXISTENCIA_ALMACEN',
+          documentacion: {
+            id: 1081,
+          },
+          ajustes: {
+            rutas: {
+              lista: 'inventario/informe/existencia_almacen',
+              nuevo: '',
+            },
+          },
+        },
+        {
+          key: null,
           nombreModelo: 'INVENTARIOVALORIZADO',
           documentacion: {
             id: 1080,
