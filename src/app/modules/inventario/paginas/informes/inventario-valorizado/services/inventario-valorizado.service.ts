@@ -14,6 +14,7 @@ export class InventarioValorizadoService {
   private readonly _filtrosPermanentes = signal<ParametrosApi>({
     limit: 50,
     inventario: 'True',
+    serializador: 'informe_inventario_valorizado',
   });
   private readonly _parametrosConsulta = signal<ParametrosApi>({
     ...this._filtrosPermanentes(),
