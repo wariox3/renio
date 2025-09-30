@@ -572,6 +572,42 @@
           ></app-comun-cuentas>
         </div>
       </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.CUENTACOSTOVENTA"
+            class="form-label"
+          ></label>
+          <app-comun-cuentas
+          [iniciarFocusInputBusqueda]="false"
+          [cuentaCodigo]="cuentaCostoVentaCodigo"
+          [cuentaNombre]="cuentaCostoVentaNombre"
+          [campoInvalido]="
+            formularioItem.get('cuenta_costo_venta')?.touched &&
+            formularioItem.get('cuenta_costo_venta')?.invalid
+          "
+          (emitirArrCuentas)="agregarCuentaCostoVenta($event)"
+          (emitirLineaVacia)="limpiarCuentaCostoVentaSeleccionado()"
+        ></app-comun-cuentas>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.GENERAL.ITEM.CUENTAINVENTARIO"
+            class="form-label"
+          ></label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaInventarioCodigo"
+            [cuentaNombre]="cuentaInventarioNombre"
+            [campoInvalido]="
+              formularioItem.get('cuenta_inventario')?.touched &&
+              formularioItem.get('cuenta_inventario')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaInventarioSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaInventarioSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+      </div>
     </section>
   </app-card>
 </form>
