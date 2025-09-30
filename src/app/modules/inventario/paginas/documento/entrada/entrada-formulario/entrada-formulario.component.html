@@ -140,6 +140,10 @@
                           class="w-100px"
                           translate="FORMULARIOS.TITULOS.FACTURACION.COSTO"
                         ></th>
+                        <th
+                          class="w-100px"
+                          translate="FORMULARIOS.TITULOS.FACTURACION.TOTAL"
+                        ></th>
                         <th class="w-40px"></th>
                       </tr>
                     </thead>
@@ -240,6 +244,20 @@
                               rows="1"
                               appSoloNumeros
                               [permiteDecimales]="true"
+                            />
+                          </td>
+
+                          <td>
+                            <input
+                              type="number"
+                              formControlName="total"
+                              readonly
+                              [disabled]="true"
+                              class="form-control-sm bg-light"
+                              [ngClass]="{
+                                'text-white': theme_value === 'dark'
+                              }"
+                              rows="1"
                             />
                           </td>
 
