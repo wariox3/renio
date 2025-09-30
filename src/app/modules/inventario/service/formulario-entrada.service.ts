@@ -33,7 +33,8 @@ export class FormularioEntradaService {
       almacenNombre: [''],
       comentario: [null],
       subtotal: [0],
-      total: [0]
+      total: [0],
+      total_bruto: [0],
     });
   }
 }

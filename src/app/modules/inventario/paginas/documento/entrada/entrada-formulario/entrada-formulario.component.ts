@@ -289,6 +289,7 @@ export default class EntradaFormularioComponent
 
   private _actualizarEntrada() {
     if (this.validarCamposDetalles() === false) {
+      this._calcularTotales();
       this._entradaService
         .actualizarDatos({
           ...this.formularioEntrada.value,
@@ -343,6 +344,8 @@ export default class EntradaFormularioComponent
 
   private _guardarEntrada() {
     if (this.validarCamposDetalles() === false) {
+      // realizar calculos de subtotal y total
+      this._calcularTotales();
       this._entradaService
         .guardarFactura({
           ...this.formularioEntrada.value,
@@ -371,6 +374,24 @@ export default class EntradaFormularioComponent
     } else {
       this.botonGuardarDeshabilitado$.next(false);
     }
+  }
+
+  private _calcularTotales() {
+    let subtotal = 0;
+    let total = 0;
+    let total_bruto = 0;
+
+    this.detalles.controls.forEach((control: any) => {
+      subtotal += control.get('precio').value * control.get('cantidad').value;
+      total += control.get('precio').value * control.get('cantidad').value;
+      total_bruto += control.get('precio').value * control.get('cantidad').value;
+    });
+
+    this.formularioEntrada.patchValue({
+      subtotal: subtotal,
+      total: total,
+      total_bruto: total_bruto,
+    });
   }
 
   validarCamposDetalles() {

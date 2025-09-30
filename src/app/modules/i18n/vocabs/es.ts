@@ -349,6 +349,7 @@ export const locale = {
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',
           PRECIO: 'Precio',
+          COSTO: 'Costo',
           DESCUENTO: 'Desc %',
           IMPUESTO: 'Impuesto',
           IMPINCLUIDOS: 'Imp Incluidos',
