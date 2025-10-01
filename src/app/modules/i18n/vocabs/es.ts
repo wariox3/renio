@@ -1651,6 +1651,7 @@ export const locale = {
       105: 'Factura pos electrónica',
       106: 'Pedido cliente',
       107: 'Factura pos',
+      108: 'Remisión',
       200: 'Pago',
       201: 'Saldo inicial',
       300: 'Factura de compra',
