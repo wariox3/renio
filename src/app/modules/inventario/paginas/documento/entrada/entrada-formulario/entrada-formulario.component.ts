@@ -531,7 +531,8 @@ export default class EntradaFormularioComponent
 
   private _calcularTotalesDetalle(indexDetalle: number) {
     const detalle = this.detalles.value[indexDetalle];
-    const total = detalle.cantidad * detalle.precio;
+    const total = this._operaciones.redondear(detalle.cantidad * detalle.precio, 2)
+
     // Actualizar correctamente usando el método patchValue en el control específico
     this.detalles.controls[indexDetalle].patchValue({
       total: total,
