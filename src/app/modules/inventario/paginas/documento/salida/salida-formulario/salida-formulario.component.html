@@ -228,22 +228,11 @@
                               type="number"
                               min="0"
                               formControlName="precio"
-                              [attr.disabled]="estado_aprobado"
-                              [readonly]="estado_aprobado"
                               class="form-control-sm"
-                              (focus)="onPrecioChange(i)"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estado_aprobado,
-                                'text-white':
-                                  theme_value === 'dark' && estado_aprobado,
-                                'is-invalid':
-                                  detalle.get('precio')?.touched &&
-                                  detalle.get('precio')?.value < 0,
-                              }"
+                              readonly
+                              [disabled]="true"
+                              class="form-control-sm bg-light"
                               rows="1"
-                              appSoloNumeros
-                              [permiteDecimales]="true"
                             />
                           </td>
 
