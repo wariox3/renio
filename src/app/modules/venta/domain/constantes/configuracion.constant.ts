@@ -99,11 +99,8 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
           },
         },
         {
-          key: 107,
-          nombreModelo: 'FACTURAVENTA',
-          documentacion: {
-            id: 1014,
-          },
+          key: 108,
+          nombreModelo: 'REMISION',
           ajustes: {
             rutas: {
               lista: DocLista,
@@ -113,7 +110,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
             },
             endpoint: 'general/documento',
             queryParams: {
-              documento_tipo_id: 1,
+              documento_tipo_id: 29,
               serializador: 'lista_venta',
               ordering: 'estado_aprobado,-fecha,-numero,-id',
             },

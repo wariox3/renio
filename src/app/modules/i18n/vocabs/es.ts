@@ -130,6 +130,7 @@ export const locale = {
         ENVIANOMINAELECTRONICA: 'Enviar nomina electronica',
         PEDIDOCLIENTE: 'Pedido cliente',
         LIQUIDACION: 'Liquidación',
+        REMISION: 'Remisión',
       },
     },
     FORMULARIOS: {
