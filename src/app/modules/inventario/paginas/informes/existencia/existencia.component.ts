@@ -19,6 +19,7 @@ import { ExistenciaService } from './services/existencia.service';
 import { FiltroComponent } from "@comun/componentes/ui/tabla/filtro/filtro.component";
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { EXISTENCIA_FILTERS } from '@modulos/inventario/domain/mapeos/existencia.mapeo';
 
 @Component({
   selector: 'app-factura-electronica',
@@ -41,6 +42,7 @@ export default class ExistenciaComponent extends General implements OnInit {
 
   public itemsLista = this._existenciaService.contabilizarLista;
   public cantidadRegistros = this._existenciaService.cantidadRegistros;
+  public availableFields = EXISTENCIA_FILTERS;
 
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
