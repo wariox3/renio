@@ -87,9 +87,8 @@ export default class EntradaDetalleComponent extends General {
           const porcentajeDescuento = item.descuento;
           let subtotal = cantidad * precio;
           this.totalCantidad.update((valor) => valor+parseInt(item.cantidad));
-          this.totalPrecio.update((valor) => valor+parseInt(item.precio));
-
-          this.total.update(() => this.totalCantidad()*this.totalPrecio());
+          this.totalPrecio.update((valor) => valor+subtotal);
+          this.total.update((valor) => valor+subtotal);
           this.changeDetectorRef.detectChanges();
         });
         this.changeDetectorRef.detectChanges();

@@ -73,6 +73,10 @@ export default class ItemFormularioComponent
   cuentaNombre = '';
   cuentaCobrarCodigo = '';
   cuentaCobrarNombre = '';
+  cuentaCostoVentaCodigo = '';
+  cuentaCostoVentaNombre = '';
+  cuentaInventarioCodigo = '';
+  cuentaInventarioNombre = '';
   @Input() informacionFormulario: any;
   @Input() itemTipo: 'compra' | 'venta' = 'venta';
   @Input() ocultarBtnAtras = false;
@@ -211,6 +215,8 @@ export default class ItemFormularioComponent
       impuestos: this.formBuilder.array([]),
       cuenta_venta: [null],
       cuenta_compra: [null],
+      cuenta_costo_venta: [null],
+      cuenta_inventario: [null],
       favorito: [false],
       inactivo: [false],
       venta: [false],
@@ -383,14 +389,20 @@ export default class ItemFormularioComponent
           venta: respuesta.item.venta,
           favorito: respuesta.item.favorito,
           inactivo: respuesta.item.inactivo,
-          cuenta_venta: respuesta.item.cuenta_venta_id,
-          cuenta_compra: respuesta.item.cuenta_compra_id,
+          cuenta_venta: respuesta.item.cuenta_venta,
+          cuenta_compra: respuesta.item.cuenta_compra,
+          cuenta_costo_venta: respuesta.item.cuenta_costo_venta,
+          cuenta_inventario: respuesta.item.cuenta_inventario,
         });
 
-        this.cuentaCodigo = respuesta.item.cuenta_venta_codigo;
-        this.cuentaNombre = respuesta.item.cuenta_venta_nombre;
-        this.cuentaCobrarCodigo = respuesta.item.cuenta_compra_codigo;
-        this.cuentaCobrarNombre = respuesta.item.cuenta_compra_nombre;
+        this.cuentaCodigo = respuesta.item.cuenta_venta__codigo;
+        this.cuentaNombre = respuesta.item.cuenta_venta__nombre;
+        this.cuentaCobrarCodigo = respuesta.item.cuenta_compra__codigo;
+        this.cuentaCobrarNombre = respuesta.item.cuenta_compra__nombre;
+        this.cuentaCostoVentaCodigo = respuesta.item.cuenta_costo_venta__codigo;
+        this.cuentaCostoVentaNombre = respuesta.item.cuenta_costo_venta__nombre;
+        this.cuentaInventarioCodigo = respuesta.item.cuenta_inventario__codigo;
+        this.cuentaInventarioNombre = respuesta.item.cuenta_inventario__nombre;
 
         let arrImpuesto = this.obtenerFormularioCampos.impuestos as FormArray;
 
@@ -517,6 +529,34 @@ export default class ItemFormularioComponent
     this.formularioItem.get('cuenta_venta')?.setValue(cuenta.id);
     this.cuentaNombre = cuenta.nombre;
     this.cuentaCodigo = cuenta.codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarCuentaCostoVenta(cuenta: RegistroAutocompletarConCuenta) {
+    this.formularioItem.get('cuenta_costo_venta')?.setValue(cuenta.id);
+    this.cuentaCostoVentaNombre = cuenta.nombre;
+    this.cuentaCostoVentaCodigo = cuenta.codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarCuentaCostoVentaSeleccionado() {
+    this.formularioItem.get('cuenta_costo_venta')?.setValue(null);
+    this.cuentaCostoVentaNombre = '';
+    this.cuentaCostoVentaCodigo = '';
+    this.changeDetectorRef.detectChanges();
+  }
+
+  agregarCuentaInventarioSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
+    this.formularioItem.get('cuenta_inventario')?.setValue(cuenta.id);
+    this.cuentaInventarioNombre = cuenta.nombre;
+    this.cuentaInventarioCodigo = cuenta.codigo;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  limpiarCuentaInventarioSeleccionado() {
+    this.formularioItem.get('cuenta_inventario')?.setValue(null);
+    this.cuentaInventarioNombre = '';
+    this.cuentaInventarioCodigo = '';
     this.changeDetectorRef.detectChanges();
   }
 

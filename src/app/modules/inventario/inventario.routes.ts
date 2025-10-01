@@ -24,11 +24,25 @@ export const routes: Route[] = [
           import('./paginas/informes/existencia/existencia.component'),
       },
       {
+        path: 'existencia_almacen',
+        data: { breadcrumb: 'existenciaalmacen' },
+        loadComponent: () =>
+          import('./paginas/informes/existencia-almacen/existencia-almacen.component'),
+      },
+      {
         path: 'historial_movimientos',
         data: { breadcrumb: 'historialmovimientos' },
         loadComponent: () =>
           import(
             './paginas/informes/historial-movimientos/historial-movimientos.component'
+          ),
+      },
+      {
+        path: 'inventario_valorizado',
+        data: { breadcrumb: 'inventariovalorizado' },
+        loadComponent: () =>
+          import(
+            './paginas/informes/inventario-valorizado/inventario-valorizado.component'
           ),
       },
     ],
