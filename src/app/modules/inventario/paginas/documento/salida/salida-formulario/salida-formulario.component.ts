@@ -242,7 +242,7 @@ export default class SalidaFormularioComponent
     indexFormulario: number,
   ) {
     this.detalles.controls[indexFormulario].patchValue({
-      precio: item.precio,
+      precio: item.costo_promedio,
       item: item.id,
       cantidad: 1,
       item_nombre: item.nombre,
