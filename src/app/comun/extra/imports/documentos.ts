@@ -81,6 +81,16 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/venta/paginas/documento/factura-pos/factura-pos-formulario/factura-pos-formulario.component'
       ),
   },
+  108: {
+    detalle: async () =>
+      await import(
+        '../../../modules/venta/paginas/documento/remision/remision-detalle/remision-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/venta/paginas/documento/remision/remision-formulario/remision-formulario.component'
+      ),
+  },
   200: {
     detalle: async () =>
       await import(

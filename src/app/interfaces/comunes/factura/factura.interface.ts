@@ -90,6 +90,7 @@ export interface DocumentoDetalleFactura {
   inventario?: boolean;
   existencia?: number;
   disponible?: number;
+  costo_promedio?: number;
   impuestos: ImpuestoRespuestaConsulta[];
   cuenta_codigo: string;
   cuenta_id: number;
