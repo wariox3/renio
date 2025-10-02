@@ -28,6 +28,7 @@ let parsedState: Usuario = {
   correo: '',
   idioma: '',
   dominio: '',
+  es_administrador: false,
   fecha_limite_pago: new Date(),
   vr_saldo: 0,
   vr_credito: 0,

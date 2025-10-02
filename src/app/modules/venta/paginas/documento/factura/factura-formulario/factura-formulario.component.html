@@ -437,6 +437,15 @@
                     recibirDocumentoDetalleRespuesta($event)
                   "
                   [formularioTipo]="'venta'"
+                  [mostrarImportarDesdeDocumento]="true"
+                  [columnasTablaDatos]="FACTURA_VENTAS_CAMPOS_TABLA"
+                  [configuracionDocumento]="{
+                    endpoint:
+                      'general/documento_detalle/lista_agregar_documento_detalle/',
+                    queryParams: {
+                      documento_tipo: 29,
+                    },
+                  }"
                 ></app-formulario-productos>
               </ng-template>
             </li>

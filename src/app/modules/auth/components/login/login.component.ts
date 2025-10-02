@@ -143,6 +143,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
                   correo: respuestaLogin.user.correo,
                   idioma: respuestaLogin.user.idioma,
                   dominio: respuestaLogin.user.dominio,
+                  es_administrador: respuestaLogin.user.es_administrador,
                   fecha_limite_pago: new Date(
                     respuestaLogin.user.fecha_limite_pago,
                   ),
