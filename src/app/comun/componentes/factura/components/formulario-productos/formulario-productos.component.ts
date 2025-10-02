@@ -177,6 +177,11 @@ export class FormularioProductosComponent
       return;
     }
     
+    // Log para debugging cuando se cambia de item
+    if (itemActualId && itemActualId !== item.id) {
+      console.log(`Cambiando de item ${itemActualId} a ${item.id} en línea ${indexFormulario}`);
+    }
+    
     this._formularioFacturaService.recibirItemSeleccionado(
       item,
       indexFormulario,
