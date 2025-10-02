@@ -84,6 +84,7 @@
                     detalle.get('item')?.touched &&
                     detalle.get('item')?.hasError('required')
                   "
+                  [itemActualId]="detalle.get('item')?.value"
                   (emitirItemSeleccionado)="recibirItemSeleccionado($event, i)"
                   [formularioTipo]="formularioTipo"
                 ></app-seleccionar-producto>

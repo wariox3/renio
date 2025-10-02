@@ -537,7 +537,9 @@ export class FormularioFacturaService {
     indexFormulario: number,
   ) {
     const subtotal = this._operaciones.calcularSubtotal(item.precio, 1);
-    this._limpiarPosicionEnImpuestoCache(indexFormulario);
+    
+    // Limpiar completamente los impuestos del item anterior
+    this._limpiarImpuestosAlCambiarItem(indexFormulario);
     this._reiniciarSelectorItem(indexFormulario);
 
     const precioDiscriminadoPorTipo = this._discriminarPrecioPorTipo(
@@ -650,6 +652,33 @@ export class FormularioFacturaService {
 
   private _limpiarPosicionEnImpuestoCache(indexFormulario: number) {
     this.impuestoCache[indexFormulario] = {};
+  }
+
+  /**
+   * Limpia completamente los impuestos de una línea específica cuando se cambia de item
+   * @param indexFormulario 
+   */
+  private _limpiarImpuestosAlCambiarItem(indexFormulario: number) {
+    // Registrar impuestos eliminados del item anterior
+    this._registrarImpuestosEliminados([], indexFormulario);
+    
+    // Limpiar cache de impuestos
+    this._limpiarPosicionEnImpuestoCache(indexFormulario);
+    this._eliminarImpuestoEnCache(indexFormulario);
+    
+    // Limpiar FormArray de impuestos
+    const impuestosFormArray = this._obtenerImpuestoFormulario(indexFormulario);
+    impuestosFormArray.clear();
+    
+    // Limpiar campos relacionados con impuestos en el detalle
+    const detalleFormulario = this._obtenerDetalleFormulario(indexFormulario);
+    detalleFormulario.patchValue({
+      impuesto_operado: 0,
+      impuesto: 0,
+      impuesto_retencion: 0,
+      base_impuesto: 0,
+      total_bruto: 0
+    });
   }
 
   recibirCuentaSeleccionada(

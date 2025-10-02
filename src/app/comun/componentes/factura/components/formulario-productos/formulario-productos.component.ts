@@ -167,6 +167,21 @@ export class FormularioProductosComponent
     item: DocumentoDetalleFactura,
     indexFormulario: number,
   ) {
+    // Obtener el detalle actual de la línea
+    const detalleActual = this.detalles.at(indexFormulario);
+    const itemActualId = detalleActual?.get('item')?.value;
+    
+    // Evitar seleccionar el mismo item en la misma línea
+    if (itemActualId && itemActualId === item.id) {
+      console.warn('No se puede seleccionar el mismo item en la misma línea');
+      return;
+    }
+    
+    // Log para debugging cuando se cambia de item
+    if (itemActualId && itemActualId !== item.id) {
+      console.log(`Cambiando de item ${itemActualId} a ${item.id} en línea ${indexFormulario}`);
+    }
+    
     this._formularioFacturaService.recibirItemSeleccionado(
       item,
       indexFormulario,
