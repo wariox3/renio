@@ -55,6 +55,7 @@ export class SeleccionarProductoComponent
   @Input() venta: boolean = true;
   @Input() compra: boolean = false;
   @Input() formularioTipo: 'venta' | 'compra' = 'venta';
+  @Input() itemActualId: number | null = null;
 
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
@@ -93,6 +94,13 @@ export class SeleccionarProductoComponent
   }
 
   agregarItem(item: ItemSeleccionar) {
+    // Evitar seleccionar el mismo item que ya está seleccionado
+    if (this.itemActualId && this.itemActualId === item.id) {
+      console.warn('No se puede seleccionar el mismo item que ya está en la línea');
+      this.dropdown?.close();
+      return;
+    }
+
     let parametrosConsulta = {
       id: item.id,
       venta: false,
@@ -176,5 +184,12 @@ export class SeleccionarProductoComponent
     this.changeDetectorRef.detectChanges();
     this.modalService.dismissAll();
     this.changeDetectorRef.detectChanges();
+  }
+
+  /**
+   * Verifica si un item ya está seleccionado en la línea actual
+   */
+  esItemYaSeleccionado(itemId: number): boolean {
+    return !!(this.itemActualId && this.itemActualId === itemId);
   }
 }
