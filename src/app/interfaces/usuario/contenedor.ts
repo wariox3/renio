@@ -9,6 +9,7 @@ export interface ContenedorLista {
   contenedor__schema_name: string;
   contenedor__reddoc: boolean;
   contenedor__ruteo: boolean;
+  contenedor__cortesia: boolean;
   contenedor__plan_id: number;
   contenedor__plan__nombre: string;
   contenedor__plan__usuarios_base: number;
