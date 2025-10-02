@@ -445,8 +445,9 @@
                     queryParams: {
                       documento_tipo: 29,
                       cantidad_pendiente: 'True',
-                      contacto_id:
+                      documento__contacto_id:
                         formularioFactura.get('contacto')?.value,
+                      documento__estado_aprobado: 'True',
                     },
                   }"
                 ></app-formulario-productos>
