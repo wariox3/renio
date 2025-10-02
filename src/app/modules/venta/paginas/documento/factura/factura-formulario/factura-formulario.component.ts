@@ -115,7 +115,7 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public formularioFactura = this._formularioFacturaService.form;
-public FACTURA_VENTAS_CAMPOS_TABLA = FACTURA_COMPRAS_CAMPOS_TABLA;
+  public FACTURA_VENTAS_CAMPOS_TABLA = FACTURA_COMPRAS_CAMPOS_TABLA;
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
   public arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];
