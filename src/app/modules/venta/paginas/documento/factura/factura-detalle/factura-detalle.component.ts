@@ -95,6 +95,16 @@ export default class FacturaDetalleComponent
   arrImpuestosEliminado: number[] = [];
   @ViewChild('btnGuardar', { static: true }) btnGuardar: HTMLButtonElement;
   theme_value = localStorage.getItem('kt_theme_mode_value');
+  detalleSeleccionado: any = {};
+
+  abrirModal(content: any, detalle: any) {
+    this.detalleSeleccionado = detalle;
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
+  }
 
   constructor(
     private httpService: HttpService,
