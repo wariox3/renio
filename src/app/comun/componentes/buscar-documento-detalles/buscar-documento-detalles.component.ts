@@ -15,6 +15,7 @@ import { GeneralService } from '@comun/services/general.service';
 import { FiltroComponent } from '../ui/tabla/filtro/filtro.component';
 import { HttpService } from '@comun/services/http.service';
 import { forkJoin } from 'rxjs';
+import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 
 export interface ColumnaTabla {
   /** Identificador único de la columna */
@@ -77,10 +78,10 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
   getItems() {
     this.generalService
       .consultaApi<
-        any[]
+        RespuestaApi<any>
       >(this.configuracion.endpoint, this.configuracion.queryParams)
       .subscribe((res) => {
-        this.items.set(res);
+        this.items.set(res.results);
       });
   }
 
