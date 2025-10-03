@@ -12,9 +12,9 @@ export const FACTURA_VENTA_CAMPOS_TABLA: ColumnaTabla[] = [
     campo: 'documento__numero',
   },
   {
-    id: 'documento__documento__tipo__nombre',
+    id: 'documento__documento_tipo__nombre',
     titulo: 'Tipo',
-    campo: 'documento__documento__tipo__nombre',
+    campo: 'documento__documento_tipo__nombre',
   },
   {
     id: 'documento__contacto__nombre_corto',
