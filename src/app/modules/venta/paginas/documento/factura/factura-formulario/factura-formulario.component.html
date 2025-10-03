@@ -443,8 +443,8 @@
                     endpoint:
                       'general/documento_detalle/',
                     queryParams: {
-                      documento_tipo: 29,
                       serializador: 'lista_agregar',
+                      documento__documento_tipo: 29,
                       cantidad_pendiente: 'True',
                       documento__contacto_id:
                         formularioFactura.get('contacto')?.value,
