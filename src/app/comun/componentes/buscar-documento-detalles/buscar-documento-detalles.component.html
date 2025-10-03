@@ -1,6 +1,14 @@
-<app-filtro></app-filtro>
+<app-filtro
+  (filtersApply)="obtenerFiltros($event)"
+  [availableFields]="filtrosDisponibles"
+></app-filtro>
 
-<div class="row mb-4 justify-content-end gap-sm-5">
+<div class="d-flex justify-content-between my-4">
+  <app-paginador
+    [currentPage]="currentPage()"
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="cantidadRegistros()"
+  ></app-paginador>
   <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
     <button (click)="agregarDetalles()" type="button" class="btn btn-sm btn-primary" id="dropdownBasic1">
       Agregar

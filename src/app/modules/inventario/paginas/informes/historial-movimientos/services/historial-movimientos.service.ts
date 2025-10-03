@@ -10,18 +10,20 @@ import { ParametrosApi, RespuestaApi } from 'src/app/core/interfaces/api.interfa
 @Injectable({
   providedIn: 'root',
 })
-export class ExistenciaService {
+export class HistorialMovimientosService {
   private readonly _generalService = inject(GeneralService);
   private readonly _httpService = inject(HttpService);
   private readonly _parametrosConsulta = signal<ParametrosApi>({
     limit: 30,
     serializador: 'informe_inventario',
     inventario: 'True',
+    documento__estado_aprobado: 'True'
   });
   private readonly _filtrosPermanentes = signal<ParametrosApi>({
     limit: 30,
     serializador: 'informe_inventario',
     inventario: 'True',
+    documento__estado_aprobado: 'True'
   });
 
   public cantidadRegistros = signal(0);
