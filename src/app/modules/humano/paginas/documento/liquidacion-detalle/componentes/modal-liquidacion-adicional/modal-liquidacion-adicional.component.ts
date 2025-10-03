@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, Input, Output, signal, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { GeneralService } from '@comun/services/general.service';
+import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { RegistroAutocompletarHumConceptoAdicional } from '@interfaces/comunes/autocompletar/humano/hum-concepto-adicional.interface';
 import { LiquidacionAdicionalService } from '@modulos/humano/servicios/liquidacion-adicional.service';
@@ -69,7 +70,7 @@ export class ModalLiquidacionAdicionalComponent {
       ],
       deduccion: [0],
       adicional: [0],
-      detalle: [null, Validators.maxLength(150)],
+      detalle: [null, [Validators.maxLength(150), cambiarVacioPorNulo.validar]],
       liquidacion: [this.liquidacionId],
     });
   }
