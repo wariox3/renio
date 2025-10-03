@@ -36,6 +36,7 @@ import { AgregarDetallesDocumentoComponent } from '../../../agregar-detalles-doc
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import { AdapterService } from '../../services/adapter.service';
 import { BuscarDocumentosDetallesComponent } from "@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component";
+import { FilterField } from 'src/app/core/interfaces/filtro.interface';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -70,6 +71,9 @@ export class FormularioProductosComponent
   public themeValue = localStorage.getItem('kt_theme_mode_value');
   public modoEdicion = this._formularioFacturaService.modoEdicion;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public BUSCAR_DOCUMENTO_DETALLES_FILTERS: FilterField[] = [
+    { name: 'id', displayName: 'ID', type: 'number' },
+  ];
 
   @Input() mostrarDocumentoReferencia: boolean = false;
   @Input() mostrarBuscarDocumentos: boolean = false;

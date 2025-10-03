@@ -17,6 +17,8 @@ import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
 import { HttpService } from '@comun/services/http.service';
 import { forkJoin } from 'rxjs';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { FilterField } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 export interface ColumnaTabla {
   /** Identificador único de la columna */
@@ -60,7 +62,8 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
   };
 
   @Input() detalleId: number = 0;
-  @Input() modulo: "venta" | "compra" = "venta"; 
+  @Input() modulo: "venta" | "compra" = "venta";
+  @Input() filtrosDisponibles: FilterField[] = []; 
 
   @Output() itemsSeleccionadosEvent = new EventEmitter<any[]>();
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
@@ -68,11 +71,13 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
   private generalService = inject(GeneralService);
   private changeDetectorRef = inject(ChangeDetectorRef);
   private httpService = inject(HttpService);
+  private filterTransformerService = inject(FilterTransformerService);
 
   public items = signal<any[]>([]);
   public itemsSeleccionados = signal<any[]>([]);
   public currentPage = signal(1);
   public cantidadRegistros = signal(0);
+  public filtrosAplicados: any = {};
 
   ngOnInit(): void {
     this.getItems();
@@ -81,6 +86,7 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
   getItems() {
     const queryParams = {
       ...this.configuracion.queryParams,
+      ...this.filtrosAplicados,
       page: this.currentPage()
     };
     
@@ -150,6 +156,13 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
 
   cambiarPaginacion(page: number) {
     this.currentPage.set(page);
+    this.getItems();
+  }
+
+  obtenerFiltros(arrfiltros: any) {
+    const apiParams = this.filterTransformerService.transformToApiParams(arrfiltros);
+    this.filtrosAplicados = apiParams;
+    this.currentPage.set(1); // Reset to first page when applying filters
     this.getItems();
   }
 

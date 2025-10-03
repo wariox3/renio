@@ -1,4 +1,7 @@
-<app-filtro></app-filtro>
+<app-filtro
+  (filtersApply)="obtenerFiltros($event)"
+  [availableFields]="filtrosDisponibles"
+></app-filtro>
 
 <div class="d-flex justify-content-between my-4">
   <app-paginador
