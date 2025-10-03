@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { GeneralService } from '@comun/services/general.service';
 import { FiltroComponent } from '../ui/tabla/filtro/filtro.component';
+import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
 import { HttpService } from '@comun/services/http.service';
 import { forkJoin } from 'rxjs';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
@@ -39,7 +40,7 @@ export interface ColumnaTabla {
 @Component({
   selector: 'app-buscar-documento-detalles',
   standalone: true,
-  imports: [FiltroComponent, CommonModule],
+  imports: [FiltroComponent, PaginadorComponent, CommonModule],
   templateUrl: './buscar-documento-detalles.component.html',
   styleUrl: './buscar-documento-detalles.component.css',
 })
@@ -70,18 +71,26 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
 
   public items = signal<any[]>([]);
   public itemsSeleccionados = signal<any[]>([]);
+  public currentPage = signal(1);
+  public cantidadRegistros = signal(0);
 
   ngOnInit(): void {
     this.getItems();
   }
 
   getItems() {
+    const queryParams = {
+      ...this.configuracion.queryParams,
+      page: this.currentPage()
+    };
+    
     this.generalService
       .consultaApi<
         RespuestaApi<any>
-      >(this.configuracion.endpoint, this.configuracion.queryParams)
+      >(this.configuracion.endpoint, queryParams)
       .subscribe((res) => {
         this.items.set(res.results);
+        this.cantidadRegistros.set(res.count || 0);
       });
   }
 
@@ -137,6 +146,11 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
   estoyEnListaEliminar(id: number): boolean {
     // Implementación existente o nueva lógica para verificar si el item está en la lista de eliminación
     return this.itemsSeleccionados().findIndex(item => item.id === id) !== -1;
+  }
+
+  cambiarPaginacion(page: number) {
+    this.currentPage.set(page);
+    this.getItems();
   }
 
   agregarDetalles() {
