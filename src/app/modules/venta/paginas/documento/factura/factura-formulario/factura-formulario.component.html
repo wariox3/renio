@@ -441,9 +441,10 @@
                   [columnasTablaDatos]="FACTURA_VENTAS_CAMPOS_TABLA"
                   [configuracionDocumento]="{
                     endpoint:
-                      'general/documento_detalle/lista_agregar_documento_detalle/',
+                      'general/documento_detalle/',
                     queryParams: {
                       documento_tipo: 29,
+                      serializador: 'lista_agregar',
                       cantidad_pendiente: 'True',
                       documento__contacto_id:
                         formularioFactura.get('contacto')?.value,
