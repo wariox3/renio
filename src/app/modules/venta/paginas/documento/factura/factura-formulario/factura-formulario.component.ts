@@ -62,6 +62,8 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
 import { ImportarDetallesComponent } from "../../../../../../comun/componentes/importar-detalles/importar-detalles.component";
 import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
+import { FACTURA_VENTA_CAMPOS_TABLA } from '@modulos/venta/domain/campos-tabla/factura-venta.campos-tabla';
 
 @Component({
   selector: 'app-factura-formulario',
@@ -114,7 +116,7 @@ export default class FacturaDetalleComponent
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public formularioFactura = this._formularioFacturaService.form;
-
+  public FACTURA_VENTAS_CAMPOS_TABLA = FACTURA_VENTA_CAMPOS_TABLA;
   public plazo_pago_dias: any = 0;
   public arrMovimientosClientes: any[] = [];
   public arrMetodosPago: RegistroAutocompletarGenMetodoPago[] = [];

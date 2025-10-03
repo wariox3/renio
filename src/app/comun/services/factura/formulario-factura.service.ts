@@ -268,6 +268,7 @@ export class FormularioFacturaService {
         almacen_nombre: item.almacen_nombre,
         contacto: item.contacto,
         contacto_nombre: item.contacto_nombre,
+        documento_detalle_afectado: item.documento_detalle_afectado,
       });
       this._agregarCampoImpuestoACache(i);
       this._actualizarImpuestoItem(item.impuestos, i);
@@ -454,6 +455,7 @@ export class FormularioFacturaService {
         grupo: [tipoSugerido],
         base_impuesto: [0],
         almacen: [almacenId],
+        documento_detalle_afectado: [null],
         almacen_nombre: [almacenNombre],
         impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
         impuestos_eliminados: this._formBuilder.array([]),
@@ -537,7 +539,9 @@ export class FormularioFacturaService {
     indexFormulario: number,
   ) {
     const subtotal = this._operaciones.calcularSubtotal(item.precio, 1);
-    this._limpiarPosicionEnImpuestoCache(indexFormulario);
+    
+    // Limpiar completamente los impuestos del item anterior
+    this._limpiarImpuestosAlCambiarItem(indexFormulario);
     this._reiniciarSelectorItem(indexFormulario);
 
     const precioDiscriminadoPorTipo = this._discriminarPrecioPorTipo(
@@ -548,11 +552,12 @@ export class FormularioFacturaService {
     this.detalles.controls[indexFormulario].patchValue({
       precio: precioDiscriminadoPorTipo,
       item: item.id,
-      cantidad: 1,
+      documento_detalle_afectado: item.documento_detalle_afectado_id ? item.documento_detalle_afectado_id : null,
+      cantidad: item.cantidad || 1,
       subtotal,
       porcentaje_descuento: 0,
       item_nombre: item.nombre,
-      total: precioDiscriminadoPorTipo * 1,
+      total: precioDiscriminadoPorTipo * (item?.cantidad || 1),
     });
 
     // this.changeDetectorRef.detectChanges();
@@ -650,6 +655,33 @@ export class FormularioFacturaService {
 
   private _limpiarPosicionEnImpuestoCache(indexFormulario: number) {
     this.impuestoCache[indexFormulario] = {};
+  }
+
+  /**
+   * Limpia completamente los impuestos de una línea específica cuando se cambia de item
+   * @param indexFormulario 
+   */
+  private _limpiarImpuestosAlCambiarItem(indexFormulario: number) {
+    // Registrar impuestos eliminados del item anterior
+    this._registrarImpuestosEliminados([], indexFormulario);
+    
+    // Limpiar cache de impuestos
+    this._limpiarPosicionEnImpuestoCache(indexFormulario);
+    this._eliminarImpuestoEnCache(indexFormulario);
+    
+    // Limpiar FormArray de impuestos
+    const impuestosFormArray = this._obtenerImpuestoFormulario(indexFormulario);
+    impuestosFormArray.clear();
+    
+    // Limpiar campos relacionados con impuestos en el detalle
+    const detalleFormulario = this._obtenerDetalleFormulario(indexFormulario);
+    detalleFormulario.patchValue({
+      impuesto_operado: 0,
+      impuesto: 0,
+      impuesto_retencion: 0,
+      base_impuesto: 0,
+      total_bruto: 0
+    });
   }
 
   recibirCuentaSeleccionada(
@@ -1160,6 +1192,7 @@ export class FormularioFacturaService {
         almacen_nombre: detalle.almacen_nombre,
         contacto: detalle.contacto_id,
         contacto_nombre: detalle.contacto_nombre_corto,
+        documento_detalle_afectado: detalle.documento_detalle_afectado_id,
       });
 
       this.detalles.push(documentoDetalleGrupo);

@@ -35,6 +35,8 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
 import { AgregarDetallesDocumentoComponent } from '../../../agregar-detalles-documento/agregar-detalles-documento.component';
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import { AdapterService } from '../../services/adapter.service';
+import { BuscarDocumentosDetallesComponent } from "@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component";
+import { FilterField } from 'src/app/core/interfaces/filtro.interface';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -50,7 +52,8 @@ import { AdapterService } from '../../services/adapter.service';
     SeleccionarAlmacenComponent,
     SeleccionarGrupoComponent,
     AgregarDetallesDocumentoComponent,
-  ],
+    BuscarDocumentosDetallesComponent
+],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
 })
@@ -68,15 +71,19 @@ export class FormularioProductosComponent
   public themeValue = localStorage.getItem('kt_theme_mode_value');
   public modoEdicion = this._formularioFacturaService.modoEdicion;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public BUSCAR_DOCUMENTO_DETALLES_FILTERS: FilterField[] = [
+    { name: 'id', displayName: 'ID', type: 'number' },
+  ];
 
   @Input() mostrarDocumentoReferencia: boolean = false;
+  @Input() mostrarBuscarDocumentos: boolean = false;
   @Input() mostrarImportarDesdeDocumento: boolean = false;
   @Input() cuentasConImpuestos: boolean = false;
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() deshabilitar: boolean = false;
   @Input() columnasTablaDatos: any = [];
-  @Input() configuracionDocumento = {
+  @Input() configuracionDocumento: { endpoint: string; queryParams: { [key: string]: string | number | boolean } } = {
     endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
     queryParams: {
       documento_tipo: 0
@@ -150,7 +157,7 @@ export class FormularioProductosComponent
   }
 
   /**
-   * Se ejecuta cuando el usuario da clic en agregar nuevo item
+   * Se ejecuta cuando el usuario da clic engregar nuevo item
    */
   agregarNuevoItem(tipo_registro: string) {
     this._formularioFacturaService.agregarNuevoItem(tipo_registro);
@@ -167,6 +174,21 @@ export class FormularioProductosComponent
     item: DocumentoDetalleFactura,
     indexFormulario: number,
   ) {
+    // Obtener el detalle actual de la línea
+    const detalleActual = this.detalles.at(indexFormulario);
+    const itemActualId = detalleActual?.get('item')?.value;
+    
+    // Evitar seleccionar el mismo item en la misma línea
+    if (itemActualId && itemActualId === item.id) {
+      console.warn('No se puede seleccionar el mismo item en la misma línea');
+      return;
+    }
+    
+    // Log para debugging cuando se cambia de item
+    if (itemActualId && itemActualId !== item.id) {
+      console.log(`Cambiando de item ${itemActualId} a ${item.id} en línea ${indexFormulario}`);
+    }
+    
     this._formularioFacturaService.recibirItemSeleccionado(
       item,
       indexFormulario,
@@ -200,6 +222,14 @@ export class FormularioProductosComponent
       indexFormulario,
     );
     this.changeDetectorRef.detectChanges();
+  }
+
+  cargarItemsSeleccionadosDesdeDocumento(items: DocumentoDetalleFactura[]) {
+    items.forEach((item) => {
+      this.agregarNuevoItem('I')
+      this.recibirItemSeleccionado(item, this.detalles.length - 1);
+    });
+    this.modalService.dismissAll();
   }
 
   // cargar vista

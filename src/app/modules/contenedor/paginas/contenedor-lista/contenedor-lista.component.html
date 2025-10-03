@@ -95,10 +95,15 @@
                           >{{ contenedor.contenedor__schema_name
                           }}{{ dominioApp }}</span
                         >
-                        <div>
+                        <div class="d-flex gap-2">
                           <span class="badge badge-light-primary fs-8 fw-bold">
                             {{ contenedor.rol }}
                           </span>
+                          @if (contenedor.contenedor__cortesia) {
+                            <span class="badge badge-light-info fs-8 fw-bold">
+                              Cortesía
+                            </span>
+                          }
                         </div>
                         @if (contenedor.acceso_restringido) {
                           <span

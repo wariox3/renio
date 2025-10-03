@@ -204,6 +204,7 @@ export class AuthService extends Subdominio implements OnDestroy {
           imagen: usuario.imagen,
           nombre_corto: usuario.nombre_corto,
           nombre: usuario.nombre,
+          es_administrador: usuario.es_administrador,
           apellido: usuario.apellido,
           telefono: usuario.telefono,
           correo: usuario.correo,

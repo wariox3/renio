@@ -30,6 +30,11 @@
             (click)="agregarItem(item)"
             type="button"
             ngbDropdownItem
+            [ngClass]="{
+              'text-muted': esItemYaSeleccionado(item.id),
+              'pe-none': esItemYaSeleccionado(item.id)
+            }"
+            [disabled]="esItemYaSeleccionado(item.id)"
           >
             {{ item.nombre }}
           </button>

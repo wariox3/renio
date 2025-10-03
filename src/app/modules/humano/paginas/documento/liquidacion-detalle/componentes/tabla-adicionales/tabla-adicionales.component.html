@@ -32,6 +32,7 @@
         <th class="bg-gray-100" style="width: 50px">Id</th>
         <th class="bg-gray-100 text-center">Cod</th>
         <th class="bg-gray-100 text-center">Nombre</th>
+        <th class="bg-gray-100 text-center">Detalle</th>
         <th class="bg-gray-100 text-center">Adicional</th>
         <th class="bg-gray-100 text-center">Deducción</th>
         @if (!liquidacion.estado_generado) {
@@ -72,6 +73,9 @@
           </td>
           <td>
             {{ liquidacionAdicional.concepto__nombre }}
+          </td>
+          <td>
+            {{ liquidacionAdicional.detalle }}
           </td>
           <td class="text-end">
             {{ liquidacionAdicional.adicional | number: "1.0-0" }}

@@ -23,6 +23,7 @@ import {
   obtenerUsuarioId,
   obtenerUsuarioSocio,
   obtenerUsuarioVrSaldo,
+  obtenerUsuarioEsAdministrador,
 } from '@redux/selectors/usuario.selectors';
 import {
   catchError,
@@ -138,14 +139,20 @@ export class ContenedorListaComponent extends General implements OnInit {
     this.cargandoContederes = true;
     //this.visualizarLoader = true;
     this.changeDetectorRef.detectChanges();
-    this.store
-      .select(obtenerUsuarioId)
+    combineLatest([
+      this.store.select(obtenerUsuarioId),
+      this.store.select(obtenerUsuarioEsAdministrador)
+    ])
       .pipe(
-        switchMap((respuestaUsuarioId) => {
+        switchMap(([respuestaUsuarioId, esAdministrador]) => {
           const params: Record<string, any> = { 
-            usuario_id: respuestaUsuarioId,
             page: this.currentPage(),
           };
+          
+          // Solo agregar usuario_id si NO es administrador
+          if (!esAdministrador) {
+            params['usuario_id'] = respuestaUsuarioId;
+          }
           
           // Agregar el parámetro de búsqueda solo si hay un término
           if (this.searchTerm) {

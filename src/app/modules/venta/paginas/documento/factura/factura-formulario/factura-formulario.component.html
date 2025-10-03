@@ -437,6 +437,20 @@
                     recibirDocumentoDetalleRespuesta($event)
                   "
                   [formularioTipo]="'venta'"
+                  [mostrarBuscarDocumentos]="true"
+                  [columnasTablaDatos]="FACTURA_VENTAS_CAMPOS_TABLA"
+                  [configuracionDocumento]="{
+                    endpoint:
+                      'general/documento_detalle/',
+                    queryParams: {
+                      serializador: 'lista_agregar',
+                      documento__documento_tipo_id: 29,
+                      cantidad_pendiente: 'True',
+                      documento__contacto_id:
+                        formularioFactura.get('contacto')?.value,
+                      documento__estado_aprobado: 'True',
+                    },
+                  }"
                 ></app-formulario-productos>
               </ng-template>
             </li>

@@ -16,7 +16,7 @@ import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { TablaComponent } from '../../../../../comun/componentes/tabla/tabla.component';
 import { FiltroComponent } from "../../../../../comun/componentes/ui/tabla/filtro/filtro.component";
-import { ExistenciaService } from './services/historial-movimientos.service';
+import { HistorialMovimientosService } from './services/historial-movimientos.service';
 import { HISTORIAL_MOVIMIENTO_FILTERS } from '@modulos/inventario/domain/mapeos/historial-movimiento.mapeo';
 
 @Component({
@@ -34,11 +34,11 @@ import { HISTORIAL_MOVIMIENTO_FILTERS } from '@modulos/inventario/domain/mapeos/
 ],
 })
 export default class HistorialMovimientosComponent extends General implements OnInit {
-  private readonly _existenciaService = inject(ExistenciaService);
+  private readonly _historialMovimientosService = inject(HistorialMovimientosService);
   private readonly _filterTransformerService = inject(FilterTransformerService);
 
-  public itemsLista = this._existenciaService.contabilizarLista;
-  public cantidadRegistros = this._existenciaService.cantidadRegistros;
+  public itemsLista = this._historialMovimientosService.contabilizarLista;
+  public cantidadRegistros = this._historialMovimientosService.cantidadRegistros;
   public CAMPOS_FILTRO = HISTORIAL_MOVIMIENTO_FILTERS;
 
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
@@ -55,17 +55,17 @@ export default class HistorialMovimientosComponent extends General implements On
   }
 
   consultarLista() {
-    this._existenciaService.consultarListaContabilizar().subscribe();
+    this._historialMovimientosService.consultarListaContabilizar().subscribe();
   }
 
   obtenerFiltros(filtros: FilterCondition[]) {
     const apiParams = this._filterTransformerService.transformToApiParams(filtros);
-    this._existenciaService.aplicarFiltros(apiParams);
+    this._historialMovimientosService.aplicarFiltros(apiParams);
     this.consultarLista();
   }
 
   cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this._existenciaService.actualizarPaginacion(data.desplazamiento);
+    this._historialMovimientosService.actualizarPaginacion(data.desplazamiento);
     this.consultarLista();
   }
 }
