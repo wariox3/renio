@@ -70,6 +70,36 @@
           ></ng-container>
         </div>
       </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
+          ></label>
+          <textarea
+            class="form-control"
+            formControlName="detalle"
+            rows="3"
+            placeholder="Ingrese detalles adicionales"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalLiquidacion.controls['detalle'].touched &&
+                formularioAdicionalLiquidacion.controls['detalle'].invalid,
+              'is-valid':
+                formularioAdicionalLiquidacion.controls['detalle'].touched &&
+                formularioAdicionalLiquidacion.controls['detalle'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: 'Cantidad de caracteres excedida (150)',
+              control: formularioAdicionalLiquidacion.controls['detalle'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
     </form>
   </div>
   <div class="modal-footer">
