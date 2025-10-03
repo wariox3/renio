@@ -35,6 +35,7 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
 import { AgregarDetallesDocumentoComponent } from '../../../agregar-detalles-documento/agregar-detalles-documento.component';
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import { AdapterService } from '../../services/adapter.service';
+import { BuscarDocumentosDetallesComponent } from "@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component";
 
 @Component({
   selector: 'app-formulario-productos',
@@ -50,7 +51,8 @@ import { AdapterService } from '../../services/adapter.service';
     SeleccionarAlmacenComponent,
     SeleccionarGrupoComponent,
     AgregarDetallesDocumentoComponent,
-  ],
+    BuscarDocumentosDetallesComponent
+],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
 })
@@ -70,6 +72,7 @@ export class FormularioProductosComponent
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
 
   @Input() mostrarDocumentoReferencia: boolean = false;
+  @Input() mostrarBuscarDocumentos: boolean = false;
   @Input() mostrarImportarDesdeDocumento: boolean = false;
   @Input() cuentasConImpuestos: boolean = false;
   @Input() permiteCantidadCero = false;
@@ -150,7 +153,7 @@ export class FormularioProductosComponent
   }
 
   /**
-   * Se ejecuta cuando el usuario da clic en agregar nuevo item
+   * Se ejecuta cuando el usuario da clic engregar nuevo item
    */
   agregarNuevoItem(tipo_registro: string) {
     this._formularioFacturaService.agregarNuevoItem(tipo_registro);
@@ -215,6 +218,14 @@ export class FormularioProductosComponent
       indexFormulario,
     );
     this.changeDetectorRef.detectChanges();
+  }
+
+  cargarItemsSeleccionadosDesdeDocumento(items: DocumentoDetalleFactura[]) {
+    items.forEach((item) => {
+      this.agregarNuevoItem('I')
+      this.recibirItemSeleccionado(item, this.detalles.length - 1);
+    });
+    this.modalService.dismissAll();
   }
 
   // cargar vista

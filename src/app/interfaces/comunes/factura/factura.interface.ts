@@ -91,6 +91,7 @@ export interface DocumentoDetalleFactura {
   existencia?: number;
   disponible?: number;
   costo_promedio?: number;
+  documento_detalle_afectado_id?: number;
   impuestos: ImpuestoRespuestaConsulta[];
   cuenta_codigo: string;
   cuenta_id: number;
@@ -244,6 +245,7 @@ export interface DocumentoFacturaDetalleRespuesta {
   almacen_id: number;
   almacen_nombre: string;
   impuestos: DocumentoImpuestoFacturaRespuesta[];
+  documento_detalle_afectado_id: number;
 }
 
 export interface DocumentoInventarioRespuesta
