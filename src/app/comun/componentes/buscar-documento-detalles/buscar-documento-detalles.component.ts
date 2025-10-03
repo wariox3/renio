@@ -191,6 +191,7 @@ export class BuscarDocumentosDetallesComponent implements OnInit {
           itemsAEmitir.push({
             ...res.item,
             documento_detalle_afectado_id: documento.id,
+            cantidad: documento.cantidad_pendiente,
           });
         });
         this.itemsSeleccionadosEvent.emit(itemsAEmitir);

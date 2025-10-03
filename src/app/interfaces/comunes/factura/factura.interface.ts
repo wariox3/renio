@@ -92,6 +92,7 @@ export interface DocumentoDetalleFactura {
   disponible?: number;
   costo_promedio?: number;
   documento_detalle_afectado_id?: number;
+  cantidad?: number;
   impuestos: ImpuestoRespuestaConsulta[];
   cuenta_codigo: string;
   cuenta_id: number;
