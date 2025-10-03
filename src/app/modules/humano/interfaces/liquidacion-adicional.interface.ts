@@ -5,4 +5,5 @@ export interface LiquidacionAdicional {
   liquidacion: number
   concepto: number
   concepto__nombre: string
+  detalle?: string
 }

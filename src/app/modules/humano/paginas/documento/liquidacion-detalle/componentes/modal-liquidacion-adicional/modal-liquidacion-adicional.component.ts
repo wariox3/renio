@@ -69,6 +69,7 @@ export class ModalLiquidacionAdicionalComponent {
       ],
       deduccion: [0],
       adicional: [0],
+      detalle: [null, Validators.maxLength(150)],
       liquidacion: [this.liquidacionId],
     });
   }
