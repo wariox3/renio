@@ -553,11 +553,11 @@ export class FormularioFacturaService {
       precio: precioDiscriminadoPorTipo,
       item: item.id,
       documento_detalle_afectado: item.documento_detalle_afectado_id ? item.documento_detalle_afectado_id : null,
-      cantidad: 1,
+      cantidad: item.cantidad || 1,
       subtotal,
       porcentaje_descuento: 0,
       item_nombre: item.nombre,
-      total: precioDiscriminadoPorTipo * 1,
+      total: precioDiscriminadoPorTipo * (item?.cantidad || 1),
     });
 
     // this.changeDetectorRef.detectChanges();
