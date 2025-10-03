@@ -4,15 +4,25 @@
     <div class="d-flex justify-content-end mb-2">
       <div class="btn-group btn-sm shadow-sm">
         @if (this.detalle && mostrarImportarDesdeDocumento) {
-        <button
-          (click)="abrirModal(modalImportarDesdeDocumento)"
-          class="btn btn-sm btn-secondary"
-          type="button"
-          [disabled]="deshabilitar"
-        >
-        Agregar desde documento
-      </button>
-    }
+          <button
+            (click)="abrirModal(modalImportarDesdeDocumento)"
+            class="btn btn-sm btn-secondary"
+            type="button"
+            [disabled]="deshabilitar"
+          >
+            Agregar desde documento
+          </button>
+        }
+        @if (mostrarBuscarDocumentos) {
+          <button
+            (click)="abrirModal(buscarDocumentos)"
+            class="btn btn-sm btn-secondary"
+            type="button"
+            [disabled]="deshabilitar || !formularioFactura.get('contacto')?.value"
+          >
+            Agregar desde documento
+          </button>
+        }
         <button
           (click)="agregarNuevoItem('I')"
           class="btn btn-sm btn-primary"
@@ -108,9 +118,7 @@
                   (emitirItemSeleccionado)="
                     recibirAlmacenSeleccionado($event, i)
                   "
-                  (emitirLineaVacia)="
-                  recibirAlmacenSeleccionado($event, i)
-                "
+                  (emitirLineaVacia)="recibirAlmacenSeleccionado($event, i)"
                 ></app-seleccionar-almacen>
               </td>
               <td>
@@ -283,10 +291,30 @@
   </div>
   <div class="modal-body">
     <app-agregar-detalles-documento
-    [columnas]="columnasTablaDatos"
-    [configuracion]="configuracionDocumento"
-    [detalleId]="detalle"
-    (itemsSeleccionadosEvent)="actualizarDocumento()"
+      [columnas]="columnasTablaDatos"
+      [configuracion]="configuracionDocumento"
+      [detalleId]="detalle"
+      (itemsSeleccionadosEvent)="actualizarDocumento()"
     ></app-agregar-detalles-documento>
+  </div>
+</ng-template>
+
+<ng-template #buscarDocumentos let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Importar desde documento</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-buscar-documento-detalles
+      [columnas]="columnasTablaDatos"
+      [configuracion]="configuracionDocumento"
+      [detalleId]="detalle"
+      (itemsSeleccionadosEvent)="cargarItemsSeleccionadosDesdeDocumento($event)"
+    ></app-buscar-documento-detalles>
   </div>
 </ng-template>

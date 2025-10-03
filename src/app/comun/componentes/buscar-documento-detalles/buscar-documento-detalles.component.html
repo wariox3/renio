@@ -1,0 +1,114 @@
+<app-filtro></app-filtro>
+
+<div class="row mb-4 justify-content-end gap-sm-5">
+  <div class="col-md-5 col-sm-12 d-flex justify-content-end my-2">
+    <button (click)="agregarDetalles()" type="button" class="btn btn-sm btn-primary" id="dropdownBasic1">
+      Agregar
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive table-loading mt-5">
+  <table
+    class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+  >
+    <thead>
+      <tr class="fw-bold fs-6 text-gray-800 bg-gray-100">
+        @for (columna of columnas; track columna.id) {
+          <th
+            class="cursor-pointer user-select-none"
+            [ngClass]="{
+              'text-end': columna.alineacion === 'derecha',
+              'text-center': columna.alineacion === 'centro',
+            }"
+            [style.width]="columna.ancho"
+          >
+            <div class="d-flex justify-content-between">
+              <span>{{ columna.titulo }} </span>
+            </div>
+          </th>
+        }
+        <th>
+          <label>
+            <i
+              class="fa-regular fs-2x cursor-pointer"
+              [ngClass]="
+                checkboxSelectAll.checked
+                  ? 'fa-solid fa-square-check text-primary'
+                  : 'fa-regular fa-square text-gray-500'
+              "
+            ></i>
+            <input
+              class="d-none"
+              type="checkbox"
+              #checkboxSelectAll
+              (click)="manejarCheckGlobal($event)"
+            />
+          </label>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of items(); track $index) {
+        <tr>
+          @for (columna of columnas; track columna.id) {
+            <td
+              [ngClass]="{
+                'text-end': columna.alineacion === 'derecha',
+                'text-center': columna.alineacion === 'centro',
+              }"
+              [style.width]="columna.ancho"
+            >
+              <ng-container *ngIf="columna.formatearValor; else defaultFormat">
+                {{ columna.formatearValor(item[columna.campo]) }}
+              </ng-container>
+              <ng-template #defaultFormat>
+                <ng-container [ngSwitch]="columna.tipo">
+                  <ng-container *ngSwitchCase="'booleano'">
+                    <i
+                      *ngIf="item[columna.campo]"
+                      class="ki-duotone ki-check text-success"
+                    ></i>
+                    <i
+                      *ngIf="!item[columna.campo]"
+                      class="ki-duotone ki-cross text-danger"
+                    ></i>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'moneda'">
+                    {{ item[columna.campo] | currency }}
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'fecha'">
+                    {{ item[columna.campo] | date: "dd/MM/yyyy" }}
+                  </ng-container>
+                  <ng-container *ngSwitchDefault>
+                    {{ item[columna.campo] }}
+                  </ng-container>
+                </ng-container>
+              </ng-template>
+            </td>
+          }
+          <td class="text-center">
+            <label>
+              <i
+                class="fa-regular fs-2x cursor-pointer"
+                [ngClass]="
+                  checked.checked
+                    ? 'fa-solid fa-square-check text-primary'
+                    : 'fa-regular fa-square text-gray-500'
+                "
+              >
+              </i>
+              <input
+                #checked
+                class="d-none"
+                type="checkbox"
+                (change)="manejarCheckItem($event, item)"
+                [checked]="estoyEnListaEliminar(item.id)"
+              />
+            </label>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

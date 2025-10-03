@@ -268,6 +268,7 @@ export class FormularioFacturaService {
         almacen_nombre: item.almacen_nombre,
         contacto: item.contacto,
         contacto_nombre: item.contacto_nombre,
+        documento_detalle_afectado: item.documento_detalle_afectado,
       });
       this._agregarCampoImpuestoACache(i);
       this._actualizarImpuestoItem(item.impuestos, i);
@@ -454,6 +455,7 @@ export class FormularioFacturaService {
         grupo: [tipoSugerido],
         base_impuesto: [0],
         almacen: [almacenId],
+        documento_detalle_afectado: [null],
         almacen_nombre: [almacenNombre],
         impuestos: this._formBuilder.array<ImpuestoFormulario[]>([]),
         impuestos_eliminados: this._formBuilder.array([]),
@@ -550,6 +552,7 @@ export class FormularioFacturaService {
     this.detalles.controls[indexFormulario].patchValue({
       precio: precioDiscriminadoPorTipo,
       item: item.id,
+      documento_detalle_afectado: item.documento_detalle_afectado_id ? item.documento_detalle_afectado_id : null,
       cantidad: 1,
       subtotal,
       porcentaje_descuento: 0,
@@ -1189,6 +1192,7 @@ export class FormularioFacturaService {
         almacen_nombre: detalle.almacen_nombre,
         contacto: detalle.contacto_id,
         contacto_nombre: detalle.contacto_nombre_corto,
+        documento_detalle_afectado: detalle.documento_detalle_afectado_id,
       });
 
       this.detalles.push(documentoDetalleGrupo);
