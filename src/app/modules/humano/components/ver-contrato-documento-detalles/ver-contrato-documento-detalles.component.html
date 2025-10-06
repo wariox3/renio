@@ -64,8 +64,6 @@
                 <th>ID</th>
                 <th>Tipo</th>
                 <th>Número</th>
-                <th>Desde</th>
-                <th>Hasta</th>
                 <th>Concepto ID</th>
                 <th>Concepto</th>
                 <th class="text-center">Detalle</th>
@@ -84,18 +82,16 @@
                 <tr>
                   <td>{{ detalle.id }}</td>
                   <td>{{ detalle.documento__documento_tipo__nombre }}</td>
-                  <td class="text-center">{{ detalle.documento__numero }}</td>
-                  <td class="text-center">{{ detalle.documento__fecha_desde | date: "dd/MM/yyyy" }}</td>
-                  <td class="text-center">{{ detalle.documento__fecha_hasta | date: "dd/MM/yyyy" }}</td>
-                  <td class="text-center">{{ detalle.concepto }}</td>
-                  <td class="text-center">{{ detalle.concepto__nombre }}</td>
-                  <td class="text-center">{{ detalle.detalle }}</td>
-                  <td class="text-center">{{ detalle.porcentaje }}</td>
-                  <td class="text-center">{{ detalle.cantidad | number : '1.2-2' }}</td>
-                  <td class="text-center">{{ detalle.dias }}</td>
-                  <td class="text-center">{{ detalle.hora | number : '1.2-2' }}</td>
-                  <td class="text-center">{{ detalle.devengado | number }}</td>
-                  <td class="text-center">{{ detalle.deduccion | number }}</td>
+                  <td>{{ detalle.documento__numero }}</td>
+                  <td>{{ detalle.concepto }}</td>
+                  <td>{{ detalle.concepto__nombre }}</td>
+                  <td>{{ detalle.detalle }}</td>
+                  <td class="text-end">{{ detalle.porcentaje }}</td>
+                  <td class="text-end">{{ detalle.cantidad | number : '1.2-2' }}</td>
+                  <td class="text-end">{{ detalle.dias }}</td>
+                  <td class="text-end">{{ detalle.hora | number : '1.2-2' }}</td>
+                  <td class="text-end">{{ detalle.devengado | number }}</td>
+                  <td class="text-end">{{ detalle.deduccion | number }}</td>
                   <td class="text-end">{{ detalle.base_prestacion | number }}</td>
                   <td class="text-end">{{ detalle.base_cotizacion | number }}</td>
                 </tr>
