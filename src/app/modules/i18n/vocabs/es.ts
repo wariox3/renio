@@ -221,7 +221,7 @@ export const locale = {
           IDIOMA: 'Idioma',
           CERRARSESION: 'Cerrar sesión',
           TERMINOS: 'Términos',
-          PLAN: 'Planes',
+          PLAN: 'Plan',
           CONTACTO: 'Contacto',
           IMAGEN: 'Cargar imagen',
           PREVISUALIZAR: 'Previsualizar',

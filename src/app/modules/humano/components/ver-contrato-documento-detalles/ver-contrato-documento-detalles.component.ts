@@ -49,4 +49,44 @@ export class VerContratoDocumentoDetallesComponent implements OnInit {
       this.documento.set(res.results);
     });
   }
+
+  calcularTotalSalario(): number {
+    return this.documento().reduce((total, doc) => total + doc.salario, 0);
+  }
+
+  calcularTotalIBC(): number {
+    return this.documento().reduce((total, doc) => total + doc.base_cotizacion, 0);
+  }
+
+  calcularTotalIBP(): number {
+    return this.documento().reduce((total, doc) => total + doc.base_prestacion, 0);
+  }
+
+  calcularTotalDevengadoDoc(): number {
+    return this.documento().reduce((total, doc) => total + doc.devengado, 0);
+  }
+
+  calcularTotalDeduccionDoc(): number {
+    return this.documento().reduce((total, doc) => total + doc.deduccion, 0);
+  }
+
+  calcularTotalNetoDoc(): number {
+    return this.documento().reduce((total, doc) => total + doc.total, 0);
+  }
+
+  calcularTotalDevengadoDetalle(): number {
+    return this.documentoDetalles().reduce((total, detalle) => total + detalle.devengado, 0);
+  }
+
+  calcularTotalDeduccionDetalle(): number {
+    return this.documentoDetalles().reduce((total, detalle) => total + detalle.deduccion, 0);
+  }
+
+  calcularTotalIBCDetalle(): number {
+    return this.documentoDetalles().reduce((total, detalle) => total + detalle.base_cotizacion, 0);
+  }
+
+  calcularTotalIBPDetalle(): number {
+    return this.documentoDetalles().reduce((total, detalle) => total + detalle.base_prestacion, 0);
+  }
 }

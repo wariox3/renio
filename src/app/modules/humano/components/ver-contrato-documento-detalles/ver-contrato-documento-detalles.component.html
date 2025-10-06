@@ -29,7 +29,7 @@
                   <td>{{ doc.documento_tipo__nombre }}</td>
                   <td>{{ doc.fecha_desde | date: "dd/MM/yyyy" }}</td>
                   <td>{{ doc.fecha_hasta | date: "dd/MM/yyyy" }}</td>
-                  <td>{{ doc.contacto_id }}</td>
+                  <td>{{ doc.contrato_id }}</td>
                   <td>{{ doc.numero }}</td>
                   <td class="text-end">{{ doc.salario | number }}</td>
                   <td class="text-end">{{ doc.base_cotizacion | number }}</td>
@@ -40,12 +40,24 @@
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="9" class="text-center text-muted">
+                  <td colspan="12" class="text-center text-muted">
                     No hay documentos registrados
                   </td>
                 </tr>
               }
             </tbody>
+            @if (documento().length > 0) {
+              <tfoot class="border-top border-gray-300">
+                <tr class="fw-bold text-gray-800 bg-light">
+                  <td colspan="7" class="text-end">TOTALES:</td>
+                  <td class="text-end">{{ calcularTotalIBC() | number }}</td>
+                  <td class="text-end">{{ calcularTotalIBP() | number }}</td>
+                  <td class="text-end">{{ calcularTotalDevengadoDoc() | number }}</td>
+                  <td class="text-end">{{ calcularTotalDeduccionDoc() | number }}</td>
+                  <td class="text-end">{{ calcularTotalNetoDoc() | number }}</td>
+                </tr>
+              </tfoot>
+            }
           </table>
         </div>
       </div>
@@ -73,8 +85,8 @@
                 <th class="text-end">Vr hora</th>
                 <th class="text-end">Devengado</th>
                 <th class="text-end">Deduccion</th>
-                <th class="text-end">IBP</th>
                 <th class="text-end">IBC</th>
+                <th class="text-end">IBP</th>
               </tr>
             </thead>
             <tbody>
@@ -92,17 +104,28 @@
                   <td class="text-end">{{ detalle.hora | number : '1.2-2' }}</td>
                   <td class="text-end">{{ detalle.devengado | number }}</td>
                   <td class="text-end">{{ detalle.deduccion | number }}</td>
-                  <td class="text-end">{{ detalle.base_prestacion | number }}</td>
                   <td class="text-end">{{ detalle.base_cotizacion | number }}</td>
+                  <td class="text-end">{{ detalle.base_prestacion | number }}</td>
                 </tr>
               } @empty {
                 <tr>
-                  <td colspan="8" class="text-center text-muted">
+                  <td colspan="14" class="text-center text-muted">
                     No hay detalles registrados para este documento
                   </td>
                 </tr>
               }
             </tbody>
+            @if (documentoDetalles().length > 0) {
+              <tfoot class="border-top border-gray-300">
+                <tr class="fw-bold text-gray-800 bg-light">
+                  <td colspan="10" class="text-end">TOTALES:</td>
+                  <td class="text-end">{{ calcularTotalDevengadoDetalle() | number }}</td>
+                  <td class="text-end">{{ calcularTotalDeduccionDetalle() | number }}</td>
+                  <td class="text-end">{{ calcularTotalIBCDetalle() | number }}</td>
+                  <td class="text-end">{{ calcularTotalIBPDetalle() | number }}</td>
+                </tr>
+              </tfoot>
+            }
           </table>
         </div>
       </div>
