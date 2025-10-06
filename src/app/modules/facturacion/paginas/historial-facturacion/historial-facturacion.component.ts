@@ -7,23 +7,29 @@ import { switchMap, tap } from 'rxjs';
 import { Movimiento } from '@interfaces/facturacion/Facturacion';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpService } from '@comun/services/http.service';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
+import { VerConsumoUsuarioComponent } from '../../components/ver-consumo-usuario/ver-consumo-usuario.component';
 
 @Component({
   selector: 'app-historial-facturacion',
   standalone: true,
   templateUrl: './historial-facturacion.component.html',
   styleUrls: ['./historial-facturacion.component.scss'],
-  imports: [CommonModule, TranslateModule, NgbTooltipModule, PaginadorComponent],
+  imports: [CommonModule, TranslateModule, NgbTooltipModule, PaginadorComponent, VerConsumoUsuarioComponent],
 })
 export class HistorialFacturacionComponent extends General implements OnInit {
   movientos: Movimiento[];
   currentPage = signal<number>(1);
   totalItems: number = 0;
   usuarioId: number;
+  movimientoSeleccionado = signal<any>({});
 
-  constructor(private contenedorService: ContenedorService, private httpService: HttpService) {
+  constructor(
+    private contenedorService: ContenedorService, 
+    private httpService: HttpService,
+    private modalService: NgbModal
+  ) {
     super();
   }
 
@@ -64,5 +70,14 @@ export class HistorialFacturacionComponent extends General implements OnInit {
   cambiarPaginacion(page: number) {
     this.currentPage.set(page);
     this.consultarMovimientos(this.usuarioId);
+  }
+
+  abrirModal(content: any, movimiento: any) {
+    this.movimientoSeleccionado.set(movimiento);
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
   }
 }

@@ -146,6 +146,7 @@
                     translate="FORMULARIOS.TITULOS.FACTURACION.IMPORTANTE"
                   ></th>
                   <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -170,6 +171,14 @@
                   </td>
                   <td class="text-end fw-bold fs-3">
                     {{ item.vr_saldo | currency: "$" }}
+                  </td>
+                  <td class="text-center">
+                    <span 
+                      class="cursor-pointer text-primary fw-bold"
+                      (click)="abrirModalVerConsumo(verConsumoModal, item)"
+                    >
+                      Ver consumo
+                    </span>
                   </td>
                   <td class="w-20px">
                     @if (arrFacturacionInformacion.length > 0) {
@@ -484,5 +493,23 @@
       [movimientoId]="movimientoId()"
       (emitirCreditoAplicado)="actualizarInformarcion()"
     ></app-aplicar-credito>
+  </div>
+</ng-template>
+
+<!-- Modal para ver consumo -->
+<ng-template #verConsumoModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Consumo del movimiento {{ movimientoSeleccionado()?.id }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-ver-consumo-usuario [movimientoSeleccionado]="movimientoSeleccionado()"></app-ver-consumo-usuario>
   </div>
 </ng-template>
