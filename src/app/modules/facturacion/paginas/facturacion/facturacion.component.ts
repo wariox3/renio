@@ -237,18 +237,23 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     }
 
     // Solo actualizar la referencia y solicitar el hash si hay facturas seleccionadas
+    const fechaYhora = new Date();
+    const fechaYhoraString = fechaYhora.toISOString()
+    .slice(0, 19)
+    .replace(/-/g, '/');
     if (this.arrFacturasSeleccionados.length > 0) {
       let referencia = this.arrFacturasSeleccionados
         .map((factura: Factura, index: number, array: Factura[]) => {
           if (index === array.length - 1) {
-            return `P${factura.id}-${this.informacionFacturacion}`;
+            return `P${factura.id}-${this.informacionFacturacion}-${fechaYhoraString}`;
           } else {
-            return `P${factura.id}-${this.informacionFacturacion}_`;
+            return `P${factura.id}-${this.informacionFacturacion}-${fechaYhoraString}_`;
           }
         })
         .join('');
 
 
+        console.log('referencia', referencia);
       this.contenedorServices
         .contenedorGenerarIntegridad({
           referencia,
