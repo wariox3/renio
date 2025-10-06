@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } fro
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { HttpService } from '@comun/services/http.service';
 import { ConsumoUsuario } from '@modulos/facturacion/interfaces/consumo-usuario.interface';
+import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
 @Component({
   selector: 'app-ver-consumo-usuario',
@@ -14,7 +15,7 @@ import { ConsumoUsuario } from '@modulos/facturacion/interfaces/consumo-usuario.
 export class VerConsumoUsuarioComponent implements OnInit {
   @Input({ required: true }) movimientoSeleccionado!: any;
 
-  private readonly _httpService = inject(HttpService);
+  private readonly  _contenedorService = inject(ContenedorService); 
   public consumos = signal<ConsumoUsuario | undefined>(undefined);
 
 
@@ -23,13 +24,10 @@ export class VerConsumoUsuarioComponent implements OnInit {
   }
 
   consultarConsumo() {
-    this._httpService.post<ConsumoUsuario>(
-      'contenedor/consumo/consulta-usuario-fecha/',
-      {
-        "usuario_id": this.movimientoSeleccionado.usuario_id,
-        "fechaDesde": this.movimientoSeleccionado.fecha_desde_consumo,
-        "fechaHasta": this.movimientoSeleccionado.fecha_hasta_consumo
-    },
+    this._contenedorService.consultarConsumo(
+      this.movimientoSeleccionado.usuario_id,
+      this.movimientoSeleccionado.fecha_desde_consumo,
+      this.movimientoSeleccionado.fecha_hasta_consumo
     ).subscribe((respuestaConsultaConsumo) => {
       this.consumos.set(respuestaConsultaConsumo);
     });
