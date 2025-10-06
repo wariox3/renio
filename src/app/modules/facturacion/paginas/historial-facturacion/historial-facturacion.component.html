@@ -7,6 +7,9 @@
         <th>#</th>
         <th>Tipo</th>
         <th>Fecha</th>
+        <th>Descripción</th>
+        <th>Fecha desde</th>
+        <th>Fecha hasta</th>
         <th>Total</th>
         <th></th>
       </tr>
@@ -16,6 +19,9 @@
         <td>{{ movimiento.id }}</td>
         <td>{{ movimiento.tipo }}</td>
         <td>{{ movimiento.fecha | date: "yyyy-MM-dd" }}</td>
+        <td>{{ movimiento.descripcion }}</td>
+        <td>{{ movimiento.fecha_desde_consumo | date: "yyyy-MM-dd" }}</td>
+        <td>{{ movimiento.fecha_hasta_consumo | date: "yyyy-MM-dd" }}</td>
         <td class="text-end">$ {{ movimiento.vr_total_operado | number }}</td>
         <td class="text-center">
           @if (movimiento.factura_id) {

@@ -135,6 +135,8 @@
                   <th
                     translate="FORMULARIOS.TITULOS.FACTURACION.DESCRIPCION"
                   ></th>
+                  <th>Fecha desde</th>
+                  <th>Fecha hasta</th>
                   <th
                     class="text-center"
                     translate="FORMULARIOS.TITULOS.FACTURACION.CREDITOS"
@@ -152,6 +154,8 @@
                   <td>{{ item.tipo }}</td>
                   <td>{{ item.fecha | date: "yyyy-MM-dd" }}</td>
                   <td>{{ item.descripcion }}</td>
+                  <td>{{ item.fecha_desde_consumo | date: "yyyy-MM-dd" }}</td>
+                  <td>{{ item.fecha_hasta_consumo | date: "yyyy-MM-dd" }}</td>
                   <td class="text-center">
                     @if (vrCredito() > 0) {
                       <button
