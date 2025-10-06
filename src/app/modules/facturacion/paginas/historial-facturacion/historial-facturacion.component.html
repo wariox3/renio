@@ -1,3 +1,11 @@
+<div class="mb-2">
+  <app-paginador
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="totalItems"
+    [currentPage]="currentPage()"
+  ></app-paginador>
+</div>
+
 <div class="table-responsive">
   <table class="table table-row-bordered align-middle gy-4 gs-9">
     <thead
