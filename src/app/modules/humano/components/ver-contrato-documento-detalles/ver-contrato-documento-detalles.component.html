@@ -10,10 +10,10 @@
               <tr class="fw-bold text-gray-800">
                 <th>ID</th>
                 <th>Tipo</th>
+                <th>Número</th>
                 <th>Desde</th>
                 <th>Hasta</th>
                 <th>Contrato</th>
-                <th>Número</th>
                 <th class="text-end">Salario</th>
                 <th class="text-end">IBC</th>
                 <th class="text-end">IBP</th>
@@ -27,10 +27,10 @@
                 <tr>
                   <td>{{ doc.id }}</td>
                   <td>{{ doc.documento_tipo__nombre }}</td>
+                  <td>{{ doc.numero }}</td>
                   <td>{{ doc.fecha_desde | date: "dd/MM/yyyy" }}</td>
                   <td>{{ doc.fecha_hasta | date: "dd/MM/yyyy" }}</td>
                   <td>{{ doc.contrato_id }}</td>
-                  <td>{{ doc.numero }}</td>
                   <td class="text-end">{{ doc.salario | number }}</td>
                   <td class="text-end">{{ doc.base_cotizacion | number }}</td>
                   <td class="text-end">{{ doc.base_prestacion | number }}</td>
