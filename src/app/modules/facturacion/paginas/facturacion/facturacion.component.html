@@ -108,9 +108,12 @@
   <section card-titulo>Facturación</section>
   <section card-propiedades>
     @if (!(facturas.length > 0)) {
-    <button class="btn btn-primary align-self-center" 
-    (click)="irRealizarPago()"
-    >Hacer un pago</button>
+      <button
+        class="btn btn-primary align-self-center"
+        (click)="irRealizarPago()"
+      >
+        Hacer un pago
+      </button>
     }
   </section>
   <section card-body>
@@ -118,9 +121,7 @@
       <div class="col-12">
         <div class="mb-10">
           <div class="d-flex align-items-center justify-content-between mb-3">
-            <h5
-              class="mb-4 fs-2"
-            ></h5>
+            <h5 class="mb-4 fs-2"></h5>
             <div class="card-toolbar" id="wompiWidget"></div>
           </div>
           <div class="table-responsive">
@@ -173,36 +174,38 @@
                     {{ item.vr_saldo | currency: "$" }}
                   </td>
                   <td class="text-center">
-                    <span 
-                      class="cursor-pointer text-primary fw-bold"
-                      (click)="abrirModalVerConsumo(verConsumoModal, item)"
-                    >
-                      Ver consumo
-                    </span>
+                    @if (item.tipo === "PEDIDO") {
+                      <span
+                        class="cursor-pointer text-primary fw-bold"
+                        (click)="abrirModalVerConsumo(verConsumoModal, item)"
+                      >
+                        Ver consumo
+                      </span>
+                    }
                   </td>
                   <td class="w-20px">
                     @if (arrFacturacionInformacion.length > 0) {
-                    <label [for]="item.id">
-                      <i
-                        class="cursor-pointer"
-                        [ngClass]="
-                          checkbox.checked
-                            ? 'fa-solid fa-square-check text-danger'
-                            : 'fa-regular fa-square text-gray-500'
-                        "
-                      >
-                        <span class="path1"></span>
-                        <span class="path2"></span>
-                      </i>
-                      <input
-                        #checkbox
-                        class="d-none"
-                        type="checkbox"
-                        [id]="item.id"
-                        [checked]="idEstaEnLista(item.id)"
-                        (change)="agregarRegistrosPagar(item)"
-                      />
-                    </label>
+                      <label [for]="item.id">
+                        <i
+                          class="cursor-pointer"
+                          [ngClass]="
+                            checkbox.checked
+                              ? 'fa-solid fa-square-check text-danger'
+                              : 'fa-regular fa-square text-gray-500'
+                          "
+                        >
+                          <span class="path1"></span>
+                          <span class="path2"></span>
+                        </i>
+                        <input
+                          #checkbox
+                          class="d-none"
+                          type="checkbox"
+                          [id]="item.id"
+                          [checked]="idEstaEnLista(item.id)"
+                          (change)="agregarRegistrosPagar(item)"
+                        />
+                      </label>
                     }
                   </td>
                 </tr>
@@ -235,70 +238,77 @@
           </div>
 
           <div
-          class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9 mt-1"
-          data-kt-buttons="true"
-          data-kt-buttons-target="[data-kt-button='true']"
-          data-kt-initialized="1"
-        >
-          <div class="col" *ngFor="let informacion of arrFacturacionInformacion">
-            <label
-              class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative"
-              [ngClass]="{
-                active: informacionFacturacion === informacion.id,
-              }"
-              (click)="informacionFacturacion = informacion.id"
-              data-kt-button="true"
-              style="cursor: pointer"
+            class="row row-cols-1 row-cols-md-3 row-cols-lg-1 row-cols-xl-3 g-9 mt-1"
+            data-kt-buttons="true"
+            data-kt-buttons-target="[data-kt-button='true']"
+            data-kt-initialized="1"
+          >
+            <div
+              class="col"
+              *ngFor="let informacion of arrFacturacionInformacion"
             >
-              <div class="d-flex align-items-stretch justify-content-between w-100">
-                <div>
-                  <div class="text-start">
-                    <span class="fs-6 text-gray-800 d-block">
-                      {{ getIdentificacionPrefix(informacion.identificacion_id) }}
-                      {{ informacion.numero_identificacion }}
-                    </span>
-                    <span class="fs-6 fw-bold text-gray-800 d-block">
-                      {{ informacion.nombre_corto }}
-                    </span>
-                    <span class="fs-6 text-gray-800 d-block">
-                      {{ informacion.telefono }}
-                    </span>
-                    <span class="fs-6 text-gray-800 d-block">
-                      {{ informacion.direccion }}
-                    </span>
-                    <span class="fs-6 text-gray-800 d-block">
-                      {{ informacion.ciudad_nombre }} -
-                      {{ informacion.ciudad_estado_nombre }}
-                    </span>
-                  </div>
-                </div>
+              <label
+                class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative"
+                [ngClass]="{
+                  active: informacionFacturacion === informacion.id,
+                }"
+                (click)="informacionFacturacion = informacion.id"
+                data-kt-button="true"
+                style="cursor: pointer"
+              >
                 <div
-                  class="d-flex flex-column justify-content-between align-items: flex-end;"
+                  class="d-flex align-items-stretch justify-content-between w-100"
                 >
-                  <div class="align-self-end">
-                    <app-informacion-facturacion
-                      [informacion_id]="informacion.id"
-                      [validarNuevoEditar]="false"
-                      (emitirActualizacion)="consultarDetalle()"
-                    ></app-informacion-facturacion>
+                  <div>
+                    <div class="text-start">
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{
+                          getIdentificacionPrefix(informacion.identificacion_id)
+                        }}
+                        {{ informacion.numero_identificacion }}
+                      </span>
+                      <span class="fs-6 fw-bold text-gray-800 d-block">
+                        {{ informacion.nombre_corto }}
+                      </span>
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{ informacion.telefono }}
+                      </span>
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{ informacion.direccion }}
+                      </span>
+                      <span class="fs-6 text-gray-800 d-block">
+                        {{ informacion.ciudad_nombre }} -
+                        {{ informacion.ciudad_estado_nombre }}
+                      </span>
+                    </div>
                   </div>
-                  <i
-                    ngbTooltip="Eliminar"
-                    placement="right"
-                    class="ki-duotone ki-trash fs-3x text-danger align-self-end me-3 mb-2"
-                    (click)="confirmarEliminarFacturacion(informacion.id)"
-                    style="cursor: pointer"
+                  <div
+                    class="d-flex flex-column justify-content-between align-items: flex-end;"
                   >
-                    <span class="path1"></span>
-                    <span class="path2"></span>
-                    <span class="path3"></span>
-                    <span class="path4"></span>
-                    <span class="path5"></span>
-                  </i>
+                    <div class="align-self-end">
+                      <app-informacion-facturacion
+                        [informacion_id]="informacion.id"
+                        [validarNuevoEditar]="false"
+                        (emitirActualizacion)="consultarDetalle()"
+                      ></app-informacion-facturacion>
+                    </div>
+                    <i
+                      ngbTooltip="Eliminar"
+                      placement="right"
+                      class="ki-duotone ki-trash fs-3x text-danger align-self-end me-3 mb-2"
+                      (click)="confirmarEliminarFacturacion(informacion.id)"
+                      style="cursor: pointer"
+                    >
+                      <span class="path1"></span>
+                      <span class="path2"></span>
+                      <span class="path3"></span>
+                      <span class="path4"></span>
+                      <span class="path5"></span>
+                    </i>
+                  </div>
                 </div>
-              </div>
-    
-              <!-- <div
+
+                <!-- <div
                     class="d-flex align-items-center justify-content-between w-100"
                   >
                     <div class="text-start">
@@ -348,21 +358,21 @@
                       <span class="path5"></span>
                     </i>
                   </div> -->
-            </label>
+              </label>
+            </div>
+            <div class="col">
+              <label
+                class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative active"
+                data-kt-button="true"
+                style="cursor: pointer"
+              >
+                <app-informacion-facturacion
+                  [validarNuevoEditar]="true"
+                  (emitirActualizacion)="consultarDetalle()"
+                ></app-informacion-facturacion>
+              </label>
+            </div>
           </div>
-          <div class="col">
-            <label
-              class="btn btn-outline btn-outline-dashed btn-active-light-primary d-flex flex-column text-start p-4 position-relative active"
-              data-kt-button="true"
-              style="cursor: pointer"
-            >
-              <app-informacion-facturacion
-                [validarNuevoEditar]="true"
-                (emitirActualizacion)="consultarDetalle()"
-              ></app-informacion-facturacion>
-            </label>
-          </div>
-        </div>
         </div>
 
         <div class="mb-10 p-5 border">
@@ -403,10 +413,9 @@
                 </p>
               </div>
               <div class="col-sm-12 col-md-3">
-                @if(vrAbonos() > consumoTotal){
+                @if (vrAbonos() > consumoTotal) {
                   <b>{{ 0 | number: "1.0-0" }}</b>
-                }
-                @else{
+                } @else {
                   <b>{{ consumoTotal - vrAbonos() | number: "1.0-0" }}</b>
                 }
                 <p translate="FORMULARIOS.TITULOS.FACTURACION.ESTIMADO">
@@ -510,6 +519,8 @@
     ></button>
   </div>
   <div class="modal-body">
-    <app-ver-consumo-usuario [movimientoSeleccionado]="movimientoSeleccionado()"></app-ver-consumo-usuario>
+    <app-ver-consumo-usuario
+      [movimientoSeleccionado]="movimientoSeleccionado()"
+    ></app-ver-consumo-usuario>
   </div>
 </ng-template>

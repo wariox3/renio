@@ -16,8 +16,8 @@
         <th>Tipo</th>
         <th>Fecha</th>
         <th>Descripción</th>
-        <th>Fecha desde</th>
-        <th>Fecha hasta</th>
+        <th>Fecha consumo desde</th>
+        <th>Fecha consumo hasta</th>
         <th>Total</th>
         <th></th>
         <th></th>
@@ -33,12 +33,14 @@
         <td>{{ movimiento.fecha_hasta_consumo | date: "yyyy-MM-dd" }}</td>
         <td class="text-end">$ {{ movimiento.vr_total_operado | number }}</td>
         <td class="text-center">
+          @if (movimiento.tipo === 'PEDIDO') {
           <span 
             class="cursor-pointer text-primary fw-bold"
             (click)="abrirModal(verConsumoModal, movimiento)"
           >
             Ver consumo
           </span>
+          }
         </td>
         <td class="text-center">
           @if (movimiento.factura_id) {
@@ -59,7 +61,7 @@
 <ng-template #verConsumoModal let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">
-      Consumo del movimiento {{ movimientoSeleccionado()?.id }}
+      Detalle de consumos
     </h4>
     <button
       type="button"
