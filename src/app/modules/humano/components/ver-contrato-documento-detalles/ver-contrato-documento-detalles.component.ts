@@ -41,6 +41,10 @@ export class VerContratoDocumentoDetallesComponent implements OnInit {
   consultarDocumento () {
     this._generalService.consultaApi<RespuestaApi<Documento>>("general/documento/", {
       serializador: "lista_nomina",
+      documento_tipo_documento_clase_id: 701,
+      contrato_id: this.contrato.contrato,
+      fecha__gte: this.fechaInicio,
+      fecha__lte: this.fechaFin,
     } ).subscribe((res) => {
       this.documento.set(res.results);
     });
