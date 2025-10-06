@@ -1,3 +1,11 @@
+<div class="mb-2">
+  <app-paginador
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="totalItems"
+    [currentPage]="currentPage()"
+  ></app-paginador>
+</div>
+
 <div class="table-responsive">
   <table class="table table-row-bordered align-middle gy-4 gs-9">
     <thead
@@ -7,7 +15,11 @@
         <th>#</th>
         <th>Tipo</th>
         <th>Fecha</th>
+        <th>Descripción</th>
+        <th>Fecha desde</th>
+        <th>Fecha hasta</th>
         <th>Total</th>
+        <th></th>
         <th></th>
       </tr>
     </thead>
@@ -16,7 +28,18 @@
         <td>{{ movimiento.id }}</td>
         <td>{{ movimiento.tipo }}</td>
         <td>{{ movimiento.fecha | date: "yyyy-MM-dd" }}</td>
+        <td>{{ movimiento.descripcion }}</td>
+        <td>{{ movimiento.fecha_desde_consumo | date: "yyyy-MM-dd" }}</td>
+        <td>{{ movimiento.fecha_hasta_consumo | date: "yyyy-MM-dd" }}</td>
         <td class="text-end">$ {{ movimiento.vr_total_operado | number }}</td>
+        <td class="text-center">
+          <span 
+            class="cursor-pointer text-primary fw-bold"
+            (click)="abrirModal(verConsumoModal, movimiento)"
+          >
+            Ver consumo
+          </span>
+        </td>
         <td class="text-center">
           @if (movimiento.factura_id) {
             <i
@@ -31,3 +54,21 @@
     </tbody>
   </table>
 </div>
+
+<!-- Modal para ver consumo -->
+<ng-template #verConsumoModal let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Consumo del movimiento {{ movimientoSeleccionado()?.id }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-ver-consumo-usuario [movimientoSeleccionado]="movimientoSeleccionado()"></app-ver-consumo-usuario>
+  </div>
+</ng-template>

@@ -44,6 +44,7 @@ import {
   usuarioActionActualizarVrSaldo,
 } from '@redux/actions/usuario.actions';
 import { RouterLink } from '@angular/router';
+import { VerConsumoUsuarioComponent } from '../../components/ver-consumo-usuario/ver-consumo-usuario.component';
 
 @Component({
   selector: 'app-facturacion',
@@ -65,6 +66,7 @@ import { RouterLink } from '@angular/router';
     ContactarAsesorComponent,
     AplicarCreditoComponent,
     RouterLink,
+    VerConsumoUsuarioComponent,
   ],
   providers: [NgbActiveModal],
 })
@@ -96,6 +98,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   vrBalance = computed(() => this.vrCredito() - this.vrSaldo());
   private readonly _modalService = inject(NgbModal);
   private _unsubscribe$ = new Subject<void>();
+  movimientoSeleccionado = signal<any>({});
 
   private wompiSubscription: Subscription | null = null;
   private wompiHash: string = '';
@@ -470,5 +473,14 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       return;
     }
     this.router.navigate(['/facturacion/realizar-pago']);
+  }
+
+  abrirModalVerConsumo(content: any, movimiento: any) {
+    this.movimientoSeleccionado.set(movimiento);
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
   }
 }

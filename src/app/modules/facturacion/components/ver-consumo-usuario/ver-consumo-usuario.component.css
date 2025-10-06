@@ -1,0 +1,13 @@
+/* Estilos específicos para el componente ver-consumo-usuario */
+.table-responsive {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.bg-gray-100 {
+  background-color: #f5f8fa !important;
+}
+
+.text-gray-800 {
+  color: #3f4254 !important;
+}
