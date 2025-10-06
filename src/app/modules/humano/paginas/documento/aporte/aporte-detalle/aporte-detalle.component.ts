@@ -22,6 +22,7 @@ import { AporteService } from '@modulos/humano/servicios/aporte.service';
 import {
   NgbDropdown,
   NgbDropdownModule,
+  NgbModal,
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
@@ -42,6 +43,7 @@ import {
   ParametrosApi,
   RespuestaApi,
 } from 'src/app/core/interfaces/api.interface';
+import { VerContratoDocumentoDetallesComponent } from "@modulos/humano/components/ver-contrato-documento-detalles/ver-contrato-documento-detalles.component";
 
 @Component({
   selector: 'app-aporte-detalle',
@@ -64,7 +66,8 @@ import {
     FiltroComponent,
     TableDetallesComponent,
     PaginadorComponent,
-  ],
+    VerContratoDocumentoDetallesComponent
+],
   templateUrl: './aporte-detalle.component.html',
   styleUrl: './aporte-detalle.component.scss',
 })
@@ -72,9 +75,11 @@ export default class AporteDetalleComponent
   extends General
   implements OnInit, OnDestroy
 {
+  private readonly modalService = inject(NgbModal);
   private readonly _tableEntidadService = inject(TablaEntidadService);
   private _filterTransformerService = inject(FilterTransformerService);
   public filtrosContratos = APORTE_CONTRATO_FILTERS;
+  public contratoSeleccionado = signal<any>(null);
   active: Number;
   aporte: RespuestaEncabezadoAporteDetalle = {
     id: 0,
@@ -434,5 +439,10 @@ export default class AporteDetalleComponent
     const apiParams =
       this._filterTransformerService.transformToApiParams(filters);
     this._consultarContratos(apiParams);
+  }
+
+  abrirModal(content: any, item: any) {
+    this.modalService.open(content, { size: 'xl' });
+    this.contratoSeleccionado.set(item);
   }
 }

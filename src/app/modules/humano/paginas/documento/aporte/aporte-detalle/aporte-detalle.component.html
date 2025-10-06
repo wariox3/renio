@@ -518,6 +518,9 @@
                       <th>
                         <div>Salario</div>
                       </th>
+                      <th class="text-center" style="width: 50px">
+                        <div></div>
+                      </th>
                       <th class="text-center bg-gray-100">
                         <label for="seleccionarTodos">
                           <i
@@ -591,6 +594,20 @@
                         </td>
                         <td class="text-end">
                           {{ aporteDetalle.salario | number: "1.2-2" }}
+                        </td>
+                        <td class="text-center">
+                          <span
+                            class="cursor-pointer text-center"
+                            (click)="
+                              abrirModal(verContratoDetalles, aporteDetalle)
+                            "
+                            >
+                            <i class="ki-duotone ki-document">
+                              <span class="path1"></span>
+                              <span class="path2"></span>
+                             </i>
+                            </span
+                          >
                         </td>
                         <td class="w-20px">
                           <label [for]="aporteDetalle.id">
@@ -667,3 +684,25 @@
     </div>
   </section>
 </app-card>
+
+<!-- Modal para ver consumo -->
+<ng-template #verContratoDetalles let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">
+      Documento detalle {{ contratoSeleccionado()?.id }}
+    </h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-ver-contrato-documento-detalles
+      [contrato]="contratoSeleccionado()"
+      [fechaInicio]="aporte.fecha_desde"
+      [fechaFin]="aporte.fecha_hasta"
+    ></app-ver-contrato-documento-detalles>
+  </div>
+</ng-template>
