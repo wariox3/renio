@@ -1,5 +1,7 @@
 export interface Factura {
   fecha: string;
+  fecha_desde_consumo: string;
+  fecha_hasta_consumo: string;
   id: number;
   tipo: string;
   descripcion: string;
@@ -30,6 +32,9 @@ export interface Movimiento {
   id: number
   tipo: string
   fecha: string
+  descripcion: string
+  fecha_desde_consumo: string
+  fecha_hasta_consumo: string
   vr_total: number
   vr_total_operado: number;
   vr_afectado: number

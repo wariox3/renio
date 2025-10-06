@@ -16,6 +16,7 @@ import {
   RespuestaConectar,
 } from '@interfaces/usuario/contenedor';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
+import { ConsumoUsuario } from '@modulos/facturacion/interfaces/consumo-usuario.interface';
 import { map } from 'rxjs';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
@@ -36,18 +37,29 @@ export class ContenedorService extends Subdominio {
     super();
   }
 
-  private _isContenedorRestringido(valorSaldo: number, fechaLimitePago: string) {
+  private _isContenedorRestringido(
+    valorSaldo: number,
+    fechaLimitePago: string,
+  ) {
     // Si no hay fecha límite, no hay restricción
     if (!fechaLimitePago) {
       return false;
     }
-    
+
     const fechaHoy = new Date();
     const fechaLimite = new Date(fechaLimitePago);
-    
+
     // Normalizar las fechas para comparar solo año, mes y día
-    const hoy = new Date(fechaHoy.getFullYear(), fechaHoy.getMonth(), fechaHoy.getDate());
-    const limite = new Date(fechaLimite.getFullYear(), fechaLimite.getMonth(), fechaLimite.getDate());
+    const hoy = new Date(
+      fechaHoy.getFullYear(),
+      fechaHoy.getMonth(),
+      fechaHoy.getDate(),
+    );
+    const limite = new Date(
+      fechaLimite.getFullYear(),
+      fechaLimite.getMonth(),
+      fechaLimite.getDate(),
+    );
 
     // Si el saldo es mayor a 0 y la fecha límite ya pasó
     if (valorSaldo > 0 && hoy > limite) {
@@ -62,7 +74,7 @@ export class ContenedorService extends Subdominio {
     const usuarioCookie = this._cookieService?.get('usuario');
     let valorSaldo = 0;
     let fechaLimitePago = '';
-    
+
     if (usuarioCookie) {
       try {
         const usuario = JSON.parse(usuarioCookie);
@@ -72,11 +84,14 @@ export class ContenedorService extends Subdominio {
         console.error('Error al parsear la cookie de usuario:', error);
       }
     }
-    
+
     return contenedores.map((contenedor) => {
       return {
         ...contenedor,
-        acceso_restringido: this._isContenedorRestringido(valorSaldo, fechaLimitePago)
+        acceso_restringido: this._isContenedorRestringido(
+          valorSaldo,
+          fechaLimitePago,
+        ),
       };
     });
   }
@@ -122,6 +137,17 @@ export class ContenedorService extends Subdominio {
       `${this.URL_API_BASE}/contenedor/contenedor/validar/`,
       {
         subdominio,
+      },
+    );
+  }
+
+  consultarConsumo(usuario_id: number, fechaDesde: string, fechaHasta: string) {
+    return this.http.post<ConsumoUsuario>(
+      `${this.URL_API_BASE}/contenedor/consumo/consulta-usuario-fecha/`,
+      {
+        usuario_id: usuario_id,
+        fechaDesde: fechaDesde,
+        fechaHasta: fechaHasta,
       },
     );
   }

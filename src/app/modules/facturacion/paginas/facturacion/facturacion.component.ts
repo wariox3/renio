@@ -44,6 +44,7 @@ import {
   usuarioActionActualizarVrSaldo,
 } from '@redux/actions/usuario.actions';
 import { RouterLink } from '@angular/router';
+import { VerConsumoUsuarioComponent } from '../../components/ver-consumo-usuario/ver-consumo-usuario.component';
 
 @Component({
   selector: 'app-facturacion',
@@ -65,6 +66,7 @@ import { RouterLink } from '@angular/router';
     ContactarAsesorComponent,
     AplicarCreditoComponent,
     RouterLink,
+    VerConsumoUsuarioComponent,
   ],
   providers: [NgbActiveModal],
 })
@@ -96,6 +98,7 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
   vrBalance = computed(() => this.vrCredito() - this.vrSaldo());
   private readonly _modalService = inject(NgbModal);
   private _unsubscribe$ = new Subject<void>();
+  movimientoSeleccionado = signal<any>({});
 
   private wompiSubscription: Subscription | null = null;
   private wompiHash: string = '';
@@ -234,18 +237,23 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
     }
 
     // Solo actualizar la referencia y solicitar el hash si hay facturas seleccionadas
+    const fechaYhora = new Date();
+    const fechaYhoraString = fechaYhora.toISOString()
+    .slice(0, 19)
+    .replace(/-/g, '/');
     if (this.arrFacturasSeleccionados.length > 0) {
       let referencia = this.arrFacturasSeleccionados
         .map((factura: Factura, index: number, array: Factura[]) => {
           if (index === array.length - 1) {
-            return `P${factura.id}-${this.informacionFacturacion}`;
+            return `P${factura.id}-${this.informacionFacturacion}-${fechaYhoraString}`;
           } else {
-            return `P${factura.id}-${this.informacionFacturacion}_`;
+            return `P${factura.id}-${this.informacionFacturacion}-${fechaYhoraString}_`;
           }
         })
         .join('');
 
 
+        console.log('referencia', referencia);
       this.contenedorServices
         .contenedorGenerarIntegridad({
           referencia,
@@ -470,5 +478,14 @@ export class FacturacionComponent extends General implements OnInit, OnDestroy {
       return;
     }
     this.router.navigate(['/facturacion/realizar-pago']);
+  }
+
+  abrirModalVerConsumo(content: any, movimiento: any) {
+    this.movimientoSeleccionado.set(movimiento);
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      backdrop: 'static',
+      size: 'lg',
+    });
   }
 }
