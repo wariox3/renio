@@ -1,0 +1,127 @@
+<div class="container-fluid">
+  <!-- Tabla de Documentos -->
+  @if (documento(); as documentos) {
+    <div class="row mb-4">
+      <div class="col-12">
+        <h5 class="mb-3">Documentos</h5>
+        <div class="table-responsive">
+          <table class="table table-row-bordered align-middle gy-4 gs-9">
+            <thead class="border-bottom border-gray-200 text-gray-600 fw-bold bg-light bg-opacity-75">
+              <tr class="fw-bold text-gray-800">
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Contrato</th>
+                <th>Número</th>
+                <th class="text-end">Salario</th>
+                <th class="text-end">IBC</th>
+                <th class="text-end">IBP</th>
+                <th class="text-end">Devengado</th>
+                <th class="text-end">Deducción</th>
+                <th class="text-end">Neto</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (doc of documentos; track doc.id) {
+                <tr>
+                  <td>{{ doc.id }}</td>
+                  <td>{{ doc.documento_tipo__nombre }}</td>
+                  <td>{{ doc.fecha_desde | date: "dd/MM/yyyy" }}</td>
+                  <td>{{ doc.fecha_hasta | date: "dd/MM/yyyy" }}</td>
+                  <td>{{ doc.contacto_id }}</td>
+                  <td>{{ doc.numero }}</td>
+                  <td class="text-end">{{ doc.salario | number }}</td>
+                  <td class="text-end">{{ doc.base_cotizacion | number }}</td>
+                  <td class="text-end">{{ doc.base_prestacion | number }}</td>
+                  <td class="text-end">{{ doc.devengado | number }}</td>
+                  <td class="text-end">{{ doc.deduccion | number }}</td>
+                  <td class="text-end fw-bold">{{ doc.total | number }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="9" class="text-center text-muted">
+                    No hay documentos registrados
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Tabla de Detalles del Documento -->
+  @if (documentoDetalles(); as detalles) {
+    <div class="row">
+      <div class="col-12">
+        <h5 class="mb-3">Detalles del documento</h5>
+        <div class="table-responsive">
+          <table class="table table-row-bordered align-middle gy-4 gs-9">
+            <thead class="border-bottom border-gray-200 text-gray-600 fw-bold bg-light bg-opacity-75">
+              <tr class="fw-bold text-gray-800">
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Número</th>
+                <th>Desde</th>
+                <th>Hasta</th>
+                <th>Concepto ID</th>
+                <th>Concepto</th>
+                <th class="text-center">Detalle</th>
+                <th class="text-center">%</th>
+                <th class="text-center">H</th>
+                <th class="text-center">D</th>
+                <th class="text-end">Vr hora</th>
+                <th class="text-end">Devengado</th>
+                <th class="text-end">Deduccion</th>
+                <th class="text-end">IBP</th>
+                <th class="text-end">IBC</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (detalle of detalles; track detalle.id) {
+                <tr>
+                  <td>{{ detalle.id }}</td>
+                  <td>{{ detalle.documento__documento_tipo__nombre }}</td>
+                  <td class="text-center">{{ detalle.documento__numero }}</td>
+                  <td class="text-center">{{ detalle.documento__fecha_desde | date: "dd/MM/yyyy" }}</td>
+                  <td class="text-center">{{ detalle.documento__fecha_hasta | date: "dd/MM/yyyy" }}</td>
+                  <td class="text-center">{{ detalle.concepto }}</td>
+                  <td class="text-center">{{ detalle.concepto__nombre }}</td>
+                  <td class="text-center">{{ detalle.detalle }}</td>
+                  <td class="text-center">{{ detalle.porcentaje }}</td>
+                  <td class="text-center">{{ detalle.cantidad | number : '1.2-2' }}</td>
+                  <td class="text-center">{{ detalle.dias }}</td>
+                  <td class="text-center">{{ detalle.hora | number : '1.2-2' }}</td>
+                  <td class="text-center">{{ detalle.devengado | number }}</td>
+                  <td class="text-center">{{ detalle.deduccion | number }}</td>
+                  <td class="text-end">{{ detalle.base_prestacion | number }}</td>
+                  <td class="text-end">{{ detalle.base_cotizacion | number }}</td>
+                </tr>
+              } @empty {
+                <tr>
+                  <td colspan="8" class="text-center text-muted">
+                    No hay detalles registrados para este documento
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Estado de carga -->
+  @if (!documento().length && !documentoDetalles().length) {
+    <div class="row">
+      <div class="col-12 text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p class="mt-2">Cargando información...</p>
+      </div>
+    </div>
+  }
+</div>
