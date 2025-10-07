@@ -60,7 +60,10 @@ export class BuscarContratoComponent
   };
   @Input() requerido: boolean = false;
   @Input() formularioError: any = false;
+  @Input() mostrarSoloActivos: boolean = false;
+  @Input() mostrarToggleFiltro: boolean = true; // Permitir ocultar el toggle si no se necesita
   @Output() emitirContrato: EventEmitter<RegistroAutocompletarHumContrato> = new EventEmitter();
+  @Output() emitirCambioFiltro: EventEmitter<boolean> = new EventEmitter();
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly _generalService = inject(GeneralService);
@@ -123,12 +126,23 @@ export class BuscarContratoComponent
 
   consultarContratos(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
+    
+    let parametros: ParametrosApi = {
+      [propiedad]: valor,
+    };
+    
+    // Agregar filtro de contratos activos si está habilitado
+    if (!this.mostrarSoloActivos) {
+      parametros = {
+        ...parametros,
+        estado_terminado: 'False'
+      };
+    }
+    
     this._generalService
       .consultaApi<RegistroAutocompletarHumContrato[]>(
         'humano/contrato/seleccionar/',
-        {
-          [propiedad]: valor,
-        },
+        parametros,
       )
       .pipe(
         tap((respuesta) => {
@@ -157,6 +171,14 @@ export class BuscarContratoComponent
       parametros = {
         ...parametros,
         contacto__numero_identificacion__icontains: `${Number(valor)}`,
+      };
+    }
+
+    // Agregar filtro de contratos activos si está habilitado
+    if (!this.mostrarSoloActivos) {
+      parametros = {
+        ...parametros,
+        estado_terminado: 'False'
       };
     }
 
@@ -201,5 +223,18 @@ export class BuscarContratoComponent
     this.formularioContrato.get('identificacion')?.setValue('');
     this.formularioContrato.get('contrato_nombre')?.setValue('');
     this.formularioContrato.get('contrato')?.setValue('');
+  }
+
+  cambiarFiltroActivos(soloActivos: boolean) {
+    this.mostrarSoloActivos = soloActivos;
+    this.emitirCambioFiltro.emit(soloActivos);
+    
+    // Recargar resultados con el nuevo filtro
+    const valorActual = this.formularioContrato.get('contrato_nombre')?.value || '';
+    if (valorActual) {
+      this.busquedaContrato.next(valorActual);
+    } else {
+      this.consultarContratos('', 'contacto__nombre_corto__icontains');
+    }
   }
 }
