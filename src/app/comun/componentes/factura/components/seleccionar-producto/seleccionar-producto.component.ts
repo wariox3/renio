@@ -30,6 +30,9 @@ import {
 import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
+// Tipo para el modo de búsqueda
+type ModoBusqueda = 'nombre' | 'codigo';
+
 @Component({
   selector: 'app-seleccionar-producto',
   standalone: true,
@@ -48,7 +51,11 @@ export class SeleccionarProductoComponent
   implements AfterViewInit, OnChanges
 {
   itemSeleccionado: ItemSeleccionar | null = null;
-  arrItemsLista: ItemSeleccionar[];
+  arrItemsLista: ItemSeleccionar[] = [];
+  
+  // Nueva propiedad para el modo de búsqueda
+  modoBusqueda: ModoBusqueda = 'nombre';
+  
   @Input() itemNombre: string = '';
   @Input() estadoAprobado: boolean = false;
   @Input() campoInvalido: any = false;
@@ -61,12 +68,27 @@ export class SeleccionarProductoComponent
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
   @Output() emitirItemSeleccionado: EventEmitter<DocumentoDetalleFactura> =
     new EventEmitter();
+  
   @ViewChild('inputItem', { read: ElementRef })
   inputItem: ElementRef<HTMLInputElement>;
   @ViewChild(NgbDropdown) dropdown: NgbDropdown;
   @ViewChild('dialogTemplate') customTemplate!: TemplateRef<any>;
 
   private readonly _generalService = inject(GeneralService);
+
+  readonly configBusqueda = {
+    nombre: {
+      icono: '',
+      texto: 'Nombre',
+      placeholder: 'Buscar por nombre...'
+    },
+    codigo: {
+      icono: '',
+      texto: 'Código',
+      placeholder: 'Buscar por código...'
+    }
+  };
+
 
   constructor(
     private httpService: HttpService,
@@ -91,6 +113,52 @@ export class SeleccionarProductoComponent
     if (this.inputItem.nativeElement.value === '') {
       this.emitirLineaVacia.emit(true);
     }
+  }
+
+  // Método para cambiar el modo de búsqueda
+  cambiarModoBusqueda(): void {
+    this.modoBusqueda = this.modoBusqueda === 'nombre' ? 'codigo' : 'nombre';
+    
+    // Enfocar el input después de cambiar el modo
+    setTimeout(() => {
+      this.inputItem.nativeElement.focus();
+    }, 0);
+    
+    // Si hay texto en el input, realizar búsqueda automáticamente al cambiar modo
+    if (this.inputItem.nativeElement.value) {
+      this.realizarBusqueda(this.inputItem.nativeElement.value);
+    }
+    
+    this.changeDetectorRef.detectChanges();
+  }
+
+  // Método unificado para realizar búsquedas
+  realizarBusqueda(valor: string): void {
+    const parametros: any = {
+      inactivo: 'False'
+    };
+
+    // Determinar el parámetro de búsqueda según el modo
+    if (this.modoBusqueda === 'nombre') {
+      parametros.nombre__icontains = valor;
+    } else {
+      parametros.codigo__icontains = valor;
+    }
+
+    this._generalService
+      .consultaApi<ItemSeleccionar[]>('general/item/seleccionar/', parametros)
+      .subscribe((respuesta) => {
+        this.arrItemsLista = respuesta;
+        this.changeDetectorRef.detectChanges();
+      });
+  }
+
+  consultarItems(event: any) {
+    this.realizarBusqueda(event?.target.value);
+  }
+
+  aplicarFiltrosItems(event: any) {
+    this.realizarBusqueda(event?.target.value);
   }
 
   agregarItem(item: ItemSeleccionar) {
@@ -133,36 +201,6 @@ export class SeleccionarProductoComponent
       .subscribe((respuesta) => {
         this.emitirItemSeleccionado.emit(respuesta.item);
       });
-  }
-
-  consultarItems(event: any) {
-    this._generalService
-      .consultaApi<ItemSeleccionar[]>('general/item/seleccionar/', {
-        nombre__icontains: `${event?.target.value}`,
-        inactivo: 'False',
-      })
-      .subscribe((respuesta) => {
-        this.arrItemsLista = respuesta;
-        this.changeDetectorRef.detectChanges();
-      });
-  }
-
-  aplicarFiltrosItems(event: any) {
-    this._generalService
-      .consultaApi<ItemSeleccionar[]>('general/item/seleccionar/', 
-        {
-          nombre__icontains: `${event?.target.value}`,
-          inactivo: 'False',
-        }
-      )
-      .pipe(
-        tap((respuesta) => {
-          this.arrItemsLista = respuesta;
-          this.inputItem.nativeElement.focus();
-          this.changeDetectorRef.detectChanges();
-        }),
-      )
-      .subscribe();
   }
 
   onDropdownClose() {

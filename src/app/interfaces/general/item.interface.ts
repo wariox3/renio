@@ -22,5 +22,6 @@ export interface Item {
 
 export interface ItemSeleccionar {
   id: number;
+  codigo: string;
   nombre: string;
 }
