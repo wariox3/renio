@@ -33,6 +33,16 @@ table#tableDetalles {
   .disabled-cursor {
     cursor: not-allowed;
   }
+
+  // Estilos para manejar texto largo en celdas
+  .item-nombre-cell {
+    max-width: 300px;
+    word-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
+    white-space: normal; // Permite salto de línea
+    line-height: 1.4; // Mejora la legibilidad entre líneas
+  }
 }
 
 
