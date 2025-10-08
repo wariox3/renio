@@ -31,6 +31,16 @@ import {
   tap,
 } from 'rxjs';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { BuscarAvanzadoComponent } from '../buscar-avanzado/buscar-avanzado.component';
+import {
+  CONTRATO_FILTERS,
+  CONTRATO_FILTRO_PERMANENTE,
+  CONTRATO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/humano/domain/mapeo/contrato.mapeo';
+import {
+  FiltroSwitchConfig,
+  FiltroSwitchEvent,
+} from '@comun/interfaces/filtro-switch.interface';
 
 @Component({
   selector: 'app-buscar-contrato',
@@ -41,6 +51,7 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
     ReactiveFormsModule,
     NgbDropdownModule,
     TranslateModule,
+    BuscarAvanzadoComponent,
   ],
   templateUrl: './buscar-contrato.component.html',
   styleUrl: './buscar-contrato.component.scss',
@@ -49,10 +60,6 @@ export class BuscarContratoComponent
   extends General
   implements OnInit, OnChanges
 {
-  formularioContrato: FormGroup;
-  arrContratos: RegistroAutocompletarHumContrato[] = [];
-  public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
-  public busquedaContrato = new Subject<string>();
   @Input() informacionContrato = {
     identificacion: '',
     contrato: '',
@@ -62,8 +69,18 @@ export class BuscarContratoComponent
   @Input() formularioError: any = false;
   @Input() mostrarSoloActivos: boolean = false;
   @Input() mostrarToggleFiltro: boolean = true; // Permitir ocultar el toggle si no se necesita
-  @Output() emitirContrato: EventEmitter<RegistroAutocompletarHumContrato> = new EventEmitter();
+  @Output() emitirContrato: EventEmitter<RegistroAutocompletarHumContrato> =
+    new EventEmitter();
   @Output() emitirCambioFiltro: EventEmitter<boolean> = new EventEmitter();
+
+  public formularioContrato: FormGroup;
+  public arrContratos: RegistroAutocompletarHumContrato[] = [];
+  public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
+  public busquedaContrato = new Subject<string>();
+  public campoListaContrato = CONTRATO_LISTA_BUSCAR_AVANZADO;
+  public filtrosVerMas = CONTRATO_FILTERS;
+  public filtrosPermanentes = CONTRATO_FILTRO_PERMANENTE;
+  public switchesConfigContrato: FiltroSwitchConfig[] = [];
 
   private readonly formBuilder = inject(FormBuilder);
   private readonly _generalService = inject(GeneralService);
@@ -75,6 +92,7 @@ export class BuscarContratoComponent
 
   ngOnInit(): void {
     this.iniciarFormulario();
+    this._configurarSwitches();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -88,6 +106,9 @@ export class BuscarContratoComponent
         this.formularioContrato.markAllAsTouched();
         this.changeDetectorRef.detectChanges();
       }
+    }
+    if (changes.mostrarSoloActivos || changes.mostrarToggleFiltro) {
+      this._configurarSwitches();
     }
   }
 
@@ -126,19 +147,19 @@ export class BuscarContratoComponent
 
   consultarContratos(valor: string, propiedad: string) {
     this.cargandoEmpleados$.next(true);
-    
+
     let parametros: ParametrosApi = {
       [propiedad]: valor,
     };
-    
+
     // Agregar filtro de contratos activos si está habilitado
     if (!this.mostrarSoloActivos) {
       parametros = {
         ...parametros,
-        estado_terminado: 'False'
+        estado_terminado: 'False',
       };
     }
-    
+
     this._generalService
       .consultaApi<RegistroAutocompletarHumContrato[]>(
         'humano/contrato/seleccionar/',
@@ -178,7 +199,7 @@ export class BuscarContratoComponent
     if (!this.mostrarSoloActivos) {
       parametros = {
         ...parametros,
-        estado_terminado: 'False'
+        estado_terminado: 'False',
       };
     }
 
@@ -195,7 +216,10 @@ export class BuscarContratoComponent
       );
   }
 
-  modificarCampoFormulario(campo: string, dato: RegistroAutocompletarHumContrato) {
+  modificarCampoFormulario(
+    campo: string,
+    dato: RegistroAutocompletarHumContrato,
+  ) {
     this.formularioContrato?.markAsDirty();
     this.formularioContrato?.markAsTouched();
     if (campo === 'contrato') {
@@ -228,13 +252,53 @@ export class BuscarContratoComponent
   cambiarFiltroActivos(soloActivos: boolean) {
     this.mostrarSoloActivos = soloActivos;
     this.emitirCambioFiltro.emit(soloActivos);
-    
+
     // Recargar resultados con el nuevo filtro
-    const valorActual = this.formularioContrato.get('contrato_nombre')?.value || '';
+    const valorActual =
+      this.formularioContrato.get('contrato_nombre')?.value || '';
     if (valorActual) {
       this.busquedaContrato.next(valorActual);
     } else {
       this.consultarContratos('', 'contacto__nombre_corto__icontains');
+    }
+  }
+
+  actualizarContrato(dato: any) {
+    this.formularioContrato.get('contrato')?.setValue(dato.id);
+    this.formularioContrato
+      .get('contrato_nombre')
+      ?.setValue(dato.contacto_nombre_corto);
+    this.formularioContrato
+      .get('identificacion')
+      ?.setValue(dato.contacto_numero_identificacion);
+    this.emitirContrato.emit({
+      id: dato.id,
+      contacto_id: dato.contacto_id,
+      contacto__numero_identificacion: dato.contacto_numero_identificacion,
+      contacto__nombre_corto: dato.contacto_nombre_corto,
+    });
+  }
+
+  private _configurarSwitches() {
+    if (this.mostrarToggleFiltro) {
+      this.switchesConfigContrato = [
+        {
+          id: 'contratos-activos',
+          label: 'Ver todos',
+          checked: this.mostrarSoloActivos,
+          parametroApi: 'estado_terminado',
+          valorTrue: undefined, // No enviar parámetro cuando se muestran todos
+          valorFalse: 'False', // Solo contratos activos
+          tooltip:
+            'Alternar entre mostrar solo contratos activos o todos los contratos',
+        },
+      ];
+    }
+  }
+
+  onSwitchChange(evento: FiltroSwitchEvent) {
+    if (evento.id === 'contratos-activos') {
+      this.cambiarFiltroActivos(evento.checked);
     }
   }
 }
