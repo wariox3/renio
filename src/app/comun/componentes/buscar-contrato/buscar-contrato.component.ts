@@ -153,12 +153,10 @@ export class BuscarContratoComponent
     };
 
     // Agregar filtro de contratos activos si está habilitado
-    if (!this.mostrarSoloActivos) {
-      parametros = {
-        ...parametros,
-        estado_terminado: 'False',
-      };
-    }
+    parametros = {
+      ...parametros,
+      estado_terminado: 'False',
+    };
 
     this._generalService
       .consultaApi<RegistroAutocompletarHumContrato[]>(
@@ -196,12 +194,10 @@ export class BuscarContratoComponent
     }
 
     // Agregar filtro de contratos activos si está habilitado
-    if (!this.mostrarSoloActivos) {
-      parametros = {
-        ...parametros,
-        estado_terminado: 'False',
-      };
-    }
+    parametros = {
+      ...parametros,
+      estado_terminado: 'False',
+    };
 
     return this._generalService
       .consultaApi<
