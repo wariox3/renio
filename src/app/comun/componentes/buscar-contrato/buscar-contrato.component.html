@@ -5,6 +5,22 @@
       translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
       [ngClass]="{ required: requerido }"
     ></label>
+    @if (mostrarToggleFiltro) {
+    <div class="mb-2">
+      <div class="form-check form-switch">
+        <input 
+          class="form-check-input" 
+          type="checkbox" 
+          id="filtroContratosActivos"
+          [checked]="mostrarSoloActivos"
+          (change)="cambiarFiltroActivos($any($event.target).checked)"
+        >
+        <label class="form-check-label fw-semibold" for="filtroContratosActivos">
+          Ver todos
+        </label>
+      </div>
+    </div>
+    }
     <div class="col-md-12">
       <div class="input-group">
         <span class="input-group-text">{{
