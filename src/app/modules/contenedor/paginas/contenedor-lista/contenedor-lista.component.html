@@ -202,20 +202,10 @@
                           <div class="menu-item px-3">
                             <a
                               class="menu-link px-3 cursor-pointer"
-                              [routerLink]="['/contenedor/editar', contenedor.contenedor_id, 'invitaciones']"
-                            >
-                              <i class="bi bi-person-plus me-2 fs-3"></i>
-                              {{
-                                "FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"
-                                  | translate
-                              }}
-                            </a>
-                          </div>
-                          <div class="separator my-2"></div>
-                          <div class="menu-item px-3">
-                            <a
-                              class="menu-link px-3 cursor-pointer"
-                              [routerLink]="['/contenedor/editar', contenedor.contenedor_id]"
+                              [routerLink]="[
+                                '/contenedor/editar',
+                                contenedor.contenedor_id,
+                              ]"
                             >
                               <i class="bi bi-box2 me-2 fs-3"></i>
                               {{
@@ -320,9 +310,12 @@
               </ng-template>
             </tbody>
           </table>
-          
+
           <!-- Paginador component -->
-          <div class="d-flex justify-content-center mt-4" *ngIf="contenedores().length > 0">
+          <div
+            class="d-flex justify-content-center mt-4"
+            *ngIf="contenedores().length > 0"
+          >
             <app-paginador
               (pageChange)="cambiarPaginacion($event)"
               [totalItems]="totalItems"

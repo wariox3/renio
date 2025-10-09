@@ -45,6 +45,7 @@ export class ContenedorEditarComponent extends General implements OnInit {
   informacionContenedor = {
     nombre: '',
     plan_id: 0,
+    fecha: ''
   };
   informacionPlan: any = '';
 
