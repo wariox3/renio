@@ -26,6 +26,7 @@ export interface Contenedor {
   subdominio: string;
   nombre: string;
   imagen: string;
+  plan_usuarios_base?: number;
   usuarios: number;
   usuarios_base: number;
   plan_id: number;

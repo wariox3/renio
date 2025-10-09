@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -13,7 +13,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import {
   ContenedorInvitacionLista,
-  ContenedorLista
+  Contenedor,
 } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 
@@ -36,12 +36,11 @@ import { tap } from 'rxjs';
   ],
 })
 export class ContenedorInvitacionComponent extends General implements OnInit {
-  arrInvitaciones: ContenedorInvitacionLista[] = [];
-  formularioEmpresaInvitacion: FormGroup;   
-  contenedorNombre: string;
-  usuarioCodigo = 0;
-  @Input() contenedorCodigo: number;
-  @Input() contenedor: ContenedorLista;
+  public invitaciones = signal<ContenedorInvitacionLista[]>([]);
+  public formularioEmpresaInvitacion: FormGroup;
+  public usuarioCodigo = 0;
+  public contenedorId: number = 0;
+  public contenedor = signal<Contenedor | undefined>(undefined);
 
   constructor(
     private formBuilder: FormBuilder,
@@ -52,17 +51,24 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    this.contenedorNombre =
-      this.activatedRoute.snapshot.paramMap.get('contenedorNombre')!;
-    this.consultarLista();
+    this.activatedRoute.parent?.params.subscribe(params => {
+      this.contenedorId = +params['contenedorId'];
+      this.constultarDetallesContenedor();
+      this.consultarListaInvitaciones();
+    });
   }
 
-  consultarLista() {
+  constultarDetallesContenedor() {
+    this.contenedorService.detalle(this.contenedorId).subscribe((respuesta) => {
+      this.contenedor.set(respuesta);
+    });
+  }
+
+  consultarListaInvitaciones() {
     this.contenedorService
-      .listaInvitaciones(this.contenedorCodigo)
+      .listaInvitaciones(this.contenedorId)
       .subscribe((respuesta) => {
-        this.arrInvitaciones = respuesta.results;
-        this.changeDetectorRef.detectChanges();
+        this.invitaciones.set(respuesta.results);
       });
   }
 
@@ -94,7 +100,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
       this.contenedorService
         .enviarInvitacion({
           aplicacion: 'reddoc',
-          contenedor_id: this.contenedorCodigo,
+          contenedor_id: this.contenedorId,
           invitado: this.formFields.nombre.value,
           usuario_id: this.usuarioCodigo,
         })
@@ -102,7 +108,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
           this.alertaService.mensajaExitoso(
             `Se ha enviado un correo de invitación.`,
           );
-          this.consultarLista();
+          this.consultarListaInvitaciones();
           this.formularioEmpresaInvitacion.reset();
         });
     } else {
@@ -128,7 +134,7 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
                     'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOELIMINACION',
                   ),
                 );
-                this.consultarLista();
+                this.consultarListaInvitaciones();
               }),
             )
             .subscribe();
@@ -137,14 +143,18 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   }
 
   contenedorAlcanzoMaxUsuarios() {
-    const isAvailable = this.contenedor.contenedor__usuarios >= this.contenedor.contenedor__plan__usuarios_base; 
+    const contenedorData = this.contenedor();
+    if (!contenedorData) return false;
     
-    if(isAvailable) {
-      this.formularioEmpresaInvitacion.get('nombre')?.disable()
+    const usuariosBase = contenedorData.plan_usuarios_base || contenedorData.usuarios_base || 0;
+    const isAvailable = contenedorData.usuarios >= usuariosBase;
+
+    if (isAvailable) {
+      this.formularioEmpresaInvitacion.get('nombre')?.disable();
     } else {
-      this.formularioEmpresaInvitacion.get('nombre')?.enable()
+      this.formularioEmpresaInvitacion.get('nombre')?.enable();
     }
-    
-    return isAvailable
+
+    return isAvailable;
   }
 }

@@ -6,7 +6,6 @@
   <app-card>
     <section card-titulo>
       {{ "FORMULARIOS.TITULOS.CONTENEDOR.NUEVAINVITACION" | translate }}
-      <span class="mx-1"> {{ contenedorNombre }} </span>
     </section>
     <section card-body>
       <div class="row mb-5">
@@ -110,7 +109,7 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let invitacion of arrInvitaciones; let i = index"
+            *ngFor="let invitacion of invitaciones(); let i = index"
             appAnimationFadeinUp
             [animacionDelay]="i + 1"
           >
