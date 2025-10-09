@@ -1,0 +1,139 @@
+// Estilos mejorados para el componente de invitación
+
+// Animaciones suaves
+
+// Mejoras en el input group
+.input-group {
+  .input-group-text {
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus + .input-group-text,
+  .form-control:focus ~ .input-group-text {
+    border-color: var(--bs-primary);
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+  }
+}
+
+// Estilos para la tabla de usuarios
+.table {
+  tbody tr {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background-color: rgba(var(--bs-primary-rgb), 0.05);
+      transform: translateX(5px);
+    }
+  }
+}
+
+// Mejoras en los badges
+.badge {
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  
+  &.badge-light-success {
+    background-color: rgba(var(--bs-success-rgb), 0.1);
+    color: var(--bs-success);
+    border: 1px solid rgba(var(--bs-success-rgb), 0.2);
+  }
+  
+  &.badge-light-primary {
+    background-color: rgba(var(--bs-primary-rgb), 0.1);
+    color: var(--bs-primary);
+    border: 1px solid rgba(var(--bs-primary-rgb), 0.2);
+  }
+  
+  &.badge-light-info {
+    background-color: rgba(var(--bs-info-rgb), 0.1);
+    color: var(--bs-info);
+    border: 1px solid rgba(var(--bs-info-rgb), 0.2);
+  }
+  
+  &.badge-light-warning {
+    background-color: rgba(var(--bs-warning-rgb), 0.1);
+    color: var(--bs-warning);
+    border: 1px solid rgba(var(--bs-warning-rgb), 0.2);
+  }
+}
+
+// Estilos para los símbolos
+.symbol {
+  .symbol-label {
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+// Mejoras en los botones
+.btn {
+  transition: all 0.3s ease;
+  
+  &.btn-light-danger {
+    background-color: rgba(var(--bs-danger-rgb), 0.1);
+    border-color: rgba(var(--bs-danger-rgb), 0.2);
+    color: var(--bs-danger);
+    
+    &:hover {
+      background-color: var(--bs-danger);
+      border-color: var(--bs-danger);
+      color: white;
+      transform: scale(1.05);
+    }
+  }
+}
+
+// Estilos para el estado vacío
+.text-center {
+  .symbol {
+    animation: pulse 2s infinite;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Mejoras en los headers de las cards
+.card-header {
+  &.bg-light-primary {
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.1), rgba(var(--bs-primary-rgb), 0.05));
+    border-bottom: 1px solid rgba(var(--bs-primary-rgb), 0.1);
+  }
+  
+  &.bg-light-info {
+    background: linear-gradient(135deg, rgba(var(--bs-info-rgb), 0.1), rgba(var(--bs-info-rgb), 0.05));
+    border-bottom: 1px solid rgba(var(--bs-info-rgb), 0.1);
+  }
+}
+
+// Responsive improvements
+@media (max-width: 768px) {
+  .card-header {
+    .d-flex {
+      flex-direction: column;
+      align-items: flex-start !important;
+      
+      .badge {
+        margin-top: 0.5rem;
+      }
+    }
+  }
+  
+  .table-responsive {
+    .table {
+      font-size: 0.875rem;
+    }
+  }
+}

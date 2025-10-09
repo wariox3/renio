@@ -24,6 +24,7 @@ import { tap } from 'rxjs';
 @Component({
   selector: 'app-contenedor-invitacion',
   templateUrl: './contenedor-invitacion.component.html',
+  styleUrl: './contenedor-invitacion.component.scss',
   standalone: true,
   imports: [
     RouterModule,
