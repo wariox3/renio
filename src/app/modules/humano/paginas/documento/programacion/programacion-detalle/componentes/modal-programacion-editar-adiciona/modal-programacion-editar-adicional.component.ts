@@ -35,18 +35,10 @@ import {
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  BehaviorSubject,
-  debounceTime,
-  distinctUntilChanged,
-  finalize,
-  Subject,
-  switchMap,
-  tap,
-} from 'rxjs';
-import {
   ParametrosApi,
   RespuestaApi,
 } from 'src/app/core/interfaces/api.interface';
+import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
 
 @Component({
   selector: 'app-modal-programacion-editar-adicional',
@@ -58,6 +50,7 @@ import {
     NgbDropdownModule,
     CommonModule,
     NgSelectModule,
+    BuscarContratoComponent,
   ],
   templateUrl: './modal-programacion-editar-adicional.component.html',
   styleUrl: './modal-programacion-editar-adicional.component.scss',
@@ -67,13 +60,10 @@ export class ModalProgramacionEditarAdicionalComponent {
   arrConceptosAdicional = signal<RegistroAutocompletarHumConceptoAdicional[]>(
     [],
   );
-  arrContratos: RegistroAutocompletarHumContrato[] = [];
   registroAdicionalSeleccionado: number;
 
   formularioAdicionalProgramacion: FormGroup;
   formularioEditarDetalleProgramacion: FormGroup;
-  public busquedaContrato = new Subject<string>();
-  public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   arrParametrosConsultaAdicionalEditar: ParametrosApi = {};
 
   @Input() programacionId: number;
@@ -89,9 +79,7 @@ export class ModalProgramacionEditarAdicionalComponent {
   private _adicionalService = inject(AdicionalService);
   private _alertaService = inject(AlertaService);
 
-  constructor() {
-    this._inicializarBusqueda();
-  }
+  constructor() {}
 
   abrirModalNuevo() {
     this._generalService
@@ -146,87 +134,14 @@ export class ModalProgramacionEditarAdicionalComponent {
     });
   }
 
-  private _inicializarBusqueda() {
-    this.busquedaContrato
-      .pipe(
-        debounceTime(600),
-        distinctUntilChanged(),
-        switchMap((valor: string) => {
-          return this.consultarContratosPorNombre(valor);
-        }),
-      )
-      .subscribe();
-  }
-
-  onSearch(event: any) {
-    const searchTerm = event.target.value;
-    if (!searchTerm) {
-      this.reiniciarCamposBusqueda();
-    }
-    this.busquedaContrato.next(searchTerm);
-  }
-
-  reiniciarCamposBusqueda() {
-    this.formularioAdicionalProgramacion.get('identificacion')?.setValue('');
-    this.formularioAdicionalProgramacion.get('contrato_nombre')?.setValue('');
-    this.formularioAdicionalProgramacion.get('contrato')?.setValue('');
-  }
-
-  validarCampoContrato() {
-    this.formularioAdicionalProgramacion.get('contrato')?.markAsTouched();
-  }
-
-  consultarContratosPorNombre(valor: string) {
-    let filtros: ParametrosApi = {};
-
-    if (!valor.length) {
-      filtros = {
-        ...filtros,
-        contacto__nombre_corto__icontains: `${valor}`,
-      };
-    } else if (isNaN(Number(valor))) {
-      filtros = {
-        ...filtros,
-        contacto__nombre_corto__icontains: `${valor}`,
-      };
-    } else {
-      filtros = {
-        ...filtros,
-        contacto__numero_identificacion__icontains: `${Number(valor)}`,
-      };
-    }
-
-    return this._generalService
-      .consultaApi<
-        RegistroAutocompletarHumContrato[]
-      >('humano/contrato/seleccionar/', filtros)
-      .pipe(
-        tap((respuesta) => {
-          this.arrContratos = respuesta;
-        }),
-        finalize(() => this.cargandoEmpleados$.next(false)),
-      );
-  }
-
-  consultarContratos(valor: string, propiedad: string) {
-    this.cargandoEmpleados$.next(true);
-    let arrFiltros: ParametrosApi = {
-      [propiedad]: valor,
-      limit: 1000,
-    };
-
-    this._generalService
-      .consultaApi<RegistroAutocompletarHumContrato[]>(
-        'humano/contrato/seleccionar/',
-        arrFiltros,
-      )
-      .pipe(
-        tap((respuesta) => {
-          this.arrContratos = respuesta;
-        }),
-        finalize(() => this.cargandoEmpleados$.next(false)),
-      )
-      .subscribe();
+  onContratoSeleccionado(contrato: RegistroAutocompletarHumContrato) {
+    this.formularioAdicionalProgramacion.get('contrato')?.setValue(contrato.id);
+    this.formularioAdicionalProgramacion
+      .get('contrato_nombre')
+      ?.setValue(contrato.contacto__nombre_corto);
+    this.formularioAdicionalProgramacion
+      .get('identificacion')
+      ?.setValue(contrato.contacto__numero_identificacion);
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -234,16 +149,6 @@ export class ModalProgramacionEditarAdicionalComponent {
     this.formularioAdicionalProgramacion?.markAsTouched();
     if (campo === 'concepto') {
       this.formularioAdicionalProgramacion.get(campo)?.setValue(dato);
-    }
-    if (campo === 'contrato') {
-      const contrato = dato as RegistroAutocompletarHumContrato;
-      this.formularioAdicionalProgramacion.get(campo)?.setValue(contrato.id);
-      this.formularioAdicionalProgramacion
-        .get('contrato_nombre')
-        ?.setValue(contrato.contacto__nombre_corto);
-      this.formularioAdicionalProgramacion
-        .get('identificacion')
-        ?.setValue(contrato.contacto__numero_identificacion);
     }
     if (campo === 'detalle') {
       if (this.formularioAdicionalProgramacion.get(campo)?.value === '') {
