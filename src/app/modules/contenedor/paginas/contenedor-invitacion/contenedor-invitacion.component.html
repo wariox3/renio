@@ -16,7 +16,7 @@
   
   <div class="card-body p-6">
     <form
-      class="form w-100"
+      class="form w-100 pb-9"
       [formGroup]="formularioEmpresaInvitacion"
       (ngSubmit)="formSubmit()"
     >
@@ -90,27 +90,7 @@
         </div>
       }
     </form>
-  </div>
-</div>
-<!-- Sección de usuarios mejorada -->
-<div class="card shadow-sm border-0">
-  <div class="card-header border-0 py-4">
-    <div class="d-flex align-items-center justify-content-between">
-      <div class="d-flex align-items-center">
-        <div class="symbol symbol-40px me-3">
-          <div class="symbol-label bg-info">
-            <i class="bi bi-people text-white fs-4"></i>
-          </div>
-        </div>
-        <div>
-          <h3 class="card-title mb-0 text-gray-800" translate="FORMULARIOS.TITULOS.COMUNES.USUARIOS"></h3>
-          <p class="text-muted mb-0 fs-7">{{ invitaciones().length }} usuario(s) en el contenedor</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="card-body p-0">
+
     @if (invitaciones().length === 0) {
       <!-- Estado vacío -->
       <div class="text-center py-10">
@@ -201,6 +181,7 @@
     }
   </div>
 </div>
+<!-- Sección de usuarios mejorada -->
 <ng-template
   #formError
   let-control="control"
