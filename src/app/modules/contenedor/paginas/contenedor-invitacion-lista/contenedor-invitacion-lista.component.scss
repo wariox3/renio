@@ -1,0 +1,27 @@
+.card-title {
+  color: #1f2937;
+  font-weight: 600;
+}
+
+.alert-info {
+  background-color: #eff6ff;
+  border-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.text-muted {
+  color: #6b7280 !important;
+}
+
+.btn-primary {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+// Estilos para el estado vacío
+.text-center {
+  .bi-people {
+    opacity: 0.5;
+  }
+}

@@ -26,6 +26,7 @@ export interface Contenedor {
   subdominio: string;
   nombre: string;
   imagen: string;
+  plan_usuarios_base?: number;
   usuarios: number;
   usuarios_base: number;
   plan_id: number;
@@ -91,7 +92,7 @@ export interface ContenedorInvitacion {
 export interface ContenedorInvitacionLista {
   id: number;
   usuario: number;
-  usuerio__nombre: string;
+  usuario__nombre: string;
   usuario__username: string;
   contenedor: number;
   rol: string;

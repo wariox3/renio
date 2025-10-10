@@ -16,7 +16,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { Plan } from '@modulos/contenedor/interfaces/plan.interface';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
@@ -45,15 +45,9 @@ export class ContenedorEditarComponent extends General implements OnInit {
   informacionContenedor = {
     nombre: '',
     plan_id: 0,
+    fecha: ''
   };
-  arrPlanes: Plan[] = [];
   informacionPlan: any = '';
-  planSeleccionado: number = 2;
-
-  public informacionPlanes = this.contenedorService.informacionPlan;
-  public planesAgrupadosPorTipo = signal<Plan[]>([]);
-  public activePlanTab = signal<'F' | 'E'>('F');
-  public disablePlanes = signal<boolean>(false);
 
   @Input() contenedor_id!: number;
   @Output() emitirActualizacion: EventEmitter<any> = new EventEmitter();
@@ -85,32 +79,36 @@ export class ContenedorEditarComponent extends General implements OnInit {
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
     private contenedorService: ContenedorService,
+    protected activatedRoute: ActivatedRoute,
+    protected router: Router,
   ) {
     super();
     this.initForm();
   }
 
   ngOnInit() {
-    this.consultarInformacion();
+    // Obtener el ID del contenedor desde los parámetros de la ruta
+    this.activatedRoute.params.subscribe(params => {
+      this.contenedor_id = +params['contenedorId'];
+      this.consultarInformacion();
+    });
   }
 
   consultarInformacion() {
-    this.contenedorService
-      .consultarInformacion(this.contenedor_id)
-      .subscribe((respuesta) => {
-        this.informacionEmpresa = respuesta;
+    // this.contenedorService
+    //   .consultarInformacion(this.contenedor_id)
+    //   .subscribe((respuesta) => {
+    //     this.informacionEmpresa = respuesta;
 
-        if (respuesta.plan_id >= 9) {
-          this.disablePlanes.set(true);
-        }
 
-        this.changeDetectorRef.detectChanges();
-      });
+    //     this.changeDetectorRef.detectChanges();
+    //   });
 
     this.contenedorService
       .consultarInformacion(this.contenedor_id)
       .pipe(
         tap((respuesta: any) => {
+          this.informacionEmpresa = respuesta;
           this.informacionContenedor = respuesta;
 
           this.formularioContenedor.patchValue({
@@ -118,19 +116,11 @@ export class ContenedorEditarComponent extends General implements OnInit {
             plan_id: respuesta.plan_id,
           });
 
-          this.planSeleccionado = respuesta.plan_id;
           let posicion: keyof typeof this.contenedorService.informacionPlan =
             respuesta.plan_id;
           this.informacionPlan =
             this.contenedorService.informacionPlan[posicion];
-        }),
-        switchMap(() => {
-          return this.contenedorService.listaPlanes();
-        }),
-        tap((respuestaPlanes) => {
-          this.arrPlanes = respuestaPlanes.results;
-          this.cambiarTipoPlanes('F');
-          this.seleccionarTabDependiendoPlan();
+          
           this.changeDetectorRef.detectChanges();
         }),
       )
@@ -139,17 +129,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
     this.changeDetectorRef.detectChanges();
   }
 
-  public seleccionarTabDependiendoPlan() {
-    const contieneId = this.planesAgrupadosPorTipo().some(
-      (plan) => plan.id === this.planSeleccionado,
-    );
-
-    if (contieneId) {
-      this.cambiarTipoPlanes('F');
-    } else {
-      this.cambiarTipoPlanes('E');
-    }
-  }
 
   initForm() {
     this.formularioContenedor = this.formBuilder.group({
@@ -162,8 +141,8 @@ export class ContenedorEditarComponent extends General implements OnInit {
         ]),
       ],
       plan_id: [
-        this.planSeleccionado,
-        Validators.compose([Validators.required]),
+        this.informacionContenedor.plan_id,
+        Validators.required,
       ],
     });
   }
@@ -187,7 +166,10 @@ export class ContenedorEditarComponent extends General implements OnInit {
                   'FORMULARIOS.MENSAJES.COMUNES.PROCESANDOACTUALIZACION',
                 ),
               );
-              return this.emitirActualizacion.emit(true);
+              // Cerrar modal y actualizar información
+              this.modalService.dismissAll();
+              this.consultarInformacion();
+              this.emitirActualizacion.emit(true);
             }
           }),
         )
@@ -197,11 +179,6 @@ export class ContenedorEditarComponent extends General implements OnInit {
     }
   }
 
-  seleccionarPlan(plan: Plan) {
-    this.planSeleccionado = plan.id;
-    this.formularioContenedor.get('plan_id')?.setValue(plan.id);
-    this.changeDetectorRef.detectChanges();
-  }
 
   recuperarBase64(event: any) {
     this.contenedorService
@@ -213,8 +190,9 @@ export class ContenedorEditarComponent extends General implements OnInit {
               'FORMULARIOS.MENSAJES.COMUNES.CARGARIMAGEN',
             ),
           );
-
-          return this.emitirActualizacion.emit(true);
+          // Actualizar información después de cargar imagen
+          this.consultarInformacion();
+          this.emitirActualizacion.emit(true);
         }
       });
   }
@@ -234,6 +212,8 @@ export class ContenedorEditarComponent extends General implements OnInit {
                 }),
               );
             this.changeDetectorRef.detectChanges();
+            // Actualizar información después de eliminar logo
+            this.consultarInformacion();
             this.emitirActualizacion.emit(true);
           }
           return of(null);
@@ -246,10 +226,12 @@ export class ContenedorEditarComponent extends General implements OnInit {
     return `${baseImageUrl}?t=${new Date().getTime()}`;
   }
 
-  public cambiarTipoPlanes(planTipo: 'F' | 'E') {
-    this.activePlanTab.set(planTipo);
-    this.planesAgrupadosPorTipo.update(() => {
-      return this.arrPlanes.filter((plan) => plan.plan_tipo_id === planTipo);
+
+  abrirModalEditar(content: any) {
+    this.modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'lg',
     });
+    this.changeDetectorRef.detectChanges();
   }
 }
