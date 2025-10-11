@@ -618,6 +618,7 @@ export default class ContactoFormularioComponent
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenPrecio[]>(
         'general/precio/seleccionar/',
+        { venta: 'True' }
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenAsesor[]>(
         'general/asesor/seleccionar/',
