@@ -36,7 +36,6 @@ import {
   distinctUntilChanged,
 } from 'rxjs';
 import { ContenedorService } from '../../servicios/contenedor.service';
-import { ContenedorEditarComponent } from '../contenedor-editar/contenedor-editar.component';
 import { ContenedorInvitacionComponent } from '../contenedor-invitacion/contenedor-invitacion.component';
 import { FormsModule } from '@angular/forms';
 import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
@@ -58,7 +57,6 @@ import { Store } from '@ngrx/store';
     NgbDropdownModule,
     SkeletonLoadingComponent,
     ContenedorInvitacionComponent,
-    ContenedorEditarComponent,
     FormsModule,
     PaginadorComponent,
   ],
@@ -342,6 +340,10 @@ export class ContenedorListaComponent extends General implements OnInit {
 
   detalleEmpresa(contenedor_id: Number) {
     this.router.navigate([`/contenedor/detalle/${contenedor_id}`]);
+  }
+
+  navegarAEditar(contenedor_id: number) {
+    this.router.navigate(['/contenedor/editar', contenedor_id]);
   }
 
   limpiarEmpresa() {

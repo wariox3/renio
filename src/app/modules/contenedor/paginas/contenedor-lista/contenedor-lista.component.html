@@ -202,32 +202,24 @@
                           <div class="menu-item px-3">
                             <a
                               class="menu-link px-3 cursor-pointer"
-                              (click)="
-                                abrirModal(
-                                  contentModalInvitados,
-                                  contenedor.contenedor_id,
-                                  contenedor
-                                )
-                              "
+                              [routerLink]="[
+                                '/contenedor/editar',
+                                contenedor.contenedor_id,
+                                'invitaciones',
+                              ]"
                             >
-                              <i class="bi bi-person-plus me-2 fs-3"></i>
-                              {{
-                                "FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"
-                                  | translate
-                              }}
+                            <i class="bi bi-people me-2 fs-3"></i>
+                              Invitar
                             </a>
                           </div>
                           <div class="separator my-2"></div>
                           <div class="menu-item px-3">
                             <a
                               class="menu-link px-3 cursor-pointer"
-                              (click)="
-                                abrirModal(
-                                  ModalEditar,
-                                  contenedor.contenedor_id,
-                                  contenedor
-                                )
-                              "
+                              [routerLink]="[
+                                '/contenedor/editar',
+                                contenedor.contenedor_id,
+                              ]"
                             >
                               <i class="bi bi-box2 me-2 fs-3"></i>
                               {{
@@ -332,9 +324,12 @@
               </ng-template>
             </tbody>
           </table>
-          
+
           <!-- Paginador component -->
-          <div class="d-flex justify-content-center mt-4" *ngIf="contenedores().length > 0">
+          <div
+            class="d-flex justify-content-center mt-4"
+            *ngIf="contenedores().length > 0"
+          >
             <app-paginador
               (pageChange)="cambiarPaginacion($event)"
               [totalItems]="totalItems"
@@ -359,39 +354,5 @@
 }
 
 <!--end::Alert-->
-<ng-template #contentModalInvitados let-modal>
-  <div class="modal-header">
-    <h3 translate="FORMULARIOS.BOTONES.CONTENEDOR.INVITACION"></h3>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
-  </div>
-  <div class="modal-body">
-    <app-contenedor-invitacion
-      [contenedorCodigo]="contenedorId"
-      [contenedor]="contenedor"
-    ></app-contenedor-invitacion>
-  </div>
-</ng-template>
 
 <!--end::Alert-->
-<ng-template #ModalEditar let-modal>
-  <div class="modal-header">
-    <h3 translate="FORMULARIOS.TITULOS.COMUNES.MENU.CONTENEDOR"></h3>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
-  </div>
-  <div class="modal-body">
-    <app-contenedor-editar
-      [contenedor_id]="contenedorId"
-      (emitirActualizacion)="consultarLista()"
-    ></app-contenedor-editar>
-  </div>
-</ng-template>

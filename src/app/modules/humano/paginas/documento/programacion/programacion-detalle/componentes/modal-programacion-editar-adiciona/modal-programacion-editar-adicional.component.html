@@ -12,68 +12,19 @@
   <div class="modal-body">
     <form [formGroup]="formularioAdicionalProgramacion">
       <div class="row mb-5">
-        <label
-          class="form-label required"
-          translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
-        ></label>
         <div class="col-md-12">
-          <div class="input-group">
-            <span class="input-group-text">{{
-              formularioAdicionalProgramacion.get("contrato")?.value || "ID"
-            }}</span>
-            <span class="input-group-text">{{
-              formularioAdicionalProgramacion.get("identificacion")?.value ||
-                "Identificación"
-            }}</span>
-            <div class="dropdown" ngbDropdown #NombreDropdown="ngbDropdown">
-              <input
-                formControlName="contrato_nombre"
-                (input)="onSearch($event)"
-                class="form-control dropdown-busqueda"
-                ngbDropdownAnchor
-                (blur)="validarCampoContrato()"
-                (focus)="
-                  consultarContratos('', 'contacto__nombre_corto__icontains');
-                  NombreDropdown.open()
-                "
-                placeholder="Buscar contrato..."
-                type="text"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioAdicionalProgramacion.controls['contrato']
-                      .touched &&
-                    formularioAdicionalProgramacion.controls['contrato']
-                      .invalid,
-                  'is-valid':
-                    formularioAdicionalProgramacion.controls['contrato']
-                      .touched &&
-                    formularioAdicionalProgramacion.controls['contrato'].valid
-                }"
-              />
-              <div
-                ngbDropdownMenu
-                aria-labelledby="dropdownBasic1"
-                class="dropdown-menu"
-              >
-                @if (arrContratos.length > 0) {
-                <ng-container *ngFor="let contrato of arrContratos">
-                  <button
-                    type="button"
-                    ngbDropdownItem
-                    (click)="modificarCampoFormulario('contrato', contrato)"
-                  >
-                    {{ contrato.contacto__numero_identificacion }}
-                    {{ contrato.contacto__nombre_corto }}
-                  </button>
-                </ng-container>
-                } @else { @if (cargandoEmpleados$ | async) {
-                <button type="button" ngbDropdownItem>Cargando...</button>
-                } @else {
-                <button type="button" ngbDropdownItem>No hay resultados</button>
-                } }
-              </div>
-            </div>
-          </div>
+          <app-buscar-contrato
+            [informacionContrato]="{
+              identificacion: formularioAdicionalProgramacion.get('identificacion')?.value || '',
+              contrato: formularioAdicionalProgramacion.get('contrato')?.value || '',
+              contrato_nombre: formularioAdicionalProgramacion.get('contrato_nombre')?.value || ''
+            }"
+            [requerido]="true"
+            [formularioError]="formularioAdicionalProgramacion.get('contrato')?.invalid && formularioAdicionalProgramacion.get('contrato')?.touched"
+            [mostrarSoloActivos]="false"
+            [mostrarToggleFiltro]="true"
+            (emitirContrato)="onContratoSeleccionado($event)"
+          ></app-buscar-contrato>
         </div>
       </div>
       <div class="row mb-5">
@@ -214,68 +165,19 @@
   <div class="modal-body">
     <form [formGroup]="formularioAdicionalProgramacion">
       <div class="row mb-5">
-        <label
-          class="form-label required"
-          translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONTRATO"
-        ></label>
         <div class="col-md-12">
-          <div class="input-group">
-            <span class="input-group-text">{{
-              formularioAdicionalProgramacion.get("contrato")?.value || "ID"
-            }}</span>
-            <span class="input-group-text">{{
-              formularioAdicionalProgramacion.get("identificacion")?.value ||
-                "Identificación"
-            }}</span>
-            <div class="dropdown" ngbDropdown #NombreDropdown="ngbDropdown">
-              <input
-                formControlName="contrato_nombre"
-                (input)="onSearch($event)"
-                class="form-control dropdown-busqueda"
-                ngbDropdownAnchor
-                (blur)="validarCampoContrato()"
-                (focus)="
-                  consultarContratos('', 'contacto__nombre_corto__icontains');
-                  NombreDropdown.open()
-                "
-                placeholder="Buscar contrato..."
-                type="text"
-                [ngClass]="{
-                  'is-invalid':
-                    formularioAdicionalProgramacion.controls['contrato']
-                      .touched &&
-                    formularioAdicionalProgramacion.controls['contrato']
-                      .invalid,
-                  'is-valid':
-                    formularioAdicionalProgramacion.controls['contrato']
-                      .touched &&
-                    formularioAdicionalProgramacion.controls['contrato'].valid
-                }"
-              />
-              <div
-                ngbDropdownMenu
-                aria-labelledby="dropdownBasic1"
-                class="dropdown-menu"
-              >
-                @if (arrContratos.length > 0) {
-                <ng-container *ngFor="let contrato of arrContratos">
-                  <button
-                    type="button"
-                    ngbDropdownItem
-                    (click)="modificarCampoFormulario('contrato', contrato)"
-                  >
-                    {{ contrato.contacto__numero_identificacion }}
-                    {{ contrato.contacto__nombre_corto }}
-                  </button>
-                </ng-container>
-                } @else { @if (cargandoEmpleados$ | async) {
-                <button type="button" ngbDropdownItem>Cargando...</button>
-                } @else {
-                <button type="button" ngbDropdownItem>No hay resultados</button>
-                } }
-              </div>
-            </div>
-          </div>
+          <app-buscar-contrato
+            [informacionContrato]="{
+              identificacion: formularioAdicionalProgramacion.get('identificacion')?.value || '',
+              contrato: formularioAdicionalProgramacion.get('contrato')?.value || '',
+              contrato_nombre: formularioAdicionalProgramacion.get('contrato_nombre')?.value || ''
+            }"
+            [requerido]="true"
+            [formularioError]="formularioAdicionalProgramacion.get('contrato')?.invalid && formularioAdicionalProgramacion.get('contrato')?.touched"
+            [mostrarSoloActivos]="false"
+            [mostrarToggleFiltro]="true"
+            (emitirContrato)="onContratoSeleccionado($event)"
+          ></app-buscar-contrato>
         </div>
       </div>
       <div class="row mb-5">

@@ -1,0 +1,92 @@
+<div class="card mb-5 mb-xl-10 shadow-sm">
+  <!-- <div class="card-header">
+    <h3 class="card-title mb-3">Planes</h3>
+  </div> -->
+  <div class="card-body pt-9 pb-9">
+    <div class="row mb-2">
+      <div class="row container justify-content-center">
+        <div class="tabs">
+          <button
+            type="button"
+            class="tab-button"
+            (click)="cambiarTipoPlanes('F')"
+            [class.active]="activePlanTab() === 'F'"
+          >
+            <i class="bi bi-building me-1"></i>
+            Facturación
+          </button>
+          <button
+            [class.active]="activePlanTab() === 'E'"
+            type="button"
+            class="tab-button"
+            (click)="cambiarTipoPlanes('E')"
+          >
+            <i
+              class="bi bi-database me-1 icon"
+              [class.active]="'erp' === 'erp'"
+            ></i>
+            Planes ERP
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="row mb-10">
+      <div class="container py-5">
+        <div class="row g-4 justify-content-center">
+          <!-- Featured Card -->
+
+          @for (plan of planesAgrupadosPorTipo(); track $index) {
+            <div class="col-lg-3">
+              <div
+                class="card h-100 p-3 pricing-card position-relative overflow-hidden"
+                [class.disabled-card]="disablePlanes()"
+                (click)="!disablePlanes() ? seleccionarPlan(plan) : null"
+                [class.active]="planSeleccionado === plan.id"
+              >
+                <div class="card-body p-5">
+                  <h4 class="fw-bold mb-4 card__title">{{ plan.nombre }}</h4>
+                  <div class="mb-4">
+                    <span class="card__price"
+                      >${{ plan.precio | number: "1.0-0" }}</span
+                    >
+                    <span class="text-muted">/mes</span>
+                  </div>
+                  <ul class="list-unstyled mb-4">
+                    @for (item of informacionPlanes[plan.id]; track $index) {
+                      <li class="mb-3 d-flex align-items-center">
+                        <i class="bi bi-check-lg text-success me-2"></i>
+                        {{ item | translate }}
+                      </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            </div>
+          }
+
+          @if (disablePlanes()) {
+            <section>
+              <div class="alert alert-info p-2" role="alert">
+                <i class="bi bi-exclamation-triangle text-info"></i>
+                Tienes un plan personalizado, comunícate con nuestro equipo de
+                ventas.
+              </div>
+            </section>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="fv-row d-flex justify-content-end">
+      <button
+        translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+        type="button"
+        class="btn btn-primary btn-sm"
+        (click)="formSubmit()"
+        #btnGuardar
+      >
+      </button>
+    </div>
+  </div>
+</div>

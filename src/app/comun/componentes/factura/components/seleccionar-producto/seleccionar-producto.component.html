@@ -1,12 +1,30 @@
 <div>
   <div ngbDropdown #ItemDropdown="ngbDropdown" class="p-0">
-    <div>
+    <div class="input-group input-group-sm">
+      <!-- Selector integrado en el input -->
+      <button
+        type="button"
+        class="input-group-text"
+        (click)="cambiarModoBusqueda()"
+        [title]="'Buscar por ' + configBusqueda[modoBusqueda].texto"
+        [disabled]="estadoAprobado"
+        style="
+          border-top-right-radius: 0;
+          border-bottom-right-radius: 0;
+          min-width: 50px;
+        "
+      >
+        <span class="me-1">{{ configBusqueda[modoBusqueda].icono }}</span>
+        <small class="d-none d-sm-inline">{{ configBusqueda[modoBusqueda].texto }}</small>
+      </button>
+
+      <!-- Input de búsqueda -->
       <input
         #inputItem
         type="text"
         formControlName="impuestos"
         ngbDropdownAnchor
-        class="cursor-pointer form-select form-select-sm w-100"
+        class="form-control border-start-0 cursor-pointer"
         (focus)="consultarItems($event); ItemDropdown.open()"
         (keyup)="aplicarFiltrosItems($event); ItemDropdown.open()"
         (blur)="validarValor()"
@@ -14,43 +32,65 @@
         [readonly]="estadoAprobado"
         [ngClass]="{ 'disabled-cursor': estadoAprobado }"
         [value]="itemNombre"
+        [placeholder]="configBusqueda[modoBusqueda].placeholder"
         [ngClass]="{
           'is-invalid': campoInvalido,
           'is-valid': itemSeleccionado !== null
         }"
+        style="border-top-left-radius: 0; border-bottom-left-radius: 0;"
       />
-      <div
-        ngbDropdownMenu
-        aria-labelledby="dropdownBasic1"
-        class="dropdown-menu dropdown-menu-custom-width"
-      >
-        <ng-container *ngFor="let item of arrItemsLista">
-          <button
-            class="text-wrap"
-            (click)="agregarItem(item)"
-            type="button"
-            ngbDropdownItem
-            [ngClass]="{
-              'text-muted': esItemYaSeleccionado(item.id),
-              'pe-none': esItemYaSeleccionado(item.id)
-            }"
-            [disabled]="esItemYaSeleccionado(item.id)"
-          >
-            {{ item.nombre }}
-          </button>
-        </ng-container>
-        <div class="dropdown-divider"></div>
+    </div>
 
-        <spam
-          class="dropdown-item"
-          (click)="abrirModalNuevoItem(content)"
-          ngbDropdownItem
-          translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-        >
-        </spam>
+    <!-- Dropdown menu -->
+    <div
+      ngbDropdownMenu
+      aria-labelledby="dropdownBasic1"
+      class="dropdown-menu dropdown-menu-custom-width"
+    >
+      <!-- Indicador del modo de búsqueda actual -->
+      <div class="dropdown-header small text-muted d-flex justify-content-between">
+        <span>Búsqueda por: {{ configBusqueda[modoBusqueda].texto }}</span>
+        <span class="badge bg-secondary">{{ arrItemsLista.length || 0 }} resultados</span>
       </div>
+      
+      <ng-container *ngFor="let item of arrItemsLista">
+        <button
+          class="text-wrap dropdown-item"
+          (click)="agregarItem(item)"
+          type="button"
+          ngbDropdownItem
+          [ngClass]="{
+            'text-muted': esItemYaSeleccionado(item.id),
+            'pe-none': esItemYaSeleccionado(item.id)
+          }"
+          [disabled]="esItemYaSeleccionado(item.id)"
+        >
+          <div class="d-flex justify-content-between align-items-start">
+            <div>
+              <strong>{{ item.nombre }}</strong>
+              <div class="small text-muted">Código: {{ [item.codigo] }}</div>
+            </div>
+            <!-- <span *ngIf="esItemYaSeleccionado(item.id)" class="badge bg-warning ms-2">Seleccionado</span> -->
+          </div>
+        </button>
+      </ng-container>
+      
+      <div *ngIf="!arrItemsLista || arrItemsLista.length === 0" class="dropdown-item text-muted text-center">
+        No se encontraron resultados
+      </div>
+      
+      <div class="dropdown-divider"></div>
+
+      <button
+        class="dropdown-item"
+        (click)="abrirModalNuevoItem(content)"
+        ngbDropdownItem
+      >
+        <span translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"></span>
+      </button>
     </div>
   </div>
+  
   <div class="fv-plugins-message-container" *ngIf="campoInvalido">
     <div class="fv-help-block">
       <span role="alert"
@@ -59,6 +99,7 @@
     </div>
   </div>
 </div>
+
 <ng-template #content let-modal>
   <div class="modal-body">
     <app-item-formulario
