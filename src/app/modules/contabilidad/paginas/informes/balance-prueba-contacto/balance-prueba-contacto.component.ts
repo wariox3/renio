@@ -193,6 +193,14 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
     this.formularioFiltros.get('contacto')?.setValue(contacto.id);
     this.contactoNombreCorto.set(contacto.nombre_corto);
   }
+
+
+  limpiarContacto() {
+    this.formularioFiltros.get('contacto')?.setValue(null);
+    this.formularioFiltros.get('nombre_corto')?.setValue('');
+    this.contactoNombreCorto.set('');
+  }
+
 }
 
 interface GenerarBalancePrueba {

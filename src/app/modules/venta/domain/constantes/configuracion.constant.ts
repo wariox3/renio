@@ -483,6 +483,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               detalle: 'venta/administracion/detalle',
             },
             endpoint: 'general/precio',
+            queryParams: {
+              venta: 'True',
+            },
             parametrosHttpConfig: {
               modelo: 'GenPrecio',
               filtros: {

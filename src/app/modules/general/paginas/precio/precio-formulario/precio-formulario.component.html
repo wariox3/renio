@@ -46,54 +46,6 @@
             }"
           ></ng-container>
         </div>
-      </div>
-      <div class="row mb-5">
-        <div class="col-md-6 col-sm-12">
-          <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.PRECIO.TIPO"
-            class="form-label required"
-          ></label>
-          <input
-            formControlName="tipo"
-            class="form-control bg-transparent"
-            type="email"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioPrecio.controls['tipo'].touched &&
-                formularioPrecio.controls['tipo'].invalid,
-              'is-valid':
-                formularioPrecio.controls['tipo'].touched &&
-                formularioPrecio.controls['tipo'].valid
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioPrecio.controls['tipo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '1',
-              control: formularioPrecio.controls['tipo']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioPrecio.controls['tipo']
-            }"
-          ></ng-container>
-        </div>
         <div class="col-md-6 col-sm-12">
           <label
             translate="FORMULARIOS.CAMPOS.GENERAL.PRECIO.FECHAVENCE"
