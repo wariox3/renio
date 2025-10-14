@@ -103,6 +103,7 @@ export class FormularioFacturaService {
         contacto: ['', Validators.required],
         totalCantidad: [0],
         contactoNombre: [''],
+        contactoPrecio: [null],
         numero: [null],
         fecha: [
           fechaVencimientoInicial,
@@ -1110,6 +1111,7 @@ export class FormularioFacturaService {
     this.form.patchValue({
       contacto: documentoFactura.contacto_id,
       contactoNombre: documentoFactura.contacto_nombre_corto,
+      contactoPrecio: documentoFactura.contacto_precio_id,
       fecha: documentoFactura.fecha,
       fecha_vence: documentoFactura.fecha_vence,
       remision: documentoFactura.remision,
