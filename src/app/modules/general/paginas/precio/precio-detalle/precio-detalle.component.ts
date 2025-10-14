@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { Precio } from '@modulos/general/interfaces/precio.interface';
@@ -18,6 +18,7 @@ import {
 } from '@angular/forms';
 import { EncabezadoFormularioNuevoComponent } from "@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component";
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
+import { PrecioDetalle } from '@modulos/general/interfaces/precio';
 
 @Component({
   selector: 'app-precio-detalle',
@@ -44,6 +45,7 @@ export default class PrecioDetalleComponent extends General implements OnInit {
     fecha_vence: undefined,
     nombre: '',
   };
+  precioDetalle = signal<PrecioDetalle[]>([]);
   active: Number = 1;
   formularioPrecio: FormGroup;
 
@@ -56,11 +58,12 @@ export default class PrecioDetalleComponent extends General implements OnInit {
 
   ngOnInit() {
     this.iniciarFormulario();
+    this.consultarPrecioDetalles();
     this.consultardetalle();
   }
   iniciarFormulario() {
     this.formularioPrecio = this.formBuilder.group({
-      detalles: this.formBuilder.array([]),
+      detalles: this.formBuilder.array([])
     });
   }
 
@@ -78,20 +81,19 @@ export default class PrecioDetalleComponent extends General implements OnInit {
   }
 
   enviarFormulario() {
-    this.precioService
-    .guardarPrecioDetalle(this.detalle, this.formularioPrecio.value).subscribe()
+    // const detalles = this.formularioPrecio.value.detalles;
+    // this.precioService
+    // .guardarPrecioDetalle(this.detalle, detalles).subscribe()
   }
 
   agregarProductos() {
     const detalleFormGroup = this.formBuilder.group({
       item: [null],
-      item_nombre: [null],
-      item_precio: [null],
+      nombre: [null],
+      precio: [null],
+      vr_precio: [null],
       id: [null],
     });
-    this.formularioPrecio.markAsDirty();
-    this.formularioPrecio?.markAsTouched();
-
     this.detalles.push(detalleFormGroup);
     this.changeDetectorRef.detectChanges();
   }
@@ -99,16 +101,70 @@ export default class PrecioDetalleComponent extends General implements OnInit {
   agregarItemSeleccionado(item: any, index: number) {
     this.detalles.controls[index].patchValue({
       item: item.id,
-      item_nombre: item.nombre,
-      item_precio: item.precio,
+      nombre: item.nombre,
+      precio: this.precio.id,
+      vr_precio: item.precio,
     });
 
-    this.formularioPrecio.markAsTouched();
-    this.formularioPrecio.markAsDirty();
+    if (this.detalles.controls[index].value.id) {
+      this.actualizarItemLista(index);
+    } else {
+      this.guardarItemLista(this.detalles.controls[index].value);
+    }
     this.changeDetectorRef.detectChanges();
   }
 
   eliminarProducto(index: number, id: number | null) {
-    this.detalles.removeAt(index);
+    if(id){
+      this.eliminarItemLista(id);
+    }else{
+      this.detalles.removeAt(index);
+    }
+  }
+
+  guardarItemLista(item: any) {
+    this.precioService
+    .guardarPrecioDetalle(item).subscribe(
+      (respuesta) => {
+        this.consultarPrecioDetalles()
+        this.changeDetectorRef.detectChanges();
+      }
+    )
+  }
+
+  actualizarItemLista(index: number) {
+    this.precioService.actualizarPrecioDetalle(this.detalles.controls[index].value.id, this.detalles.controls[index].value).subscribe(
+      (respuesta) => {
+       this.alertaService.mensajaExitoso("Actualizado correctamente"); 
+      }
+    )
+  }
+
+  consultarPrecioDetalles() { 
+    this.precioService
+    .consultarPrecioDetalles(this.detalle)
+    .subscribe((respuesta) => {
+      this.precioDetalle.set(respuesta.results);
+      this.detalles.clear();
+      respuesta.results.forEach((detalle: PrecioDetalle) => {
+        this.detalles.push(this.formBuilder.group({
+          item: [detalle.item],
+          nombre: [detalle.item__nombre],
+          precio: [detalle.precio],
+          vr_precio: [detalle.vr_precio],
+          id: [detalle.id],
+        }));
+      });
+      this.changeDetectorRef.detectChanges();
+    });
+  }
+
+  eliminarItemLista(id: number) {
+    this.precioService.eliminarPrecioDetalle(id).subscribe(
+      (respuesta) => {
+        this.consultarPrecioDetalles()
+        this.changeDetectorRef.detectChanges();
+      }
+    )
   }
 }

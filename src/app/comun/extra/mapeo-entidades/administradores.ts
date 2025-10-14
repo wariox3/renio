@@ -417,13 +417,6 @@ export const mapeo: MapeoAdministrador = {
         ordenable: false,
       },
       {
-        nombre: 'TIPO',
-        campoTipo: 'CharField',
-        visibleTabla: true,
-        visibleFiltro: true,
-        ordenable: true,
-      },
-      {
         nombre: 'FECHA_VENCE',
         campoTipo: 'DateField',
         visibleTabla: true,

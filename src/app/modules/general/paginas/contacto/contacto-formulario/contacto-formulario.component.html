@@ -890,12 +890,12 @@
             <option value="">Seleccionar...</option>
             <option
               *ngFor="let precio of arrPrecios"
-              [value]="precio.precio_id"
+              [value]="precio.id"
               [selected]="
-                precio.precio_id === formularioContacto.value.precio_id
+                precio.id === formularioContacto.value.precio_id
               "
             >
-              {{ precio.precio_nombre }}
+              {{ precio.nombre }}
             </option>
           </select>
         </div>
