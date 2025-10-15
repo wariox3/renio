@@ -270,6 +270,7 @@ export class FormularioFacturaService {
         contacto: item.contacto,
         contacto_nombre: item.contacto_nombre,
         documento_detalle_afectado: item.documento_detalle_afectado,
+        detalle: item.detalle,
       });
       this._agregarCampoImpuestoACache(i);
       this._actualizarImpuestoItem(item.impuestos, i);
@@ -401,6 +402,7 @@ export class FormularioFacturaService {
         naturaleza: ['D'],
         almacen: [null],
         almacen_nombre: [''],
+        detalle: [null, [Validators.maxLength(150), cambiarVacioPorNulo.validar]],
       });
 
       detalleFormGroup.get('cuenta')?.setErrors({ required: true });
@@ -463,6 +465,7 @@ export class FormularioFacturaService {
         id: [null],
         tipo_registro: [tipo_registro],
         naturaleza: [null],
+        detalle: [null, [Validators.maxLength(150), cambiarVacioPorNulo.validar]],
       });
 
       detalleFormGroup.get('item')?.setErrors({ required: true });
@@ -1195,6 +1198,7 @@ export class FormularioFacturaService {
         contacto: detalle.contacto_id,
         contacto_nombre: detalle.contacto_nombre_corto,
         documento_detalle_afectado: detalle.documento_detalle_afectado_id,
+        detalle: [detalle.detalle || null, [Validators.maxLength(150), cambiarVacioPorNulo.validar]],
       });
 
       this.detalles.push(documentoDetalleGrupo);

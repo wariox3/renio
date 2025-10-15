@@ -86,6 +86,7 @@ export class FormularioProductosComponent
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() deshabilitar: boolean = false;
   @Input() columnasTablaDatos: any = [];
+  @Input() mostrarCampoDetalle: boolean = false;
   @Input() configuracionDocumento: { endpoint: string; queryParams: { [key: string]: string | number | boolean } } = {
     endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
     queryParams: {
