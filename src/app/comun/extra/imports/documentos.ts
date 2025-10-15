@@ -181,6 +181,16 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/inventario/paginas/documento/salida/salida-formulario/salida-formulario.component'
       ),
   },
+  502: {
+    detalle: async () =>
+      await import(
+        '../../../modules/inventario/paginas/documento/translado/translado-detalle/translado-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/inventario/paginas/documento/translado/translado-formulario/translado-formulario.component'
+      ),
+  },
   601: {
     detalle: async () =>
       await import(

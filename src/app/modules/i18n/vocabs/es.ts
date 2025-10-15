@@ -131,6 +131,7 @@ export const locale = {
         PEDIDOCLIENTE: 'Pedido cliente',
         LIQUIDACION: 'Liquidación',
         REMISION: 'Remisión',
+        TRANSLADO: 'Traslado',
       },
     },
     FORMULARIOS: {
@@ -1669,6 +1670,7 @@ export const locale = {
       701: 'Nomina',
       702: 'Nómina electrónica',
       703: 'Seguridad social',
+      502: 'Traslado',
       HUMPROGRAMACION: 'Programación de nómina',
       INVENTARIOVALORIZADO: 'Inventario valorizado',
       EXISTENCIAALMACEN: 'Existencia almacén',
