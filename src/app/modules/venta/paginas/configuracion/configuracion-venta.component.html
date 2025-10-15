@@ -13,66 +13,141 @@
       #btnGuardar
     ></button>
   </div>
+
   <div class="row mb-5">
     <div class="col-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURASUPERIOR"
-        class="form-label"
-      ></label>
-      <textarea
-        formControlName="informacion_factura_superior"
-        class="form-control bg-transparent"
-        (blur)="modificarCampoFormulario('informacion_factura_superior', null)"
-        [ngClass]="{
-          'is-invalid':
-            formularioEmpresa.controls['informacion_factura_superior']
-              .touched &&
-            formularioEmpresa.controls['informacion_factura_superior'].invalid,
-          'is-valid':
-            formularioEmpresa.controls['informacion_factura_superior']
-              .touched &&
-            formularioEmpresa.controls['informacion_factura_superior'].valid
-        }"
-      ></textarea>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '2000',
-          control: formularioEmpresa.controls['informacion_factura_superior']
-        }"
-      ></ng-container>
-    </div>
-  </div>
-  <div class="row mb-5">
-    <div class="col-12">
-      <label
-        translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
-        class="form-label"
-      ></label>
-      <textarea
-        formControlName="informacion_factura"
-        (blur)="modificarCampoFormulario('informacion_factura', null)"
-        class="form-control bg-transparent"
-        [ngClass]="{
-          'is-invalid':
-            formularioEmpresa.controls['informacion_factura'].touched &&
-            formularioEmpresa.controls['informacion_factura'].invalid,
-          'is-valid':
-            formularioEmpresa.controls['informacion_factura'].touched &&
-            formularioEmpresa.controls['informacion_factura'].valid
-        }"
-      ></textarea>
-      <ng-container
-        [ngTemplateOutlet]="formError"
-        [ngTemplateOutletContext]="{
-          validation: 'maxlength',
-          message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-          cantidadCaracteres: '2000',
-          control: formularioEmpresa.controls['informacion_factura']
-        }"
-      ></ng-container>
+      <ul
+        ngbNav
+        #nav="ngbNav"
+        [(activeId)]="active"
+        class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+      >
+        <li [ngbNavItem]="1" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="{ 'text-primary': active === 1 }"
+            ngbNavLink
+            data-bs-toggle="tab"
+          >
+            Formato
+          </a>
+          <ng-template ngbNavContent>
+            <div class="row mb-5">
+              <div class="col-12">
+                <label
+                  translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURASUPERIOR"
+                  class="form-label"
+                ></label>
+                <textarea
+                  formControlName="informacion_factura_superior"
+                  class="form-control bg-transparent"
+                  (blur)="modificarCampoFormulario('informacion_factura_superior', null)"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioEmpresa.controls['informacion_factura_superior']
+                        .touched &&
+                      formularioEmpresa.controls['informacion_factura_superior'].invalid,
+                    'is-valid':
+                      formularioEmpresa.controls['informacion_factura_superior']
+                        .touched &&
+                      formularioEmpresa.controls['informacion_factura_superior'].valid
+                  }"
+                ></textarea>
+                <ng-container
+                  [ngTemplateOutlet]="formError"
+                  [ngTemplateOutletContext]="{
+                    validation: 'maxlength',
+                    message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                    cantidadCaracteres: '2000',
+                    control: formularioEmpresa.controls['informacion_factura_superior']
+                  }"
+                ></ng-container>
+              </div>
+            </div>
+            <div class="row mb-5">
+              <div class="col-12">
+                <label
+                  translate="FORMULARIOS.CAMPOS.EMPRESA.INFORMACIONFACTURA"
+                  class="form-label"
+                ></label>
+                <textarea
+                  formControlName="informacion_factura"
+                  (blur)="modificarCampoFormulario('informacion_factura', null)"
+                  class="form-control bg-transparent"
+                  [ngClass]="{
+                    'is-invalid':
+                      formularioEmpresa.controls['informacion_factura'].touched &&
+                      formularioEmpresa.controls['informacion_factura'].invalid,
+                    'is-valid':
+                      formularioEmpresa.controls['informacion_factura'].touched &&
+                      formularioEmpresa.controls['informacion_factura'].valid
+                  }"
+                ></textarea>
+                <ng-container
+                  [ngTemplateOutlet]="formError"
+                  [ngTemplateOutletContext]="{
+                    validation: 'maxlength',
+                    message: 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                    cantidadCaracteres: '2000',
+                    control: formularioEmpresa.controls['informacion_factura']
+                  }"
+                ></ng-container>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+        <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
+          <a
+            class="nav-link"
+            [ngClass]="{ 'text-primary': active === 2 }"
+            ngbNavLink
+            data-bs-toggle="tab"
+          >
+            AIU
+          </a>
+          <ng-template ngbNavContent>
+            <div class="row mb-5">
+              <div class="col-md-4">
+                <label class="form-label">Item administración</label>
+                <app-seleccionar-producto
+                  [itemNombre]="formularioEmpresa.get('gen_item_administracion_nombre')?.value || ''"
+                  [estadoAprobado]="false"
+                  [campoInvalido]="false"
+                  [itemActualId]="formularioEmpresa.get('gen_item_administracion')?.value"
+                  (emitirItemSeleccionado)="recibirItemAdministracionSeleccionado($event)"
+                  (emitirLineaVacia)="recibirLineaVaciaAdministracion($event)"
+                  [formularioTipo]="'venta'"
+                ></app-seleccionar-producto>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Item imprevisto</label>
+                <app-seleccionar-producto
+                  [itemNombre]="formularioEmpresa.get('gen_item_imprevisto_nombre')?.value || ''"
+                  [estadoAprobado]="false"
+                  [campoInvalido]="false"
+                  [itemActualId]="formularioEmpresa.get('gen_item_imprevisto')?.value"
+                  (emitirItemSeleccionado)="recibirItemImprevistoSeleccionado($event)"
+                  (emitirLineaVacia)="recibirLineaVaciaImprevisto($event)"
+                  [formularioTipo]="'venta'"
+                ></app-seleccionar-producto>
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Item utilidad</label>
+                <app-seleccionar-producto
+                  [itemNombre]="formularioEmpresa.get('gen_item_utilidad_nombre')?.value || ''"
+                  [estadoAprobado]="false"
+                  [campoInvalido]="false"
+                  [itemActualId]="formularioEmpresa.get('gen_item_utilidad')?.value"
+                  (emitirItemSeleccionado)="recibirItemUtilidadSeleccionado($event)"
+                  (emitirLineaVacia)="recibirLineaVaciaUtilidad($event)"
+                  [formularioTipo]="'venta'"
+                ></app-seleccionar-producto>
+              </div>
+            </div>
+          </ng-template>
+        </li>
+      </ul>
+      <div [ngbNavOutlet]="nav" class="mt-2"></div>
     </div>
   </div>
 </form>
