@@ -83,6 +83,37 @@ export const INVENTARIO_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: 502,
+          nombreModelo: 'TRANSLADO',
+          ajustes: {
+            rutas: {
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
+            },
+            endpoint: 'general/documento',
+            queryParams: {
+              documento_tipo_id: 31,
+              serializador: 'lista',
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
+            },
+            parametrosHttpConfig: {
+              modelo: 'GenDocumento',
+              filtros: {
+                ui: DOCUMENTO_FILTERS,
+              },
+            },
+            ui: {
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
+            },
+          },
+        },
       ],
     },
     {
