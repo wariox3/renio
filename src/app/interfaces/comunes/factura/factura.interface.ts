@@ -145,6 +145,7 @@ export interface DocumentoFacturaRespuesta {
   contacto_id: number;
   contacto_numero_identificacion: string;
   contacto_nombre_corto: string;
+  contacto_precio_id: number;
   descuento: number;
   base_impuesto: number;
   subtotal: number;

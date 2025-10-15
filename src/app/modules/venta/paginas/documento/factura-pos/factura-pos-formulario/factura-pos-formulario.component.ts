@@ -556,6 +556,7 @@ export default class FacturaPosFormularioComponent
           ?.setValue(contacto.nombre_corto);
       }
       this.formularioFactura.get('plazo_pago')?.setValue(contacto.plazo_pago_id);
+      this.formularioFactura.get('contactoPrecio')?.setValue(contacto.precio_id);
 
       if (contacto.plazo_pago__dias > 0) {
         this.plazo_pago_dias = contacto.plazo_pago__dias;

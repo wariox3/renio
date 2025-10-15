@@ -33,7 +33,7 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
 import { CampoLista } from '@interfaces/comunes/componentes/buscar-avanzado/buscar-avanzado.interface';
 import {
   DocumentoFacturaRespuesta,
-  PagoFormulario
+  PagoFormulario,
 } from '@interfaces/comunes/factura/factura.interface';
 import { Contacto } from '@interfaces/general/contacto';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
@@ -55,13 +55,16 @@ import {
   Subject,
   takeUntil,
   tap,
-  throttleTime
+  throttleTime,
 } from 'rxjs';
 import { SeleccionarResolucionComponent } from '../../../../../../comun/componentes/selectores/seleccionar-resolucion/seleccionar-resolucion.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { CuentaBancoSeleccionar } from '@modulos/general/interfaces/cuenta-banco.interface';
-import { ImportarDetallesComponent } from "../../../../../../comun/componentes/importar-detalles/importar-detalles.component";
-import { CONTACTO_FILTRO_PERMANENTE_CLIENTE, CONTACTO_LISTA_BUSCAR_AVANZADO } from '@modulos/general/domain/mapeos/contacto.mapeo';
+import { ImportarDetallesComponent } from '../../../../../../comun/componentes/importar-detalles/importar-detalles.component';
+import {
+  CONTACTO_FILTRO_PERMANENTE_CLIENTE,
+  CONTACTO_LISTA_BUSCAR_AVANZADO,
+} from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import { FACTURA_VENTA_CAMPOS_TABLA } from '@modulos/venta/domain/campos-tabla/factura-venta.campos-tabla';
 
@@ -88,8 +91,8 @@ import { FACTURA_VENTA_CAMPOS_TABLA } from '@modulos/venta/domain/campos-tabla/f
     TituloAccionComponent,
     AlmacenesComponent,
     SeleccionarResolucionComponent,
-    ImportarDetallesComponent
-],
+    ImportarDetallesComponent,
+  ],
 })
 export default class FacturaDetalleComponent
   extends General
@@ -603,7 +606,11 @@ export default class FacturaDetalleComponent
           .get('contactoNombre')
           ?.setValue(contacto.nombre_corto);
       }
-      this.formularioFactura.get('plazo_pago')?.setValue(contacto.plazo_pago_id);
+
+      this.formularioFactura.get('contactoPrecio')?.setValue(contacto.precio_id);
+      this.formularioFactura
+        .get('plazo_pago')
+        ?.setValue(contacto.plazo_pago_id);
 
       if (contacto.plazo_pago__dias > 0) {
         this.plazo_pago_dias = contacto.plazo_pago__dias;

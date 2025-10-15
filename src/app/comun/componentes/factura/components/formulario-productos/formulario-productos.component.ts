@@ -37,6 +37,7 @@ import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabl
 import { AdapterService } from '../../services/adapter.service';
 import { BuscarDocumentosDetallesComponent } from "@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component";
 import { FilterField } from 'src/app/core/interfaces/filtro.interface';
+import { GeneralService } from '@comun/services/general.service';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -64,6 +65,7 @@ export class FormularioProductosComponent
   private _formularioFacturaService = inject(FormularioFacturaService);
   private _facturaService = inject(FacturaService);
   private _unsubscribe$ = new Subject<void>();
+  private _generalService = inject(GeneralService);
   private modalService = inject(NgbModal);
 
   public FACTURA_COMPRAS_CAMPOS_TABLA = FACTURA_COMPRAS_CAMPOS_TABLA;
@@ -79,10 +81,12 @@ export class FormularioProductosComponent
   @Input() mostrarBuscarDocumentos: boolean = false;
   @Input() mostrarImportarDesdeDocumento: boolean = false;
   @Input() cuentasConImpuestos: boolean = false;
+  @Input() habilitarConsultaPrecio: boolean = false
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() deshabilitar: boolean = false;
   @Input() columnasTablaDatos: any = [];
+  @Input() mostrarCampoDetalle: boolean = false;
   @Input() configuracionDocumento: { endpoint: string; queryParams: { [key: string]: string | number | boolean } } = {
     endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
     queryParams: {
@@ -183,6 +187,30 @@ export class FormularioProductosComponent
       console.warn('No se puede seleccionar el mismo item en la misma línea');
       return;
     }
+
+    const contactoPrecio = this.formularioFactura.value.contactoPrecio;
+    
+    if (contactoPrecio && this.habilitarConsultaPrecio) {
+      // Usar switchMap para manejar la operación asíncrona
+      this._consultarPrecioLista(contactoPrecio, item.id)
+        .subscribe((respuesta) => {
+          const itemActualizado = {
+            ...item,
+            precio: respuesta.vr_precio ? respuesta.vr_precio : item.precio
+          };
+          
+          this._procesarItemSeleccionado(itemActualizado, indexFormulario);
+        });
+    } else {
+      // Si no hay contactoPrecio, procesar directamente
+      this._procesarItemSeleccionado(item, indexFormulario);
+    }
+  }
+
+  private _procesarItemSeleccionado(item: DocumentoDetalleFactura, indexFormulario: number) {
+    // Obtener el detalle actual para logging
+    const detalleActual = this.detalles.at(indexFormulario);
+    const itemActualId = detalleActual?.get('item')?.value;
     
     // Log para debugging cuando se cambia de item
     if (itemActualId && itemActualId !== item.id) {
@@ -230,6 +258,11 @@ export class FormularioProductosComponent
       this.recibirItemSeleccionado(item, this.detalles.length - 1);
     });
     this.modalService.dismissAll();
+  }
+
+  private _consultarPrecioLista(precioId: number, itemId: number) {
+    return this._generalService.consultaApi<{ vr_precio: number }>('general/precio_detalle/consultar_precio/', { item_id: itemId, precio_id: precioId })
+    .pipe(takeUntil(this._unsubscribe$))
   }
 
   // cargar vista

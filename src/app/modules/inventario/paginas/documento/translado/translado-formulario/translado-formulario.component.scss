@@ -4,7 +4,10 @@ table#tableDetalles {
   width: 100%;
 
   tr {
+    height: 30px;
+
     th {
+      width: 200px;
       padding: 10px !important;
       text-align: center;
       font-size: 1.05rem;
@@ -44,4 +47,9 @@ table#tableDetalles {
   .disabled-cursor {
     cursor: not-allowed;
   }
+}
+
+#fecha_vence{
+  cursor: not-allowed;
+  user-select: none;
 }
