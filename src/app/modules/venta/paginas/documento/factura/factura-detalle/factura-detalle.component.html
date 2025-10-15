@@ -261,7 +261,7 @@
                             {{ detalle.id }}
                           </span>
                         </td>
-                        <td class="w-50 text-start item-nombre-cell">
+                        <td class="w-25 text-start item-nombre-cell">
                           {{ detalle.item_nombre }}
                         </td>
                         <td class="text-start" style="width: 10rem">
@@ -293,7 +293,7 @@
                         <td class="text-end">
                           {{ detalle.total | number }}
                         </td>
-                        <td class="w-25 text-start item-nombre-cell">{{ detalle.detalle }}</td>
+                        <td class="text-start item-nombre-cell" style="width: 10rem; max-width: 50rem">{{ detalle.detalle }}</td>
                       </tr>
                     </ng-container>
                   </tbody>
