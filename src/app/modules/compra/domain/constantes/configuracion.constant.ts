@@ -1,9 +1,9 @@
-  import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
+import { ModuloConfig } from '@interfaces/menu/configuracion.interface';
 import { CONTACTO_FILTERS } from '@modulos/general/domain/mapeos/contacto.mapeo';
 import { FORMA_PAGO_FILTERS } from '@modulos/general/domain/mapeos/forma-pago.mapeo';
 import { ITEM_FILTERS } from '@modulos/general/domain/mapeos/item.mapeo';
 import { RESOLUCION_FILTERS } from '@modulos/general/domain/mapeos/resolucion.mapeo';
-  import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
+import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
 
 const DocLista = 'compra/documento/lista';
 const DocNuevo = 'compra/documento/nuevo';
@@ -17,6 +17,41 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
       nombreFuncionalidad: 'documento',
       isMenuExpanded: true,
       modelos: [
+        {
+          key: 305,
+          nombreModelo: 'FACTURARECURRENTE',
+          documentacion: {
+            id: 1081,
+          },
+          ajustes: {
+            rutas: {
+              lista: DocLista,
+              nuevo: DocNuevo,
+              editar: DocEditar,
+              detalle: DocDetalle,
+            },
+            endpoint: 'general/documento',
+            queryParams: {
+              serializador: 'lista',
+              documento_tipo_id: 32,
+              ordering: 'estado_aprobado,-fecha,-numero,-id',
+            },
+            parametrosHttpConfig: {
+              modelo: 'GenDocumento',
+              filtros: {
+                ui: DOCUMENTO_FILTERS,
+              },
+            },
+            ui: {
+              verIconoDerecha: true,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+              verBotonEliminar: true,
+              verColumnaSeleccionar: true,
+              verBotonGenerar: true,
+            },
+          },
+        },
         {
           key: 300,
           nombreModelo: 'FACTURACOMPRA',

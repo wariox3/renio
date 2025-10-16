@@ -1273,6 +1273,7 @@ export const locale = {
       302: 'Debit note',
       303: 'Support document',
       304: 'Adjustment note',
+      305: 'Recurring invoice',
       400: 'Expense',
       401: 'Initial balance',
       500: 'Entry',
