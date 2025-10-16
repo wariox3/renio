@@ -151,6 +151,16 @@ export const Componentes: Partial<FormulariosDetalles> = {
         '../../../modules/compra/paginas/documento/nota-ajuste/nota-ajuste-formulario/nota-ajuste-formulario.component'
       ),
   },
+  305: {
+    detalle: async () =>
+      await import(
+        '../../../modules/compra/paginas/documento/factura/factura-recurrente/factura-recurrente-detalle/factura-recurrente-detalle.component'
+      ),
+    formulario: async () =>
+      await import(
+        '../../../modules/compra/paginas/documento/factura/factura-recurrente/factura-recurrente-formulario/factura-recurrente-formulario.component'
+      ),
+  },
   400: {
     detalle: async () =>
       await import(

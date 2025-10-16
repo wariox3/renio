@@ -1660,6 +1660,7 @@ export const locale = {
       302: 'Nota débito',
       303: 'Documento soporte',
       304: 'Nota ajuste',
+      305: 'Factura recurrente',
       400: 'Egreso',
       401: 'Saldo inicial',
       500: 'Entrada',
