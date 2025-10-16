@@ -30,6 +30,7 @@ import { documentoHumLiquidacion } from './documentos/humLiquidacion.documento';
 import { documentoGuia } from './documentos/DocumentoGuia.documento';
 import { documento108 } from './documentos/108.documento';
 import { documento502 } from './documentos/502.documento';
+import { documento305 } from './documentos/305.documento';
 
 export const documentos: MapeoDocumentos = {
   100: documento100,
@@ -48,6 +49,7 @@ export const documentos: MapeoDocumentos = {
   302: documento302,
   303: documento303,
   304: documento304,
+  305: documento305,
   400: documento400,
   401: documento401,
   500: documento500,

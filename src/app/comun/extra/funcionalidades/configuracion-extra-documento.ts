@@ -19,6 +19,18 @@ export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
       },
     ],
   },
+  305: {
+    botones: [
+      {
+        componenteNombre: 'generar',
+        nombreBoton: 'Generar',
+        configuracionModal: {
+          size: 'sm',
+          titulo: 'Generar masivo',
+        },
+      },
+    ],
+  },
   702: {
     botones: [
       {
