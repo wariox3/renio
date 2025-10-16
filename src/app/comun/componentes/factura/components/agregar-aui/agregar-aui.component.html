@@ -1,0 +1,146 @@
+<div [formGroup]="formularioAIU">
+  <div class="row mb-5">
+    <div class="col-6">
+      <label class="form-label">Item</label>
+      <app-seleccionar-producto
+        [itemNombre]="formularioAIU.get('item_nombre')?.value || ''"
+        [estadoAprobado]="false"
+        [campoInvalido]="false"
+        [itemActualId]="formularioAIU.get('item')?.value || null"
+        [abrirOpcionesAlIniciar]="false"
+        [formularioTipo]="'venta'"
+        (emitirItemSeleccionado)="seleccionarItem($event)"
+        (emitirLineaVacia)="limpiarItem()"
+      ></app-seleccionar-producto>
+    </div>
+
+    <div class="col-6">
+      <label class="form-label">Valor</label>
+      <input
+        type="number"
+        class="form-control form-control-sm"
+        formControlName="item_valor"
+        step="0.01"
+        min="0"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-6">
+      <label class="form-label">Item administración</label>
+      <app-seleccionar-producto
+        [itemNombre]="
+          formularioAIU.get('gen_item_administracion_nombre')?.value || ''
+        "
+        [estadoAprobado]="false"
+        [campoInvalido]="false"
+        [itemActualId]="
+          formularioAIU.get('gen_item_administracion')?.value || null
+        "
+        [formularioTipo]="'venta'"
+        [abrirOpcionesAlIniciar]="false"
+        (emitirItemSeleccionado)="seleccionarItemAdministracion($event)"
+        (emitirLineaVacia)="limpiarItemAdministracion()"
+      ></app-seleccionar-producto>
+    </div>
+
+    <div class="col-6">
+      <label class="form-label">Valor</label>
+      <input
+        type="number"
+        class="form-control form-control-sm"
+        formControlName="gen_item_administracion_valor"
+        step="0.01"
+        readonly
+        [disabled]="true"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-6">
+      <label class="form-label">Item imprevisto</label>
+      <app-seleccionar-producto
+        [itemNombre]="
+          formularioAIU.get('gen_item_imprevisto_nombre')?.value || ''
+        "
+        [estadoAprobado]="false"
+        [campoInvalido]="false"
+        [itemActualId]="formularioAIU.get('gen_item_imprevisto')?.value || null"
+        [formularioTipo]="'venta'"
+        [abrirOpcionesAlIniciar]="false"
+        (emitirItemSeleccionado)="seleccionarItemImprevisto($event)"
+        (emitirLineaVacia)="limpiarItemImprevisto()"
+      ></app-seleccionar-producto>
+    </div>
+
+    <div class="col-6">
+      <label class="form-label">Valor</label>
+      <input
+        type="number"
+        class="form-control form-control-sm"
+        formControlName="gen_item_imprevisto_valor"
+        step="0.01"
+        readonly
+        [disabled]="true"
+      />
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-6">
+      <label class="form-label">Item utilidad</label>
+      <app-seleccionar-producto
+        [itemNombre]="
+          formularioAIU.get('gen_item_utilidad_nombre')?.value || ''
+        "
+        [estadoAprobado]="false"
+        [campoInvalido]="false"
+        [itemActualId]="formularioAIU.get('gen_item_utilidad')?.value || null"
+        [formularioTipo]="'venta'"
+        [abrirOpcionesAlIniciar]="false"
+        (emitirItemSeleccionado)="seleccionarItemUtilidad($event)"
+        (emitirLineaVacia)="limpiarItemUtilidad()"
+      ></app-seleccionar-producto>
+    </div>
+
+    <div class="col-6">
+      <label class="form-label">Valor</label>
+      <input
+        type="number"
+        class="form-control form-control-sm"
+        formControlName="gen_item_utilidad_valor"
+        step="0.01"
+        readonly
+        [disabled]="true"
+      />
+    </div>
+  </div>
+  <div class="d-flex justify-content-end">
+    <button
+      class="btn btn-primary"
+      (click)="onGuardarConfiguracion()"
+      [disabled]="
+        formularioAIU.invalid ||
+        cargando() ||
+        (formularioAIU.get('item_valor')?.value || 0) <= 0 ||
+        formularioAIU.get('gen_item_administracion_nombre')?.value === '' ||
+        formularioAIU.get('gen_item_imprevisto_nombre')?.value === '' ||
+        formularioAIU.get('gen_item_utilidad_nombre')?.value === '' ||
+        formularioAIU.get('item_nombre')?.value === ''
+      "
+    >
+      @if (cargando()) {
+        <span
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Agregando...
+      } @else {
+        Agregar
+      }
+    </button>
+  </div>
+</div>

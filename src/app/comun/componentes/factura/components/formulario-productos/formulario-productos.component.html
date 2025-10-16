@@ -24,6 +24,14 @@
           </button>
         }
         <button
+          (click)="abrirModal(modalAUI)"
+          class="btn btn-sm btn-secondary"
+          type="button"
+          [disabled]="deshabilitar"
+        >
+          AIU
+        </button>
+        <button
           (click)="agregarNuevoItem('I')"
           class="btn btn-sm btn-primary"
           type="button"
@@ -355,5 +363,24 @@
       [filtrosDisponibles]="BUSCAR_DOCUMENTO_DETALLES_FILTERS"
       (itemsSeleccionadosEvent)="cargarItemsSeleccionadosDesdeDocumento($event)"
     ></app-buscar-documento-detalles>
+  </div>
+</ng-template>
+
+<ng-template #modalAUI let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Configuración AIU</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-agregar-aui
+      #agregarAuiRef
+      [detalleId]="detalle"
+      (auiConfiguracionEvent)="recibirConfiguracionAUI($event)"
+    ></app-agregar-aui>
   </div>
 </ng-template>
