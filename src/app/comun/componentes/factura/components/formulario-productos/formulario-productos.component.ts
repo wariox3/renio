@@ -94,6 +94,7 @@ export class FormularioProductosComponent
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() deshabilitar: boolean = false;
+  @Input() mostrarCampoAIU: boolean = false;
   @Input() columnasTablaDatos: any = [];
   @Input() mostrarCampoDetalle: boolean = false;
   @Input() configuracionDocumento: { endpoint: string; queryParams: { [key: string]: string | number | boolean } } = {

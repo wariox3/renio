@@ -18,19 +18,23 @@
             (click)="abrirModal(buscarDocumentos)"
             class="btn btn-sm btn-secondary"
             type="button"
-            [disabled]="deshabilitar || !formularioFactura.get('contacto')?.value"
+            [disabled]="
+              deshabilitar || !formularioFactura.get('contacto')?.value
+            "
           >
             Agregar desde documento
           </button>
         }
-        <button
-          (click)="abrirModal(modalAUI)"
-          class="btn btn-sm btn-secondary"
-          type="button"
-          [disabled]="deshabilitar"
-        >
-          AIU
-        </button>
+        @if (mostrarCampoAIU) {
+          <button
+            (click)="abrirModal(modalAUI)"
+            class="btn btn-sm btn-secondary"
+            type="button"
+            [disabled]="deshabilitar"
+          >
+            AIU
+          </button>
+        }
         <button
           (click)="agregarNuevoItem('I')"
           class="btn btn-sm btn-primary"
@@ -171,7 +175,7 @@
                   (focus)="onPrecioChange(i)"
                   [attr.disabled]="estadoAprobado()"
                   [readonly]="estadoAprobado()"
-                  style="text-align: right; padding-right: 10px;"
+                  style="text-align: right; padding-right: 10px"
                   class="form-control-sm"
                   [ngClass]="{
                     'disabled-cursor bg-transparent': estadoAprobado(),
@@ -205,7 +209,7 @@
                   max="100"
                   [value]="detalle.value.porcentaje_descuento"
                   formControlName="porcentaje_descuento"
-                  style="text-align: right; padding-right: 10px;"
+                  style="text-align: right; padding-right: 10px"
                   (focus)="onDescuentoChange(i)"
                   class="form-control-sm"
                   [attr.disabled]="estadoAprobado()"
@@ -241,7 +245,7 @@
                   disabled
                   rows="1"
                   spellcheck="true"
-                  style="text-align: right; padding-right: 10px;"
+                  style="text-align: right; padding-right: 10px"
                   class="disabled-cursor bg-transparent"
                   class="form-control-sm"
                   [ngClass]="{
@@ -269,7 +273,7 @@
                   readonly
                   disabled
                   rows="1"
-                  style="text-align: right; padding-right: 10px;"
+                  style="text-align: right; padding-right: 10px"
                   spellcheck="true"
                   class="disabled-cursor"
                   class="form-control-sm"
@@ -287,7 +291,7 @@
                     formControlName="detalle"
                     class="form-control form-control-sm"
                     maxlength="150"
-                    style="text-align: left;"
+                    style="text-align: left"
                     [ngClass]="{
                       'disabled-cursor bg-transparent': estadoAprobado(),
                       'text-white': themeValue === 'dark' && estadoAprobado(),
@@ -297,18 +301,18 @@
                     }"
                   />
                   <div
-                  *ngIf="
-                    (detalle.get('detalle')?.touched &&
-                      detalle.get('detalle')?.hasError('maxlength')) ||
-                    detalle.get('detalle')?.invalid
-                  "
-                >
-                  <div class="fv-plugins-message-container">
-                    <div class="fv-help-block">
-                      <span role="alert"> Longitud máxima excedida. </span>
+                    *ngIf="
+                      (detalle.get('detalle')?.touched &&
+                        detalle.get('detalle')?.hasError('maxlength')) ||
+                      detalle.get('detalle')?.invalid
+                    "
+                  >
+                    <div class="fv-plugins-message-container">
+                      <div class="fv-help-block">
+                        <span role="alert"> Longitud máxima excedida. </span>
+                      </div>
                     </div>
                   </div>
-                </div>
                 </td>
               }
               <td class="text-center" *ngIf="!estadoAprobado()">
