@@ -25,7 +25,7 @@ import {
   ImpuestoRespuestaConsulta,
   RespuestaItem,
 } from '@interfaces/comunes/factura/factura.interface';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Subject, takeUntil } from 'rxjs';
 import { FacturaService } from '../../services/factura.service';
@@ -59,7 +59,8 @@ import { HttpService } from '@comun/services/http.service';
     SeleccionarGrupoComponent,
     AgregarDetallesDocumentoComponent,
     BuscarDocumentosDetallesComponent,
-    AgregarAuiComponent
+    AgregarAuiComponent,
+    NgbDropdownModule
 ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
