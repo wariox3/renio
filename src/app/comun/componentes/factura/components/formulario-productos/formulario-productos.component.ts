@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
 import {
   FormArray,
@@ -22,10 +23,11 @@ import {
   DocumentoDetalleFactura,
   DocumentoFacturaRespuesta,
   ImpuestoRespuestaConsulta,
+  RespuestaItem,
 } from '@interfaces/comunes/factura/factura.interface';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Subject, takeUntil } from 'rxjs';
 import { FacturaService } from '../../services/factura.service';
 import { SeleccionarAlmacenComponent } from '../seleccionar-almacen/seleccionar-almacen.component';
 import { SeleccionarGrupoComponent } from '../seleccionar-grupo/seleccionar-grupo.component';
@@ -38,6 +40,9 @@ import { AdapterService } from '../../services/adapter.service';
 import { BuscarDocumentosDetallesComponent } from "@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component";
 import { FilterField } from 'src/app/core/interfaces/filtro.interface';
 import { GeneralService } from '@comun/services/general.service';
+import { AgregarAuiComponent, ItemAIU } from '../agregar-aui/agregar-aui.component';
+import { ItemSeleccionar } from '@interfaces/general/item.interface';
+import { HttpService } from '@comun/services/http.service';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -53,7 +58,8 @@ import { GeneralService } from '@comun/services/general.service';
     SeleccionarAlmacenComponent,
     SeleccionarGrupoComponent,
     AgregarDetallesDocumentoComponent,
-    BuscarDocumentosDetallesComponent
+    BuscarDocumentosDetallesComponent,
+    AgregarAuiComponent
 ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
@@ -66,6 +72,7 @@ export class FormularioProductosComponent
   private _facturaService = inject(FacturaService);
   private _unsubscribe$ = new Subject<void>();
   private _generalService = inject(GeneralService);
+  private _httpService = inject(HttpService);
   private modalService = inject(NgbModal);
 
   public FACTURA_COMPRAS_CAMPOS_TABLA = FACTURA_COMPRAS_CAMPOS_TABLA;
@@ -73,6 +80,8 @@ export class FormularioProductosComponent
   public themeValue = localStorage.getItem('kt_theme_mode_value');
   public modoEdicion = this._formularioFacturaService.modoEdicion;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+
+  @ViewChild('agregarAuiRef') agregarAuiRef!: AgregarAuiComponent;
   public BUSCAR_DOCUMENTO_DETALLES_FILTERS: FilterField[] = [
     { name: 'id', displayName: 'ID', type: 'number' },
   ];
@@ -85,6 +94,7 @@ export class FormularioProductosComponent
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() deshabilitar: boolean = false;
+  @Input() mostrarCampoAIU: boolean = false;
   @Input() columnasTablaDatos: any = [];
   @Input() mostrarCampoDetalle: boolean = false;
   @Input() configuracionDocumento: { endpoint: string; queryParams: { [key: string]: string | number | boolean } } = {
@@ -258,6 +268,47 @@ export class FormularioProductosComponent
       this.recibirItemSeleccionado(item, this.detalles.length - 1);
     });
     this.modalService.dismissAll();
+  }
+
+  recibirConfiguracionAUI(configuracion: ItemAIU[]) {
+    this._procesarItemsAIUSecuencialmente(configuracion, 0);
+  }
+
+  private _procesarItemsAIUSecuencialmente(configuracion: ItemAIU[], indice: number) {
+    // Si ya procesamos todos los items, desactivar loader y cerrar el modal
+    if (indice >= configuracion.length) {
+      if (this.agregarAuiRef) {
+        this.agregarAuiRef.finalizarCarga();
+      }
+      this.modalService.dismissAll();
+      return;
+    }
+
+    const item = configuracion[indice];
+    this._consultarItemDetalle(item.item_id, item.precio, () => {
+      // Procesar el siguiente item después de que se complete el actual
+      this._procesarItemsAIUSecuencialmente(configuracion, indice + 1);
+    });
+  }
+
+  private _consultarItemDetalle(itemId: number, precio: number, callback?: () => void){ 
+        this._httpService
+          .post<RespuestaItem>('general/item/detalle/', { id: itemId, venta: true, compra: false }).pipe
+          (map((respuesta) => {
+            return {
+              ...respuesta.item,
+              precio: precio
+            }
+          }))
+          .subscribe((respuesta) => {
+            this.agregarNuevoItem('I');
+            this.recibirItemSeleccionado(respuesta, this.detalles.length - 1);
+            
+            // Ejecutar callback si se proporciona (para procesamiento secuencial)
+            if (callback) {
+              callback();
+            }
+          });
   }
 
   private _consultarPrecioLista(precioId: number, itemId: number) {

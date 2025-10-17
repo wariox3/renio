@@ -21,14 +21,12 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { HttpService } from '@comun/services/http.service';
 import { Item, ItemSeleccionar } from '@interfaces/general/item.interface';
-import { asyncScheduler, tap, throttleTime } from 'rxjs';
 import ItemFormularioComponent from '@modulos/general/paginas/item/item-formulario/item-formulario.component';
 import {
   DocumentoDetalleFactura,
   RespuestaItem,
 } from '@interfaces/comunes/factura/factura.interface';
 import { GeneralService } from '@comun/services/general.service';
-import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 
 // Tipo para el modo de búsqueda
 type ModoBusqueda = 'nombre' | 'codigo';
@@ -50,12 +48,13 @@ export class SeleccionarProductoComponent
   extends General
   implements AfterViewInit, OnChanges
 {
-  itemSeleccionado: ItemSeleccionar | null = null;
-  arrItemsLista: ItemSeleccionar[] = [];
+  public itemSeleccionado: ItemSeleccionar | null = null;
+  public arrItemsLista: ItemSeleccionar[] = [];
   
   // Nueva propiedad para el modo de búsqueda
-  modoBusqueda: ModoBusqueda = 'nombre';
   
+  public modoBusqueda: ModoBusqueda = 'nombre';
+  private interactuandoConDropdown = false;
   @Input() itemNombre: string = '';
   @Input() estadoAprobado: boolean = false;
   @Input() campoInvalido: any = false;
@@ -63,6 +62,7 @@ export class SeleccionarProductoComponent
   @Input() compra: boolean = false;
   @Input() formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() itemActualId: number | null = null;
+  @Input() abrirOpcionesAlIniciar: boolean = true;
 
   @Output() emitirArrItems: EventEmitter<any> = new EventEmitter();
   @Output() emitirLineaVacia: EventEmitter<any> = new EventEmitter();
@@ -104,15 +104,20 @@ export class SeleccionarProductoComponent
   }
 
   ngAfterViewInit() {
-    if (this.inputItem?.nativeElement.value === '') {
+    if (this.inputItem?.nativeElement.value === '' && this.abrirOpcionesAlIniciar) {
       this.inputItem?.nativeElement.focus();
     }
   }
 
   validarValor() {
-    if (this.inputItem.nativeElement.value === '') {
-      this.emitirLineaVacia.emit(true);
-    }
+    // Usar setTimeout para permitir que el click del dropdown se ejecute primero
+    setTimeout(() => {
+      if (this.inputItem.nativeElement.value === '' && !this.interactuandoConDropdown) {
+        this.emitirLineaVacia.emit(true);
+      }
+      // Resetear la bandera después de la validación
+      this.interactuandoConDropdown = false;
+    }, 150); // 150ms de delay para permitir la selección del dropdown
   }
 
   // Método para cambiar el modo de búsqueda
@@ -130,6 +135,11 @@ export class SeleccionarProductoComponent
     }
     
     this.changeDetectorRef.detectChanges();
+  }
+
+  // Métodos para controlar la interacción con el dropdown
+  marcarInteraccionDropdown() {
+    this.interactuandoConDropdown = true;
   }
 
   // Método unificado para realizar búsquedas

@@ -1,0 +1,22 @@
+// Estilos específicos para el componente AUI
+.card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+  background-color: var(--bs-light);
+  border-bottom: 1px solid var(--bs-border-color);
+}
+
+.alert-info {
+  border-left: 4px solid var(--bs-info);
+}
+
+.bi-gear {
+  color: var(--bs-secondary);
+}
+
+.btn {
+  min-width: 80px;
+}
