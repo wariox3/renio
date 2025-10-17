@@ -13,7 +13,7 @@
             Agregar desde documento
           </button>
         }
-        @if (mostrarBuscarDocumentos) {
+        <!-- @if (mostrarBuscarDocumentos) {
           <button
             (click)="abrirModal(buscarDocumentos)"
             class="btn btn-sm btn-secondary"
@@ -34,7 +34,8 @@
           >
             AIU
           </button>
-        }
+        } -->
+
         <button
           (click)="agregarNuevoItem('I')"
           class="btn btn-sm btn-primary"
@@ -42,6 +43,40 @@
           [disabled]="deshabilitar"
           translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
         ></button>
+
+        @if (mostrarBuscarDocumentos || mostrarCampoAIU) {
+          <div class="btn-group btn-group-sm" ngbDropdown role="group">
+            <button
+              type="button"
+              class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+              ngbDropdownToggle
+            ></button>
+            <div class="dropdown-menu p-2" ngbDropdownMenu>
+              @if (mostrarBuscarDocumentos) {
+                <button
+                  type="button"
+                  ngbDropdownItem
+                  (click)="abrirModal(buscarDocumentos)"
+                  [disabled]="
+                    deshabilitar || !formularioFactura.get('contacto')?.value
+                  "
+                >
+                  Documento
+                </button>
+              }
+              @if (mostrarCampoAIU) {
+                <button
+                  type="button"
+                  ngbDropdownItem
+                  (click)="abrirModal(modalAIU)"
+                  [disabled]="deshabilitar"
+                >
+                  AIU
+                </button>
+              }
+            </div>
+          </div>
+        }
       </div>
     </div>
   }
@@ -370,7 +405,7 @@
   </div>
 </ng-template>
 
-<ng-template #modalAUI let-modal>
+<ng-template #modalAIU let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Configuración AIU</h4>
     <button
