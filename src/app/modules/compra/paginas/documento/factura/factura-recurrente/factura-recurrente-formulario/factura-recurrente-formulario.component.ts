@@ -10,11 +10,12 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
+import { SeleccionarAlmacenComponent } from "@comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component";
+import { SeleccionarGrupoComponent } from "@comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';
 import { FormularioFacturaService } from '@comun/services/factura/formulario-factura.service';
@@ -23,6 +24,7 @@ import { HttpService } from '@comun/services/http.service';
 import { validarPrecio } from '@comun/validaciones/validar-precio.validator';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
 import { RegistroAutocompletarGenContacto } from '@interfaces/comunes/autocompletar/general/gen-contacto.interface';
+import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
 import { RegistroAutocompletarGenMetodoPago } from '@interfaces/comunes/autocompletar/general/gen-metodo-pago.interface';
 import { RegistroAutocompletarGenPlazoPago } from '@interfaces/comunes/autocompletar/general/gen-plazo-pago.interface';
 import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
@@ -50,6 +52,8 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, catchError, of, tap, throttleTime, zip } from 'rxjs';
 import { FacturaCuentaComponent } from "../../factura-cuenta/factura-cuenta.component";
+import { NgSelectModule } from "@ng-select/ng-select";
+import { FacturaInformacionExtraComponent } from "../../factura-informacion-extra/factura-informacion-extra.component";
 
 @Component({
   selector: 'app-factura-formulario',
@@ -70,14 +74,16 @@ import { FacturaCuentaComponent } from "../../factura-cuenta/factura-cuenta.comp
     FormularioProductosComponent,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    AlmacenesComponent,
-    FacturaCuentaComponent
+    FacturaCuentaComponent,
+    SeleccionarGrupoComponent,
+    SeleccionarAlmacenComponent,
+    NgSelectModule,
+    FacturaInformacionExtraComponent
 ],
 })
 export default class FacturaRecurrenteFormularioComponent
   extends General
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   private _formularioFacturaService = inject(FormularioFacturaService);
   private readonly _generalService = inject(GeneralService);
 
@@ -86,6 +92,7 @@ export default class FacturaRecurrenteFormularioComponent
     this._formularioFacturaService.acumuladorImpuestos;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
   public formularioFactura = this._formularioFacturaService.form;
+  public formaPagoLista: RegistroAutocompletarGenFormaPago[] = [];
 
   informacionFormulario: any;
   active: Number;
@@ -101,7 +108,6 @@ export default class FacturaRecurrenteFormularioComponent
     descuento: '',
     documento_tipo_id: '',
     fecha: '',
-    // fecha_vence: '',
     id: null,
     impuesto: 0,
     base_impuesto: 0,
@@ -134,7 +140,7 @@ export default class FacturaRecurrenteFormularioComponent
   public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
   public campoFiltrosDocReferencia =
     DOCUMENTO_REFERENCIA_FILTROS_BUSCAR_AVANZADO;
-    public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
+  public arrAlmacenes: RegistroAutocompletarInvAlmacen[] = [];
 
 
   constructor(
@@ -182,7 +188,10 @@ export default class FacturaRecurrenteFormularioComponent
       this._generalService
         .consultaApi<
           RegistroAutocompletarInvAlmacen[]
-        >('inventario/almacen/seleccionar/')
+        >('inventario/almacen/seleccionar/'),
+      this._generalService.consultaApi<RegistroAutocompletarGenFormaPago[]>(
+        'general/forma_pago/seleccionar/',
+      ),
     ).subscribe((respuesta: any) => {
       this.arrMetodosPago = respuesta[0];
       this.arrPlazoPago = respuesta[1];
@@ -191,9 +200,9 @@ export default class FacturaRecurrenteFormularioComponent
       this.requiereAsesor = respuesta[4].venta_asesor;
       this.requiereSede = respuesta[4].venta_sede;
       this.arrAlmacenes = respuesta[5];
-
+      this.formaPagoLista = respuesta[6];
+      this._sugerirPrimerValorFormaPago();
       if (!this.detalle) {
-        this._initSugerencias();
         this.almacenSeleccionado(this.arrAlmacenes[0]);
       }
 
@@ -417,7 +426,7 @@ export default class FacturaRecurrenteFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-  calcularTotales() {}
+  calcularTotales() { }
 
   eliminarProducto(index: number, id: number | null) {
     this.formularioFactura?.markAsDirty();
@@ -488,7 +497,7 @@ export default class FacturaRecurrenteFormularioComponent
       let totalImpuesto = this.redondear(
         (((subtotal.value * impuesto.porcentaje) / 100) *
           impuesto.porcentaje_base) /
-          100,
+        100,
         2,
       );
 
@@ -781,9 +790,9 @@ export default class FacturaRecurrenteFormularioComponent
         )
           .toString()
           .padStart(2, '0')}-${fechaActual
-          .getDate()
-          .toString()
-          .padStart(2, '0')}`;
+            .getDate()
+            .toString()
+            .padStart(2, '0')}`;
         // Suma los días a la fecha actual
         // this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
       }
@@ -827,8 +836,7 @@ export default class FacturaRecurrenteFormularioComponent
         'general/contacto/seleccionar',
         {
           nombre_corto__icontains: `${event?.target.value}`,
-          cliente: 'True',
-          limit: 10,
+          proveedor: 'True',
         },
       )
       .pipe(
@@ -942,7 +950,7 @@ export default class FacturaRecurrenteFormularioComponent
       });
   }
 
-  cambiarFechaVence(event: any) {
+  cambiarFechaVence() {
     const fechaFactura = new Date(this.formularioFactura.get('fecha')?.value); // Crear objeto Date a partir del string
     this.formularioFactura.get('plazo_pago')?.value;
     const diasNumero = parseInt(this.plazo_pago_dias, 10);
@@ -955,7 +963,8 @@ export default class FacturaRecurrenteFormularioComponent
       .padStart(2, '0')}-${fechaFactura.getDate().toString().padStart(2, '0')}`;
 
     // Suma los días a la fecha actual
-    // this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+    this.changeDetectorRef.detectChanges();
   }
 
   capturarDias(event: any) {
@@ -1117,27 +1126,6 @@ export default class FacturaRecurrenteFormularioComponent
     return this.formularioFactura.get('pagos_eliminados') as FormArray;
   }
 
-  private _initSugerencias() {
-    this._sugerirSede(0);
-    this._sugeriAsesor(0);
-  }
-
-  private _sugerirSede(posicion: number) {
-    if (this.arrSede.length > 0) {
-      this.formularioFactura.patchValue({
-        sede: this.arrSede?.[posicion].id,
-      });
-    }
-  }
-
-  private _sugeriAsesor(posicion: number) {
-    if (this.arrAsesor.length > 0) {
-      this.formularioFactura.patchValue({
-        asesor: this.arrAsesor?.[posicion].id,
-      });
-    }
-  }
-
   almacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
     this.formularioFactura.patchValue({
       almacen: almacen?.id,
@@ -1153,19 +1141,44 @@ export default class FacturaRecurrenteFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
-   agregarResolucionSeleccionado(
-      resolucion: RegistroAutocompletarGenResolucion | null,
-    ) {
-      if (resolucion) {
+  agregarResolucionSeleccionado(
+    resolucion: RegistroAutocompletarGenResolucion | null,
+  ) {
+    if (resolucion) {
+      this.formularioFactura.patchValue({
+        resolucion: resolucion?.id,
+        resolucion_numero: resolucion?.numero,
+      });
+    } else {
+      this.formularioFactura.patchValue({
+        resolucion: null,
+        resolucion_numero: '',
+      });
+    }
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
+  }
+
+  recibirAlmacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
+    this.formularioFactura.get('almacen')?.setValue(almacen.id);
+    this.formularioFactura.get('almacen_nombre')?.setValue(almacen.nombre);
+  }
+
+  recibirAlmacenVacio() {
+    this.formularioFactura.get('almacen')?.setValue(null);
+    this.formularioFactura.get('almacen_nombre')?.setValue('');
+  }
+
+  private _sugerirPrimerValorFormaPago() {
+    if (!this.detalle) {
+      if (this.formaPagoLista.length > 0) {
         this.formularioFactura.patchValue({
-          resolucion: resolucion?.id,
-          resolucion_numero: resolucion?.numero,
-        });
-      } else {
-        this.formularioFactura.patchValue({
-          resolucion: null,
-          resolucion_numero: '',
+          forma_pago: this.formaPagoLista?.[0].id,
         });
       }
     }
+  }
+
 }

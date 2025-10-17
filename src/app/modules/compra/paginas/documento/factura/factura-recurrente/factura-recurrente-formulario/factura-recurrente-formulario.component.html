@@ -8,10 +8,10 @@
     </section>
     <section card-body>
       <div class="row mb-5">
-        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+        <div class="col-16" ngbDropdown #ClienteDropdown="ngbDropdown">
           <label
             class="form-label required"
-            translate="FORMULARIOS.CAMPOS.COMUNES.CLIENTE"
+            translate="FORMULARIOS.CAMPOS.COMUNES.PROVEEDOR"
           ></label>
           <div class="position-relative">
             <input
@@ -37,14 +37,13 @@
           <div
             ngbDropdownMenu
             aria-labelledby="dropdownBasic1"
-            class="dropdown-menu w-100"
+            class="dropdown-menu"
           >
             <ng-container *ngFor="let contacto of arrMovimientosClientes">
               <button
                 type="button"
                 ngbDropdownItem
                 (click)="modificarCampoFormulario('contacto', contacto)"
-                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
               >
                 {{ contacto.nombre_corto }}
               </button>
@@ -60,8 +59,10 @@
                 <div class="modal-body">
                   <app-contacto-formulario
                     [ocultarBtnAtras]="true"
-                    (emitirGuardoRegistro)="cerrarModal($event)"
                     [tituloFijo]="true"
+                    [esProvedor]="true"
+                    [esCliente]="false"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
                   />
                 </div>
               </ng-template>
@@ -91,6 +92,101 @@
         </div>
       </div>
       <div class="row mb-5">
+        <div class="col-12 col-md-3">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
+          ></label>
+          <input
+            formControlName="fecha"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['fecha'].touched &&
+                formularioFactura.controls['fecha'].invalid,
+              'is-valid':
+                formularioFactura.controls['fecha'].touched &&
+                formularioFactura.controls['fecha'].valid,
+            }"
+            (change)="cambiarFechaVence()"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['fecha'],
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioFactura.controls.fecha?.touched &&
+              formularioFactura.controls.fecha?.hasError(
+                'fechaSuperiorNoValida'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-3">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
+          ></label>
+          <input
+            formControlName="fecha_vence"
+            class="form-control"
+            type="date"
+            id="fecha_vence"
+            autocomplete="off"
+            readonly
+            [ngClass]="{
+              'is-invalid':
+                formularioFactura.controls['fecha_vence'].touched &&
+                formularioFactura.controls['fecha_vence'].invalid,
+              'is-valid':
+                formularioFactura.controls['fecha_vence'].touched &&
+                formularioFactura.controls['fecha_vence'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioFactura.controls['fecha_vence'],
+            }"
+          ></ng-container>
+          <div
+            *ngIf="
+              formularioFactura.controls.fecha_vence?.touched &&
+              formularioFactura.controls.fecha_vence?.hasError(
+                'fechaVenceInferiorNoValida'
+              )
+            "
+          >
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span
+                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHAVENCEINFERIORNOVALIDA"
+                  role="alert"
+                >
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
         <div class="col-12 col-md-6">
           <label
             class="form-label required"
@@ -115,9 +211,6 @@
             <option
               *ngFor="let plazoPago of arrPlazoPago"
               [value]="plazoPago.id"
-              [selected]="
-                plazoPago.id === formularioFactura.controls.plazo_pago_id
-              "
               [attr.data-dias]="plazoPago.dias"
             >
               {{ plazoPago.nombre }}
@@ -134,207 +227,63 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div
-          class="col-md-6 col-sm-12"
-          ngbDropdown
-          #MetodoDropdown="ngbDropdown"
-        >
+        <div class="col-md-3 col-sm-12">
           <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="metodo_pago"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['metodo_pago'].touched &&
-                formularioFactura.controls['metodo_pago'].invalid,
-              'is-valid':
-                formularioFactura.controls['metodo_pago'].touched &&
-                formularioFactura.controls['metodo_pago'].valid,
-            }"
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
           >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let metodoPago of arrMetodosPago"
-              [value]="metodoPago.id"
-              [selected]="
-                metodoPago.id ===
-                formularioFactura.controls['metodo_pago'].value
+          </label>
+          <app-seleccionar-grupo
+            [grande]="true"
+            [isEdicion]="modoEdicion()"
+            [sugerirPrimerValor]="true"
+            (selectChange)="onSeleccionarGrupoChange($event)"
+            [valorInicial]="formularioFactura.get('grupo_contabilidad')?.value"
+          ></app-seleccionar-grupo>
+        </div>
+        <div class="col-md-3 col-sm-12">
+          <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+            <label
+              class="form-label"
+              translate="FORMULARIOS.CAMPOS.COMUNES.ALMACEN"
+            ></label>
+
+            <app-seleccionar-almacen
+              [grande]="true"
+              [isEdicion]="modoEdicion()"
+              [sugerirPrimerValor]="true"
+              [itemNombre]="formularioFactura.get('almacen_nombre')?.value"
+              [estadoAprobado]="estadoAprobado()"
+              [campoInvalido]="
+                formularioFactura.get('almacen')?.touched &&
+                formularioFactura.get('almacen')?.hasError('required')
               "
-            >
-              {{ metodoPago.nombre }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['metodo_pago'],
-            }"
-          ></ng-container>
+              (emitirItemSeleccionado)="recibirAlmacenSeleccionado($event)"
+              (emitirLineaVacia)="recibirAlmacenVacio()"
+            ></app-seleccionar-almacen>
+          </div>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
             class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
-          ></label>
-          <input
-            formControlName="orden_compra"
-            class="form-control"
-            type="text"
-            autocomplete="off"
-            (blur)="modificarCampoFormulario('orden_compra', null)"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['orden_compra'].touched &&
-                formularioFactura.controls['orden_compra'].invalid,
-              'is-valid':
-                formularioFactura.controls['orden_compra'].touched &&
-                formularioFactura.controls['orden_compra'].valid,
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '50',
-              control: formularioFactura.controls['orden_compra'],
-            }"
-          ></ng-container>
+            translate="FORMULARIOS.CAMPOS.FACTURA.FORMAPAGO"
+          >
+          </label>
+          <ng-select
+            [items]="formaPagoLista"
+            bindLabel="nombre"
+            bindValue="id"
+            formControlName="forma_pago"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
         </div>
       </div>
-      <div class="row mb-5">
-        <div
-          class="col-md-3 col-sm-12"
-          ngbDropdown
-          #MetodoDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.SEDE"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="sede"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['sede'].touched &&
-                formularioFactura.controls['sede'].invalid,
-              'is-valid':
-                formularioFactura.controls['sede'].touched &&
-                formularioFactura.controls['sede'].valid,
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let sede of arrSede"
-              [value]="sede.id"
-              [selected]="sede.id === formularioFactura.controls.sede.value"
-            >
-              {{ sede.nombre }}
-            </option>
-          </select>
-        </div>
-
-        <div class="col-md-3 col-sm-12">
-          <label class="form-label">Almacen</label>
-          <app-comun-almacenes
-            [almacenNombre]="formularioFactura.get('almacen_nombre')?.value"
-            [campoInvalido]="
-              formularioFactura.controls['almacen'].touched &&
-              formularioFactura.controls['almacen'].invalid
-            "
-            (emitirAlmacen)="almacenSeleccionado($event)"
-            (emitirLineaVacia)="limpiarCampoAlmacen($event)"
-          >
-          </app-comun-almacenes>
-        </div>
-      </div>
-      <div class="row mb-5">
-        <div
-          *ngIf="requiereAsesor"
-          class="col-md-6 col-sm-12"
-          ngbDropdown
-          #MetodoDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.ASESOR"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="asesor"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['asesor'].touched &&
-                formularioFactura.controls['asesor'].invalid,
-              'is-valid':
-                formularioFactura.controls['asesor'].touched &&
-                formularioFactura.controls['asesor'].valid,
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let asesor of arrAsesor"
-              [value]="asesor.asesor_id"
-              [selected]="
-                asesor.asesor_id === formularioFactura.controls.asesor_id
-              "
-            >
-              {{ asesor.asesor_nombre_corto }}
-            </option>
-          </select>
-        </div>
-        <div
-          *ngIf="requiereSede"
-          class="col-md-6 col-sm-12"
-          ngbDropdown
-          #MetodoDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.SEDE"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="sede"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['sede'].touched &&
-                formularioFactura.controls['sede'].invalid,
-              'is-valid':
-                formularioFactura.controls['sede'].touched &&
-                formularioFactura.controls['sede'].valid,
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let sede of arrSede"
-              [value]="sede.sede_id"
-              [selected]="sede.sede_id === formularioFactura.controls.sede_id"
-            >
-              {{ sede.sede_nombre }}
-            </option>
-          </select>
-        </div>
-      </div>
-      <div class="row mb-5">
+      <div class="row mb-5" *ngIf="visualizarCampoDocumentoReferencia">
         <div
           class="col-md-6 col-sm-12"
-          *ngIf="visualizarCampoDocumentoReferencia"
           appAnimacionFadeInOut
           ngbDropdown
           #DocumentoReferenciaDropdown="ngbDropdown"
@@ -390,18 +339,13 @@
             <div class="dropdown-divider"></div>
             <button type="button" ngbDropdownItem>
               <app-comun-buscar-avanzado
-                consultarUrl="general/documento/"
-                [tituloModal]="'documento'"
                 (emitirRegistroSeleccionado)="
                   actualizarFormulario($event, 'documento_referencia')
                 "
-                [campoLista]="campoListaDocReferencia"
-                [campoFiltros]="campoFiltrosDocReferencia"
               >
               </app-comun-buscar-avanzado>
             </button>
           </div>
-
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
@@ -435,229 +379,6 @@
                   [formularioTipo]="'compra'"
                   [permiteCantidadCero]="true"
                 ></app-formulario-productos>
-                <!-- <div
-                  class="d-flex justify-content-end mb-2"
-                  *ngIf="!estadoAprobado()"
-                >
-                  <button
-                    (click)="agregarProductos()"
-                    class="btn btn-sm btn-primary"
-                    type="button"
-                    translate="FORMULARIOS.TITULOS.FACTURACION.AGREGARITEM"
-                  ></button>
-                </div>
-                <div class="table-responsive-sm">
-                  <table
-                    id="tableDetalles"
-                    class="table table-bordered table-sm"
-                  >
-                    <thead>
-                      <tr class="bg-gray-100">
-                        <th class="w-40px">Id</th>
-                        <th
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRODUCTO"
-                        ></th>
-                        <th
-                          class="w-50px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.DESCUENTO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL1"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
-                        ></th>
-                        <th
-                          class="w-100px"
-                          translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
-                        ></th>
-                        <th
-                          class="w-100px text-center"
-                          *ngIf="!estadoAprobado()"
-                        ></th>
-                      </tr>
-                    </thead>
-                    <tbody formArrayName="detalles">
-                      <ng-container
-                        *ngFor="let detalle of detalles.controls; let i = index"
-                        [formGroupName]="i"
-                      >
-                        <tr>
-                          <td class="w-40px">{{ detalle.value.id }}</td>
-                          <td class="">
-                            <app-comun-productos
-                              [itemNombre]="detalle.value.item_nombre"
-                              [estadoAprobado()]="estadoAprobado()"
-                              [campoInvalido]="
-                                detalle.get('item')?.touched &&
-                                detalle.get('item')?.invalid
-                              "
-                              (emitirArrItems)="
-                                agregarItemSeleccionado($event, i)
-                              "
-                              (emitirLineaVacia)="
-                                eliminarProducto(i, detalle.value.id)
-                              "
-                            ></app-comun-productos>
-                          </td>
-                          <td>
-                            <input
-                              type="text"
-                              [value]="detalle.value.cantidad"
-                              formControlName="cantidad"
-                              (change)="
-                                actualizarDetalle(i, 'cantidad', $event)
-                              "
-                              class="form-control-sm"
-                              [attr.disabled]="estadoAprobado()"
-                              [readonly]="estadoAprobado()"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estadoAprobado(),
-                                'text-white':
-                                  theme_value === 'dark' && estadoAprobado()
-                              }"
-                              rows="1"
-                              spellcheck="true"
-                              appSoloNumeros
-                            />
-                          </td>
-                          <td>
-                            <input
-                              formControlName="precio"
-                              [value]="detalle.value.precio"
-                              (change)="actualizarDetalle(i, 'precio', $event)"
-                              [attr.disabled]="estadoAprobado()"
-                              [readonly]="estadoAprobado()"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estadoAprobado(),
-                                'text-white':
-                                  theme_value === 'dark' && estadoAprobado(),
-                                'is-invalid':
-                                  detalle.get('precio')?.touched &&
-                                  detalle.get('precio')?.getError('zero')
-                              }"
-                              rows="1"
-                              spellcheck="true"
-                              appSoloNumeros
-                            />
-                            <div
-                              *ngIf="
-                                detalle.get('precio')?.touched &&
-                                detalle.get('precio')?.getError('valorCero')
-                              "
-                            >
-                              <div class="fv-plugins-message-container">
-                                <div class="fv-help-block">
-                                  <span role="alert">
-                                    Valor no permitido.
-                                  </span>
-                                </div>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <div class="position-relative">
-                              <input
-                                formControlName="porcentaje_descuento"
-                                [value]="detalle.value.porcentaje_descuento"
-                                (change)="
-                                  actualizarDetalle(
-                                    i,
-                                    'porcentjae_descuento',
-                                    $event
-                                  )
-                                "
-                                [attr.disabled]="estadoAprobado()"
-                                [readonly]="estadoAprobado()"
-                                class="form-control-sm"
-                                [ngClass]="{
-                                  'disabled-cursor bg-transparent':
-                                    estadoAprobado(),
-                                  'text-white':
-                                    theme_value === 'dark' && estadoAprobado()
-                                }"
-                                rows="1"
-                                spellcheck="true"
-                                appSoloNumeros
-                              />
-                              <div
-                                class="position-absolute translate-middle-y top-50 end-0 me-3"
-                              >
-                                <i class="bi bi-percent"></i>
-                              </div>
-                            </div>
-                          </td>
-                          <td>
-                            <input
-                              class="form-control form-control-sm"
-                              disabled
-                              rows="1"
-                              spellcheck="true"
-                              class="disabled-cursor bg-transparent"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'disabled-cursor bg-transparent':
-                                  estadoAprobado(),
-                                'text-white bg-transparent':
-                                  theme_value === 'dark'
-                              }"
-                              readonly
-                              [value]="detalle.value.subtotal"
-                            />
-                          </td>
-                          <td>
-                            <app-comun-impuestos
-                              (emitirImpuestoAgregado)="
-                                agregarImpuesto($event, i, 'agregar')
-                              "
-                              (emitirImpuestoElimiando)="
-                                removerImpuesto($event, i)
-                              "
-                              [arrLista]="detalles.controls[i].value.impuestos"
-                              [estadoAprobado()]="!estadoAprobado()"
-                              [visualizarImpuestosVenta]="true"
-                            ></app-comun-impuestos>
-                          </td>
-                          <td>
-                            <input
-                              readonly
-                              rows="1"
-                              spellcheck="true"
-                              (blur)="onImpuestoBlur(i, estadoAprobado())"
-                              class="disabled-cursor"
-                              class="form-control-sm"
-                              [ngClass]="{
-                                'bg-transparent': estadoAprobado(),
-                                'text-white':
-                                  theme_value === 'dark' && estadoAprobado()
-                              }"
-                              [value]="detalle.value.total"
-                            />
-                          </td>
-                          <td class="text-center" *ngIf="!estadoAprobado()">
-                            <i
-                              class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
-                              (click)="eliminarProducto(i, detalle.value.id)"
-                            ></i>
-                          </td>
-                        </tr>
-                      </ng-container>
-                    </tbody>
-                  </table>
-                </div> -->
               </ng-template>
             </li>
             <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
@@ -672,7 +393,7 @@
                 <app-factura-cuenta />
               </ng-template>
             </li>
-            <li [ngbNavItem]="3" [destroyOnHide]="true" class="nav-item">
+            <li [ngbNavItem]="3" [destroyOnHide]="false" class="nav-item">
               <a
                 class="nav-link"
                 [ngClass]="{ 'text-primary': active === 3 }"
@@ -681,145 +402,7 @@
                 translate="FORMULARIOS.TITULOS.FACTURACION.MASINFORMACION"
               ></a>
               <ng-template ngbNavContent>
-                <div class="row mb-5">
-                  <div class="col-md-6 col-sm-12">
-                    <label
-                      class="form-label"
-                      translate="FORMULARIOS.CAMPOS.FACTURA.ORDENCOMPRA"
-                    ></label>
-                    <input
-                      formControlName="orden_compra"
-                      class="form-control"
-                      type="text"
-                      autocomplete="off"
-                      (blur)="modificarCampoFormulario('orden_compra', null)"
-                      [ngClass]="{
-                        'is-invalid':
-                          formularioFactura.controls['orden_compra'].touched &&
-                          formularioFactura.controls['orden_compra'].invalid,
-                        'is-valid':
-                          formularioFactura.controls['orden_compra'].touched &&
-                          formularioFactura.controls['orden_compra'].valid,
-                      }"
-                    />
-                    <ng-container
-                      [ngTemplateOutlet]="formError"
-                      [ngTemplateOutletContext]="{
-                        validation: 'maxlength',
-                        message:
-                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
-                          | translate,
-                        cantidadCaracteres: '50',
-                        control: formularioFactura.controls['orden_compra'],
-                      }"
-                    ></ng-container>
-                  </div>
-                  <div
-                    class="col-md-6 col-sm-12"
-                    ngbDropdown
-                    #MetodoDropdown="ngbDropdown"
-                  >
-                    <label
-                      class="form-label"
-                      translate="FORMULARIOS.CAMPOS.FACTURA.ASESOR"
-                    ></label>
-                    <select
-                      class="form-select"
-                      formControlName="asesor"
-                      [ngClass]="{
-                        'is-invalid':
-                          formularioFactura.controls['asesor'].touched &&
-                          formularioFactura.controls['asesor'].invalid,
-                        'is-valid':
-                          formularioFactura.controls['asesor'].touched &&
-                          formularioFactura.controls['asesor'].valid,
-                      }"
-                    >
-                      <option value="">
-                        {{
-                          "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate
-                        }}
-                      </option>
-                      <option
-                        *ngFor="let asesor of arrAsesor"
-                        [value]="asesor.id"
-                        [selected]="
-                          asesor.id === formularioFactura.controls.asesor.value
-                        "
-                      >
-                        {{ asesor.nombre_corto }}
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-6 col-sm-12">
-                    <label
-                      class="form-label"
-                      translate="FORMULARIOS.CAMPOS.FACTURA.REMISION"
-                    ></label>
-                    <input
-                      formControlName="remision"
-                      class="form-control"
-                      type="text"
-                      autocomplete="off"
-                      (blur)="modificarCampoFormulario('remision', null)"
-                      [ngClass]="{
-                        'is-invalid':
-                          formularioFactura.controls['remision'].touched &&
-                          formularioFactura.controls['remision'].invalid,
-                        'is-valid':
-                          formularioFactura.controls['remision'].touched &&
-                          formularioFactura.controls['remision'].valid,
-                      }"
-                    />
-                    <ng-container
-                      [ngTemplateOutlet]="formError"
-                      [ngTemplateOutletContext]="{
-                        validation: 'maxlength',
-                        message:
-                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
-                          | translate,
-                        cantidadCaracteres: '50',
-                        control: formularioFactura.controls['remision'],
-                      }"
-                    ></ng-container>
-                  </div>
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-12 col-sm-12">
-                    <label
-                      class="form-label"
-                      translate="FORMULARIOS.CAMPOS.FACTURA.COMENTARIO"
-                    ></label>
-                    <textarea
-                      formControlName="comentario"
-                      class="form-control"
-                      id="exampleFormControlTextarea1"
-                      (blur)="modificarCampoFormulario('comentario', null)"
-                      rows="3"
-                      [ngClass]="{
-                        'is-invalid':
-                          formularioFactura.controls['comentario'].touched &&
-                          formularioFactura.controls['comentario'].invalid,
-                        'is-valid':
-                          formularioFactura.controls['comentario'].touched &&
-                          formularioFactura.controls['comentario'].valid,
-                      }"
-                    ></textarea>
-                    <ng-container
-                      [ngTemplateOutlet]="formError"
-                      [ngTemplateOutletContext]="{
-                        validation: 'maxlength',
-                        message:
-                          'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO'
-                          | translate,
-                        cantidadCaracteres: '500',
-                        control: formularioFactura.controls['comentario'],
-                      }"
-                    ></ng-container>
-                  </div>
-                </div>
+                <app-factura-informacion-extra />
               </ng-template>
             </li>
           </ul>
@@ -879,46 +462,6 @@
                   {{ formularioFactura.value.pago | currency: "$" }}
                 </td>
               </tr>
-              <!-- <tr *ngIf="totalCantidad > 0">
-                <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALCANTIDAD"></td>
-                <td class="text-end">{{ totalCantidad }}</td>
-              </tr>
-              <tr *ngIf="subtotalGeneral > 0">
-                <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.SUBTOTAL"></td>
-                <td class="text-end">
-                  {{ subtotalGeneral | currency : "$" }}
-                </td>
-              </tr>
-              <tr *ngIf="totalBase > 0">
-                <td class="text-end">Total base</td>
-                <td class="text-end">
-                  {{ totalBase | currency : "$" }}
-                </td>
-              </tr>
-              <tr *ngFor="let impuesto of acumuladorImpuestos | keyvalue">
-                <td class="text-end">{{ impuesto.key }}</td>
-                <td class="text-end">
-                  {{ impuesto.value.total | currency : "$" }}
-                </td>
-              </tr>
-              <tr *ngIf="totalDescuento > 0">
-                <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALDESCUENTO"></td>
-                <td class="text-end">
-                  {{ totalDescuento | currency : "$" }}
-                </td>
-              </tr>
-              <tr *ngIf="totalImpuestos > 0">
-                <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALIMPUESTOS"></td>
-                <td class="text-end">
-                  {{ totalImpuestos | currency : "$" }}
-                </td>
-              </tr>
-              <tr class="border-top">
-                <td class="text-end" translate="FORMULARIOS.TITULOS.FACTURACION.TOTALGENERAL"></td>
-                <td class="text-end" style="padding-left: 24px">
-                  {{ totalGeneral | currency : "$" }}
-                </td>
-              </tr> -->
             </table>
           </div>
         </div>
