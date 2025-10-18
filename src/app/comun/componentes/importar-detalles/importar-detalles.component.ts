@@ -37,6 +37,7 @@ export class ImportarDetallesComponent extends General {
     nombre: string;
     path: string;
   };
+  @Input() parametrosAdicionales: { [key: string]: any } = {};
   @Input() estadoHabilitado: boolean = false;
   @Input() endpoint: string = '';
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
@@ -105,6 +106,7 @@ export class ImportarDetallesComponent extends General {
       .post<ImportarDetalles>(url, {
         documento_id: this?.detalle,
         archivo_base64,
+        ...this.parametrosAdicionales,
       })
       .pipe(
         tap((respuesta) => {

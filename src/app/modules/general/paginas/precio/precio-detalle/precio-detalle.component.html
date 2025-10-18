@@ -8,6 +8,7 @@
           path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/Importar_detalle_precio.xlsx',
         }"
         (emitirDetallesAgregados)="consultarPrecioDetalles()"
+        [parametrosAdicionales]="{ precio_id: precio.id }"
       >
       </app-importar-detalles>
     </div>
