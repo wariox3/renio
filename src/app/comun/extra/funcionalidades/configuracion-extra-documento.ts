@@ -7,6 +7,7 @@ interface ConfiguracionExtraDocumento {
 }
 
 export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
+
   103: {
     botones: [
       {
@@ -28,6 +29,12 @@ export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
           size: 'sm',
           titulo: 'Generar masivo',
         },
+      },
+      {
+        componenteNombre: 'generarSeleccionados',
+        nombreBoton: 'Generar seleccionados',
+        esModal: false,
+        emitirValorCheck: true,
       },
     ],
   },

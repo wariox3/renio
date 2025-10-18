@@ -284,7 +284,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   botonExtra(nombreComponente: BotonesExtras) {
     if (nombreComponente.emitirValorCheck) {
-      this.eliminarRegistros()
+      nombreComponente.registrosSeleccionados = this.arrRegistrosEliminar
     }
     this.emitirClickBotonExtra.emit(nombreComponente);
   }

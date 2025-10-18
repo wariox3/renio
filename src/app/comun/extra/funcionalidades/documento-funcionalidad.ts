@@ -22,6 +22,12 @@ export const ComponentesExtras: ComponentesExtrasAsincronos = {
           '../../../modules/compra/paginas/documento/extras/generar/generar.component'
         ),
     },
+    generarSeleccionados: {
+      componente: async () =>
+        await import(
+          '../../../modules/compra/paginas/documento/extras/generarSeleccionados/generarSeleccionados.component'
+        ),
+    },
   },
   702: {
     generar: {
