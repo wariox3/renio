@@ -8,7 +8,7 @@ import { PrecioService } from '@modulos/general/servicios/precio.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
-import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   FormArray,
   FormBuilder,
@@ -19,6 +19,8 @@ import {
 import { EncabezadoFormularioNuevoComponent } from "@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component";
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 import { PrecioDetalle } from '@modulos/general/interfaces/precio';
+import { ImportarAdministradorComponent } from '@comun/componentes/importar-administrador/importar-administrador.component';
+import { ImportarDetallesComponent } from "@comun/componentes/importar-detalles/importar-detalles.component";
 
 @Component({
   selector: 'app-precio-detalle',
@@ -29,13 +31,16 @@ import { PrecioDetalle } from '@modulos/general/interfaces/precio';
     CommonModule,
     TranslateModule,
     CardComponent,
+    ImportarAdministradorComponent,
     BtnAtrasComponent,
     NgbNavModule,
+    NgbDropdownModule,
     ProductosComponent,
     FormsModule,
     ReactiveFormsModule,
     EncabezadoFormularioNuevoComponent,
-    TituloAccionComponent
+    TituloAccionComponent,
+    ImportarDetallesComponent
 ],
 })
 export default class PrecioDetalleComponent extends General implements OnInit {

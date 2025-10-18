@@ -1,7 +1,17 @@
 <form [formGroup]="formularioPrecio" (ngSubmit)="enviarFormulario()">
-  <app-comun-encabezado-formulario-nuevo
-    [estadoAprobado]="true"
-  ></app-comun-encabezado-formulario-nuevo>
+  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="true">
+    <div class="btn-group btn-sm" btn-extras>
+      <app-importar-detalles
+        endpoint="general/precio/importar/"
+        [archivoEjemplo]="{
+          nombre: 'ejemplo_entrada',
+          path: 'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/Importar_detalle_precio.xlsx',
+        }"
+        (emitirDetallesAgregados)="consultarPrecioDetalles()"
+      >
+      </app-importar-detalles>
+    </div>
+  </app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
       <app-comun-titulo-accion
