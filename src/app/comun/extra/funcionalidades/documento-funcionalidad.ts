@@ -25,7 +25,7 @@ export const ComponentesExtras: ComponentesExtrasAsincronos = {
     generarSeleccionados: {
       componente: async () =>
         await import(
-          '../../../modules/compra/paginas/documento/extras/generarSeleccionados/generarSeleccionados.component'
+          '../../../modules/compra/paginas/documento/extras/generar-seleccionados/generar-seleccionados.component'
         ),
     },
   },
