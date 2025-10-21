@@ -1656,7 +1656,7 @@ export const locale = {
       108: 'Remisión',
       200: 'Pago',
       201: 'Saldo inicial',
-      300: 'Factura de compra',
+      300: 'Compra',
       301: 'Nota crédito',
       302: 'Nota débito',
       303: 'Documento soporte',
