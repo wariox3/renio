@@ -42,6 +42,7 @@ export default class GenerarComponent extends General implements OnInit {
 
   ngOnInit(): void {
     this._setupConfigModuleListener();
+    this.confirmarGenerar();
   }
 
   private _setupConfigModuleListener() {
@@ -54,6 +55,18 @@ export default class GenerarComponent extends General implements OnInit {
 
   private _loadModuleConfiguration(modeloConfig: ModeloConfig | null) {
     this.queryParams = modeloConfig?.ajustes.queryParams || {};
+  }
+
+  confirmarGenerar() {
+    this.alertaService.confirmar({
+      titulo: '¿Estas seguro de generar?',
+      texto: 'Esta acción no se puede revertir.',
+      textoBotonCofirmacion: 'Si, generar',
+    }).then((respuesta) => {
+      if (respuesta.isConfirmed) {
+        this.formSubmit();
+      }
+    });
   }
 
   formSubmit() {

@@ -275,6 +275,11 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
           const componenteCargado: any =
             this.componenteDinamico.createComponent(componente);
           componenteCargado.changeDetectorRef.detectChanges();
+
+          if (!datosBoton.realizarPeticion) {
+            return; 
+          }
+
           if (typeof componenteCargado.instance.formSubmit === 'function') {
             const observable$ = componenteCargado.instance.formSubmit(datosBoton.registrosSeleccionados);
             if (observable$) {

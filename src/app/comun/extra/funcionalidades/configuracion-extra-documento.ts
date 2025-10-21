@@ -37,6 +37,8 @@ export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
       {
         componenteNombre: 'generar',
         nombreBoton: 'Generar todos',
+        esModal: false,
+        realizarPeticion: false,
         configuracionModal: {
           size: 'sm',
           titulo: 'Generar masivo',
@@ -45,6 +47,7 @@ export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
       {
         componenteNombre: 'generarSeleccionados',
         nombreBoton: 'Generar seleccionados',
+        realizarPeticion: true,
         esModal: false,
         emitirValorCheck: true,
       },
