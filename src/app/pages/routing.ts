@@ -50,7 +50,7 @@ const Routing: Routes = [
     data: { breadcrumb: 'venta' },
     canActivateChild: [validarRutaGuard],
     loadChildren: () =>
-      import('../modules/venta/venta-routing').then((r) => r.routes),
+      import('../modules/venta/venta.routes').then((r) => r.routes),
   },
   {
     path: 'inventario',
