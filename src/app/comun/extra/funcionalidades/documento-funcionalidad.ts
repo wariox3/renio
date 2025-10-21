@@ -7,11 +7,25 @@ interface ComponentesExtrasAsincronos {
 }
 
 export const ComponentesExtras: ComponentesExtrasAsincronos = {
+  100: {
+    recurrente: {
+      componente: async () =>
+        await import(
+          '../../../modules/venta/paginas/documento/extras/recurrente-venta/recurrente-venta.component'
+        ),
+    },
+  },
   103: {
     generar: {
       componente: async () =>
         await import(
           '../../../modules/venta/paginas/documento/extras/generar/generar.component'
+        ),
+    },
+    generarSeleccionados: {
+      componente: async () =>
+        await import(
+          '../../../modules/compra/paginas/documento/extras/generar-seleccionados/generar-seleccionados.component'
         ),
     },
   },

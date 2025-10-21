@@ -7,16 +7,36 @@ interface ConfiguracionExtraDocumento {
 }
 
 export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
-
+  100: {
+    botones: [
+      {
+        componenteNombre: 'recurrente',
+        nombreBoton: 'Recurrente',
+        configuracionModal: {
+          size: 'xl',
+          titulo: 'Recurrente',
+        },
+      },
+    ],
+  },
   103: {
     botones: [
       {
         componenteNombre: 'generar',
-        nombreBoton: 'Generar',
+        nombreBoton: 'Generar todos',
+        esModal: false,
+        realizarPeticion: false,
         configuracionModal: {
           size: 'sm',
           titulo: 'Generar masivo',
         },
+      },
+      {
+        componenteNombre: 'generarSeleccionados',
+        nombreBoton: 'Generar seleccionados',
+        realizarPeticion: true,
+        esModal: false,
+        emitirValorCheck: true,
       },
     ],
   },

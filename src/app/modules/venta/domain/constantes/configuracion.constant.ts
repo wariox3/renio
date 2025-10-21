@@ -162,6 +162,7 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
               verBotonExportarZip: true,
+              verDropdownNuevo: true,
             },
           },
         },

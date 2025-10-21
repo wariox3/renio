@@ -1645,7 +1645,7 @@ export const locale = {
       UTILIDAD: 'utilidad',
       PROCESO: 'Proceso',
       ESPECIAL: 'Especial',
-      100: 'Factura de venta',
+      100: 'Venta',
       101: 'Nota crédito',
       102: 'Nota débito',
       103: 'Factura recurrente',
