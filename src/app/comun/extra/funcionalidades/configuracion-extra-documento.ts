@@ -20,6 +20,18 @@ export const configuracionExtraDocumento: ConfiguracionExtraDocumento = {
       },
     ],
   },
+  300: {
+    botones: [
+      {
+        componenteNombre: 'recurrente',
+        nombreBoton: 'Recurrente',
+        configuracionModal: {
+          size: 'xl',
+          titulo: 'Recurrente',
+        },
+      },
+    ],
+  },
   305: {
     botones: [
       {

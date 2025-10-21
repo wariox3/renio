@@ -79,4 +79,5 @@ export interface OpcionesVista {
   verBotonExportarZip?: boolean;
   verIconoDerecha?: boolean;
   verBotonGenerar?: boolean;
+  verDropdownNuevo?: boolean;
 }

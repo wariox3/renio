@@ -53,11 +53,35 @@
         </div>
       }
       @if (visualizarBtnNuevo) {
-        <button
-          (click)="navegarNuevo()"
-          class="btn btn-sm btn-primary"
-          translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-        ></button>
+        <div class="btn-group btn-group-sm" ngbDropdown role="group">
+          <button
+            (click)="navegarNuevo()"
+            class="btn btn-sm btn-primary"
+            translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
+          ></button>
+        </div>
+
+        @if (visualizarDropdownNuevo) {
+          <div class="btn-group btn-group-sm" ngbDropdown role="group">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              ngbDropdownToggle
+              (click)="consultarComponentesBotonesExtrasNuevo()"
+            ></button>
+            <div class="dropdown-menu p-2" ngbDropdownMenu>
+              @for (item of botonesExtrasNuevo; track $index) {
+                <button
+                  ngbDropdownItem
+                  class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+                  (click)="botonExtra(item)"
+                >
+                  {{ item.nombreBoton }}
+                </button>
+              }
+            </div>
+          </div>
+        }
       }
       @if (visualizarBtnEliminar) {
         <button

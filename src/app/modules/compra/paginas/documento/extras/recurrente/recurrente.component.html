@@ -1,0 +1,45 @@
+<app-filtro
+  (filtersApply)="filterChange($event)"
+  [availableFields]="availableFields"
+></app-filtro>
+<app-paginador
+    [currentPage]="currentPage()"
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="cantidadRegistros()"
+
+></app-paginador>
+<div class="table-responsive">
+  <table
+    class="table table-hover table-bordered table-rounded border gy-2 gs-2"
+  >
+    <thead>
+      <tr class="fw-bold text-gray-800">
+        <th class="text-center">Id</th>
+        <th class="text-center">Contacto</th>
+        <th class="text-center">Subtotal</th>
+        <th class="text-center">Impuesto</th>
+        <th class="text-center">Total</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (factura of facturas(); track factura.id) {
+        <tr>
+          <td>{{ factura.id }}</td>
+          <td>{{ factura.contacto__nombre_corto }}</td>
+          <td class="text-end">{{ factura.subtotal | number: "1.0-0" }}</td>
+          <td class="text-end">{{ factura.impuesto | number: "1.0-0" }}</td>
+          <td class="text-end">{{ factura.total | number: "1.0-0" }}</td>
+          <td class="text-center">
+            <button
+              class="btn btn-sm btn-primary"
+              (click)="generar(factura.id)"
+            >
+              Seleccionar
+            </button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

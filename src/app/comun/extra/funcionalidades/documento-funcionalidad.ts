@@ -15,6 +15,14 @@ export const ComponentesExtras: ComponentesExtrasAsincronos = {
         ),
     },
   },
+  300: {
+    recurrente: {
+      componente: async () =>
+        await import(
+          '../../../modules/compra/paginas/documento/extras/recurrente/recurrente.component'
+        ),
+    },
+  },
   305: {
     generar: {
       componente: async () =>

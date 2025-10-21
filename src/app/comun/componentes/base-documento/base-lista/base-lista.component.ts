@@ -78,6 +78,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public queryParams: { [key: string]: any } = {};
   public queryParamsStorage: { [key: string]: any } = {};
   public availableFields: FilterField[] = [];
+
   @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
   componenteDinamico: ViewContainerRef;
   arrParametrosConsulta: ParametrosFiltros = {
@@ -109,6 +110,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   visualizarColumnaSeleccionar = true;
   visualizarBtnImportar = true;
   visualizarBtnExportarZip: boolean;
+  visualizarBtnDropdownNuevo: boolean;
 
   public mostrarVentanaCargando$: BehaviorSubject<boolean>;
 
@@ -200,12 +202,14 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     const verBtnExportarZip = modeloConfig?.ajustes.ui?.verBotonExportarZip;
     const verColumnaSeleccionar =
       modeloConfig?.ajustes.ui?.verColumnaSeleccionar;
+    const verDropdownNuevo = modeloConfig?.ajustes.ui?.verDropdownNuevo;
 
     this.visualizarColumnaEditar = !!verColumnaEditar;
     this.visualizarBtnNuevo = !!verBtnNuevo;
     this.visualizarBtnImportar = !!verBtnImportar;
     this.visualizarBtnEliminar = !!verBtnEliminar;
     this.visualizarBtnExportarZip = !!verBtnExportarZip;
+    this.visualizarBtnDropdownNuevo = !!verDropdownNuevo;
     this.visualizarColumnaSeleccionar = !!verColumnaSeleccionar;
     this.construirBotonesExtras(modeloConfig);
 
@@ -257,7 +261,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       ) {
         const componenteLoaded =
           ComponentesExtras[documentoClase][nombreComponente];
-
         if (componenteLoaded) {
           const componente = await (await componenteLoaded.componente()).default;
           const componenteCargado: any =
@@ -267,8 +270,6 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
             const observable$ = componenteCargado.instance.formSubmit(datosBoton.registrosSeleccionados);
             if (observable$) {
               observable$.subscribe((respuesta: any) => {
-                console.log({respuesta});
-
                 if (respuesta) {
                   this.alertaService.mensajaExitoso('¡Facturas generadas correctamente!');
                   this.consultarLista(); // refrescar lista, si aplica
