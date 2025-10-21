@@ -121,10 +121,15 @@ export default class RecurrenteComponent implements OnInit, OnDestroy {
 
   generar(id: number) {
     this._httpService
-      .post<{ id: number }>('general/documento/generar/', { id })
+      .post<{ documentos_creados: number[] }>('general/documento/generar-recurrente/', { ids: [id] })
       .subscribe({
-        next: (respuesta: { id: number }) => {
-          this.router.navigate([`compra/documento/detalle/${respuesta.id}`], {
+        next: (respuesta) => {
+          if (respuesta.documentos_creados?.length === 0) {
+            this._ngbModal.dismissAll();
+            return;
+          }
+
+          this.router.navigate([`compra/documento/detalle/${respuesta.documentos_creados[0]}`], {
             queryParams: {
               modelo: this._key,
             },

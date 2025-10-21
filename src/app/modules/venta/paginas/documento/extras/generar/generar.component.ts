@@ -47,7 +47,7 @@ export default class GenerarComponent extends General {
   formSubmit() {
     this.generando = true;
     this.extraService
-      .generarMasivo({ generar_todos: true })
+      .generarMasivo({ documento_tipo_id: 0 })
       .pipe(
         finalize(() => {
           this.generando = false;
