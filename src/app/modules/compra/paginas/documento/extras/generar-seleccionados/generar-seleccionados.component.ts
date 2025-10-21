@@ -55,6 +55,7 @@ export default class GenerarSeleccionadosComponent extends General {
         this.alertaService.mensajaExitoso(
           '¡Facturas electrónicas generadas exitosamente!'
         );
+        this.extraService.notificarGeneracionExitosa();
         return of(respuesta);
       });
   }

@@ -13,6 +13,7 @@ import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
 import { Modelo } from '@comun/type/modelo.type';
+import { ExtraService } from '@modulos/venta/servicios/extra.service';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
@@ -119,6 +120,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     private descargarArchivosService: DescargarArchivosService,
     private modalService: NgbModal,
     private modalDinamicoService: ModalDinamicoService,
+    private extraService: ExtraService,
   ) {
     super();
     this.mostrarVentanaCargando$ = new BehaviorSubject(false);
@@ -131,6 +133,13 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.consultaListaModal();
+      });
+
+    // Suscribirse al observable de generación exitosa
+    this.extraService.generacionExitosa$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.consultarLista();
       });
 
     this.changeDetectorRef.detectChanges();
