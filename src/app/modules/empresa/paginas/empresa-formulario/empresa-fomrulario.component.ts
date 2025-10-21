@@ -220,7 +220,6 @@ export class EmpresaFormularioComponent extends General implements OnInit {
         'general/ciudad/seleccionar/',
         {
           nombre__icontains: `${event?.target.value}`,
-          limit: 100,
         },
       )
       .pipe(
