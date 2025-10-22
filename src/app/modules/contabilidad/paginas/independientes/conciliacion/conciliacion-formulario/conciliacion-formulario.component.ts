@@ -161,7 +161,6 @@ export default class ConciliacionFormularioComponent
       .consultarDetalle(this.detalle)
       .subscribe((respuesta) => {
         this.formularioConciliacion.patchValue({
-          nombre: respuesta.nombre,
           fecha_desde: respuesta.fecha_desde,
           fecha_hasta: respuesta.fecha_hasta,
           cuenta_banco: respuesta.cuenta_banco,

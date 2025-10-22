@@ -31,6 +31,8 @@ import {
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ConciliacionTablaSoporteComponent } from "../conciliacion-tabla-soporte/conciliacion-tabla-soporte";
 import { ConciliacionTablaDetalleComponent } from "../conciliacion-tabla-detalle/conciliacion-tabla-detalle";
+import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
+import { Conciliacion } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 
 
 @Component({
@@ -59,30 +61,27 @@ export default class ConciliacionDetalleComponent
   extends General
   implements OnInit, OnDestroy
 {
+  private _conciliacionService = inject(ConciliacionService);
+  private _unsubscribe$ = new Subject<void>();
+
   public generando: boolean = false;
   public desgenerando: boolean = false;
   public notificando: boolean = false;
-
-  active: Number;
-  programacion: any = {
+  public active: Number;
+  public programacion: any = {
     id: 0,
     fecha_desde: '',
     fecha_hasta: '',
     cuenta_banco_id: 0,
-    
   };
 
-  arrConceptos: any[] = [];
-  registroSeleccionado: number;
-  registrosAEliminar: number[] = [];
-  isCheckedSeleccionarTodos: boolean = false;
-  cargandoContratos: boolean = false;
-  visualizarBtnGuardarNominaProgramacionDetalleResumen = signal(false);
-  cantidadRegistrosProgramacionDetalle = 0;
-
-  private _unsubscribe$ = new Subject<void>();
-  private readonly _generalService = inject(GeneralService);
-
+  public conciliacion = signal<Conciliacion | null>(null);
+  public registroSeleccionado: number;
+  public registrosAEliminar: number[] = [];
+  public isCheckedSeleccionarTodos: boolean = false;
+  public cargandoContratos: boolean = false;
+  public visualizarBtnGuardarNominaProgramacionDetalleResumen = signal(false);
+  public cantidadRegistrosProgramacionDetalle = 0;
   public cargandoEmpleados$ = new BehaviorSubject<boolean>(false);
   public busquedaContrato = new Subject<string>();
 
@@ -93,7 +92,17 @@ export default class ConciliacionDetalleComponent
     super();
   }
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.consultarDetalle();
+  }
+
+  consultarDetalle() {
+    this._conciliacionService
+      .consultarDetalle(this.detalle)
+      .subscribe((respuesta) => {
+        this.conciliacion.set(respuesta);
+      });
+  }
 
   navegarEditar(id: number) {
   }
