@@ -1729,6 +1729,7 @@ export const locale = {
       ENVIARNOMINAELECTRONICA: 'Enviar nomina electronica',
       HUMLIQUIDACION: 'Liquidación',
       NUEVO: 'Nuevo',
+      DETALLE: 'Detalle',
     },
   },
 };

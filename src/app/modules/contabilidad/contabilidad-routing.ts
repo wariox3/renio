@@ -61,6 +61,7 @@ export const routes: Route[] = [
           },
           {
             path: 'detalle/:id',
+            data: { breadcrumb: 'detalle' },
             loadComponent: () =>
               import(
                 './paginas/independientes/conciliacion/conciliacion-detalle/conciliacion-detalle.component'
