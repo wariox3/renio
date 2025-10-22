@@ -2,24 +2,16 @@
   <div class="btn-group contenedor-btn-group">
     <button
       (click)="cargarSoporte()"
-      class="btn btn-sm btn-success"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
       type="button"
     >
-      <i class="ki-duotone ki-file-up">
-        <span class="path1"></span>
-        <span class="path2"></span>
-      </i>
       Cargar Soporte
     </button>
     <button
       (click)="exportarExcel()"
-      class="btn btn-sm btn-primary"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
       type="button"
     >
-      <i class="ki-duotone ki-file-down">
-        <span class="path1"></span>
-        <span class="path2"></span>
-      </i>
       Excel
     </button>
     <button
@@ -34,7 +26,7 @@
 <div class="table-responsive-sm">
   <table id="tableConciliacionSoporte" class="table table-bordered table-sm">
     <thead>
-      <tr class="bg-gray-100">
+      <tr class="bg-gray-100 text-center">
         <th class="bg-gray-100" style="width: 50px">Id</th>
         <th class="bg-gray-100">Fecha</th>
         <th class="bg-gray-100 text-end">Débito</th>
@@ -68,17 +60,15 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container
-        *ngFor="let soporte of arrConciliacionSoporte()"
-      >
+      <ng-container *ngFor="let soporte of arrConciliacionSoporte()">
         <tr>
           <td class="w-40px">{{ soporte.id }}</td>
           <td>{{ soporte.fecha }}</td>
           <td class="text-end">
-            {{ soporte.debito | number:'1.0-0' }}
+            {{ soporte.debito | number: "1.0-0" }}
           </td>
           <td class="text-end">
-            {{ soporte.credito | number:'1.0-0' }}
+            {{ soporte.credito | number: "1.0-0" }}
           </td>
           <td>{{ soporte.descripcion }}</td>
           <td class="w-20px">

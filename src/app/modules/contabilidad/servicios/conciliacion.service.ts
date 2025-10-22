@@ -23,4 +23,12 @@ export class ConciliacionService extends Subdominio {
   actualizarDatos(id: number, data: Partial<any>) {
     return this.httpService.put<Conciliacion>(`contabilidad/conciliacion/${id}/`, data);
   }
+
+  consultarConciliacionDetalle(data: any) {
+    return this.httpService.getDetalle<any>(`contabilidad/conciliacion_detalle/`, data);
+  }
+
+  consultarConciliacionSoporte(data: any) {
+    return this.httpService.getDetalle<any>(`contabilidad/conciliacion_soporte/`, data);
+  }
 }
