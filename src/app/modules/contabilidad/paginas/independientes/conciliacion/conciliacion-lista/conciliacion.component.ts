@@ -112,7 +112,7 @@ export class ConciliacionComponent extends General implements OnInit {
   }
 
   navegarDetalle(id: number) {
-    this._router.navigate(['contabilidad/especial/conciliacion', id]);
+    this._router.navigate(['contabilidad/especial/conciliacion/detalle', id]);
   }
 
   navegarEditar(id: number) {
