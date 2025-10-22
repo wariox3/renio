@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   selector: 'app-conciliacion-tabla-soporte',
   standalone: true,
   imports: [],
-  template: `<p>conciliacion-tabla-soporte works!</p>`,
+  templateUrl: './conciliacion-tabla-soporte.html',
   styleUrl: './conciliacion-tabla-soporte.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
