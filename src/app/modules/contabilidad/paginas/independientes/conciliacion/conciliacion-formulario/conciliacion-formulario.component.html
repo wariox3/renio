@@ -1,71 +1,88 @@
 <form [formGroup]="formularioConciliacion" (ngSubmit)="enviarFormulario()">
-  <app-comun-encabezado-formulario-nuevo
-    [estadoAprobado]="false"
-  ></app-comun-encabezado-formulario-nuevo>
+  <section class="d-flex gap-2 mb-2">
+    <button
+      type="button"
+      (click)="navegarAtras()"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary"
+    >
+      <i class="bi bi-arrow-left fs-6"
+        ><span class="path1"></span><span class="path2"></span
+      ></i>
+      {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
+    </button>
+    <button
+      type="submit"
+      class="btn btn-sm btn-flex btn-primary"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </section>
+
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'cuentaBanco'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'cuentaBanco'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-5">
         <div class="col-md-6 col-sm-12">
           <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.NOMBRE"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CUENTA"
             class="form-label required"
           ></label>
-          <input
-            formControlName="nombre"
-            class="form-control bg-transparent"
-            type="text"
-            autocomplete="off"
+          <select
+            class="form-select"
+            formControlName="cuenta_banco"
             [ngClass]="{
               'is-invalid':
-                formularioConciliacion.controls['nombre'].touched &&
-                formularioConciliacion.controls['nombre'].invalid,
+                formularioConciliacion.controls['cuenta_banco'].touched &&
+                formularioConciliacion.controls['cuenta_banco'].invalid,
               'is-valid':
-                formularioConciliacion.controls['nombre'].touched &&
-                formularioConciliacion.controls['nombre'].valid
+                formularioConciliacion.controls['cuenta_banco'].touched &&
+                formularioConciliacion.controls['cuenta_banco'].valid,
             }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '200',
-              control: formularioConciliacion.controls['nombre']
-            }"
-          ></ng-container>
+          >
+            <option value="">Seleccionar...</option>
+            <ng-container *ngFor="let banco of arrCuentasBancos">
+              <option
+                [value]="banco.id"
+                [selected]="
+                  banco.id === formularioConciliacion.value.cuenta_banco
+                "
+              >
+                {{ banco.nombre }}
+              </option>
+            </ng-container>
+          </select>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioConciliacion.controls['nombre']
+              control: formularioConciliacion.controls['cuenta_banco'],
             }"
           ></ng-container>
         </div>
       </div>
       <div class="row mb-5">
-        @if(visualizarCampoNumeroCuenta){
         <div class="col-md-6 col-sm-12">
           <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.NUMEROCUENTA"
             class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
           ></label>
           <input
-            formControlName="numero_cuenta"
-            class="form-control bg-transparent"
-            type="text"
+            formControlName="fecha_desde"
+            class="form-control"
+            type="date"
             autocomplete="off"
             [ngClass]="{
               'is-invalid':
-                formularioConciliacion.controls['numero_cuenta'].touched &&
-                formularioConciliacion.controls['numero_cuenta'].invalid,
+                formularioConciliacion.controls['fecha_desde'].touched &&
+                formularioConciliacion.controls['fecha_desde'].invalid,
               'is-valid':
-                formularioConciliacion.controls['numero_cuenta'].touched &&
-                formularioConciliacion.controls['numero_cuenta'].valid
+                formularioConciliacion.controls['fecha_desde'].touched &&
+                formularioConciliacion.controls['fecha_desde'].valid,
             }"
           />
           <ng-container
@@ -73,85 +90,159 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioConciliacion.controls['numero_cuenta']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '50',
-              control: formularioConciliacion.controls['numero_cuenta']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioConciliacion.controls['numero_cuenta']
+              control: formularioConciliacion.controls['fecha_desde'],
             }"
           ></ng-container>
         </div>
         <div class="col-md-6 col-sm-12">
           <label
-            translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
             class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
           ></label>
-          <select
-            formControlName="cuenta_banco_clase"
-            class="form-select form-select"
+          <input
+            formControlName="fecha_hasta"
+            class="form-control"
+            type="date"
+            autocomplete="off"
             [ngClass]="{
               'is-invalid':
-                formularioConciliacion.controls['cuenta_banco_clase'].touched &&
-                formularioConciliacion.controls['cuenta_banco_clase'].invalid,
+                (formularioConciliacion.controls['fecha_hasta'].touched &&
+                  formularioConciliacion.controls['fecha_hasta'].invalid) ||
+                formularioConciliacion.errors?.fechaInvalida,
               'is-valid':
-                formularioConciliacion.controls['cuenta_banco_clase'].touched &&
-                formularioConciliacion.controls['cuenta_banco_clase'].valid
+                formularioConciliacion.controls['fecha_hasta'].touched &&
+                formularioConciliacion.controls['fecha_hasta'].valid,
             }"
-          >
-            @for (item of arrCuentasBancos; track $index) {
-            <option
-              [value]="item.id"
-              [selected]="
-                item.id ===
-                formularioConciliacion.value.cuenta_banco_clase
-              "
-            >
-              {{ item.nombre }}
-            </option>
-            }
-          </select>
-
+          />
+          <div *ngIf="formularioConciliacion.errors?.fechaInvalida">
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  La fecha desde no puede ser mayor que la fecha hasta.
+                </span>
+              </div>
+            </div>
+          </div>
           <ng-container
             [ngTemplateOutlet]="formError"
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioConciliacion.controls['cuenta_banco_clase']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'maxlength',
-              message:
-                'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
-              cantidadCaracteres: '100',
-              control: formularioConciliacion.controls['cuenta_banco_clase']
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioConciliacion.controls['cuenta_banco_clase']
+              control: formularioConciliacion.controls['fecha_hasta'],
             }"
           ></ng-container>
         </div>
+      </div>
+      <div class="row mb-5">
+        @if (visualizarCampoNumeroCuenta) {
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.NUMEROCUENTA"
+              class="form-label required"
+            ></label>
+            <input
+              formControlName="numero_cuenta"
+              class="form-control bg-transparent"
+              type="text"
+              autocomplete="off"
+              [ngClass]="{
+                'is-invalid':
+                  formularioConciliacion.controls['numero_cuenta'].touched &&
+                  formularioConciliacion.controls['numero_cuenta'].invalid,
+                'is-valid':
+                  formularioConciliacion.controls['numero_cuenta'].touched &&
+                  formularioConciliacion.controls['numero_cuenta'].valid,
+              }"
+            />
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioConciliacion.controls['numero_cuenta'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '50',
+                control: formularioConciliacion.controls['numero_cuenta'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+                control: formularioConciliacion.controls['numero_cuenta'],
+              }"
+            ></ng-container>
+          </div>
+          <div class="col-md-6 col-sm-12">
+            <label
+              translate="FORMULARIOS.CAMPOS.GENERAL.CUENTABANCO.CUENTABANCOCLASE"
+              class="form-label required"
+            ></label>
+            <select
+              formControlName="cuenta_banco_clase"
+              class="form-select form-select"
+              [ngClass]="{
+                'is-invalid':
+                  formularioConciliacion.controls['cuenta_banco_clase']
+                    .touched &&
+                  formularioConciliacion.controls['cuenta_banco_clase'].invalid,
+                'is-valid':
+                  formularioConciliacion.controls['cuenta_banco_clase']
+                    .touched &&
+                  formularioConciliacion.controls['cuenta_banco_clase'].valid,
+              }"
+            >
+              @for (item of arrCuentasBancos; track $index) {
+                <option
+                  [value]="item.id"
+                  [selected]="
+                    item.id === formularioConciliacion.value.cuenta_banco_clase
+                  "
+                >
+                  {{ item.nombre }}
+                </option>
+              }
+            </select>
+
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+                control: formularioConciliacion.controls['cuenta_banco_clase'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
+                cantidadCaracteres: '100',
+                control: formularioConciliacion.controls['cuenta_banco_clase'],
+              }"
+            ></ng-container>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message:
+                  'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+                control: formularioConciliacion.controls['cuenta_banco_clase'],
+              }"
+            ></ng-container>
+          </div>
         }
       </div>
     </section>

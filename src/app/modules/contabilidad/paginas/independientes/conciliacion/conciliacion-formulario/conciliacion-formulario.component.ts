@@ -7,30 +7,28 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
-import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
-import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgSelectModule } from '@ng-select/ng-select';
-import { TranslateModule } from '@ngx-translate/core';
-import { asyncScheduler, Subject, takeUntil, tap, throttleTime, zip } from 'rxjs';
+import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
+import { FechasService } from '@comun/services/fechas.service';
 import { GeneralService } from '@comun/services/general.service';
 import {
   RegistroAutocompletarGenCuentaBancoClase,
   RegistroAutocompletarGenCuentaBancoTipo,
 } from '@interfaces/comunes/autocompletar/general/gen-cuenta-banco.interface';
-import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
-import { Rutas } from '@interfaces/menu/configuracion.interface';
-import { RegistroAutocompletarConCuenta } from '@interfaces/comunes/autocompletar/contabilidad/con-cuenta.interface';
-import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
+import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { TranslateModule } from '@ngx-translate/core';
+import { Subject, zip } from 'rxjs';
 
 @Component({
   selector: 'app-conciliacion-formulario',
@@ -43,7 +41,6 @@ import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacio
     CardComponent,
     NgbDropdownModule,
     NgSelectModule,
-    EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
   ],
   templateUrl: './conciliacion-formulario.component.html',
@@ -62,9 +59,8 @@ export default class ConciliacionFormularioComponent
   public cuentaCobrarNombre = '';
   public ciudadDropdown: NgbDropdown;
   private readonly _generalService = inject(GeneralService);
-  private readonly _configModuleService = inject(ConfigModuleService)
+  private _fechasService = inject(FechasService);
   private _destroy$ = new Subject<void>()
-  private _rutas: Rutas | undefined;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -74,21 +70,12 @@ export default class ConciliacionFormularioComponent
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
     this.consultarInformacion();
     this.iniciarFormulario();
 
     if (this.detalle) {
       this.consultarDetalle();
     }
-  }
-
-  private configurarModuloListener() {
-    this._configModuleService.currentModelConfig$
-      .pipe(takeUntil(this._destroy$))
-      .subscribe((modeloConfig) => {
-        this._rutas = modeloConfig?.ajustes.rutas;
-      });
   }
 
   ngOnDestroy(): void {
@@ -112,23 +99,25 @@ export default class ConciliacionFormularioComponent
   }
 
   iniciarFormulario() {
+    const fechaActual = this._fechasService.obtenerFechaActualFormateada();
     this.formularioConciliacion = this.formBuilder.group({
-      nombre: [
-        null,
-        Validators.compose([Validators.required, Validators.maxLength(200)]),
-      ],
       fecha_desde: [
-        null,
+        fechaActual,
         Validators.compose([Validators.required]),
       ],
       fecha_hasta: [
-        null,
+        fechaActual,
         Validators.compose([Validators.required]),
       ],
       cuenta_banco: [
         null,
         Validators.compose([Validators.required]),
       ],
+    }, {
+      validator: this.fechaDesdeMenorQueFechaHasta(
+        'fecha_desde',
+        'fecha_hasta',
+      ),
     });
   }
 
@@ -141,7 +130,7 @@ export default class ConciliacionFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
+              this.router.navigate([`documento/detalle/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
                 },
@@ -154,7 +143,7 @@ export default class ConciliacionFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`${this._rutas?.detalle}/${respuesta.id}`], {
+              this.router.navigate([`documento/detalle/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
                 },
@@ -182,42 +171,23 @@ export default class ConciliacionFormularioComponent
       });
   }
 
-  modificarCampoFormulario(campo: string, dato: any) {
-    this.formularioConciliacion?.markAsDirty();
-    this.formularioConciliacion?.markAsTouched();
+  navegarAtras() {
+    this.router.navigate([`contabilidad/especial/conciliacion`]);
+  }
 
-    // if (campo === 'cuenta_banco_tipo') {
-    //   if (dato === null) {
-    //     this.formularioConciliacion.get('cuenta_banco_tipo')?.setValue(null);
-    //     this.visualizarCampoNumeroCuenta = false;
-    //     this.changeDetectorRef.detectChanges();
-    //   } else {
-    //     if (dato !== 3) {
-    //       this.visualizarCampoNumeroCuenta = true;
-    //       this.formularioCuentaBanco
-    //         .get('numero_cuenta')
-    //         ?.setValidators([Validators.required, Validators.maxLength(50)]);
-    //       this.formularioCuentaBanco
-    //         .get('cuenta_banco_clase')
-    //         ?.setValidators([Validators.required]);
-    //       this.changeDetectorRef.detectChanges();
-    //     } else {
-    //       this.visualizarCampoNumeroCuenta = false;
-    //       this.formularioCuentaBanco.get('numero_cuenta')?.clearValidators();
-    //       this.formularioCuentaBanco
-    //         .get('cuenta_banco_clase')
-    //         ?.clearValidators();
-    //       this.formularioCuentaBanco
-    //         .get('numero_cuenta')
-    //         ?.setValidators([Validators.maxLength(50)]);
-    //       this.formularioCuentaBanco
-    //         .get('numero_cuenta')
-    //         ?.updateValueAndValidity();
-    //       this.changeDetectorRef.detectChanges();
-    //       this.formularioCuentaBanco.get('cuenta_banco_clase')?.setValue(null);
-    //     }
-    //   }
-    // }
-    this.changeDetectorRef.detectChanges();
+  fechaDesdeMenorQueFechaHasta(
+    fechaDesde: string,
+    fechaHasta: string,
+  ): ValidatorFn {
+    return (formGroup: AbstractControl): { [key: string]: any } | null => {
+      const desde = formGroup.get(fechaDesde)?.value;
+      const hasta = formGroup.get(fechaHasta)?.value;
+
+      // Comprobar si las fechas son válidas y si "fecha_desde" es mayor que "fecha_hasta"
+      if (desde && hasta && new Date(desde) > new Date(hasta)) {
+        return { fechaInvalida: true };
+      }
+      return null;
+    };
   }
 }
