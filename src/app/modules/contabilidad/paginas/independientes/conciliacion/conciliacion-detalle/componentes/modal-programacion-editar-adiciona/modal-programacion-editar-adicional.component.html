@@ -1,0 +1,319 @@
+<!-- Modal para adicionar programacion -->
+<ng-template #contentModalAdicional let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Adicional</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioAdicionalProgramacion">
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <app-buscar-contrato
+            [informacionContrato]="{
+              identificacion: formularioAdicionalProgramacion.get('identificacion')?.value || '',
+              contrato: formularioAdicionalProgramacion.get('contrato')?.value || '',
+              contrato_nombre: formularioAdicionalProgramacion.get('contrato_nombre')?.value || ''
+            }"
+            [requerido]="true"
+            [formularioError]="formularioAdicionalProgramacion.get('contrato')?.invalid && formularioAdicionalProgramacion.get('contrato')?.touched"
+            [mostrarSoloActivos]="false"
+            [mostrarToggleFiltro]="true"
+            (emitirContrato)="onContratoSeleccionado($event)"
+          ></app-buscar-contrato>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
+          ></label>
+          <ng-select
+            [items]="arrConceptosAdicional()"
+            bindLabel="nombre"
+            bindValue="id"
+            formControlName="concepto"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.VALOR"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="valor"
+            prefix="$ "
+            mask="separator.2"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalProgramacion.controls['valor'].touched &&
+                formularioAdicionalProgramacion.controls['valor'].invalid &&
+                formularioAdicionalProgramacion.controls['valor'].hasError(
+                  'valorCero'
+                ),
+              'is-valid':
+                formularioAdicionalProgramacion.controls['valor'].touched &&
+                formularioAdicionalProgramacion.controls['valor'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['valor']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['valor']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
+          ></label>
+
+          <textarea
+            formControlName="detalle"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            (blur)="modificarCampoFormulario('detalle', null)"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalProgramacion.controls['detalle'].touched &&
+                formularioAdicionalProgramacion.controls['detalle'].invalid,
+              'is-valid':
+                formularioAdicionalProgramacion.controls['detalle'].touched &&
+                formularioAdicionalProgramacion.controls['detalle'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['detalle']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="aplica_dia_laborado"
+              formControlName="aplica_dia_laborado"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="aplica_dia_laborado"
+              translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.APLICA_DIA_LABORADO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary btn-primary"
+      (click)="cerrarModal()"
+      [disabled]="!formularioAdicionalProgramacion.valid"
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </div>
+</ng-template>
+
+<!-- Modal para adicionar programacion -->
+<ng-template #contentModalAdicionalEditar let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Adicional</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="formularioAdicionalProgramacion">
+      <div class="row mb-5">
+        <div class="col-md-12">
+          <app-buscar-contrato
+            [informacionContrato]="{
+              identificacion: formularioAdicionalProgramacion.get('identificacion')?.value || '',
+              contrato: formularioAdicionalProgramacion.get('contrato')?.value || '',
+              contrato_nombre: formularioAdicionalProgramacion.get('contrato_nombre')?.value || ''
+            }"
+            [requerido]="true"
+            [formularioError]="formularioAdicionalProgramacion.get('contrato')?.invalid && formularioAdicionalProgramacion.get('contrato')?.touched"
+            [mostrarSoloActivos]="false"
+            [mostrarToggleFiltro]="true"
+            (emitirContrato)="onContratoSeleccionado($event)"
+          ></app-buscar-contrato>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.CONCEPTO"
+          ></label>
+          <ng-select
+            [items]="arrConceptosAdicional()"
+            bindLabel="nombre"
+            bindValue="id"
+            formControlName="concepto"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.VALOR"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="valor"
+            prefix="$ "
+            mask="separator.2"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalProgramacion.controls['valor'].touched &&
+                formularioAdicionalProgramacion.controls['valor'].invalid,
+              'is-valid':
+                formularioAdicionalProgramacion.controls['valor'].touched &&
+                formularioAdicionalProgramacion.controls['valor'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['valor']
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['valor']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.DETALLE"
+          ></label>
+
+          <textarea
+            formControlName="detalle"
+            class="form-control"
+            id="exampleFormControlTextarea1"
+            rows="3"
+            (blur)="modificarCampoFormulario('detalle', null)"
+            [ngClass]="{
+              'is-invalid':
+                formularioAdicionalProgramacion.controls['detalle'].touched &&
+                formularioAdicionalProgramacion.controls['detalle'].invalid,
+              'is-valid':
+                formularioAdicionalProgramacion.controls['detalle'].touched &&
+                formularioAdicionalProgramacion.controls['detalle'].valid
+            }"
+          ></textarea>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioAdicionalProgramacion.controls['detalle']
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-12 col-md-6">
+          <div class="form-check form-check-custom form-check-solid">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="1"
+              id="aplica_dia_laborado"
+              formControlName="aplica_dia_laborado"
+            />
+            <label
+              class="form-check-label text-gray-700"
+              for="aplica_dia_laborado"
+              translate="FORMULARIOS.CAMPOS.HUMANO.ADICIONAL.APLICA_DIA_LABORADO"
+            >
+            </label>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-primary btn-primary"
+      (click)="actualizarDetalleAdicional()"
+      [disabled]="!formularioAdicionalProgramacion.valid"
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </div>
+</ng-template>
+
+<!-- Errores -->
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  @if(control.hasError(validation) && (control.dirty || control.touched)){
+  <div class="fv-plugins-message-container">
+    <div class="fv-help-block">
+      <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+    </div>
+  </div>
+  }
+</ng-template>

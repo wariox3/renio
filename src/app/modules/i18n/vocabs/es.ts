@@ -133,6 +133,7 @@ export const locale = {
         LIQUIDACION: 'Liquidación',
         REMISION: 'Remisión',
         TRANSLADO: 'Traslado',
+        CONCILIACION: 'Conciliación',
       },
     },
     FORMULARIOS: {
@@ -1097,7 +1098,8 @@ export const locale = {
         ADICION: 'Adición',
         ESTADO_GENERADO: 'Generado',
         DOCUMENTO__ID: 'Documento id',
-        CUENTA_BANCO_NOMBRE: 'Cuenta banco'
+        CUENTA_BANCO_NOMBRE: 'Cuenta banco',
+        CUENTA_BANCO: 'Cuenta banco id',
       },
       ITEM: {
         ID: 'ID',
@@ -1714,6 +1716,7 @@ export const locale = {
       NOMINAELECTRONICA: 'Nómina electrónica',
       MOVIMIENTO: 'Movimiento',
       PERIODO: 'Periodo',
+      CONCILIACION: 'Conciliación',
       CONTABILIZAR: 'Contabilizar',
       BALANCEPRUEBA: 'Balance de prueba',
       BALANCEPRUEBACONTACTO: 'Balance de prueba por contacto',
@@ -1725,7 +1728,7 @@ export const locale = {
       CERTIFICADORETENCION: 'Certificado de retención',
       ENVIARNOMINAELECTRONICA: 'Enviar nomina electronica',
       HUMLIQUIDACION: 'Liquidación',
-
+      NUEVO: 'Nuevo',
     },
   },
 };

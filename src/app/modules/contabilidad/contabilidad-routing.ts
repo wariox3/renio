@@ -33,6 +33,45 @@ export const routes: Route[] = [
             './paginas/independientes/periodo/periodo-detalle/periodo-detalle.component'
           ).then((c) => c.PeriodoDetalleComponent),
       },
+      {
+        path: 'conciliacion',
+        data: { breadcrumb: 'conciliacion' },
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import(
+                './paginas/independientes/conciliacion/conciliacion-lista/conciliacion.component'
+              ).then((c) => c.ConciliacionComponent),
+          },
+          {
+            path: 'nuevo',
+            data: { breadcrumb: 'nuevo' },
+            loadComponent: () =>
+              import(
+                './paginas/independientes/conciliacion/conciliacion-formulario/conciliacion-formulario.component'
+              ).then((c) => c.default),
+          },
+          {
+            path: 'editar/:id',
+            loadComponent: () =>
+              import(
+                './paginas/independientes/conciliacion/conciliacion-formulario/conciliacion-formulario.component'
+              ).then((c) => c.default),
+          },
+          {
+            path: 'detalle/:id',
+            loadComponent: () =>
+              import(
+                './paginas/independientes/conciliacion/conciliacion-detalle/conciliacion-detalle.component'
+              ).then((c) => c.default),
+          },
+        ],
+        // loadComponent: () =>
+        //   import(
+        //     './paginas/independientes/conciliacion/conciliacion-lista/conciliacion.component'
+        //   ).then((c) => c.ConciliacionComponent),
+      },
     ],
   },
   {

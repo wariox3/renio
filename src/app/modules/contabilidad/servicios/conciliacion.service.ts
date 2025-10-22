@@ -6,20 +6,20 @@ import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.in
 @Injectable({
   providedIn: 'root',
 })
-export class GrupoService extends Subdominio {
+export class ConciliacionService extends Subdominio {
   constructor(private httpService: HttpService) {
     super();
   }
 
-  guardarGrupo(data: ConGrupo) {
-    return this.httpService.post<any>(`contabilidad/grupo/`, data);
+  guardarConciliacion(data: ConGrupo) {
+    return this.httpService.post<ConGrupo>(`contabilidad/conciliacion/`, data);
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.getDetalle<any>(`contabilidad/grupo/${id}/`);
+    return this.httpService.getDetalle<any>(`contabilidad/conciliacion/${id}/`);
   }
 
-  actualizarDatos(id: number, data: Partial<ConGrupo>) {
-    return this.httpService.put<ConGrupo>(`contabilidad/grupo/${id}/`, data);
+  actualizarDatos(id: number, data: Partial<any>) {
+    return this.httpService.put<any>(`contabilidad/conciliacion/${id}/`, data);
   }
 }

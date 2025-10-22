@@ -1,0 +1,34 @@
+<app-card [titulo]="'FORMULARIOS.TITULOS.COMUNES.FILTRO'">
+  <section card-body>
+    <app-filtro
+      (filtersApply)="obtenerFiltros($event)"
+      [availableFields]="CAMPOS_FILTRO"
+    ></app-filtro>
+  </section>
+</app-card>
+<app-card [titulo]="'MENU.FUNCIONALIDAD.CONCILIACION'">
+  <section card-body>
+    <div class="table-responsive-sm table-loading">
+      <app-comun-tabla
+        [modelo]="'NOMINA'"
+        [_tipo]="'DOCUMENTO'"
+        [datos]="arrDocumentos"
+        [cantidad_registros]="cantidadRegistros()"
+        [visualizarColumnaEditar]="true"
+        [visualizarColumnaDetalle]="true"
+        [visualizarColumnaSeleccionar]="true"
+        [visualizarBtnImportar]="false"
+        [visualizarBtnExportar]="true"
+        [visualizarBtnNuevo]="true"
+        [visualizarBtnEliminar]="true"
+        [visualizarBtnExportarZip]="false"
+        (emitirPaginacion)="cambiarPaginacion($event)"
+        (emitirExportarExcel)="descargarExcel()"
+        (emitirNavegarDetalle)="navegarDetalle($event)"
+        (emitirNavegarEditar)="navegarEditar($event)"
+        (emitirNavegarNuevo)="navegarNuevo()"
+      >
+      </app-comun-tabla>
+    </div>
+  </section>
+</app-card>

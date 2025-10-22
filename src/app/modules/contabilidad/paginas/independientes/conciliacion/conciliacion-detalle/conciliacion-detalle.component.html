@@ -1,0 +1,268 @@
+<div class="encabezadoDetalle">
+  <section class="encabezadoDetalleBotonera">
+    <div class="btn-group btn-sm shadow-sm">
+      <app-comun-btn-atras />
+    </div>
+    <div class="btn-group btn-sm shadow-sm">
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="navegarEditar(programacion.id)"
+        [disabled]="
+          programacion.estado_aprobado || programacion.estado_generado
+        "
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="generar()"
+        [disabled]="
+          generando ||
+          !arrProgramacionDetalle.length ||
+          programacion.estado_generado
+        "
+      >
+        @if (generando) {
+          <div class="spinner-border spinner-border-sm mx-4" role="status">
+            <span class="sr-only">Generando...</span>
+          </div>
+        } @else {
+          {{ "FORMULARIOS.BOTONES.COMUNES.GENERAR" | translate }}
+        }
+      </button>
+      <button
+        type="submit"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        #btnGuardar
+        translate=""
+        (click)="imprimir()"
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.PDF" | translate }}
+      </button>
+      <button
+        type="button"
+        class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+        (click)="aprobar()"
+        [disabled]="
+          !programacion.estado_generado || programacion.estado_aprobado
+        "
+      >
+        {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
+      </button>
+
+      <div
+        class="btn-group"
+        ngbDropdown
+        autoClose="outside"
+        #OpcionesDropdown="ngbDropdown"
+      >
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          Acciones
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            [disabled]="!programacion.estado_aprobado"
+            ngbDropdownItem
+            (click)="confirmarDesaprobarDocumento()"
+          >
+            Desaprobar
+          </button>
+          <div class="dropdown-divider"></div>
+          <button
+            ngbDropdownItem
+            (click)="desgenerar()"
+            [disabled]="
+              desgenerando ||
+              !programacion.estado_generado ||
+              programacion.estado_aprobado
+            "
+          >
+            @if (desgenerando) {
+              <div class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Desgenerando...</span>
+              </div>
+              Desgenerando...
+            } @else {
+              {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
+            }
+          </button>
+          @if (programacion.estado_aprobado) {
+            <button
+              (click)="notificar()"
+              ngbDropdownItem
+              [disabled]="notificando"
+            >
+              @if (notificando) {
+                <div class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only"></span>
+                </div>
+                {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICANDO" | translate }}
+              } @else {
+                {{ "FORMULARIOS.BOTONES.COMUNES.NOTIFICAR" | translate }}
+              }
+            </button>
+          }
+        </div>
+      </div>
+
+      <div
+        class="btn-group"
+        ngbDropdown
+        autoClose="outside"
+        #OpcionesDropdown="ngbDropdown"
+      >
+        <button
+          type="button"
+          class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+          id="dropdownBasic1"
+          ngbDropdownToggle
+        >
+          Utilidades
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+          <button
+            ngbDropdownItem
+            (click)="abrirModal(content)"
+            [disabled]="
+              arrProgramacionDetalle.length <= 0 || programacion.estado_generado
+            "
+          >
+            Importar horas
+          </button>
+          <button
+            ngbDropdownItem
+            (click)="imprimirNominas()"
+            [disabled]="
+              arrProgramacionDetalle.length === 0 || programacion.estado_generado === false
+            "
+          >
+            Importar nominas
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="encabezadoDetalleEstados">
+    <app-base-estados [documento]="programacion"></app-base-estados>
+  </section>
+</div>
+
+<app-card>
+  <section card-titulo>
+    <app-comun-titulo-accion
+      [nombreModelo]="'programacion'"
+    ></app-comun-titulo-accion>
+  </section>
+  <section card-body>
+    <app-tabla-resumen [programacion]="programacion" />
+    <div class="row mb-5">
+      <div class="col-12">
+        <ul
+          ngbNav
+          #nav="ngbNav"
+          [(activeId)]="active"
+          class="nav nav-tabs nav-line-tabs nav-line-tabs-2x mb-5 fs-6"
+        >
+          <li
+            [ngbNavItem]="1"
+            [destroyOnHide]="true"
+            class="nav-item"
+            (click)="consultarDatos()"
+          >
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 1 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.FACTURACION.DETALLES"
+            ></a>
+            <ng-template ngbNavContent>
+              <app-tabla-contratos
+                (emitirEventoConsultarLista)="consultarDatos()"
+                [programacion]="programacion"
+              ></app-tabla-contratos>
+            </ng-template>
+          </li>
+          <li
+            [ngbNavItem]="2"
+            [destroyOnHide]="true"
+            class="nav-item"
+            (click)="consultarAdicionalesTab()"
+          >
+            <a
+              class="nav-link"
+              [ngClass]="{ 'text-primary': active === 2 }"
+              ngbNavLink
+              data-bs-toggle="tab"
+              translate="FORMULARIOS.TITULOS.HUMPROGRAMACION.ADICIONAL"
+            ></a>
+            <ng-template ngbNavContent>
+              <app-tabla-adicionales
+                [programacion]="programacion"
+              ></app-tabla-adicionales>
+            </ng-template>
+          </li>
+        </ul>
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+  </section>
+</app-card>
+
+<!-- Errores -->
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>
+
+<!-- Modales -->
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Importar horas</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-importar-personalizado
+      (emitirPeticionCompletada)="tablaContratosComponent.consultarDatos()"
+      [extensionesPermitidas]="
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+      "
+      [configuracionCargarArchivo]="{
+        endpoint: 'humano/programacion/importar_horas/',
+        datosOpcionalesPayload: {
+          programacion_id: programacion.id,
+        },
+      }"
+      [configuracionDescargarEjemplo]="{
+        modelo: 'HumProgramacionDetalle',
+        serializador: 'ImportarHoras',
+        filtros: [{ propiedad: 'programacion_id', valor1: programacion.id }],
+      }"
+    />
+  </div>
+</ng-template>
