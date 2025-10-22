@@ -1,0 +1,118 @@
+<div class="d-flex justify-content-end my-3">
+  <div class="btn-group contenedor-btn-group">
+    <button
+      (click)="cargarSoporte()"
+      class="btn btn-sm btn-success"
+      type="button"
+    >
+      <i class="ki-duotone ki-file-up">
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+      Cargar Soporte
+    </button>
+    <button
+      (click)="exportarExcel()"
+      class="btn btn-sm btn-primary"
+      type="button"
+    >
+      <i class="ki-duotone ki-file-down">
+        <span class="path1"></span>
+        <span class="path2"></span>
+      </i>
+      Excel
+    </button>
+    <button
+      (click)="eliminarRegistros()"
+      class="btn btn-sm btn-danger"
+      type="button"
+      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
+    ></button>
+  </div>
+</div>
+
+<div class="table-responsive-sm">
+  <table id="tableConciliacionSoporte" class="table table-bordered table-sm">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="bg-gray-100" style="width: 50px">Id</th>
+        <th class="bg-gray-100">Fecha</th>
+        <th class="bg-gray-100 text-end">Débito</th>
+        <th class="bg-gray-100 text-end">Crédito</th>
+        <th class="bg-gray-100">Descripción</th>
+        <th class="text-center bg-gray-100">
+          <label for="seleccionarTodos">
+            <i
+              class="cursor-pointer"
+              [ngClass]="
+                isCheckedSeleccionarTodos()
+                  ? 'fa-solid fa-square-check text-danger'
+                  : 'fa-regular fa-square text-gray-500'
+              "
+            >
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+
+            <input
+              class="d-none"
+              type="checkbox"
+              #checkboxSelectAll
+              id="seleccionarTodos"
+              [checked]="isCheckedSeleccionarTodos()"
+              [value]="isCheckedSeleccionarTodos()"
+              (click)="toggleSelectAll($event)"
+            />
+          </label>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container
+        *ngFor="let soporte of arrConciliacionSoporte()"
+      >
+        <tr>
+          <td class="w-40px">{{ soporte.id }}</td>
+          <td>{{ soporte.fecha }}</td>
+          <td class="text-end">
+            {{ soporte.debito | number:'1.0-0' }}
+          </td>
+          <td class="text-end">
+            {{ soporte.credito | number:'1.0-0' }}
+          </td>
+          <td>{{ soporte.descripcion }}</td>
+          <td class="w-20px">
+            <label [for]="soporte.id">
+              <i
+                class="cursor-pointer"
+                [ngClass]="
+                  soporte.selected
+                    ? 'fa-solid fa-square-check text-danger'
+                    : 'fa-regular fa-square text-gray-500'
+                "
+              >
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </i>
+              <input
+                #checked
+                class="d-none"
+                type="checkbox"
+                [id]="soporte.id"
+                [checked]="soporte.selected"
+                [value]="soporte.selected"
+                (click)="toggleItemSelection(soporte)"
+              />
+            </label>
+          </td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+@if (arrConciliacionSoporte().length === 0) {
+  <div class="text-center py-4">
+    <p class="text-muted">No hay registros de soporte para mostrar</p>
+  </div>
+}
