@@ -131,11 +131,10 @@
       }"
       [detalle]="[
         {
-          idNombre: 'programacion_id',
-          idValor: 0,
+          idNombre: 'id',
+          idValor: conciliacionId,
         },
       ]"
-      [filtrosExternos]="[{ propiedad: 'permanente', valor1: false }]"
       role="group"
       (emitirDetallesAgregados)="consultarLista()"
     ></app-importar>
