@@ -12,6 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import { ImportarComponent } from '@comun/components/importar/importar.component';
 import { ConciliacionSoporte } from '@modulos/contabilidad/interfaces/conciliacion.interface';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 
 @Component({
   selector: 'app-conciliacion-tabla-soporte',
@@ -32,6 +33,7 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   public isCheckedSeleccionarTodos = signal<boolean>(false);
   private readonly _modalService = inject(NgbModal);
   private readonly _conciliacionService = inject(ConciliacionService);
+  private readonly _descargarArchivosService = inject(DescargarArchivosService);
 
   constructor() {
     // Datos de ejemplo - esto debería venir del servicio
@@ -95,7 +97,9 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   }
 
   exportarExcel() {
-    // Aquí iría la lógica para exportar a Excel
-    console.log('Exportar a Excel');
+    this._descargarArchivosService.exportarExcel(
+      'contabilidad/conciliacion_soporte',
+      { conciliacion_id: this.conciliacionId },
+    );
   }
 }
