@@ -62,7 +62,7 @@ export class LogElectronicoComponent extends General implements OnInit {
   }
 
   descargarXML() {
-    this.httpService.descargarArchivo('general/documento/electronico-descargar-xml/', { documento_id: this.detalle });
+    this.httpService.descargarArchivo('general/documento/electronico-descargar-xml/', { id: this.detalle });
   }
 
   reNotifica() {
