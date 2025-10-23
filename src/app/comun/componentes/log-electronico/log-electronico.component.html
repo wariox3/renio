@@ -7,17 +7,8 @@
     translate="FORMULARIOS.BOTONES.COMUNES.ELECTRONICO"
   ></button>
   <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-    @if (estadoElectronicoNotificado) {
-      <button
-        ngbDropdownItem
-        (click)="reNotifica()"
-        [disabled]="estadoAnulado"
-        translate="FORMULARIOS.BOTONES.ELECTRONICO.RENOTIFICAR"
-      ></button>
-    }
-    <!-- TODO: estadoElectronicoEnviado -->
     <button
-      [disabled]="estadoElectronicoEnviado"
+      [disabled]="!estadoElectronicoEnviado"
       ngbDropdownItem
       (click)="verInformacion(contentModalInformacion)"
     >
