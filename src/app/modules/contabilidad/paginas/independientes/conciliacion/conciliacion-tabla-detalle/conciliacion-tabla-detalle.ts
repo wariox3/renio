@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
-import { ImportarComponent } from '@comun/components/importar/importar.component';
+import { HttpService } from '@comun/services/http.service';
+import { AlertaService } from '@comun/services/alerta.service';
 
 @Component({
   selector: 'app-conciliacion-tabla-detalle',
@@ -12,7 +13,6 @@ import { ImportarComponent } from '@comun/components/importar/importar.component
     CommonModule,
     NgbTooltipModule,
     TranslateModule,
-    ImportarComponent,
   ],
   templateUrl: './conciliacion-tabla-detalle.html',
 })
@@ -22,7 +22,8 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   public arrConciliacionDetalle = signal<any[]>([]);
   public isCheckedSeleccionarTodos = signal<boolean>(false);
   private readonly _conciliacionService = inject(ConciliacionService);
-  private readonly _modalService = inject(NgbModal);
+  private readonly _httpService = inject(HttpService);
+  private readonly _alertaService = inject(AlertaService);
 
   constructor() {
   }
@@ -82,11 +83,20 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
     this.isCheckedSeleccionarTodos.set(false);
   }
 
-  cargarDetalle(modal: any) {
-    this._modalService.open(modal, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'xl',
-    });
+  cargarDetalle() {
+    this._httpService
+      .post('contabilidad/conciliacion_detalle/cargar/', {
+        conciliacion_id: this.conciliacionId
+      })
+      .subscribe({
+        next: (respuesta: any) => {
+          this._alertaService.mensajaExitoso('Detalles cargados correctamente');
+          this.consultarDetalle();
+        },
+        error: (error) => {
+          this._alertaService.mensajeError('Error', 'Error al cargar los detalles');
+        }
+      });
   }
 
   conciliar() {

@@ -9,7 +9,7 @@
     </button>
 
     <button
-      (click)="cargarDetalle(modalCargarDetalle)"
+      (click)="cargarDetalle()"
       class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
       type="button"
     >
@@ -121,37 +121,3 @@
     <p class="text-muted">No hay registros de detalle para mostrar</p>
   </div>
 }
-
-<ng-template #modalCargarDetalle let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Cargar detalle</h4>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="modal.dismiss('Cross click')"
-    ></button>
-  </div>
-  <div class="modal-body">
-    <app-importar
-      [estadoHabilitado]="true"
-      [modelo]="'ConciliacionDetalle'"
-      [importarConfig]="{
-        endpoint: 'contabilidad/conciliacion_detalle/cargar/',
-        nombre: 'ConciliacionDetalle',
-        rutaEjemplo:
-          'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/estructuraConciliacionDetalle.xls',
-        verBotonImportar: true,
-        verBotonEjemplo: true,
-      }"
-      [detalle]="[
-        {
-          idNombre: 'id',
-          idValor: conciliacionId,
-        },
-      ]"
-      role="group"
-      (emitirDetallesAgregados)="consultarDetalle()"
-    ></app-importar>
-  </div>
-</ng-template>
