@@ -16,7 +16,7 @@
       ></button>
     }
     <button
-      [disabled]="estadoElectronicoEnviado"
+      [disabled]="!estadoElectronicoEnviado"
       ngbDropdownItem
       (click)="verInformacion(contentModalInformacion)"
     >
