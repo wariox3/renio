@@ -80,4 +80,6 @@ export interface OpcionesVista {
   verIconoDerecha?: boolean;
   verBotonGenerar?: boolean;
   verDropdownNuevo?: boolean;
+  verBotonImportarDropdown?: boolean;
+
 }

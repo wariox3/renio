@@ -36,6 +36,12 @@ export const ComponentesExtras: ComponentesExtrasAsincronos = {
           '../../../modules/compra/paginas/documento/extras/recurrente/recurrente.component'
         ),
     },
+    importarZip: {
+      componente: async () =>
+        await import(
+          '../../../modules/compra/paginas/documento/extras/importar-zip-factura-compra/importar-zip-factura-compra'
+        ),
+    }
   },
   305: {
     generar: {

@@ -87,6 +87,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
               verDropdownNuevo: true,
+              verBotonImportarDropdown: true,
             },
           },
         },

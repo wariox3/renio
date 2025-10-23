@@ -1,0 +1,90 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="modal-basic-title">Importar zip</h4>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="cerrarModal()"
+  ></button>
+</div>
+<div class="modal-body">
+  @if (btnCrearFactura()) {
+
+    <div Class="d-flex mb-2 justify-content-end gap-2" appAnimationFadeinLeft>
+      <button
+        type="submit"
+        class="btn btn-sm btn-primary"
+        (click)="crearFactura()"
+      >
+        Crear factura
+      </button>
+    </div>
+  } @else {
+    <form action="">
+      <div class="custom-file-upload">
+        @if (archivoNombre() === "") {
+          <input
+            type="file"
+            id="myfile"
+            #fileInput
+            (change)="archivoSeleccionado($event)"
+            [accept]="'.zip'"
+          />
+          <button
+            type="button"
+            class="btn btn-outline btn-outline-dashed btn-outline-dark btn-active-light-dark"
+            (click)="fileInput.click()"
+            style="width: 100%; height: 100%"
+          >
+            <i class="bi bi-cloud-upload fs-2x cursorPointer"></i>
+            Seleccionar archivo
+          </button>
+        } @else {
+          <div
+            class="image-input image-input-outline rounded border d-flex shadow-sm p-4"
+            data-kt-image-input="true"
+          >
+            <div class="d-flex justify-content-between w-100">
+              <div class="d-flex">
+                <div class="d-flex align-items-start">
+                  <i class="bi bi-file-earmark-excel fs-6x text-success"></i>
+                </div>
+                <div class="d-flex flex-column">
+                  <span class="fs-3 fw-semibold">{{ archivoNombre() }}</span>
+                  <span>{{ archivoPeso() }}</span>
+                </div>
+              </div>
+              <div class="">
+                <i
+                  class="bi bi-x text-danger fs-2x cursorPointer"
+                  (click)="removerArchivoSeleccionado()"
+                ></i>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+      <img src="" alt="" />
+    </form>
+
+    <div Class="d-flex mb-2 justify-content-end gap-2">
+      @if (cargardoDocumento$ | async) {
+        <button class="btn btn-sm btn-primary" type="button" disabled>
+          <span
+            class="spinner-border spinner-border-sm me-2"
+            aria-hidden="true"
+          ></span>
+          <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
+        </button>
+      } @else {
+        <button
+          translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
+          type="submit"
+          class="btn btn-sm btn-primary"
+          [disabled]="archivoNombre() === ''"
+          (click)="guardarArchivo()"
+        ></button>
+      }
+    </div>
+  }
+</div>

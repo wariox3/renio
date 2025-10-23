@@ -104,6 +104,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() visualizarColumnaDetalle: boolean = true;
   @Input() visualizarColumnaSeleccionar: boolean = true;
   @Input() visualizarBtnImportar: boolean = true;
+  @Input() verBotonImportarDropdown: boolean = false;;
   @Input() visualizarBtnExportar: boolean = true;
   @Input() visualizarBtnExportarZip: boolean = true;
   @Input() visualizarDropdownNuevo: boolean = false;
@@ -124,6 +125,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
   @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();
   @Output() emitirConsultarLista: EventEmitter<any> = new EventEmitter();
+  @Output() emitirImportarZip: EventEmitter<any> = new EventEmitter();
   @Output() emitirClickBotonExtra: EventEmitter<BotonesExtras> =
     new EventEmitter();
 
@@ -565,5 +567,9 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       this.botonesExtrasNuevo = [];
     }
     this.changeDetectorRef.detectChanges();
+  }
+
+  importarZip() {
+    this.emitirImportarZip.emit(true);
   }
 }
