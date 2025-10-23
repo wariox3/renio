@@ -31,7 +31,7 @@ export class LogElectronicoComponent extends General implements OnInit {
   arrEventos: any = [];
   arrValidaciones: any = [];
   arrEventosDian: any = [];
-  active = 0;
+  active = 1;
   public informacion = signal<any>(null);
   
   // Signals para estados de carga
@@ -61,6 +61,10 @@ export class LogElectronicoComponent extends General implements OnInit {
     });
   }
 
+  descargarXML() {
+    this.httpService.descargarArchivo('general/documento/electronico-descargar-xml/', { documento_id: this.detalle });
+  }
+
   reNotifica() {
     this.httpService
       .post('general/documento/renotificar/', { documento_id: this.detalle })
@@ -73,15 +77,12 @@ export class LogElectronicoComponent extends General implements OnInit {
   verInformacion(content: any) {
     this.consultarInformacion();
     
-    // Resetear arrays al abrir modal
-    this.arrCorreos = [];
-    this.arrEventos = [];
-    this.arrValidaciones = [];
-    this.arrEventosDian = [];
-    
     // Resetear estados de carga
     this.loadingNotificaciones.set(false);
     this.loadingEventos.set(false);
+
+    this.cargarNotificaciones();
+    
 
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
