@@ -31,8 +31,12 @@ export class LogElectronicoComponent extends General implements OnInit {
   arrEventos: any = [];
   arrValidaciones: any = [];
   arrEventosDian: any = [];
-  active = 1;
+  active = 0;
   public informacion = signal<any>(null);
+  
+  // Signals para estados de carga
+  public loadingNotificaciones = signal<boolean>(false);
+  public loadingEventos = signal<boolean>(false);
 
   @Input() estadoElectronicoNotificado = false;
   @Input() estadoElectronicoEnviado = false;
@@ -67,46 +71,86 @@ export class LogElectronicoComponent extends General implements OnInit {
   }
 
   verInformacion(content: any) {
-   this.consultarInformacion(); 
-
-    this.httpService
-      .post('general/documento/electronico_log/', {
-        documento_id: this.detalle,
-      })
-      .subscribe((respuesta: any) => {
-        const { correos, eventos, validaciones } = respuesta.log;
-        this.arrCorreos = correos.map((correo: any) => ({
-          codigoCorreoPk: correo.codigoCorreoPk,
-          enviado: correo.fecha,
-          numeroDocumento: correo.numeroDocumento,
-          fecha: correo.fecha,
-          correo: correo.correo,
-          correoCopia: correo.copia,
-        }));
-        this.arrEventos = eventos.map((evento: any) => ({
-          codigoEventoPk: evento.codigoEventoPk,
-          evento: evento.evento,
-          correo: evento.correo,
-          fecha: evento.fecha,
-          ipEnvio: evento.ipEnvio,
-          idmensaje: evento.idMensaje,
-        }));
-        this.arrValidaciones = validaciones;
-      });
-
-    // Cargar datos de eventos DIAN
-    this.httpService
-      .post('general/documento/evento-dian/', {
-        id: this.detalle,
-      })
-      .subscribe((respuesta: any) => {
-        this.arrEventosDian = respuesta.eventos;
-        this.changeDetectorRef.detectChanges();
-      });
+    this.consultarInformacion();
+    
+    // Resetear arrays al abrir modal
+    this.arrCorreos = [];
+    this.arrEventos = [];
+    this.arrValidaciones = [];
+    this.arrEventosDian = [];
+    
+    // Resetear estados de carga
+    this.loadingNotificaciones.set(false);
+    this.loadingEventos.set(false);
 
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
       size: 'xl',
     });
+  }
+
+  cargarNotificaciones() {
+    this.loadingNotificaciones.set(true);
+    
+    this.httpService
+      .post('general/documento/electronico_log/', {
+        documento_id: this.detalle,
+      })
+      .subscribe({
+        next: (respuesta: any) => {
+          const { correos, eventos, validaciones } = respuesta.log;
+          this.arrCorreos = correos.map((correo: any) => ({
+            codigoCorreoPk: correo.codigoCorreoPk,
+            enviado: correo.fecha,
+            numeroDocumento: correo.numeroDocumento,
+            fecha: correo.fecha,
+            correo: correo.correo,
+            correoCopia: correo.copia,
+          }));
+          this.arrEventos = eventos.map((evento: any) => ({
+            codigoEventoPk: evento.codigoEventoPk,
+            evento: evento.evento,
+            correo: evento.correo,
+            fecha: evento.fecha,
+            ipEnvio: evento.ipEnvio,
+            idmensaje: evento.idMensaje,
+          }));
+          this.arrValidaciones = validaciones;
+          this.loadingNotificaciones.set(false);
+          this.changeDetectorRef.detectChanges();
+        },
+        error: () => {
+          this.loadingNotificaciones.set(false);
+        }
+      });
+  }
+
+  cargarEventosDian() {
+    this.loadingEventos.set(true);
+    
+    this.httpService
+      .post('general/documento/evento-dian/', {
+        id: this.detalle,
+      })
+      .subscribe({
+        next: (respuesta: any) => {
+          this.arrEventosDian = respuesta.eventos;
+          this.loadingEventos.set(false);
+          this.changeDetectorRef.detectChanges();
+        },
+        error: () => {
+          this.loadingEventos.set(false);
+        }
+      });
+  }
+
+  onTabChange(tabId: number) {
+    this.active = tabId;
+    
+    if (tabId === 1) {
+      this.cargarNotificaciones();
+    } else if (tabId === 2) {
+      this.cargarEventosDian();
+    }
   }
 }
