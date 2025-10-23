@@ -42,11 +42,9 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
 
   consultarLista() {
     this._conciliacionService
-      .consultarConciliacionDetalle(this.conciliacionId)
+      .consultarConciliacionSoporte(this.conciliacionId)
       .subscribe((respuesta) => {
-        //console.log(respuesta);
         this.arrConciliacionSoporte.set(respuesta.results);
-        //this.conciliacion.set(respuesta);
       });
   }
 
