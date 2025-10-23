@@ -175,7 +175,7 @@ export class ImportarComponent
 
         this.httpService
           .post<ImportarDetalles>(
-            `${this.importarConfig?.endpoint}/importar/`,
+            `${this.importarConfig?.endpoint}`,
             data,
           )
           .pipe(
