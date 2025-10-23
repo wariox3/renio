@@ -1,10 +1,13 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  ElementRef,
   inject,
   Input,
   OnInit,
   signal,
+  ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
@@ -13,6 +16,9 @@ import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacio
 import { ImportarComponent } from '@comun/components/importar/importar.component';
 import { ConciliacionSoporte } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { AlertaService } from '@comun/services/alerta.service';
+import { combineLatest } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-conciliacion-tabla-soporte',
@@ -30,10 +36,14 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   @Input() conciliacionId: number;
 
   public conciliacionSoportes = signal<ConciliacionSoporte[]>([]);
-  public isCheckedSeleccionarTodos = signal<boolean>(false);
+  public registrosSeleccionados = signal<number[]>([]);
   private readonly _modalService = inject(NgbModal);
   private readonly _conciliacionService = inject(ConciliacionService);
   private readonly _descargarArchivosService = inject(DescargarArchivosService);
+  private readonly _changeDetectorRef = inject(ChangeDetectorRef);
+  private readonly _alertaService = inject(AlertaService);
+
+  @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
   constructor() {
     // Datos de ejemplo - esto debería venir del servicio
@@ -51,42 +61,54 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
       });
   }
 
-  toggleSelectAll(event: any) {
-    // const isChecked = event.target.checked;
-    // this.isCheckedSeleccionarTodos.set(isChecked);
+  manejarCheckGlobal(event: any) {
+    if (event.target.checked) {
+      this._agregarTodosLosItemsAListaEliminar();
+    } else {
+      this._removerTodosLosItemsAListaEliminar();
+    }
 
-    // // Actualizar selección de todos los items
-    // const items = this.arrConciliacionSoporte();
-    // items.forEach((item) => (item.selected = isChecked));
-    // this.arrConciliacionSoporte.set([...items]);
+    this._changeDetectorRef.detectChanges();
   }
 
-  toggleItemSelection(item: any) {
-    item.selected = !item.selected;
+  manejarCheckItem(event: any, id: number) {
+    if (event.target.checked) {
+      this._agregarItemAListaEliminar(id);
+    } else {
+      this._removerItemDeListaEliminar(id);
+    }
 
-    // Verificar si todos están seleccionados
-    // const items = this.arrConciliacionSoporte();
-    // const allSelected = items.every((i) => i.selected);
-    // this.isCheckedSeleccionarTodos.set(allSelected);
-
-    // this.arrConciliacionSoporte.set([...items]);
+    this._changeDetectorRef.detectChanges();
   }
 
   eliminarRegistros() {
-    // const itemsSeleccionados = this.arrConciliacionSoporte().filter(
-    //   (item) => item.selected,
-    // );
-    // if (itemsSeleccionados.length > 0) {
-    //   // Aquí iría la lógica para eliminar los registros
-    //   console.log('Eliminar registros:', itemsSeleccionados);
+    if (this.registrosSeleccionados().length > 0) {
+      const idsAEliminar = this.registrosSeleccionados();
+      
+      const eliminarSolicitudes = idsAEliminar.map((id) => {
+        return this._conciliacionService.eliminarSoporte(id);
+      });
 
-    //   // Filtrar los items no seleccionados
-    //   const itemsRestantes = this.arrConciliacionSoporte().filter(
-    //     (item) => !item.selected,
-    //   );
-    //   this.arrConciliacionSoporte.set(itemsRestantes);
-    //   this.isCheckedSeleccionarTodos.set(false);
-    // }
+      combineLatest(eliminarSolicitudes)
+        .pipe(
+          finalize(() => {
+            this.checkboxAll.nativeElement.checked = false;
+            this.reiniciarRegistrosSeleccionados();
+            this.consultarLista();
+            this._changeDetectorRef.detectChanges();
+          }),
+        )
+        .subscribe({
+          next: (respuesta: any) => {
+            this._alertaService.mensajaExitoso('Registros eliminados correctamente');
+          },
+          error: (error) => {
+            this._alertaService.mensajeError('Error', 'Error al eliminar algunos registros');
+          }
+        });
+    } else {
+      this._alertaService.mensajeError('Error', 'No se han seleccionado registros para eliminar');
+    }
   }
 
   cargarSoporte(modal: any) {
@@ -101,5 +123,38 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
       'contabilidad/conciliacion_soporte',
       { conciliacion_id: this.conciliacionId },
     );
+  }
+
+  estoyEnListaEliminar(id: number): boolean {
+    return this.registrosSeleccionados().indexOf(id) !== -1;
+  }
+
+  private _agregarTodosLosItemsAListaEliminar() {
+    this.conciliacionSoportes().forEach((registro) => {
+      const indexItem = this.registrosSeleccionados().indexOf(registro.id);
+
+      if (indexItem === -1) {
+        this.registrosSeleccionados().push(registro.id);
+      }
+    });
+  }
+
+  private _removerTodosLosItemsAListaEliminar() {
+    this.reiniciarRegistrosSeleccionados();
+  }
+
+  private _agregarItemAListaEliminar(id: number) {
+    this.registrosSeleccionados().push(id);
+  }
+
+  private _removerItemDeListaEliminar(id: number) {
+    const itemsFiltrados = this.registrosSeleccionados().filter(
+      (item) => item !== id,
+    );
+    this.registrosSeleccionados.set(itemsFiltrados);
+  }
+
+  private reiniciarRegistrosSeleccionados() {
+    this.registrosSeleccionados.set([]);
   }
 }

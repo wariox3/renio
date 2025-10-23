@@ -37,7 +37,7 @@
             <i
               class="cursor-pointer"
               [ngClass]="
-                isCheckedSeleccionarTodos()
+                registrosSeleccionados().length > 0 && registrosSeleccionados().length === conciliacionSoportes().length
                   ? 'fa-solid fa-square-check text-danger'
                   : 'fa-regular fa-square text-gray-500'
               "
@@ -51,9 +51,8 @@
               type="checkbox"
               #checkboxSelectAll
               id="seleccionarTodos"
-              [checked]="isCheckedSeleccionarTodos()"
-              [value]="isCheckedSeleccionarTodos()"
-              (click)="toggleSelectAll($event)"
+              [checked]="registrosSeleccionados().length > 0 && registrosSeleccionados().length === conciliacionSoportes().length"
+              (click)="manejarCheckGlobal($event)"
             />
           </label>
         </th>
@@ -76,7 +75,7 @@
               <i
                 class="cursor-pointer"
                 [ngClass]="
-                  soporte.selected
+                  estoyEnListaEliminar(soporte.id)
                     ? 'fa-solid fa-square-check text-danger'
                     : 'fa-regular fa-square text-gray-500'
                 "
@@ -85,13 +84,11 @@
                 <span class="path2"></span>
               </i>
               <input
-                #checked
                 class="d-none"
                 type="checkbox"
                 [id]="soporte.id"
-                [checked]="soporte.selected"
-                [value]="soporte.selected"
-                (click)="toggleItemSelection(soporte)"
+                [checked]="estoyEnListaEliminar(soporte.id)"
+                (click)="manejarCheckItem($event, soporte.id)"
               />
             </label>
           </td>
