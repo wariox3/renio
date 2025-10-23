@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnDestroy, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
 import { AlertaService } from '@comun/services/alerta.service';
 import { FechasService } from '@comun/services/fechas.service';
 import { HttpService } from '@comun/services/http.service';
@@ -14,7 +15,7 @@ import { BehaviorSubject, catchError, finalize, of, Subject, tap } from 'rxjs';
 @Component({
   selector: 'app-importar-zip-factura-compra',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule],
+  imports: [CommonModule, FormsModule, TranslateModule, AnimationFadeInLeftDirective],
   templateUrl: './importar-zip-factura-compra.html',
   styleUrl: './importar-zip-factura-compra.scss',
 })
@@ -153,7 +154,8 @@ export default class ImportarZipFacturaCompraComponent implements OnDestroy {
         documento_tipo: 5,
         comentario: this.datosFactura()?.comentario,
       }).subscribe((respuesta) => {
-        this.consultarLista.emit()
+        this.consultarLista.emit();
+        this._modalService.dismissAll();
       })
   }
 }
