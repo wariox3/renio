@@ -4,6 +4,8 @@ export interface Conciliacion {
     fecha_hasta: string;
     cuenta_banco: number;
     cuenta_banco__nombre: string;
+    cuenta_banco__cuenta__codigo: string;
+    cuenta_banco__cuenta__nombre: string;
 }
 
 export interface ConciliacionSoporte {

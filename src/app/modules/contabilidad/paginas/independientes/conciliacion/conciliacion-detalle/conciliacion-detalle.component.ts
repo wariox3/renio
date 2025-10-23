@@ -71,6 +71,8 @@ export default class ConciliacionDetalleComponent
     fecha_hasta: '',
     cuenta_banco: 0,
     cuenta_banco__nombre: '',
+    cuenta_banco__cuenta__nombre: '',
+    cuenta_banco__cuenta__codigo: '',
   });
   public registroSeleccionado: number;
   public registrosAEliminar: number[] = [];
