@@ -60,7 +60,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let soporte of arrConciliacionSoporte()">
+      <ng-container *ngFor="let soporte of conciliacionSoportes()">
         <tr>
           <td class="w-40px">{{ soporte.id }}</td>
           <td>{{ soporte.fecha }}</td>
@@ -70,7 +70,7 @@
           <td class="text-end">
             {{ soporte.credito | number: "1.0-0" }}
           </td>
-          <td>{{ soporte.descripcion }}</td>
+          <td>{{ soporte.detalle }}</td>
           <td class="w-20px">
             <label [for]="soporte.id">
               <i
@@ -101,7 +101,7 @@
   </table>
 </div>
 
-@if (arrConciliacionSoporte().length === 0) {
+@if (conciliacionSoportes().length === 0) {
   <div class="text-center py-4">
     <p class="text-muted">No hay registros de soporte para mostrar</p>
   </div>

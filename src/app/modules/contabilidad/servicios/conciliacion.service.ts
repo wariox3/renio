@@ -29,6 +29,9 @@ export class ConciliacionService extends Subdominio {
   }
 
   consultarConciliacionSoporte(data: any) {
-    return this.httpService.getDetalle<any>(`contabilidad/conciliacion_soporte/`, data);
+    return this.httpService.getDetalle<any>(`contabilidad/conciliacion_soporte/`, {
+      ...data,
+      ordering: 'id',
+    });
   }
 }

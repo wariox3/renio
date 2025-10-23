@@ -11,6 +11,7 @@ import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import { ImportarComponent } from '@comun/components/importar/importar.component';
+import { ConciliacionSoporte } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 
 @Component({
   selector: 'app-conciliacion-tabla-soporte',
@@ -27,7 +28,7 @@ import { ImportarComponent } from '@comun/components/importar/importar.component
 export class ConciliacionTablaSoporteComponent implements OnInit {
   @Input() conciliacionId: number;
 
-  public arrConciliacionSoporte = signal<any[]>([]);
+  public conciliacionSoportes = signal<ConciliacionSoporte[]>([]);
   public isCheckedSeleccionarTodos = signal<boolean>(false);
   private readonly _modalService = inject(NgbModal);
   private readonly _conciliacionService = inject(ConciliacionService);
@@ -42,48 +43,48 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
 
   consultarLista() {
     this._conciliacionService
-      .consultarConciliacionSoporte(this.conciliacionId)
+      .consultarConciliacionSoporte({conciliacion_id: this.conciliacionId})
       .subscribe((respuesta) => {
-        this.arrConciliacionSoporte.set(respuesta.results);
+        this.conciliacionSoportes.set(respuesta.results);
       });
   }
 
   toggleSelectAll(event: any) {
-    const isChecked = event.target.checked;
-    this.isCheckedSeleccionarTodos.set(isChecked);
+    // const isChecked = event.target.checked;
+    // this.isCheckedSeleccionarTodos.set(isChecked);
 
-    // Actualizar selección de todos los items
-    const items = this.arrConciliacionSoporte();
-    items.forEach((item) => (item.selected = isChecked));
-    this.arrConciliacionSoporte.set([...items]);
+    // // Actualizar selección de todos los items
+    // const items = this.arrConciliacionSoporte();
+    // items.forEach((item) => (item.selected = isChecked));
+    // this.arrConciliacionSoporte.set([...items]);
   }
 
   toggleItemSelection(item: any) {
     item.selected = !item.selected;
 
     // Verificar si todos están seleccionados
-    const items = this.arrConciliacionSoporte();
-    const allSelected = items.every((i) => i.selected);
-    this.isCheckedSeleccionarTodos.set(allSelected);
+    // const items = this.arrConciliacionSoporte();
+    // const allSelected = items.every((i) => i.selected);
+    // this.isCheckedSeleccionarTodos.set(allSelected);
 
-    this.arrConciliacionSoporte.set([...items]);
+    // this.arrConciliacionSoporte.set([...items]);
   }
 
   eliminarRegistros() {
-    const itemsSeleccionados = this.arrConciliacionSoporte().filter(
-      (item) => item.selected,
-    );
-    if (itemsSeleccionados.length > 0) {
-      // Aquí iría la lógica para eliminar los registros
-      console.log('Eliminar registros:', itemsSeleccionados);
+    // const itemsSeleccionados = this.arrConciliacionSoporte().filter(
+    //   (item) => item.selected,
+    // );
+    // if (itemsSeleccionados.length > 0) {
+    //   // Aquí iría la lógica para eliminar los registros
+    //   console.log('Eliminar registros:', itemsSeleccionados);
 
-      // Filtrar los items no seleccionados
-      const itemsRestantes = this.arrConciliacionSoporte().filter(
-        (item) => !item.selected,
-      );
-      this.arrConciliacionSoporte.set(itemsRestantes);
-      this.isCheckedSeleccionarTodos.set(false);
-    }
+    //   // Filtrar los items no seleccionados
+    //   const itemsRestantes = this.arrConciliacionSoporte().filter(
+    //     (item) => !item.selected,
+    //   );
+    //   this.arrConciliacionSoporte.set(itemsRestantes);
+    //   this.isCheckedSeleccionarTodos.set(false);
+    // }
   }
 
   cargarSoporte(modal: any) {
