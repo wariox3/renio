@@ -5,6 +5,7 @@ import {
   inject,
   OnDestroy,
   OnInit,
+  signal,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -51,8 +52,7 @@ export default class ConciliacionFormularioComponent
   extends General
   implements OnInit, OnDestroy {
   formularioConciliacion: FormGroup;
-  arrCuentasTipos: RegistroAutocompletarGenCuentaBancoTipo[];
-  arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
+  cuentasBanco = signal<RegistroAutocompletarGenCuentaBancoClase[]>([]);
   selectedDateIndex: number = -1;
   visualizarCampoNumeroCuenta = false;
   public cuentaCobrarCodigo = '';
@@ -84,17 +84,10 @@ export default class ConciliacionFormularioComponent
   }
 
   consultarInformacion() {
-    zip(
-      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoTipo[]>(
-        'general/cuenta_banco_tipo/seleccionar/',
-      ),
-      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoClase[]>(
-        'general/cuenta_banco_clase/seleccionar/',
-      )
+    this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoTipo[]>(
+      'general/cuenta_banco/seleccionar/',
     ).subscribe((respuesta) => {
-      this.arrCuentasTipos = respuesta[0];
-      this.arrCuentasBancos = respuesta[1];
-      this.changeDetectorRef.detectChanges();
+      this.cuentasBanco.set(respuesta);
     });
   }
 
