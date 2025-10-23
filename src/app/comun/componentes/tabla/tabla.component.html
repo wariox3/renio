@@ -24,6 +24,22 @@
           </button>
         }
       }
+      @if (verBotonImportarDropdown) {
+        <div class="btn-group btn-group-sm" ngbDropdown role="group">
+          <button
+            type="button"
+            class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+            ngbDropdownToggle
+          >
+            {{ "FORMULARIOS.BOTONES.COMUNES.IMPORTAR" | translate }}
+          </button>
+          <div class="dropdown-menu p-2" ngbDropdownMenu>
+            <button ngbDropdownItem (click)="importarZip()">
+              {{ "FORMULARIOS.BOTONES.COMUNES.ZIP" | translate }}
+            </button>
+          </div>
+        </div>
+      }
       @if (visualizarBtnImportar) {
         <app-importar-administrador
           [filtrosExternos]="importarConfig.parametrosExternos || {}"
@@ -72,10 +88,7 @@
             ></button>
             <div class="dropdown-menu p-2" ngbDropdownMenu>
               @for (item of botonesExtrasNuevo; track $index) {
-                <button
-                  ngbDropdownItem
-                  (click)="botonExtra(item)"
-                >
+                <button ngbDropdownItem (click)="botonExtra(item)">
                   {{ item.nombreBoton }}
                 </button>
               }

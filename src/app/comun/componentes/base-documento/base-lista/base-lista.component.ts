@@ -112,6 +112,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   visualizarBtnImportar = true;
   visualizarBtnExportarZip: boolean;
   visualizarBtnDropdownNuevo: boolean;
+  visualizarBtnDropdownImportar: boolean;
 
   public mostrarVentanaCargando$: BehaviorSubject<boolean>;
 
@@ -212,6 +213,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     const verColumnaSeleccionar =
       modeloConfig?.ajustes.ui?.verColumnaSeleccionar;
     const verDropdownNuevo = modeloConfig?.ajustes.ui?.verDropdownNuevo;
+    const verBtnDropdownImportar = modeloConfig?.ajustes.ui?.verBotonImportarDropdown;
 
     this.visualizarColumnaEditar = !!verColumnaEditar;
     this.visualizarBtnNuevo = !!verBtnNuevo;
@@ -219,6 +221,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.visualizarBtnEliminar = !!verBtnEliminar;
     this.visualizarBtnExportarZip = !!verBtnExportarZip;
     this.visualizarBtnDropdownNuevo = !!verDropdownNuevo;
+    this.visualizarBtnDropdownImportar = !!verBtnDropdownImportar;
     this.visualizarColumnaSeleccionar = !!verColumnaSeleccionar;
     this.construirBotonesExtras(modeloConfig);
 
@@ -277,7 +280,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
           componenteCargado.changeDetectorRef.detectChanges();
 
           if (!datosBoton.realizarPeticion) {
-            return; 
+            return;
           }
 
           if (typeof componenteCargado.instance.formSubmit === 'function') {
@@ -461,5 +464,26 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         this.totalItems.set(respuesta.count);
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  async importarZip() {
+    const documentoClase = this._configModuleService.key;
+    if (
+      documentoClase &&
+      ComponentesExtras[documentoClase]
+    ) {
+      const componenteLoaded =
+        ComponentesExtras[documentoClase]['importarZip'];
+      if (componenteLoaded) {
+        const componente = await (await componenteLoaded.componente()).default;
+        const modalRef = this.modalService.open(componente, {
+          ariaLabelledBy: 'modal-basic-title',
+          size: 'xl',
+        });
+        modalRef.componentInstance.consultarLista.subscribe(() => {
+          this.consultarLista();
+        });
+      }
+    }
   }
 }
