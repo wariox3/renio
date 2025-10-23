@@ -35,6 +35,7 @@ export class LogElectronicoComponent extends General implements OnInit {
   public informacion = signal<any>(null);
 
   @Input() estadoElectronicoNotificado = false;
+  @Input() estadoElectronicoEnviado = false;
   @Input() estadoAnulado = false;
   @Output() emitirRenotificar: EventEmitter<Boolean> = new EventEmitter();
 
@@ -56,39 +57,6 @@ export class LogElectronicoComponent extends General implements OnInit {
     });
   }
 
-  verLog(content: any) {
-    this.httpService
-      .post('general/documento/electronico_log/', {
-        documento_id: this.detalle,
-      })
-      .subscribe((respuesta: any) => {
-        const { correos, eventos, validaciones } = respuesta.log;
-        this.arrCorreos = correos.map((correo: any) => ({
-          codigoCorreoPk: correo.codigoCorreoPk,
-          enviado: correo.fecha,
-          numeroDocumento: correo.numeroDocumento,
-          fecha: correo.fecha,
-          correo: correo.correo,
-          correoCopia: correo.copia,
-        }));
-        this.arrEventos = eventos.map((evento: any) => ({
-          codigoEventoPk: evento.codigoEventoPk,
-          evento: evento.evento,
-          correo: evento.correo,
-          fecha: evento.fecha,
-          ipEnvio: evento.ipEnvio,
-          idmensaje: evento.idMensaje,
-        }));
-        this.arrValidaciones = validaciones;
-      });
-
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'xl',
-    });
-    this.changeDetectorRef.detectChanges();
-  }
-
   reNotifica() {
     this.httpService
       .post('general/documento/renotificar/', { documento_id: this.detalle })
@@ -96,21 +64,6 @@ export class LogElectronicoComponent extends General implements OnInit {
         this.alertaService.mensajaExitoso('Documento re notificado');
         this.emitirRenotificar.emit(true);
       });
-  }
-
-  verEventosDian(content: any) {
-    this.httpService
-      .post('general/documento/evento-dian/', {
-        id: this.detalle,
-      })
-      .subscribe((respuesta: any) => {
-        this.arrEventos = respuesta.eventos;
-        this.changeDetectorRef.detectChanges();
-      });
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: 'xl',
-    });
   }
 
   verInformacion(content: any) {
