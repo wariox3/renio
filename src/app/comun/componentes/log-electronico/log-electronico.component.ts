@@ -10,6 +10,8 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
+import { Store } from '@ngrx/store';
+import { obtenerEmpresRededoc_id } from '@redux/selectors/empresa.selectors';
 
 @Component({
   selector: 'app-log-electronico',
@@ -26,6 +28,7 @@ import { FacturaService } from '@modulos/venta/servicios/factura.service';
 })
 export class LogElectronicoComponent extends General implements OnInit {
   private _facturaService = inject(FacturaService);
+  private _store = inject(Store);
 
   arrCorreos: any = [];
   arrEventos: any = [];
@@ -33,6 +36,7 @@ export class LogElectronicoComponent extends General implements OnInit {
   arrEventosDian: any = [];
   active = 1;
   public informacion = signal<any>(null);
+  public rededocId = signal<string>('');
   
   // Signals para estados de carga
   public loadingNotificaciones = signal<boolean>(false);
@@ -51,8 +55,10 @@ export class LogElectronicoComponent extends General implements OnInit {
   }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    // Suscribirse al selector de rededoc_id
+    this._store.select(obtenerEmpresRededoc_id).subscribe(rededocId => {
+      this.rededocId.set(rededocId);
+    });
   }
 
   consultarInformacion() {
