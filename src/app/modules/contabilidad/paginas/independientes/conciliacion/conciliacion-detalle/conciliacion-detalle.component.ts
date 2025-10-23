@@ -13,9 +13,9 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { GeneralService } from '@comun/services/general.service';
+import { Conciliacion } from '@modulos/contabilidad/interfaces/conciliacion.interface';
+import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import {
   NgbDropdown,
   NgbDropdownModule,
@@ -29,10 +29,8 @@ import {
   Subject
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { ConciliacionTablaSoporteComponent } from "../conciliacion-tabla-soporte/conciliacion-tabla-soporte";
 import { ConciliacionTablaDetalleComponent } from "../conciliacion-tabla-detalle/conciliacion-tabla-detalle";
-import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
-import { Conciliacion } from '@modulos/contabilidad/interfaces/conciliacion.interface';
+import { ConciliacionTablaSoporteComponent } from "../conciliacion-tabla-soporte/conciliacion-tabla-soporte";
 
 
 @Component({
@@ -43,7 +41,6 @@ import { Conciliacion } from '@modulos/contabilidad/interfaces/conciliacion.inte
     FormsModule,
     TranslateModule,
     CardComponent,
-    BtnAtrasComponent,
     NgbDropdownModule,
     NgbNavModule,
     ReactiveFormsModule,
@@ -68,14 +65,13 @@ export default class ConciliacionDetalleComponent
   public desgenerando: boolean = false;
   public notificando: boolean = false;
   public active: Number;
-  public programacion: any = {
+  public conciliacion = signal<Conciliacion>({
     id: 0,
     fecha_desde: '',
     fecha_hasta: '',
-    cuenta_banco_id: 0,
-  };
-
-  public conciliacion = signal<Conciliacion | null>(null);
+    cuenta_banco: 0,
+    cuenta_banco__nombre: '',
+  });
   public registroSeleccionado: number;
   public registrosAEliminar: number[] = [];
   public isCheckedSeleccionarTodos: boolean = false;
@@ -129,6 +125,10 @@ export default class ConciliacionDetalleComponent
 
   imprimirNominas() {
     
+  }
+
+  navegarAtras() {
+    this.router.navigate([`contabilidad/especial/conciliacion`]);
   }
 
   ngOnDestroy(): void {

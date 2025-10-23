@@ -130,7 +130,7 @@ export default class ConciliacionFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`documento/detalle/${respuesta.id}`], {
+              this.router.navigate([`contabilidad/especial/conciliacion/detalle/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
                 },
@@ -143,7 +143,7 @@ export default class ConciliacionFormularioComponent
           .subscribe((respuesta) => {
             this.alertaService.mensajaExitoso('Se actualizó la información');
             this.activatedRoute.queryParams.subscribe((parametro) => {
-              this.router.navigate([`documento/detalle/${respuesta.id}`], {
+              this.router.navigate([`contabilidad/especial/conciliacion/detalle/${respuesta.id}`], {
                 queryParams: {
                   ...parametro,
                 },

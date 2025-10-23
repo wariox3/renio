@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
@@ -11,6 +11,8 @@ import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacio
   templateUrl: './conciliacion-tabla-detalle.html',
 })
 export class ConciliacionTablaDetalleComponent implements OnInit {
+  @Input() conciliacionId: number;
+
   public arrConciliacionDetalle = signal<any[]>([]);
   public isCheckedSeleccionarTodos = signal<boolean>(false);
   private readonly _conciliacionService = inject(ConciliacionService);
@@ -24,7 +26,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
 
   consultarDetalle() {
     this._conciliacionService
-      .consultarConciliacionDetalle(5)
+      .consultarConciliacionDetalle(this.conciliacionId)
       .subscribe((respuesta) => {
         //console.log(respuesta);
         this.arrConciliacionDetalle.set(respuesta.results);

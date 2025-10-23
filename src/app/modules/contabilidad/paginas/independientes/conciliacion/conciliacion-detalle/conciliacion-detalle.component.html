@@ -1,23 +1,29 @@
 <div class="encabezadoDetalle">
   <section class="encabezadoDetalleBotonera">
     <div class="btn-group btn-sm shadow-sm">
-      <app-comun-btn-atras />
+      <button
+      type="button"
+      (click)="navegarAtras()"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary"
+    >
+      <i class="bi bi-arrow-left fs-6"
+        ><span class="path1"></span><span class="path2"></span
+      ></i>
+      {{ 'FORMULARIOS.BOTONES.COMUNES.ATRAS' | translate }}
+    </button>
     </div>
     <div class="btn-group btn-sm shadow-sm">
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        (click)="navegarEditar(programacion.id)"
-        [disabled]="
-          programacion.estado_aprobado || programacion.estado_generado
-        "
+        (click)="navegarEditar(conciliacion().id)"
+        
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.EDITAR" | translate }}
       </button>
       <button
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-        [disabled]="generando || programacion.estado_generado"
       >
         @if (generando) {
           <div class="spinner-border spinner-border-sm mx-4" role="status">
@@ -39,9 +45,6 @@
         type="button"
         class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
         (click)="aprobar()"
-        [disabled]="
-          !programacion.estado_generado || programacion.estado_aprobado
-        "
       >
         {{ "FORMULARIOS.BOTONES.COMUNES.APROBAR" | translate }}
       </button>
@@ -61,18 +64,13 @@
           Acciones
         </button>
         <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-          <button [disabled]="!programacion.estado_aprobado" ngbDropdownItem>
+          <button ngbDropdownItem>
             Desaprobar
           </button>
           <div class="dropdown-divider"></div>
           <button
             ngbDropdownItem
             (click)="desgenerar()"
-            [disabled]="
-              desgenerando ||
-              !programacion.estado_generado ||
-              programacion.estado_aprobado
-            "
           >
             @if (desgenerando) {
               <div class="spinner-border spinner-border-sm" role="status">
@@ -83,7 +81,7 @@
               {{ "FORMULARIOS.BOTONES.COMUNES.DESGENERAR" | translate }}
             }
           </button>
-          @if (programacion.estado_aprobado) {
+          @if (true) {
             <button
               (click)="notificar()"
               ngbDropdownItem
@@ -120,7 +118,6 @@
           <button
             ngbDropdownItem
             (click)="imprimirNominas()"
-            [disabled]="programacion.estado_generado === false"
           >
             Importar nominas
           </button>
@@ -129,7 +126,7 @@
     </div>
   </section>
   <section class="encabezadoDetalleEstados">
-    <app-base-estados [documento]="programacion"></app-base-estados>
+    <!-- <app-base-estados [documento]="programacion"></app-base-estados> -->
   </section>
 </div>
 
@@ -145,15 +142,15 @@
         <tbody>
           <tr>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100">Id</td>
-            <td>{{ conciliacion()?.id }}</td>
+            <td>{{ conciliacion().id }}</td>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100">Cuenta banco</td>
-            <td>{{ conciliacion()?.cuenta_banco__nombre }}</td>
+            <td>{{ conciliacion().cuenta_banco__nombre }}</td>
           </tr>
           <tr>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100">Fecha desde</td>
-            <td>{{ conciliacion()?.fecha_desde }}</td>
+            <td>{{ conciliacion().fecha_desde }}</td>
             <td class="fw-bold text-gray-800 fs-6 bg-gray-100">Fecha hasta</td>
-            <td>{{ conciliacion()?.fecha_hasta }}</td>
+            <td>{{ conciliacion().fecha_hasta }}</td>
           </tr>
           <tr></tr>
         </tbody>
@@ -175,7 +172,7 @@
               >Detalles</a
             >
             <ng-template ngbNavContent>
-              <app-conciliacion-tabla-detalle></app-conciliacion-tabla-detalle>
+              <app-conciliacion-tabla-detalle [conciliacionId]="conciliacion().id"></app-conciliacion-tabla-detalle>
             </ng-template>
           </li>
           <li [ngbNavItem]="2" [destroyOnHide]="true" class="nav-item">
@@ -187,7 +184,7 @@
               >Soporte</a
             >
             <ng-template ngbNavContent>
-              <app-conciliacion-tabla-soporte></app-conciliacion-tabla-soporte>
+              <app-conciliacion-tabla-soporte [conciliacionId]="conciliacion().id"></app-conciliacion-tabla-soporte>
             </ng-template>
           </li>
         </ul>
