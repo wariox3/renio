@@ -1,13 +1,19 @@
 import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
+import { ImportarComponent } from '@comun/components/importar/importar.component';
 
 @Component({
   selector: 'app-conciliacion-tabla-detalle',
   standalone: true,
-  imports: [CommonModule, NgbTooltipModule, TranslateModule],
+  imports: [
+    CommonModule,
+    NgbTooltipModule,
+    TranslateModule,
+    ImportarComponent,
+  ],
   templateUrl: './conciliacion-tabla-detalle.html',
 })
 export class ConciliacionTablaDetalleComponent implements OnInit {
@@ -16,6 +22,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   public arrConciliacionDetalle = signal<any[]>([]);
   public isCheckedSeleccionarTodos = signal<boolean>(false);
   private readonly _conciliacionService = inject(ConciliacionService);
+  private readonly _modalService = inject(NgbModal);
 
   constructor() {
   }
@@ -75,9 +82,11 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
     this.isCheckedSeleccionarTodos.set(false);
   }
 
-  cargarDatos() {
-    // Aquí iría la lógica para cargar datos
-    console.log('Cargar datos');
+  cargarDetalle(modal: any) {
+    this._modalService.open(modal, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
   }
 
   conciliar() {
