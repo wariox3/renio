@@ -94,8 +94,8 @@
           <td>{{ detalle.detalle }}</td>
           <td
             [ngClass]="{
-              'marcar-conciliado': detalle.estado_conciliado,
-              'marcar-error': !detalle.estado_conciliado,
+              'marcar-conciliado': detalle.estado_conciliado === true,
+              'marcar-error': detalle.estado_conciliado === false
             }"
           >
             {{ detalle.estado_conciliado | siNo }}
