@@ -32,6 +32,7 @@
         <th class="bg-gray-100 text-end">Débito</th>
         <th class="bg-gray-100 text-end">Crédito</th>
         <th class="bg-gray-100">Detalle</th>
+        <th class="bg-gray-100">Con</th>
         <th class="text-center bg-gray-100">
           <label for="seleccionarTodos">
             <i
@@ -70,8 +71,9 @@
             {{ soporte.credito | number: "1.0-0" }}
           </td>
           <td>{{ soporte.detalle }}</td>
+          <td>{{ soporte.estado_conciliado | siNo }}</td>
           <td class="w-20px">
-            <label [for]="soporte.id">
+            <label [for]="soporte.id"> 
               <i
                 class="cursor-pointer"
                 [ngClass]="

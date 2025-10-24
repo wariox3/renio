@@ -19,6 +19,7 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
 import { AlertaService } from '@comun/services/alerta.service';
 import { combineLatest } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 
 @Component({
   selector: 'app-conciliacion-tabla-soporte',
@@ -28,6 +29,7 @@ import { finalize } from 'rxjs/operators';
     NgbTooltipModule,
     TranslateModule,
     ImportarComponent,
+    SiNoPipe,
   ],
   templateUrl: './conciliacion-tabla-soporte.html',
   changeDetection: ChangeDetectionStrategy.OnPush,

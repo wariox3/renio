@@ -6,6 +6,7 @@ import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacio
 import { HttpService } from '@comun/services/http.service';
 import { AlertaService } from '@comun/services/alerta.service';
 import { ConciliacionDetalle } from '@modulos/contabilidad/interfaces/conciliacion.interface';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 
 @Component({
   selector: 'app-conciliacion-tabla-detalle',
@@ -13,6 +14,7 @@ import { ConciliacionDetalle } from '@modulos/contabilidad/interfaces/conciliaci
   imports: [
     CommonModule,
     NgbTooltipModule,
+    SiNoPipe,
     TranslateModule,
   ],
   templateUrl: './conciliacion-tabla-detalle.html',
