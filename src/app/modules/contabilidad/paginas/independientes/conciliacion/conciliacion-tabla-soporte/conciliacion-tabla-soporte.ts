@@ -69,10 +69,10 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
     };
     
     this._conciliacionService
-      .consultarConciliacionSoporte({conciliacion_id: this.conciliacionId})
+      .consultarConciliacionSoporte(parametros)
       .subscribe((respuesta) => {
         this.conciliacionSoportes.set(respuesta.results);
-
+        this.cantidadRegistros.set(respuesta.count || 0);
       });
   }
 
