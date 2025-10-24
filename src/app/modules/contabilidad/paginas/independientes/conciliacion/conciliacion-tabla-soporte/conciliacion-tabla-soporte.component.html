@@ -85,7 +85,14 @@
             {{ soporte.credito | number: "1.0-0" }}
           </td>
           <td>{{ soporte.detalle }}</td>
-          <td>{{ soporte.estado_conciliado | siNo }}</td>
+          <td
+            [ngClass]="{
+              'marcar-conciliado': soporte.estado_conciliado === true,
+              'marcar-error': soporte.estado_conciliado === false
+            }"
+          >
+            {{ soporte.estado_conciliado | siNo }}
+          </td>
           <!-- <td class="w-20px">
             <label [for]="soporte.id">
               <i
