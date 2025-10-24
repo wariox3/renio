@@ -36,6 +36,8 @@ import { SpinnerLoaderComponent } from '../ui/spinner-loader/spinner-loader.comp
 import { ModalDocumentoDetallesComponent } from './components/modal-documento-detalles/modal-documento-detalles.component';
 import { ModalDocumentoReferenciaComponent } from './components/modal-documento-referencia/modal-documento-referencia.component';
 import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
+import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/configuracion-extra-documento';
 @Component({
   selector: 'app-comun-tabla',
   templateUrl: './tabla.component.html',
@@ -60,6 +62,7 @@ import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
 export class TablaComponent extends General implements OnInit, OnChanges {
   protected changeDetectorRef = inject(ChangeDetectorRef);
   private _modalService = inject(NgbModal);
+  private readonly _configModuleService = inject(ConfigModuleService);
 
   currentPage = signal(1);
   totalPages = signal(1);
@@ -101,24 +104,28 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() visualizarColumnaDetalle: boolean = true;
   @Input() visualizarColumnaSeleccionar: boolean = true;
   @Input() visualizarBtnImportar: boolean = true;
+  @Input() verBotonImportarDropdown: boolean = false;;
   @Input() visualizarBtnExportar: boolean = true;
   @Input() visualizarBtnExportarZip: boolean = true;
+  @Input() visualizarDropdownNuevo: boolean = false;
   @Input() visualizarBtnNuevo: boolean = true;
   @Input() visualizarBtnEliminar: boolean = true;
   @Input() visualizarBtnColumnas: boolean = true;
   @Input() visualizarBtnExtra: boolean;
   @Input() botonesExtras: BotonesExtras[] = [];
+  @Input() botonesExtrasNuevo: BotonesExtras[] = [];
   @Output() emitirExportarExcel: EventEmitter<any> = new EventEmitter();
   @Output() emitirExportarZip: EventEmitter<any> = new EventEmitter();
   @Output() cantidadRegistros: EventEmitter<any> = new EventEmitter();
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
-  @Output() emitirRegistraEliminar: EventEmitter<Number[]> = new EventEmitter();
+  @Output() emitirRegistraEliminar: EventEmitter<number[]> = new EventEmitter();
   @Output() emitirNavegarNuevo: EventEmitter<any> = new EventEmitter();
   @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
   @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();
   @Output() emitirConsultarLista: EventEmitter<any> = new EventEmitter();
+  @Output() emitirImportarZip: EventEmitter<any> = new EventEmitter();
   @Output() emitirClickBotonExtra: EventEmitter<BotonesExtras> =
     new EventEmitter();
 
@@ -284,7 +291,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   botonExtra(nombreComponente: BotonesExtras) {
     if (nombreComponente.emitirValorCheck) {
-      this.eliminarRegistros()
+      nombreComponente.registrosSeleccionados = this.arrRegistrosEliminar
     }
     this.emitirClickBotonExtra.emit(nombreComponente);
   }
@@ -545,5 +552,24 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       ariaLabelledBy: 'modal-basic-title',
       size: 'lg',
     });
+  }
+
+  consultarComponentesBotonesExtrasNuevo() {
+    this.construirBotonesExtrasNuevo()
+  }
+
+  construirBotonesExtrasNuevo() {
+    if (this.visualizarDropdownNuevo) {
+      const documentoClase = this._configModuleService.key!;
+      this.botonesExtrasNuevo =
+        configuracionExtraDocumento[documentoClase]?.botones || [];
+    } else {
+      this.botonesExtrasNuevo = [];
+    }
+    this.changeDetectorRef.detectChanges();
+  }
+
+  importarZip() {
+    this.emitirImportarZip.emit(true);
   }
 }

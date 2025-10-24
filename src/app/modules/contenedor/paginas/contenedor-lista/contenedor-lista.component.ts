@@ -150,6 +150,8 @@ export class ContenedorListaComponent extends General implements OnInit {
           // Solo agregar usuario_id si NO es administrador
           if (!esAdministrador) {
             params['usuario_id'] = respuestaUsuarioId;
+          } else {
+            params['rol'] = 'propietario';
           }
           
           // Agregar el parámetro de búsqueda solo si hay un término

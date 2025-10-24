@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, ViewChild, ViewContainerRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
@@ -13,6 +13,7 @@ import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
 import { ModalDinamicoService } from '@comun/services/modal-dinamico.service';
 import { Modelo } from '@comun/type/modelo.type';
+import { ExtraService } from '@modulos/venta/servicios/extra.service';
 import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { Listafiltros } from '@interfaces/comunes/componentes/filtros/lista-filtros.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
@@ -39,6 +40,7 @@ import {
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { FiltroComponent } from '../../ui/tabla/filtro/filtro.component';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
+import { ComponentesExtras } from '@comun/extra/funcionalidades/documento-funcionalidad';
 
 @Component({
   selector: 'app-comun-base-lista-documento',
@@ -78,6 +80,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   public queryParamsStorage: { [key: string]: any } = {};
   public availableFields: FilterField[] = [];
 
+  @ViewChild('dynamicComponentContainer', { read: ViewContainerRef })
+  componenteDinamico: ViewContainerRef;
   arrParametrosConsulta: ParametrosFiltros = {
     filtros: [],
     modelo: 'GenDocumento',
@@ -107,6 +111,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   visualizarColumnaSeleccionar = true;
   visualizarBtnImportar = true;
   visualizarBtnExportarZip: boolean;
+  visualizarBtnDropdownNuevo: boolean;
+  visualizarBtnDropdownImportar: boolean;
 
   public mostrarVentanaCargando$: BehaviorSubject<boolean>;
 
@@ -115,6 +121,7 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     private descargarArchivosService: DescargarArchivosService,
     private modalService: NgbModal,
     private modalDinamicoService: ModalDinamicoService,
+    private extraService: ExtraService,
   ) {
     super();
     this.mostrarVentanaCargando$ = new BehaviorSubject(false);
@@ -127,6 +134,13 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => {
         this.consultaListaModal();
+      });
+
+    // Suscribirse al observable de generación exitosa
+    this.extraService.generacionExitosa$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.consultarLista();
       });
 
     this.changeDetectorRef.detectChanges();
@@ -198,12 +212,16 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     const verBtnExportarZip = modeloConfig?.ajustes.ui?.verBotonExportarZip;
     const verColumnaSeleccionar =
       modeloConfig?.ajustes.ui?.verColumnaSeleccionar;
+    const verDropdownNuevo = modeloConfig?.ajustes.ui?.verDropdownNuevo;
+    const verBtnDropdownImportar = modeloConfig?.ajustes.ui?.verBotonImportarDropdown;
 
     this.visualizarColumnaEditar = !!verColumnaEditar;
     this.visualizarBtnNuevo = !!verBtnNuevo;
     this.visualizarBtnImportar = !!verBtnImportar;
     this.visualizarBtnEliminar = !!verBtnEliminar;
     this.visualizarBtnExportarZip = !!verBtnExportarZip;
+    this.visualizarBtnDropdownNuevo = !!verDropdownNuevo;
+    this.visualizarBtnDropdownImportar = !!verBtnDropdownImportar;
     this.visualizarColumnaSeleccionar = !!verColumnaSeleccionar;
     this.construirBotonesExtras(modeloConfig);
 
@@ -242,14 +260,66 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
   }
 
+  async clickBotonExtra(datosBoton: BotonesExtras, content: any) {
+    // Si el botón no abre un modal, sino un componente dinámico
+    if (datosBoton.esModal !== undefined && datosBoton.esModal === false) {
+      const documentoClase = this._configModuleService.key;
+      const nombreComponente = datosBoton.componenteNombre;
+
+      if (
+        documentoClase &&
+        nombreComponente &&
+        ComponentesExtras[documentoClase]
+      ) {
+        const componenteLoaded =
+          ComponentesExtras[documentoClase][nombreComponente];
+        if (componenteLoaded) {
+          const componente = await (await componenteLoaded.componente()).default;
+          const componenteCargado: any =
+            this.componenteDinamico.createComponent(componente);
+          componenteCargado.changeDetectorRef.detectChanges();
+
+          if (!datosBoton.realizarPeticion) {
+            return;
+          }
+
+          if (typeof componenteCargado.instance.formSubmit === 'function') {
+            const observable$ = componenteCargado.instance.formSubmit(datosBoton.registrosSeleccionados);
+            if (observable$) {
+              observable$.subscribe((respuesta: any) => {
+                if (respuesta) {
+                  this.alertaService.mensajaExitoso('¡Facturas generadas correctamente!');
+                  this.consultarLista(); // refrescar lista, si aplica
+                }
+              });
+            } else {
+              console.warn('El método formSubmit no devolvió un observable.');
+            }
+
+          } else {
+            console.warn('El componente cargado no tiene el método formSubmit');
+          }
+        }
+      } else {
+        console.error('documento_clase o nombreComponente no son válidos.');
+      }
+      return;
+    }
+
+    // Si el botón sí abre un modal
+    this.abrirModal(datosBoton, content);
+  }
+
   abrirModal(datosBoton: BotonesExtras, content: any) {
     this.nombreComponente = datosBoton.componenteNombre;
-    const configuracionModal = datosBoton.configuracionModal;
-    this.tituloModal = configuracionModal.titulo;
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      size: configuracionModal.size,
-    });
+    if (datosBoton.configuracionModal) {
+      const configuracionModal = datosBoton.configuracionModal;
+      this.tituloModal = configuracionModal.titulo;
+      this.modalService.open(content, {
+        ariaLabelledBy: 'modal-basic-title',
+        size: configuracionModal.size,
+      });
+    }
   }
 
   consultaListaModal() {
@@ -394,5 +464,26 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
         this.totalItems.set(respuesta.count);
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  async importarZip() {
+    const documentoClase = this._configModuleService.key;
+    if (
+      documentoClase &&
+      ComponentesExtras[documentoClase]
+    ) {
+      const componenteLoaded =
+        ComponentesExtras[documentoClase]['importarZip'];
+      if (componenteLoaded) {
+        const componente = await (await componenteLoaded.componente()).default;
+        const modalRef = this.modalService.open(componente, {
+          ariaLabelledBy: 'modal-basic-title',
+          size: 'xl',
+        });
+        modalRef.componentInstance.consultarLista.subscribe(() => {
+          this.consultarLista();
+        });
+      }
+    }
   }
 }

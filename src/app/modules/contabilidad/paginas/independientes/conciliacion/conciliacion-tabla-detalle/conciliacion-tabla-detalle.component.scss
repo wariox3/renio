@@ -1,0 +1,15 @@
+:host {
+  display: block;
+}
+
+.marcar-conciliado {
+  background-color: rgba(117, 212, 153, 0.699) !important;
+}
+
+.marcar-error {
+  background-color: rgba(212, 117, 117, 0.716) !important;
+}
+
+.contenedor-btn-group {
+  border: 1px solid var(--bs-border-color) !important;
+}
