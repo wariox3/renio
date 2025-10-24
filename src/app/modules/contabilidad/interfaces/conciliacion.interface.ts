@@ -24,6 +24,7 @@ export interface ConciliacionDetalle {
     fecha: string;
     documento__documento_tipo__nombre: string;
     documento__numero: string;
+    cuenta__codigo: string;
     debito: number;
     credito: number;
     detalle: string;
