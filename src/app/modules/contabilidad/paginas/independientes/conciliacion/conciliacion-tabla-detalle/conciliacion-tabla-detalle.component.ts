@@ -19,7 +19,7 @@ import { SiNoPipe } from '@pipe/si-no.pipe';
     PaginadorComponent,
     SiNoPipe
   ],
-  templateUrl: './conciliacion-tabla-detalle.html',
+  templateUrl: './conciliacion-tabla-detalle.component.html',
 })
 export class ConciliacionTablaDetalleComponent implements OnInit {
   @Input() set conciliacionId(value: number) {

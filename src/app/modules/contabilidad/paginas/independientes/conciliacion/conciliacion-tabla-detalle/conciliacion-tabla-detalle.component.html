@@ -4,11 +4,10 @@
     [totalItems]="cantidadRegistros()"
   ></app-paginador>
 
-
   <div class="btn-group contenedor-btn-group">
     <button
       (click)="exportarExcel()"
-      class="btn btn-sm  btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
       type="button"
     >
       Excel
@@ -28,13 +27,13 @@
     >
       Conciliar
     </button>
-    <button
+    <!-- <button
       (click)="limpiarRegistros()"
       class="btn btn-sm btn-danger"
       type="button"
     >
       Eliminar
-    </button>
+    </button> -->
   </div>
 </div>
 
@@ -93,7 +92,14 @@
             {{ detalle.credito | number: "1.0-0" }}
           </td>
           <td>{{ detalle.detalle }}</td>
-          <td>{{ detalle.estado_conciliado | siNo }}</td>
+          <td
+            [ngClass]="{
+              'marcar-conciliado': detalle.estado_conciliado,
+              'marcar-error': !detalle.estado_conciliado,
+            }"
+          >
+            {{ detalle.estado_conciliado | siNo }}
+          </td>
           <td class="w-20px">
             <label [for]="detalle.id">
               <i
