@@ -9,23 +9,31 @@
 </div>
 <div class="modal-body">
   <section class="multiStepForm h-100">
-    <div class="d-flex justify-content-center mb-4">
+    <div
+      class="d-flex justify-content-center align-items-start mb-4 stepper-container"
+    >
       @for (paso of formularioPasos(); track paso.id; let i = $index) {
-        <div
-          class="step px-3 py-2 rounded-pill text-center"
-          [ngClass]="{
-            'bg-primary text-white': i === pasoFormularioActual(),
-            'bg-light text-muted': i !== pasoFormularioActual(),
-          }"
-        >
-          {{ paso.id }}. {{ paso.titulo }}
-        </div>
-
-        @if (i < formularioPasos().length - 1) {
-          <div class="mx-2 align-self-center">
-            <i class="bi bi-arrow-right fs-5 text-muted"></i>
+        <div class="text-center position-relative step-item mx-3">
+          <!-- Círculo numerado -->
+          <div
+            class="circle d-flex align-items-center justify-content-center"
+            [ngClass]="{
+              'circle-active': i === pasoFormularioActual(),
+              'circle-inactive': i !== pasoFormularioActual(),
+            }"
+          >
+            {{ paso.id }}
           </div>
-        }
+
+          <!-- Título y descripción -->
+          <div class="mt-2 fw-semibold">{{ paso.titulo }}</div>
+          <div class="text-muted small">{{ paso.descripcion }}</div>
+
+          <!-- Conector -->
+          @if (i < formularioPasos().length - 1) {
+            <div class="connector"></div>
+          }
+        </div>
       }
     </div>
     @if (pasoFormularioActual() === 0) {

@@ -35,9 +35,9 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
   private _destroy$ = new Subject<void>();
 
   public formularioPasos = signal([
-    { id: 1, titulo: 'Seleccionar ZIP' },
-    { id: 2, titulo: 'Contacto' },
-    { id: 3, titulo: 'Confirmar datos Factura' },
+    { id: 1, titulo: 'Seleccionar ZIP', descripcion: 'Sube tu archivo' },
+    { id: 2, titulo: 'Contacto', descripcion: 'Información del cliente' },
+    { id: 3, titulo: 'Confirmar datos Factura', descripcion: 'Revisa y confirma' }
   ]);
   public inhabilitarBtnCrearFactura = signal(false);
   public inhabilitarBtnCrearContacto = signal(false);
