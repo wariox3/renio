@@ -20,6 +20,7 @@ import { SiNoPipe } from '@pipe/si-no.pipe';
     SiNoPipe
   ],
   templateUrl: './conciliacion-tabla-detalle.component.html',
+  styleUrls: ['./conciliacion-tabla-detalle.component.scss']
 })
 export class ConciliacionTablaDetalleComponent implements OnInit {
   @Input() set conciliacionId(value: number) {
