@@ -1,3 +1,8 @@
+<app-filtro
+  (filtersApply)="filterChange($event)"
+  [availableFields]="CONCILIACION_DETALLE_FILTERS"
+  [localStorageKey]="'conciliacion_detalle'"
+></app-filtro>
 <div class="d-flex justify-content-between align-items-center my-3">
   <app-paginador
     (pageChange)="cambiarPaginacion($event)"
@@ -12,7 +17,6 @@
     >
       Excel
     </button>
-
     
     <button
       (click)="cargarDetalle()"
@@ -21,6 +25,7 @@
     >
       Cargar
     </button>
+    
     <button
       (click)="conciliar()"
       class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
