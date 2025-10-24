@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import { HttpService } from '@comun/services/http.service';
 import { AlertaService } from '@comun/services/alerta.service';
-import { PaginadorComponent } from '@comun/componentes/paginador/paginador.component';
+import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { SiNoPipe } from '@pipe/si-no.pipe';
 
@@ -145,14 +145,9 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
       });
   }
 
-  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
-    this._parametrosPaginacion.limite = data.limite;
-    this._parametrosPaginacion.desplazar = data.desplazamiento;
-    this.consultarDetalle();
-  }
-
-  cambiarDesplazamiento(desplazamiento: number) {
-    this._parametrosPaginacion.desplazar = desplazamiento;
+  cambiarPaginacion(page: number) {
+    // Calcular el desplazamiento basado en la página y el límite
+    this._parametrosPaginacion.desplazar = (page - 1) * this._parametrosPaginacion.limite;
     this.consultarDetalle();
   }
 }
