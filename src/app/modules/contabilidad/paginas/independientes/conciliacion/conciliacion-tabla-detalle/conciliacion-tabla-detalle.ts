@@ -7,6 +7,7 @@ import { HttpService } from '@comun/services/http.service';
 import { AlertaService } from '@comun/services/alerta.service';
 import { ConciliacionDetalle } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 import { SiNoPipe } from '@pipe/si-no.pipe';
+import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 
 @Component({
   selector: 'app-conciliacion-tabla-detalle',
@@ -22,11 +23,14 @@ import { SiNoPipe } from '@pipe/si-no.pipe';
 export class ConciliacionTablaDetalleComponent implements OnInit {
   @Input() conciliacionId: number;
 
-  public conciliacionDetalles = signal<ConciliacionDetalle[]>([]);
-  public isCheckedSeleccionarTodos = signal<boolean>(false);
+  private readonly _descargarArchivosService = inject(DescargarArchivosService);
   private readonly _conciliacionService = inject(ConciliacionService);
   private readonly _httpService = inject(HttpService);
   private readonly _alertaService = inject(AlertaService);
+
+  public conciliacionDetalles = signal<ConciliacionDetalle[]>([]);
+  public isCheckedSeleccionarTodos = signal<boolean>(false);
+
 
   constructor() {
   }
@@ -75,10 +79,11 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   }
 
   exportarExcel() {
-    // Aquí iría la lógica para exportar a Excel
-    console.log('Exportar a Excel');
+    this._descargarArchivosService.exportarExcel(
+      'contabilidad/conciliacion_detalle',
+      { conciliacion_id: this.conciliacionId },
+    );
   }
-
   limpiarRegistros() {
     // Aquí iría la lógica para limpiar todos los registros
     console.log('Limpiar registros');
