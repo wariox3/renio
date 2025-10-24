@@ -13,29 +13,58 @@ export class ConciliacionService extends Subdominio {
   }
 
   guardarConciliacion(data: ConGrupo) {
-    return this.httpService.post<Conciliacion>(`contabilidad/conciliacion/`, data);
+    return this.httpService.post<Conciliacion>(
+      `contabilidad/conciliacion/`,
+      data,
+    );
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.getDetalle<Conciliacion>(`contabilidad/conciliacion/${id}/`);
+    return this.httpService.getDetalle<Conciliacion>(
+      `contabilidad/conciliacion/${id}/`,
+    );
   }
 
   actualizarDatos(id: number, data: Partial<any>) {
-    return this.httpService.put<Conciliacion>(`contabilidad/conciliacion/${id}/`, data);
+    return this.httpService.put<Conciliacion>(
+      `contabilidad/conciliacion/${id}/`,
+      data,
+    );
   }
 
   eliminarSoporte(id: number) {
-    return this.httpService.delete(`contabilidad/conciliacion_soporte/${id}/`, {});
+    return this.httpService.delete(
+      `contabilidad/conciliacion_soporte/${id}/`,
+      {},
+    );
   }
 
   consultarConciliacionDetalle(data: any) {
-    return this.httpService.getDetalle<any>(`contabilidad/conciliacion_detalle/`, data);
+    return this.httpService.getDetalle<any>(
+      `contabilidad/conciliacion_detalle/`,
+      data,
+    );
+  }
+
+  cargarDetalle(id: number) {
+    return this.httpService.post<any>(`contabilidad/conciliacion_detalle/cargar/`, {
+      id,
+    });
+  }
+
+  conciliar(id: number) {
+    return this.httpService.post<any>(`contabilidad/conciliacion/conciliar/`, {
+      id,
+    });
   }
 
   consultarConciliacionSoporte(data: any) {
-    return this.httpService.getDetalle<any>(`contabilidad/conciliacion_soporte/`, {
-      ...data,
-      ordering: 'id',
-    });
+    return this.httpService.getDetalle<any>(
+      `contabilidad/conciliacion_soporte/`,
+      {
+        ...data,
+        ordering: 'id',
+      },
+    );
   }
 }

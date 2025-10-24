@@ -20,6 +20,7 @@ import { AlertaService } from '@comun/services/alerta.service';
 import { combineLatest } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { SiNoPipe } from '@pipe/si-no.pipe';
+import { PaginadorComponent } from "@comun/componentes/ui/tabla/paginador/paginador.component";
 
 @Component({
   selector: 'app-conciliacion-tabla-soporte',
@@ -30,7 +31,8 @@ import { SiNoPipe } from '@pipe/si-no.pipe';
     TranslateModule,
     ImportarComponent,
     SiNoPipe,
-  ],
+    PaginadorComponent
+],
   templateUrl: './conciliacion-tabla-soporte.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -39,6 +41,11 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
 
   public conciliacionSoportes = signal<ConciliacionSoporte[]>([]);
   public registrosSeleccionados = signal<number[]>([]);
+  public cantidadRegistros = signal<number>(0);
+  private _parametrosPaginacion = {
+    page: 1
+  };
+
   private readonly _modalService = inject(NgbModal);
   private readonly _conciliacionService = inject(ConciliacionService);
   private readonly _descargarArchivosService = inject(DescargarArchivosService);
@@ -56,10 +63,16 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   }
 
   consultarLista() {
+     const parametros = {
+      conciliacion_id: this.conciliacionId,
+      page: this._parametrosPaginacion.page
+    };
+    
     this._conciliacionService
-      .consultarConciliacionSoporte({conciliacion_id: this.conciliacionId})
+      .consultarConciliacionSoporte(parametros)
       .subscribe((respuesta) => {
         this.conciliacionSoportes.set(respuesta.results);
+        this.cantidadRegistros.set(respuesta.count || 0);
       });
   }
 
@@ -129,6 +142,11 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
 
   estoyEnListaEliminar(id: number): boolean {
     return this.registrosSeleccionados().indexOf(id) !== -1;
+  }
+
+  cambiarPaginacion(page: number) {
+    this._parametrosPaginacion.page = page;
+    this.consultarLista();
   }
 
   private _agregarTodosLosItemsAListaEliminar() {
