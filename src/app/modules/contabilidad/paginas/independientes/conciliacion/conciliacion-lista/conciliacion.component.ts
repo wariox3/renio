@@ -1,25 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
+import { FiltroComponent } from '@comun/componentes/ui/tabla/filtro/filtro.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
+import { NominaInforme } from '@modulos/compra/interfaces/nomina-informe.interface';
+import { CONCILIACION_FILTERS } from '@modulos/contabilidad/domain/mapeos/conciliacion.mapeo';
+import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { ActualizarMapeo } from '@redux/actions/menu.actions';
+import { combineLatest, finalize } from 'rxjs';
 import {
   ParametrosApi,
   RespuestaApi,
 } from 'src/app/core/interfaces/api.interface';
-import { FiltroComponent } from '@comun/componentes/ui/tabla/filtro/filtro.component';
-import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
-import { NominaInforme } from '@modulos/compra/interfaces/nomina-informe.interface';
-import { NOMINA_INFORME_FILTERS } from '@modulos/humano/domain/mapeo/nomina-informe.mapeo';
-import { Router } from '@angular/router';
-import { combineLatest, finalize } from 'rxjs';
-import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 
 @Component({
   selector: 'app-conciliacion',
@@ -38,21 +38,15 @@ export class ConciliacionComponent extends General implements OnInit {
   private _conciliacionService = inject(ConciliacionService);
   private _router = inject(Router);
   private _descargarArchivosService = inject(DescargarArchivosService);
+  private readonly _generalService = inject(GeneralService);
 
-  public CAMPOS_FILTRO = NOMINA_INFORME_FILTERS;
-  arrDocumentos: any = [];
-  cantidadRegistros = signal<number>(0);
-  parametrosApiPermanente: ParametrosApi = {
-    documento_tipo__documento_clase_id: 701,
-    serializador: 'nomina',
-    limit: 50,
-  };
-
-  parametrosApi: ParametrosApi = {
+  public CAMPOS_FILTRO = CONCILIACION_FILTERS;
+  public arrDocumentos: any = [];
+  public cantidadRegistros = signal<number>(0);
+  public parametrosApiPermanente: ParametrosApi = {};
+  public parametrosApi: ParametrosApi = {
     ...this.parametrosApiPermanente,
   };
-
-  private readonly _generalService = inject(GeneralService);
 
   constructor() {
     super();
@@ -63,7 +57,6 @@ export class ConciliacionComponent extends General implements OnInit {
       ActualizarMapeo({ dataMapeo: documentos['conciliacion'] }),
     );
     this.consultarLista();
-    this.changeDetectorRef.detectChanges();
   }
 
   consultarLista() {
@@ -102,11 +95,12 @@ export class ConciliacionComponent extends General implements OnInit {
   descargarExcel() {
     const params: ParametrosApi = {
       ...this.parametrosApi,
-      serializador: 'informe_nomina',
-      excel_informe: 'True',
     };
 
-    this._descargarArchivosService.exportarExcel('general/documento', params);
+    this._descargarArchivosService.exportarExcel(
+      'contabilidad/conciliacion',
+      params,
+    );
     this.changeDetectorRef.detectChanges();
   }
 

@@ -103,6 +103,7 @@ export default class ConciliacionDetalleComponent
   }
 
   navegarEditar(id: number) {
+    this.router.navigate([`contabilidad/especial/conciliacion/editar/${id}`]);
   }
 
   generar() {
