@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, inject, OnDestroy, OnInit, Output, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
@@ -15,12 +15,18 @@ import ContactoFormularioProveedorComponent from '@modulos/general/paginas/conta
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { BehaviorSubject, catchError, finalize, of, Subject, takeUntil, tap } from 'rxjs';
+import { BehaviorSubject, catchError, finalize, of, Subject, takeUntil, tap, zip } from 'rxjs';
+import { SeleccionarGrupoComponent } from "@comun/componentes/factura/components/seleccionar-grupo/seleccionar-grupo.component";
+import { SeleccionarAlmacenComponent } from "@comun/componentes/factura/components/seleccionar-almacen/seleccionar-almacen.component";
+import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocompletar/inventario/inv-alamacen';
+import { RegistroAutocompletarGenFormaPago } from '@interfaces/comunes/autocompletar/general/gen-forma-pago.interface';
+import { GeneralService } from '@comun/services/general.service';
+import { NgSelectModule } from "@ng-select/ng-select";
 
 @Component({
   selector: 'app-importar-zip-factura-compra',
   standalone: true,
-  imports: [CommonModule, FormsModule, TranslateModule, AnimationFadeInLeftDirective, ContactoFormularioProveedorComponent],
+  imports: [CommonModule, FormsModule, ReactiveFormsModule, TranslateModule, AnimationFadeInLeftDirective, ContactoFormularioProveedorComponent, SeleccionarGrupoComponent, SeleccionarAlmacenComponent, NgSelectModule],
   templateUrl: './importar-zip-factura-compra.html',
   styleUrl: './importar-zip-factura-compra.scss',
 })
@@ -31,12 +37,15 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
   private readonly _fechasService = inject(FechasService);
   private readonly _router = inject(Router);
   private readonly _configModuleService = inject(ConfigModuleService);
+  private readonly _formBuilder = inject(FormBuilder);
+  private readonly _generalService = inject(GeneralService);
+
   private _key: null | number | Modelo | undefined;
   private _destroy$ = new Subject<void>();
 
   public formularioPasos = signal([
     { id: 1, titulo: 'Seleccionar ZIP', descripcion: 'Sube tu archivo' },
-    { id: 2, titulo: 'Contacto', descripcion: 'Información del cliente' },
+    { id: 2, titulo: 'Proveedor', descripcion: 'Información del proveedor' },
     { id: 3, titulo: 'Confirmar datos Factura', descripcion: 'Revisa y confirma' }
   ]);
   public inhabilitarBtnCrearFactura = signal(false);
@@ -55,15 +64,28 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
     datosOpcionalesPayload?: object;
   };
   public mensajeExitoso = signal('');
+  public formularioFactura: FormGroup;
+  public formaPagoLista = signal<RegistroAutocompletarGenFormaPago[]>([]);
+
   @Output() consultarLista = new EventEmitter<void>();
 
   ngOnInit(): void {
     this._setupConfigModuleListener();
+    this.createForm()
   }
 
   ngOnDestroy(): void {
     this._destroy$.next();
     this._destroy$.unsubscribe();
+  }
+
+  createForm() {
+    this.formularioFactura = this._formBuilder.group({
+      almacen: [1],
+      almacen_nombre: ['Principal'],
+      forma_pago: [1],
+      grupo_contabilidad: [1],
+    })
   }
 
   private _setupConfigModuleListener() {
@@ -148,21 +170,18 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
   }
 
   crearFactura() {
-    const fechaVencimientoInicial =
-      this._fechasService.getFechaVencimientoInicial();
 
-    this._facturaService
-      .guardarFactura({
+    const data = {
         empresa: 1,
         contacto: this.datosFactura()?.contacto.contacto_id,
         totalCantidad: 0,
         contactoPrecio: 0,
         numero: null,
-        fecha: fechaVencimientoInicial,
-        fecha_vence: fechaVencimientoInicial,
-        forma_pago: '',
+        fecha: this.datosFactura()?.documento.fecha,
+        fecha_vence: this.datosFactura()?.documento.fecha_vence,
+        forma_pago: this.formularioFactura.get('forma_pago')?.value,
         metodo_pago: 1,
-        almacen: null,
+        almacen: this.formularioFactura.get('almacen')?.value,
         total: 0,
         subtotal: 0,
         base_impuesto: 0,
@@ -172,15 +191,14 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
         remision: null,
         orden_compra: null,
         descuento: 0,
-        plazo_pago: 1,
-        plazo_pago_id: 1,
+        plazo_pago: this.datosFactura()?.contacto.plazo_pago_id,
         asesor: '',
         asesor_nombre_corto: null,
         resolucion: '',
         resolucion_numero: '',
         sede: '',
         sede_nombre: null,
-        grupo_contabilidad: null,
+        grupo_contabilidad: this.formularioFactura.get('grupo_contabilidad')?.value,
         referencia_cue: this.datosFactura()?.documento.cue,
         referencia_numero: this.datosFactura()?.documento.numero,
         referencia_prefijo: this.datosFactura()?.documento.prefijo,
@@ -191,7 +209,13 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
         documento_tipo: 5,
         comentario: this.datosFactura()?.documento.comentario,
         detalles: []//this.datosFactura()?.documento.detalles
-      }).subscribe((respuesta) => {
+      }
+    console.log(this.datosFactura());
+    console.log(data);
+
+
+    this._facturaService
+      .guardarFactura(data).subscribe((respuesta) => {
         this._modalService.dismissAll();
         this._router.navigate(
           [`compra/documento/detalle/${respuesta.documento.id}`],
@@ -228,7 +252,36 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
   private _asignarPasoFactura() {
     this.inhabilitarBtnCrearFactura.set(false)
     this.inhabilitarBtnCrearContacto.set(true)
+    this.consultarInformacion()
     this.pasoFormularioActual.set(2)
+  }
+
+
+  consultarInformacion() {
+    zip(
+
+      this._generalService.consultaApi<RegistroAutocompletarGenFormaPago[]>(
+        'general/forma_pago/seleccionar/',
+      ),
+    ).subscribe((respuesta: any) => {
+
+      this.formaPagoLista.set(respuesta[0]);
+
+    });
+  }
+
+  onSeleccionarGrupoChange(id: number) {
+    this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
+  }
+
+  recibirAlmacenSeleccionado(almacen: RegistroAutocompletarInvAlmacen) {
+    this.formularioFactura.get('almacen')?.setValue(almacen.id);
+    this.formularioFactura.get('almacen_nombre')?.setValue(almacen.nombre);
+  }
+
+  recibirAlmacenVacio() {
+    this.formularioFactura.get('almacen')?.setValue(null);
+    this.formularioFactura.get('almacen_nombre')?.setValue('');
   }
 
 }
