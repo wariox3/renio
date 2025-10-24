@@ -108,7 +108,18 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   }
 
   conciliar() {
-    // Aquí iría la lógica para conciliar
-    console.log('Conciliar registros');
+    this._httpService
+      .post('contabilidad/conciliacion/conciliar/', {
+        id: this.conciliacionId
+      })
+      .subscribe({
+        next: (respuesta: any) => {
+          this._alertaService.mensajaExitoso('Detalles conciliados correctamente');
+          this.consultarDetalle();
+        },
+        error: (error) => {
+          this._alertaService.mensajeError('Error', 'Error al conciliar los detalles');
+        }
+      });
   }
 }
