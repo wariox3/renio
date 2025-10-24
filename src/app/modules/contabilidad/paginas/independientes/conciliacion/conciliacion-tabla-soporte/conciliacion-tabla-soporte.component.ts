@@ -6,6 +6,8 @@ import {
   inject,
   Input,
   OnInit,
+  OnChanges,
+  SimpleChanges,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -21,6 +23,11 @@ import { combineLatest } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { SiNoPipe } from '@pipe/si-no.pipe';
 import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
+import { FiltroComponent } from '@comun/componentes/ui/tabla/filtro/filtro.component';
+import { CONCILIACION_SOPORTE_FILTERS } from '@modulos/contabilidad/domain/mapeos/conciliacion-soporte.mapeo';
+import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
+import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
+import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 
 @Component({
   selector: 'app-conciliacion-tabla-soporte',
@@ -32,17 +39,20 @@ import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/pagina
     ImportarComponent,
     SiNoPipe,
     PaginadorComponent,
+    FiltroComponent,
   ],
   templateUrl: './conciliacion-tabla-soporte.component.html',
   styleUrl: './conciliacion-tabla-soporte.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConciliacionTablaSoporteComponent implements OnInit {
-  @Input() conciliacionId: number;
+export class ConciliacionTablaSoporteComponent implements OnInit, OnChanges {
+  @Input() conciliacionId: number = 0;
 
   public conciliacionSoportes = signal<ConciliacionSoporte[]>([]);
   public registrosSeleccionados = signal<number[]>([]);
   public cantidadRegistros = signal<number>(0);
+  public CONCILIACION_SOPORTE_FILTERS = CONCILIACION_SOPORTE_FILTERS;
+  public arrParametrosConsulta = signal<ParametrosApi>({});
   private _parametrosPaginacion = {
     page: 1,
   };
@@ -52,6 +62,7 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   private readonly _descargarArchivosService = inject(DescargarArchivosService);
   private readonly _changeDetectorRef = inject(ChangeDetectorRef);
   private readonly _alertaService = inject(AlertaService);
+  private readonly _filterTransformerService = inject(FilterTransformerService);
 
   @ViewChild('checkboxSelectAll') checkboxAll: ElementRef;
 
@@ -59,14 +70,19 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
     // Datos de ejemplo - esto debería venir del servicio
   }
 
-  ngOnInit(): void {
-    this.consultarLista();
+  ngOnInit(): void {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['conciliacionId'] && this.conciliacionId && this.conciliacionId > 0) {
+      this.consultarLista();
+    }
   }
 
   consultarLista() {
     const parametros = {
       conciliacion_id: this.conciliacionId,
       page: this._parametrosPaginacion.page,
+      ...this.arrParametrosConsulta(),
     };
 
     this._conciliacionService
@@ -161,6 +177,19 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
 
   cambiarPaginacion(page: number) {
     this._parametrosPaginacion.page = page;
+    this.consultarLista();
+  }
+
+  filterChange(filters: FilterCondition[]) {
+    const apiParams = this._filterTransformerService.transformToApiParams(filters);
+
+    if (Object.keys(apiParams).length > 0) {
+      this.arrParametrosConsulta.set(apiParams);
+    } else {
+      this.arrParametrosConsulta.set({});
+    }
+
+    this._parametrosPaginacion.page = 1;
     this.consultarLista();
   }
 

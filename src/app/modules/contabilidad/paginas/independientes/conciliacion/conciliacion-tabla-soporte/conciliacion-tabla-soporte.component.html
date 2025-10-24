@@ -1,3 +1,8 @@
+<app-filtro
+  (filtersApply)="filterChange($event)"
+  [availableFields]="CONCILIACION_SOPORTE_FILTERS"
+  [localStorageKey]="'conciliacion_soporte'"
+></app-filtro>
 <div class="d-flex justify-content-between align-items-center my-3">
   <app-paginador
     (pageChange)="cambiarPaginacion($event)"
