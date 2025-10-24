@@ -38,8 +38,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   
   // Parámetros de paginación
   private _parametrosPaginacion = {
-    limite: 50,
-    desplazar: 0
+    page: 1
   };
 
   constructor() {
@@ -59,8 +58,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   consultarDetalle() {
     const parametros = {
       conciliacion_id: this._conciliacionId(),
-      limite: this._parametrosPaginacion.limite,
-      desplazar: this._parametrosPaginacion.desplazar
+      page: this._parametrosPaginacion.page
     };
     
     this._conciliacionService
@@ -146,8 +144,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   }
 
   cambiarPaginacion(page: number) {
-    // Calcular el desplazamiento basado en la página y el límite
-    this._parametrosPaginacion.desplazar = (page - 1) * this._parametrosPaginacion.limite;
+    this._parametrosPaginacion.page = page;
     this.consultarDetalle();
   }
 }
