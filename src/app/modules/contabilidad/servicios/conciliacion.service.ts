@@ -54,7 +54,7 @@ export class ConciliacionService extends Subdominio {
 
   cargarDetalle(id: number) {
     return this.httpService.post<any>(`contabilidad/conciliacion_detalle/cargar/`, {
-      id,
+      conciliacion_id: id,
     });
   }
 
