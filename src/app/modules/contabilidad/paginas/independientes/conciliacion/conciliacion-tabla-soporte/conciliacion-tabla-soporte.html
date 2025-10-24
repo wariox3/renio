@@ -1,4 +1,9 @@
-<div class="d-flex justify-content-end my-3">
+<div class="d-flex justify-content-between align-items-center my-3">
+  <app-paginador
+  (pageChange)="cambiarPaginacion($event)"
+  [totalItems]="cantidadRegistros()"
+></app-paginador>
+
   <div class="btn-group contenedor-btn-group">
     <button
       (click)="cargarSoporte(modalCargarSoporte)"
