@@ -108,11 +108,19 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
       { conciliacion_id: this._conciliacionId() },
     );
   }
+
   limpiarRegistros() {
-    // Aquí iría la lógica para limpiar todos los registros
-    console.log('Limpiar registros');
-    this.conciliacionDetalles.set([]);
-    this.isCheckedSeleccionarTodos.set(false);
+    this._conciliacionService
+    .limpiarDetalles(this._conciliacionId())
+    .subscribe({
+      next: (respuesta: any) => {
+        this._alertaService.mensajaExitoso('Detalles limpiados correctamente');
+        this.consultarDetalle();
+      },
+      error: (error) => {
+        this._alertaService.mensajeError('Error', 'Error al limpiar los detalles');
+      }
+    });
   }
 
   cargarDetalle() {

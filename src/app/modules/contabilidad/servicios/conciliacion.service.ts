@@ -46,6 +46,12 @@ export class ConciliacionService extends Subdominio {
     );
   }
 
+  limpiarDetalles(id: number) {
+    return this.httpService.post<any>(`contabilidad/conciliacion/limpiar/`, {
+      id,
+    });
+  }
+
   cargarDetalle(id: number) {
     return this.httpService.post<any>(`contabilidad/conciliacion_detalle/cargar/`, {
       id,
