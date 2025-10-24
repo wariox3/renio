@@ -1,17 +1,10 @@
 <div class="d-flex justify-content-between align-items-center my-3">
   <app-paginador
-  (pageChange)="cambiarPaginacion($event)"
-  [totalItems]="cantidadRegistros()"
-></app-paginador>
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="cantidadRegistros()"
+  ></app-paginador>
 
   <div class="btn-group contenedor-btn-group">
-    <button
-      (click)="cargarSoporte(modalCargarSoporte)"
-      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
-      type="button"
-    >
-      Cargar soporte
-    </button>
     <button
       (click)="exportarExcel()"
       class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
@@ -19,12 +12,22 @@
     >
       Excel
     </button>
+
     <button
-      (click)="eliminarRegistros()"
+      (click)="cargarSoporte(modalCargarSoporte)"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      type="button"
+    >
+      Cargar soporte
+    </button>
+
+    <button
+      (click)="limpiarRegistros()"
       class="btn btn-sm btn-danger"
       type="button"
-      translate="FORMULARIOS.BOTONES.COMUNES.ELIMINAR"
-    ></button>
+    >
+      Limpiar soporte
+    </button>
   </div>
 </div>
 
@@ -43,7 +46,9 @@
             <i
               class="cursor-pointer"
               [ngClass]="
-                registrosSeleccionados().length > 0 && registrosSeleccionados().length === conciliacionSoportes().length
+                registrosSeleccionados().length > 0 &&
+                registrosSeleccionados().length ===
+                  conciliacionSoportes().length
                   ? 'fa-solid fa-square-check text-danger'
                   : 'fa-regular fa-square text-gray-500'
               "
@@ -57,7 +62,11 @@
               type="checkbox"
               #checkboxSelectAll
               id="seleccionarTodos"
-              [checked]="registrosSeleccionados().length > 0 && registrosSeleccionados().length === conciliacionSoportes().length"
+              [checked]="
+                registrosSeleccionados().length > 0 &&
+                registrosSeleccionados().length ===
+                  conciliacionSoportes().length
+              "
               (click)="manejarCheckGlobal($event)"
             />
           </label>
@@ -78,7 +87,7 @@
           <td>{{ soporte.detalle }}</td>
           <td>{{ soporte.estado_conciliado | siNo }}</td>
           <td class="w-20px">
-            <label [for]="soporte.id"> 
+            <label [for]="soporte.id">
               <i
                 class="cursor-pointer"
                 [ngClass]="

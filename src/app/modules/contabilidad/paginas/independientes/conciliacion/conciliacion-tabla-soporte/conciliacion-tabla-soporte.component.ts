@@ -97,34 +97,45 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
     this._changeDetectorRef.detectChanges();
   }
 
-  eliminarRegistros() {
-    if (this.registrosSeleccionados().length > 0) {
-      const idsAEliminar = this.registrosSeleccionados();
+  limpiarRegistros() {
+    this._conciliacionService
+    .limpiarSoporte(this.conciliacionId)
+    .subscribe({
+      next: (respuesta: any) => {
+        this._alertaService.mensajaExitoso('Registros eliminados correctamente');
+        this.consultarLista();
+      },
+      error: (error) => {
+        this._alertaService.mensajeError('Error', 'Error al eliminar algunos registros');
+      }
+    });
+    // if (this.registrosSeleccionados().length > 0) {
+    //   const idsAEliminar = this.registrosSeleccionados();
       
-      const eliminarSolicitudes = idsAEliminar.map((id) => {
-        return this._conciliacionService.eliminarSoporte(id);
-      });
+    //   const eliminarSolicitudes = idsAEliminar.map((id) => {
+    //     return this._conciliacionService.eliminarSoporte(id);
+    //   });
 
-      combineLatest(eliminarSolicitudes)
-        .pipe(
-          finalize(() => {
-            this.checkboxAll.nativeElement.checked = false;
-            this.reiniciarRegistrosSeleccionados();
-            this.consultarLista();
-            this._changeDetectorRef.detectChanges();
-          }),
-        )
-        .subscribe({
-          next: (respuesta: any) => {
-            this._alertaService.mensajaExitoso('Registros eliminados correctamente');
-          },
-          error: (error) => {
-            this._alertaService.mensajeError('Error', 'Error al eliminar algunos registros');
-          }
-        });
-    } else {
-      this._alertaService.mensajeError('Error', 'No se han seleccionado registros para eliminar');
-    }
+    //   combineLatest(eliminarSolicitudes)
+    //     .pipe(
+    //       finalize(() => {
+    //         this.checkboxAll.nativeElement.checked = false;
+    //         this.reiniciarRegistrosSeleccionados();
+    //         this.consultarLista();
+    //         this._changeDetectorRef.detectChanges();
+    //       }),
+    //     )
+    //     .subscribe({
+    //       next: (respuesta: any) => {
+    //         this._alertaService.mensajaExitoso('Registros eliminados correctamente');
+    //       },
+    //       error: (error) => {
+    //         this._alertaService.mensajeError('Error', 'Error al eliminar algunos registros');
+    //       }
+    //     });
+    // } else {
+    //   this._alertaService.mensajeError('Error', 'No se han seleccionado registros para eliminar');
+    // }
   }
 
   cargarSoporte(modal: any) {
