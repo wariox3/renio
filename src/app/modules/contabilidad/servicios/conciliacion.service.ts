@@ -70,6 +70,13 @@ export class ConciliacionService extends Subdominio {
     });
   }
 
+  eliminarConciliacion(id: number) {
+    return this.httpService.delete(
+      `contabilidad/conciliacion/${id}/`,
+      {},
+    );
+  }
+
   consultarConciliacionSoporte(data: any) {
     return this.httpService.getDetalle<any>(
       `contabilidad/conciliacion_soporte/`,

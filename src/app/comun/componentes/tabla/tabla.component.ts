@@ -120,7 +120,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Output() emitirDesplazamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirOrdenamiento: EventEmitter<any> = new EventEmitter();
   @Output() emitirPaginacion: EventEmitter<any> = new EventEmitter();
-  @Output() emitirRegistraEliminar: EventEmitter<Number[]> = new EventEmitter();
+  @Output() emitirRegistraEliminar: EventEmitter<number[]> = new EventEmitter();
   @Output() emitirNavegarNuevo: EventEmitter<any> = new EventEmitter();
   @Output() emitirNavegarDetalle: EventEmitter<number> = new EventEmitter();
   @Output() emitirNavegarEditar: EventEmitter<number> = new EventEmitter();

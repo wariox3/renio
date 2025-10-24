@@ -18,6 +18,8 @@ import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 import { NominaInforme } from '@modulos/compra/interfaces/nomina-informe.interface';
 import { NOMINA_INFORME_FILTERS } from '@modulos/humano/domain/mapeo/nomina-informe.mapeo';
 import { Router } from '@angular/router';
+import { combineLatest, finalize } from 'rxjs';
+import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 
 @Component({
   selector: 'app-conciliacion',
@@ -33,9 +35,10 @@ import { Router } from '@angular/router';
 })
 export class ConciliacionComponent extends General implements OnInit {
   private _filterTransformService = inject(FilterTransformerService);
+  private _conciliacionService = inject(ConciliacionService);
   private _router = inject(Router);
   private _descargarArchivosService = inject(DescargarArchivosService);
-  
+
   public CAMPOS_FILTRO = NOMINA_INFORME_FILTERS;
   arrDocumentos: any = [];
   cantidadRegistros = signal<number>(0);
@@ -117,5 +120,29 @@ export class ConciliacionComponent extends General implements OnInit {
 
   navegarEditar(id: number) {
     this._router.navigate(['contabilidad/especial/conciliacion/editar', id]);
+  }
+
+  eliminarRegistros(data: Number[]) {
+    if (data.length > 0) {
+      const eliminarSolicitudes = data.map((id) => {
+        return this._conciliacionService.eliminarConciliacion(Number(id));
+      });
+
+      combineLatest(eliminarSolicitudes)
+        .pipe(
+          finalize(() => {
+            this.consultarLista();
+          }),
+        )
+        .subscribe((respuesta: any) => {
+          this.alertaService.mensajaExitoso('Registro eliminado');
+          this.changeDetectorRef.detectChanges();
+        });
+    } else {
+      this.alertaService.mensajeError(
+        'Error',
+        'No se han seleccionado registros para eliminar',
+      );
+    }
   }
 }
