@@ -33,7 +33,8 @@ import { PaginadorComponent } from "@comun/componentes/ui/tabla/paginador/pagina
     SiNoPipe,
     PaginadorComponent
 ],
-  templateUrl: './conciliacion-tabla-soporte.html',
+  templateUrl: './conciliacion-tabla-soporte.component.html',
+  styleUrl: './conciliacion-tabla-soporte.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConciliacionTablaSoporteComponent implements OnInit {

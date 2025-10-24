@@ -30,7 +30,7 @@ import {
 } from 'rxjs';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { ConciliacionTablaDetalleComponent } from "../conciliacion-tabla-detalle/conciliacion-tabla-detalle.component";
-import { ConciliacionTablaSoporteComponent } from "../conciliacion-tabla-soporte/conciliacion-tabla-soporte";
+import { ConciliacionTablaSoporteComponent } from "../conciliacion-tabla-soporte/conciliacion-tabla-soporte.component";
 
 
 @Component({
