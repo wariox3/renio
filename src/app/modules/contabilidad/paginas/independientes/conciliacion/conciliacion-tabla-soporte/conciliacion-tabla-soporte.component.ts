@@ -20,7 +20,7 @@ import { AlertaService } from '@comun/services/alerta.service';
 import { combineLatest } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { SiNoPipe } from '@pipe/si-no.pipe';
-import { PaginadorComponent } from "@comun/componentes/ui/tabla/paginador/paginador.component";
+import { PaginadorComponent } from '@comun/componentes/ui/tabla/paginador/paginador.component';
 
 @Component({
   selector: 'app-conciliacion-tabla-soporte',
@@ -31,8 +31,8 @@ import { PaginadorComponent } from "@comun/componentes/ui/tabla/paginador/pagina
     TranslateModule,
     ImportarComponent,
     SiNoPipe,
-    PaginadorComponent
-],
+    PaginadorComponent,
+  ],
   templateUrl: './conciliacion-tabla-soporte.component.html',
   styleUrl: './conciliacion-tabla-soporte.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,7 +44,7 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   public registrosSeleccionados = signal<number[]>([]);
   public cantidadRegistros = signal<number>(0);
   private _parametrosPaginacion = {
-    page: 1
+    page: 1,
   };
 
   private readonly _modalService = inject(NgbModal);
@@ -64,11 +64,11 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   }
 
   consultarLista() {
-     const parametros = {
+    const parametros = {
       conciliacion_id: this.conciliacionId,
-      page: this._parametrosPaginacion.page
+      page: this._parametrosPaginacion.page,
     };
-    
+
     this._conciliacionService
       .consultarConciliacionSoporte(parametros)
       .subscribe((respuesta) => {
@@ -98,20 +98,23 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   }
 
   limpiarRegistros() {
-    this._conciliacionService
-    .limpiarSoporte(this.conciliacionId)
-    .subscribe({
+    this._conciliacionService.limpiarSoporte(this.conciliacionId).subscribe({
       next: (respuesta: any) => {
-        this._alertaService.mensajaExitoso('Registros eliminados correctamente');
+        this._alertaService.mensajaExitoso(
+          'Registros eliminados correctamente',
+        );
         this.consultarLista();
       },
       error: (error) => {
-        this._alertaService.mensajeError('Error', 'Error al eliminar algunos registros');
-      }
+        this._alertaService.mensajeError(
+          'Error',
+          'Error al eliminar algunos registros',
+        );
+      },
     });
     // if (this.registrosSeleccionados().length > 0) {
     //   const idsAEliminar = this.registrosSeleccionados();
-      
+
     //   const eliminarSolicitudes = idsAEliminar.map((id) => {
     //     return this._conciliacionService.eliminarSoporte(id);
     //   });
@@ -148,7 +151,7 @@ export class ConciliacionTablaSoporteComponent implements OnInit {
   exportarExcel() {
     this._descargarArchivosService.exportarExcel(
       'contabilidad/conciliacion_soporte',
-      { conciliacion_id: this.conciliacionId },
+      { conciliacion_id: this.conciliacionId, serializador: 'excel' },
     );
   }
 
