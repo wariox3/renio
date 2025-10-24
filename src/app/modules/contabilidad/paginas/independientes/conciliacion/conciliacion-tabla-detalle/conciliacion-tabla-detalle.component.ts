@@ -62,8 +62,35 @@ export class ConciliacionTablaDetalleComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
+  private cargarFiltrosGuardados() {
+    const filtrosGuardados = localStorage.getItem('conciliacion_detalle');
+    if (filtrosGuardados !== null) {
+      try {
+        const filtrosParsed = JSON.parse(filtrosGuardados);
+        if (
+          filtrosParsed &&
+          Array.isArray(filtrosParsed) &&
+          filtrosParsed.length > 0
+        ) {
+          const apiParams =
+            this._filterTransformerService.transformToApiParams(filtrosParsed);
+          if (Object.keys(apiParams).length > 0) {
+            this.arrParametrosConsulta.set(apiParams);
+          }
+        }
+      } catch (error) {
+        console.warn('Error al parsear filtros guardados:', error);
+      }
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['conciliacionId'] && this.conciliacionId && this.conciliacionId > 0) {
+    if (
+      changes['conciliacionId'] &&
+      this.conciliacionId &&
+      this.conciliacionId > 0
+    ) {
+      this.cargarFiltrosGuardados();
       this.consultarDetalle();
     }
   }
@@ -119,22 +146,18 @@ export class ConciliacionTablaDetalleComponent implements OnInit, OnChanges {
   }
 
   limpiarRegistros() {
-    this._conciliacionService
-      .limpiarDetalles(this.conciliacionId)
-      .subscribe({
-        next: (respuesta: any) => {
-          this._alertaService.mensajaExitoso(
-            'Detalles limpiados correctamente',
-          );
-          this.consultarDetalle();
-        },
-        error: (error) => {
-          this._alertaService.mensajeError(
-            'Error',
-            'Error al limpiar los detalles',
-          );
-        },
-      });
+    this._conciliacionService.limpiarDetalles(this.conciliacionId).subscribe({
+      next: (respuesta: any) => {
+        this._alertaService.mensajaExitoso('Detalles limpiados correctamente');
+        this.consultarDetalle();
+      },
+      error: (error) => {
+        this._alertaService.mensajeError(
+          'Error',
+          'Error al limpiar los detalles',
+        );
+      },
+    });
   }
 
   cargarDetalle() {
@@ -179,7 +202,8 @@ export class ConciliacionTablaDetalleComponent implements OnInit, OnChanges {
   }
 
   filterChange(filters: FilterCondition[]) {
-    const apiParams = this._filterTransformerService.transformToApiParams(filters);
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
 
     if (Object.keys(apiParams).length > 0) {
       this.arrParametrosConsulta.set(apiParams);

@@ -72,8 +72,35 @@ export class ConciliacionTablaSoporteComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {}
 
+  private cargarFiltrosGuardados() {
+    const filtrosGuardados = localStorage.getItem('conciliacion_soporte');
+    if (filtrosGuardados !== null) {
+      try {
+        const filtrosParsed = JSON.parse(filtrosGuardados);
+        if (
+          filtrosParsed &&
+          Array.isArray(filtrosParsed) &&
+          filtrosParsed.length > 0
+        ) {
+          const apiParams =
+            this._filterTransformerService.transformToApiParams(filtrosParsed);
+          if (Object.keys(apiParams).length > 0) {
+            this.arrParametrosConsulta.set(apiParams);
+          }
+        }
+      } catch (error) {
+        console.warn('Error al parsear filtros guardados:', error);
+      }
+    }
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['conciliacionId'] && this.conciliacionId && this.conciliacionId > 0) {
+    if (
+      changes['conciliacionId'] &&
+      this.conciliacionId &&
+      this.conciliacionId > 0
+    ) {
+      this.cargarFiltrosGuardados();
       this.consultarLista();
     }
   }
@@ -181,7 +208,8 @@ export class ConciliacionTablaSoporteComponent implements OnInit, OnChanges {
   }
 
   filterChange(filters: FilterCondition[]) {
-    const apiParams = this._filterTransformerService.transformToApiParams(filters);
+    const apiParams =
+      this._filterTransformerService.transformToApiParams(filters);
 
     if (Object.keys(apiParams).length > 0) {
       this.arrParametrosConsulta.set(apiParams);
