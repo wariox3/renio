@@ -1,13 +1,13 @@
-import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, OnInit, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import { HttpService } from '@comun/services/http.service';
 import { AlertaService } from '@comun/services/alerta.service';
-import { ConciliacionDetalle } from '@modulos/contabilidad/interfaces/conciliacion.interface';
-import { SiNoPipe } from '@pipe/si-no.pipe';
+import { PaginadorComponent } from '@comun/componentes/paginador/paginador.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
+import { SiNoPipe } from '@pipe/si-no.pipe';
 
 @Component({
   selector: 'app-conciliacion-tabla-detalle',
@@ -15,36 +15,60 @@ import { DescargarArchivosService } from '@comun/services/descargar-archivos.ser
   imports: [
     CommonModule,
     NgbTooltipModule,
-    SiNoPipe,
     TranslateModule,
+    PaginadorComponent,
+    SiNoPipe
   ],
   templateUrl: './conciliacion-tabla-detalle.html',
 })
 export class ConciliacionTablaDetalleComponent implements OnInit {
-  @Input() conciliacionId: number;
-
+  @Input() set conciliacionId(value: number) {
+    this._conciliacionId.set(value);
+  }
+  
   private readonly _descargarArchivosService = inject(DescargarArchivosService);
   private readonly _conciliacionService = inject(ConciliacionService);
   private readonly _httpService = inject(HttpService);
   private readonly _alertaService = inject(AlertaService);
 
-  public conciliacionDetalles = signal<ConciliacionDetalle[]>([]);
+  private _conciliacionId = signal<number>(0);
+  public conciliacionDetalles = signal<any[]>([]);
   public isCheckedSeleccionarTodos = signal<boolean>(false);
-
+  public cantidadRegistros = signal<number>(0);
+  
+  // Parámetros de paginación
+  private _parametrosPaginacion = {
+    limite: 50,
+    desplazar: 0
+  };
 
   constructor() {
+    // Effect para detectar cuando cambia el conciliacionId
+    effect(() => {
+      const id = this._conciliacionId();
+      if (id && id > 0) {
+        this.consultarDetalle();
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.consultarDetalle();
+    // Ya no necesitamos llamar consultarDetalle aquí
   }
-
+  
   consultarDetalle() {
+    const parametros = {
+      conciliacion_id: this._conciliacionId(),
+      limite: this._parametrosPaginacion.limite,
+      desplazar: this._parametrosPaginacion.desplazar
+    };
+    
     this._conciliacionService
-      .consultarConciliacionDetalle(this.conciliacionId)
+      .consultarConciliacionDetalle(parametros)
       .subscribe((respuesta) => {
         //console.log(respuesta);
         this.conciliacionDetalles.set(respuesta.results);
+        this.cantidadRegistros.set(respuesta.count || 0);
         //this.conciliacion.set(respuesta);
       });
   }
@@ -81,7 +105,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   exportarExcel() {
     this._descargarArchivosService.exportarExcel(
       'contabilidad/conciliacion_detalle',
-      { conciliacion_id: this.conciliacionId },
+      { conciliacion_id: this._conciliacionId() },
     );
   }
   limpiarRegistros() {
@@ -92,10 +116,8 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   }
 
   cargarDetalle() {
-    this._httpService
-      .post('contabilidad/conciliacion_detalle/cargar/', {
-        conciliacion_id: this.conciliacionId
-      })
+    this._conciliacionService
+      .cargarDetalle(this._conciliacionId())
       .subscribe({
         next: (respuesta: any) => {
           this._alertaService.mensajaExitoso('Detalles cargados correctamente');
@@ -110,7 +132,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   conciliar() {
     this._httpService
       .post('contabilidad/conciliacion/conciliar/', {
-        id: this.conciliacionId
+        id: this._conciliacionId()
       })
       .subscribe({
         next: (respuesta: any) => {
@@ -121,5 +143,16 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
           this._alertaService.mensajeError('Error', 'Error al conciliar los detalles');
         }
       });
+  }
+
+  cambiarPaginacion(data: { desplazamiento: number; limite: number }) {
+    this._parametrosPaginacion.limite = data.limite;
+    this._parametrosPaginacion.desplazar = data.desplazamiento;
+    this.consultarDetalle();
+  }
+
+  cambiarDesplazamiento(desplazamiento: number) {
+    this._parametrosPaginacion.desplazar = desplazamiento;
+    this.consultarDetalle();
   }
 }
