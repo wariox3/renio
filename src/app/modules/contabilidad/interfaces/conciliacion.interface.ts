@@ -18,3 +18,19 @@ export interface ConciliacionSoporte {
     conciliacion: number;
     selected?: boolean;
 }
+
+export interface ConciliacionDetalle {
+    id: number;
+    fecha: string;
+    documento__documento_tipo__nombre: string;
+    documento__numero: string;
+    debito: number;
+    credito: number;
+    detalle: string;
+    estado_conciliado: boolean;
+    conciliacion: number;
+    cuenta: number;
+    contacto: number;
+    documento: number;
+    selected?: boolean;
+}

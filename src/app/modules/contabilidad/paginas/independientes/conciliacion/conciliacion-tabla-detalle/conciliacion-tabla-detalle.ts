@@ -5,6 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import { HttpService } from '@comun/services/http.service';
 import { AlertaService } from '@comun/services/alerta.service';
+import { ConciliacionDetalle } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 
 @Component({
   selector: 'app-conciliacion-tabla-detalle',
@@ -19,7 +20,7 @@ import { AlertaService } from '@comun/services/alerta.service';
 export class ConciliacionTablaDetalleComponent implements OnInit {
   @Input() conciliacionId: number;
 
-  public arrConciliacionDetalle = signal<any[]>([]);
+  public conciliacionDetalles = signal<ConciliacionDetalle[]>([]);
   public isCheckedSeleccionarTodos = signal<boolean>(false);
   private readonly _conciliacionService = inject(ConciliacionService);
   private readonly _httpService = inject(HttpService);
@@ -37,38 +38,38 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
       .consultarConciliacionDetalle(this.conciliacionId)
       .subscribe((respuesta) => {
         //console.log(respuesta);
-        this.arrConciliacionDetalle.set(respuesta.results);
+        this.conciliacionDetalles.set(respuesta.results);
         //this.conciliacion.set(respuesta);
       });
   }
 
   toggleSelectAll(event: any) {
-    const isChecked = event.target.checked;
-    this.isCheckedSeleccionarTodos.set(isChecked);
+    // const isChecked = event.target.checked;
+    // this.isCheckedSeleccionarTodos.set(isChecked);
 
-    // Actualizar selección de todos los items
-    const items = this.arrConciliacionDetalle();
-    items.forEach(item => item.selected = isChecked);
-    this.arrConciliacionDetalle.set([...items]);
+    // // Actualizar selección de todos los items
+    // const items = this.conciliacionDetalles();
+    // items.forEach(item => item.selected = isChecked);
+    // this.conciliacionDetalles.set([...items]);
   }
 
   toggleItemSelection(item: any) {
-    item.selected = !item.selected;
+    // item.selected = !item.selected;
 
-    // Verificar si todos están seleccionados
-    const items = this.arrConciliacionDetalle();
-    const allSelected = items.every(i => i.selected);
-    this.isCheckedSeleccionarTodos.set(allSelected);
+    // // Verificar si todos están seleccionados
+    // const items = this.conciliacionDetalles();
+    // const allSelected = items.every(i => i.selected);
+    // this.isCheckedSeleccionarTodos.set(allSelected);
 
-    this.arrConciliacionDetalle.set([...items]);
+    // this.conciliacionDetalles.set([...items]);
   }
 
   eliminarRegistros() {
-    const itemsSeleccionados = this.arrConciliacionDetalle().filter(item => item.selected);
-    if (itemsSeleccionados.length > 0) {
-      // Aquí iría la lógica para eliminar los registros
-      console.log('Eliminar registros:', itemsSeleccionados);
-    }
+    // const itemsSeleccionados = this.conciliacionDetalles().filter(item => item.selected);
+    // if (itemsSeleccionados.length > 0) {
+    //   // Aquí iría la lógica para eliminar los registros
+    //   console.log('Eliminar registros:', itemsSeleccionados);
+    // }
   }
 
   exportarExcel() {
@@ -79,7 +80,7 @@ export class ConciliacionTablaDetalleComponent implements OnInit {
   limpiarRegistros() {
     // Aquí iría la lógica para limpiar todos los registros
     console.log('Limpiar registros');
-    this.arrConciliacionDetalle.set([]);
+    this.conciliacionDetalles.set([]);
     this.isCheckedSeleccionarTodos.set(false);
   }
 

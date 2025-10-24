@@ -37,13 +37,13 @@
     <thead>
       <tr class="bg-gray-100 text-center">
         <th class="bg-gray-100" style="width: 50px">Id</th>
-        <th class="bg-gray-100">Modelo</th>
+        <th class="bg-gray-100">Tipo</th>
         <th class="bg-gray-100">Número</th>
         <th class="bg-gray-100">Fecha</th>
         <th class="bg-gray-100">Cuenta</th>
         <th class="bg-gray-100 text-end">Débito</th>
         <th class="bg-gray-100 text-end">Crédito</th>
-        <th class="bg-gray-100">Descripción</th>
+        <th class="bg-gray-100">Detalle</th>
         <th class="text-center bg-gray-100">
           <label for="seleccionarTodos">
             <i
@@ -72,11 +72,11 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let detalle of arrConciliacionDetalle()">
+      <ng-container *ngFor="let detalle of conciliacionDetalles()">
         <tr>
           <td class="w-40px">{{ detalle.id }}</td>
-          <td>{{ detalle.modelo }}</td>
-          <td>{{ detalle.numero }}</td>
+          <td>{{ detalle.documento__documento_tipo__nombre }}</td>
+          <td>{{ detalle.documento__numero }}</td>
           <td>{{ detalle.fecha }}</td>
           <td>{{ detalle.cuenta }}</td>
           <td class="text-end">
@@ -85,7 +85,7 @@
           <td class="text-end">
             {{ detalle.credito | number: "1.0-0" }}
           </td>
-          <td>{{ detalle.descripcion }}</td>
+          <td>{{ detalle.detalle }}</td>
           <td class="w-20px">
             <label [for]="detalle.id">
               <i
@@ -116,7 +116,7 @@
   </table>
 </div>
 
-@if (arrConciliacionDetalle().length === 0) {
+@if (conciliacionDetalles().length === 0) {
   <div class="text-center py-4">
     <p class="text-muted">No hay registros de detalle para mostrar</p>
   </div>
