@@ -3,8 +3,8 @@
   [attr.for]="for"
   [class.text-muted]="disabled"
 >
-  @if (translate) {
-    <span [translate]="translate"></span>
+  @if (labelTranslate) {
+    <span [translate]="labelTranslate"></span>
   } @else if (text) {
     {{ text }}
   } @else {

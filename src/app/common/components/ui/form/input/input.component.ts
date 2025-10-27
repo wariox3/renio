@@ -1,5 +1,5 @@
 // src/app/shared/ui/input/input.component.ts
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import {
   Component,
   forwardRef,
@@ -11,16 +11,23 @@ import {
   ElementRef,
 } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-input',
   standalone: true,
-  imports: [NgIf, NgClass],
+  imports: [NgClass, TranslateModule],
   template: `
     <div>
-      <label *ngIf="label" class="form-label">
-        {{ label }}
+       @if (labelTranslate || label) {
+      <label class="form-label">
+        @if(labelTranslate){
+        <span [translate]="labelTranslate"></span>
+        } @else {
+          {{label}}
+        }
       </label>
+      }
       <input
         [type]="type"
         [placeholder]="placeholder"
@@ -63,13 +70,14 @@ export class InputComponent implements ControlValueAccessor {
   @Input() dirty: boolean | undefined = false;
   @Input() touched: boolean | undefined = false;
   @Input() control: AbstractControl | null = null; // Nuevo input para recibir el control del formulario
+  @Input() labelTranslate?: string;
 
   @Output() blurEvent = new EventEmitter<void>(); // Nuevo output para emitir evento de blur
   @ViewChild('inputEl', { static: true }) inputEl!: ElementRef<HTMLInputElement>;
 
   value = signal(''); // Valor interno del input
-  onChange: any = () => {}; // Función para notificar cambios
-  onTouched: any = () => {}; // Función para notificar que el input fue tocado
+  onChange: any = () => { }; // Función para notificar cambios
+  onTouched: any = () => { }; // Función para notificar que el input fue tocado
 
   // Escribe el valor en el input
   writeValue(value: any): void {

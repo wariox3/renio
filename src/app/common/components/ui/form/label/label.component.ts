@@ -26,5 +26,5 @@ export class LabelComponent {
   @Input() disabled = false;
 
   /** Clave de traducción (ngx-translate) */
-  @Input() translate?: string;
+  @Input() labelTranslate?: string;
 }
