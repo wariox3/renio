@@ -1,0 +1,25 @@
+<label
+  class="app-label form-label d-flex align-items-center gap-1 mb-1"
+  [attr.for]="for"
+  [class.text-muted]="disabled"
+>
+  @if (translate) {
+    <span [translate]="translate"></span>
+  } @else if (text) {
+    {{ text }}
+  } @else {
+    <ng-content></ng-content>
+  }
+
+  @if (required) {
+    <span class="text-danger ms-1">*</span>
+  }
+
+  @if (tooltip) {
+    <i
+      class="bi bi-info-circle ms-1"
+      [attr.title]="tooltip"
+      data-bs-toggle="tooltip"
+    ></i>
+  }
+</label>
