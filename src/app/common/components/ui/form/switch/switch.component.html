@@ -1,0 +1,38 @@
+<div class="form-check form-switch mb-2">
+  <input
+    #inputEl
+    class="form-check-input"
+    [class.is-invalid]="shouldShowErrors()"
+    type="checkbox"
+    role="switch"
+    [disabled]="disabled"
+    [readonly]="readonly"
+    [autofocus]="autofocus"
+    [ngClass]="inputClass"
+    [checked]="value()"
+    (blur)="onBlur()"
+    (change)="onInput($event)"
+  />
+  <label
+    class="form-check-label text-gray-700"
+    [class.text-muted]="disabled"
+    [class.required]="required"
+    for="switchCheckDefault"
+  >
+    @if (labelTranslate) {
+      <span [translate]="labelTranslate"></span>
+    } @else {
+      {{ label }}
+    }
+
+  </label>
+
+  <!-- Errores -->
+  @if (shouldShowErrors() && getErrors().length > 0) {
+    <div class="invalid-feedback d-block mt-1">
+      @for (error of getErrors(); track $index) {
+        <div>{{ error }}</div>
+      }
+    </div>
+  }
+</div>
