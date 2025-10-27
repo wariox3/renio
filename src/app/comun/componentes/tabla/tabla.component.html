@@ -17,11 +17,28 @@
         @for (boton of botonesExtras; track $index) {
           <button
             class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+            type="button"
             (click)="botonExtra(boton)"
           >
             {{ boton.nombreBoton }}
           </button>
         }
+      }
+      @if (verBotonImportarDropdown) {
+        <div class="btn-group btn-group-sm" ngbDropdown role="group">
+          <button
+            type="button"
+            class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+            ngbDropdownToggle
+          >
+            {{ "FORMULARIOS.BOTONES.COMUNES.IMPORTAR" | translate }}
+          </button>
+          <div class="dropdown-menu p-2" ngbDropdownMenu>
+            <button ngbDropdownItem (click)="importarZip()">
+              {{ "FORMULARIOS.BOTONES.COMUNES.ZIP" | translate }}
+            </button>
+          </div>
+        </div>
       }
       @if (visualizarBtnImportar) {
         <app-importar-administrador
@@ -53,11 +70,31 @@
         </div>
       }
       @if (visualizarBtnNuevo) {
-        <button
-          (click)="navegarNuevo()"
-          class="btn btn-sm btn-primary"
-          translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
-        ></button>
+        <div class="btn-group btn-group-sm" ngbDropdown role="group">
+          <button
+            (click)="navegarNuevo()"
+            class="btn btn-sm btn-primary"
+            translate="FORMULARIOS.BOTONES.COMUNES.NUEVO"
+          ></button>
+        </div>
+
+        @if (visualizarDropdownNuevo) {
+          <div class="btn-group btn-group-sm" ngbDropdown role="group">
+            <button
+              type="button"
+              class="btn btn-sm btn-primary"
+              ngbDropdownToggle
+              (click)="consultarComponentesBotonesExtrasNuevo()"
+            ></button>
+            <div class="dropdown-menu p-2" ngbDropdownMenu>
+              @for (item of botonesExtrasNuevo; track $index) {
+                <button ngbDropdownItem (click)="botonExtra(item)">
+                  {{ item.nombreBoton }}
+                </button>
+              }
+            </div>
+          </div>
+        }
       }
       @if (visualizarBtnEliminar) {
         <button

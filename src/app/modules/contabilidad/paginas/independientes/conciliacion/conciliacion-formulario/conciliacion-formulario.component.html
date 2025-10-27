@@ -1,0 +1,155 @@
+<form [formGroup]="formularioConciliacion" (ngSubmit)="enviarFormulario()">
+  <section class="d-flex gap-2 mb-2">
+    <button
+      type="button"
+      (click)="navegarAtras()"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary"
+    >
+      <i class="bi bi-arrow-left fs-6"
+        ><span class="path1"></span><span class="path2"></span
+      ></i>
+      {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
+    </button>
+    <button
+      type="submit"
+      class="btn btn-sm btn-flex btn-primary"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </section>
+
+  <app-card>
+    <section card-titulo>
+      <app-comun-titulo-accion
+        [nombreModelo]="'conciliacion'"
+      ></app-comun-titulo-accion>
+    </section>
+    <section card-body>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CUENTA"
+            class="form-label required"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="cuenta_banco"
+            [ngClass]="{
+              'is-invalid':
+                formularioConciliacion.controls['cuenta_banco'].touched &&
+                formularioConciliacion.controls['cuenta_banco'].invalid,
+              'is-valid':
+                formularioConciliacion.controls['cuenta_banco'].touched &&
+                formularioConciliacion.controls['cuenta_banco'].valid,
+            }"
+          >
+            <option value="">Seleccionar...</option>
+            <ng-container *ngFor="let banco of cuentasBanco()">
+              <option
+                [value]="banco.id"
+                [selected]="
+                  banco.id === formularioConciliacion.value.cuenta_banco
+                "
+              >
+                {{ banco.nombre }}
+              </option>
+            </ng-container>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConciliacion.controls['cuenta_banco'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHADESDE"
+          ></label>
+          <input
+            formControlName="fecha_desde"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioConciliacion.controls['fecha_desde'].touched &&
+                formularioConciliacion.controls['fecha_desde'].invalid,
+              'is-valid':
+                formularioConciliacion.controls['fecha_desde'].touched &&
+                formularioConciliacion.controls['fecha_desde'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConciliacion.controls['fecha_desde'],
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHAHASTA"
+          ></label>
+          <input
+            formControlName="fecha_hasta"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                (formularioConciliacion.controls['fecha_hasta'].touched &&
+                  formularioConciliacion.controls['fecha_hasta'].invalid) ||
+                formularioConciliacion.errors?.fechaInvalida,
+              'is-valid':
+                formularioConciliacion.controls['fecha_hasta'].touched &&
+                formularioConciliacion.controls['fecha_hasta'].valid,
+            }"
+          />
+          <div *ngIf="formularioConciliacion.errors?.fechaInvalida">
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  La fecha desde no puede ser mayor que la fecha hasta.
+                </span>
+              </div>
+            </div>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioConciliacion.controls['fecha_hasta'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+    </section>
+  </app-card>
+</form>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

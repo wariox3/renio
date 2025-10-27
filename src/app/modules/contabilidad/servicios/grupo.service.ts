@@ -12,11 +12,11 @@ export class GrupoService extends Subdominio {
   }
 
   guardarGrupo(data: ConGrupo) {
-    return this.httpService.post<ConGrupo>(`contabilidad/grupo/`, data);
+    return this.httpService.post<any>(`contabilidad/grupo/`, data);
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.getDetalle<ConGrupo>(`contabilidad/grupo/${id}/`);
+    return this.httpService.getDetalle<any>(`contabilidad/grupo/${id}/`);
   }
 
   actualizarDatos(id: number, data: Partial<ConGrupo>) {

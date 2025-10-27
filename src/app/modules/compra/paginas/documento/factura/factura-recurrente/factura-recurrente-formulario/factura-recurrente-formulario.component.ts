@@ -767,39 +767,45 @@ export default class FacturaRecurrenteFormularioComponent
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
     if (campo === 'contacto') {
-      if (dato.id && dato.nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.id);
+      const contacto = dato as RegistroAutocompletarGenContacto;
+      this.formularioFactura.get(campo)?.setValue(contacto.id);
+      this.formularioFactura.get('contactoNombre')?.setValue(contacto.nombre_corto);
+      if (contacto.id && contacto.nombre_corto) {
+        this.formularioFactura.get(campo)?.setValue(contacto.id);
         this.formularioFactura
           .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
+          ?.setValue(contacto.nombre_corto);
       }
-      if (dato.id && dato.nombre_corto) {
-        this.formularioFactura.get(campo)?.setValue(dato.id);
-        this.formularioFactura
-          .get('contactoNombre')
-          ?.setValue(dato.nombre_corto);
-      }
-      this.formularioFactura.get('plazo_pago')?.setValue(dato.plazo_pago_id);
-      if (dato.plazo_pago_dias > 0) {
-        this.plazo_pago_dias = dato.plazo_pago_dias;
+      this.formularioFactura
+        .get('plazo_pago')
+        ?.setValue(contacto.plazo_pago_proveedor_id);
+
+      if (contacto.plazo_pago_proveedor__dias > 0) {
+        this.plazo_pago_dias = contacto.plazo_pago_proveedor__dias;
         const diasNumero = parseInt(this.plazo_pago_dias, 10) + 1;
-        const fechaActual = new Date(); // Obtener la fecha actual
+        let fechaInicio = this.formularioFactura.get('fecha')?.value;
+        const fechaActual = new Date(fechaInicio); // Obtener la fecha actual
         fechaActual.setDate(fechaActual.getDate() + diasNumero);
         const fechaVencimiento = `${fechaActual.getFullYear()}-${(
           fechaActual.getMonth() + 1
         )
           .toString()
           .padStart(2, '0')}-${fechaActual
-            .getDate()
-            .toString()
-            .padStart(2, '0')}`;
+          .getDate()
+          .toString()
+          .padStart(2, '0')}`;
         // Suma los días a la fecha actual
-        // this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+        this.formularioFactura.get('fecha_vence')?.setValue(fechaVencimiento);
+      } else {
+        this.plazo_pago_dias = 0;
+        this.formularioFactura
+          .get('fecha_vence')
+          ?.setValue(this.formularioFactura.get('fecha')?.value);
       }
 
       if (
-        this.parametrosUrl?.documento_clase == 2 ||
-        this.parametrosUrl?.documento_clase == 3
+        this.parametrosUrl?.documento_clase == 6 ||
+        this.parametrosUrl?.documento_clase == 7
       ) {
         this.visualizarCampoDocumentoReferencia = true;
         this.changeDetectorRef.detectChanges();

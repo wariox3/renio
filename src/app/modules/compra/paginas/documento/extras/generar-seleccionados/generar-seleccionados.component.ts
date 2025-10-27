@@ -37,7 +37,7 @@ export default class GenerarSeleccionadosComponent extends General {
     }
     this.generando = true;
     this.extraService
-      .generarMasivo({ generar_todos: false, ids })
+      .generarMasivo({ ids })
       .pipe(
         finalize(() => {
           this.generando = false;
@@ -55,6 +55,7 @@ export default class GenerarSeleccionadosComponent extends General {
         this.alertaService.mensajaExitoso(
           '¡Facturas electrónicas generadas exitosamente!'
         );
+        this.extraService.notificarGeneracionExitosa();
         return of(respuesta);
       });
   }

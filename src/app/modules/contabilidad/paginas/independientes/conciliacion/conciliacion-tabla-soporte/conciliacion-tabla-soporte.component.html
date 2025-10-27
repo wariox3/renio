@@ -1,0 +1,167 @@
+<app-filtro
+  (filtersApply)="filterChange($event)"
+  [availableFields]="CONCILIACION_SOPORTE_FILTERS"
+  [localStorageKey]="'conciliacion_soporte'"
+></app-filtro>
+<div class="d-flex justify-content-between align-items-center my-3">
+  <app-paginador
+    (pageChange)="cambiarPaginacion($event)"
+    [totalItems]="cantidadRegistros()"
+  ></app-paginador>
+
+  <div class="btn-group contenedor-btn-group">
+    <button
+      (click)="exportarExcel()"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      type="button"
+    >
+      Excel
+    </button>
+
+    <button
+      (click)="cargarSoporte(modalCargarSoporte)"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+      type="button"
+    >
+      Cargar soporte
+    </button>
+
+    <button
+      (click)="limpiarRegistros()"
+      class="btn btn-sm btn-danger"
+      type="button"
+    >
+      Limpiar soporte
+    </button>
+  </div>
+</div>
+
+<div class="table-responsive-sm">
+  <table id="tableConciliacionSoporte" class="table table-bordered table-sm">
+    <thead>
+      <tr class="bg-gray-100 text-center">
+        <th class="bg-gray-100" style="width: 50px">Id</th>
+        <th class="bg-gray-100">Fecha</th>
+        <th class="bg-gray-100 text-end">Débito</th>
+        <th class="bg-gray-100 text-end">Crédito</th>
+        <th class="bg-gray-100">Detalle</th>
+        <th class="bg-gray-100">Con</th>
+        <!-- <th class="text-center bg-gray-100">
+          <label for="seleccionarTodos">
+            <i
+              class="cursor-pointer"
+              [ngClass]="
+                registrosSeleccionados().length > 0 &&
+                registrosSeleccionados().length ===
+                  conciliacionSoportes().length
+                  ? 'fa-solid fa-square-check text-danger'
+                  : 'fa-regular fa-square text-gray-500'
+              "
+            >
+              <span class="path1"></span>
+              <span class="path2"></span>
+            </i>
+
+            <input
+              class="d-none"
+              type="checkbox"
+              #checkboxSelectAll
+              id="seleccionarTodos"
+              [checked]="
+                registrosSeleccionados().length > 0 &&
+                registrosSeleccionados().length ===
+                  conciliacionSoportes().length
+              "
+              (click)="manejarCheckGlobal($event)"
+            />
+          </label>
+        </th> -->
+      </tr>
+    </thead>
+    <tbody>
+      <ng-container *ngFor="let soporte of conciliacionSoportes()">
+        <tr>
+          <td class="w-40px">{{ soporte.id }}</td>
+          <td>{{ soporte.fecha }}</td>
+          <td class="text-end">
+            {{ soporte.debito | number: "1.0-0" }}
+          </td>
+          <td class="text-end">
+            {{ soporte.credito | number: "1.0-0" }}
+          </td>
+          <td>{{ soporte.detalle }}</td>
+          <td
+            [ngClass]="{
+              'marcar-conciliado': soporte.estado_conciliado === true,
+              'marcar-error': soporte.estado_conciliado === false
+            }"
+          >
+            {{ soporte.estado_conciliado | siNo }}
+          </td>
+          <!-- <td class="w-20px">
+            <label [for]="soporte.id">
+              <i
+                class="cursor-pointer"
+                [ngClass]="
+                  estoyEnListaEliminar(soporte.id)
+                    ? 'fa-solid fa-square-check text-danger'
+                    : 'fa-regular fa-square text-gray-500'
+                "
+              >
+                <span class="path1"></span>
+                <span class="path2"></span>
+              </i>
+              <input
+                class="d-none"
+                type="checkbox"
+                [id]="soporte.id"
+                [checked]="estoyEnListaEliminar(soporte.id)"
+                (click)="manejarCheckItem($event, soporte.id)"
+              />
+            </label>
+          </td> -->
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>
+
+@if (conciliacionSoportes().length === 0) {
+  <div class="text-center py-4">
+    <p class="text-muted">No hay registros de soporte para mostrar</p>
+  </div>
+}
+
+<ng-template #modalCargarSoporte let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Cargar soporte</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-importar
+      [estadoHabilitado]="true"
+      [modelo]="'HumAdicional'"
+      [importarConfig]="{
+        endpoint: 'contabilidad/conciliacion_soporte/cargar-soporte/',
+        nombre: 'HumAdicional',
+        rutaEjemplo:
+          'https://semantica.sfo3.digitaloceanspaces.com/renio/ejemplos/estructuraConciliacionBanco.xlsx',
+        verBotonImportar: true,
+        verBotonEjemplo: true,
+      }"
+      [detalle]="[
+        {
+          idNombre: 'conciliacion_id',
+          idValor: conciliacionId,
+        },
+      ]"
+      role="group"
+      (emitirDetallesAgregados)="consultarLista()"
+    ></app-importar>
+  </div>
+</ng-template>

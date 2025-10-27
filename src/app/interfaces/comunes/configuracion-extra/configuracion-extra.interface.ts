@@ -6,5 +6,6 @@ export interface BotonesExtras {
   configuracionModal?: ConfiguracionModal;
   emitirValorCheck?: boolean;
   registrosSeleccionados?: number[];
+  realizarPeticion?: boolean;
   esModal?: boolean;
 }

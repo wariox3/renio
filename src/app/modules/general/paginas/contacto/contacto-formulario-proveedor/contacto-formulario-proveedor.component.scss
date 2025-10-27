@@ -1,0 +1,10 @@
+.item {
+  color: var(--bs-dropdown-link-hover-color);
+  background-color: var(--bs-dropdown-link-hover-bg);
+}
+
+.dropdown-menu
+ {
+   max-height: 280px;
+   overflow-y: scroll;
+ }

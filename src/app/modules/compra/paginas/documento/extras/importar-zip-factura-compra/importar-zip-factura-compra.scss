@@ -1,0 +1,66 @@
+.custom-file-upload input[type="file"] {
+  display: none;
+}
+
+/* Estilos del botón personalizado */
+.custom-file-upload label {
+  background-color: #3498db;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #2980b9;
+  }
+}
+
+.sinbordes {
+  border-radius: 0;
+}
+.stepper-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* alinea arriba para texto */
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  text-align: center;
+  min-width: 120px; /* mantiene proporción */
+}
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 1.8rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+}
+
+.circle-active {
+  background-color: #1B84FF; /* azul Bootstrap */
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(13, 110, 253, 0.3);
+}
+
+.circle-inactive {
+  background-color: #fff;
+  border: 2px solid #dee2e6;
+  color: #adb5bd;
+}
+
+
+
+.fw-semibold {
+  font-weight: 600 !important;
+}

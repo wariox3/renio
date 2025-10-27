@@ -19,7 +19,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
       modelos: [
         {
           key: 305,
-          nombreModelo: 'FACTURARECURRENTE',
+          nombreModelo: 'COMPRARECURENTE',
           documentacion: {
             id: 1081,
           },
@@ -86,6 +86,8 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
               verColumnaEditar: true,
               verBotonEliminar: true,
               verColumnaSeleccionar: true,
+              verDropdownNuevo: true,
+              verBotonImportarDropdown: true,
             },
           },
         },

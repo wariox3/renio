@@ -1752,4 +1752,43 @@ export const documentos: MapeoDocumentos = {
       ordenable: true,
     },
   ],
+  conciliacion: [
+    {
+      nombre: 'Id',
+      campoTipo: 'IntegerField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'FECHA_DESDE',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'FECHA_HASTA',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },
+    {
+      nombre: 'CUENTA_BANCO',
+      nombreAbreviado: 'CUENTA_BANCO',
+      campoTipo: 'IntegerField',
+      visibleTabla: false,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+    {
+      nombre: 'CUENTA_BANCO__NOMBRE',
+      nombreAbreviado: 'CUENTA_BANCO_NOMBRE',
+      campoTipo: 'CharField',
+      visibleTabla: true,
+      visibleFiltro: false,
+      ordenable: false,
+    },
+  ],
 };

@@ -42,6 +42,19 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: null,
+          nombreModelo: 'CONCILIACION',
+          documentacion: {
+            id: 1023,
+          },
+          ajustes: {
+            rutas: {
+              lista: 'contabilidad/especial/conciliacion',
+              nuevo: '',
+            },
+          },
+        },
       ],
     },
     {
