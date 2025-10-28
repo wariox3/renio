@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, EventEmitter, forwardRef, Input, Output, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, OnInit, Output, signal, ViewChild } from '@angular/core';
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
@@ -16,7 +16,7 @@ import { TranslateModule } from '@ngx-translate/core';
     },
   ],
 })
-export class SwitchComponent implements ControlValueAccessor {
+export class SwitchComponent implements OnInit, ControlValueAccessor {
   @Input() label: string = ''; // Etiqueta del input
   @Input() labelTranslate?: string;
   @Input() errors: { [key: string]: string } = {}; // Mapa de errores personalizados
@@ -28,7 +28,7 @@ export class SwitchComponent implements ControlValueAccessor {
   @Input() dirty: boolean | undefined = false;
   @Input() touched: boolean | undefined = false;
   @Input() control: AbstractControl | null = null; // Nuevo input para recibir el control del formulario
-  @Input() required : boolean | undefined = false;
+  @Input() required: boolean | undefined = false;
 
   @Output() blurEvent = new EventEmitter<void>(); // Nuevo output para emitir evento de blur
   @ViewChild('inputEl', { static: true }) inputEl!: ElementRef<HTMLInputElement>;
@@ -37,8 +37,26 @@ export class SwitchComponent implements ControlValueAccessor {
   onChange: any = () => { }; // Función para notificar cambios
   onTouched: any = () => { }; // Función para notificar que el input fue tocado
 
+  ngOnInit(): void {
+    this._sincronizarControlConValor();
+  }
+
+  private _sincronizarControlConValor(): void {
+    if (!this.control) return;
+
+    // Establece el valor inicial
+    this.value.set(!!this.control.value);
+
+    // Escucha cambios del control para mantener sincronía
+    this.control.valueChanges.subscribe((nuevoValor) => {
+      this.value.set(!!nuevoValor);
+    });
+  }
+
   // Escribe el valor en el input
   writeValue(value: any): void {
+    console.log(value);
+
     this.value.set(!!value);
   }
 
