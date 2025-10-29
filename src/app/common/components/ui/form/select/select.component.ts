@@ -106,7 +106,7 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
   }
 
   writeValue(value: any): void {
-    this.value = value;
+    this.value.set(value);
   }
 
   registerOnChange(fn: any): void {
@@ -118,7 +118,7 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
   }
 
   onSelectChange(value: any): void {
-    this.value = value;
+    this.value.set(value);
     this.onChange(value); // <- Notifica a Angular del nuevo valor
     this.selectionChange.emit(value); // <- Emite el cambio a componentes padres si lo deseas
 
@@ -180,20 +180,22 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
   }
 
   private _consultarDataPorCampoBusqueda(valor: string) {
-    return this._generalService
-      .consultaApi(this.configuracionEndpoint.endpoint, {
-        ...this.configuracionEndpoint.parametros,
-        [this.configuracionEndpoint.campoBusqueda]: valor,
-      })
-      .pipe(
-        debounceTime(this.configuracionEndpoint.debounceTime),
-        distinctUntilChanged(),
-        tap(() => this.loading.set(true)),
-        finalize(() => this.loading.set(false))
-      )
-      .subscribe((respuesta: any) => {
-        this._procesarRespuesta(respuesta);
-      });
+    if (this.configuracionEndpoint) {
+      return this._generalService
+        .consultaApi(this.configuracionEndpoint.endpoint, {
+          ...this.configuracionEndpoint.parametros,
+          [this.configuracionEndpoint.campoBusqueda]: valor,
+        })
+        .pipe(
+          debounceTime(this.configuracionEndpoint.debounceTime),
+          distinctUntilChanged(),
+          tap(() => this.loading.set(true)),
+          finalize(() => this.loading.set(false))
+        )
+        .subscribe((respuesta: any) => {
+          this._procesarRespuesta(respuesta);
+        });
+    }
   }
 
   private _procesarRespuesta(respuesta: any) {
