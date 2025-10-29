@@ -267,26 +267,28 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
   }
 
   private _configurarBusquedaPorDebounce(): void {
-    this.busquedaSubject
-      .pipe(
-        debounceTime(1000),
-        distinctUntilChanged(),
-        tap(() => this.loading.set(true)),
-        switchMap(valor =>
-          this._generalService.consultaApi(this.configuracionEndpoint.endpoint, {
-            ...this.configuracionEndpoint.parametros,
-            [this.configuracionEndpoint.campoBusqueda]: valor,
-          })
-            .pipe(finalize(() => this.loading.set(false)))
+    if (this.configuracionEndpoint) {
+      this.busquedaSubject
+        .pipe(
+          debounceTime(1000),
+          distinctUntilChanged(),
+          tap(() => this.loading.set(true)),
+          switchMap(valor =>
+            this._generalService.consultaApi(this.configuracionEndpoint.endpoint, {
+              ...this.configuracionEndpoint.parametros,
+              [this.configuracionEndpoint.campoBusqueda]: valor,
+            })
+              .pipe(finalize(() => this.loading.set(false)))
+          )
         )
-      )
-      .subscribe({
-        next: (respuesta: any) => this._procesarRespuesta(respuesta),
-        error: (err) => {
-          console.error('Error en la búsqueda:', err);
-          this.loading.set(false);
-        }
-      });
+        .subscribe({
+          next: (respuesta: any) => this._procesarRespuesta(respuesta),
+          error: (err) => {
+            console.error('Error en la búsqueda:', err);
+            this.loading.set(false);
+          }
+        });
+    }
   }
 
   private _inicializarControl(): void {
