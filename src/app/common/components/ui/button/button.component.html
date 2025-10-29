@@ -1,0 +1,28 @@
+<button
+  (click)="handleClick()"
+  [ngClass]="computedClasses"
+  class="btn d-inline-flex align-items-center justify-content-center gap-2"
+  [type]="type"
+  [disabled]="isLoading || isDisabled"
+  [attr.title]="title"
+>
+  @if (isLoading) {
+    <span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span>
+    @if (loadingText) {
+      {{ loadingText }}
+    }
+  } @else {
+    @if (iconLeft && !iconOnly) {
+      <i class="{{ iconLeft }}"></i>
+    }
+    @if (!iconOnly) {
+      {{ text }}
+    }
+    @if (iconOnly) {
+      <i class="{{ iconLeft || iconRight }}"></i>
+    }
+    @if (iconRight && !iconOnly) {
+      <i class="{{ iconRight }}"></i>
+    }
+  }
+</button>

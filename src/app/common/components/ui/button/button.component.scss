@@ -1,0 +1,22 @@
+:host {
+  display: inline-block;
+}
+
+.btn-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  &.btn-sm {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  &.btn-lg {
+    width: 3rem;
+    height: 3rem;
+  }
+}
