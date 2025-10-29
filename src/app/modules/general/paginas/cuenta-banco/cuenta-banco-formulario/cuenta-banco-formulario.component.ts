@@ -216,7 +216,9 @@ export default class CuentaBancoFormularioComponent
 
     if (campo === 'cuenta_banco_tipo') {
       if (dato === null) {
-        this.formularioCuentaBanco.get('cuenta_banco_tipo')?.setValue(null);
+        const control = this.formularioCuentaBanco.get('cuenta_banco_tipo');
+        control?.setValue(null, { emitEvent: false });
+        control?.updateValueAndValidity({ emitEvent: false });
         this.visualizarCampoNumeroCuenta = false;
         this.changeDetectorRef.detectChanges();
       } else {
@@ -246,7 +248,6 @@ export default class CuentaBancoFormularioComponent
         }
       }
     }
-    this.changeDetectorRef.detectChanges();
   }
 
   agregarCuentaSeleccionado(cuenta: RegistroAutocompletarConCuenta) {
