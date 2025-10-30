@@ -12,6 +12,7 @@
     [searchFn]="searchFn"
     [(ngModel)]="value"
     (ngModelChange)="onSelectChange($event)"
+    (change)="emitirSeleccion($event)"
     (blur)="onTouched()"
     (keyup)="buscarPorValor($event)"
     (clear)="busquedaInicial()"
