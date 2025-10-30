@@ -88,16 +88,6 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
     }
     this._configurarBusquedaPorDebounce();
     this._inicializarControl();
-
-    // Si el control tiene valor, asígnalo al value local
-    if (this.control?.value !== undefined && this.control?.value !== null) {
-      this.value.set(this.control.value);
-    }
-
-    // Escucha cambios del control para mantener sincronía bidireccional
-    this.control?.valueChanges.subscribe((nuevoValor) => {
-      this.value.set(nuevoValor);
-    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -129,6 +119,7 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
       this.control.markAsTouched();
     }
   }
+
   emitirSeleccion(data: any) {
     if (data?.[this.value()] === 'nuevo') {
       this.nuevoSeleccionado.emit(true);
@@ -293,6 +284,8 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
   }
 
   private _inicializarControl(): void {
+    console.log(this.control);
+
     if (!this.control) return;
 
     // Inicializa el valor local con el del control
