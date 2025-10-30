@@ -70,6 +70,7 @@ export class SelectComponent implements OnChanges, OnInit, ControlValueAccessor 
   @Input() touched: boolean | undefined = false;
   @Input() configuracionEndpoint: selectConfiguracionEndpoint
   @Input() appendTo: string = 'body';
+  @Input() clearable: boolean = true;
 
   @Output() selectionChange = new EventEmitter<any>();
   @Output() valorBusqueda = new EventEmitter<string>();
