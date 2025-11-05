@@ -194,7 +194,7 @@ export default class ImportarZipFacturaCompraComponent implements OnInit, OnDest
       remision: null,
       pago: 0,
       total_bruto: 0,
-      comentario: this.datosFactura()?.documento.comentario,
+      comentario: this.datosFactura()?.documento.comentario?.substring(0, 500) || '',
       orden_compra: null,
       documento_referencia: null,
       documento_referencia_numero: null,
