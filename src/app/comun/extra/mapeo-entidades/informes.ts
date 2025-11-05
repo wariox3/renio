@@ -35,6 +35,13 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
+      nombre: 'documento_contacto_numero_identificacion',
+      campoTipo: 'CharField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+    },
+    {
       nombre: 'documento_contacto_nombre',
       campoTipo: 'CharField',
       visibleFiltro: false,
