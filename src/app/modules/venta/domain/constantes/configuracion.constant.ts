@@ -101,6 +101,9 @@ export const VENTA_CONFIGURACION: ModuloConfig = {
         {
           key: 108,
           nombreModelo: 'REMISION',
+          documentacion: {
+            id: 1083,
+          },
           ajustes: {
             rutas: {
               lista: DocLista,

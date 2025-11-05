@@ -94,8 +94,7 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
 })
 export default class ContactoFormularioComponent
   extends General
-  implements OnInit, OnDestroy
-{
+  implements OnInit, OnDestroy {
   formularioContacto: FormGroup;
   informacionContacto: any;
   arrCiudades: any[];
@@ -214,13 +213,18 @@ export default class ContactoFormularioComponent
   }
 
   private _seHanModificadoDatosDeIdentificacion() {
+    if (!this.informacionContacto) {
+      return false; // o true, dependiendo de tu lógica
+    }
+
+    const numeroIdentificacion = this.formularioContacto.get('numero_identificacion')?.value;
+    const identificacion = this.formularioContacto.get('identificacion')?.value;
+
     const numeroIdentificacionCambio =
-      parseInt(this.informacionContacto.numero_identificacion) !==
-      parseInt(this.formularioContacto.get('numero_identificacion')?.value);
+      parseInt(this.informacionContacto.numero_identificacion) !== parseInt(numeroIdentificacion);
 
     const identificacionIdCambio =
-      parseInt(this.informacionContacto.identificacion_id) !==
-      parseInt(this.formularioContacto.get('identificacion')?.value);
+      parseInt(this.informacionContacto.identificacion_id) !== parseInt(identificacion);
 
     return numeroIdentificacionCambio || identificacionIdCambio;
   }
@@ -610,8 +614,8 @@ export default class ContactoFormularioComponent
       >('general/identificacion/seleccionar/'),
       this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
         'general/regimen/seleccionar/', {
-          inactivo: 'False'
-        }
+        inactivo: 'False'
+      }
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
         'general/tipo_persona/seleccionar/',
