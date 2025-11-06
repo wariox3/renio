@@ -4,6 +4,7 @@ import { FORMA_PAGO_FILTERS } from '@modulos/general/domain/mapeos/forma-pago.ma
 import { ITEM_FILTERS } from '@modulos/general/domain/mapeos/item.mapeo';
 import { RESOLUCION_FILTERS } from '@modulos/general/domain/mapeos/resolucion.mapeo';
 import { DOCUMENTO_FILTERS } from 'src/app/core/constants/mapeo/documento.mapeo';
+import { ALMACEN_FILTERS } from '@modulos/inventario/domain/mapeos/almacen.mapeo';
 
 const DocLista = 'compra/documento/lista';
 const DocNuevo = 'compra/documento/nuevo';
@@ -370,6 +371,35 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: 'InvAlmacen',
+          nombreModelo: 'Almacen',
+          documentacion: {
+            id: 1076,
+          },
+          ajustes: {
+            rutas: {
+              lista: 'compra/administracion/lista',
+              nuevo: 'compra/administracion/nuevo',
+              detalle: 'compra/administracion/detalle',
+            },
+            endpoint: 'inventario/almacen',
+            queryParams: {
+              ordering: '-id',
+            },
+            parametrosHttpConfig: {
+              modelo: 'InvAlmacen',
+              filtros: {
+                ui: ALMACEN_FILTERS,
+              },
+            },
+            ui: {
+              verBotonImportar: false,
+              verBotonNuevo: true,
+              verColumnaEditar: true,
+            },
+          },
+        }
       ],
     },
     {
