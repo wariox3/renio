@@ -12,5 +12,6 @@ export interface Consumo {
   plan_id: number;
   plan__nombre: string;
   plan__precio: number;
+  dias: number;
   vr_total: number;
 }
