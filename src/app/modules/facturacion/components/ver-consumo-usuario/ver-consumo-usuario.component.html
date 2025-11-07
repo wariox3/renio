@@ -63,7 +63,8 @@
                 <th>Contenedor</th>
                 <th>Subdominio</th>
                 <th>Plan</th>
-                <th>Precio plan</th>
+                <th class="text-end">Precio plan</th>
+                <th class="text-end">Dias</th>
                 <th class="text-end">Total</th>
               </tr>
             </thead>
@@ -76,7 +77,8 @@
                   <td>{{ consumo.contenedor }}</td>
                   <td>{{ consumo.subdominio }}</td>
                   <td>{{ consumo.plan__nombre }}</td>
-                  <td>$ {{ consumo.plan__precio | number }}</td>
+                  <td class="text-end fw-bold">$ {{ consumo.plan__precio | number }}</td>
+                  <td class="text-end fw-bold">{{ consumo.dias | number }}</td>
                   <td class="text-end fw-bold">
                     $ {{ consumo.vr_total | number }}
                   </td>
