@@ -3,6 +3,7 @@ import { FilterField } from "src/app/core/interfaces/filtro.interface";
 export const DOCUMENTO_FILTERS: FilterField[] = [
     { name: 'id', displayName: 'ID', type: 'number' },
     { name: 'numero', displayName: 'Número', type: 'number' },
+    { name: 'documento_referencia__numero', displayName: 'Documento referencia', type: 'number' },
     { name: 'fecha', displayName: 'Fecha', type: 'date' },
     { name: 'contacto__numero_identificacion', displayName: '[Contacto] Identificación', type: 'string' },
     { name: 'contacto__nombre_corto', displayName: '[Contacto] Nombre', type: 'string' },
