@@ -1040,6 +1040,7 @@ export const locale = {
         OPERACION: 'Operación',
         PERIODO_NOMBRE: 'Período',
         DOCUMENTO_FECHA: 'Fecha',
+        DOCUMENTO_FECHA_DESDE: 'Fecha desde',
         DOCUMENTO_FECHA_HASTA: 'Fecha hasta',
         DOCUMENTO_TIPO_ID: 'Documento tipo',
         DOCUMENTO_TIPO_ID_FILTRO: '[Documento tipo] id',
