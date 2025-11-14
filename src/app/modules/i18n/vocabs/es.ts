@@ -1100,7 +1100,7 @@ export const locale = {
         DOCUMENTO__ID: 'Documento id',
         CUENTA_BANCO_NOMBRE: 'Cuenta banco',
         CUENTA_BANCO: 'Cuenta banco id',
-        DOCUMENTO_REFERENCIA__NUMERO: 'Documento referencia',
+        DOCUMENTO_REFERENCIA__NUMERO: 'Ref número',
       },
       ITEM: {
         ID: 'ID',
