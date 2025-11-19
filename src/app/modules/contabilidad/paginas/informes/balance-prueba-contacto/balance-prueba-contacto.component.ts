@@ -103,10 +103,7 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
         contacto: [''],
       },
       {
-        validator: fechasDeMismoAnio(
-          'fecha_desde',
-          'fecha_hasta',
-        ),
+        validator: fechasDeMismoAnio('fecha_desde', 'fecha_hasta'),
       },
     );
   }
@@ -166,7 +163,7 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
   }) {
     this.formularioFiltros.get('cuenta_desde')?.setValue(cuenta.id);
     this.formularioFiltros.get('cuenta_codigo_desde')?.setValue(cuenta.codigo);
-    this.cuentaDesdeNombre.set(cuenta.nombre);  
+    this.cuentaDesdeNombre.set(cuenta.nombre);
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
 
@@ -194,13 +191,25 @@ export class BalancePruebaContactoComponent extends General implements OnInit {
     this.contactoNombreCorto.set(contacto.nombre_corto);
   }
 
+  limpiarCuentaDesde() {
+    this.formularioFiltros.get('cuenta_desde')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue('');
+    this.cuentaDesdeNombre.set('');
+    this.cuentaDesdeCodigo.set('');
+  }
+
+  limpiarCuentaHasta() {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue('');
+    this.cuentaHastaNombre.set('');
+    this.cuentaHastaCodigo.set('');
+  }
 
   limpiarContacto() {
     this.formularioFiltros.get('contacto')?.setValue(null);
     this.formularioFiltros.get('nombre_corto')?.setValue('');
     this.contactoNombreCorto.set('');
   }
-
 }
 
 interface GenerarBalancePrueba {

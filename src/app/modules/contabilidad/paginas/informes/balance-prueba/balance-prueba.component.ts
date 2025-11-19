@@ -97,10 +97,7 @@ export class BalancePruebaComponent extends General implements OnInit {
         cuenta_hasta: [''],
       },
       {
-        validator: fechasDeMismoAnio(
-          'fecha_desde',
-          'fecha_hasta',
-        ),
+        validator: fechasDeMismoAnio('fecha_desde', 'fecha_hasta'),
       },
     );
   }
@@ -175,6 +172,19 @@ export class BalancePruebaComponent extends General implements OnInit {
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }
 
+  limpiarCuentaDesde() {
+    this.formularioFiltros.get('cuenta_desde')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue('');
+    this.cuentaDesdeNombre.set('');
+    this.cuentaDesdeCodigo.set('');
+  }
+
+  limpiarCuentaHasta() {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue('');
+    this.cuentaHastaNombre.set('');
+    this.cuentaHastaCodigo.set('');
+  }
 }
 
 interface GenerarBalancePrueba {

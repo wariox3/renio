@@ -139,6 +139,7 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
   }
 
   private _consultarInformes(parametros: GenerarAuxiliarCuenta) {
+    console.log(parametros);
     this.cargandoCuentas.set(true);
     this.contabilidadInformesService
       .consultarAuxiliarCuenta(parametros)
@@ -235,8 +236,20 @@ export class AuxiliarCuentaComponent extends General implements OnInit {
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }
 
-}
+  limpiarCuentaDesde() {
+    this.formularioFiltros.get('cuenta_desde')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue('');
+    this.cuentaDesdeNombre.set('');
+    this.cuentaDesdeCodigo.set('');
+  }
 
+  limpiarCuentaHasta() {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue('');
+    this.cuentaHastaNombre.set('');
+    this.cuentaHastaCodigo.set('');
+  }
+}
 interface GenerarAuxiliarCuenta {
   fecha_desde: string;
   fecha_hasta: string;
