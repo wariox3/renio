@@ -52,6 +52,20 @@ export class ExtraerIvaComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
       });
 
+    // Suscribirse a cambios en los impuestos para recalcular automáticamente
+    const impuestosControl = this.detalles.at(this.formularioIndex)?.get('impuestos');
+    if (impuestosControl) {
+      impuestosControl.valueChanges
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(() => {
+          const precioActual = this.precioControl.value;
+          if (precioActual && precioActual > 0) {
+            this.calcularPrecioBase(precioActual);
+            this.changeDetectorRef.detectChanges();
+          }
+        });
+    }
+
     this.precioControl.setValue(precioInicial);
 
   }
@@ -116,6 +130,13 @@ export class ExtraerIvaComponent implements OnInit, OnDestroy {
       impuestos,
       indexFormulario,
     );
+    
+    // Recalcular precio base cuando cambian los impuestos
+    const precioActual = this.precioControl.value;
+    if (precioActual && precioActual > 0) {
+      this.calcularPrecioBase(precioActual);
+    }
+    
     this.changeDetectorRef.detectChanges();
   }
 
