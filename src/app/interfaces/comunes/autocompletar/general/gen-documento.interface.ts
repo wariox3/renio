@@ -23,4 +23,5 @@ export interface RegistroAutocompletarGenDocumentoReferencia {
   documento_tipo__nombre: string;
   fecha: string
   numero: number;
+  referencia_numero: number;
 }

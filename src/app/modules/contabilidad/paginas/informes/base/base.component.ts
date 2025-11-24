@@ -172,6 +172,20 @@ export class BaseComponent extends General implements OnInit {
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }
 
+  limpiarCuentaDesde() {
+    this.formularioFiltros.get('cuenta_desde')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue('');
+    this.cuentaDesdeNombre.set('');
+    this.cuentaDesdeCodigo.set('');
+  }
+
+  limpiarCuentaHasta() {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue('');
+    this.cuentaHastaNombre.set('');
+    this.cuentaHastaCodigo.set('');
+  }
+
   agregarContactoSeleccionado(contacto: {
     id: number;
     nombre_corto: string;
@@ -183,6 +197,12 @@ export class BaseComponent extends General implements OnInit {
   }) {
     this.formularioFiltros.get('contacto_id')?.setValue(contacto.id);
     this.contactoNombreCorto.set(contacto.nombre_corto);
+  }
+
+  limpiarContacto() {
+    this.formularioFiltros.get('contacto')?.setValue(null);
+    this.formularioFiltros.get('nombre_corto')?.setValue('');
+    this.contactoNombreCorto.set('');
   }
 }
 

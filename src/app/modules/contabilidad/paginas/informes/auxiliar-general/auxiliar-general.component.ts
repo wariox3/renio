@@ -26,7 +26,6 @@ import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize } from 'rxjs';
 
-
 @Component({
   selector: 'app-auxiliar-general',
   standalone: true,
@@ -38,8 +37,8 @@ import { finalize } from 'rxjs';
     TranslateModule,
     BtnExportarComponent,
     CuentasComponent,
-    ContactosComponent
-],
+    ContactosComponent,
+  ],
   templateUrl: './auxiliar-general.component.html',
   styleUrl: './auxiliar-general.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -173,7 +172,6 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     this._consultarInformes(this.formularioFiltros.value);
   }
 
-
   agregarCuentaDesdeSeleccionado(cuenta: {
     id: number;
     nombre: string;
@@ -196,6 +194,20 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }
 
+  limpiarCuentaDesde() {
+    this.formularioFiltros.get('cuenta_desde')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue('');
+    this.cuentaDesdeNombre.set('');
+    this.cuentaDesdeCodigo.set('');
+  }
+
+  limpiarCuentaHasta() {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue('');
+    this.cuentaHastaNombre.set('');
+    this.cuentaHastaCodigo.set('');
+  }
+
   agregarContactoSeleccionado(contacto: {
     id: number;
     nombre_corto: string;
@@ -208,6 +220,12 @@ export class AxiliarGeneralComponent extends General implements OnInit {
     this.formularioFiltros.get('contacto')?.setValue(contacto.id);
     this.contactoNombreCorto.set(contacto.nombre_corto);
   }
+
+  limpiarContacto() {
+    this.formularioFiltros.get('contacto')?.setValue(null);
+    this.formularioFiltros.get('nombre_corto')?.setValue('');
+    this.contactoNombreCorto.set('');
+  }  
 }
 
 interface GenerarAuxiliarGeneral {

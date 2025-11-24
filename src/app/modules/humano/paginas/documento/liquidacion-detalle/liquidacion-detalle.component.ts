@@ -13,9 +13,9 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { finalize } from 'rxjs';
+import { finalize, tap } from 'rxjs';
 import { CardComponent } from '../../../../../comun/componentes/card/card.component';
-import { TablaAdicionalesComponent } from "./componentes/tabla-adicionales/tabla-adicionales.component";
+import { TablaAdicionalesComponent } from './componentes/tabla-adicionales/tabla-adicionales.component';
 
 @Component({
   selector: 'app-nomina-electronica-detalle',
@@ -30,14 +30,15 @@ import { TablaAdicionalesComponent } from "./componentes/tabla-adicionales/tabla
     NgbTooltipModule,
     BaseEstadosComponent,
     TituloAccionComponent,
-    TablaAdicionalesComponent
+    TablaAdicionalesComponent,
   ],
   templateUrl: './liquidacion-detalle.component.html',
   styleUrl: './liquidacion-detalle.component.scss',
 })
 export default class LiquidacionDetalleComponent
   extends General
-  implements OnInit {
+  implements OnInit
+{
   private liquidacionService = inject(LiquidacionService);
 
   active: Number = 1;
@@ -58,9 +59,7 @@ export default class LiquidacionDetalleComponent
   }
 
   consultarDetalle() {
-    this.liquidacionService
-      .getLiquidacionPorId(this.detalle)
-      .subscribe();
+    this.liquidacionService.getLiquidacionPorId(this.detalle).subscribe();
   }
 
   imprimir() {
@@ -86,12 +85,27 @@ export default class LiquidacionDetalleComponent
   }
 
   aprobar() {
-    this.liquidacionService.aprobar(this.detalle).subscribe({
-      next: () => {
-        this.consultarDetalle();
-        this.alertaService.mensajaExitoso('Documento aprobado con exito!');
-      },
-    });
+    this.alertaService
+      .mensajeValidacion(
+        'Aprobar liquidación',
+        '¿Está seguro que desea aprobar esta liquidación?',
+        'warning',
+      )
+      .then(({ isConfirmed }) => {
+        if (isConfirmed) {
+          this.liquidacionService
+            .aprobar(this.detalle)
+            .pipe(
+              tap(() => {
+                this.consultarDetalle();
+                this.alertaService.mensajaExitoso(
+                  'Documento aprobado con exito!',
+                );
+              }),
+            )
+            .subscribe();
+        }
+      });
   }
 
   desgenerar() {

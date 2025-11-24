@@ -1028,6 +1028,15 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
+      nombre: 'documento__fecha_desde',
+      nombreAbreviado: 'documento_fecha_desde',
+      nombreFiltroRelacion: 'DOCUMENTO__FECHA_DESDE',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },    
+    {
       nombre: 'documento__fecha_hasta',
       nombreAbreviado: 'documento_fecha_hasta',
       nombreFiltroRelacion: 'DOCUMENTO__FECHA_HASTA',

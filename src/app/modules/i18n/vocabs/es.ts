@@ -354,6 +354,7 @@ export const locale = {
           GRUPO: 'Grupo',
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',
+          CANT: 'Cant',
           PRECIO: 'Precio',
           COSTO: 'Costo',
           DESCUENTO: 'Desc %',
@@ -1040,6 +1041,7 @@ export const locale = {
         OPERACION: 'Operación',
         PERIODO_NOMBRE: 'Período',
         DOCUMENTO_FECHA: 'Fecha',
+        DOCUMENTO_FECHA_DESDE: 'Fecha desde',
         DOCUMENTO_FECHA_HASTA: 'Fecha hasta',
         DOCUMENTO_TIPO_ID: 'Documento tipo',
         DOCUMENTO_TIPO_ID_FILTRO: '[Documento tipo] id',
@@ -1100,6 +1102,7 @@ export const locale = {
         DOCUMENTO__ID: 'Documento id',
         CUENTA_BANCO_NOMBRE: 'Cuenta banco',
         CUENTA_BANCO: 'Cuenta banco id',
+        DOCUMENTO_REFERENCIA__NUMERO: 'Ref número',
       },
       ITEM: {
         ID: 'ID',
