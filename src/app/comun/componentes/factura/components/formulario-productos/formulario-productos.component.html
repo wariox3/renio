@@ -98,14 +98,14 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.ALMACEN"
           ></th>
           <th
-            class="w-50px"
-            translate="FORMULARIOS.TITULOS.FACTURACION.CANTIDAD"
+            class="w-25px"
+            translate="FORMULARIOS.TITULOS.FACTURACION.CANT"
           ></th>
           <th
-            class="w-100px"
+            class="w-125px"
             translate="FORMULARIOS.TITULOS.FACTURACION.PRECIO"
           ></th>
-          <th class="w-100px">
+          <th class="w-25px">
             <div placement="top" ngbTooltip="Porcentaje descuento">
               {{ "FORMULARIOS.TITULOS.FACTURACION.DESCUENTO" | translate }}
             </div>
@@ -119,13 +119,13 @@
             translate="FORMULARIOS.TITULOS.FACTURACION.IMPUESTO"
           ></th>
           <th
-            class="w-100px"
+            class="w-75px"
             translate="FORMULARIOS.TITULOS.FACTURACION.NETO"
           ></th>
           @if (mostrarCampoDetalle) {
             <th class="w-150px">Detalle</th>
           }
-          <th class="w-100px text-center" *ngIf="!estadoAprobado()"></th>
+          <th class="w-50px text-center" *ngIf="!estadoAprobado()"></th>
         </tr>
       </thead>
       <tbody formArrayName="detalles">
@@ -204,25 +204,39 @@
                 </div>
               </td>
               <td>
-                <input
-                  type="number"
-                  formControlName="precio"
-                  (focus)="onPrecioChange(i)"
-                  [attr.disabled]="estadoAprobado()"
-                  [readonly]="estadoAprobado()"
-                  style="text-align: right; padding-right: 10px"
-                  class="form-control-sm"
-                  [ngClass]="{
-                    'disabled-cursor bg-transparent': estadoAprobado(),
-                    'text-white': themeValue === 'dark' && estadoAprobado(),
-                    'is-invalid':
-                      detalle.get('precio')?.touched &&
-                      detalle.get('precio')?.hasError('valorCero'),
-                  }"
-                  rows="1"
-                  spellcheck="true"
-                  appSoloNumeros
-                />
+                <div class="input-group-extraer-iva">
+                  <!-- Selector integrado en el input -->
+                  @if (mostrarIncluirIva) {
+                    <span
+                      class="input-group-text"
+                      (click)="abrirModalExtraerIVA(modalExtraerIVA, i)"
+                    >
+                      <i class="ki-duotone ki-notepad-edit hover-primary text-sm">
+                        <span class="path1"></span>
+                        <span class="path2"></span>
+                      </i>
+                    </span>
+                  }
+
+                  <input
+                    type="number"
+                    formControlName="precio"
+                    (focus)="onPrecioChange(i)"
+                    [attr.disabled]="estadoAprobado()"
+                    [readonly]="estadoAprobado()"
+                    class="form-control"
+                    [ngClass]="{
+                      'disabled-cursor bg-transparent': estadoAprobado(),
+                      'text-white': themeValue === 'dark' && estadoAprobado(),
+                      'is-invalid':
+                        detalle.get('precio')?.touched &&
+                        detalle.get('precio')?.hasError('valorCero'),
+                    }"
+                    rows="1"
+                    spellcheck="true"
+                    appSoloNumeros
+                  />
+                </div>
                 <div
                   *ngIf="
                     (detalle.get('precio')?.touched &&
@@ -350,7 +364,7 @@
                   </div>
                 </td>
               }
-              <td class="text-center" *ngIf="!estadoAprobado()">
+              <td class="text-center" *ngIf="!estadoAprobado()" style="width: 25px !important;">
                 <i
                   class="bi bi-trash fs-2x align-self-center cursor-pointer user-select-none text-hover-danger"
                   (click)="eliminarItem(i)"
@@ -381,6 +395,21 @@
       [detalleId]="detalle"
       (itemsSeleccionadosEvent)="actualizarDocumento()"
     ></app-agregar-detalles-documento>
+  </div>
+</ng-template>
+
+<ng-template #modalExtraerIVA let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">IVA incluido</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+  <div class="modal-body">
+    <app-extraer-iva [formularioIndex]="indexSelecccionado()"></app-extraer-iva>
   </div>
 </ng-template>
 
