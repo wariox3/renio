@@ -225,6 +225,7 @@
                     [attr.disabled]="estadoAprobado()"
                     [readonly]="estadoAprobado()"
                     class="form-control"
+                    style="padding: .6rem !important;"
                     [ngClass]="{
                       'disabled-cursor bg-transparent': estadoAprobado(),
                       'text-white': themeValue === 'dark' && estadoAprobado(),
