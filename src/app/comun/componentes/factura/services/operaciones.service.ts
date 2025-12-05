@@ -110,8 +110,7 @@ export class OperacionesService {
     return this.redondear(subtotal + impuestoTotal, 2);
   }
 
-  redondear(valor: number, decimales: number): number {
-    const factor = Math.pow(10, decimales);
-    return Math.round(valor * factor) / factor;
-  }
+redondear(valor: number, decimales: number): number {
+  return Math.round((valor + Number.EPSILON) * Math.pow(10, decimales)) / Math.pow(10, decimales);
+}
 }

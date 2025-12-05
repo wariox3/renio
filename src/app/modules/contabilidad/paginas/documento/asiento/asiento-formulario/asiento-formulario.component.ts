@@ -197,6 +197,7 @@ export default class AsientoFormularioComponent
 
   formSubmit() {
     if (this.formularioAsiento.valid) {
+      console.log(this.formularioAsiento.get('total'));
       if (this.formularioAsiento.get('total')?.value >= 0) {
         if (this.detalle == 0) {
           this.facturaService
@@ -313,24 +314,30 @@ export default class AsientoFormularioComponent
   }
 
   calcularTotales() {
-    this.totalCredito = 0;
-    this.totalDebito = 0;
-    this.total = 0;
+    let totalCreditoTemp = 0;
+    let totalDebitoTemp = 0;
+
     const detallesArray = this.formularioAsiento.get('detalles') as FormArray;
+
     detallesArray.controls.forEach((detalleControl) => {
-      const pago = detalleControl.get('precio')?.value || 0;
+      const pago = parseFloat(detalleControl.get('precio')?.value) || 0;
       const naturaleza = detalleControl.get('naturaleza')?.value;
+
+      // Convertir a centavos para evitar problemas de coma flotante
+      const valorEnCentavos = Math.round(pago * 100);
+
       if (naturaleza === 'C') {
-        this.totalCredito += this._operacionesService.redondear(
-          Number(pago),
-          2,
-        );
+        totalCreditoTemp += valorEnCentavos;
       } else {
-        this.totalDebito += this._operacionesService.redondear(Number(pago), 2);
+        totalDebitoTemp += valorEnCentavos;
       }
-      this.changeDetectorRef.detectChanges();
     });
-    this.total += this.totalCredito - this.totalDebito;
+
+    // Convertir de vuelta a decimales
+    this.totalCredito = totalCreditoTemp / 100;
+    this.totalDebito = totalDebitoTemp / 100;
+    this.total = (totalCreditoTemp - totalDebitoTemp) / 100;
+
     this.formularioAsiento.patchValue({
       total: this.total,
     });
