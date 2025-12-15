@@ -98,7 +98,7 @@ export class EstadoSituacionFinancieraComponent extends General implements OnIni
     );
   }
 
-  private _consultarInformes(parametros: GenerarBalancePrueba) {
+  private _consultarInformes(parametros: MovimientoSituacionFinanciera) {
     this.contabilidadInformesService.consultarSituacionFinanciera(parametros).subscribe({
       next: (respuesta) => {
         this.situacionFinanciera = respuesta.registros;
@@ -193,9 +193,3 @@ export class EstadoSituacionFinancieraComponent extends General implements OnIni
   }
 }
 
-interface GenerarBalancePrueba {
-  fecha_desde: string;
-  fecha_hasta: string;
-  incluir_cierre: boolean;
-  cuenta_movimiento: boolean;
-}
