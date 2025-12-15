@@ -104,3 +104,29 @@ export interface MovimientoAuxiliarTercero extends MovimientoBalancePrueba {
   contacto_nombre_corto: string;
   contacto_numero_identificacion: string;
 }
+
+export interface MovimientoEstadoResultados {
+    id: number;
+  cuenta_clase_id: number;
+  cuenta_clase_nombre: string;
+  cuenta_grupo_id: number;
+  cuenta_grupo_nombre: string;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+  debito: number;
+  credito: number;
+  saldo: number;
+}
+
+export interface MovimientoSituacionFinanciera {
+    id: number;
+  cuenta_clase_id: number;
+  cuenta_clase_nombre: string;
+  cuenta_grupo_id: number;
+  cuenta_grupo_nombre: string;
+  cuenta_codigo: string;
+  cuenta_nombre: string;
+  debito: number;
+  credito: number;
+  saldo: number;
+}

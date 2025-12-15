@@ -134,6 +134,8 @@ export const locale = {
         REMISION: 'Remisión',
         TRANSLADO: 'Traslado',
         CONCILIACION: 'Conciliación',
+        ESTADORESULTADOS: 'Estado resultados',
+        ESTADOSITUACIONFINANCIERA: 'Estado situacion financiera'
       },
     },
     FORMULARIOS: {
@@ -1400,7 +1402,10 @@ export const locale = {
         COMPROBANTE: 'Comprobante',
         IDENTIFICACION: 'Identificación',
         BASE_RETENIDO: 'Monto del pago sujeto a retención',
-        RETENIDO: 'Retenido y consignado'
+        RETENIDO: 'Retenido y consignado',
+        CLASE: 'Clase',
+        GRUPO: 'Grupo',
+        SALDO: 'Saldo'
       },
       NOVEDAD: {
         ID: 'Id',
@@ -1733,6 +1738,8 @@ export const locale = {
       HUMLIQUIDACION: 'Liquidación',
       NUEVO: 'Nuevo',
       DETALLE: 'Detalle',
+      ESTADORESULTADOS: 'Estado resultados',
+      ESTADOSITUACIONFINANCIERA: 'Estado situacion financiera'
     },
   },
 };
