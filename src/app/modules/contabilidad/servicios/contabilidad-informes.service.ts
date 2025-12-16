@@ -6,6 +6,8 @@ import {
   MovimientoAuxiliarGeneral,
   MovimientoAuxiliarTercero,
   MovimientoBalancePruebaTercero,
+  MovimientoEstadoResultados,
+  MovimientoSituacionFinanciera,
   RespuestaInformeBalancePrueba,
   RespuestaInformeBalancePruebaTerceros,
 } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
@@ -49,20 +51,32 @@ export class ContabilidadInformesService extends Subdominio {
   consultarAuxiliarCuenta(parametros: any = {}) {
     return this.httpService.post<{ registros: MovimientoAuxiliarCuenta[] }>(
       `contabilidad/movimiento/informe-auxiliar-cuenta/`,
-      {parametros},
+      { parametros },
     );
   }
 
   consultarAuxiliarTercero(parametros: any = {}) {
     return this.httpService.post<{ registros: MovimientoAuxiliarTercero[] }>(
       `contabilidad/movimiento/informe-auxiliar-tercero/`,
-      {parametros},
+      { parametros },
     );
   }
 
   consultarAuxiliarGeneral(parametros: any = {}) {
     return this.httpService.post<{
       registros: MovimientoAuxiliarGeneral[];
-    }>(`contabilidad/movimiento/informe-auxiliar-general/`, {parametros});
+    }>(`contabilidad/movimiento/informe-auxiliar-general/`, { parametros });
+  }
+
+  consultarEstadoResultados(parametros: any = {}) {
+    return this.httpService.post<{
+      registros: MovimientoEstadoResultados[];
+    }>(`contabilidad/movimiento/informe-estado-resultados/`, { parametros });
+  }
+
+  consultarSituacionFinanciera(parametros: any = {}) {
+    return this.httpService.post<{
+      registros: MovimientoSituacionFinanciera[];
+    }>(`contabilidad/movimiento/informe-estado-situacion-financiera/`, { parametros });
   }
 }

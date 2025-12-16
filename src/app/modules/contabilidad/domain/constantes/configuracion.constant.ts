@@ -430,6 +430,32 @@ export const CONTABILIDAD_CONFIGURACION: ModuloConfig = {
             },
           },
         },
+        {
+          key: null,
+          nombreModelo: 'ESTADORESULTADOS',
+          documentacion: {
+            id: 1035
+          },
+          ajustes: {
+            rutas: {
+              lista: 'contabilidad/informe/estado_resultados',
+              nuevo: '',
+            },
+          },
+        },     
+        {
+          key: null,
+          nombreModelo: 'ESTADOSITUACIONFINANCIERA',
+          documentacion: {
+            id: 1035
+          },
+          ajustes: {
+            rutas: {
+              lista: 'contabilidad/informe/estado_situacion_financiera',
+              nuevo: '',
+            },
+          },
+        },            
       ],
     },
   ],

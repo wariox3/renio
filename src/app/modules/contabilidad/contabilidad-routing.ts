@@ -211,6 +211,22 @@ export const routes: Route[] = [
             './paginas/informes/certificado-retencion/certificado-retencion.component'
           ).then((c) => c.CertificadoRetencionComponent),
       },
+      {
+        path: 'estado_resultados',
+        data: { breadcrumb: 'estadoresultados' },
+        loadComponent: () =>
+          import(
+            './paginas/informes/estado-resultados/estado-resultados.component'
+          ).then((c) => c.EstadoResultadosComponent),
+      },      
+      {
+        path: 'estado_situacion_financiera',
+        data: { breadcrumb: 'estadosituacionfinanciera' },
+        loadComponent: () =>
+          import(
+            './paginas/informes/estado-situacion-financiera/estado-situacion-financiera.component'
+          ).then((c) => c.EstadoSituacionFinancieraComponent),
+      },        
     ],
   },
   {
