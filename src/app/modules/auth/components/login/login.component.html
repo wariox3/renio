@@ -160,12 +160,12 @@
     <!--end::Form group-->
 
     <!-- Turnstile Widget -->
-    @if(isProduction) {
+    <!-- @if(isProduction) {
       <ngx-turnstile
         [siteKey]="turnstileSiteKey"
         (resolved)="onSuccess($event)"
       ></ngx-turnstile>
-    }
+    } -->
 
     <ng-container
       [ngTemplateOutlet]="formError"
