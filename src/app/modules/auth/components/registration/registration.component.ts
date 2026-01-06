@@ -15,7 +15,7 @@ import { catchError, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { environment } from '@env/environment';
-import { NgxTurnstileComponent, NgxTurnstileModule } from 'ngx-turnstile';
+// import { NgxTurnstileComponent, NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-registration',
@@ -31,17 +31,17 @@ import { NgxTurnstileComponent, NgxTurnstileModule } from 'ngx-turnstile';
     NgIf,
     RouterLink,
     InputValueCaseDirective,
-    NgxTurnstileModule,
+    // NgxTurnstileModule,
   ],
 })
 export class RegistrationComponent extends General implements OnInit {
-  @ViewChild(NgxTurnstileComponent) turnstileComponent!: NgxTurnstileComponent;
+  // @ViewChild(NgxTurnstileComponent) turnstileComponent!: NgxTurnstileComponent;
   formularioRegistro: FormGroup;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
   cambiarTipoCampoConfirmarClave: 'text' | 'password' = 'password';
   visualizarLoader: boolean = false;
-  turnstileToken: string = '';
-  turnstileSiteKey: string = environment.turnstileSiteKey;
+  // turnstileToken: string = '';
+  // turnstileSiteKey: string = environment.turnstileSiteKey;
   isProduction: boolean = environment.production;
 
   constructor(
@@ -55,11 +55,11 @@ export class RegistrationComponent extends General implements OnInit {
     this.initForm();
   }
 
-  onSuccess(token: any) {
-    this.turnstileToken = token;
-    this.formularioRegistro.get('turnstileToken')?.setValue(token);
-    this.changeDetectorRef.detectChanges();
-  }
+  // onSuccess(token: any) {
+  //   this.turnstileToken = token;
+  //   this.formularioRegistro.get('turnstileToken')?.setValue(token);
+  //   this.changeDetectorRef.detectChanges();
+  // }
 
   visualizarClave() {
     if (this.cambiarTipoCampoClave === 'password') {
@@ -112,7 +112,7 @@ export class RegistrationComponent extends General implements OnInit {
           false,
           Validators.compose([Validators.requiredTrue]),
         ],
-        turnstileToken: [''],
+        // turnstileToken: [''],
         proyecto: 'REDDOC',
       },
       {
@@ -120,11 +120,11 @@ export class RegistrationComponent extends General implements OnInit {
       },
     );
 
-    if (this.isProduction) {
-      this.formularioRegistro
-        .get('turnstileToken')
-        ?.addValidators([Validators.required]);
-    }
+    // if (this.isProduction) {
+    //   this.formularioRegistro
+    //     .get('turnstileToken')
+    //     ?.addValidators([Validators.required]);
+    // }
   }
 
   get formFields() {
@@ -141,7 +141,7 @@ export class RegistrationComponent extends General implements OnInit {
             this.authService.login(
               this.formFields.usuario.value,
               this.formFields.clave.value,
-              this.formFields.turnstileToken.value,
+              '', // this.formFields.turnstileToken.value,
             ),
           ),
           tap((respuestaLogin) => {
@@ -149,11 +149,11 @@ export class RegistrationComponent extends General implements OnInit {
           }),
           catchError(() => {
             this.visualizarLoader = false;
-            if (this.turnstileComponent) {
-              this.turnstileComponent.reset();
-              this.turnstileToken = '';
-              this.formularioRegistro.get('turnstileToken')?.setValue('');
-            }
+            // if (this.turnstileComponent) {
+            //   this.turnstileComponent.reset();
+            //   this.turnstileToken = '';
+            //   this.formularioRegistro.get('turnstileToken')?.setValue('');
+            // }
             this.changeDetectorRef.detectChanges();
             return of(null);
           }),
