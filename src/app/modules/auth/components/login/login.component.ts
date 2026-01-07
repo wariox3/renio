@@ -19,7 +19,7 @@ import { usuarioActionInit } from '@redux/actions/usuario.actions';
 import { catchError, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../services/auth.service';
-// import { NgxTurnstileComponent, NgxTurnstileModule } from 'ngx-turnstile';
+import { NgxTurnstileComponent, NgxTurnstileModule } from 'ngx-turnstile';
 
 @Component({
   selector: 'app-login',
@@ -35,11 +35,11 @@ import { AuthService } from '../../services/auth.service';
     NgTemplateOutlet,
     RouterLink,
     InputValueCaseDirective,
-    // NgxTurnstileModule,
+    NgxTurnstileModule,
   ],
 })
 export class LoginComponent extends General implements OnInit, OnDestroy {
-  // @ViewChild(NgxTurnstileComponent) turnstileComponent!: NgxTurnstileComponent;
+  @ViewChild(NgxTurnstileComponent) turnstileComponent!: NgxTurnstileComponent;
   defaultAuth: any = {
     email: '',
     password: '',
@@ -49,9 +49,10 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   visualizarLoader: boolean = false;
   cambiarTipoCampoClave: 'text' | 'password' = 'password';
-  // turnstileToken: string = '';
-  // turnstileSiteKey: string = environment.turnstileSiteKey;
+  turnstileToken: string = '';
+  turnstileSiteKey: string = environment.turnstileSiteKey;
   isProduction: boolean = environment.production;
+  enableTurnstile: boolean = environment.enableTurnstile;
 
   private unsubscribe: Subscription[] = [];
 
@@ -67,11 +68,11 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
     this.initForm();
   }
 
-  // onSuccess(token: any) {
-  //   this.turnstileToken = token;
-  //   this.loginForm.get('turnstileToken')?.setValue(token);
-  //   this.changeDetectorRef.detectChanges();
-  // }
+  onSuccess(token: any) {
+    this.turnstileToken = token;
+    this.loginForm.get('turnstileToken')?.setValue(token);
+    this.changeDetectorRef.detectChanges();
+  }
 
   get f() {
     return this.loginForm.controls;
@@ -103,14 +104,14 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           Validators.maxLength(100),
         ]),
       ],
-      // turnstileToken: [''],
+      turnstileToken: [''],
     });
 
-    // if (this.isProduction) {
-    //   this.loginForm
-    //     .get('turnstileToken')
-    //     ?.addValidators([Validators.required]);
-    // }
+    if (this.enableTurnstile) {
+      this.loginForm
+        .get('turnstileToken')
+        ?.addValidators([Validators.required]);
+    }
   }
 
   submit() {
@@ -125,7 +126,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         .login(
           this.f.email.value,
           this.f.password.value,
-          '', // this.f.turnstileToken.value,
+          this.enableTurnstile ? this.f.turnstileToken.value : undefined,
         )
         .pipe(
           switchMap((respuestaLogin) => {
@@ -146,11 +147,11 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
           }),
           catchError(() => {
             this.visualizarLoader = false;
-            // if (this.turnstileComponent) {
-            //   this.turnstileComponent.reset();
-            //   this.turnstileToken = '';
-            //   this.loginForm.get('turnstileToken')?.setValue('');
-            // }
+            if (this.enableTurnstile && this.turnstileComponent) {
+              this.turnstileComponent.reset();
+              this.turnstileToken = '';
+              this.loginForm.get('turnstileToken')?.setValue('');
+            }
             this.changeDetectorRef.detectChanges();
             return of(null);
           }),
