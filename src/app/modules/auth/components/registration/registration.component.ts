@@ -43,6 +43,7 @@ export class RegistrationComponent extends General implements OnInit {
   turnstileToken: string = '';
   turnstileSiteKey: string = environment.turnstileSiteKey;
   isProduction: boolean = environment.production;
+  enableTurnstile: boolean = environment.enableTurnstile;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -120,7 +121,7 @@ export class RegistrationComponent extends General implements OnInit {
       },
     );
 
-    if (this.isProduction) {
+    if (this.enableTurnstile) {
       this.formularioRegistro
         .get('turnstileToken')
         ?.addValidators([Validators.required]);
@@ -141,7 +142,7 @@ export class RegistrationComponent extends General implements OnInit {
             this.authService.login(
               this.formFields.usuario.value,
               this.formFields.clave.value,
-              this.formFields.turnstileToken.value,
+              this.enableTurnstile ? this.formFields.turnstileToken.value : undefined,
             ),
           ),
           tap((respuestaLogin) => {
@@ -149,7 +150,7 @@ export class RegistrationComponent extends General implements OnInit {
           }),
           catchError(() => {
             this.visualizarLoader = false;
-            if (this.turnstileComponent) {
+            if (this.enableTurnstile && this.turnstileComponent) {
               this.turnstileComponent.reset();
               this.turnstileToken = '';
               this.formularioRegistro.get('turnstileToken')?.setValue('');

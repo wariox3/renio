@@ -52,6 +52,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
   turnstileToken: string = '';
   turnstileSiteKey: string = environment.turnstileSiteKey;
   isProduction: boolean = environment.production;
+  enableTurnstile: boolean = environment.enableTurnstile;
 
   private unsubscribe: Subscription[] = [];
 
@@ -106,7 +107,7 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
       turnstileToken: [''],
     });
 
-    if (this.isProduction) {
+    if (this.enableTurnstile) {
       this.loginForm
         .get('turnstileToken')
         ?.addValidators([Validators.required]);
@@ -125,74 +126,28 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
         .login(
           this.f.email.value,
           this.f.password.value,
-          this.f.turnstileToken.value,
+          this.enableTurnstile ? this.f.turnstileToken.value : undefined,
         )
         .pipe(
-          tap((respuestaLogin) => {
-            this.store.dispatch(
-              usuarioActionInit({
-                usuario: {
-                  id: respuestaLogin.user.id,
-                  username: respuestaLogin.user.username,
-                  imagen: respuestaLogin.user.imagen,
-                  imagen_thumbnail: respuestaLogin.user.imagen_thumbnail,
-                  nombre_corto: respuestaLogin.user.nombre_corto,
-                  nombre: respuestaLogin.user.nombre,
-                  apellido: respuestaLogin.user.apellido,
-                  telefono: respuestaLogin.user.telefono,
-                  correo: respuestaLogin.user.correo,
-                  idioma: respuestaLogin.user.idioma,
-                  dominio: respuestaLogin.user.dominio,
-                  es_administrador: respuestaLogin.user.es_administrador,
-                  fecha_limite_pago: new Date(
-                    respuestaLogin.user.fecha_limite_pago,
-                  ),
-                  vr_saldo: respuestaLogin.user.vr_saldo,
-                  vr_abono: respuestaLogin.user.vr_abono,
-                  fecha_creacion: new Date(respuestaLogin.user.fecha_creacion),
-                  verificado: respuestaLogin.user.verificado,
-                  es_socio: respuestaLogin.user.es_socio,
-                  socio_id: respuestaLogin.user.socio_id,
-                  is_active: respuestaLogin.user.is_active,
-                  numero_identificacion:
-                    respuestaLogin.user.numero_identificacion,
-                  cargo: respuestaLogin.user.cargo,
-                  vr_credito: respuestaLogin.user.vr_credito,
-                },
-              }),
-            );
-          }),
-          tap(() => {
-            this.store.dispatch(
-              configutacionActionInit({
-                configuracion: {
-                  visualizarApps: false,
-                  visualizarBreadCrumbs: false,
-                },
-              }),
-            );
-            this.router.navigate(['/contenedor/lista']);
-          }),
-          switchMap(() => {
+          switchMap((respuestaLogin) => {
+            this._inicializarUsuarioEnStore(respuestaLogin);
+            this._inicializarConfiguracion();
+            this._navegarAContenedor();
+            
             if (tokenUrl) {
               return this.authService.confirmarInivitacion(tokenUrl);
             }
             return of(null);
           }),
-          tap((respuestaConfirmarInivitacion: any) => {
-            if (tokenUrl) {
-              if (respuestaConfirmarInivitacion.confirmar) {
-                this.alertaService.mensajaExitoso(
-                  this.translateService.instant(
-                    'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA',
-                  ),
-                );
-              }
+          switchMap((respuestaConfirmarInivitacion: any) => {
+            if (tokenUrl && respuestaConfirmarInivitacion?.confirmar) {
+              this._mostrarMensajeInvitacionAceptada();
             }
+            return of(respuestaConfirmarInivitacion);
           }),
           catchError(() => {
             this.visualizarLoader = false;
-            if (this.turnstileComponent) {
+            if (this.enableTurnstile && this.turnstileComponent) {
               this.turnstileComponent.reset();
               this.turnstileToken = '';
               this.loginForm.get('turnstileToken')?.setValue('');
@@ -209,5 +164,63 @@ export class LoginComponent extends General implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  private _inicializarUsuarioEnStore(respuestaLogin: any): void {
+    this.store.dispatch(
+      usuarioActionInit({
+        usuario: {
+          id: respuestaLogin.user.id,
+          username: respuestaLogin.user.username,
+          imagen: respuestaLogin.user.imagen,
+          imagen_thumbnail: respuestaLogin.user.imagen_thumbnail,
+          nombre_corto: respuestaLogin.user.nombre_corto,
+          nombre: respuestaLogin.user.nombre,
+          apellido: respuestaLogin.user.apellido,
+          telefono: respuestaLogin.user.telefono,
+          correo: respuestaLogin.user.correo,
+          idioma: respuestaLogin.user.idioma,
+          dominio: respuestaLogin.user.dominio,
+          es_administrador: respuestaLogin.user.es_administrador,
+          fecha_limite_pago: new Date(
+            respuestaLogin.user.fecha_limite_pago,
+          ),
+          vr_saldo: respuestaLogin.user.vr_saldo,
+          vr_abono: respuestaLogin.user.vr_abono,
+          fecha_creacion: new Date(respuestaLogin.user.fecha_creacion),
+          verificado: respuestaLogin.user.verificado,
+          es_socio: respuestaLogin.user.es_socio,
+          socio_id: respuestaLogin.user.socio_id,
+          is_active: respuestaLogin.user.is_active,
+          numero_identificacion:
+            respuestaLogin.user.numero_identificacion,
+          cargo: respuestaLogin.user.cargo,
+          vr_credito: respuestaLogin.user.vr_credito,
+        },
+      }),
+    );
+  }
+
+  private _inicializarConfiguracion(): void {
+    this.store.dispatch(
+      configutacionActionInit({
+        configuracion: {
+          visualizarApps: false,
+          visualizarBreadCrumbs: false,
+        },
+      }),
+    );
+  }
+
+  private _navegarAContenedor(): void {
+    this.router.navigate(['/contenedor/lista']);
+  }
+
+  private _mostrarMensajeInvitacionAceptada(): void {
+    this.alertaService.mensajaExitoso(
+      this.translateService.instant(
+        'FORMULARIOS.MENSAJES.CONTENEDOR.INVITACIONACEPTADA',
+      ),
+    );
   }
 }

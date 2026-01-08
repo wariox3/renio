@@ -160,7 +160,7 @@
     <!--end::Form group-->
 
     <!-- Turnstile Widget -->
-    @if(isProduction) {
+    @if (enableTurnstile) {
       <ngx-turnstile
         [siteKey]="turnstileSiteKey"
         (resolved)="onSuccess($event)"

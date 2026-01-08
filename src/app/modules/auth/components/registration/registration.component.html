@@ -307,7 +307,7 @@
       }"
     ></ng-container>
 
-    @if (isProduction) {
+    @if (enableTurnstile) {
       <ngx-turnstile
         [siteKey]="turnstileSiteKey"
         (resolved)="onSuccess($event)"
