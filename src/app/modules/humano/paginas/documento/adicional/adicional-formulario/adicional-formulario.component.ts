@@ -114,6 +114,18 @@ export default class AdicionalFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  // Función de búsqueda personalizada para ng-select
+  customSearchFn = (term: string, item: RegistroAutocompletarHumConcepto) => {
+    if (!term) return true;
+    
+    term = term.toLowerCase();
+    const id = item.id?.toString().toLowerCase() || '';
+    const nombre = item.nombre?.toLowerCase() || '';
+    
+    // Buscar en ID y nombre
+    return id.includes(term) || nombre.includes(term);
+  }
+
   consultarInformacion() {
     this._generalService
       .consultaApi<RegistroAutocompletarHumConcepto[]>(

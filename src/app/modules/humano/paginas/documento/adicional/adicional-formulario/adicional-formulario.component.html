@@ -42,6 +42,8 @@
           <ng-select
             [items]="arrConceptosAdicional"
             bindValue="id"
+            bindLabel="nombre"
+            [searchFn]="customSearchFn"
             formControlName="concepto"
             notFoundText="Sin elementos"
             (change)="seleccionarConceptoAdcional($event)"
