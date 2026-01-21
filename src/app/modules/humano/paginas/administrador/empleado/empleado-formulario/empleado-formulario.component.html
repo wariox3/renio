@@ -5,7 +5,9 @@
   ></app-comun-encabezado-formulario-nuevo>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'empleado'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'empleado'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
       <div class="row mb-2">
@@ -23,7 +25,7 @@
                 formularioEmpleado.controls['identificacion'].invalid,
               'is-valid':
                 formularioEmpleado.controls['identificacion'].touched &&
-                formularioEmpleado.controls['identificacion'].valid
+                formularioEmpleado.controls['identificacion'].valid,
             }"
           >
             <option value="">Seleccionar...</option>
@@ -31,8 +33,7 @@
               <option
                 [value]="identificacion.id"
                 [selected]="
-                  identificacion.id ===
-                  formularioEmpleado.value.identificacion
+                  identificacion.id === formularioEmpleado.value.identificacion
                 "
                 *ngIf="identificacion.id !== 6"
               >
@@ -45,7 +46,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['identificacion']
+              control: formularioEmpleado.controls['identificacion'],
             }"
           ></ng-container>
         </div>
@@ -66,7 +67,7 @@
                 formularioEmpleado.controls['numero_identificacion'].invalid,
               'is-valid':
                 formularioEmpleado.controls['numero_identificacion'].touched &&
-                formularioEmpleado.controls['numero_identificacion'].valid
+                formularioEmpleado.controls['numero_identificacion'].valid,
             }"
           />
           <div
@@ -92,7 +93,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['numero_identificacion']
+              control: formularioEmpleado.controls['numero_identificacion'],
             }"
           ></ng-container>
           <ng-container
@@ -102,7 +103,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '20',
-              control: formularioEmpleado.controls['numero_identificacion']
+              control: formularioEmpleado.controls['numero_identificacion'],
             }"
           ></ng-container>
           <ng-container
@@ -110,7 +111,15 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioEmpleado.controls['numero_identificacion']
+              control: formularioEmpleado.controls['numero_identificacion'],
+            }"
+          ></ng-container>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'valorCeroNoPermitido',
+              message: 'El número de identificacion no puede ser 0',
+              control: formularioEmpleado.controls['numero_identificacion'],
             }"
           ></ng-container>
         </div>
@@ -132,7 +141,7 @@
                 formularioEmpleado.controls['nombre1'].invalid,
               'is-valid':
                 formularioEmpleado.controls['nombre1'].touched &&
-                formularioEmpleado.controls['nombre1'].valid
+                formularioEmpleado.controls['nombre1'].valid,
             }"
           />
           <ng-container
@@ -142,7 +151,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioEmpleado.controls['nombre1']
+              control: formularioEmpleado.controls['nombre1'],
             }"
           ></ng-container>
           <ng-container
@@ -150,7 +159,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['nombre1']
+              control: formularioEmpleado.controls['nombre1'],
             }"
           ></ng-container>
           <ng-container
@@ -158,7 +167,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'El campo contiene caracteres no validos',
-              control: formularioEmpleado.controls['nombre1']
+              control: formularioEmpleado.controls['nombre1'],
             }"
           ></ng-container>
         </div>
@@ -179,7 +188,7 @@
                 formularioEmpleado.controls['nombre2'].invalid,
               'is-valid':
                 formularioEmpleado.controls['nombre2'].touched &&
-                formularioEmpleado.controls['nombre2'].valid
+                formularioEmpleado.controls['nombre2'].valid,
             }"
           />
           <ng-container
@@ -189,7 +198,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMINIMO' | translate,
               cantidadCaracteres: '3',
-              control: formularioEmpleado.controls['nombre2']
+              control: formularioEmpleado.controls['nombre2'],
             }"
           ></ng-container>
           <ng-container
@@ -199,7 +208,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioEmpleado.controls['nombre2']
+              control: formularioEmpleado.controls['nombre2'],
             }"
           ></ng-container>
           <ng-container
@@ -207,7 +216,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'El campo contiene caracteres no validos',
-              control: formularioEmpleado.controls['nombre2']
+              control: formularioEmpleado.controls['nombre2'],
             }"
           ></ng-container>
         </div>
@@ -229,7 +238,7 @@
                 formularioEmpleado.controls['apellido1'].invalid,
               'is-valid':
                 formularioEmpleado.controls['apellido1'].touched &&
-                formularioEmpleado.controls['apellido1'].valid
+                formularioEmpleado.controls['apellido1'].valid,
             }"
           />
           <ng-container
@@ -239,7 +248,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioEmpleado.controls['apellido1']
+              control: formularioEmpleado.controls['apellido1'],
             }"
           ></ng-container>
           <ng-container
@@ -247,7 +256,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['apellido1']
+              control: formularioEmpleado.controls['apellido1'],
             }"
           ></ng-container>
           <ng-container
@@ -255,7 +264,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'El campo contiene caracteres no validos',
-              control: formularioEmpleado.controls['apellido1']
+              control: formularioEmpleado.controls['apellido1'],
             }"
           ></ng-container>
         </div>
@@ -275,7 +284,7 @@
                 formularioEmpleado.controls['apellido2'].invalid,
               'is-valid':
                 formularioEmpleado.controls['apellido2'].touched &&
-                formularioEmpleado.controls['apellido2'].valid
+                formularioEmpleado.controls['apellido2'].valid,
             }"
           />
           <ng-container
@@ -285,7 +294,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioEmpleado.controls['apellido2']
+              control: formularioEmpleado.controls['apellido2'],
             }"
           ></ng-container>
           <ng-container
@@ -293,7 +302,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'El campo contiene caracteres no validos',
-              control: formularioEmpleado.controls['apellido2']
+              control: formularioEmpleado.controls['apellido2'],
             }"
           ></ng-container>
         </div>
@@ -315,7 +324,7 @@
                 formularioEmpleado.controls['telefono'].invalid,
               'is-valid':
                 formularioEmpleado.controls['telefono'].touched &&
-                formularioEmpleado.controls['telefono'].valid
+                formularioEmpleado.controls['telefono'].valid,
             }"
           />
           <ng-container
@@ -323,7 +332,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['telefono']
+              control: formularioEmpleado.controls['telefono'],
             }"
           ></ng-container>
           <ng-container
@@ -333,7 +342,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioEmpleado.controls['telefono']
+              control: formularioEmpleado.controls['telefono'],
             }"
           ></ng-container>
         </div>
@@ -353,7 +362,7 @@
                 formularioEmpleado.controls['celular'].invalid,
               'is-valid':
                 formularioEmpleado.controls['celular'].touched &&
-                formularioEmpleado.controls['celular'].valid
+                formularioEmpleado.controls['celular'].valid,
             }"
           />
           <ng-container
@@ -361,7 +370,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['celular']
+              control: formularioEmpleado.controls['celular'],
             }"
           ></ng-container>
           <ng-container
@@ -371,7 +380,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioEmpleado.controls['celular']
+              control: formularioEmpleado.controls['celular'],
             }"
           ></ng-container>
         </div>
@@ -398,7 +407,7 @@
                   formularioEmpleado.controls['ciudad'].invalid,
                 'is-valid':
                   formularioEmpleado.controls['ciudad'].touched &&
-                  formularioEmpleado.controls['ciudad'].valid
+                  formularioEmpleado.controls['ciudad'].valid,
               }"
               (focus)="consultarCiudad($event); CiudadDropdown.open()"
               (keyup)="consultarCiudad($event)"
@@ -413,7 +422,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['ciudad']
+              control: formularioEmpleado.controls['ciudad'],
             }"
           ></ng-container>
           <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
@@ -448,7 +457,7 @@
                 formularioEmpleado.controls['direccion'].invalid,
               'is-valid':
                 formularioEmpleado.controls['direccion'].touched &&
-                formularioEmpleado.controls['direccion'].valid
+                formularioEmpleado.controls['direccion'].valid,
             }"
           />
           <ng-container
@@ -456,7 +465,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['direccion']
+              control: formularioEmpleado.controls['direccion'],
             }"
           ></ng-container>
           <ng-container
@@ -466,7 +475,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '255',
-              control: formularioEmpleado.controls['direccion']
+              control: formularioEmpleado.controls['direccion'],
             }"
           ></ng-container>
         </div>
@@ -490,7 +499,7 @@
                 formularioEmpleado.controls['barrio'].invalid,
               'is-valid':
                 formularioEmpleado.controls['barrio'].touched &&
-                formularioEmpleado.controls['barrio'].valid
+                formularioEmpleado.controls['barrio'].valid,
             }"
           />
           <ng-container
@@ -498,7 +507,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['barrio']
+              control: formularioEmpleado.controls['barrio'],
             }"
           ></ng-container>
           <ng-container
@@ -508,7 +517,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '50',
-              control: formularioEmpleado.controls['barrio']
+              control: formularioEmpleado.controls['barrio'],
             }"
           ></ng-container>
         </div>
@@ -528,7 +537,7 @@
                 formularioEmpleado.controls['correo'].invalid,
               'is-valid':
                 formularioEmpleado.controls['correo'].touched &&
-                formularioEmpleado.controls['correo'].valid
+                formularioEmpleado.controls['correo'].valid,
             }"
             appInputValuecaseDirective
             [appInputValueCase]="'minuscula'"
@@ -538,7 +547,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['correo']
+              control: formularioEmpleado.controls['correo'],
             }"
           ></ng-container>
           <ng-container
@@ -548,7 +557,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioEmpleado.controls['correo']
+              control: formularioEmpleado.controls['correo'],
             }"
           ></ng-container>
           <ng-container
@@ -557,7 +566,7 @@
               validation: 'pattern',
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.TIPOCORREO' | translate,
-              control: formularioEmpleado.controls['correo']
+              control: formularioEmpleado.controls['correo'],
             }"
           ></ng-container>
         </div>
@@ -578,7 +587,7 @@
                 formularioEmpleado.controls['banco'].invalid,
               'is-valid':
                 formularioEmpleado.controls['banco'].touched &&
-                formularioEmpleado.controls['banco'].valid
+                formularioEmpleado.controls['banco'].valid,
             }"
           >
             <option value="">Seleccionar...</option>
@@ -596,7 +605,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['banco']
+              control: formularioEmpleado.controls['banco'],
             }"
           ></ng-container>
         </div>
@@ -616,7 +625,7 @@
                 formularioEmpleado.controls['numero_cuenta'].invalid,
               'is-valid':
                 formularioEmpleado.controls['numero_cuenta'].touched &&
-                formularioEmpleado.controls['numero_cuenta'].valid
+                formularioEmpleado.controls['numero_cuenta'].valid,
             }"
           />
           <ng-container
@@ -624,7 +633,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['numero_cuenta']
+              control: formularioEmpleado.controls['numero_cuenta'],
             }"
           ></ng-container>
           <ng-container
@@ -634,7 +643,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '20',
-              control: formularioEmpleado.controls['numero_cuenta']
+              control: formularioEmpleado.controls['numero_cuenta'],
             }"
           ></ng-container>
         </div>
@@ -654,19 +663,18 @@
                 formularioEmpleado.controls['cuenta_banco_clase'].invalid,
               'is-valid':
                 formularioEmpleado.controls['cuenta_banco_clase'].touched &&
-                formularioEmpleado.controls['cuenta_banco_clase'].valid
+                formularioEmpleado.controls['cuenta_banco_clase'].valid,
             }"
           >
             @for (item of arrCuentasBancos; track $index) {
-            <option
-              [value]="item.id"
-              [selected]="
-                item.id ===
-                formularioEmpleado.value.cuenta_banco_clase
-              "
-            >
-              {{ item.nombre }}
-            </option>
+              <option
+                [value]="item.id"
+                [selected]="
+                  item.id === formularioEmpleado.value.cuenta_banco_clase
+                "
+              >
+                {{ item.nombre }}
+              </option>
             }
           </select>
 
@@ -675,7 +683,7 @@
             [ngTemplateOutletContext]="{
               validation: 'required',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioEmpleado.controls['cuenta_banco_clase']
+              control: formularioEmpleado.controls['cuenta_banco_clase'],
             }"
           ></ng-container>
           <ng-container
@@ -685,7 +693,7 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '100',
-              control: formularioEmpleado.controls['cuenta_banco_clase']
+              control: formularioEmpleado.controls['cuenta_banco_clase'],
             }"
           ></ng-container>
           <ng-container
@@ -693,7 +701,7 @@
             [ngTemplateOutletContext]="{
               validation: 'pattern',
               message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
-              control: formularioEmpleado.controls['cuenta_banco_clase']
+              control: formularioEmpleado.controls['cuenta_banco_clase'],
             }"
           ></ng-container>
         </div>

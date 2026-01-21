@@ -44,6 +44,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { CampoNoCeroValidator } from '@comun/validaciones/campo-cero.validator';
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -57,13 +58,14 @@ import { ConfigModuleService } from '@comun/services/application/config-modulo.s
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    InputValueCaseDirective
+    InputValueCaseDirective,
   ],
   templateUrl: './empleado-formulario.component.html',
 })
 export default class EmpleadoFormularioComponent
   extends General
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   formularioEmpleado: FormGroup;
   informacionEmpleado: any;
   ciudadSeleccionada: string | null;
@@ -77,8 +79,8 @@ export default class EmpleadoFormularioComponent
   arrPagos: RegistroAutocompletarGenPlazoPago[];
   guardando$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
-  private readonly _configModuleService = inject(ConfigModuleService)
-  private _destroy$ = new Subject<void>()
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
 
   selectedDateIndex: number = -1;
@@ -88,13 +90,13 @@ export default class EmpleadoFormularioComponent
   constructor(
     private formBuilder: FormBuilder,
     private contactoService: ContactoService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
+    this.configurarModuloListener();
     this.consultarInformacion();
     this.iniciarFormulario();
     if (this.detalle) {
@@ -139,10 +141,11 @@ export default class EmpleadoFormularioComponent
             Validators.required,
             Validators.maxLength(20),
             Validators.pattern(/^[0-9]+$/),
+            CampoNoCeroValidator.validar
           ]),
         ],
         digito_verificacion: [0, Validators.compose([Validators.maxLength(1)])],
-        identificacion: ['', Validators.compose([Validators.required])],
+        identificacion: ['',Validators.compose([Validators.required])],
         nombre_corto: [null, Validators.compose([Validators.maxLength(200)])],
         nombre1: [
           null,
@@ -221,7 +224,7 @@ export default class EmpleadoFormularioComponent
       },
       {
         validator: [MultiplesEmailValidator.validarCorreos(['correo'])],
-      }
+      },
     );
   }
 
@@ -232,19 +235,19 @@ export default class EmpleadoFormularioComponent
       if (this.detalle) {
         if (
           parseInt(this.informacionEmpleado.numero_identificacion) !==
-          parseInt(
-            this.formularioEmpleado.get('numero_identificacion')!.value
-          ) ||
+            parseInt(
+              this.formularioEmpleado.get('numero_identificacion')!.value,
+            ) ||
           parseInt(this.informacionEmpleado.identificacion_id) !==
-          parseInt(this.formularioEmpleado.get('identificacion')!.value)
+            parseInt(this.formularioEmpleado.get('identificacion')!.value)
         ) {
           this.contactoService
             .validarNumeroIdentificacion({
               identificacion_id: parseInt(
-                this.formularioEmpleado.get('identificacion')!.value
+                this.formularioEmpleado.get('identificacion')!.value,
               ),
               numero_identificacion: this.formularioEmpleado.get(
-                'numero_identificacion'
+                'numero_identificacion',
               )!.value,
             })
             .pipe(
@@ -252,12 +255,12 @@ export default class EmpleadoFormularioComponent
                 if (!respuestaValidacion.validacion) {
                   return this.contactoService.actualizarDatosContacto(
                     this.detalle,
-                    this.formularioEmpleado.value
+                    this.formularioEmpleado.value,
                   );
                 } else {
                   this.alertaService.mensajeError(
                     'Error',
-                    'El número de identificación ya existe en el sistema con este tipo de identificación'
+                    'El número de identificación ya existe en el sistema con este tipo de identificación',
                   );
                   return of(null);
                 }
@@ -265,34 +268,40 @@ export default class EmpleadoFormularioComponent
               tap((respuestaFormulario) => {
                 if (respuestaFormulario !== null) {
                   this.alertaService.mensajaExitoso(
-                    'Se actualizó la información'
+                    'Se actualizó la información',
                   );
                   this.activatedRoute.queryParams.subscribe((parametro) => {
-                    this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
-                      queryParams: {
-                        ...parametro,
+                    this.router.navigate(
+                      [`${this._rutas?.detalle}/${respuestaFormulario.id}`],
+                      {
+                        queryParams: {
+                          ...parametro,
+                        },
                       },
-                    });
+                    );
                   });
                 }
               }),
-              finalize(() => this.guardando$.next(false))
+              finalize(() => this.guardando$.next(false)),
             )
             .subscribe();
         } else {
           this.contactoService
             .actualizarDatosContacto(
               this.detalle,
-              this.formularioEmpleado.value
+              this.formularioEmpleado.value,
             )
             .subscribe((respuestaFormulario) => {
               this.alertaService.mensajaExitoso('Se actualizó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
-                  queryParams: {
-                    ...parametro,
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuestaFormulario.id}`],
+                  {
+                    queryParams: {
+                      ...parametro,
+                    },
                   },
-                });
+                );
               });
             });
         }
@@ -300,22 +309,22 @@ export default class EmpleadoFormularioComponent
         this.contactoService
           .validarNumeroIdentificacion({
             identificacion_id: parseInt(
-              this.formularioEmpleado.get('identificacion')!.value
+              this.formularioEmpleado.get('identificacion')!.value,
             ),
             numero_identificacion: this.formularioEmpleado.get(
-              'numero_identificacion'
+              'numero_identificacion',
             )!.value,
           })
           .pipe(
             switchMap((respuestaValidacion) => {
               if (!respuestaValidacion.validacion) {
                 return this.contactoService.guardarContacto(
-                  this.formularioEmpleado.value
+                  this.formularioEmpleado.value,
                 );
               } else {
                 this.alertaService.mensajeError(
                   'Error',
-                  'El número de identificación ya existe en el sistema con este tipo de identificación'
+                  'El número de identificación ya existe en el sistema con este tipo de identificación',
                 );
                 return of(null);
               }
@@ -324,15 +333,18 @@ export default class EmpleadoFormularioComponent
               if (respuestaFormulario !== null) {
                 this.alertaService.mensajaExitoso('Se guardó la información');
                 this.activatedRoute.queryParams.subscribe((parametro) => {
-                  this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
-                    queryParams: {
-                      ...parametro,
+                  this.router.navigate(
+                    [`${this._rutas?.detalle}/${respuestaFormulario.id}`],
+                    {
+                      queryParams: {
+                        ...parametro,
+                      },
                     },
-                  });
+                  );
                 });
               }
             }),
-            finalize(() => this.guardando$.next(false))
+            finalize(() => this.guardando$.next(false)),
           )
           .subscribe();
       }
@@ -368,7 +380,7 @@ export default class EmpleadoFormularioComponent
 
   calcularDigitoVerificacion() {
     let digito = this.devuelveDigitoVerificacionService.digitoVerificacion(
-      this.formularioEmpleado.get('numero_identificacion')?.value
+      this.formularioEmpleado.get('numero_identificacion')?.value,
     );
     this.formularioEmpleado.patchValue({
       digito_verificacion: digito,
@@ -381,12 +393,13 @@ export default class EmpleadoFormularioComponent
         'general/ciudad/seleccionar/',
         {
           nombre__icontains: event?.target.value,
-        })
+        },
+      )
       .pipe(
         tap((respuesta) => {
           this.arrCiudades = respuesta;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -416,9 +429,9 @@ export default class EmpleadoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultaApi<RegistroAutocompletarGenIdentificacion[]>(
-        'general/identificacion/seleccionar/',
-      ),
+      this._generalService.consultaApi<
+        RegistroAutocompletarGenIdentificacion[]
+      >('general/identificacion/seleccionar/'),
       this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
         'general/regimen/seleccionar/',
       ),
@@ -437,9 +450,9 @@ export default class EmpleadoFormularioComponent
       this._generalService.consultaApi<RegistroAutocompletarGenBanco[]>(
         'general/banco/seleccionar/',
       ),
-      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoClase[]>(
-        'general/cuenta_banco_clase/seleccionar/',
-      )
+      this._generalService.consultaApi<
+        RegistroAutocompletarGenCuentaBancoClase[]
+      >('general/cuenta_banco_clase/seleccionar/'),
     ).subscribe((respuesta) => {
       this.arrIdentificacion = respuesta[0];
       this.arrRegimen = respuesta[1];
@@ -506,19 +519,19 @@ export default class EmpleadoFormularioComponent
     if (this.detalle) {
       if (
         parseInt(this.informacionEmpleado.numero_identificacion) !==
-        parseInt(
-          this.formularioEmpleado.get('numero_identificacion')!.value
-        ) ||
+          parseInt(
+            this.formularioEmpleado.get('numero_identificacion')!.value,
+          ) ||
         parseInt(this.informacionEmpleado.identificacion_id) !==
-        parseInt(this.formularioEmpleado.get('identificacion')!.value)
+          parseInt(this.formularioEmpleado.get('identificacion')!.value)
       ) {
         this.contactoService
           .validarNumeroIdentificacion({
             identificacion_id: parseInt(
-              this.formularioEmpleado.get('identificacion')!.value
+              this.formularioEmpleado.get('identificacion')!.value,
             ),
             numero_identificacion: this.formularioEmpleado.get(
-              'numero_identificacion'
+              'numero_identificacion',
             )!.value,
           })
           .subscribe((respuesta) => {
@@ -544,10 +557,10 @@ export default class EmpleadoFormularioComponent
         this.contactoService
           .validarNumeroIdentificacion({
             identificacion_id: parseInt(
-              this.formularioEmpleado.get('identificacion')!.value
+              this.formularioEmpleado.get('identificacion')!.value,
             ),
             numero_identificacion: this.formularioEmpleado.get(
-              'numero_identificacion'
+              'numero_identificacion',
             )!.value,
           })
           .subscribe((respuesta) => {
