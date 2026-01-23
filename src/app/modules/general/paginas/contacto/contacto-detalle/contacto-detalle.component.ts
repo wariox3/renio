@@ -1,5 +1,5 @@
 import { CommonModule, NgSwitch, NgSwitchCase } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
@@ -10,8 +10,9 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
+import { CargarArchivosComponent } from "@comun/componentes/cargar-archivos/cargar-archivos.component";
 
 @Component({
   selector: 'app-contacto-detalle',
@@ -32,14 +33,15 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
     NgSwitch,
     NgSwitchCase,
     TituloAccionComponent,
-  ],
+    CargarArchivosComponent
+],
   providers: [provideNgxMask()],
 })
 export default class ContactoDetalleComponent
   extends General
   implements OnInit
 {
-
+  private readonly _modalService = inject(NgbModal);
   contacto: Contacto = {
     identificacion: 0,
     numero_identificacion: 0,
@@ -101,6 +103,17 @@ export default class ContactoDetalleComponent
         this.contacto = respuesta;
         this.changeDetectorRef.detectChanges();
       });
+  }
+
+  abrirModalImagenes(content: any) {
+    this._abirModal(content);
+  }
+
+  private _abirModal(content: any) {
+    this._modalService.open(content, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
+    });
   }
 
 }

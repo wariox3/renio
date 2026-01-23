@@ -8,4 +8,5 @@ export const MOVIMIENTO_FILTERS: FilterField[] = [
     { name: 'grupo__nombre', displayName: '[Grupo] nombre', type: 'string' },
     { name: 'contacto__nombre_corto', displayName: '[Contacto] nombre', type: 'string'},
     { name: 'contacto__numero_identificacion', displayName: '[Contacto] identificación', type: 'string'},
+    { name: 'comprobante__nombre', displayName: '[Comprobante] nombre', type: 'string' },
 ];
