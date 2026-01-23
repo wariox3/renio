@@ -110,6 +110,7 @@ export class FormularioProductosComponent
   @Input() mostrarCampoAIU: boolean = false;
   @Input() columnasTablaDatos: any = [];
   @Input() mostrarCampoDetalle: boolean = false;
+  @Input() mostrarLectorCodigoBarras: boolean = false;
   @Input() configuracionDocumento: {
     endpoint: string;
     queryParams: { [key: string]: string | number | boolean };
@@ -438,6 +439,67 @@ export class FormularioProductosComponent
   actualizarDocumento() {
     this._cargarVista();
     this.modalService.dismissAll();
+  }
+
+  /**
+   * Se ejecuta cuando el lector de código de barras captura un código
+   * Busca el producto por código y lo agrega automáticamente
+   *
+   * @param event - Evento del input
+   */
+  onCodigoBarrasCapturado(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const codigo = input.value.trim();
+
+    if (!codigo) {
+      return;
+    }
+
+    // Buscar el item por código
+    this._generalService
+      .consultaApi<ItemSeleccionar[]>('general/item/seleccionar/', {
+        codigo__icontains: codigo,
+        inactivo: 'False'
+      })
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((items) => {
+        if (items.length === 0) {
+          this.alertaService.mensajeError(
+            'Error',
+            'No se encontró ningún producto con ese código'
+          );
+          input.value = '';
+          return;
+        }
+
+        // Si hay coincidencia exacta, usar ese item
+        const itemExacto = items.find(item => item.codigo === codigo);
+        const itemSeleccionado = itemExacto || items[0];
+
+        // Consultar detalle del item
+        const parametrosConsulta = {
+          id: itemSeleccionado.id,
+          venta: this.formularioTipo === 'venta',
+          compra: this.formularioTipo === 'compra',
+        };
+
+        this._httpService
+          .post<RespuestaItem>('general/item/detalle/', parametrosConsulta)
+          .pipe(takeUntil(this._unsubscribe$))
+          .subscribe((respuesta) => {
+            // Agregar nueva línea y seleccionar el item
+            this.agregarNuevoItem('I');
+            this.recibirItemSeleccionado(respuesta.item, this.detalles.length - 1);
+
+            // Limpiar el input para el siguiente escaneo
+            input.value = '';
+
+            // Enfocar nuevamente el input para el siguiente código
+            setTimeout(() => {
+              input.focus();
+            }, 100);
+          });
+      });
   }
 
   // metodos formulario
