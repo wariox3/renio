@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { ImportarXmlComponent } from '@comun/componentes/importar-xml/importar-xml.component';
+
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';
@@ -10,6 +10,7 @@ import { EVENTOS_DIAN_FILTERS } from '@modulos/compra/domain/mapeos/eventos_dian
 import { EventosDianService } from '@modulos/compra/servicios/eventos-dian.service';
 import {
   NgbDropdownModule,
+  NgbModal,
   NgbNavModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
@@ -25,6 +26,7 @@ import { PaginadorComponent } from '../../../../../comun/componentes/ui/tabla/pa
 import { EditarEventosDianComponent } from '../extra/editar-eventos-dian/editar-eventos-dian.component';
 import { GestionEstadosEventosDianComponent } from '../extra/gestion-estados-eventos-dian/gestion-estados-eventos-dian.component';
 import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estados-eventos-dian/visualizar-estados-eventos-dian.component';
+import ImportarZipFacturaCompraComponent from '../../documento/extras/importar-zip-factura-compra/importar-zip-factura-compra';
 
 @Component({
   selector: 'app-documento-electronico',
@@ -39,11 +41,11 @@ import { VisualizarEstadosEventosDianComponent } from '../extra/visualizar-estad
     VisualizarEstadosEventosDianComponent,
     GestionEstadosEventosDianComponent,
     EditarEventosDianComponent,
-    ImportarXmlComponent,
     NgbTooltipModule,
     SiNoPipe,
     PaginadorComponent,
     FiltroComponent,
+    ImportarZipFacturaCompraComponent
   ],
 })
 export class EventosDianComponent extends General implements OnInit {
@@ -70,6 +72,7 @@ export class EventosDianComponent extends General implements OnInit {
   cantidad_registros: number = 0;
   private _generalService = inject(GeneralService);
   private _filterTransformerService = inject(FilterTransformerService);
+  private modalService = inject(NgbModal);
   currentPage = signal(1);
   totalPages = signal(1);
   availableFields = EVENTOS_DIAN_FILTERS;
@@ -307,6 +310,13 @@ export class EventosDianComponent extends General implements OnInit {
   private _descartar(id: number) {
     this.eventosDianService.descartar(id).subscribe(() => {
       this.consultarLista();
+    });
+  }
+
+  abrirModalZip(componente: any){
+    const modalRef = this.modalService.open(componente, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'xl',
     });
   }
 }

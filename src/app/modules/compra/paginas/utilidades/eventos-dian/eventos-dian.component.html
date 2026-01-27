@@ -20,7 +20,20 @@
           ></app-paginador>
         </div>
         <div class="btn-group btn-group-sm contenedor-btn-group">
-          <app-importar-xml></app-importar-xml>
+                  <div class="btn-group btn-group-sm" ngbDropdown role="group">
+          <button
+            type="button"
+            class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary btn-text-primary"
+            ngbDropdownToggle
+          >
+            {{ "FORMULARIOS.BOTONES.COMUNES.IMPORTAR" | translate }}
+          </button>
+          <div class="dropdown-menu p-2" ngbDropdownMenu>
+            <button ngbDropdownItem (click)="abrirModalZip(modalZip)">
+              {{ "FORMULARIOS.BOTONES.COMUNES.ZIP" | translate }}
+            </button>
+          </div>
+        </div>
         </div>
       </div>
       <div class="table-responsive table-loading">
@@ -143,3 +156,6 @@
     </section>
   </app-card>
 </div>
+<ng-template #modalZip>
+  <app-importar-zip-factura-compra [desdeUtilidad]="true" (consultarLista)="consultarLista()"></app-importar-zip-factura-compra>
+</ng-template>
