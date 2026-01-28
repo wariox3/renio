@@ -37,6 +37,7 @@ export interface ProgramacionDetalleRegistro {
   total: number;
   ingreso: boolean
   retiro: boolean;
+  cesantia_propuesto: number;
 }
 
 export interface TablaRegistroLista extends ProgramacionDetalleRegistro {

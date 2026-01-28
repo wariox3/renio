@@ -1,0 +1,138 @@
+<label class="cursor-pointer" (click)="abrirModal(contentModalEditarRegistro)">
+  <i class="ki-duotone ki-notepad-edit hover-primary">
+    <span class="path1"></span>
+    <span class="path2"></span>
+  </i>
+</label>
+
+<ng-template #contentModalEditarRegistro let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Editar registro</h4>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss('Cross click')"
+    ></button>
+  </div>
+
+  <div class="modal-body">
+    <form
+      [formGroup]="formularioEditarDetalleProgramacion"
+      (ngSubmit)="actualizarDetalleProgramacion()"
+    >
+      <div class="row mb-5">
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.SALARIO"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="salario"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['salario']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['salario'].invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['salario']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['salario'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEditarDetalleProgramacion.controls['salario']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.PROMEDIO"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="salario_promedio"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['salario_promedio']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['salario_promedio']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['salario_promedio']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['salario_promedio'].valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEditarDetalleProgramacion.controls['salario_promedio']
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.CESANTIAPROPUESTO"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="cesantia_propuesto"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['cesantia_propuesto']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['cesantia_propuesto']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['cesantia_propuesto']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['cesantia_propuesto']
+                  .valid
+            }"
+          />
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="submit"
+      class="btn btn-primary"
+      (click)="actualizarDetalleProgramacion()"
+      [disabled]="!formularioEditarDetalleProgramacion.valid"
+    >
+      Guardar
+    </button>
+  </div>
+</ng-template>
+<!-- Errores -->
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+  let-cantidadCaracteres="cantidadCaracteres"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert"> {{ message }} {{ cantidadCaracteres }} </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

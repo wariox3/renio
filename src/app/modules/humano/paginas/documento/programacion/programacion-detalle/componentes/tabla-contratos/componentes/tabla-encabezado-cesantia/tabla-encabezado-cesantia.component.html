@@ -59,7 +59,9 @@
         <th class="bg-gray-100">
           <div>Salario</div>
         </th>
-
+        <th class="bg-gray-100">
+          <div>Base prestación</div>
+        </th>
         <th class="bg-gray-100">
           <div>Promedio</div>
         </th>
@@ -132,6 +134,9 @@
         <td class="text-end">
           {{ programacionDetalle.salario | number }}
         </td>
+        <td class="text-end">
+          {{ programacionDetalle.base_prestacion | number }}
+        </td>
 
         <td class="text-end">
           {{ programacionDetalle.salario_promedio | number }}
@@ -146,12 +151,12 @@
         </td>
         <td class="w-45px">
           @if(!programacion.estado_generado){
-          <app-modal-programacion-detalle-editar-contrato
+          <app-modal-programacion-detalle-editar-cesantias
             [programacionDetalleId]="programacionDetalle.id"
             [programacionId]="programacion.id"
             (emitirConsultarLista)="consultarDatos()"
           >
-          </app-modal-programacion-detalle-editar-contrato>
+          </app-modal-programacion-detalle-editar-cesantias>
           }
         </td>
         <td class="w-45px">
