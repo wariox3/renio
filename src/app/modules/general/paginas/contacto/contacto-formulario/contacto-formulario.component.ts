@@ -224,7 +224,7 @@ export default class ContactoFormularioComponent
     const identificacion = this.formularioContacto.get('identificacion')?.value;
 
     const numeroIdentificacionCambio =
-      parseInt(this.informacionContacto.numero_identificacion) !== parseInt(numeroIdentificacion);
+      this.informacionContacto.numero_identificacion !== numeroIdentificacion
 
     const identificacionIdCambio =
       parseInt(this.informacionContacto.identificacion_id) !== parseInt(identificacion);
@@ -776,7 +776,7 @@ export default class ContactoFormularioComponent
     // No calcular dígito de verificación para pasaporte
     if (this.esPasaporte()) {
       this.formularioContacto.patchValue({
-        digito_verificacion: null,
+        digito_verificacion: 0,
       });
       return;
     }
@@ -872,9 +872,9 @@ export default class ContactoFormularioComponent
         CampoNoCeroValidator.validar
       ]);
 
-      // Limpiar dígito de verificación para pasaporte
+      // Establecer dígito de verificación en 0 para pasaporte
       this.formularioContacto.patchValue({
-        digito_verificacion: null,
+        digito_verificacion: 0,
       }, { emitEvent: false });
     } else {
       // Otros tipos de identificación: solo números
