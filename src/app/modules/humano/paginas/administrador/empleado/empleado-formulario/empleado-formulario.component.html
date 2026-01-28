@@ -58,7 +58,7 @@
           <input
             formControlName="numero_identificacion"
             class="form-control bg-transparent"
-            type="number"
+            [type]="campoTipo()"
             autocomplete="off"
             (blur)="calcularDigitoVerificacion()"
             [ngClass]="{
@@ -103,14 +103,6 @@
               message:
                 'FORMULARIOS.VALIDACIONES.COMUNES.CAMPOMAXIMO' | translate,
               cantidadCaracteres: '20',
-              control: formularioEmpleado.controls['numero_identificacion'],
-            }"
-          ></ng-container>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'pattern',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.NOVALIDO' | translate,
               control: formularioEmpleado.controls['numero_identificacion'],
             }"
           ></ng-container>
