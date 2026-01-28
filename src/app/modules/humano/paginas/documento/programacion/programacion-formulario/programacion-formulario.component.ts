@@ -216,6 +216,8 @@ export default class ContratoFormularioComponent
         pago_prima: [true],
         pago_cesantia: [true],
         pago_interes: [true],
+        base_prestacion_minimo: [false],
+        base_prestacion_minimo_salario: [false],
         comentario: [
           null,
           Validators.compose([

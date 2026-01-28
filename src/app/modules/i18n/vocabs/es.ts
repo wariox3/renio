@@ -273,6 +273,10 @@ export const locale = {
           PENSION: 'Pension',
           SOLIDARIDAD: 'Solidaridad',
           RESOLUCION: 'Resolución',
+          SALARIO: 'Salario',
+          PROMEDIO: 'Promedio',
+          CESANTIAPROPUESTO: 'Cesantia propuesto',
+          INTERESPROPUESTO: 'Interes propuesto',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -744,6 +748,8 @@ export const locale = {
             CESANTIA: 'Cesantía',
             INTERES: 'Interes',
             EMITIRAUTOMATICAMENTE: 'Emitir automáticamente documentos electronicos',
+            BASEPRESTACIONMINIMO: 'Base prestación minimo',
+            BASEPRESTACIONMINIMOSALARIO: 'Base prestación minimo salario',
           },
           PAGO: {
             DESDE: 'Desde',
