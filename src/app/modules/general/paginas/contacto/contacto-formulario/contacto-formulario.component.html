@@ -137,7 +137,7 @@
             <input
               formControlName="numero_identificacion"
               class="form-control bg-transparent"
-              type="number"
+              [type]="campoTipo()"
               autocomplete="off"
               (blur)="calcularDigitoVerificacion()"
               [ngClass]="{

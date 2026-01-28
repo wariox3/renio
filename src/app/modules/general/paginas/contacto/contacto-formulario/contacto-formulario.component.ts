@@ -36,6 +36,7 @@ import { DevuelveDigitoVerificacionService } from '@comun/services/devuelve-digi
 import { GeneralService } from '@comun/services/general.service';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 import { MultiplesEmailValidator } from '@comun/validaciones/multiples-email-validator';
+import { CampoNoCeroValidator } from '@comun/validaciones/campo-cero.validator';
 import { RegistroAutocompletarGenAsesor } from '@interfaces/comunes/autocompletar/general/gen-asesor.interface';
 import { RegistroAutocompletarGenBanco } from '@interfaces/comunes/autocompletar/general/gen-banco.interface';
 import { RegistroAutocompletarGenCiudad } from '@interfaces/comunes/autocompletar/general/gen-ciudad.interface';
@@ -114,6 +115,7 @@ export default class ContactoFormularioComponent
   ciudadSeleccionada: any | null;
   filtroIdentificacionSignal = signal(1);
   identificacionIdApiDetalleSignal = signal(0);
+  campoTipo = signal<'text' | 'number'>('number');
 
   filteredIdentificacionSignal = computed(() =>
     this.arrIdentificacionSignal().filter(
@@ -189,6 +191,7 @@ export default class ContactoFormularioComponent
     this.formularioContacto
       .get('identificacion')!
       .valueChanges.subscribe((value) => {
+        this.actualizarValidacionNumeroIdentificacion(parseInt(value));
         this._validarNumeroIdenficacionExistente();
       });
   }
@@ -221,7 +224,7 @@ export default class ContactoFormularioComponent
     const identificacion = this.formularioContacto.get('identificacion')?.value;
 
     const numeroIdentificacionCambio =
-      parseInt(this.informacionContacto.numero_identificacion) !== parseInt(numeroIdentificacion);
+      this.informacionContacto.numero_identificacion !== numeroIdentificacion
 
     const identificacionIdCambio =
       parseInt(this.informacionContacto.identificacion_id) !== parseInt(identificacion);
@@ -319,6 +322,7 @@ export default class ContactoFormularioComponent
             Validators.required,
             Validators.maxLength(20),
             Validators.pattern(/^[0-9]+$/),
+            CampoNoCeroValidator.validar,
           ]),
         ],
         digito_verificacion: [
@@ -693,6 +697,11 @@ export default class ContactoFormularioComponent
       .subscribe((respuesta: any) => {
         this.informacionContacto = respuesta;
         this.ciudadSeleccionada = respuesta.ciudad_nombre;
+
+        this.cambiarTipoCampo(respuesta.identificacion_id);
+
+        this.changeDetectorRef.detectChanges();
+
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,
@@ -731,6 +740,8 @@ export default class ContactoFormularioComponent
         );
         this.filtroIdentificacionSignal.update(() => respuesta.tipo_persona_id);
 
+        this.actualizarValidacionNumeroIdentificacion(parseInt(respuesta.identificacion_id));
+
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
           this.setValidators('nombre1', [
@@ -762,6 +773,14 @@ export default class ContactoFormularioComponent
   }
 
   calcularDigitoVerificacion() {
+    // No calcular dígito de verificación para pasaporte
+    if (this.esPasaporte()) {
+      this.formularioContacto.patchValue({
+        digito_verificacion: 0,
+      });
+      return;
+    }
+
     let digito = this.devuelveDigitoVerificacionService.digitoVerificacion(
       this.formularioContacto.get('numero_identificacion')?.value,
     );
@@ -831,6 +850,72 @@ export default class ContactoFormularioComponent
     if (!input.trim()) {
       this.formularioContacto.controls['ciudad'].setValue(null);
       this.formularioContacto.controls['ciudad_nombre'].setValue(null);
+    }
+  }
+
+  actualizarValidacionNumeroIdentificacion(tipoIdentificacionId: number): void {
+    const numeroIdentificacionControl = this.formularioContacto.get(
+      'numero_identificacion',
+    );
+    const valorActual = numeroIdentificacionControl?.value;
+
+    // Limpiar errores antes de cambiar validaciones
+    numeroIdentificacionControl?.setErrors(null);
+
+    if (tipoIdentificacionId === 7) {
+      // Pasaporte: permite letras y números
+      this.campoTipo.set('text')
+      numeroIdentificacionControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(20),
+        Validators.pattern(/^[a-zA-Z0-9]+$/),
+        CampoNoCeroValidator.validar
+      ]);
+
+      // Establecer dígito de verificación en 0 para pasaporte
+      this.formularioContacto.patchValue({
+        digito_verificacion: 0,
+      }, { emitEvent: false });
+    } else {
+      // Otros tipos de identificación: solo números
+      this.campoTipo.set('number')
+      numeroIdentificacionControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(20),
+        Validators.pattern(/^[0-9]+$/),
+        CampoNoCeroValidator.validar
+      ]);
+
+      // Si el valor actual contiene letras, limpiarlo
+      if (valorActual && /[a-zA-Z]/.test(valorActual)) {
+        numeroIdentificacionControl?.setValue('', { emitEvent: false });
+        numeroIdentificacionControl?.markAsUntouched();
+        numeroIdentificacionControl?.markAsPristine();
+      }
+
+      // Recalcular dígito de verificación si hay un número válido
+      if (valorActual && /^[0-9]+$/.test(valorActual)) {
+        this.calcularDigitoVerificacion();
+      }
+    }
+
+    // Actualizar validaciones sin disparar eventos de cambio
+    numeroIdentificacionControl?.updateValueAndValidity();
+    this.changeDetectorRef.detectChanges()
+  }
+
+  esPasaporte(): boolean {
+    return (
+      this.formularioContacto.get('identificacion')?.value === 7 ||
+      this.formularioContacto.get('identificacion')?.value === '7'
+    );
+  }
+
+  cambiarTipoCampo(tipoIdentificacionId: number) {
+    if (tipoIdentificacionId === 7) {
+      this.campoTipo.set('text');
+    } else {
+      this.campoTipo.set('number');
     }
   }
 }
