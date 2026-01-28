@@ -1,11 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  inject,
-  Input,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -43,6 +37,7 @@ export class ModalProgramacionDetalleEditarCesantiasComponent extends General {
 
   @Input() programacionId: number;
   @Input() programacionDetalleId: number;
+  @Input() pagoTipoId: number;
   @Output() emitirConsultarLista: EventEmitter<any> = new EventEmitter();
 
   abrirModal(content: any) {
@@ -56,11 +51,10 @@ export class ModalProgramacionDetalleEditarCesantiasComponent extends General {
   }
 
   iniciarFormularioEditarDetalles() {
-    this.formularioEditarDetalleProgramacion = this._formBuilder.group({
+    const formConfig: any = {
       programacion: [0],
       salario: [0, Validators.required],
       salario_promedio: [0, Validators.required],
-      cesantia_propuesto: [0, Validators.required],
       contrato: [0],
       contrato_contacto_id: [0],
       contrato_contacto_numero_identificacion: [''],
@@ -78,7 +72,16 @@ export class ModalProgramacionDetalleEditarCesantiasComponent extends General {
       descuento_credito: [false],
       descuento_embargo: [false],
       dias_transporte: [0, Validators.required],
-    });
+    };
+
+    if (this.pagoTipoId === 3) {
+      formConfig.cesantia_propuesto = [0, Validators.required];
+    } else if (this.pagoTipoId === 4) {
+      formConfig.interes_propuesto = [0, Validators.required];
+    }
+
+    this.formularioEditarDetalleProgramacion =
+      this._formBuilder.group(formConfig);
   }
 
   inicializarParametrosConsultaProgramacionDetalleEditar() {
@@ -113,11 +116,11 @@ export class ModalProgramacionDetalleEditarCesantiasComponent extends General {
         if (respuesta.results.length) {
           const { results } = respuesta;
           const registro = results?.[0];
-          this.formularioEditarDetalleProgramacion.patchValue({
+
+          const patchData: any = {
             programacion: this.programacionId,
             salario: registro.salario,
             salario_promedio: registro.salario_promedio,
-            cesantia_propuesto: registro.cesantia_propuesto,
             contrato: registro.contrato_id,
             pago_horas: registro.pago_horas,
             pago_auxilio_transporte: registro.pago_auxilio_transporte,
@@ -131,8 +134,26 @@ export class ModalProgramacionDetalleEditarCesantiasComponent extends General {
             adicional: registro.adicional,
             descuento_credito: registro.descuento_credito,
             descuento_embargo: registro.descuento_embargo,
-            dias_transporte: registro.dias_transporte,            
-          });
+            dias_transporte: registro.dias_transporte,
+          };
+
+          if (
+            this.pagoTipoId === 3 &&
+            this.formularioEditarDetalleProgramacion.contains(
+              'cesantia_propuesto',
+            )
+          ) {
+            patchData.cesantia_propuesto = registro.cesantia_propuesto || 0;
+          } else if (
+            this.pagoTipoId === 4 &&
+            this.formularioEditarDetalleProgramacion.contains(
+              'interes_propuesto',
+            )
+          ) {
+            patchData.interes_propuesto = registro.interes_propuesto || 0;
+          }
+
+          this.formularioEditarDetalleProgramacion.patchValue(patchData);
         }
       });
   }

@@ -276,6 +276,7 @@ export const locale = {
           SALARIO: 'Salario',
           PROMEDIO: 'Promedio',
           CESANTIAPROPUESTO: 'Cesantia propuesto',
+          INTERESPROPUESTO: 'Interes propuesto',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',

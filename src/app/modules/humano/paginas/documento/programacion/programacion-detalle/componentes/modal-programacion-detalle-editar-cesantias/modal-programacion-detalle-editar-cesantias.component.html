@@ -81,7 +81,8 @@
             }"
           ></ng-container>
         </div>
-        <div class="col-12 col-md-4">
+      
+        <div class="col-12 col-md-4" *ngIf="pagoTipoId === 3">
           <label
             class="form-label required"
             translate="FORMULARIOS.TITULOS.COMUNES.CESANTIAPROPUESTO"
@@ -103,6 +104,46 @@
                   .valid
             }"
           />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEditarDetalleProgramacion.controls['cesantia_propuesto']
+            }"
+          ></ng-container>
+        </div>
+        
+        <div class="col-12 col-md-4" *ngIf="pagoTipoId === 4">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.TITULOS.COMUNES.INTERESPROPUESTO"
+          ></label>
+          <input
+            type="number"
+            class="form-control"
+            formControlName="interes_propuesto"
+            [ngClass]="{
+              'is-invalid':
+                formularioEditarDetalleProgramacion.controls['interes_propuesto']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['interes_propuesto']
+                  .invalid,
+              'is-valid':
+                formularioEditarDetalleProgramacion.controls['interes_propuesto']
+                  .touched &&
+                formularioEditarDetalleProgramacion.controls['interes_propuesto']
+                  .valid
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioEditarDetalleProgramacion.controls['interes_propuesto']
+            }"
+          ></ng-container>
         </div>
       </div>
     </form>
@@ -118,6 +159,7 @@
     </button>
   </div>
 </ng-template>
+
 <!-- Errores -->
 <ng-template
   #formError

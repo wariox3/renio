@@ -38,6 +38,7 @@ export interface ProgramacionDetalleRegistro {
   ingreso: boolean
   retiro: boolean;
   cesantia_propuesto: number;
+  interes_propuesto: number;
 }
 
 export interface TablaRegistroLista extends ProgramacionDetalleRegistro {
