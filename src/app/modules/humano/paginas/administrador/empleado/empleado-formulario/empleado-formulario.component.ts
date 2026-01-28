@@ -383,7 +383,7 @@ export default class EmpleadoFormularioComponent
     // No calcular dígito de verificación para pasaporte
     if (this.esPasaporte()) {
       this.formularioEmpleado.patchValue({
-        digito_verificacion: null,
+        digito_verificacion: 0,
       });
       return;
     }
@@ -630,7 +630,7 @@ export default class EmpleadoFormularioComponent
 
       // Limpiar dígito de verificación para pasaporte
       this.formularioEmpleado.patchValue({
-        digito_verificacion: null,
+        digito_verificacion: 0,
       }, { emitEvent: false });
     } else {
       // Otros tipos de identificación: solo números
