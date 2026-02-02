@@ -235,12 +235,21 @@ export default class ImportarZipFacturaCompraComponent
           0,
         );
         total = subtotal;
+
+        // Redondear a 2 decimales
+        subtotal = Math.round(subtotal * 100) / 100;
+        total = Math.round(total * 100) / 100;
+        // O también puedes usar: subtotal = parseFloat(subtotal.toFixed(2));
       }
     }
 
     const datosFactura = this.datosFactura();
     const documento = datosFactura?.documento;
     const contacto = datosFactura?.contacto;
+
+    // Asegurar que los valores estén redondeados antes de enviar
+    const subtotalRedondeado = Math.round(subtotal * 100) / 100;
+    const totalRedondeado = Math.round(total * 100) / 100;
 
     const data = {
       empresa: 1,
@@ -257,15 +266,15 @@ export default class ImportarZipFacturaCompraComponent
       metodo_pago_nombre: '',
       almacen: this.formularioFactura.get('almacen')?.value,
       almacen_nombre: '',
-      total: total,
-      subtotal: subtotal,
+      total: totalRedondeado, // Usar valor redondeado
+      subtotal: subtotalRedondeado, // Usar valor redondeado
       base_impuesto: 0,
       impuesto: 0,
       impuesto_operado: 0,
       impuesto_retencion: 0,
       remision: null,
       pago: 0,
-      total_bruto: total,
+      total_bruto: totalRedondeado, // También redondear total_bruto
       comentario: documento?.comentario?.substring(0, 500) || null,
       orden_compra: null,
       documento_referencia: null,
