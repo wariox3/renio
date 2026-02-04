@@ -636,6 +636,7 @@ export default class ContactoFormularioComponent
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenBanco[]>(
         'general/banco/seleccionar/',
+          { limit: 50 }
       ),
       this._generalService.consultaApi<
         RegistroAutocompletarGenCuentaBancoClase[]
