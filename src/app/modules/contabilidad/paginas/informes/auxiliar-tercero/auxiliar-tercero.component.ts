@@ -196,6 +196,20 @@ export class AuxiliarTerceroComponent extends General implements OnInit {
     this.cuentaHastaCodigo.set(cuenta.codigo);
   }
 
+  limpiarCuentaDesde() {
+    this.formularioFiltros.get('cuenta_desde')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_desde')?.setValue('');
+    this.cuentaDesdeNombre.set('');
+    this.cuentaDesdeCodigo.set('');
+  }
+
+  limpiarCuentaHasta() {
+    this.formularioFiltros.get('cuenta_hasta')?.setValue('');
+    this.formularioFiltros.get('cuenta_codigo_hasta')?.setValue('');
+    this.cuentaHastaNombre.set('');
+    this.cuentaHastaCodigo.set('');
+  }
+
   agregarContactoSeleccionado(contacto: {
     id: number;
     nombre_corto: string;

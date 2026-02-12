@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -44,6 +45,7 @@ import { TituloAccionComponent } from '../../../../../../comun/componentes/titul
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { Rutas } from '@interfaces/menu/configuracion.interface';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
+import { CampoNoCeroValidator } from '@comun/validaciones/campo-cero.validator';
 
 @Component({
   selector: 'app-empleado-formulario',
@@ -57,13 +59,14 @@ import { ConfigModuleService } from '@comun/services/application/config-modulo.s
     NgbDropdownModule,
     EncabezadoFormularioNuevoComponent,
     TituloAccionComponent,
-    InputValueCaseDirective
+    InputValueCaseDirective,
   ],
   templateUrl: './empleado-formulario.component.html',
 })
 export default class EmpleadoFormularioComponent
   extends General
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   formularioEmpleado: FormGroup;
   informacionEmpleado: any;
   ciudadSeleccionada: string | null;
@@ -77,8 +80,9 @@ export default class EmpleadoFormularioComponent
   arrPagos: RegistroAutocompletarGenPlazoPago[];
   guardando$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   arrCuentasBancos: RegistroAutocompletarGenCuentaBancoClase[];
-  private readonly _configModuleService = inject(ConfigModuleService)
-  private _destroy$ = new Subject<void>()
+  campoTipo = signal<'text' | 'number'>('number');
+  private readonly _configModuleService = inject(ConfigModuleService);
+  private _destroy$ = new Subject<void>();
   private _rutas: Rutas | undefined;
 
   selectedDateIndex: number = -1;
@@ -88,13 +92,13 @@ export default class EmpleadoFormularioComponent
   constructor(
     private formBuilder: FormBuilder,
     private contactoService: ContactoService,
-    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService
+    private devuelveDigitoVerificacionService: DevuelveDigitoVerificacionService,
   ) {
     super();
   }
 
   ngOnInit() {
-    this.configurarModuloListener()
+    this.configurarModuloListener();
     this.consultarInformacion();
     this.iniciarFormulario();
     if (this.detalle) {
@@ -113,6 +117,7 @@ export default class EmpleadoFormularioComponent
     this.formularioEmpleado
       .get('identificacion')!
       .valueChanges.subscribe((value) => {
+        this.actualizarValidacionNumeroIdentificacion(parseInt(value));
         this.validarNumeroIdenficacionExistente();
       });
   }
@@ -138,7 +143,8 @@ export default class EmpleadoFormularioComponent
           Validators.compose([
             Validators.required,
             Validators.maxLength(20),
-            Validators.pattern(/^[0-9]+$/),
+            Validators.min(1),
+            CampoNoCeroValidator.validar,
           ]),
         ],
         digito_verificacion: [0, Validators.compose([Validators.maxLength(1)])],
@@ -221,7 +227,7 @@ export default class EmpleadoFormularioComponent
       },
       {
         validator: [MultiplesEmailValidator.validarCorreos(['correo'])],
-      }
+      },
     );
   }
 
@@ -232,19 +238,19 @@ export default class EmpleadoFormularioComponent
       if (this.detalle) {
         if (
           parseInt(this.informacionEmpleado.numero_identificacion) !==
-          parseInt(
-            this.formularioEmpleado.get('numero_identificacion')!.value
-          ) ||
+            parseInt(
+              this.formularioEmpleado.get('numero_identificacion')!.value,
+            ) ||
           parseInt(this.informacionEmpleado.identificacion_id) !==
-          parseInt(this.formularioEmpleado.get('identificacion')!.value)
+            parseInt(this.formularioEmpleado.get('identificacion')!.value)
         ) {
           this.contactoService
             .validarNumeroIdentificacion({
               identificacion_id: parseInt(
-                this.formularioEmpleado.get('identificacion')!.value
+                this.formularioEmpleado.get('identificacion')!.value,
               ),
               numero_identificacion: this.formularioEmpleado.get(
-                'numero_identificacion'
+                'numero_identificacion',
               )!.value,
             })
             .pipe(
@@ -252,12 +258,12 @@ export default class EmpleadoFormularioComponent
                 if (!respuestaValidacion.validacion) {
                   return this.contactoService.actualizarDatosContacto(
                     this.detalle,
-                    this.formularioEmpleado.value
+                    this.formularioEmpleado.value,
                   );
                 } else {
                   this.alertaService.mensajeError(
                     'Error',
-                    'El número de identificación ya existe en el sistema con este tipo de identificación'
+                    'El número de identificación ya existe en el sistema con este tipo de identificación',
                   );
                   return of(null);
                 }
@@ -265,34 +271,40 @@ export default class EmpleadoFormularioComponent
               tap((respuestaFormulario) => {
                 if (respuestaFormulario !== null) {
                   this.alertaService.mensajaExitoso(
-                    'Se actualizó la información'
+                    'Se actualizó la información',
                   );
                   this.activatedRoute.queryParams.subscribe((parametro) => {
-                    this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
-                      queryParams: {
-                        ...parametro,
+                    this.router.navigate(
+                      [`${this._rutas?.detalle}/${respuestaFormulario.id}`],
+                      {
+                        queryParams: {
+                          ...parametro,
+                        },
                       },
-                    });
+                    );
                   });
                 }
               }),
-              finalize(() => this.guardando$.next(false))
+              finalize(() => this.guardando$.next(false)),
             )
             .subscribe();
         } else {
           this.contactoService
             .actualizarDatosContacto(
               this.detalle,
-              this.formularioEmpleado.value
+              this.formularioEmpleado.value,
             )
             .subscribe((respuestaFormulario) => {
               this.alertaService.mensajaExitoso('Se actualizó la información');
               this.activatedRoute.queryParams.subscribe((parametro) => {
-                this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
-                  queryParams: {
-                    ...parametro,
+                this.router.navigate(
+                  [`${this._rutas?.detalle}/${respuestaFormulario.id}`],
+                  {
+                    queryParams: {
+                      ...parametro,
+                    },
                   },
-                });
+                );
               });
             });
         }
@@ -300,22 +312,22 @@ export default class EmpleadoFormularioComponent
         this.contactoService
           .validarNumeroIdentificacion({
             identificacion_id: parseInt(
-              this.formularioEmpleado.get('identificacion')!.value
+              this.formularioEmpleado.get('identificacion')!.value,
             ),
             numero_identificacion: this.formularioEmpleado.get(
-              'numero_identificacion'
+              'numero_identificacion',
             )!.value,
           })
           .pipe(
             switchMap((respuestaValidacion) => {
               if (!respuestaValidacion.validacion) {
                 return this.contactoService.guardarContacto(
-                  this.formularioEmpleado.value
+                  this.formularioEmpleado.value,
                 );
               } else {
                 this.alertaService.mensajeError(
                   'Error',
-                  'El número de identificación ya existe en el sistema con este tipo de identificación'
+                  'El número de identificación ya existe en el sistema con este tipo de identificación',
                 );
                 return of(null);
               }
@@ -324,15 +336,18 @@ export default class EmpleadoFormularioComponent
               if (respuestaFormulario !== null) {
                 this.alertaService.mensajaExitoso('Se guardó la información');
                 this.activatedRoute.queryParams.subscribe((parametro) => {
-                  this.router.navigate([`${this._rutas?.detalle}/${respuestaFormulario.id}`], {
-                    queryParams: {
-                      ...parametro,
+                  this.router.navigate(
+                    [`${this._rutas?.detalle}/${respuestaFormulario.id}`],
+                    {
+                      queryParams: {
+                        ...parametro,
+                      },
                     },
-                  });
+                  );
                 });
               }
             }),
-            finalize(() => this.guardando$.next(false))
+            finalize(() => this.guardando$.next(false)),
           )
           .subscribe();
       }
@@ -367,8 +382,16 @@ export default class EmpleadoFormularioComponent
   }
 
   calcularDigitoVerificacion() {
+    // No calcular dígito de verificación para pasaporte
+    if (this.esPasaporte()) {
+      this.formularioEmpleado.patchValue({
+        digito_verificacion: 0,
+      });
+      return;
+    }
+
     let digito = this.devuelveDigitoVerificacionService.digitoVerificacion(
-      this.formularioEmpleado.get('numero_identificacion')?.value
+      this.formularioEmpleado.get('numero_identificacion')?.value,
     );
     this.formularioEmpleado.patchValue({
       digito_verificacion: digito,
@@ -381,12 +404,13 @@ export default class EmpleadoFormularioComponent
         'general/ciudad/seleccionar/',
         {
           nombre__icontains: event?.target.value,
-        })
+        },
+      )
       .pipe(
         tap((respuesta) => {
           this.arrCiudades = respuesta;
           this.changeDetectorRef.detectChanges();
-        })
+        }),
       )
       .subscribe();
   }
@@ -416,9 +440,9 @@ export default class EmpleadoFormularioComponent
 
   consultarInformacion() {
     zip(
-      this._generalService.consultaApi<RegistroAutocompletarGenIdentificacion[]>(
-        'general/identificacion/seleccionar/',
-      ),
+      this._generalService.consultaApi<
+        RegistroAutocompletarGenIdentificacion[]
+      >('general/identificacion/seleccionar/'),
       this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
         'general/regimen/seleccionar/',
       ),
@@ -437,9 +461,9 @@ export default class EmpleadoFormularioComponent
       this._generalService.consultaApi<RegistroAutocompletarGenBanco[]>(
         'general/banco/seleccionar/',
       ),
-      this._generalService.consultaApi<RegistroAutocompletarGenCuentaBancoClase[]>(
-        'general/cuenta_banco_clase/seleccionar/',
-      )
+      this._generalService.consultaApi<
+        RegistroAutocompletarGenCuentaBancoClase[]
+      >('general/cuenta_banco_clase/seleccionar/'),
     ).subscribe((respuesta) => {
       this.arrIdentificacion = respuesta[0];
       this.arrRegimen = respuesta[1];
@@ -466,60 +490,89 @@ export default class EmpleadoFormularioComponent
       .subscribe((respuesta: any) => {
         this.informacionEmpleado = respuesta;
         this.ciudadSeleccionada = respuesta.ciudad_nombre;
-        this.formularioEmpleado.patchValue({
-          numero_identificacion: respuesta.numero_identificacion,
-          digito_verificacion: respuesta.digito_verificacion,
-          identificacion: respuesta.identificacion_id,
-          codigo: respuesta.codigo,
-          nombre_corto: respuesta.nombre_corto,
-          nombre1: respuesta.nombre1,
-          nombre2: respuesta.nombre2,
-          apellido1: respuesta.apellido1,
-          apellido2: respuesta.apellido2,
-          ciudad: respuesta.ciudad_id,
-          ciudad_nombre: `${respuesta.ciudad_nombre}-${respuesta.departamento_nombre}`,
-          banco_nombre: respuesta.banco_nombre,
-          banco: respuesta.banco_id,
-          numero_cuenta: respuesta.numero_cuenta,
-          direccion: respuesta.direccion,
-          telefono: respuesta.telefono,
-          celular: respuesta.celular,
-          correo: respuesta.correo,
-          tipo_persona: respuesta.tipo_persona_id,
-          regimen: respuesta.regimen_id,
-          barrio: respuesta.barrio,
-          codigo_ciuu: respuesta.codigo_ciuu,
-          precio: respuesta.precio_id,
-          plazo_pago: respuesta.plazo_pago_id,
-          plazo_pago_proveedor: respuesta.plazo_pago_proveedor_id,
-          asesor: respuesta.asesor_id,
-          cliente: respuesta.cliente,
-          proveedor: respuesta.proveedor,
-          cuenta_banco_clase: respuesta.cuenta_banco_clase_id,
-        });
+
+        this.cambiarTipoCampo(respuesta.identificacion_id);
 
         this.changeDetectorRef.detectChanges();
+
+        this.formularioEmpleado.patchValue(
+          {
+            numero_identificacion: respuesta.numero_identificacion,
+            digito_verificacion: respuesta.digito_verificacion,
+            identificacion: respuesta.identificacion_id,
+            codigo: respuesta.codigo,
+            nombre_corto: respuesta.nombre_corto,
+            nombre1: respuesta.nombre1,
+            nombre2: respuesta.nombre2,
+            apellido1: respuesta.apellido1,
+            apellido2: respuesta.apellido2,
+            ciudad: respuesta.ciudad_id,
+            ciudad_nombre: `${respuesta.ciudad_nombre}-${respuesta.departamento_nombre}`,
+            banco_nombre: respuesta.banco_nombre,
+            banco: respuesta.banco_id,
+            numero_cuenta: respuesta.numero_cuenta,
+            direccion: respuesta.direccion,
+            telefono: respuesta.telefono,
+            celular: respuesta.celular,
+            correo: respuesta.correo,
+            tipo_persona: respuesta.tipo_persona_id,
+            regimen: respuesta.regimen_id,
+            barrio: respuesta.barrio,
+            codigo_ciuu: respuesta.codigo_ciuu,
+            precio: respuesta.precio_id,
+            plazo_pago: respuesta.plazo_pago_id,
+            plazo_pago_proveedor: respuesta.plazo_pago_proveedor_id,
+            asesor: respuesta.asesor_id,
+            cliente: respuesta.cliente,
+            proveedor: respuesta.proveedor,
+            cuenta_banco_clase: respuesta.cuenta_banco_clase_id,
+          },
+        );
+
+        this.actualizarValidacionNumeroIdentificacion(parseInt(respuesta.identificacion_id));
       });
+  }
+
+  /**
+   * Remueve únicamente el error de duplicado sin afectar otras validaciones
+   */
+  private removerErrorDuplicado(control: AbstractControl): void {
+    const erroresActuales = control.errors;
+
+    if (erroresActuales && erroresActuales['numeroIdentificacionExistente']) {
+      delete erroresActuales['numeroIdentificacionExistente'];
+
+      const tieneOtrosErrores = Object.keys(erroresActuales).length > 0;
+      control.setErrors(tieneOtrosErrores ? erroresActuales : null);
+    }
+
+    // Re-ejecutar validaciones síncronas para asegurar consistencia
+    control.updateValueAndValidity({ emitEvent: false });
   }
 
   validarNumeroIdenficacionExistente() {
     if (this.detalle) {
+      const formularioNumeroIdentificacion = this.formularioEmpleado.get(
+        'numero_identificacion',
+      )!.value;
+      const formularioIdentificacion = parseInt(
+        this.formularioEmpleado.get('identificacion')!.value,
+      );
+
+      if (!formularioIdentificacion || !formularioNumeroIdentificacion) {
+        return;
+      }
+
       if (
-        parseInt(this.informacionEmpleado.numero_identificacion) !==
-        parseInt(
-          this.formularioEmpleado.get('numero_identificacion')!.value
-        ) ||
+        this.informacionEmpleado.numero_identificacion !==
+          formularioNumeroIdentificacion ||
         parseInt(this.informacionEmpleado.identificacion_id) !==
-        parseInt(this.formularioEmpleado.get('identificacion')!.value)
+          formularioIdentificacion
       ) {
         this.contactoService
           .validarNumeroIdentificacion({
-            identificacion_id: parseInt(
-              this.formularioEmpleado.get('identificacion')!.value
-            ),
-            numero_identificacion: this.formularioEmpleado.get(
-              'numero_identificacion'
-            )!.value,
+            identificacion_id: formularioIdentificacion,
+            numero_identificacion: formularioNumeroIdentificacion
           })
           .subscribe((respuesta) => {
             if (respuesta.validacion) {
@@ -530,24 +583,26 @@ export default class EmpleadoFormularioComponent
                 .get('numero_identificacion')!
                 .setErrors({ numeroIdentificacionExistente: true });
             } else {
-              this.formularioEmpleado
-                .get('numero_identificacion')!
-                .setErrors(null);
+              this.removerErrorDuplicado(
+                this.formularioEmpleado.get('numero_identificacion')!
+              );
             }
             this.changeDetectorRef.detectChanges();
           });
       } else {
-        this.formularioEmpleado.get('numero_identificacion')!.setErrors(null);
+        this.removerErrorDuplicado(
+          this.formularioEmpleado.get('numero_identificacion')!
+        );
       }
     } else {
       if (this.formularioEmpleado.get('numero_identificacion')!.value !== '') {
         this.contactoService
           .validarNumeroIdentificacion({
             identificacion_id: parseInt(
-              this.formularioEmpleado.get('identificacion')!.value
+              this.formularioEmpleado.get('identificacion')!.value,
             ),
             numero_identificacion: this.formularioEmpleado.get(
-              'numero_identificacion'
+              'numero_identificacion',
             )!.value,
           })
           .subscribe((respuesta) => {
@@ -556,9 +611,9 @@ export default class EmpleadoFormularioComponent
                 .get('numero_identificacion')!
                 .setErrors({ numeroIdentificacionExistente: true });
             } else {
-              this.formularioEmpleado
-                .get('numero_identificacion')!
-                .setErrors(null);
+              this.removerErrorDuplicado(
+                this.formularioEmpleado.get('numero_identificacion')!
+              );
             }
             this.changeDetectorRef.detectChanges();
           });
@@ -572,6 +627,73 @@ export default class EmpleadoFormularioComponent
     if (!input.trim()) {
       this.formularioEmpleado.controls['ciudad'].setValue(null);
       this.formularioEmpleado.controls['ciudad_nombre'].setValue(null);
+    }
+  }
+
+  actualizarValidacionNumeroIdentificacion(tipoIdentificacionId: number): void {
+    const numeroIdentificacionControl = this.formularioEmpleado.get(
+      'numero_identificacion',
+    );
+    const valorActual = numeroIdentificacionControl?.value;
+
+    // Limpiar errores antes de cambiar validaciones
+    numeroIdentificacionControl?.setErrors(null);
+
+    if (tipoIdentificacionId === 7) {
+      // Pasaporte: permite letras y números
+      this.campoTipo.set('text')
+      numeroIdentificacionControl?.setValidators([
+        Validators.required,
+        Validators.maxLength(20),
+        Validators.pattern(/^[a-zA-Z0-9]+$/),
+        CampoNoCeroValidator.validar
+      ]);
+
+      // Limpiar dígito de verificación para pasaporte
+      this.formularioEmpleado.patchValue({
+        digito_verificacion: 0,
+      }, { emitEvent: false });
+    } else {
+      // Otros tipos de identificación: solo números
+      this.campoTipo.set('number')
+      numeroIdentificacionControl?.setValidators([
+        Validators.required,
+        Validators.min(1),
+        Validators.maxLength(20),
+        Validators.pattern(/^[0-9]+$/),
+        CampoNoCeroValidator.validar
+      ]);
+
+      // Si el valor actual contiene letras, limpiarlo
+      if (valorActual && /[a-zA-Z]/.test(valorActual)) {
+        numeroIdentificacionControl?.setValue('', { emitEvent: false });
+        numeroIdentificacionControl?.markAsUntouched();
+        numeroIdentificacionControl?.markAsPristine();
+      }
+
+      // Recalcular dígito de verificación si hay un número válido
+      if (valorActual && /^[0-9]+$/.test(valorActual)) {
+        this.calcularDigitoVerificacion();
+      }
+    }
+
+    // Actualizar validaciones sin disparar eventos de cambio
+    numeroIdentificacionControl?.updateValueAndValidity();
+    this.changeDetectorRef.detectChanges()
+  }
+
+  esPasaporte(): boolean {
+    return (
+      this.formularioEmpleado.get('identificacion')?.value === 7 ||
+      this.formularioEmpleado.get('identificacion')?.value === '7'
+    );
+  }
+
+  cambiarTipoCampo(tipoIdentificacionId: number) {
+    if (tipoIdentificacionId === 7) {
+      this.campoTipo.set('text');
+    } else {
+      this.campoTipo.set('number');
     }
   }
 }

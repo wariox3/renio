@@ -8,6 +8,7 @@ export const CONTRATO_FILTERS: FilterField[] = [
     type: 'string',
   },
   { name: 'contacto__nombre_corto', displayName: 'Nombre', type: 'string' },
+  { name: 'estado_terminado', displayName: 'Terminado', type: 'boolean' },
 ];
 
 export const CONTRATO_LISTA_BUSCAR_AVANZADO: FilterField[] = [

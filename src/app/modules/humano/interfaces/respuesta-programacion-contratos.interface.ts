@@ -5,6 +5,7 @@ export interface RespuestaProgramacionContrato {
   dias_transporte: number;
   salario: number;
   salario_promedio: number;
+  base_prestacion: number;
   devengado: number;
   deduccion: number;
   total: number;

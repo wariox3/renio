@@ -59,16 +59,22 @@ export class AuthService extends Subdominio implements OnDestroy {
     this.isLoading$ = this.isLoadingSubject.asObservable();
   }
 
-  login(email: string, password: string, turnstileToken: string) {
+  login(email: string, password: string, turnstileToken?: string) {
+    const payload: any = {
+      username: email,
+      password: password,
+      proyecto: 'REDDOC',
+    };
+
+    // Solo agregar cf_turnstile_response si turnstileToken tiene valor
+    if (turnstileToken) {
+      payload.cf_turnstile_response = turnstileToken;
+    }
+
     return this.http
       .post<Token>(
         `${this.URL_API_BASE}/seguridad/login/`,
-        {
-          username: email,
-          password: password,
-          cf_turnstile_response: turnstileToken,
-          proyecto: 'REDDOC',
-        },
+        payload,
         { context: noRequiereToken() },
       )
       .pipe(

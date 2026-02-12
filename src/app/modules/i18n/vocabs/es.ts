@@ -134,6 +134,8 @@ export const locale = {
         REMISION: 'Remisión',
         TRANSLADO: 'Traslado',
         CONCILIACION: 'Conciliación',
+        ESTADORESULTADOS: 'Estado resultados',
+        ESTADOSITUACIONFINANCIERA: 'Estado situacion financiera'
       },
     },
     FORMULARIOS: {
@@ -271,6 +273,10 @@ export const locale = {
           PENSION: 'Pension',
           SOLIDARIDAD: 'Solidaridad',
           RESOLUCION: 'Resolución',
+          SALARIO: 'Salario',
+          PROMEDIO: 'Promedio',
+          CESANTIAPROPUESTO: 'Cesantia propuesto',
+          INTERESPROPUESTO: 'Interes propuesto',
         },
         CONTENEDOR: {
           TITULO: 'Contenedores',
@@ -354,6 +360,7 @@ export const locale = {
           GRUPO: 'Grupo',
           PRODUCTO: 'Producto',
           CANTIDAD: 'Cantidad',
+          CANT: 'Cant',
           PRECIO: 'Precio',
           COSTO: 'Costo',
           DESCUENTO: 'Desc %',
@@ -741,6 +748,8 @@ export const locale = {
             CESANTIA: 'Cesantía',
             INTERES: 'Interes',
             EMITIRAUTOMATICAMENTE: 'Emitir automáticamente documentos electronicos',
+            BASEPRESTACIONMINIMO: 'Base prestación minimo',
+            BASEPRESTACIONMINIMOSALARIO: 'Base prestación minimo salario',
           },
           PAGO: {
             DESDE: 'Desde',
@@ -1040,6 +1049,7 @@ export const locale = {
         OPERACION: 'Operación',
         PERIODO_NOMBRE: 'Período',
         DOCUMENTO_FECHA: 'Fecha',
+        DOCUMENTO_FECHA_DESDE: 'Fecha desde',
         DOCUMENTO_FECHA_HASTA: 'Fecha hasta',
         DOCUMENTO_TIPO_ID: 'Documento tipo',
         DOCUMENTO_TIPO_ID_FILTRO: '[Documento tipo] id',
@@ -1100,6 +1110,7 @@ export const locale = {
         DOCUMENTO__ID: 'Documento id',
         CUENTA_BANCO_NOMBRE: 'Cuenta banco',
         CUENTA_BANCO: 'Cuenta banco id',
+        DOCUMENTO_REFERENCIA__NUMERO: 'Ref número',
       },
       ITEM: {
         ID: 'ID',
@@ -1397,7 +1408,10 @@ export const locale = {
         COMPROBANTE: 'Comprobante',
         IDENTIFICACION: 'Identificación',
         BASE_RETENIDO: 'Monto del pago sujeto a retención',
-        RETENIDO: 'Retenido y consignado'
+        RETENIDO: 'Retenido y consignado',
+        CLASE: 'Clase',
+        GRUPO: 'Grupo',
+        SALDO: 'Saldo'
       },
       NOVEDAD: {
         ID: 'Id',
@@ -1730,6 +1744,8 @@ export const locale = {
       HUMLIQUIDACION: 'Liquidación',
       NUEVO: 'Nuevo',
       DETALLE: 'Detalle',
+      ESTADORESULTADOS: 'Estado resultados',
+      ESTADOSITUACIONFINANCIERA: 'Estado situacion financiera'
     },
   },
 };

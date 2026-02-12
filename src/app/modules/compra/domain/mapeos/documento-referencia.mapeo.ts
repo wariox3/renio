@@ -3,6 +3,7 @@ import { campoBuscarAvanzada } from 'src/app/core/interfaces/buscar-avanzado.int
 export const DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO: campoBuscarAvanzada[] = [
   { name: 'id', displayName: 'ID', type: 'number' },
   { name: 'numero', displayName: 'numero', type: 'number' },
+  { name: 'referencia_numero', displayName: 'numero referencia', type: 'number' },
   { name: 'fecha', displayName: 'fecha', type: 'date' },
   {
     name: 'documento_tipo_nombre',

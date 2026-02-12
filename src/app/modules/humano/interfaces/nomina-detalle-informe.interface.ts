@@ -3,6 +3,7 @@ export interface NominaDetalleInforme {
     documento: number
     documento__documento_tipo__nombre: string
     documento__fecha: string
+    documento__fecha_desde: any
     documento__fecha_hasta: any
     documento__numero: any
     documento__contacto: number

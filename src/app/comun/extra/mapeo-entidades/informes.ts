@@ -35,6 +35,13 @@ export const documentos: MapeoDocumentos = {
       ordenable: false,
     },
     {
+      nombre: 'documento_contacto_numero_identificacion',
+      campoTipo: 'CharField',
+      visibleFiltro: false,
+      visibleTabla: true,
+      ordenable: false,
+    },
+    {
       nombre: 'documento_contacto_nombre',
       campoTipo: 'CharField',
       visibleFiltro: false,
@@ -1020,6 +1027,15 @@ export const documentos: MapeoDocumentos = {
       visibleFiltro: true,
       ordenable: false,
     },
+    {
+      nombre: 'documento__fecha_desde',
+      nombreAbreviado: 'documento_fecha_desde',
+      nombreFiltroRelacion: 'DOCUMENTO__FECHA_DESDE',
+      campoTipo: 'DateField',
+      visibleTabla: true,
+      visibleFiltro: true,
+      ordenable: false,
+    },    
     {
       nombre: 'documento__fecha_hasta',
       nombreAbreviado: 'documento_fecha_hasta',

@@ -9,6 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  signal,
   ViewChild,
 } from '@angular/core';
 import {
@@ -25,7 +26,11 @@ import {
   ImpuestoRespuestaConsulta,
   RespuestaItem,
 } from '@interfaces/comunes/factura/factura.interface';
-import { NgbDropdownModule, NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbDropdownModule,
+  NgbModal,
+  NgbTooltipModule,
+} from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { map, Subject, takeUntil } from 'rxjs';
 import { FacturaService } from '../../services/factura.service';
@@ -37,12 +42,16 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
 import { AgregarDetallesDocumentoComponent } from '../../../agregar-detalles-documento/agregar-detalles-documento.component';
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import { AdapterService } from '../../services/adapter.service';
-import { BuscarDocumentosDetallesComponent } from "@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component";
+import { BuscarDocumentosDetallesComponent } from '@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component';
 import { FilterField } from 'src/app/core/interfaces/filtro.interface';
 import { GeneralService } from '@comun/services/general.service';
-import { AgregarAuiComponent, ItemAIU } from '../agregar-aui/agregar-aui.component';
+import {
+  AgregarAuiComponent,
+  ItemAIU,
+} from '../agregar-aui/agregar-aui.component';
 import { ItemSeleccionar } from '@interfaces/general/item.interface';
 import { HttpService } from '@comun/services/http.service';
+import { ExtraerIvaComponent } from '../extraer-iva/extraer-iva.component';
 
 @Component({
   selector: 'app-formulario-productos',
@@ -60,8 +69,9 @@ import { HttpService } from '@comun/services/http.service';
     AgregarDetallesDocumentoComponent,
     BuscarDocumentosDetallesComponent,
     AgregarAuiComponent,
-    NgbDropdownModule
-],
+    NgbDropdownModule,
+    ExtraerIvaComponent
+  ],
   templateUrl: './formulario-productos.component.html',
   styleUrl: './formulario-productos.component.scss',
 })
@@ -81,6 +91,7 @@ export class FormularioProductosComponent
   public themeValue = localStorage.getItem('kt_theme_mode_value');
   public modoEdicion = this._formularioFacturaService.modoEdicion;
   public estadoAprobado = this._formularioFacturaService.estadoAprobado;
+  public indexSelecccionado = signal<number>(0)
 
   @ViewChild('agregarAuiRef') agregarAuiRef!: AgregarAuiComponent;
   public BUSCAR_DOCUMENTO_DETALLES_FILTERS: FilterField[] = [
@@ -90,19 +101,24 @@ export class FormularioProductosComponent
   @Input() mostrarDocumentoReferencia: boolean = false;
   @Input() mostrarBuscarDocumentos: boolean = false;
   @Input() mostrarImportarDesdeDocumento: boolean = false;
+  @Input() mostrarIncluirIva: boolean = false;
   @Input() cuentasConImpuestos: boolean = false;
-  @Input() habilitarConsultaPrecio: boolean = false
+  @Input() habilitarConsultaPrecio: boolean = false;
   @Input() permiteCantidadCero = false;
   @Input({ required: true }) formularioTipo: 'venta' | 'compra' = 'venta';
   @Input() deshabilitar: boolean = false;
   @Input() mostrarCampoAIU: boolean = false;
   @Input() columnasTablaDatos: any = [];
   @Input() mostrarCampoDetalle: boolean = false;
-  @Input() configuracionDocumento: { endpoint: string; queryParams: { [key: string]: string | number | boolean } } = {
+  @Input() mostrarLectorCodigoBarras: boolean = false;
+  @Input() configuracionDocumento: {
+    endpoint: string;
+    queryParams: { [key: string]: string | number | boolean };
+  } = {
     endpoint: 'general/documento_detalle/lista_agregar_documento_detalle/',
     queryParams: {
-      documento_tipo: 0
-    }
+      documento_tipo: 0,
+    },
   };
   @Output() emitirEnviarFormulario: EventEmitter<void>;
   @Output() emitirDocumentoDetalle: EventEmitter<DocumentoFacturaRespuesta>;
@@ -115,7 +131,7 @@ export class FormularioProductosComponent
 
   ngOnInit(): void {
     this._cargarVista();
-    
+
     // Suscribirse al observable de actualización de documento
     this._formularioFacturaService.actualizarDocumento$
       .pipe(takeUntil(this._unsubscribe$))
@@ -192,7 +208,7 @@ export class FormularioProductosComponent
     // Obtener el detalle actual de la línea
     const detalleActual = this.detalles.at(indexFormulario);
     const itemActualId = detalleActual?.get('item')?.value;
-    
+
     // Evitar seleccionar el mismo item en la misma línea
     if (itemActualId && itemActualId === item.id) {
       console.warn('No se puede seleccionar el mismo item en la misma línea');
@@ -200,34 +216,40 @@ export class FormularioProductosComponent
     }
 
     const contactoPrecio = this.formularioFactura.value.contactoPrecio;
-    
+
     if (contactoPrecio && this.habilitarConsultaPrecio) {
       // Usar switchMap para manejar la operación asíncrona
-      this._consultarPrecioLista(contactoPrecio, item.id)
-        .subscribe((respuesta) => {
+      this._consultarPrecioLista(contactoPrecio, item.id).subscribe(
+        (respuesta) => {
           const itemActualizado = {
             ...item,
-            precio: respuesta.vr_precio ? respuesta.vr_precio : item.precio
+            precio: respuesta.vr_precio ? respuesta.vr_precio : item.precio,
           };
-          
+
           this._procesarItemSeleccionado(itemActualizado, indexFormulario);
-        });
+        },
+      );
     } else {
       // Si no hay contactoPrecio, procesar directamente
       this._procesarItemSeleccionado(item, indexFormulario);
     }
   }
 
-  private _procesarItemSeleccionado(item: DocumentoDetalleFactura, indexFormulario: number) {
+  private _procesarItemSeleccionado(
+    item: DocumentoDetalleFactura,
+    indexFormulario: number,
+  ) {
     // Obtener el detalle actual para logging
     const detalleActual = this.detalles.at(indexFormulario);
     const itemActualId = detalleActual?.get('item')?.value;
-    
+
     // Log para debugging cuando se cambia de item
     if (itemActualId && itemActualId !== item.id) {
-      console.log(`Cambiando de item ${itemActualId} a ${item.id} en línea ${indexFormulario}`);
+      console.log(
+        `Cambiando de item ${itemActualId} a ${item.id} en línea ${indexFormulario}`,
+      );
     }
-    
+
     this._formularioFacturaService.recibirItemSeleccionado(
       item,
       indexFormulario,
@@ -265,7 +287,7 @@ export class FormularioProductosComponent
 
   cargarItemsSeleccionadosDesdeDocumento(items: DocumentoDetalleFactura[]) {
     items.forEach((item) => {
-      this.agregarNuevoItem('I')
+      this.agregarNuevoItem('I');
       this.recibirItemSeleccionado(item, this.detalles.length - 1);
     });
     this.modalService.dismissAll();
@@ -275,7 +297,51 @@ export class FormularioProductosComponent
     this._procesarItemsAIUSecuencialmente(configuracion, 0);
   }
 
-  private _procesarItemsAIUSecuencialmente(configuracion: ItemAIU[], indice: number) {
+  extraerPrecio(index: number) {
+    const detalleFormGroup = this.detalles.at(index);
+    const impuestos = detalleFormGroup.get('impuestos')?.value;
+    const precio = detalleFormGroup.get('precio')?.value;
+
+    if (impuestos && impuestos.length > 0 && precio) {
+      const precioSinIva = this.extraerTodosLosImpuestos(precio, impuestos);
+      console.log('Precio sin IVA:', precioSinIva.toFixed(2));
+
+      // Actualizar el valor del FormControl correctamente
+      detalleFormGroup.get('precio')?.setValue(precioSinIva.toFixed(2));
+      this._formularioFacturaService.actualizarPrecioItem(index);
+    }
+  }
+
+  abrirModalExtraerIVA(modal: any, index: number) {
+    this.indexSelecccionado.set(index);
+    this.modalService.open(modal, {
+      ariaLabelledBy: 'modal-basic-title',
+      size: 'md',
+    });
+  }
+
+  extraerTodosLosImpuestos(precio: number, impuestos: any[]): number {
+    let precioActual = precio;
+
+    // Aplicar cada impuesto en orden inverso (extraer en el orden opuesto a como se aplicaron)
+    for (let i = impuestos.length - 1; i >= 0; i--) {
+      const porcentaje = impuestos[i].porcentaje;
+      precioActual = this.extraerIVA(precioActual, porcentaje);
+    }
+
+    return precioActual;
+  }
+
+  extraerIVA(precio: number, porcentajeIVA: number) {
+    const ivaDecimal = porcentajeIVA / 100;
+    const precioSinIva = precio / (1 + ivaDecimal);
+    return precioSinIva;
+  }
+
+  private _procesarItemsAIUSecuencialmente(
+    configuracion: ItemAIU[],
+    indice: number,
+  ) {
     // Si ya procesamos todos los items, desactivar loader y cerrar el modal
     if (indice >= configuracion.length) {
       if (this.agregarAuiRef) {
@@ -292,29 +358,42 @@ export class FormularioProductosComponent
     });
   }
 
-  private _consultarItemDetalle(itemId: number, precio: number, callback?: () => void){ 
-        this._httpService
-          .post<RespuestaItem>('general/item/detalle/', { id: itemId, venta: true, compra: false }).pipe
-          (map((respuesta) => {
-            return {
-              ...respuesta.item,
-              precio: precio
-            }
-          }))
-          .subscribe((respuesta) => {
-            this.agregarNuevoItem('I');
-            this.recibirItemSeleccionado(respuesta, this.detalles.length - 1);
-            
-            // Ejecutar callback si se proporciona (para procesamiento secuencial)
-            if (callback) {
-              callback();
-            }
-          });
+  private _consultarItemDetalle(
+    itemId: number,
+    precio: number,
+    callback?: () => void,
+  ) {
+    this._httpService
+      .post<RespuestaItem>('general/item/detalle/', {
+        id: itemId,
+        venta: true,
+        compra: false,
+      })
+      .pipe(
+        map((respuesta) => {
+          return {
+            ...respuesta.item,
+            precio: precio,
+          };
+        }),
+      )
+      .subscribe((respuesta) => {
+        this.agregarNuevoItem('I');
+        this.recibirItemSeleccionado(respuesta, this.detalles.length - 1);
+
+        // Ejecutar callback si se proporciona (para procesamiento secuencial)
+        if (callback) {
+          callback();
+        }
+      });
   }
 
   private _consultarPrecioLista(precioId: number, itemId: number) {
-    return this._generalService.consultaApi<{ vr_precio: number }>('general/precio_detalle/consultar_precio/', { item_id: itemId, precio_id: precioId })
-    .pipe(takeUntil(this._unsubscribe$))
+    return this._generalService
+      .consultaApi<{
+        vr_precio: number;
+      }>('general/precio_detalle/consultar_precio/', { item_id: itemId, precio_id: precioId })
+      .pipe(takeUntil(this._unsubscribe$));
   }
 
   // cargar vista
@@ -360,6 +439,67 @@ export class FormularioProductosComponent
   actualizarDocumento() {
     this._cargarVista();
     this.modalService.dismissAll();
+  }
+
+  /**
+   * Se ejecuta cuando el lector de código de barras captura un código
+   * Busca el producto por código y lo agrega automáticamente
+   *
+   * @param event - Evento del input
+   */
+  onCodigoBarrasCapturado(event: Event) {
+    const input = event.target as HTMLInputElement;
+    const codigo = input.value.trim();
+
+    if (!codigo) {
+      return;
+    }
+
+    // Buscar el item por código
+    this._generalService
+      .consultaApi<ItemSeleccionar[]>('general/item/seleccionar/', {
+        codigo__icontains: codigo,
+        inactivo: 'False'
+      })
+      .pipe(takeUntil(this._unsubscribe$))
+      .subscribe((items) => {
+        if (items.length === 0) {
+          this.alertaService.mensajeError(
+            'Error',
+            'No se encontró ningún producto con ese código'
+          );
+          input.value = '';
+          return;
+        }
+
+        // Si hay coincidencia exacta, usar ese item
+        const itemExacto = items.find(item => item.codigo === codigo);
+        const itemSeleccionado = itemExacto || items[0];
+
+        // Consultar detalle del item
+        const parametrosConsulta = {
+          id: itemSeleccionado.id,
+          venta: this.formularioTipo === 'venta',
+          compra: this.formularioTipo === 'compra',
+        };
+
+        this._httpService
+          .post<RespuestaItem>('general/item/detalle/', parametrosConsulta)
+          .pipe(takeUntil(this._unsubscribe$))
+          .subscribe((respuesta) => {
+            // Agregar nueva línea y seleccionar el item
+            this.agregarNuevoItem('I');
+            this.recibirItemSeleccionado(respuesta.item, this.detalles.length - 1);
+
+            // Limpiar el input para el siguiente escaneo
+            input.value = '';
+
+            // Enfocar nuevamente el input para el siguiente código
+            setTimeout(() => {
+              input.focus();
+            }, 100);
+          });
+      });
   }
 
   // metodos formulario

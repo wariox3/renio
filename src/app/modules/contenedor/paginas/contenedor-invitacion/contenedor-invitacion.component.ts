@@ -144,18 +144,20 @@ export class ContenedorInvitacionComponent extends General implements OnInit {
   }
 
   contenedorAlcanzoMaxUsuarios() {
-    const contenedorData = this.contenedor();
-    if (!contenedorData) return false;
+    // const contenedorData = this.contenedor();
+    // if (!contenedorData) return false;
     
-    const usuariosBase = contenedorData.plan_usuarios_base || contenedorData.usuarios_base || 0;
-    const isAvailable = contenedorData.usuarios >= usuariosBase;
+    // const usuariosBase = contenedorData.plan_usuarios_base || contenedorData.usuarios_base || 0;
+    // const isAvailable = contenedorData.usuarios >= usuariosBase;
 
-    if (isAvailable) {
-      this.formularioEmpresaInvitacion.get('nombre')?.disable();
-    } else {
-      this.formularioEmpresaInvitacion.get('nombre')?.enable();
-    }
+    // if (isAvailable) {
+    //   this.formularioEmpresaInvitacion.get('nombre')?.disable();
+    // } else {
+    //   this.formularioEmpresaInvitacion.get('nombre')?.enable();
+    // }
 
-    return isAvailable;
+    // return isAvailable;
+    //Validación comentada temporalmente
+    return false;
   }
 }

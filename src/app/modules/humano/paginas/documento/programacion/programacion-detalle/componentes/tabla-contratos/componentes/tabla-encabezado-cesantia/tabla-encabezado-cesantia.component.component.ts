@@ -9,6 +9,7 @@ import { ModalProgramacionDetalleEditarContratoComponent } from '../../../modal-
 import { ModalProgramacionDetalleNominaResumenComponent } from '../../../modal-programacion-detalle-nomina-resumen/modal-programacion-detalle-nomina-resumen.component';
 import { TablaContratosService } from '../../services/tabla-contratos.service';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { ModalProgramacionDetalleEditarCesantiasComponent } from "../../../modal-programacion-detalle-editar-cesantias/modal-programacion-detalle-editar-cesantias.component";
 
 @Component({
   selector: 'app-tabla-encabezado-cesantia',
@@ -18,8 +19,8 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
     TranslateModule,
     CommonModule,
     ModalProgramacionDetalleNominaResumenComponent,
-    ModalProgramacionDetalleEditarContratoComponent,
-  ],
+    ModalProgramacionDetalleEditarCesantiasComponent
+],
   templateUrl: './tabla-encabezado-cesantia.component.html',
   styleUrl: './tabla-encabezado-cesantia.component.scss',
 })

@@ -62,6 +62,8 @@ export class VentasItemsComponent extends General implements OnInit {
           documento_tipo: documento.documento__documento_tipo__nombre,
           documento_numero: documento.documento__numero,
           documento_fecha: documento.documento__fecha,
+          documento_contacto_numero_identificacion:
+            documento.documento__contacto__numero_identificacion,
           documento_contacto_nombre:
             documento.documento__contacto__nombre_corto,
           item_id: documento.item_id,

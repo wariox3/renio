@@ -16,6 +16,13 @@ export const documento301: MapeoDocumento[] = [
     ordenable: true,
   },
   {
+    nombre: 'DOCUMENTO_REFERENCIA__NUMERO',
+    campoTipo: 'IntegerField',
+    visibleTabla: true,
+    visibleFiltro: true,
+    ordenable: true,
+  },
+  {
     nombre: 'FECHA',
     campoTipo: 'DateField',
     visibleTabla: true,
@@ -67,7 +74,7 @@ export const documento301: MapeoDocumento[] = [
   {
     nombre: 'ESTADO_ANULADO',
     nombreAbreviado: 'ESTADO_ANULADO_ABREVIATURA',
-     toolTip: 'ESTADO_ANULADO',
+    toolTip: 'ESTADO_ANULADO',
     campoTipo: 'Booleano',
     visibleTabla: true,
     visibleFiltro: true,

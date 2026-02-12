@@ -628,6 +628,13 @@ export default class PagoFormularioComponent
     this.changeDetectorRef.detectChanges();
   }
 
+  limpiarContacto(index: number) {
+    this.detalles.controls[index].patchValue({
+      contacto: null,
+      contacto_nombre: '',
+    });
+  }
+
   abrirModalContactoNuevo(content: any) {
     this.modalService.open(content, {
       ariaLabelledBy: 'modal-basic-title',
