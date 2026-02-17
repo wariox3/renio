@@ -11,7 +11,7 @@ export class DocumentoGuiaRepository {
 
   constructor() {}
 
-  consultarGuias(data: { documento_id: number }) {
+  consultar(data: { documento_id: number }) {
     return this._generalService.consultaApi<any>(
       'general/documento_guia/',
       data,
