@@ -36,6 +36,7 @@ import { TranslateModule } from '@ngx-translate/core';
         (blur)="onBlur()"
         [disabled]="disabled"
         [readonly]="readonly"
+        [autofocus]="autofocus"
         [ngClass]="inputClass"
         class="form-control"
         #inputEl
@@ -94,12 +95,16 @@ export class InputComponent implements ControlValueAccessor {
     this.onTouched = fn;
   }
 
+  // Deshabilita o habilita el input desde Reactive Forms
+  setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
   // Maneja el evento de entrada
   onInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.value.set(value);
-    this.onChange(value); // Notifica el cambio
-    this.dirty = true; // Marca el control como "sucio"
+    this.onChange(value); // Notifica el cambio — Angular marca el control como dirty
   }
 
   // Maneja el evento de blur
@@ -138,6 +143,11 @@ export class InputComponent implements ControlValueAccessor {
       });
 
       return activeErrors;
+    }
+
+    // Fallback: sin control, mostrar todos los mensajes de error si el campo es inválido
+    if (this.invalid) {
+      return Object.values(this.errors);
     }
 
     return [];
