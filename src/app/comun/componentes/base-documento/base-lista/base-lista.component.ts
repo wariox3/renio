@@ -183,6 +183,8 @@ export class BaseListaComponent extends General implements OnInit, OnDestroy {
   }
 
   private _configurarParametrosConsulta() {
+    this.queryParamsStorage = {};
+
     const filtrosLocalStorage = this._getFiltrosLocalstorage();
 
     if (filtrosLocalStorage.length) {
