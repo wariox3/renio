@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
-import { ImportarComponent } from '@comun/components/importar/importar.component';
+import { ImportarComponent } from 'src/app/common/components/importar/importar.component';
 import { ConciliacionSoporte } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { AlertaService } from '@comun/services/alerta.service';
