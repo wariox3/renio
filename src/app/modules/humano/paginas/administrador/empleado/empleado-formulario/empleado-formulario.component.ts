@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import {
+  AbstractControl,
   FormBuilder,
   FormGroup,
   FormsModule,
@@ -142,6 +143,7 @@ export default class EmpleadoFormularioComponent
           Validators.compose([
             Validators.required,
             Validators.maxLength(20),
+            Validators.min(1),
             CampoNoCeroValidator.validar,
           ]),
         ],
@@ -531,6 +533,23 @@ export default class EmpleadoFormularioComponent
       });
   }
 
+  /**
+   * Remueve únicamente el error de duplicado sin afectar otras validaciones
+   */
+  private removerErrorDuplicado(control: AbstractControl): void {
+    const erroresActuales = control.errors;
+
+    if (erroresActuales && erroresActuales['numeroIdentificacionExistente']) {
+      delete erroresActuales['numeroIdentificacionExistente'];
+
+      const tieneOtrosErrores = Object.keys(erroresActuales).length > 0;
+      control.setErrors(tieneOtrosErrores ? erroresActuales : null);
+    }
+
+    // Re-ejecutar validaciones síncronas para asegurar consistencia
+    control.updateValueAndValidity({ emitEvent: false });
+  }
+
   validarNumeroIdenficacionExistente() {
     if (this.detalle) {
       const formularioNumeroIdentificacion = this.formularioEmpleado.get(
@@ -564,14 +583,16 @@ export default class EmpleadoFormularioComponent
                 .get('numero_identificacion')!
                 .setErrors({ numeroIdentificacionExistente: true });
             } else {
-              this.formularioEmpleado
-                .get('numero_identificacion')!
-                .setErrors(null);
+              this.removerErrorDuplicado(
+                this.formularioEmpleado.get('numero_identificacion')!
+              );
             }
             this.changeDetectorRef.detectChanges();
           });
       } else {
-        this.formularioEmpleado.get('numero_identificacion')!.setErrors(null);
+        this.removerErrorDuplicado(
+          this.formularioEmpleado.get('numero_identificacion')!
+        );
       }
     } else {
       if (this.formularioEmpleado.get('numero_identificacion')!.value !== '') {
@@ -590,9 +611,9 @@ export default class EmpleadoFormularioComponent
                 .get('numero_identificacion')!
                 .setErrors({ numeroIdentificacionExistente: true });
             } else {
-              this.formularioEmpleado
-                .get('numero_identificacion')!
-                .setErrors(null);
+              this.removerErrorDuplicado(
+                this.formularioEmpleado.get('numero_identificacion')!
+              );
             }
             this.changeDetectorRef.detectChanges();
           });
@@ -637,6 +658,7 @@ export default class EmpleadoFormularioComponent
       this.campoTipo.set('number')
       numeroIdentificacionControl?.setValidators([
         Validators.required,
+        Validators.min(1),
         Validators.maxLength(20),
         Validators.pattern(/^[0-9]+$/),
         CampoNoCeroValidator.validar
