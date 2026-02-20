@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   OnDestroy,
-  OnInit,
   Output,
   signal,
 } from '@angular/core';
@@ -12,7 +12,6 @@ import { FormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in-left.directive';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
-import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
 import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
 import { ImportarDetalles } from '@interfaces/comunes/importar/importar-detalles.interface';
@@ -26,6 +25,15 @@ import { saveAs } from 'file-saver';
 import { catchError, mergeMap, of, Subject, take, tap, toArray } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { maestros } from './constants/maestros.constant';
+
+interface ImportarConfig {
+  endpoint: string;
+  documentoId?: number;
+  nombre: string | undefined;
+  rutaEjemplo: string | undefined;
+  verBotonImportar: boolean | undefined;
+  verBotonEjemplo: boolean | undefined;
+}
 
 @Component({
   selector: 'app-importar',
@@ -42,77 +50,39 @@ import { maestros } from './constants/maestros.constant';
   templateUrl: './importar.component.html',
   styleUrl: './importar.component.scss',
 })
-export class ImportarComponent
-  extends General
-  implements OnDestroy, OnInit
-{
-  active: number = 1;
-  archivoNombre: string = '';
-  archivo_base64: string = '';
-  archivoPeso: string = '';
-  errorImportar: any[] = [];
-  inputFile: any = null;
-  cargardoDocumento = signal<boolean>(false);
-  importarSoloNuevos: boolean = false;
-  soloNuevos: boolean;
-  habilitarBtnEjemploImportar: boolean = false;
-  cantidadErrores: number = 0;
-  public maestros = maestros;
-  public alias: string;
-  @Input() importarConfig: {
-    endpoint: string;
-    documentoId?: number;
-    nombre: string | undefined;
-    rutaEjemplo: string | undefined;
-    verBotonImportar: boolean | undefined;
-    verBotonEjemplo: boolean | undefined;
-  } | undefined = undefined;
+export class ImportarComponent extends General implements OnDestroy {
+  @Input() importarConfig: ImportarConfig | undefined = undefined;
   @Input() estadoHabilitado: boolean = false;
   @Input() detalle: any;
-  @Input() modelo: string;
   @Input() filtrosExternos: { [key: string]: any };
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
+
+  public archivo = {
+    nombre: '',
+    base64: '',
+    peso: '',
+  };
+  public active: number = 1;
+  public errorImportar: any[] = [];
+  public inputFile: any = null;
+  public cargardoDocumento = signal<boolean>(false);
+  public cantidadErrores: number = 0;
+  public maestros = maestros;
+
   private _unsubscribe$ = new Subject<void>();
+  private _erroresCompletos: any[] = [];
+  private _modalService = inject(NgbModal);
+  private _httpService = inject(HttpService);
 
-  // Almacenar todos los errores sin procesar
-  private erroresCompletos: any[] = [];
-
-  constructor(
-    private modalService: NgbModal,
-    private httpService: HttpService,
-    private descargarArchivosService: DescargarArchivosService,
-  ) {
+  constructor() {
     super();
-  }
-
-  ngOnInit(): void {}
-
-  abrirModalContactoNuevo(content: any) {
-    this.archivoNombre = '';
-    this.errorImportar = [];
-    this.cantidadErrores = 0;
-    this.erroresCompletos = [];
-    this.changeDetectorRef.detectChanges();
-    this.modalService.open(content, {
-      ariaLabelledBy: 'modal-basic-title',
-      backdrop: 'static',
-      size: 'xl',
-    });
-  }
-
-  cerrarModal() {
-    this.modalService.dismissAll();
-    this.errorImportar = [];
-    this.cantidadErrores = 0;
-    this.erroresCompletos = [];
-    this.changeDetectorRef.detectChanges();
   }
 
   archivoSeleccionado(event: any) {
     this.inputFile = event.target.files[0];
     const selectedFile = event.target.files[0];
-    this.archivoNombre = selectedFile.name;
-    this.archivoPeso = (selectedFile.size / 1024).toFixed(2) + ' KB';
+    this.archivo.nombre = selectedFile.name;
+    this.archivo.peso = (selectedFile.size / 1024).toFixed(2) + ' KB';
     this.changeDetectorRef.detectChanges();
   }
 
@@ -136,16 +106,18 @@ export class ImportarComponent
   }
 
   removerArchivoSeleccionado() {
-    this.archivoNombre = '';
+    this.archivo.nombre = '';
+    this.archivo.base64 = '';
+    this.archivo.peso = '';
   }
 
   subirArchivo(archivo_base64: string) {
     // Reiniciar los errores antes de una nueva importación
     this.cantidadErrores = 0;
     this.errorImportar = [];
-    this.erroresCompletos = [];
+    this._erroresCompletos = [];
     this.changeDetectorRef.detectChanges();
-    
+
     this.activatedRoute.queryParams
       .subscribe((parametros) => {
         this.cargardoDocumento.set(true);
@@ -158,7 +130,7 @@ export class ImportarComponent
         if (this.importarConfig?.documentoId) {
           data['documento_tipo_id'] = this.importarConfig.documentoId;
         }
-        
+
         if (this.filtrosExternos !== undefined) {
           Object.keys(this.filtrosExternos).forEach((key) => {
             const filtro = this.filtrosExternos[key];
@@ -173,18 +145,14 @@ export class ImportarComponent
           });
         }
 
-        this.httpService
-          .post<ImportarDetalles>(
-            `${this.importarConfig?.endpoint}`,
-            data,
-          )
+        this._httpService
+          .post<ImportarDetalles>(`${this.importarConfig?.endpoint}`, data)
           .pipe(
             tap((respuesta) => {
               this.alertaService.mensajaExitoso(
                 `Se guardo la información registros importados: ${respuesta.registros_importados}`,
               );
-              this.soloNuevos = false;
-              this.modalService.dismissAll();
+              this._modalService.dismissAll();
               this.errorImportar = [];
               this.cargardoDocumento.set(false);
               this.changeDetectorRef.detectChanges();
@@ -214,38 +182,47 @@ export class ImportarComponent
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
         let nombreArchivo = `errores_${this.importarConfig?.nombre}.xlsx`;
-        
+
         // Procesar todos los errores para el Excel, pero en lotes para evitar bloqueos
         this.cargardoDocumento.set(true);
-        
+
         // Usar setTimeout para permitir que la UI se actualice antes de iniciar el procesamiento
         setTimeout(() => {
           const procesarPorLotes = async () => {
             const erroresCompletos: any[] = [];
             const tamanoLote = 500; // Tamaño de lote razonable
-            
+
             // Procesar en lotes
-            for (let i = 0; i < this.erroresCompletos.length; i += tamanoLote) {
-              const lote = this.erroresCompletos.slice(i, i + tamanoLote);
-              
+            for (
+              let i = 0;
+              i < this._erroresCompletos.length;
+              i += tamanoLote
+            ) {
+              const lote = this._erroresCompletos.slice(i, i + tamanoLote);
+
               // Procesar cada lote
               const erroresLote = lote.reduce((acc: any[], errorItem: any) => {
-                const erroresFormateados = Object.entries(errorItem.errores).map(([campo, mensajes]: any) => ({
+                const erroresFormateados = Object.entries(
+                  errorItem.errores,
+                ).map(([campo, mensajes]: any) => ({
                   fila: errorItem.fila,
                   campo: campo,
-                  error: Array.isArray(mensajes) ? mensajes.join(', ') : mensajes,
+                  error: Array.isArray(mensajes)
+                    ? mensajes.join(', ')
+                    : mensajes,
                 }));
                 return [...acc, ...erroresFormateados];
               }, []);
-              
+
               erroresCompletos.push(...erroresLote);
-              
+
               // Permitir que el navegador respire entre lotes
-              await new Promise(resolve => setTimeout(resolve, 0));
+              await new Promise((resolve) => setTimeout(resolve, 0));
             }
-            
+
             // Crear y descargar el Excel con todos los errores
-            const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(erroresCompletos);
+            const worksheet: XLSX.WorkSheet =
+              XLSX.utils.json_to_sheet(erroresCompletos);
             const workbook: XLSX.WorkBook = {
               Sheets: { data: worksheet },
               SheetNames: ['data'],
@@ -258,11 +235,11 @@ export class ImportarComponent
               type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
             });
             saveAs(data, nombreArchivo);
-            
+
             this.cargardoDocumento.set(false);
             this.changeDetectorRef.detectChanges();
           };
-          
+
           procesarPorLotes();
         }, 100);
       })
@@ -271,8 +248,8 @@ export class ImportarComponent
 
   private _adaptarErroresImportar(errores: any[]) {
     // Guardar los errores completos para exportación
-    this.erroresCompletos = errores;
-    
+    this._erroresCompletos = errores;
+
     of(...errores)
       .pipe(
         mergeMap((errorItem) =>
