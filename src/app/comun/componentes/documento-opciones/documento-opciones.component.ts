@@ -147,18 +147,19 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this._descargarArchivosService.descargarExcelAdminsitrador('', {
-      filtros: [
-        {
-          propiedad: 'documento_id',
-          valor1: this.documentoId,
-        },
-      ],
-      modelo: this.opciones.modelo,
-      excel: true,
-      limite: 5000,
-      serializador: 'Excel',
-    });
+    this._descargarArchivosService.exportarExcel('contabilidad/movimiento', {documento_id : this.documentoId})
+    // this._descargarArchivosService.descargarExcelAdminsitrador('', {
+    //   filtros: [
+    //     {
+    //       propiedad: 'documento_id',
+    //       valor1: this.documentoId,
+    //     },
+    //   ],
+    //   modelo: this.opciones.modelo,
+    //   excel: true,
+    //   limite: 5000,
+    //   serializador: 'Excel',
+    // });
   }
 
   onPageChange(page: number) {
