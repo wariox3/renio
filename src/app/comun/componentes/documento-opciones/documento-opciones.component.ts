@@ -147,18 +147,19 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
   }
 
   descargarExcel() {
-    this._descargarArchivosService.descargarExcelAdminsitrador('', {
-      filtros: [
-        {
-          propiedad: 'documento_id',
-          valor1: this.documentoId,
-        },
-      ],
-      modelo: this.opciones.modelo,
-      excel: true,
-      limite: 5000,
-      serializador: 'Excel',
-    });
+    this._descargarArchivosService.exportarExcel('contabilidad/movimiento', {documento_id : this.documentoId})
+    // this._descargarArchivosService.descargarExcelAdminsitrador('', {
+    //   filtros: [
+    //     {
+    //       propiedad: 'documento_id',
+    //       valor1: this.documentoId,
+    //     },
+    //   ],
+    //   modelo: this.opciones.modelo,
+    //   excel: true,
+    //   limite: 5000,
+    //   serializador: 'Excel',
+    // });
   }
 
   onPageChange(page: number) {
@@ -270,13 +271,16 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           detalle: documento.detalle,
         }));
 
-        this.totalDebito = this.arrDocumentos.reduce(
-          (total, doc) => total + (doc.debito || 0),
-          0,
+        this.totalDebito = Number(
+          this.arrDocumentos
+            .reduce((total, doc) => total + (doc.debito || 0), 0)
+            .toFixed(2)
         );
-        this.totalCredito = this.arrDocumentos.reduce(
-          (total, doc) => total + (doc.credito || 0),
-          0,
+
+        this.totalCredito = Number(
+          this.arrDocumentos
+            .reduce((total, doc) => total + (doc.credito || 0), 0)
+            .toFixed(2)
         );
 
         this.changeDetectorRef.detectChanges();
