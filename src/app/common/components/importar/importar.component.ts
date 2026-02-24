@@ -36,12 +36,22 @@ import {
 import * as XLSX from 'xlsx';
 import { maestros } from './constants/maestros.constant';
 
+/**
+ * Configuración requerida por el componente para saber a qué endpoint
+ * enviar el archivo y cómo presentar las opciones al usuario.
+ */
 interface ImportarConfig {
+  /** Ruta del endpoint que recibe el archivo en base64. */
   endpoint: string;
+  /** ID del documento asociado a la importación, si aplica. */
   documentoId?: number;
+  /** Nombre descriptivo del tipo de importación (ej: "facturas"). */
   nombre: string | undefined;
+  /** Ruta del archivo Excel de ejemplo descargable por el usuario. */
   rutaEjemplo: string | undefined;
+  /** Controla la visibilidad del botón de importar en el template. */
   verBotonImportar: boolean | undefined;
+  /** Controla la visibilidad del botón de descargar ejemplo. */
   verBotonEjemplo: boolean | undefined;
 }
 
@@ -56,30 +66,50 @@ interface ImportarConfig {
     FormsModule,
     NgbDropdownModule,
     NgbNavModule,
-    ButtonComponent, 
+    ButtonComponent,
   ],
   templateUrl: './importar.component.html',
   styleUrl: './importar.component.scss',
 })
 export class ImportarComponent implements OnDestroy {
+  /** Configuración del endpoint y opciones visuales del importador. */
   @Input() importarConfig: ImportarConfig | undefined = undefined;
   @Input() estadoHabilitado: boolean = false;
+  /**
+   * Parámetros adicionales que se fusionan en el payload antes de enviarlo
+   * al endpoint (ej: filtros de fecha, identificadores de módulo).
+   */
   @Input() parametros: { [key: string]: any } = {};
-  @Input() filtrosExternos: { [key: string]: any } = {};
+  /** Emite la respuesta del servidor cuando la importación es exitosa. */
   @Output() emitirDetallesAgregados: EventEmitter<any> = new EventEmitter();
 
+  // Metadatos del archivo seleccionado para mostrarlo en el template.
   public archivo = {
     nombre: '',
     peso: '',
   };
+  /** Pestaña activa en el nav (1 = importar, 2 = errores). */
   public active: number = 1;
+  /**
+   * Primeros 100 errores formateados para la visualización en tabla.
+   * El límite evita renderizar miles de filas y degradar la UI.
+   */
   public errorImportar = signal<any[]>([]);
   public inputFile: File | null = null;
   public cargandoDocumento = signal<boolean>(false);
-  public cantidadErrores = signal<number>(0)
+  public cantidadErrores = signal<number>(0);
   public maestros = maestros;
 
+  /**
+   * Subject para cancelar suscripciones activas cuando el componente
+   * se destruye, evitando memory leaks.
+   */
   private _unsubscribe$ = new Subject<void>();
+  /**
+   * Copia completa de los errores del servidor, sin límite de filas.
+   * Se usa exclusivamente para generar el Excel de descarga; la señal
+   * errorImportar solo guarda los primeros 100 para la UI.
+   */
   private _erroresCompletos: any[] = [];
   private _modalService = inject(NgbModal);
   private _httpService = inject(HttpService);
@@ -87,11 +117,14 @@ export class ImportarComponent implements OnDestroy {
   private _alertaService = inject(AlertaService);
 
   archivoSeleccionado(event: any) {
+    // files?.[0] puede ser undefined si el usuario abre el diálogo y cancela.
     const selectedFile: File | undefined = event.target.files?.[0];
     if (!selectedFile) return;
     this.inputFile = selectedFile;
     this.archivo.nombre = selectedFile.name;
     this.archivo.peso = (selectedFile.size / 1024).toFixed(2) + ' KB';
+    // El componente usa OnPush implícito vía signals; aquí forzamos la
+    // detección porque "archivo" es un objeto plano, no una signal.
     this._cdr.detectChanges();
   }
 
@@ -108,7 +141,8 @@ export class ImportarComponent implements OnDestroy {
         reader.onload = () => resolve(reader.result);
         reader.onerror = reject;
       });
-      // Remover los metadatos
+      // readAsDataURL devuelve "data:<mime>;base64,<datos>".
+      // El backend solo espera la parte de datos, sin el prefijo de metadatos.
       return base64ConMetadatos.split(',')[1];
     } catch (error) {
       throw new Error('Error al convertir el archivo a base64');
@@ -122,18 +156,18 @@ export class ImportarComponent implements OnDestroy {
   }
 
   private _reiniciarErrores() {
-    this.cantidadErrores.set(0)
+    this.cantidadErrores.set(0);
     this.errorImportar.set([]);
     this._erroresCompletos = [];
-    // this._cdr.detectChanges();
   }
 
   subirArchivo(archivo_base64: string) {
     this._reiniciarErrores();
     this.cargandoDocumento.set(true);
 
+    // filtrosExternos y parametros se fusionan para enviar el contexto
+    // completo al backend junto con el archivo.
     let data: { [key: string]: any } = {
-      ...this.filtrosExternos,
       ...this.parametros,
       archivo_base64,
     };
@@ -169,22 +203,20 @@ export class ImportarComponent implements OnDestroy {
   }
 
   descargarExcelError() {
-    let nombreArchivo = `errores_${this.importarConfig?.nombre}.xlsx`;
-
-    // Procesar todos los errores para el Excel, pero en lotes para evitar bloqueos
+    const nombreArchivo = `errores_${this.importarConfig?.nombre ?? 'importacion'}.xlsx`;
     this.cargandoDocumento.set(true);
 
-    // Usar setTimeout para permitir que la UI se actualice antes de iniciar el procesamiento
+    // El setTimeout cede el hilo al navegador para que actualice el spinner
+    // antes de iniciar el procesamiento síncrono del Excel.
     setTimeout(() => {
       const procesarPorLotes = async () => {
         const erroresCompletos: any[] = [];
-        const tamanoLote = 500; // Tamaño de lote razonable
+        // Lotes de 500 filas para no bloquear el hilo principal en cada iteración.
+        const tamanoLote = 500;
 
-        // Procesar en lotes
         for (let i = 0; i < this._erroresCompletos.length; i += tamanoLote) {
           const lote = this._erroresCompletos.slice(i, i + tamanoLote);
 
-          // Procesar cada lote
           const erroresLote = lote.reduce((acc: any[], errorItem: any) => {
             const erroresFormateados = Object.entries(errorItem.errores).map(
               ([campo, mensajes]: any) => ({
@@ -198,11 +230,10 @@ export class ImportarComponent implements OnDestroy {
 
           erroresCompletos.push(...erroresLote);
 
-          // Permitir que el navegador respire entre lotes
+          // Cede el hilo entre lotes para mantener la UI responsiva.
           await new Promise((resolve) => setTimeout(resolve, 0));
         }
 
-        // Crear y descargar el Excel con todos los errores
         const worksheet: XLSX.WorkSheet =
           XLSX.utils.json_to_sheet(erroresCompletos);
         const workbook: XLSX.WorkBook = {
@@ -234,11 +265,15 @@ export class ImportarComponent implements OnDestroy {
   }
 
   private _adaptarErroresImportar(errores: any[]) {
-    // Guardar los errores completos para exportación
+    // Guardamos la lista completa para la exportación Excel sin límite.
     this._erroresCompletos = errores;
 
+    // from() en lugar de of(...errores) para evitar exceder el call stack
+    // de JavaScript cuando el array tiene miles de elementos.
     from(errores)
       .pipe(
+        // Cada elemento del array puede tener múltiples campos con error;
+        // mergeMap los aplana en una secuencia plana de objetos formateados.
         mergeMap((errorItem) =>
           from(
             Object.entries(errorItem.errores).map(
@@ -250,7 +285,9 @@ export class ImportarComponent implements OnDestroy {
             ),
           ),
         ),
-        take(100), // Mantener el límite para la visualización en UI
+        // Limitamos la UI a 100 filas para no degradar el rendimiento del DOM.
+        // El Excel de descarga sí incluye todos los errores (_erroresCompletos).
+        take(100),
         toArray(),
         takeUntil(this._unsubscribe$),
       )
