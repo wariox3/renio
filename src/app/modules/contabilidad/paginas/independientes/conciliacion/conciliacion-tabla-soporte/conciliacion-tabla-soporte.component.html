@@ -153,12 +153,9 @@
         verBotonImportar: true,
         verBotonEjemplo: true,
       }"
-      [detalle]="[
-        {
-          idNombre: 'conciliacion_id',
-          idValor: conciliacionId,
-        },
-      ]"
+      [parametros]="{
+        'conciliacion_id': conciliacionId
+      }"
       role="group"
       (emitirDetallesAgregados)="consultarLista()"
     ></app-importar>

@@ -1,17 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-button',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './button.component.html',
   styleUrl: './button.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonComponent {
   @Input() text = '';
+  @Input() translateKey = '';
   @Input() loadingText = '';
+  @Input() loadingTranslateKey = '';
   @Input() type: 'submit' | 'button' | 'reset' = 'button';
   @Input() color:
     | 'primary'

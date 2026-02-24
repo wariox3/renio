@@ -42,10 +42,9 @@
       </div>
     }
   </div>
-  <img src="" alt="" />
 </form>
 <div
-  class="d-flex mb-2"
+  class="d-flex my-4"
   [ngClass]="
     importarConfig?.verBotonEjemplo
       ? 'justify-content-between'
@@ -64,23 +63,15 @@
   </div>
 
   <div>
-    @if (!cargardoDocumento()) {
-      <button
-        translate="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
-        type="submit"
-        class="btn btn-sm btn-primary"
-        [disabled]="archivo.nombre === '' || !importarConfig?.verBotonImportar"
-        (click)="guardarArchivo()"
-      ></button>
-    } @else {
-      <button class="btn btn-sm btn-primary" type="button" disabled>
-        <span
-          class="spinner-border spinner-border-sm me-2"
-          aria-hidden="true"
-        ></span>
-        <span role="status" translate="LISTAS.COMUNES.CARGANDO"></span>
-      </button>
-    }
+    <app-button
+      type="submit"
+      size="sm"
+      translateKey="FORMULARIOS.BOTONES.COMUNES.IMPORTAR"
+      loadingTranslateKey="LISTAS.COMUNES.CARGANDO"
+      [isLoading]="cargandoDocumento()"
+      [isDisabled]="archivo.nombre === '' || !importarConfig?.verBotonImportar"
+      (buttonClick)="guardarArchivo()"
+    />
   </div>
 </div>
 
@@ -115,7 +106,7 @@
               </thead>
 
               <tbody>
-                @for (error of errorImportar; track $index) {
+                @for (error of errorImportar(); track $index) {
                   <tr appAnimationFadeinUp>
                     <td>{{ error.fila }}</td>
                     <td>{{ error.campo }}</td>
@@ -128,12 +119,12 @@
           <div
             class="d-flex mt-3"
             [ngClass]="
-              cantidadErrores > 100
+              cantidadErrores() > 100
                 ? 'justify-content-between'
                 : 'justify-content-end'
             "
           >
-            @if (cantidadErrores > 100) {
+            @if (cantidadErrores() > 100) {
               <section>
                 <div class="alert alert-info p-2" role="alert">
                   <i class="bi bi-exclamation-triangle text-info"></i>
@@ -141,14 +132,15 @@
                 </div>
               </section>
             }
-            <section>
-              <button
+            <section appAnimationFadeinLeft>
+              <app-button
                 type="submit"
-                class="btn btn-sm btn-primary"
-                (click)="descargarExcelError()"
-                appAnimationFadeinLeft
-                translate="FORMULARIOS.BOTONES.COMUNES.DESCARGARERRORES"
-              ></button>
+                size="sm"
+                translateKey="FORMULARIOS.BOTONES.COMUNES.DESCARGARERRORES"
+                loadingTranslateKey="LISTAS.COMUNES.CARGANDO"
+                [isDisabled]="errorImportar().length === 0"
+                (buttonClick)="descargarExcelError()"
+              />
             </section>
           </div>
         </ng-template>
