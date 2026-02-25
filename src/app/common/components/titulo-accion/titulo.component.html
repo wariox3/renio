@@ -1,0 +1,6 @@
+@if (accion) {
+  {{ "FORMULARIOS.BOTONES.COMUNES." + (accion | uppercase) | translate | titlecase }}
+  {{ "MENU.FUNCIONALIDAD." + (titulo | uppercase) | translate | lowercase }}
+} @else {
+  {{ "MENU.FUNCIONALIDAD." + (titulo | uppercase) | translate | titlecase }}
+}
