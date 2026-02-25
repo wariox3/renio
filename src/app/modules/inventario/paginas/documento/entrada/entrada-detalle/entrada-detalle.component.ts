@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
@@ -8,6 +8,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { HttpService } from '@comun/services/http.service';
+import { SpinnerLoaderComponent } from '@comun/componentes/ui/spinner-loader/spinner-loader.component';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
 import {
   NgbDropdownModule,
@@ -15,7 +16,7 @@ import {
   NgbNavModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { EMPTY, switchMap, tap } from 'rxjs';
+import { EMPTY, finalize, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-entrada-detalle',
@@ -31,11 +32,12 @@ import { EMPTY, switchMap, tap } from 'rxjs';
     BtnAtrasComponent,
     BaseEstadosComponent,
     TituloAccionComponent,
-    DocumentoOpcionesComponent
-],
+    DocumentoOpcionesComponent,
+    SpinnerLoaderComponent,
+  ],
   templateUrl: './entrada-detalle.component.html',
-  styleUrls: ['./entrada-detalle.component.scss']
-
+  styleUrls: ['./entrada-detalle.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EntradaDetalleComponent extends General {
   active: Number;
@@ -59,6 +61,7 @@ export default class EntradaDetalleComponent extends General {
     estado_electronico_enviado: false,
     estado_electronico_notificado: false,
   };
+  public cargando = signal(false);
   public total = signal(0);
   public totalCantidad = signal(0);
   public totalPrecio = signal(0);
@@ -77,21 +80,29 @@ export default class EntradaDetalleComponent extends General {
   }
 
   consultardetalle() {
+    this.cargando.set(true);
+    this._reniciarCamposTotales();
     this._facturaService
       .consultarDetalle(this.detalle)
+      .pipe(
+        finalize(() => {
+          this.cargando.set(false);
+          this.changeDetectorRef.markForCheck();
+        }),
+      )
       .subscribe((respuesta: any) => {
         this.documento = respuesta.documento;
-        respuesta.documento.detalles.map((item: any) => {
-          const cantidad = item.cantidad;
-          const precio = item.precio;
-          const porcentajeDescuento = item.descuento;
-          let subtotal = cantidad * precio;
-          this.totalCantidad.update((valor) => valor+parseInt(item.cantidad));
-          this.totalPrecio.update((valor) => valor+subtotal);
-          this.total.update((valor) => valor+subtotal);
-          this.changeDetectorRef.detectChanges();
-        });
-        this.changeDetectorRef.detectChanges();
+        let totalCantidad = 0;
+        let totalPrecio = 0;
+        for (const item of respuesta.documento.detalles) {
+          const subtotal = item.cantidad * item.precio;
+          totalCantidad += parseInt(item.cantidad);
+          totalPrecio += subtotal;
+        }
+        this.totalCantidad.set(totalCantidad);
+        this.totalPrecio.set(totalPrecio);
+        this.total.set(totalPrecio);
+        this.changeDetectorRef.markForCheck();
       });
   }
 
@@ -118,7 +129,7 @@ export default class EntradaDetalleComponent extends General {
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOAPROBADO'),
             );
-            this.changeDetectorRef.detectChanges();
+            this.changeDetectorRef.markForCheck();
           }
         }),
       )
@@ -149,7 +160,7 @@ export default class EntradaDetalleComponent extends General {
             this.alertaService.mensajaExitoso(
               this.translateService.instant('MENSAJES.DOCUMENTOANULADO'),
             );
-            this.changeDetectorRef.detectChanges();
+            this.changeDetectorRef.markForCheck();
           }
         }),
       )
