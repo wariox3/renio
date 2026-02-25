@@ -1,5 +1,9 @@
+<app-spinner-loader [mostrarCargando]="cargando()"></app-spinner-loader>
 <form [formGroup]="formularioEntrada" (ngSubmit)="enviarFormulario()">
-  <app-comun-encabezado-formulario-nuevo [estadoAprobado]="estado_aprobado">
+  <app-comun-encabezado-formulario-nuevo
+    [estadoAprobado]="estado_aprobado"
+    [btnNuevoCargando]="guardando()"
+  >
     @if (detalle) {
       <div class="btn-group btn-sm shadow-sm ms-2" btn-extras>
         <app-importar-detalles
@@ -149,7 +153,7 @@
                     </thead>
                     <tbody formArrayName="detalles">
                       <ng-container
-                        *ngFor="let detalle of detalles.controls; let i = index"
+                        *ngFor="let detalle of detalles.controls; let i = index; trackBy: trackByDetalleIndex"
                         [formGroupName]="i"
                       >
                         <tr>
@@ -190,7 +194,6 @@
                               type="number"
                               [value]="detalle.value.cantidad"
                               formControlName="cantidad"
-                              (focus)="onCantidadChange(i)"
                               class="form-control-sm"
                               [attr.disabled]="estado_aprobado"
                               [readonly]="estado_aprobado"
@@ -231,7 +234,6 @@
                               [attr.disabled]="estado_aprobado"
                               [readonly]="estado_aprobado"
                               class="form-control-sm"
-                              (focus)="onPrecioChange(i)"
                               [ngClass]="{
                                 'disabled-cursor bg-transparent':
                                   estado_aprobado,

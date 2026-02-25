@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   AbstractControl,
   FormArray,
@@ -11,6 +18,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
+import { SpinnerLoaderComponent } from '@comun/componentes/ui/spinner-loader/spinner-loader.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
@@ -31,8 +39,9 @@ import { FormularioEntradaService } from '@modulos/inventario/service/formulario
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import {
-  BehaviorSubject,
   catchError,
+  debounceTime,
+  finalize,
   of,
   Subject,
   takeUntil,
@@ -57,13 +66,15 @@ import {
     SoloNumerosDirective,
     SeleccionarProductoComponent,
     ImportarDetallesComponent,
+    SpinnerLoaderComponent,
   ],
   templateUrl: './entrada-formulario.component.html',
   styleUrl: './entrada-formulario.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export default class EntradaFormularioComponent
   extends General
-  implements OnInit
+  implements OnInit, OnDestroy
 {
   private _formBuilder = inject(FormBuilder);
   private _entradaService = inject(EntradaService);
@@ -77,14 +88,14 @@ export default class EntradaFormularioComponent
   public active: Number;
   public estado_aprobado = false;
   public theme_value = localStorage.getItem('kt_theme_mode_value');
-  public botonGuardarDeshabilitado$: BehaviorSubject<boolean>;
+  public guardando = signal(false);
+  public cargando = signal(false);
   public total = signal(0);
   public totalCantidad = signal(0);
   public totalPrecio = signal(0);
 
   constructor() {
     super();
-    this.botonGuardarDeshabilitado$ = new BehaviorSubject<boolean>(false);
     this.formularioEntrada = this._formularioEntradaService.createForm();
   }
 
@@ -92,6 +103,11 @@ export default class EntradaFormularioComponent
     this.active = 1;
     this._cargarVista();
     this._consultarInformacion();
+  }
+
+  ngOnDestroy() {
+    this._unsubscribe$.next();
+    this._unsubscribe$.complete();
   }
 
   get detalles(): FormArray {
@@ -102,12 +118,17 @@ export default class EntradaFormularioComponent
     return this.formularioEntrada.get('detalles_eliminados') as FormArray;
   }
 
+  trackByDetalleIndex(index: number): number {
+    return index;
+  }
+
   consultardetalle() {
     this._cargarFormulario(this.detalle);
   }
 
   enviarFormulario() {
     if (this.formularioEntrada.valid) {
+      this.guardando.set(true);
       if (this.detalle) {
         this._actualizarEntrada();
       } else {
@@ -137,7 +158,6 @@ export default class EntradaFormularioComponent
       almacen: item.id,
       almacenNombre: item.nombre,
     });
-    this.changeDetectorRef.detectChanges();
   }
 
   agregarDetalle() {
@@ -167,7 +187,6 @@ export default class EntradaFormularioComponent
       precio: [
         0,
         [
-          // validarPrecio(),
           Validators.min(0),
           Validators.pattern('^[0-9]+(\\.[0-9]{1,})?$'),
         ],
@@ -185,60 +204,15 @@ export default class EntradaFormularioComponent
     this.formularioEntrada?.markAsTouched();
 
     detalle.push(pagoFormGroup);
+    this._subscribeToControlChanges(pagoFormGroup);
     detalle?.markAllAsTouched();
-    this.changeDetectorRef.detectChanges();
   }
 
   eliminarItem(indexFormulario: number) {
-    const itemsActualizados = this.detalles.value.filter(
-      (detalleFormulario: any, index: number) => {
-        if (indexFormulario === index) {
-          this._registrarItemDetalleEliminado(detalleFormulario.id);
-        }
-        return index !== indexFormulario;
-      },
-    );
-
-    this.detalles.clear();
-
-    itemsActualizados.forEach((item: any, i: number) => {
-      this.agregarDetalle();
-      this.detalles.controls[i].patchValue({
-        id: item.id || null,
-        precio: item.precio,
-        item: item.item,
-        item_nombre: item.item_nombre,
-        cantidad: item.cantidad,
-        subtotal: item.subtotal,
-        total: item.total,
-        total_bruto: item.total_bruto,
-      });
-    });
-
-    this._limpiarFormularioTotales();
+    const detalle = this.detalles.at(indexFormulario);
+    this._registrarItemDetalleEliminado(detalle.value.id);
+    this.detalles.removeAt(indexFormulario);
     this._actualizarTotalesFormulario();
-  }
-
-  onCantidadChange(i: number) {
-    this.detalles.controls[i]
-      .get('cantidad')
-      ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
-      .subscribe((valor: string) => {
-        if (valor) {
-          this._actualizarCantidadItem(i, Number(valor));
-        }
-      });
-  }
-
-  onPrecioChange(i: number) {
-    this.detalles.controls[i]
-      .get('precio')
-      ?.valueChanges.pipe(takeUntil(this._unsubscribe$))
-      .subscribe((valor: string) => {
-        if (Number(valor) >= 0) {
-          this._actualizarPrecioItem(i, Number(valor));
-        }
-      });
   }
 
   recibirItemSeleccionado(
@@ -251,10 +225,8 @@ export default class EntradaFormularioComponent
       cantidad: 1,
       item_nombre: item.nombre,
     });
-    this._limpiarFormularioTotales();
     this._calcularTotalesDetalle(indexFormulario);
     this._actualizarTotalesFormulario();
-    this.changeDetectorRef.detectChanges();
   }
 
   limpiarCampoItemDetalle(
@@ -267,7 +239,6 @@ export default class EntradaFormularioComponent
     });
     this.formularioEntrada?.markAsDirty();
     this.formularioEntrada?.markAsTouched();
-    this.changeDetectorRef.detectChanges();
   }
 
   modificarCampoFormulario(campo: string, dato: any) {
@@ -283,7 +254,6 @@ export default class EntradaFormularioComponent
       almacen: null,
       almacenNombre: null,
     });
-    this.changeDetectorRef.detectChanges();
   }
 
   limpiarCampoAlmacenDetalle(item: any, indexFormulario: number) {
@@ -291,7 +261,56 @@ export default class EntradaFormularioComponent
       almacen: null,
       almacenNombre: null,
     });
-    this.changeDetectorRef.detectChanges();
+  }
+
+  validarCamposDetalles() {
+    let errores = false;
+    Object.values(this.detalles.controls).find((control: any) => {
+      if (control.get('item').value === null) {
+        control.markAsTouched();
+        control.markAsDirty();
+        errores = true;
+        this.detalles.markAllAsTouched();
+        this.detalles.markAsDirty();
+        this.alertaService.mensajeError(
+          'Error en formulario',
+          'El campo item no puede estar vacío',
+        );
+      }
+      if (control.get('almacen').value === null) {
+        control.markAsTouched();
+        control.markAsDirty();
+        errores = true;
+        this.detalles.markAllAsTouched();
+        this.detalles.markAsDirty();
+        this.alertaService.mensajeError(
+          'Error en formulario',
+          'El campo alamcen en los detalles no puede estar vacío',
+        );
+      }
+    });
+    this.changeDetectorRef.markForCheck();
+    return errores;
+  }
+
+  private _subscribeToControlChanges(controlGroup: AbstractControl) {
+    controlGroup.get('cantidad')?.valueChanges
+      .pipe(debounceTime(150), takeUntil(this._unsubscribe$))
+      .subscribe((valor: string) => {
+        if (valor) {
+          const idx = this.detalles.controls.indexOf(controlGroup);
+          if (idx >= 0) this._actualizarCantidadItem(idx, Number(valor));
+        }
+      });
+
+    controlGroup.get('precio')?.valueChanges
+      .pipe(debounceTime(150), takeUntil(this._unsubscribe$))
+      .subscribe((valor: string) => {
+        if (Number(valor) >= 0) {
+          const idx = this.detalles.controls.indexOf(controlGroup);
+          if (idx >= 0) this._actualizarPrecioItem(idx, Number(valor));
+        }
+      });
   }
 
   private _actualizarEntrada() {
@@ -303,6 +322,7 @@ export default class EntradaFormularioComponent
           id: this.detalle,
         })
         .pipe(
+          finalize(() => this.guardando.set(false)),
           tap((respuesta) => {
             this.router.navigate(
               [`inventario/documento/detalle/${respuesta.documento.id}`],
@@ -314,46 +334,41 @@ export default class EntradaFormularioComponent
             );
           }),
           catchError(() => {
-            this.botonGuardarDeshabilitado$.next(false);
             return of(null);
           }),
         )
         .subscribe();
     } else {
-      this.botonGuardarDeshabilitado$.next(false);
+      this.guardando.set(false);
     }
   }
 
-  // funciones formulario detalle
   private _actualizarCantidadItem(
     indexFormulario: number,
     nuevaCantidad: number,
   ) {
     this.detalles.controls[indexFormulario].patchValue(
       { cantidad: nuevaCantidad },
-      { emitEvent: false }, // ❗ Evita disparar valueChanges de nuevo
+      { emitEvent: false },
     );
 
-    this._limpiarFormularioTotales();
     this._calcularTotalesDetalle(indexFormulario);
     this._actualizarTotalesFormulario();
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 
   private _actualizarPrecioItem(indexFormulario: number, nuevoPrecio: number) {
     this.detalles.controls[indexFormulario].patchValue(
       { precio: nuevoPrecio },
-      { emitEvent: false }, // ❗ Evita disparar valueChanges de nuevo
+      { emitEvent: false },
     );
-    this._limpiarFormularioTotales();
     this._calcularTotalesDetalle(indexFormulario);
     this._actualizarTotalesFormulario();
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 
   private _guardarEntrada() {
     if (this.validarCamposDetalles() === false) {
-      // realizar calculos de subtotal y total
       this._calcularTotales();
       this._entradaService
         .guardarFactura({
@@ -364,6 +379,7 @@ export default class EntradaFormularioComponent
           },
         })
         .pipe(
+          finalize(() => this.guardando.set(false)),
           tap((respuesta) => {
             this.router.navigate(
               [`inventario/documento/detalle/${respuesta.documento.id}`],
@@ -375,13 +391,12 @@ export default class EntradaFormularioComponent
             );
           }),
           catchError(() => {
-            this.botonGuardarDeshabilitado$.next(false);
             return of(null);
           }),
         )
         .subscribe();
     } else {
-      this.botonGuardarDeshabilitado$.next(false);
+      this.guardando.set(false);
     }
   }
 
@@ -403,38 +418,6 @@ export default class EntradaFormularioComponent
     });
   }
 
-  validarCamposDetalles() {
-    let errores = false;
-    Object.values(this.detalles.controls).find((control: any) => {
-      if (control.get('item').value === null) {
-        control.markAsTouched(); // Marcar el control como 'touched'
-        control.markAsDirty();
-        errores = true;
-        this.detalles.markAllAsTouched();
-        this.detalles.markAsDirty();
-        this.changeDetectorRef.detectChanges();
-        this.alertaService.mensajeError(
-          'Error en formulario',
-          'El campo item no puede estar vacío',
-        );
-      }
-      if (control.get('almacen').value === null) {
-        control.markAsTouched(); // Marcar el control como 'touched'
-        control.markAsDirty();
-        errores = true;
-        this.detalles.markAllAsTouched();
-        this.detalles.markAsDirty();
-        this.changeDetectorRef.detectChanges();
-        this.alertaService.mensajeError(
-          'Error en formulario',
-          'El campo alamcen en los detalles no puede estar vacío',
-        );
-      }
-    });
-    this.changeDetectorRef.detectChanges();
-    return errores;
-  }
-
   private _consultarInformacion() {
     zip(
       this._generalService.consultaApi<RegistroAutocompletarInvAlmacen>(
@@ -446,7 +429,7 @@ export default class EntradaFormularioComponent
         almacen: arrAlmacenes[0].id,
         almacenNombre: arrAlmacenes[0].nombre,
       });
-      this.changeDetectorRef.detectChanges();
+      this.changeDetectorRef.markForCheck();
     });
   }
 
@@ -467,11 +450,17 @@ export default class EntradaFormularioComponent
     }
   }
 
-  // cargar vista
   private _cargarFormulario(id: number) {
+    this.cargando.set(true);
     this._entradaService
       .consultarDetalle(id)
-      .pipe(takeUntil(this._unsubscribe$))
+      .pipe(
+        finalize(() => {
+          this.cargando.set(false);
+          this.changeDetectorRef.markForCheck();
+        }),
+        takeUntil(this._unsubscribe$),
+      )
       .subscribe((respuesta) => {
         this._poblarFormulario(respuesta.documento);
       });
@@ -481,7 +470,7 @@ export default class EntradaFormularioComponent
     this.estado_aprobado = documentoFactura.estado_aprobado;
     this._poblarDocumento(documentoFactura);
     this._poblarDocumentoDetalle(documentoFactura.detalles);
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 
   private _poblarDocumento(documentoFactura: DocumentoInventarioRespuesta) {
@@ -498,8 +487,9 @@ export default class EntradaFormularioComponent
 
   private _poblarDocumentoDetalle(documentoDetalle: any[]) {
     this.detalles.clear();
-    documentoDetalle.forEach((detalle, indexFormulario) => {
-      const documentoDetalleGrupo = this._formBuilder.group({
+    documentoDetalle.forEach((detalle) => {
+      const total = this._operaciones.redondear(detalle.cantidad * detalle.precio, 2);
+      const grupo = this._formBuilder.group({
         id: [detalle.id],
         precio: [
           detalle.precio,
@@ -518,22 +508,21 @@ export default class EntradaFormularioComponent
           ],
         ],
         tipo_registro: [detalle.tipo_registro],
-        subtotal: [detalle.subtotal || 0],
-        total_bruto: [detalle.total_bruto || 0],
-        total: [detalle.total || 0],
+        subtotal: [total],
+        total_bruto: [total],
+        total: [total],
       });
-      this.detalles.push(documentoDetalleGrupo);
-      this._calcularTotalesDetalle(indexFormulario);
+      this.detalles.push(grupo);
+      this._subscribeToControlChanges(grupo);
     });
     this._actualizarTotalesFormulario();
-    this.changeDetectorRef.detectChanges();
+    this.changeDetectorRef.markForCheck();
   }
 
   private _calcularTotalesDetalle(indexDetalle: number) {
     const detalle = this.detalles.value[indexDetalle];
     const total = this._operaciones.redondear(detalle.cantidad * detalle.precio, 2)
 
-    // Actualizar correctamente usando el método patchValue en el control específico
     this.detalles.controls[indexDetalle].patchValue({
       total: total,
       subtotal: total,
@@ -541,29 +530,18 @@ export default class EntradaFormularioComponent
     }, { emitEvent: false });
   }
 
-  private _limpiarFormularioTotales() {
-    this.totalCantidad.set(0);
-    this.totalPrecio.set(0);
-  }
-
   private _actualizarTotalesFormulario() {
+    const values = this.detalles.value;
     let totalCantidad = 0;
     let totalGeneral = 0;
-    totalCantidad += this._operaciones.sumarTotales(
-      this.detalles.value,
-      'cantidad',
-    );
 
-    totalGeneral += this._operaciones.sumarTotales(
-      this.detalles.value,
-      'subtotal',
-    );
+    for (const detalle of values) {
+      totalCantidad += detalle.cantidad || 0;
+      totalGeneral += detalle.subtotal || 0;
+    }
 
-    
-
-    this.totalCantidad.update(() => totalCantidad);
-    this.totalPrecio.update(() => totalGeneral);
-
-    this.total.update(() => totalGeneral);
+    this.totalCantidad.set(totalCantidad);
+    this.totalPrecio.set(totalGeneral);
+    this.total.set(totalGeneral);
   }
 }
