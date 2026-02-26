@@ -1,4 +1,3 @@
-// src/app/shared/ui/input/input.component.ts
 import { NgClass } from '@angular/common';
 import {
   Component,
@@ -13,20 +12,40 @@ import {
 import { AbstractControl, ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 
+/**
+ * Componente de input reutilizable que implementa ControlValueAccessor
+ * para integración con Reactive Forms y Template-driven Forms.
+ *
+ * Maneja internamente la visualización de errores de validación,
+ * normalizando las claves de error de Angular (ej: minlength -> minLength).
+ *
+ * @example
+ * // Uso básico con Reactive Forms
+ * <app-input
+ *   type="email"
+ *   placeholder="john@example.com"
+ *   formControlName="email"
+ *   [control]="form.controls['email']"
+ *   [errors]="{
+ *     required: ('VALIDACIONES.REQUERIDO' | translate),
+ *     pattern: ('VALIDACIONES.EMAIL_INVALIDO' | translate),
+ *   }"
+ * ></app-input>
+ */
 @Component({
   selector: 'app-input',
   standalone: true,
   imports: [NgClass, TranslateModule],
   template: `
     <div>
-       @if (labelTranslate || label) {
-      <label class="form-label">
-        @if(labelTranslate){
-        <span [translate]="labelTranslate"></span>
-        } @else {
-          {{label}}
-        }
-      </label>
+      @if (labelTranslate || label) {
+        <label class="form-label">
+          @if (labelTranslate) {
+            <span [translate]="labelTranslate"></span>
+          } @else {
+            {{ label }}
+          }
+        </label>
       }
       <input
         [type]="type"
@@ -37,15 +56,14 @@ import { TranslateModule } from '@ngx-translate/core';
         [disabled]="disabled"
         [readonly]="readonly"
         [autofocus]="autofocus"
+        [autocomplete]="autocomplete"
         [ngClass]="inputClass"
         class="form-control"
         #inputEl
       />
       @if (shouldShowErrors()) {
         @for (error of getErrors(); track $index) {
-          <p class="text-danger">
-            {{ error }}
-          </p>
+          <p class="text-danger">{{ error }}</p>
         }
       }
     </div>
@@ -59,93 +77,98 @@ import { TranslateModule } from '@ngx-translate/core';
   ],
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() label: string = ''; // Etiqueta del input
-  @Input() placeholder: string = ''; // Placeholder
-  @Input() type: string = 'text'; // Tipo de input (text, email, password, etc.)
-  @Input() errors: { [key: string]: string } = {}; // Mapa de errores personalizados
-  @Input() disabled: boolean = false;
-  @Input() readonly: boolean = false; // Propiedad para hacer el input de solo lectura
-  @Input() autofocus: boolean = false; // Propiedad para hacer focus el input
-  @Input() inputClass: string | string[] | Set<string> | { [klass: string]: any } = '';
-  @Input() invalid: boolean | undefined = false;
-  @Input() dirty: boolean | undefined = false;
-  @Input() touched: boolean | undefined = false;
-  @Input() control: AbstractControl | null = null; // Nuevo input para recibir el control del formulario
+  /** Etiqueta del input (texto plano) */
+  @Input() label: string = '';
+  /** Clave de traducción para la etiqueta (tiene prioridad sobre label) */
   @Input() labelTranslate?: string;
+  /** Texto placeholder del input */
+  @Input() placeholder: string = '';
+  /** Tipo de input HTML: text, email, password, number, etc. */
+  @Input() type: string = 'text';
+  /** Atributo autocomplete del input */
+  @Input() autocomplete: string = 'off';
+  /** Mapa de errores: clave del validador -> mensaje a mostrar */
+  @Input() errors: { [key: string]: string } = {};
+  /** Deshabilitar el input */
+  @Input() disabled: boolean = false;
+  /** Input de solo lectura */
+  @Input() readonly: boolean = false;
+  /** Hacer focus automático al renderizar */
+  @Input() autofocus: boolean = false;
+  /** Clases CSS adicionales para el elemento input */
+  @Input() inputClass: string | string[] | Set<string> | { [klass: string]: any } = '';
+  /** Estado inválido manual (alternativa a pasar [control]) */
+  @Input() invalid: boolean | undefined = false;
+  /** Estado dirty manual (alternativa a pasar [control]) */
+  @Input() dirty: boolean | undefined = false;
+  /** Estado touched manual (alternativa a pasar [control]) */
+  @Input() touched: boolean | undefined = false;
+  /** Referencia al AbstractControl del formulario reactivo para validación automática */
+  @Input() control: AbstractControl | null = null;
 
-  @Output() blurEvent = new EventEmitter<void>(); // Nuevo output para emitir evento de blur
+  /** Evento emitido cuando el input pierde el foco */
+  @Output() blurEvent = new EventEmitter<void>();
+
   @ViewChild('inputEl', { static: true }) inputEl!: ElementRef<HTMLInputElement>;
 
-  value = signal(''); // Valor interno del input
-  onChange: any = () => { }; // Función para notificar cambios
-  onTouched: any = () => { }; // Función para notificar que el input fue tocado
+  value = signal('');
 
-  // Escribe el valor en el input
+  private onChange: (value: string) => void = () => {};
+  private onTouched: () => void = () => {};
+
   writeValue(value: any): void {
     this.value.set(value ?? '');
   }
 
-  // Registra la función para notificar cambios
-  registerOnChange(fn: any): void {
+  registerOnChange(fn: (value: string) => void): void {
     this.onChange = fn;
   }
 
-  // Registra la función para notificar que el input fue tocado
-  registerOnTouched(fn: any): void {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  // Deshabilita o habilita el input desde Reactive Forms
   setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  // Maneja el evento de entrada
   onInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.value.set(value);
-    this.onChange(value); // Notifica el cambio — Angular marca el control como dirty
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.value.set(inputValue);
+    this.onChange(inputValue);
   }
 
-  // Maneja el evento de blur
   onBlur(): void {
-    this.onTouched(); // Notifica que el input fue tocado
-    this.blurEvent.emit(); // Emite el evento de blur para componentes padres
+    this.onTouched();
+    this.blurEvent.emit();
   }
 
-  // Determina si se deben mostrar los errores
+  /** Hace focus en el elemento input nativo */
+  focus(): void {
+    this.inputEl.nativeElement.focus();
+  }
+
+  /** Selecciona el texto del input */
+  select(): void {
+    this.inputEl.nativeElement.select();
+  }
+
   shouldShowErrors(): boolean {
-    // Si tenemos acceso al control, usamos sus propiedades
     if (this.control) {
       return this.control.invalid && (this.control.dirty || this.control.touched);
     }
-    // Si no, usamos las propiedades pasadas directamente
     return this.invalid === true && (this.dirty === true || this.touched === true);
   }
 
-  // Obtiene los mensajes de error
   getErrors(): string[] {
     if (!this.errors) return [];
 
-    // Si tenemos acceso al control, verificamos qué errores específicos están ocurriendo
-    if (this.control && this.control.errors) {
-      const activeErrors: string[] = [];
-
-      // Recorremos las claves de los errores del control
-      Object.keys(this.control.errors).forEach(errorKey => {
-        // Convertimos el errorKey a camelCase si es necesario (minlength -> minLength)
-        const normalizedKey = this.normalizeErrorKey(errorKey);
-
-        // Si tenemos un mensaje para este error, lo añadimos
-        if (this.errors[normalizedKey]) {
-          activeErrors.push(this.errors[normalizedKey]);
-        }
-      });
-
-      return activeErrors;
+    if (this.control?.errors) {
+      return Object.keys(this.control.errors)
+        .map(errorKey => this.errors[this.normalizeErrorKey(errorKey)])
+        .filter(Boolean);
     }
 
-    // Fallback: sin control, mostrar todos los mensajes de error si el campo es inválido
     if (this.invalid) {
       return Object.values(this.errors);
     }
@@ -153,17 +176,8 @@ export class InputComponent implements ControlValueAccessor {
     return [];
   }
 
-  focus() {
-    this.inputEl.nativeElement.focus();
-  }
-
-  select() {
-    this.inputEl.nativeElement.select();
-  }
-
-  // Normaliza las claves de error (convierte minlength a minLength, etc.)
+  /** Normaliza claves de error de Angular (minlength -> minLength) */
   private normalizeErrorKey(key: string): string {
-    // Mapa de conversiones comunes
     const keyMap: { [key: string]: string } = {
       minlength: 'minLength',
       maxlength: 'maxLength',
@@ -171,12 +185,6 @@ export class InputComponent implements ControlValueAccessor {
       pattern: 'pattern',
       email: 'email',
     };
-
     return keyMap[key] || key;
-  }
-
-  // Método para actualizar el estado de validación
-  setInvalidState(isInvalid: boolean): void {
-    this.invalid = isInvalid;
   }
 }
