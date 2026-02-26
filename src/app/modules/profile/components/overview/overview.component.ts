@@ -9,7 +9,7 @@ import { switchMap } from 'rxjs';
 import { ContenedorService } from '../../../contenedor/servicios/contenedor.service';
 import { Contenedor, ContenedorLista } from '@interfaces/usuario/contenedor';
 import { General } from '@comun/clases/general';
-import { SkeletonLoadingComponent } from '../../../../comun/componentes/skeleton-loading/skeleton-loading.component';
+import { SkeletonLoadingComponent } from '../../../../common/components/skeleton-loading/skeleton-loading.component';
 import { NgIf, NgFor, NgOptimizedImage } from '@angular/common';
 import { TranslateModule } from '@ngx-translate/core';
 @Component({

@@ -3,7 +3,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Subject } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
+import { SkeletonLoadingComponent } from 'src/app/common/components/skeleton-loading/skeleton-loading.component';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { SubdominioService } from '@comun/services/subdominio.service';
 import { environment } from '@env/environment';

@@ -21,7 +21,7 @@ import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
 import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { NgOptimizedImage } from '@angular/common';
-import { SkeletonLoadingComponent } from '@comun/componentes/skeleton-loading/skeleton-loading.component';
+import { SkeletonLoadingComponent } from 'src/app/common/components/skeleton-loading/skeleton-loading.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 import { CambioClaveComponent } from '@modulos/seguridad/paginas/cambio-clave/cambio-clave.component';
 
