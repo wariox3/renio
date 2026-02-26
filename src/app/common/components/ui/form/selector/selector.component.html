@@ -1,0 +1,28 @@
+<div class="w-full">
+  <ng-select
+    [items]="options()"
+    [bindLabel]="labelField"
+    [bindValue]="valueField"
+    [notFoundText]="notFoundText"
+    [loading]="loading()"
+    [loadingText]="'Buscando...'"
+    [placeholder]="placeholder"
+    [clearable]="clearable"
+    [searchable]="true"
+    [appendTo]="appendTo"
+    [searchFn]="localSearchFn"
+    [(ngModel)]="value"
+    (ngModelChange)="onValueChange($event)"
+    (keyup)="onSearch($event)"
+    (focus)="onFocus()"
+    (clear)="onClear()"
+    (blur)="onTouched()"
+    [class]="sizeClass()">
+  </ng-select>
+
+  @if (shouldShowErrors()) {
+    @for (error of getErrors(); track $index) {
+      <p class="text-danger">{{ error }}</p>
+    }
+  }
+</div>
