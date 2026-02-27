@@ -24,6 +24,10 @@ import { GeneralService } from '@comun/services/general.service';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
 import ItemFormularioComponent from '@modulos/general/paginas/item/item-formulario/item-formulario.component';
 
+/**
+ * @deprecated Usar `SelectorComponent` (`<app-selector>`) de `src/app/common/components/ui/form/selector/` en su lugar.
+ * Este componente será eliminado en una versión futura.
+ */
 @Component({
   selector: 'app-comun-productos',
   standalone: true,
