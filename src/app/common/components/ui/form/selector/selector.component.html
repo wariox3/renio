@@ -4,7 +4,6 @@
     [bindLabel]="labelField"
     [bindValue]="valueField"
     [notFoundText]="notFoundText"
-    [loading]="loading()"
     [loadingText]="'Buscando...'"
     [placeholder]="placeholder"
     [clearable]="clearable"
@@ -18,6 +17,21 @@
     (clear)="onClear()"
     (blur)="onTouched()"
     [class]="sizeClass()">
+    @if (hasFooter()) {
+      <ng-template ng-footer-tmp>
+        @if (footerTemplate) {
+          <ng-container [ngTemplateOutlet]="footerTemplate"></ng-container>
+        } @else if (footerButtonLabel) {
+          <div class="selector-footer-action">
+            <button type="button" class="btn btn-sm btn-link w-100 text-start"
+              (click)="onFooterButtonClick()">
+              @if (footerButtonIcon) { <i [class]="footerButtonIcon"></i> }
+              {{ footerButtonLabel }}
+            </button>
+          </div>
+        }
+      </ng-template>
+    }
   </ng-select>
 
   @if (shouldShowErrors()) {

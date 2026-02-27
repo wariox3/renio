@@ -12,6 +12,7 @@ import {
   Output,
   signal,
   SimpleChanges,
+  TemplateRef,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -130,6 +131,13 @@ export class SelectorComponent implements OnInit, OnChanges, ControlValueAccesso
    */
   @Input() searchField: string = '';
 
+  /**
+   * Objeto inicial para mostrar en el selector cuando el valor ya existe (modo edición).
+   * Se inyecta en la lista de opciones si no está presente, evitando que el selector quede vacío.
+   * Ej: [initialItem]="{ id: 5, nombre: 'Producto X' }"
+   */
+  @Input() initialItem: Record<string, any> | null = null;
+
   // ─── INPUTS: Configuración de UX ─────────────────────────────────────
 
   /** Texto placeholder cuando no hay selección */
@@ -192,6 +200,17 @@ export class SelectorComponent implements OnInit, OnChanges, ControlValueAccesso
   @Input() dirty: boolean = false;
   @Input() touched: boolean = false;
 
+  // ─── INPUTS: Footer ─────────────────────────────────────────────────
+
+  /** Template personalizado para el footer del dropdown */
+  @Input() footerTemplate: TemplateRef<any> | null = null;
+
+  /** Texto del botón de footer (shorthand). Si está vacío y no hay footerTemplate, no se muestra footer */
+  @Input() footerButtonLabel: string = '';
+
+  /** Clase de ícono para el botón de footer. Ej: 'ki-outline ki-plus' */
+  @Input() footerButtonIcon: string = '';
+
   // ─── OUTPUTS ──────────────────────────────────────────────────────────
 
   /**
@@ -199,6 +218,9 @@ export class SelectorComponent implements OnInit, OnChanges, ControlValueAccesso
    * Emite null cuando se limpia la selección.
    */
   @Output() selectionChange = new EventEmitter<any>();
+
+  /** Emite cuando se hace clic en el botón de footer (shorthand) */
+  @Output() footerButtonClick = new EventEmitter<void>();
 
   // ─── ControlValueAccessor ─────────────────────────────────────────────
 
@@ -305,6 +327,16 @@ export class SelectorComponent implements OnInit, OnChanges, ControlValueAccesso
     return label.includes(searchTerm);
   };
 
+  /** Indica si se debe mostrar un footer en el dropdown */
+  hasFooter(): boolean {
+    return !!this.footerTemplate || !!this.footerButtonLabel;
+  }
+
+  /** Emite el evento de clic en el botón de footer */
+  onFooterButtonClick(): void {
+    this.footerButtonClick.emit();
+  }
+
   /** Retorna la clase CSS según el tamaño configurado */
   sizeClass(): string {
     switch (this.size) {
@@ -384,6 +416,7 @@ export class SelectorComponent implements OnInit, OnChanges, ControlValueAccesso
           }
 
           this.options.set(datos);
+          this._inyectarInitialItem();
           this._sugerirPrimerValor();
           this._cdr.detectChanges();
         },
@@ -450,6 +483,7 @@ export class SelectorComponent implements OnInit, OnChanges, ControlValueAccesso
           }
 
           this.options.set(datos);
+          this._inyectarInitialItem();
           this._cdr.detectChanges();
         },
         error: () => {
@@ -474,6 +508,24 @@ export class SelectorComponent implements OnInit, OnChanges, ControlValueAccesso
       this.value = nuevoValor;
       this._cdr.detectChanges();
     });
+  }
+
+  /**
+   * Inyecta el initialItem en la lista de opciones si no está ya presente.
+   * Esto asegura que ng-select pueda mostrar el label del valor actual en modo edición,
+   * incluso si el item no viene en la respuesta paginada del API.
+   */
+  private _inyectarInitialItem(): void {
+    if (!this.initialItem) return;
+
+    const datos = this.options();
+    const existe = datos.some(
+      (item) => item[this.valueField] === this.initialItem?.[this.valueField]
+    );
+
+    if (!existe) {
+      this.options.set([this.initialItem, ...datos]);
+    }
   }
 
   /**

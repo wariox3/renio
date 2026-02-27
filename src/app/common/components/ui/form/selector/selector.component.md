@@ -79,6 +79,53 @@ En modo edición (`isEdicion=true`), la auto-selección se desactiva.
 formatoContacto = (item: any) => `${item.numero_identificacion} - ${item.nombre_corto}`;
 ```
 
+### Selector con item inicial (modo edición)
+
+Cuando el formulario ya tiene un valor seleccionado (modo edición), usar `initialItem` para que el selector muestre el label correcto aunque el item no esté en la primera página de resultados del API.
+
+```html
+<app-selector
+  endpoint="general/item/seleccionar/"
+  searchField="nombre__icontains"
+  [control]="formulario.get('item')"
+  [initialItem]="{ id: detalle.item, nombre: detalle.nombre }">
+</app-selector>
+```
+
+> **Nota:** Si `initialItem` ya existe en la lista cargada del API, no se duplica. Solo se inyecta si no está presente.
+
+### Selector con footer — botón rápido (shorthand)
+
+Agrega un botón al final del dropdown con `footerButtonLabel`. Útil para acciones como "Crear nuevo item".
+
+```html
+<app-selector
+  endpoint="general/item/seleccionar/"
+  searchField="nombre__icontains"
+  [control]="formulario.get('item')"
+  footerButtonLabel="Nuevo"
+  footerButtonIcon="ki-outline ki-plus"
+  (footerButtonClick)="abrirModalNuevoItem()">
+</app-selector>
+```
+
+### Selector con footer — template personalizado
+
+Para contenido de footer más complejo, usar `footerTemplate` con un `TemplateRef`.
+
+```html
+<app-selector
+  endpoint="general/item/seleccionar/"
+  [control]="formulario.get('item')"
+  [footerTemplate]="footerTpl">
+</app-selector>
+
+<ng-template #footerTpl>
+  <button (click)="crearItem()">+ Crear</button>
+  <button (click)="importar()">Importar</button>
+</ng-template>
+```
+
 ### Selector con validación y mensajes de error
 
 ```html
@@ -103,6 +150,7 @@ formatoContacto = (item: any) => `${item.numero_identificacion} - ${item.nombre_
 | `labelField` | `string` | `'nombre'` | Campo del objeto a mostrar como texto de la opción |
 | `valueField` | `string` | `'id'` | Campo del objeto a usar como valor seleccionado |
 | `searchField` | `string` | `''` | Campo para búsqueda server-side. Si está vacío, la búsqueda es local. Ej: `'numero__icontains'` |
+| `initialItem` | `Record<string, any> \| null` | `null` | Objeto inicial para mostrar en modo edición. Se inyecta en las opciones si no está presente. Ej: `{ id: 5, nombre: 'Producto X' }` |
 
 ### Configuración de UX
 
@@ -123,6 +171,14 @@ formatoContacto = (item: any) => `${item.numero_identificacion} - ${item.nombre_
 | `isEdicion` | `boolean` | `false` | Si `true`, desactiva `sugerirPrimerValor` |
 | `formatoCustomLabel` | `(item: any) => string` | — | Función para personalizar el texto de cada opción |
 
+### Footer del dropdown
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `footerTemplate` | `TemplateRef<any> \| null` | `null` | Template personalizado para el footer del dropdown |
+| `footerButtonLabel` | `string` | `''` | Texto del botón de footer (shorthand). Si está vacío y no hay `footerTemplate`, no se muestra footer |
+| `footerButtonIcon` | `string` | `''` | Clase de ícono para el botón de footer. Ej: `'ki-outline ki-plus'` |
+
 ### Validación
 
 | Input | Tipo | Default | Descripción |
@@ -140,6 +196,7 @@ formatoContacto = (item: any) => `${item.numero_identificacion} - ${item.nombre_
 | Output | Tipo emitido | Descripción |
 |--------|-------------|-------------|
 | `selectionChange` | `any \| null` | Emite el **objeto completo** del item seleccionado. Emite `null` al limpiar. |
+| `footerButtonClick` | `void` | Emite cuando se hace clic en el botón de footer (shorthand). |
 
 ---
 
