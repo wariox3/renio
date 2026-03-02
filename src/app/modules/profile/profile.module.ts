@@ -19,7 +19,7 @@ import { NgbAccordionModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { ModalsModule } from '../../_metronic/partials';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
-import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { CargarImagenComponent } from '../../common/components/cargar-imagen/cargar-imagen.component';
 import { NgOptimizedImage } from '@angular/common';
 import { SkeletonLoadingComponent } from 'src/app/common/components/skeleton-loading/skeleton-loading.component';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';

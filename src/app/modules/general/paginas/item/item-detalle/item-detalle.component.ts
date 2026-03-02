@@ -11,7 +11,7 @@ import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-a
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CargarArchivosComponent } from '../../../../../common/components/cargar-archivos/cargar-archivos.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
-import { CargarImagenComponent } from '../../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { CargarImagenComponent } from '../../../../../common/components/cargar-imagen/cargar-imagen.component';
 import { environment } from '@env/environment';
 
 @Component({

@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { usuarioActionActualizarImagen } from '@redux/actions/usuario.actions';
 import { switchMap, tap } from 'rxjs';
 import { KeeniconComponent } from '../../_metronic/shared/keenicon/keenicon.component';
-import { CargarImagenComponent } from '../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { CargarImagenComponent } from '../../common/components/cargar-imagen/cargar-imagen.component';
 import { InformacionUsuarioComponent } from './components/informacion-usuario/informacion-usuario.component';
 import { ResumenService } from './services/resumen.service';
 import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';

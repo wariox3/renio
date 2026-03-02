@@ -11,7 +11,7 @@ import { AsyncPipe } from '@angular/common';
 import { EmpresaEditarComponent } from '../empresa-editar/empresa-editar.component';
 import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../../../../_metronic/shared/shared.module';
-import { CargarImagenComponent } from '../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
+import { CargarImagenComponent } from '../../../../common/components/cargar-imagen/cargar-imagen.component';
 import { RouterModule } from '@angular/router';
 import { Empresa } from '@interfaces/contenedor/empresa.interface';
 import { configuracionVisualizarBreadCrumbsAction } from '@redux/actions/configuracion.actions';
