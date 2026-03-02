@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { BuscarAvanzadoComponent } from 'src/app/common/components/buscar-avanzado/buscar-avanzado.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';

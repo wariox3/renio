@@ -12,7 +12,7 @@ import {
 import { TranslateModule } from '@ngx-translate/core';
 import { KeysPipe } from '@pipe/keys.pipe';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
-import { FiltroComponent } from '../ui/tabla/filtro/filtro.component';
+import { FiltroComponent } from '../../../comun/componentes/ui/tabla/filtro/filtro.component';
 import { TipoDatoPipe } from '@pipe/tipoDato.pipe';
 import { FiltroSwitchConfig, FiltroSwitchEvent } from '@comun/interfaces/filtro-switch.interface';
 

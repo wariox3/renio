@@ -32,7 +32,7 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { TranslateModule } from '@ngx-translate/core';
 import { Subject, takeUntil, tap } from 'rxjs';
-import { BuscarAvanzadoComponent } from '../../../../../../comun/componentes/buscar-avanzado/buscar-avanzado.component';
+import { BuscarAvanzadoComponent } from '../../../../../../common/components/buscar-avanzado/buscar-avanzado.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { cambiarVacioPorNulo } from '@comun/validaciones/campo-no-obligatorio.validator';
 
