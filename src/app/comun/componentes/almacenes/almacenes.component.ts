@@ -15,6 +15,10 @@ import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
+/**
+ * @deprecated Usar `SelectorComponent` (`<app-selector>`) de `src/app/common/components/ui/form/selector/` en su lugar.
+ * Este componente será eliminado en una versión futura.
+ */
 @Component({
   selector: 'app-comun-almacenes',
   standalone: true,

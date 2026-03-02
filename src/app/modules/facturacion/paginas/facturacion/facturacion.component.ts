@@ -37,7 +37,7 @@ import { HistorialFacturacionComponent } from '../historial-facturacion/historia
 import { InformacionFacturacionComponent } from '../informacion-facturacion/informacion-facturacion.component';
 import { CountUpModule } from 'ngx-countup';
 import { ContactarAsesorComponent } from '../../../../comun/componentes/contactar-asesor/contactar-asesor.component';
-import { AplicarCreditoComponent } from '../../../../comun/componentes/aplicar-credito/aplicar-credito.component';
+import { AplicarCreditoComponent } from '../../components/aplicar-credito/aplicar-credito.component';
 import {
   usuarioActionActualizarVrAbono,
   usuarioActionActualizarVrCredito,
