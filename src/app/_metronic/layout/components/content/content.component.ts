@@ -6,7 +6,7 @@ import {
   RouterOutlet,
 } from '@angular/router';
 import { Subscription } from 'rxjs/internal/Subscription';
-import { AlertaSuspensionComponent } from '../../../../comun/componentes/alerta-suspension/alerta-suspension.component';
+import { AlertaSuspensionComponent } from '../../../../common/components/alerta-suspension/alerta-suspension.component';
 import { NgIf, NgClass } from '@angular/common';
 import { AlertaActivarCuentaComponent } from 'src/app/common/components/alerta-activar-cuenta/alerta-activar-cuenta.component';
 // import { DrawerComponent } from '../../../kt/components';

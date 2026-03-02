@@ -41,7 +41,7 @@ import { ExtendedComponent } from './components/toolbar/extended/extended.compon
 import { ReportsComponent } from './components/toolbar/reports/reports.component';
 import { SaasComponent } from './components/toolbar/saas/saas.component';
 import { SharedModule } from '../shared/shared.module';
-import { AlertaSuspensionComponent } from '@comun/componentes/alerta-suspension/alerta-suspension.component';
+import { AlertaSuspensionComponent } from 'src/app/common/components/alerta-suspension/alerta-suspension.component';
 
 const routes: Routes = [
   {
