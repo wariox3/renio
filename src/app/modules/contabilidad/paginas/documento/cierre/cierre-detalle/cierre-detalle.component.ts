@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@modulos/documento/components/base-estados/base-estados.component';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';

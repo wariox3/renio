@@ -2,7 +2,7 @@ import { HttpService } from '@comun/services/http.service';
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-electronica.service';
 import { TranslateModule } from '@ngx-translate/core';

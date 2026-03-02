@@ -7,7 +7,7 @@ import { CardComponent } from '@comun/componentes/card/card.component';
 import { Sede } from '@modulos/general/interfaces/sede.interface';
 import { NgbDropdownMenu } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
 import { SedeService } from '@modulos/general/servicios/sede.service';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 

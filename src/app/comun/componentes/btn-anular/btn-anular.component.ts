@@ -1,6 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 
+
+/**
+ * @deprecated Se incluira en un componente general de documentos
+ * Este componente será eliminado en una versión futura.
+ */
 @Component({
   selector: 'app-comun-btn-anular',
   standalone: true,

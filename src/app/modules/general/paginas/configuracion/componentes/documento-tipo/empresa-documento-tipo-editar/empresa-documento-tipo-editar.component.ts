@@ -21,7 +21,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { zip } from 'rxjs';
 import { RegistroAutocompletarGenResolucion } from '@interfaces/comunes/autocompletar/general/gen-resolucion.interface';
 import { ParametrosFiltros } from '@interfaces/comunes/componentes/filtros/parametro-filtros.interface';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
 

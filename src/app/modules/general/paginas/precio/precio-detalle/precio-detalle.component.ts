@@ -6,7 +6,7 @@ import { Precio } from '@modulos/general/interfaces/precio.interface';
 import { PrecioService } from '@modulos/general/servicios/precio.service';
 
 import { TranslateModule } from '@ngx-translate/core';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
 import { ProductosComponent } from '@comun/componentes/productos/productos.component';
 import { NgbDropdownModule, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import {

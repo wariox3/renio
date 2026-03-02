@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
+import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 @Component({

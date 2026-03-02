@@ -13,7 +13,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { CardComponent } from "@comun/componentes/card/card.component";
-import { BtnAtrasComponent } from "@comun/componentes/btn-atras/btn-atras.component";
+import { BtnAtrasComponent } from "src/app/common/components/btn-atras/btn-atras.component";
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";
 
 @Component({
