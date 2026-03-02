@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from 
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 
+/**
+ * @deprecated 
+ */
 @Component({
   selector: 'app-comun-btn-exportar',
   standalone: true,

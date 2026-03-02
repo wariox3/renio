@@ -1,7 +1,7 @@
 import { NgClass, NgFor, NgStyle } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { BtnWhatsappComponent } from '@comun/componentes/btn-whatsapp/btn-whatsapp.component';
+import { BtnWhatsappComponent } from 'src/app/common/components/btn-whatsapp/btn-whatsapp.component';
 import { LanguageFlag } from '@interfaces/comunes/language-flag/language-flag.interface';
 import {
   NgbDropdown,

@@ -1,6 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, HostListener, inject, OnInit } from '@angular/core';
-import { BtnWhatsappComponent } from '@comun/componentes/btn-whatsapp/btn-whatsapp.component';
+import { BtnWhatsappComponent } from 'src/app/common/components/btn-whatsapp/btn-whatsapp.component';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { TranslationService } from '@modulos/i18n';

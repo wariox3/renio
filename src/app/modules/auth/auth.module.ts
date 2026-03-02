@@ -13,7 +13,7 @@ import { NgbActiveModal, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReiniciarClaveComponent } from './components/reiniciar-clave/reiniciar-clave.component';
 import { VerificacionCuentaComponent } from './components/verificacion-cuenta/verificacion-cuenta.component';
-import { BtnWhatsappComponent } from "@comun/componentes/btn-whatsapp/btn-whatsapp.component";
+import { BtnWhatsappComponent } from "src/app/common/components/btn-whatsapp/btn-whatsapp.component";
 import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
