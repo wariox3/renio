@@ -31,7 +31,7 @@ import {
   tap,
 } from 'rxjs';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
-import { BuscarAvanzadoComponent } from '../../../common/components/buscar-avanzado/buscar-avanzado.component';
+import { BuscarAvanzadoComponent } from '../buscar-avanzado/buscar-avanzado.component';
 import {
   CONTRATO_FILTERS,
   CONTRATO_FILTRO_PERMANENTE,

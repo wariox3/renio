@@ -38,7 +38,7 @@ import {
   ParametrosApi,
   RespuestaApi,
 } from 'src/app/core/interfaces/api.interface';
-import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
+import { BuscarContratoComponent } from 'src/app/common/components/buscar-contrato/buscar-contrato.component';
 
 @Component({
   selector: 'app-modal-programacion-editar-adicional',

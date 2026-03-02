@@ -15,7 +15,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BuscarContratoComponent } from '@comun/componentes/buscar-contrato/buscar-contrato.component';
+import { BuscarContratoComponent } from 'src/app/common/components/buscar-contrato/buscar-contrato.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';
