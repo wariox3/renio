@@ -8,7 +8,7 @@ import {
 import { Subscription } from 'rxjs/internal/Subscription';
 import { AlertaSuspensionComponent } from '../../../../comun/componentes/alerta-suspension/alerta-suspension.component';
 import { NgIf, NgClass } from '@angular/common';
-import { AlertaActivarCuentaComponent } from '@comun/componentes/alerta-activar-cuenta/alerta-activar-cuenta.component';
+import { AlertaActivarCuentaComponent } from 'src/app/common/components/alerta-activar-cuenta/alerta-activar-cuenta.component';
 // import { DrawerComponent } from '../../../kt/components';
 @Component({
   selector: 'app-content',

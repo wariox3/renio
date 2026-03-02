@@ -34,6 +34,10 @@ export interface ColumnaTabla {
   formatearValor?: (valor: any) => string;
 }
 
+/**
+ * @deprecated No se esta teniendo usabilidad en este momento.
+ * Este componente será eliminado en una versión futura.
+ */
 @Component({
   selector: 'app-agregar-detalles-documento',
   standalone: true,
