@@ -8,7 +8,7 @@ import { NominaElectronicaService } from '@modulos/humano/servicios/nomina-elect
 import { TranslateModule } from '@ngx-translate/core';
 import { EMPTY, switchMap, tap, zip } from 'rxjs';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { BaseEstadosComponent } from '../../../../../../comun/componentes/base-estados/base-estados.component';
+import { BaseEstadosComponent } from '../../../../../documento/components/base-estados/base-estados.component';
 import { TituloAccionComponent } from '../../../../../../comun/componentes/titulo-accion/titulo-accion.component';
 import { GeneralService } from '@comun/services/general.service';
 import { DocumentoOpcionesComponent } from '../../../../../../comun/componentes/documento-opciones/documento-opciones.component';

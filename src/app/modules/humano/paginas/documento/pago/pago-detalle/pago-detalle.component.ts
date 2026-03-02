@@ -5,7 +5,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { BaseEstadosComponent } from '@modulos/documento/components/base-estados/base-estados.component';
 import { BtnAtrasComponent } from '@comun/componentes/btn-atras/btn-atras.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { AnimacionFadeInOutDirective } from '@comun/directive/animacion-fade-in-out.directive';

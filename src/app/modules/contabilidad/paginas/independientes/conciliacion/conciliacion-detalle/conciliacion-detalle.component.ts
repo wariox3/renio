@@ -12,7 +12,7 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { BaseEstadosComponent } from '@comun/componentes/base-estados/base-estados.component';
+import { BaseEstadosComponent } from '@modulos/documento/components/base-estados/base-estados.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
 import { Conciliacion } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
