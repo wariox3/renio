@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarContratoComponent } from 'src/app/common/components/buscar-contrato/buscar-contrato.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { GeneralService } from '@comun/services/general.service';
 import { RegistroAutocompletarHumConcepto } from '@interfaces/comunes/autocompletar/humano/hum-concepto.interface';

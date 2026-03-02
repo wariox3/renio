@@ -7,7 +7,7 @@ import { ContenedorFormulario } from '@interfaces/usuario/contenedor';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ContenedorFormularioComponent } from '../contenedor-formulario/contenedor-formulario.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgIf } from '@angular/common';

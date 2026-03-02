@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ItemService } from '@modulos/general/servicios/item.service';
 import { SiNoPipe } from '@pipe/si-no.pipe';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';

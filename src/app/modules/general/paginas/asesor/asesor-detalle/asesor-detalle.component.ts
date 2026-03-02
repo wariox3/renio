@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { Asesor } from '@modulos/general/interfaces/asesor.interface';
 import { AsesorService } from '@modulos/general/servicios/asesor.service';
 import { TranslateModule } from '@ngx-translate/core';

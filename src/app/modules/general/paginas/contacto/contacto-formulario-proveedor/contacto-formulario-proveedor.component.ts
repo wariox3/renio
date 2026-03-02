@@ -27,7 +27,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { InputValueCaseDirective } from '@comun/directive/input-value-case.directive';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';

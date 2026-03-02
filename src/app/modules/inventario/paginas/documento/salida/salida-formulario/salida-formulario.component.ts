@@ -11,7 +11,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { AlmacenesComponent } from '@comun/componentes/almacenes/almacenes.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ContactosComponent } from '@comun/componentes/contactos/contactos.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { SeleccionarProductoComponent } from '@comun/componentes/factura/components/seleccionar-producto/seleccionar-producto.component';

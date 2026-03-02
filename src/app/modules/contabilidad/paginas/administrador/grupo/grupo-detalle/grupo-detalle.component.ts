@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ImpuestosComponent } from '@comun/componentes/impuestos/impuestos.component';
 import { GrupoService } from '@modulos/contabilidad/servicios/grupo.service';
 import { ConGrupo } from '@modulos/contabilidad/interfaces/contabilidad-grupo.interface';

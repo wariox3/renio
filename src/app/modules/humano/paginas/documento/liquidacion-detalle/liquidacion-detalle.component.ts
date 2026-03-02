@@ -14,7 +14,7 @@ import {
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
 import { finalize, tap } from 'rxjs';
-import { CardComponent } from '../../../../../comun/componentes/card/card.component';
+import { CardComponent } from '../../../../../common/components/card/card.component';
 import { TablaAdicionalesComponent } from './componentes/tabla-adicionales/tabla-adicionales.component';
 
 @Component({

@@ -6,7 +6,7 @@ import {
   signal,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { AuthService } from '@modulos/auth';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { ConsultaCredito } from '@modulos/socio/interfaces/socio.interface';

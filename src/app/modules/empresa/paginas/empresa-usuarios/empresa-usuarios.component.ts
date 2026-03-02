@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ContenedorConfiguracionUsuario } from '@interfaces/usuario/contenedor';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';
 import { EmpresaUsuarioEditarComponent } from "@modulos/empresa/componentes/empresa-usuarios/empresa-usuario-editar/empresa-usuario-editar.component";

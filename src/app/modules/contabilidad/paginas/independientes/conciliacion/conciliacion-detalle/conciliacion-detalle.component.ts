@@ -13,7 +13,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@modulos/documento/components/base-estados/base-estados.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { Conciliacion } from '@modulos/contabilidad/interfaces/conciliacion.interface';
 import { ConciliacionService } from '@modulos/contabilidad/servicios/conciliacion.service';
 import {

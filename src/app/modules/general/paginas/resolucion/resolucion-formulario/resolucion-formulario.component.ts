@@ -17,7 +17,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { NgbActiveModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';

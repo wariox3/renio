@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from 'src/app/common/components/buscar-avanzado/buscar-avanzado.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { EncabezadoFormularioNuevoComponent } from '@comun/componentes/encabezado-formulario-nuevo/encabezado-formulario-nuevo.component';
 import { FormularioProductosComponent } from '@comun/componentes/factura/components/formulario-productos/formulario-productos.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';

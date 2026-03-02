@@ -5,7 +5,7 @@ import { General } from '@comun/clases/general';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { Resolucion } from '@interfaces/general/resolucion.interface';
 import { ResolucionService } from '@modulos/general/servicios/resolucion.service';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';

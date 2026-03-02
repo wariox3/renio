@@ -16,7 +16,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { MovimientoBalancePruebaTercero, MovimientoEstadoResultados, MovimientoSituacionFinanciera } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';

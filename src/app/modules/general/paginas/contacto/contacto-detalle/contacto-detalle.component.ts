@@ -6,7 +6,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxMaskDirective, NgxMaskPipe, provideNgxMask } from 'ngx-mask';
 
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { SoloNumerosDirective } from '@comun/directive/solo-numeros.directive';
 import { Contacto } from '@interfaces/general/contacto';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';

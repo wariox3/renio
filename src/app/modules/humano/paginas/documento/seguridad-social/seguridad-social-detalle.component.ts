@@ -13,7 +13,7 @@ import {
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { CardComponent } from '../../../../../comun/componentes/card/card.component';
+import { CardComponent } from '../../../../../common/components/card/card.component';
 
 @Component({
   selector: 'app-nomina-electronica-detalle',

@@ -22,7 +22,7 @@ import { InicioTransporteComponent } from '@modulos/transporte/paginas/inicio/in
 import { InicioVentaComponent } from '@modulos/venta/paginas/inicio/inicio-venta/inicio-venta.component';
 import { InicioInventarioComponent } from '@modulos/inventario/paginas/inicio/inicio-inventario/inicio-inventario.component';
 import { InicioHumanoComponent } from '@modulos/humano/paginas/inicio/inicio-humano/inicio-humano.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { InicioGeneralComponent } from '@modulos/general/paginas/inicio/inicio-general/inicio-general.component';
 import { FakeLoadFullScreenComponent } from '../../comun/componentes/fake-load-full-screen/fake-load-full-screen.component';
 

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { mapeoIndependientes } from '@comun/extra/mapeo-entidades/independientes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';

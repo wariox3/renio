@@ -17,7 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { AlertaService } from '@comun/services/alerta.service';
 import { environment } from '@env/environment';
 import { ContenedorService } from '@modulos/contenedor/servicios/contenedor.service';

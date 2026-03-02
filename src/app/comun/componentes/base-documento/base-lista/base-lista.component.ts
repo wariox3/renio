@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnDestroy, OnInit, signal, ViewChild, ViewContainerRef } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ModalDinamicoComponent } from '@comun/componentes/modal-dinamico/modal-dinamico.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { configuracionExtraDocumento } from '@comun/extra/funcionalidades/configuracion-extra-documento';

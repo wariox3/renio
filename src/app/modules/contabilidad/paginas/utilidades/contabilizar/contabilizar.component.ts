@@ -16,7 +16,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 import { DocumentoService } from '@comun/services/documento/documento.service';
 import { FechasService } from '@comun/services/fechas.service';

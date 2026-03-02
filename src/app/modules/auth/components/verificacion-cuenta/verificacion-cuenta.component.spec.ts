@@ -3,7 +3,7 @@ import { VerificacionCuentaComponent } from './verificacion-cuenta.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Store, StoreModule } from '@ngrx/store'; // Importa el StoreModule
 import { provideMockStore } from '@ngrx/store/testing'; // Importa provideMockStore para proporcionar un Store mock

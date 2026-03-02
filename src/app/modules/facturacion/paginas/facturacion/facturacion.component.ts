@@ -31,7 +31,7 @@ import {
   obtenerUsuarioVrSaldo,
 } from '@redux/selectors/usuario.selectors';
 import { BehaviorSubject, Subject, Subscription, takeUntil, zip } from 'rxjs';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { Consumo, Factura } from '@interfaces/facturacion/Facturacion';
 import { HistorialFacturacionComponent } from '../historial-facturacion/historial-facturacion.component';
 import { InformacionFacturacionComponent } from '../informacion-facturacion/informacion-facturacion.component';

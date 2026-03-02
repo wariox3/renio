@@ -1,7 +1,7 @@
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { NgbNavConfig, NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { EmpresaFormularioComponent } from '../empresa-formulario/empresa-fomrulario.component';
 import { EmpresaFacturacionElectronicaComponent } from '../empresa-facturacion-electronica/empresa-facturacion-electronica.component';

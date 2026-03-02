@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { Sucursal } from '@modulos/humano/interfaces/Sucursal';
 import { SucursalService } from '@modulos/humano/servicios/Sucursal.service';

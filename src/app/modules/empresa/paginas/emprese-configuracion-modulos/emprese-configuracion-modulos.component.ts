@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { AplicacionModulo } from '@comun/type/aplicacion-modulo.type';
 import { ConfiguracionCarteraComponent } from '@modulos/cartera/paginas/configuracion/configuracion-cartera.component';
 import { ConfiguracionCompraComponent } from '@modulos/compra/paginas/configuracion/configuracion-compra.component';

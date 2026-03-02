@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { CuentaBancoService } from '@modulos/general/servicios/cuenta-banco.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { TituloAccionComponent } from "../../../../../comun/componentes/titulo-accion/titulo-accion.component";

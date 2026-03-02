@@ -11,7 +11,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@modulos/documento/components/base-estados/base-estados.component';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { HttpService } from '@comun/services/http.service';

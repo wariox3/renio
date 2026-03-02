@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from "@comun/componentes/btn-exportar/btn-exportar.component";
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { GeneralService } from '@comun/services/general.service';
 import { CUENTAS_COBRAR_CORTE_FILTERS } from '@modulos/cartera/domain/mapeos/cuentas-cobrar-corte.mapeo';

@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { tap } from 'rxjs';

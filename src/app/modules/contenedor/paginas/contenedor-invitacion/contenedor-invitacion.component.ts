@@ -9,7 +9,7 @@ import {
 } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import {
   ContenedorInvitacionLista,

@@ -15,7 +15,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { TranslationModule } from '@modulos/i18n';
 import { ContactoFormularioComponent } from './componentes/contacto/contacto-formulario/contacto-formulario.component';
 import { BaseFiltroComponent } from '@comun/componentes/base-filtro/base-filtro.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ImportarComponent } from '@comun/componentes/importar/importar.component';
 
 @NgModule({

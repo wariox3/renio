@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { ConCuenta } from '@modulos/contabilidad/interfaces/contabilidad-cuenta.interface';
 import { CuentaService } from '@modulos/contabilidad/servicios/cuenta.service';
 import { NgbDropdown, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';

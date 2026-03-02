@@ -22,7 +22,7 @@ import {
 } from 'src/app/core/interfaces/api.interface';
 import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
-import { CardComponent } from '../../../../../comun/componentes/card/card.component';
+import { CardComponent } from '../../../../../common/components/card/card.component';
 import { FiltroComponent } from '../../../../../comun/componentes/ui/tabla/filtro/filtro.component';
 import { PaginadorComponent } from "../../../../../comun/componentes/ui/tabla/paginador/paginador.component";
 

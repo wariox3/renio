@@ -1,7 +1,7 @@
 import { FacturacionService } from '@modulos/facturacion/servicios/facturacion.service';
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { CardComponent } from '../card/card.component';
+import { CardComponent } from '../../../common/components/card/card.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { RouterModule } from '@angular/router';

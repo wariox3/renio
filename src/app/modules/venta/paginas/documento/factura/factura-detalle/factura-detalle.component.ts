@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@modulos/documento/components/base-estados/base-estados.component';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 import { DocumentoOpcionesComponent } from '@comun/componentes/documento-opciones/documento-opciones.component';
 import { LogElectronicoComponent } from '@comun/componentes/log-electronico/log-electronico.component';

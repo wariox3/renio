@@ -4,7 +4,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from
 import { General } from '@comun/clases/general';
 import { DocumentoTipo } from '@modulos/empresa/interfaces/documento-tipo.interface';
 import { EmpresaService } from '@modulos/empresa/servicios/empresa.service';
-import { CardComponent } from "../../../../comun/componentes/card/card.component";
+import { CardComponent } from "../../../../common/components/card/card.component";
 import { TranslateModule } from '@ngx-translate/core';
 import ResolucionFormularioComponent from '@modulos/general/paginas/resolucion/resolucion-formulario/resolucion-formulario.component';
 

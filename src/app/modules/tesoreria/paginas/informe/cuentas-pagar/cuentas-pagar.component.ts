@@ -6,7 +6,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { documentos } from '@comun/extra/mapeo-entidades/informes';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';

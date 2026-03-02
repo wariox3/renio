@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 
 import { utilidades } from '@comun/extra/mapeo-entidades/utilidades';
 import { GeneralService } from '@comun/services/general.service';

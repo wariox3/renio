@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { TablaComponent } from '@comun/componentes/tabla/tabla.component';
 import { mapeo } from '@comun/extra/mapeo-entidades/administradores';
 import { ConfigModuleService } from '@comun/services/application/config-modulo.service';

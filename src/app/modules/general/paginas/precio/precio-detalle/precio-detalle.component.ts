@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, signal } from '@angular/core';
 import { General } from '@comun/clases/general';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { Precio } from '@modulos/general/interfaces/precio.interface';
 import { PrecioService } from '@modulos/general/servicios/precio.service';
 

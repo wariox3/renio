@@ -13,7 +13,7 @@ import { General } from '@comun/clases/general';
 import { BaseEstadosComponent } from '@modulos/documento/components/base-estados/base-estados.component';
 import { BtnAnularComponent } from '@comun/componentes/btn-anular/btn-anular.component';
 import { BtnAtrasComponent } from 'src/app/common/components/btn-atras/btn-atras.component';
-import { CardComponent } from '@comun/componentes/card/card.component';
+import { CardComponent } from 'src/app/common/components/card/card.component';
 import { DetallesTotalesComponent } from '@comun/componentes/detalles-totales/detalles-totales.component';
 import { HttpService } from '@comun/services/http.service';
 import { FacturaService } from '@modulos/venta/servicios/factura.service';
