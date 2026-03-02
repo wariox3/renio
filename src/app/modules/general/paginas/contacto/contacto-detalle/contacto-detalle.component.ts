@@ -12,7 +12,7 @@ import { Contacto } from '@interfaces/general/contacto';
 import { ContactoService } from '@modulos/general/servicios/contacto.service';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-accion/titulo-accion.component';
-import { CargarArchivosComponent } from "@comun/componentes/cargar-archivos/cargar-archivos.component";
+import { CargarArchivosComponent } from "src/app/common/components/cargar-archivos/cargar-archivos.component";
 
 @Component({
   selector: 'app-contacto-detalle',

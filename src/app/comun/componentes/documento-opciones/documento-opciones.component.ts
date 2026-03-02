@@ -36,7 +36,7 @@ import {
   ParametrosApi,
   RespuestaApi,
 } from 'src/app/core/interfaces/api.interface';
-import { CargarArchivosComponent } from '../cargar-archivos/cargar-archivos.component';
+import { CargarArchivosComponent } from '../../../common/components/cargar-archivos/cargar-archivos.component';
 import { SeleccionarContactoComponent } from '../factura/components/seleccionar-contacto/seleccionar-contacto.component';
 import { TablaComponent } from '../tabla/tabla.component';
 import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';

@@ -9,7 +9,7 @@ import { ItemService } from '@modulos/general/servicios/item.service';
 import { SiNoPipe } from '@pipe/si-no.pipe';
 import { TituloAccionComponent } from '@comun/componentes/titulo-accion/titulo-accion.component';
 import { NgbDropdownModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { CargarArchivosComponent } from '../../../../../comun/componentes/cargar-archivos/cargar-archivos.component';
+import { CargarArchivosComponent } from '../../../../../common/components/cargar-archivos/cargar-archivos.component';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CargarImagenComponent } from '../../../../../comun/componentes/cargar-imagen/cargar-imagen.component';
 import { environment } from '@env/environment';
