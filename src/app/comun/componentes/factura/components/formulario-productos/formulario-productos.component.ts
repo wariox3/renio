@@ -42,7 +42,7 @@ import { RegistroAutocompletarInvAlmacen } from '@interfaces/comunes/autocomplet
 import { AgregarDetallesDocumentoComponent } from '../../../agregar-detalles-documento/agregar-detalles-documento.component';
 import { FACTURA_COMPRAS_CAMPOS_TABLA } from '@modulos/compra/domain/campos-tabla/factura-compra.campos-tabla';
 import { AdapterService } from '../../services/adapter.service';
-import { BuscarDocumentosDetallesComponent } from '@comun/componentes/buscar-documento-detalles/buscar-documento-detalles.component';
+import { BuscarDocumentosDetallesComponent } from '@modulos/documento/components/buscar-documento-detalles/buscar-documento-detalles.component';
 import { FilterField } from 'src/app/core/interfaces/filtro.interface';
 import { GeneralService } from '@comun/services/general.service';
 import {

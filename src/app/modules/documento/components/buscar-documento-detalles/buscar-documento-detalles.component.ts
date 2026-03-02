@@ -12,8 +12,8 @@ import {
   ViewChild
 } from '@angular/core';
 import { GeneralService } from '@comun/services/general.service';
-import { FiltroComponent } from '../ui/tabla/filtro/filtro.component';
-import { PaginadorComponent } from '../ui/tabla/paginador/paginador.component';
+import { FiltroComponent } from '../../../../comun/componentes/ui/tabla/filtro/filtro.component';
+import { PaginadorComponent } from '../../../../comun/componentes/ui/tabla/paginador/paginador.component';
 import { HttpService } from '@comun/services/http.service';
 import { forkJoin } from 'rxjs';
 import { RespuestaApi } from 'src/app/core/interfaces/api.interface';
