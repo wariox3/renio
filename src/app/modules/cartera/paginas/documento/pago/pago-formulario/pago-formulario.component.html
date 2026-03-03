@@ -248,7 +248,7 @@
                           </td>
                           <td>
                             @if (detalle.value.documento_afectado) {
-                              {{ detalle.value.contacto__nombre_corto }}
+                              {{ detalle.value.contacto__nombre_corto || detalle.value.contacto_nombre }}
                             } @else {
                               <app-comun-contactos
                                 [contactoNombre]="detalle.value.contacto_nombre"
