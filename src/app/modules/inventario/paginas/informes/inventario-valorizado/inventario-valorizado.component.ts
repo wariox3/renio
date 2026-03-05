@@ -65,8 +65,8 @@ export default class InventarioValorizadoComponent extends General implements On
     this.consultarLista();
   }
 
-  cambiarPaginacion(page: number) {
-    this._inventarioValorizadoService.actualizarPaginacion(page);
+  cambiarPaginacion(event: { desplazamiento: number; limite: number }) {
+    this._inventarioValorizadoService.actualizarPaginacion(event.desplazamiento);
     this.consultarLista();
   }
 

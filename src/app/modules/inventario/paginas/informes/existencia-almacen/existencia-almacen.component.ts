@@ -65,8 +65,8 @@ export default class ExistenciaAlmacenComponent extends General implements OnIni
     this.consultarLista();
   }
 
-  cambiarPaginacion(page: number) {
-    this._existenciaAlmacenService.actualizarPaginacion(page);
+  cambiarPaginacion(event: { desplazamiento: number; limite: number }) {
+    this._existenciaAlmacenService.actualizarPaginacion(event.desplazamiento);
     this.consultarLista();
   }
 

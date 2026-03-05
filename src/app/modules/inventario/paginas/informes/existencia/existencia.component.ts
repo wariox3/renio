@@ -67,8 +67,8 @@ export default class ExistenciaComponent extends General implements OnInit {
     this.consultarLista();
   }
 
-  cambiarPaginacion(page: number) {
-    this._existenciaService.actualizarPaginacion(page);
+  cambiarPaginacion(event: { desplazamiento: number; limite: number }) {
+    this._existenciaService.actualizarPaginacion(event.desplazamiento);
     this.consultarLista();
   }
 
