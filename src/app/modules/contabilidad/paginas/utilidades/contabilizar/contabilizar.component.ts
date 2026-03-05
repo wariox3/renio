@@ -191,7 +191,7 @@ export default class ContabilizarComponent extends General implements OnInit {
     };
 
     if (this.formularioDescontabilizar.get('documento_tipo')?.value) {
-      filters['documento_tipo'] =
+      filters['documento_tipo_id'] =
         this.formularioDescontabilizar.get('documento_tipo')?.value;
     }
 
