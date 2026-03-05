@@ -125,76 +125,91 @@ export default class ContabilizarComponent extends General implements OnInit {
   }
 
   enviarFormulario() {
-    const filtros: ParametrosFiltros = {
-      limite: 1000,
-      desplazar: 0,
-      ordenamientos: [],
-      filtros: [
-        {
-          propiedad: 'fecha',
-          operador: 'gte',
-          valor1: this.formularioDescontabilizar.get('fecha_desde')?.value,
-        },
-        {
-          propiedad: 'fecha_contable',
-          operador: 'lte',
-          valor1: this.formularioDescontabilizar.get('fecha_hasta')?.value,
-        },
-        {
-          propiedad: 'estado_contabilizado',
-          operador: 'exact',
-          valor1: true,
-        },
-      ],
-      limite_conteo: 10000,
-      modelo: 'GenDocumento',
+    // const filtros: ParametrosFiltros = {
+    //   limite: 1000,
+    //   desplazar: 0,
+    //   ordenamientos: [],
+    //   filtros: [
+    //     {
+    //       propiedad: 'fecha',
+    //       operador: 'gte',
+    //       valor1: this.formularioDescontabilizar.get('fecha_desde')?.value,
+    //     },
+    //     {
+    //       propiedad: 'fecha_contable',
+    //       operador: 'lte',
+    //       valor1: this.formularioDescontabilizar.get('fecha_hasta')?.value,
+    //     },
+    //     {
+    //       propiedad: 'estado_contabilizado',
+    //       operador: 'exact',
+    //       valor1: true,
+    //     },
+    //   ],
+    //   limite_conteo: 10000,
+    //   modelo: 'GenDocumento',
+    // };
+
+    // if (this.formularioDescontabilizar.get('documento_tipo')?.value) {
+    //   filtros.filtros = [
+    //     ...filtros.filtros,
+    //     {
+    //       propiedad: 'documento_tipo',
+    //       operador: 'exact',
+    //       valor1: this.formularioDescontabilizar.get('documento_tipo')?.value,
+    //     },
+    //   ];
+    // }
+
+    // if (this.formularioDescontabilizar.get('numero_desde')?.value) {
+    //   filtros.filtros = [
+    //     ...filtros.filtros,
+    //     {
+    //       propiedad: 'numero',
+    //       operador: 'gte',
+    //       valor1: this.formularioDescontabilizar.get('numero_desde')?.value,
+    //     },
+    //   ];
+    // }
+
+    // if (this.formularioDescontabilizar.get('numero_hasta')?.value) {
+    //   filtros.filtros = [
+    //     ...filtros.filtros,
+    //     {
+    //       propiedad: 'numero',
+    //       operador: 'lte',
+    //       valor1: this.formularioDescontabilizar.get('numero_hasta')?.value,
+    //     },
+    //   ];
+    // }
+
+    const filters: Record<string, any> = {
+      fecha__gte: this.formularioDescontabilizar.get('fecha_desde')?.value,
+      fecha__lte: this.formularioDescontabilizar.get('fecha_hasta')?.value,
+      estado_contabilizado: true,
+      limit: 1000,
     };
 
     if (this.formularioDescontabilizar.get('documento_tipo')?.value) {
-      filtros.filtros = [
-        ...filtros.filtros,
-        {
-          propiedad: 'documento_tipo',
-          operador: 'exact',
-          valor1: this.formularioDescontabilizar.get('documento_tipo')?.value,
-        },
-      ];
+      filters['documento_tipo'] =
+        this.formularioDescontabilizar.get('documento_tipo')?.value;
     }
 
     if (this.formularioDescontabilizar.get('numero_desde')?.value) {
-      filtros.filtros = [
-        ...filtros.filtros,
-        {
-          propiedad: 'numero',
-          operador: 'gte',
-          valor1: this.formularioDescontabilizar.get('numero_desde')?.value,
-        },
-      ];
+      filters['numero__gte'] =
+        this.formularioDescontabilizar.get('numero_desde')?.value;
     }
 
     if (this.formularioDescontabilizar.get('numero_hasta')?.value) {
-      filtros.filtros = [
-        ...filtros.filtros,
-        {
-          propiedad: 'numero',
-          operador: 'lte',
-          valor1: this.formularioDescontabilizar.get('numero_hasta')?.value,
-        },
-      ];
+      filters['numero__lte'] =
+        this.formularioDescontabilizar.get('numero_hasta')?.value;
     }
 
-
-    this._generalService.consultaApi(
-      'general/documento/',
-      {
-        fecha_gte: this.formularioDescontabilizar.get('fecha_desde')?.value,
-        fecha_lte: this.formularioDescontabilizar.get('fecha_hasta')?.value,
-        estado_contabilizado: true,
-        limit: 1000
-      }
-    ).subscribe((response: any) => {
-      this._descontabilizarDocumentos(response.results);
-    });
+    this._generalService
+      .consultaApi('general/documento/', filters)
+      .subscribe((response: any) => {
+        this._descontabilizarDocumentos(response.results);
+      });
   }
 
   private _descontabilizarDocumentos(documentos: any[]) {
