@@ -14,7 +14,7 @@ export interface RespuestaImportarZipContacto {
   direccion: string,
   tipo_persona: number,
   plazo_pago_id: string,
-  plazo_pago_proveedor_id: string,
+  plazo_pago_proveedor: string,
 }
 
 interface RespuestaImportarZipDocumento {
