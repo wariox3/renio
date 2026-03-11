@@ -356,6 +356,7 @@ export default class ImportarZipFacturaCompraComponent
         ...prev,
         contacto: {
           ...prev.contacto,
+          plazo_pago_proveedor: contacto.plazo_pago_proveedor_id.toString(),
           contacto_id: contacto.id!, // o el valor que quieras asignar
         },
       };
