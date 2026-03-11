@@ -288,7 +288,7 @@ export default class ImportarZipFacturaCompraComponent
       descuento: 0,
       grupo_contabilidad:
         this.formularioFactura.get('grupo_contabilidad')?.value,
-      plazo_pago: contacto?.plazo_pago_id,
+      plazo_pago: contacto?.plazo_pago_proveedor_id,
       detalles: [],
       pagos: [],
       referencia_cue: documento?.cue,
@@ -356,6 +356,7 @@ export default class ImportarZipFacturaCompraComponent
         ...prev,
         contacto: {
           ...prev.contacto,
+          plazo_pago_proveedor_id: contacto.plazo_pago_proveedor_id.toString(),
           contacto_id: contacto.id!, // o el valor que quieras asignar
         },
       };
