@@ -92,101 +92,6 @@
         </div>
       </div>
       <div class="row mb-5">
-        <div class="col-12 col-md-3">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAFACTURA"
-          ></label>
-          <input
-            formControlName="fecha"
-            class="form-control"
-            type="date"
-            autocomplete="off"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['fecha'].touched &&
-                formularioFactura.controls['fecha'].invalid,
-              'is-valid':
-                formularioFactura.controls['fecha'].touched &&
-                formularioFactura.controls['fecha'].valid,
-            }"
-            (change)="cambiarFechaVence()"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['fecha'],
-            }"
-          ></ng-container>
-          <div
-            *ngIf="
-              formularioFactura.controls.fecha?.touched &&
-              formularioFactura.controls.fecha?.hasError(
-                'fechaSuperiorNoValida'
-              )
-            "
-          >
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span
-                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHASUPERIOAFECHAVENCIMINETO"
-                  role="alert"
-                >
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-3">
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.FECHAVENCIMIENTO"
-          ></label>
-          <input
-            formControlName="fecha_vence"
-            class="form-control"
-            type="date"
-            id="fecha_vence"
-            autocomplete="off"
-            readonly
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['fecha_vence'].touched &&
-                formularioFactura.controls['fecha_vence'].invalid,
-              'is-valid':
-                formularioFactura.controls['fecha_vence'].touched &&
-                formularioFactura.controls['fecha_vence'].valid,
-            }"
-          />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['fecha_vence'],
-            }"
-          ></ng-container>
-          <div
-            *ngIf="
-              formularioFactura.controls.fecha_vence?.touched &&
-              formularioFactura.controls.fecha_vence?.hasError(
-                'fechaVenceInferiorNoValida'
-              )
-            "
-          >
-            <div class="fv-plugins-message-container">
-              <div class="fv-help-block">
-                <span
-                  translate="FORMULARIOS.VALIDACIONES.FACTURA.FECHAVENCEINFERIORNOVALIDA"
-                  role="alert"
-                >
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="col-12 col-md-6">
           <label
             class="form-label required"
@@ -225,6 +130,23 @@
             }"
           ></ng-container>
         </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.FORMAPAGO"
+          >
+          </label>
+          <ng-select
+            [items]="formaPagoLista"
+            bindLabel="nombre"
+            bindValue="id"
+            formControlName="forma_pago"
+            notFoundText="Sin elementos"
+            placeholder="Selecciona un elemento"
+            class="select2Custom"
+          >
+          </ng-select>
+        </div>
       </div>
       <div class="row mb-5">
         <div class="col-md-3 col-sm-12">
@@ -262,23 +184,6 @@
               (emitirLineaVacia)="recibirAlmacenVacio()"
             ></app-seleccionar-almacen>
           </div>
-        </div>
-        <div class="col-md-6 col-sm-12">
-          <label
-            class="form-label"
-            translate="FORMULARIOS.CAMPOS.FACTURA.FORMAPAGO"
-          >
-          </label>
-          <ng-select
-            [items]="formaPagoLista"
-            bindLabel="nombre"
-            bindValue="id"
-            formControlName="forma_pago"
-            notFoundText="Sin elementos"
-            placeholder="Selecciona un elemento"
-            class="select2Custom"
-          >
-          </ng-select>
         </div>
       </div>
       <div class="row mb-5" *ngIf="visualizarCampoDocumentoReferencia">
