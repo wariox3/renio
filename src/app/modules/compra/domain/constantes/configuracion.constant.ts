@@ -201,7 +201,7 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
             },
             ui: {
               verIconoDerecha: true,
-              verBotonImportar: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
               verBotonEliminar: true,
