@@ -351,51 +351,7 @@
           </app-comun-almacenes>
         </div>
 
-        <div
-          class="col-md-6 col-sm-12"
-          ngbDropdown
-          #MetodoDropdown="ngbDropdown"
-        >
-          <label
-            class="form-label required"
-            translate="FORMULARIOS.CAMPOS.FACTURA.METODOPAGO"
-          ></label>
-          <select
-            class="form-select"
-            formControlName="metodo_pago"
-            [ngClass]="{
-              'is-invalid':
-                formularioFactura.controls['metodo_pago'].touched &&
-                formularioFactura.controls['metodo_pago'].invalid,
-              'is-valid':
-                formularioFactura.controls['metodo_pago'].touched &&
-                formularioFactura.controls['metodo_pago'].valid,
-            }"
-          >
-            <option value="">
-              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
-            </option>
-            <option
-              *ngFor="let metodoPago of arrMetodosPago"
-              [value]="metodoPago.id"
-              [selected]="
-                metodoPago.id ===
-                formularioFactura.controls['metodo_pago'].value
-              "
-            >
-              {{ metodoPago.nombre }}
-            </option>
-          </select>
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control: formularioFactura.controls['metodo_pago'],
-            }"
-          ></ng-container>
         </div>
-      </div>
 
       <div class="row mb-5">
         <div
