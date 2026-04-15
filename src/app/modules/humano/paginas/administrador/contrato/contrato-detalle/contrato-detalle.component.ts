@@ -47,7 +47,8 @@ import { TranslateModule } from '@ngx-translate/core';
 })
 export default class ContratoDetalleComponent
   extends General
-  implements OnInit {
+  implements OnInit
+{
   private _formBuilder = inject(FormBuilder);
   private _modalService = inject(NgbModal);
   private _httpService = inject(HttpService);
@@ -149,32 +150,29 @@ export default class ContratoDetalleComponent
   }
 
   private _consultarListaGeneral() {
-    this._generalService.consultaApi<{
-      contrato_id: number;
-      fecha_ultimo_pago: string;
-      fecha_ultimo_pago_prima: string;
-      fecha_ultimo_pago_cesantia: string;
-      fecha_ultimo_pago_vacacion: string;
-    }>(
-      'humano/contrato/',
-      {
+    this._generalService
+      .consultaApi<{
+        contrato_id: number;
+        fecha_ultimo_pago: string;
+        fecha_ultimo_pago_prima: string;
+        fecha_ultimo_pago_cesantia: string;
+        fecha_ultimo_pago_vacacion: string;
+      }>('humano/contrato/', {
         limit: 50,
         serializador: 'parametros_iniciales',
         id: this.contrato.id,
-      },
-    ).subscribe((response: any) => {
-      const fechaActual = this._fechasService.obtenerFechaActualFormateada();
-      this.formularioParametrosIniciales.patchValue({
-        fecha_ultimo_pago:
-          response.results[0].fecha_ultimo_pago || fechaActual,
-        fecha_ultimo_pago_prima:
-          response.results?.[0].fecha_ultimo_pago_prima || fechaActual,
-        fecha_ultimo_pago_cesantia:
-          response.results?.[0].fecha_ultimo_pago_cesantia || fechaActual,
-        fecha_ultimo_pago_vacacion:
-          response.results?.[0].fecha_ultimo_pago_vacacion || fechaActual,
+      })
+      .subscribe((response: any) => {
+        this.formularioParametrosIniciales.patchValue({
+          fecha_ultimo_pago: response.results[0].fecha_ultimo_pago,
+          fecha_ultimo_pago_prima:
+            response.results?.[0].fecha_ultimo_pago_prima,
+          fecha_ultimo_pago_cesantia:
+            response.results?.[0].fecha_ultimo_pago_cesantia,
+          fecha_ultimo_pago_vacacion:
+            response.results?.[0].fecha_ultimo_pago_vacacion,
+        });
       });
-    })
   }
 
   abrirModal(content: any) {
@@ -227,9 +225,22 @@ export default class ContratoDetalleComponent
   }
 
   enviarFormulario() {
+    const payload = { ...this.formularioParametrosIniciales.value };
+    const camposFecha = [
+      'fecha_ultimo_pago',
+      'fecha_ultimo_pago_prima',
+      'fecha_ultimo_pago_cesantia',
+      'fecha_ultimo_pago_vacacion',
+    ];
+    camposFecha.forEach((campo) => {
+      if (payload[campo] === '' || payload[campo] === undefined) {
+        payload[campo] = null;
+      }
+    });
+
     this.contratoService
-      .guardarParametrosIniciales(this.formularioParametrosIniciales.value)
-      .subscribe((response) => {
+      .guardarParametrosIniciales(payload)
+      .subscribe(() => {
         this._modalService.dismissAll();
         this.consultardetalle();
         this.alertaService.mensajaExitoso('Parametros iniciales actualizados!');
