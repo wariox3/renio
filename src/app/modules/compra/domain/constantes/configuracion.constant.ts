@@ -191,8 +191,17 @@ export const COMPRA_CONFIGURACION: ModuloConfig = {
                 ui: DOCUMENTO_FILTERS
               },
             },
+             archivos: {
+              importar: {
+                nombre: 'GenDocumento',
+                rutaEjemplo: '',
+                verBotonEjemplo: false,
+                verBotonImportar: true,
+              }
+            },
             ui: {
               verIconoDerecha: true,
+              verBotonImportar: false,
               verBotonNuevo: true,
               verColumnaEditar: true,
               verBotonEliminar: true,

@@ -317,7 +317,7 @@
         <div class="row mb-5">
           <div class="col-12 mb-5">
             <label
-              class="form-label required"
+              class="form-label"
               translate="FORMULARIOS.CAMPOS.GENERAL.CONTRATO.FECHATERMINACION"
             ></label>
             <input
@@ -434,7 +434,7 @@
     <form [formGroup]="formularioParametrosIniciales">
       <div class="row mb-5">
         <div class="col-12 col-md-6">
-          <label class="form-label required">Fecha último pago</label>
+          <label class="form-label">Fecha último pago</label>
           <input
             #fechaDesde
             formControlName="fecha_ultimo_pago"
@@ -454,15 +454,6 @@
                   .valid,
             }"
           />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control:
-                formularioParametrosIniciales.controls['fecha_ultimo_pago'],
-            }"
-          ></ng-container>
           <div
             *ngIf="
               formularioParametrosIniciales.controls.fechaDesde?.touched &&
@@ -483,7 +474,7 @@
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <label class="form-label required">Fecha último pago prima</label>
+          <label class="form-label">Fecha último pago prima</label>
           <input
             #fechaDesde
             formControlName="fecha_ultimo_pago_prima"
@@ -507,17 +498,6 @@
                 ].valid,
             }"
           />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control:
-                formularioParametrosIniciales.controls[
-                  'fecha_ultimo_pago_prima'
-                ],
-            }"
-          ></ng-container>
           <div
             *ngIf="
               formularioParametrosIniciales.controls.fechaDesde?.touched &&
@@ -540,7 +520,7 @@
       </div>
       <div class="row mb-5">
         <div class="col-12 col-md-6">
-          <label class="form-label required">
+          <label class="form-label">
             Fecha último pago cesantía
           </label>
           <input
@@ -566,17 +546,6 @@
                 ].valid,
             }"
           />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control:
-                formularioParametrosIniciales.controls[
-                  'fecha_ultimo_pago_cesantia'
-                ],
-            }"
-          ></ng-container>
           <div
             *ngIf="
               formularioParametrosIniciales.controls.fechaDesde?.touched &&
@@ -597,7 +566,7 @@
           </div>
         </div>
         <div class="col-12 col-md-6">
-          <label class="form-label required">
+          <label class="form-label">
             Fecha último pago vacacion
           </label>
           <input
@@ -623,17 +592,6 @@
                 ].valid,
             }"
           />
-          <ng-container
-            [ngTemplateOutlet]="formError"
-            [ngTemplateOutletContext]="{
-              validation: 'required',
-              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
-              control:
-                formularioParametrosIniciales.controls[
-                  'fecha_ultimo_pago_cesantia'
-                ],
-            }"
-          ></ng-container>
           <div
             *ngIf="
               formularioParametrosIniciales.controls.fechaDesde?.touched &&
