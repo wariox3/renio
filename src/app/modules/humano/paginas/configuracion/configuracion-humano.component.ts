@@ -150,7 +150,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
     this._generalService
       .consultaApi<
         RegistroAutocompletarHumConcepto[]
-      >('humano/concepto/seleccionar/')
+      >('humano/concepto/seleccionar/?limit=50')
       .subscribe((respuesta) => {
         this.iniciarFormularioConcepto();
         this.formularioConcepto.patchValue({
