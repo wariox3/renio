@@ -30,11 +30,11 @@
       </button>
       <app-comun-documento-opciones
         [opciones]="{
-          modelo: 'ConMovimiento'
+          modelo: 'ConMovimiento',
         }"
         (itemDesaprobadoEvent)="consultardetalle()"
         [opcionesDesaprobarBoton]="{
-          deshabilitado: !documento.estado_aprobado || documento.estado_anulado
+          deshabilitado: !documento.estado_aprobado || documento.estado_anulado,
         }"
         [documento]="documento"
       ></app-comun-documento-opciones>
@@ -46,7 +46,9 @@
 </div>
 <app-card>
   <section card-titulo>
-    <app-comun-titulo-accion [nombreModelo]="'facturarecurrente'"></app-comun-titulo-accion>
+    <app-comun-titulo-accion
+      [nombreModelo]="'facturarecurrente'"
+    ></app-comun-titulo-accion>
   </section>
   <section card-propiedades></section>
   <section card-body>
@@ -152,6 +154,7 @@
                         class="bg-gray-100"
                         translate="FORMULARIOS.TITULOS.FACTURACION.TOTALNETO"
                       ></th>
+                      <th class="bg-gray-100">Detalle</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -188,6 +191,12 @@
                         </td>
                         <td class="text-end">
                           {{ detalle.total | number }}
+                        </td>
+                        <td
+                          class="text-start item-nombre-cell"
+                          style="width: 10rem; max-width: 50rem"
+                        >
+                          {{ detalle.detalle }}
                         </td>
                       </tr>
                     </ng-container>
@@ -236,16 +245,16 @@
         </ul>
         <div [ngbNavOutlet]="nav" class="mt-2"></div>
         <div class="d-flex justify-content-end mb-5">
-          @if(documento.detalles.length || !documento.estado_anulado){
-          <app-detalles-totales
-            [detalles]="documento.detalles"
-            [totalBase]="totalBase"
-            [subtotalGeneral]="subtotalGeneral"
-            [totalImpuestos]="totalImpuestos"
-            [totalGeneral]="totalGeneral"
-            [totalAfectado]="totalAfectado"
-            [totalCantidad]="totalCantidad"
-          ></app-detalles-totales>
+          @if (documento.detalles.length || !documento.estado_anulado) {
+            <app-detalles-totales
+              [detalles]="documento.detalles"
+              [totalBase]="totalBase"
+              [subtotalGeneral]="subtotalGeneral"
+              [totalImpuestos]="totalImpuestos"
+              [totalGeneral]="totalGeneral"
+              [totalAfectado]="totalAfectado"
+              [totalCantidad]="totalCantidad"
+            ></app-detalles-totales>
           }
         </div>
       </div>
@@ -285,13 +294,13 @@
               {{ correo.codigoCorreoPk }}
             </td>
             <td>
-              {{ correo.enviado | date : "yyyy-MM-dd h:mm" }}
+              {{ correo.enviado | date: "yyyy-MM-dd h:mm" }}
             </td>
             <td>
               {{ correo.numeroDocumento }}
             </td>
             <td>
-              {{ correo.fecha | date : "yyyy-MM-dd h:mm" }}
+              {{ correo.fecha | date: "yyyy-MM-dd h:mm" }}
             </td>
             <td>
               {{ correo.correo }}
@@ -326,7 +335,7 @@
             </td>
             <td>{{ evento.evento }}</td>
             <td>{{ evento.correo }}</td>
-            <td>{{ evento.fecha | date : "yyyy-MM-dd h:mm" }}</td>
+            <td>{{ evento.fecha | date: "yyyy-MM-dd h:mm" }}</td>
             <td>{{ evento.ipEnvio }}</td>
             <td>{{ evento.idmensaje }}</td>
           </tr>
@@ -361,7 +370,7 @@
             <td>
               {{ validacion.codigoValidacionPk }}
             </td>
-            <td>{{ validacion.fecha | date : "yyyy-MM-dd h:mm" }}</td>
+            <td>{{ validacion.fecha | date: "yyyy-MM-dd h:mm" }}</td>
             <td>{{ validacion.descripcion }}</td>
           </tr>
         </tbody>
