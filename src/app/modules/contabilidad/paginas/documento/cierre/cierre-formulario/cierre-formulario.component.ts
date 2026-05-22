@@ -259,6 +259,11 @@ export default class CierreFormularioComponent
       this.formularioCierre.get('contacto')?.setValue(dato.id);
       this.formularioCierre.get('contactoNombre')?.setValue(dato.nombre_corto);
     }
+    if (campo === 'comentario') {
+      if (this.formularioCierre.get(campo)?.value === '') {
+        this.formularioCierre.get(campo)?.setValue(null);
+      }
+    }
 
     this.changeDetectorRef.detectChanges();
   }
