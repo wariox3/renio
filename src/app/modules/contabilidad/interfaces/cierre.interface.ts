@@ -23,4 +23,5 @@ export interface DetalleCierreEncabezado {
     comentario: string;
     grupo_contabilidad__nombre: string;
     grupo_contabilidad: number;
+    soporte: string;
 }

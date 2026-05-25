@@ -20,10 +20,23 @@ export const routes: Route[] = [
       {
         path: 'movimiento',
         data: { breadcrumb: 'movimiento' },
-        loadComponent: () =>
-          import(
-            './paginas/independientes/movimiento/movimiento-lista/movimiento-lista.component'
-          ).then((c) => c.MovimientoListaComponent),
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import(
+                './paginas/independientes/movimiento/movimiento-lista/movimiento-lista.component'
+              ).then((c) => c.MovimientoListaComponent),
+          },
+          {
+            path: 'editar/:id',
+            data: { breadcrumb: 'editar' },
+            loadComponent: () =>
+              import(
+                './paginas/independientes/movimiento/movimiento-formulario/movimiento-formulario.component'
+              ).then((c) => c.default),
+          },
+        ],
       },
       {
         path: 'periodo',
@@ -218,7 +231,7 @@ export const routes: Route[] = [
           import(
             './paginas/informes/estado-resultados/estado-resultados.component'
           ).then((c) => c.EstadoResultadosComponent),
-      },      
+      },
       {
         path: 'estado_situacion_financiera',
         data: { breadcrumb: 'estadosituacionfinanciera' },
@@ -226,7 +239,7 @@ export const routes: Route[] = [
           import(
             './paginas/informes/estado-situacion-financiera/estado-situacion-financiera.component'
           ).then((c) => c.EstadoSituacionFinancieraComponent),
-      },        
+      },
     ],
   },
   {

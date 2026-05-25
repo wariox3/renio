@@ -11,14 +11,22 @@ export class MovimientoService extends Subdominio {
   }
 
   guardarMovimiento(data: any) {
-    return this.httpService.post<any>(`contabilidad/cuenta/`, data);
+    return this.httpService.post<any>(`contabilidad/movimiento/`, data);
   }
 
   consultarDetalle(id: number) {
-    return this.httpService.getDetalle<any>(`contabilidad/cuenta/${id}/`);
+    return this.httpService.getDetalle<any>(`contabilidad/movimiento/${id}/`);
   }
 
   actualizarDatos(id: number, data: any) {
-    return this.httpService.put<any>(`contabilidad/cuenta/${id}/`, data);
+    return this.httpService.put<any>(`contabilidad/movimiento/${id}/`, data);
   }
+
+  eliminarMovimiento(id: number) {
+    return this.httpService.delete(
+      `contabilidad/movimiento/${id}/`,
+      {},
+    );
+  }  
+  
 }

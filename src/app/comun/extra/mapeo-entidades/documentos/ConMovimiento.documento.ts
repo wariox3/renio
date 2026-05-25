@@ -93,4 +93,11 @@ export const documentoConMovimiento: MapeoDocumento[] = [
     ordenable: false,
     stylePersonalizado: { width: '300px' },
   },
+  {
+    nombre: 'SALDO_INICIAL',
+    campoTipo: 'Booleano',
+    visibleTabla: true,
+    visibleFiltro: true,
+    ordenable: false,
+  }  
 ];

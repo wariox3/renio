@@ -1,13 +1,408 @@
 <form [formGroup]="formularioMovimiento" (ngSubmit)="formSubmit()">
-  <app-comun-encabezado-formulario-nuevo
-    [estadoAprobado]="false"
-  ></app-comun-encabezado-formulario-nuevo>
+  <section class="d-flex gap-2 mb-2">
+    <button
+      type="button"
+      (click)="navegarAtras()"
+      class="btn btn-sm btn-flex bg-body btn-color-gray-700 btn-active-primary"
+    >
+      <i class="bi bi-arrow-left fs-6"
+        ><span class="path1"></span><span class="path2"></span
+      ></i>
+      {{ "FORMULARIOS.BOTONES.COMUNES.ATRAS" | translate }}
+    </button>
+    <button
+      type="submit"
+      class="btn btn-sm btn-flex btn-primary"
+      #btnGuardar
+      translate="FORMULARIOS.BOTONES.COMUNES.GUARDAR"
+    ></button>
+  </section>
   <app-card>
     <section card-titulo>
-      <app-comun-titulo-accion [nombreModelo]="'movimiento'"></app-comun-titulo-accion>
+      <app-comun-titulo-accion
+        [nombreModelo]="'movimiento'"
+      ></app-comun-titulo-accion>
     </section>
     <section card-body>
+      <div class="row mb-5">
+        <div class="col-12" ngbDropdown #ClienteDropdown="ngbDropdown">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.CONTACTO"
+          ></label>
+          <div class="position-relative">
+            <input
+              type="text"
+              class="form-control"
+              ngbDropdownAnchor
+              formControlName="contactoNombre"
+              (focus)="consultarCliente($event); ClienteDropdown.open()"
+              (keyup)="consultarCliente($event)"
+              [ngClass]="{
+                'is-invalid':
+                  formularioMovimiento.controls['contacto'].touched &&
+                  formularioMovimiento.controls['contacto'].invalid,
+                'is-valid':
+                  formularioMovimiento.controls['contacto'].touched &&
+                  formularioMovimiento.controls['contacto'].valid,
+              }"
+            />
+            <div class="position-absolute translate-middle-y top-50 end-0 me-3">
+              <i class="bi bi-search fs-2"></i>
+            </div>
+          </div>
+          <div
+            ngbDropdownMenu
+            aria-labelledby="dropdownBasic1"
+            class="dropdown-menu"
+          >
+            <ng-container *ngFor="let contacto of arrContactos">
+              <span
+                type="button"
+                ngbDropdownItem
+                (click)="modificarCampoFormulario('contacto', contacto)"
+                (pointerenter)="modificarCampoFormulario('contacto', contacto)"
+              >
+                {{ contacto.nombre_corto }}
+              </span>
+            </ng-container>
+            <div class="dropdown-divider"></div>
+            <span
+              type="button"
+              ngbDropdownItem
+              (click)="abrirModalContactoNuevo(content)"
+            >
+              {{ "FORMULARIOS.BOTONES.COMUNES.NUEVO" | translate | titlecase }}
+              <ng-template #content let-modal>
+                <div class="modal-body">
+                  <app-contacto-formulario
+                    [ocultarBtnAtras]="true"
+                    (emitirGuardoRegistro)="cerrarModal($event)"
+                    [tituloFijo]="true"
+                  />
+                </div>
+              </ng-template>
+            </span>
+            <button type="button" ngbDropdownItem>
+              <app-comun-buscar-avanzado
+                [consultarUrl]="'general/contacto/'"
+                [tituloModal]="'contacto'"
+                (emitirRegistroSeleccionado)="
+                  modificarCampoFormulario('contacto-ver-mas', $event)
+                "
+                [campoLista]="campoListaContacto"
+                [campoFiltros]="campoListaContacto"
+              >
+              </app-comun-buscar-avanzado>
+            </button>
+          </div>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioMovimiento.controls['contacto'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.FECHA"
+          ></label>
+          <input
+            formControlName="fecha"
+            class="form-control"
+            type="date"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                (formularioMovimiento.controls['fecha'].touched &&
+                  formularioMovimiento.controls['fecha'].invalid) ||
+                formularioMovimiento.errors?.fechaInvalida,
+              'is-valid':
+                formularioMovimiento.controls['fecha'].touched &&
+                formularioMovimiento.controls['fecha'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioMovimiento.controls['fecha'],
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.CONTABILIDAD.PERIODO"
+          ></label>
+          <input
+            formControlName="periodo"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioMovimiento.controls['periodo'].touched &&
+                formularioMovimiento.controls['periodo'].invalid,
+              'is-valid':
+                formularioMovimiento.controls['periodo'].touched &&
+                formularioMovimiento.controls['periodo'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioMovimiento.controls['periodo'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            translate="FORMULARIOS.CAMPOS.COMUNES.CUENTA"
+            class="form-label required"
+          ></label>
+          <app-comun-cuentas
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [iniciarFocusInputBusqueda]="false"
+            [cuentaCodigo]="cuentaCodigo"
+            [cuentaNombre]="cuentaNombre"
+            [campoInvalido]="
+              formularioMovimiento.get('cuenta')?.touched &&
+              formularioMovimiento.get('cuenta')?.invalid
+            "
+            (emitirArrCuentas)="agregarCuentaGastoSeleccionado($event)"
+            (emitirLineaVacia)="limpiarCuentaGastoSeleccionado()"
+          ></app-comun-cuentas>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.FACTURA.COMPROBANTE"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="comprobante"
+            [ngClass]="{
+              'is-invalid':
+                formularioMovimiento.controls['comprobante'].touched &&
+                formularioMovimiento.controls['comprobante'].invalid,
+              'is-valid':
+                formularioMovimiento.controls['comprobante'].touched &&
+                formularioMovimiento.controls['comprobante'].valid,
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option
+              *ngFor="let comprobante of arrComprobantes"
+              [value]="comprobante.id"
+            >
+              {{ comprobante.nombre }}
+            </option>
+          </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioMovimiento.controls['comprobante'],
+            }"
+          ></ng-container>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.COMUNES.NUMERO"
+          ></label>
+          <input
+            formControlName="numero"
+            class="form-control"
+            type="number"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioMovimiento.controls['numero'].touched &&
+                formularioMovimiento.controls['numero'].invalid,
+              'is-valid':
+                formularioMovimiento.controls['numero'].touched &&
+                formularioMovimiento.controls['numero'].valid,
+            }"
+          />
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioMovimiento.controls['numero'],
+            }"
+          ></ng-container>
+        </div>
+        <div class="col-12 col-md-6">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.FACTURA.GRUPO"
+          ></label>
+          <select
+            class="form-select"
+            formControlName="grupo"
+            [ngClass]="{
+              'is-invalid':
+                formularioMovimiento.controls['grupo'].touched &&
+                formularioMovimiento.controls['grupo'].invalid,
+              'is-valid':
+                formularioMovimiento.controls['grupo'].touched &&
+                formularioMovimiento.controls['grupo'].valid,
+            }"
+          >
+            <option value="">
+              {{ "FORMULARIOS.CAMPOS.COMUNES.SELECCIONAR" | translate }}
+            </option>
+            <option *ngFor="let grupo of arrGrupo" [value]="grupo.id">
+              {{ grupo.nombre }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.CONTABILIDAD.DEBITO"
+          ></label>
 
+          <input
+            formControlName="debito"
+            class="form-control"
+            type="number"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                (formularioMovimiento.controls['debito'].touched &&
+                  formularioMovimiento.controls['debito'].invalid) ||
+                formularioMovimiento.errors?.debitoCreditoInvalido,
+
+              'is-valid':
+                formularioMovimiento.controls['debito'].touched &&
+                formularioMovimiento.controls['debito'].valid &&
+                !formularioMovimiento.errors?.debitoCreditoInvalido,
+            }"
+          />
+
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioMovimiento.controls['debito'],
+            }"
+          ></ng-container>
+        </div>
+
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label required"
+            translate="FORMULARIOS.CAMPOS.CONTABILIDAD.CREDITO"
+          ></label>
+
+          <input
+            formControlName="credito"
+            class="form-control"
+            type="number"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                (formularioMovimiento.controls['credito'].touched &&
+                  formularioMovimiento.controls['credito'].invalid) ||
+                formularioMovimiento.errors?.debitoCreditoInvalido,
+
+              'is-valid':
+                formularioMovimiento.controls['credito'].touched &&
+                formularioMovimiento.controls['credito'].valid &&
+                !formularioMovimiento.errors?.debitoCreditoInvalido,
+            }"
+          />
+
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioMovimiento.controls['credito'],
+            }"
+          ></ng-container>
+        </div>
+
+        <div
+          *ngIf="
+            formularioMovimiento.errors?.debitoCreditoInvalido &&
+            (formularioMovimiento.controls['debito'].touched ||
+              formularioMovimiento.controls['credito'].touched)
+          "
+          class="fv-plugins-message-container"
+        >
+          <div class="fv-help-block">
+            <span role="alert">
+              Debe ingresar un valor en débito o crédito, pero no en ambos.
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.CONTABILIDAD.BASE"
+          ></label>
+          <input
+            formControlName="base"
+            class="form-control"
+            type="number"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioMovimiento.controls['base'].touched &&
+                formularioMovimiento.controls['base'].invalid,
+              'is-valid':
+                formularioMovimiento.controls['base'].touched &&
+                formularioMovimiento.controls['base'].valid,
+            }"
+          />
+        </div>
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.COMUNES.DETALLE"
+          ></label>
+          <input
+            formControlName="detalle"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioMovimiento.controls['detalle'].touched &&
+                formularioMovimiento.controls['detalle'].invalid,
+              'is-valid':
+                formularioMovimiento.controls['detalle'].touched &&
+                formularioMovimiento.controls['detalle'].valid,
+            }"
+          />
+        </div>
+      </div>
     </section>
   </app-card>
 </form>
