@@ -16,6 +16,9 @@ import { FiltroComponent } from '../../../../../../comun/componentes/ui/tabla/fi
 import { FilterCondition } from 'src/app/core/interfaces/filtro.interface';
 import { FilterTransformerService } from 'src/app/core/services/filter-transformer.service';
 import { MOVIMIENTO_FILTERS } from '@modulos/contabilidad/domain/mapeos/movimiento.mapeo';
+import { Router } from '@angular/router';
+import { MovimientoService } from '@modulos/contabilidad/servicios/movimiento.service';
+import { combineLatest, finalize } from 'rxjs';
 
 @Component({
   selector: 'app-movimiento-lista',
@@ -39,6 +42,8 @@ export class MovimientoListaComponent extends General implements OnInit {
   parametrosApi: ParametrosApi = {};
   private _generalService = inject(GeneralService);
   private _filterTransformerService = inject(FilterTransformerService);
+  private _router = inject(Router);
+  private _movimientoService= inject(MovimientoService);
 
   public MOVIMIENTO_FILTERS = MOVIMIENTO_FILTERS;
 
@@ -74,6 +79,7 @@ export class MovimientoListaComponent extends General implements OnInit {
           debito: documento.debito,
           credito: documento.credito,
           detalle: documento.detalle,
+          saldo_inicial: documento.saldo_inicial,
         }));
         this.changeDetectorRef.detectChanges();
       });
@@ -98,6 +104,10 @@ export class MovimientoListaComponent extends General implements OnInit {
     this.consultarLista();
   }
 
+  navegarEditar(id: number) {
+    this._router.navigate(['contabilidad/especial/movimiento/editar', id]);
+  }  
+
   descargarExcel() {
     const params: ParametrosApi = {
       ...this.parametrosApi,
@@ -108,4 +118,28 @@ export class MovimientoListaComponent extends General implements OnInit {
     this.descargarArchivosService.exportarExcel('contabilidad/movimiento', params);
     this.changeDetectorRef.detectChanges();
   }
+
+  eliminarRegistros(data: Number[]) {
+    if (data.length > 0) {
+      const eliminarSolicitudes = data.map((id) => {
+        return this._movimientoService.eliminarMovimiento(Number(id));
+      });
+
+      combineLatest(eliminarSolicitudes)
+        .pipe(
+          finalize(() => {
+            this.consultarLista();
+          }),
+        )
+        .subscribe((respuesta: any) => {
+          this.alertaService.mensajaExitoso('Registro eliminado');
+          this.changeDetectorRef.detectChanges();
+        });
+    } else {
+      this.alertaService.mensajeError(
+        'Error',
+        'No se han seleccionado registros para eliminar',
+      );
+    }
+  }  
 }

@@ -104,7 +104,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   @Input() visualizarColumnaDetalle: boolean = true;
   @Input() visualizarColumnaSeleccionar: boolean = true;
   @Input() visualizarBtnImportar: boolean = true;
-  @Input() verBotonImportarDropdown: boolean = false;;
+  @Input() verBotonImportarDropdown: boolean = false;
   @Input() visualizarBtnExportar: boolean = true;
   @Input() visualizarBtnExportarZip: boolean = true;
   @Input() visualizarDropdownNuevo: boolean = false;
@@ -291,7 +291,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
   botonExtra(nombreComponente: BotonesExtras) {
     if (nombreComponente.emitirValorCheck) {
-      nombreComponente.registrosSeleccionados = this.arrRegistrosEliminar
+      nombreComponente.registrosSeleccionados = this.arrRegistrosEliminar;
     }
     this.emitirClickBotonExtra.emit(nombreComponente);
   }
@@ -456,7 +456,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
 
             // Formato YYYY-MM-DD
             const fechaFormateada = `${year}-${month}-${day}`;
-            return fechaFormateada
+            return fechaFormateada;
           }
           return valor;
         // En caso de que el tipo de campo no sea ninguno de los anteriores
@@ -529,6 +529,8 @@ export class TablaComponent extends General implements OnInit, OnChanges {
       return !item['estado_aprobado'].valor;
     } else if (item.hasOwnProperty('estado_terminado')) {
       return !item['estado_terminado'].valor;
+    } else if (item.hasOwnProperty('saldo_inicial')) {
+      return item['saldo_inicial'].valor;
     } else {
       return true;
     }
@@ -555,7 +557,7 @@ export class TablaComponent extends General implements OnInit, OnChanges {
   }
 
   consultarComponentesBotonesExtrasNuevo() {
-    this.construirBotonesExtrasNuevo()
+    this.construirBotonesExtrasNuevo();
   }
 
   construirBotonesExtrasNuevo() {

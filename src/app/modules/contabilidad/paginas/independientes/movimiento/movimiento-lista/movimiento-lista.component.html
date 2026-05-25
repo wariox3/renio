@@ -21,17 +21,19 @@
           verBotonEjemplo: true,
           verBotonImportar: true,
         }"
-        [visualizarColumnaEditar]="false"
+        [visualizarColumnaEditar]="true"
         [visualizarColumnaDetalle]="false"
-        [visualizarColumnaSeleccionar]="false"
+        [visualizarColumnaSeleccionar]="true"
         [visualizarBtnImportar]="true"
         [visualizarBtnExportar]="true"
         [visualizarBtnNuevo]="false"
-        [visualizarBtnEliminar]="false"
+        [visualizarBtnEliminar]="true"
         [visualizarBtnExportarZip]="false"
         (emitirPaginacion)="cambiarPaginacion($event)"
+        (emitirNavegarEditar)="navegarEditar($event)"
         (emitirExportarExcel)="descargarExcel()"
         (emitirConsultarLista)="consultarLista()"
+        (emitirRegistraEliminar)="eliminarRegistros($event)"        
       >
       </app-comun-tabla>
     </div>

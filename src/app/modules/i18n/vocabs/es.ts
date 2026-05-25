@@ -461,6 +461,7 @@ export const locale = {
           APELLIDO1: 'Primer apellido',
           APELLIDO2: 'Segundo apellido',
           NUMERO: 'Número',
+          FECHA: 'Fecha',
           FECHADESDE: 'Fecha desde',
           FECHAHASTA: 'Fecha hasta',
           BARRIO: 'Barrio',
@@ -502,6 +503,7 @@ export const locale = {
           CUENTAGASTO: 'Cuenta gasto',
           CUENTADEPRECIACION: 'Cuenta depreciación',
           SEDE: 'Sede',
+          DETALLE: 'Detalle',
         },
         PERFIL: {
           NOMBREMOSTRAR: 'Nombre para mostrar',
@@ -835,6 +837,11 @@ export const locale = {
         },
         CONTABILIDAD: {
           PERMITEASIENTO: 'Permite asiento',
+          DEBITO: 'Débito',
+          CREDITO: 'Crédito',
+          CUENTA: 'Cuenta',
+          PERIODO: 'Periodo',
+          BASE: 'Base',
         },
         CONFIGURACIONHUMANO: {
           FACTOR: 'Factor',
@@ -1359,6 +1366,7 @@ export const locale = {
         GRUPO: 'Grupo',
         COMPROBANTE: 'Comprobante',
         DETALLE: 'Detalle',
+        SALDO_INICIAL: 'Saldo inicial',
       },
       GUIA: {
         ID: 'ID',
