@@ -28,4 +28,5 @@ export class MovimientoService extends Subdominio {
       {},
     );
   }  
+  
 }
