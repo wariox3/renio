@@ -140,6 +140,7 @@ export default class CierreFormularioComponent
     this.formularioCierre = this.formBuilder.group({
       empresa: [1],
       contacto: ['', Validators.compose([Validators.required])],
+      soporte: [null],
       contactoNombre: [''],
       fecha: [
         fechaVencimientoInicial,
@@ -194,6 +195,7 @@ export default class CierreFormularioComponent
           comentario: respuesta.comentario,
           grupo_contabilidad_nombre: respuesta.grupo_contabilidad__nombre,
           grupo_contabilidad: respuesta.grupo_contabilidad,
+          soporte: respuesta.soporte,
         });
 
         this.changeDetectorRef.detectChanges();

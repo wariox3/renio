@@ -200,7 +200,28 @@
           ></ng-container>
         </div>
       </div>
-
+      <div class="row mb-5">
+        <div class="col-md-6 col-sm-12">
+          <label
+            class="form-label"
+            translate="FORMULARIOS.CAMPOS.COMUNES.SOPORTE"
+          ></label>
+          <input
+            formControlName="soporte"
+            class="form-control"
+            type="text"
+            autocomplete="off"
+            [ngClass]="{
+              'is-invalid':
+                formularioCierre.controls['soporte'].touched &&
+                formularioCierre.controls['soporte'].invalid,
+              'is-valid':
+                formularioCierre.controls['soporte'].touched &&
+                formularioCierre.controls['soporte'].valid,
+            }"
+          />
+        </div>
+      </div>
       <div class="row mb-5">
         <div class="col-12">
           <ul
