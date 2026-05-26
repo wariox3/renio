@@ -269,6 +269,7 @@ export class DocumentoOpcionesComponent extends General implements OnInit {
           debito: documento.debito,
           credito: documento.credito,
           detalle: documento.detalle,
+          saldo_inicial: documento.saldo_inicial,
         }));
 
         this.totalDebito = Number(

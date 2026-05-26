@@ -10,4 +10,5 @@ export interface RegistroAutocompletarConMovimiento {
   debito: string;
   credito: string;
   detalle?: string
+  saldo_inicial?: boolean;
 }
