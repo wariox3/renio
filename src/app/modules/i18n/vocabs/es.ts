@@ -1119,6 +1119,7 @@ export const locale = {
         CUENTA_BANCO_NOMBRE: 'Cuenta banco',
         CUENTA_BANCO: 'Cuenta banco id',
         DOCUMENTO_REFERENCIA__NUMERO: 'Ref número',
+        SALDO_INICIAL: 'Saldo inicial',
       },
       ITEM: {
         ID: 'ID',
