@@ -9,6 +9,6 @@ export interface RegistroAutocompletarConMovimiento {
   base: string;
   debito: string;
   credito: string;
-  detalle?: string
-  saldo_inicial?: boolean;
+  detalle?: string;
+  saldo_inicial: boolean;
 }
