@@ -17,7 +17,7 @@ import {
   OnInit,
   Output,
   signal,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   FormBuilder,
@@ -95,7 +95,8 @@ import { TituloAccionComponent } from '../../../../../comun/componentes/titulo-a
 })
 export default class ContactoFormularioComponent
   extends General
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   formularioContacto: FormGroup;
   informacionContacto: any;
   arrCiudades: any[];
@@ -220,14 +221,17 @@ export default class ContactoFormularioComponent
       return false; // o true, dependiendo de tu lógica
     }
 
-    const numeroIdentificacion = this.formularioContacto.get('numero_identificacion')?.value;
+    const numeroIdentificacion = this.formularioContacto.get(
+      'numero_identificacion',
+    )?.value;
     const identificacion = this.formularioContacto.get('identificacion')?.value;
 
     const numeroIdentificacionCambio =
-      this.informacionContacto.numero_identificacion !== numeroIdentificacion
+      this.informacionContacto.numero_identificacion !== numeroIdentificacion;
 
     const identificacionIdCambio =
-      parseInt(this.informacionContacto.identificacion_id) !== parseInt(identificacion);
+      parseInt(this.informacionContacto.identificacion_id) !==
+      parseInt(identificacion);
 
     return numeroIdentificacionCambio || identificacionIdCambio;
   }
@@ -386,8 +390,8 @@ export default class ContactoFormularioComponent
         regimen: [1, Validators.compose([Validators.required])],
         barrio: [null, Validators.compose([Validators.maxLength(200)])],
         precio: [null],
-        plazo_pago: [1, Validators.compose([Validators.required])],
-        plazo_pago_proveedor: [1],
+        plazo_pago: [null],
+        plazo_pago_proveedor: [null],
         asesor: [null],
         cliente: [this.esCliente],
         proveedor: [this.esProvedor],
@@ -421,6 +425,8 @@ export default class ContactoFormularioComponent
           this.formularioContacto.get('apellido2')?.setValue(null);
         }
       });
+
+    this.configurarValidacionesDinamicas();
   }
 
   get obtenerFormularioCampos() {
@@ -617,16 +623,17 @@ export default class ContactoFormularioComponent
         RegistroAutocompletarGenIdentificacion[]
       >('general/identificacion/seleccionar/'),
       this._generalService.consultaApi<RegistroAutocompletarGenRegimen[]>(
-        'general/regimen/seleccionar/', {
-        inactivo: 'False'
-      }
+        'general/regimen/seleccionar/',
+        {
+          inactivo: 'False',
+        },
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenTipoPersona[]>(
         'general/tipo_persona/seleccionar/',
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenPrecio[]>(
         'general/precio/seleccionar/',
-        { venta: 'True' }
+        { venta: 'True' },
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenAsesor[]>(
         'general/asesor/seleccionar/',
@@ -636,13 +643,12 @@ export default class ContactoFormularioComponent
       ),
       this._generalService.consultaApi<RegistroAutocompletarGenBanco[]>(
         'general/banco/seleccionar/',
-          { limit: 50 }
+        { limit: 50 },
       ),
       this._generalService.consultaApi<
         RegistroAutocompletarGenCuentaBancoClase[]
       >('general/cuenta_banco_clase/seleccionar/'),
     ).subscribe((respuesta: any) => {
-
       this.arrIdentificacionSignal.set(respuesta[0]);
       this.arrIdentificacion = respuesta[0];
       this.arrRegimen = respuesta[1];
@@ -703,6 +709,9 @@ export default class ContactoFormularioComponent
 
         this.changeDetectorRef.detectChanges();
 
+        const plazoPagoId = respuesta.plazo_pago_id ? parseInt(respuesta.plazo_pago_id) : null;
+        const plazoPagoProveedorId = respuesta.plazo_pago_proveedor_id ? parseInt(respuesta.plazo_pago_proveedor_id) : null;        
+
         this.formularioContacto.patchValue({
           numero_identificacion: respuesta.numero_identificacion,
           digito_verificacion: respuesta.digito_verificacion,
@@ -723,8 +732,8 @@ export default class ContactoFormularioComponent
           regimen: respuesta.regimen_id,
           barrio: respuesta.barrio,
           precio: respuesta.precio_id,
-          plazo_pago: respuesta.plazo_pago_id,
-          plazo_pago_proveedor: parseInt(respuesta.plazo_pago_proveedor_id),
+          plazo_pago: plazoPagoId,           // Usar variable con parseInt o null
+          plazo_pago_proveedor: plazoPagoProveedorId, 
           asesor: respuesta.asesor_id,
           cliente: respuesta.cliente,
           proveedor: respuesta.proveedor,
@@ -741,7 +750,9 @@ export default class ContactoFormularioComponent
         );
         this.filtroIdentificacionSignal.update(() => respuesta.tipo_persona_id);
 
-        this.actualizarValidacionNumeroIdentificacion(parseInt(respuesta.identificacion_id));
+        this.actualizarValidacionNumeroIdentificacion(
+          parseInt(respuesta.identificacion_id),
+        );
 
         if (respuesta.tipo_persona_id === 1) {
           //1 es igual a juridico
@@ -841,7 +852,7 @@ export default class ContactoFormularioComponent
         error: () => {
           // Desactivar el estado de carga en caso de error
           this.isAutocompleteLoading.set(false);
-        }
+        },
       });
   }
 
@@ -865,26 +876,29 @@ export default class ContactoFormularioComponent
 
     if (tipoIdentificacionId === 7) {
       // Pasaporte: permite letras y números
-      this.campoTipo.set('text')
+      this.campoTipo.set('text');
       numeroIdentificacionControl?.setValidators([
         Validators.required,
         Validators.maxLength(20),
         Validators.pattern(/^[a-zA-Z0-9]+$/),
-        CampoNoCeroValidator.validar
+        CampoNoCeroValidator.validar,
       ]);
 
       // Establecer dígito de verificación en 0 para pasaporte
-      this.formularioContacto.patchValue({
-        digito_verificacion: 0,
-      }, { emitEvent: false });
+      this.formularioContacto.patchValue(
+        {
+          digito_verificacion: 0,
+        },
+        { emitEvent: false },
+      );
     } else {
       // Otros tipos de identificación: solo números
-      this.campoTipo.set('number')
+      this.campoTipo.set('number');
       numeroIdentificacionControl?.setValidators([
         Validators.required,
         Validators.maxLength(20),
         Validators.pattern(/^[0-9]+$/),
-        CampoNoCeroValidator.validar
+        CampoNoCeroValidator.validar,
       ]);
 
       // Si el valor actual contiene letras, limpiarlo
@@ -902,7 +916,7 @@ export default class ContactoFormularioComponent
 
     // Actualizar validaciones sin disparar eventos de cambio
     numeroIdentificacionControl?.updateValueAndValidity();
-    this.changeDetectorRef.detectChanges()
+    this.changeDetectorRef.detectChanges();
   }
 
   esPasaporte(): boolean {
@@ -918,5 +932,45 @@ export default class ContactoFormularioComponent
     } else {
       this.campoTipo.set('number');
     }
+  }
+
+  private configurarValidacionesDinamicas() {
+    const clienteControl = this.formularioContacto.get('cliente');
+    const proveedorControl = this.formularioContacto.get('proveedor');
+
+    clienteControl?.valueChanges.subscribe(() => {
+      this.actualizarValidaciones();
+    });
+
+    proveedorControl?.valueChanges.subscribe(() => {
+      this.actualizarValidaciones();
+    });
+
+    // Ejecutar al iniciar
+    this.actualizarValidaciones();
+  }
+
+  private actualizarValidaciones() {
+    const esCliente = this.formularioContacto.get('cliente')?.value;
+    const esProveedor = this.formularioContacto.get('proveedor')?.value;
+
+    const plazoPagoControl = this.formularioContacto.get('plazo_pago');
+    const plazoPagoProveedorControl = this.formularioContacto.get('plazo_pago_proveedor');
+
+    // CLIENTE
+    if (esCliente) {
+      plazoPagoControl?.setValidators([Validators.required]);
+    } else {
+      plazoPagoControl?.clearValidators();
+    }
+    plazoPagoControl?.updateValueAndValidity();
+
+    // PROVEEDOR
+    if (esProveedor) {
+      plazoPagoProveedorControl?.setValidators([Validators.required]);
+    } else {
+      plazoPagoProveedorControl?.clearValidators();
+    }
+    plazoPagoProveedorControl?.updateValueAndValidity();
   }
 }

@@ -251,6 +251,13 @@ export default class ImportarZipFacturaCompraComponent
     const subtotalRedondeado = Math.round(subtotal * 100) / 100;
     const totalRedondeado = Math.round(total * 100) / 100;
 
+    let plazo_pago_id = contacto?.plazo_pago_proveedor_id;
+    
+    // Si fecha y fecha_vence son iguales, forzar plazo_pago = 1 (pago de contado)
+    if (documento?.fecha && documento?.fecha_vence && documento.fecha === documento.fecha_vence) {
+        plazo_pago_id = '1';
+    }    
+
     const data = {
       empresa: 1,
       contacto: contacto?.contacto_id,
@@ -288,7 +295,7 @@ export default class ImportarZipFacturaCompraComponent
       descuento: 0,
       grupo_contabilidad:
         this.formularioFactura.get('grupo_contabilidad')?.value,
-      plazo_pago: contacto?.plazo_pago_proveedor_id,
+      plazo_pago: plazo_pago_id,
       detalles: [],
       pagos: [],
       referencia_cue: documento?.cue,

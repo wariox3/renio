@@ -160,8 +160,13 @@
                 [disabled]="isAutocompleteLoading()"
               >
                 <span *ngIf="!isAutocompleteLoading()">Autocompletar</span>
-                <span *ngIf="isAutocompleteLoading()" class="indicator-progress d-block">
-                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                <span
+                  *ngIf="isAutocompleteLoading()"
+                  class="indicator-progress d-block"
+                >
+                  <span
+                    class="spinner-border spinner-border-sm align-middle ms-2"
+                  ></span>
                   Cargando...
                 </span>
               </button>
@@ -892,9 +897,7 @@
             <option
               *ngFor="let precio of arrPrecios"
               [value]="precio.id"
-              [selected]="
-                precio.id === formularioContacto.value.precio_id
-              "
+              [selected]="precio.id === formularioContacto.value.precio_id"
             >
               {{ precio.nombre }}
             </option>
@@ -1134,11 +1137,19 @@
             <option
               *ngFor="let pago of arrPagos"
               [value]="pago.id"
-              [selected]="pago.id === formularioContacto.value.plazo_pago_id"
+              [selected]="pago.id === formularioContacto.value.plazo_pago_proveedor_id"
             >
               {{ pago.nombre }}
             </option>
           </select>
+          <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO' | translate,
+              control: formularioContacto.controls['plazo_pago_proveedor'],
+            }"
+          ></ng-container>
         </div>
       </div>
       <div class="row mb-4"></div>
