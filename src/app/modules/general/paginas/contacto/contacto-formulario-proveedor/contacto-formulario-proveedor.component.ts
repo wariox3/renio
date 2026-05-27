@@ -389,7 +389,7 @@ export default class ContactoFormularioProveedorComponent
         barrio: [null, Validators.compose([Validators.maxLength(200)])],
         precio: [null],
         plazo_pago: [1, null],
-        plazo_pago_proveedor: [1],
+        plazo_pago_proveedor: [null, Validators.compose([Validators.required])],
         asesor: [null],
         cliente: [this.esCliente],
         proveedor: [this.esProvedor],
