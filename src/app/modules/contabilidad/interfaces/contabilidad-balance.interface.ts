@@ -106,7 +106,7 @@ export interface MovimientoAuxiliarTercero extends MovimientoBalancePrueba {
 }
 
 export interface MovimientoEstadoResultados {
-    id: number;
+  id: number;
   cuenta_clase_id: number;
   cuenta_clase_nombre: string;
   cuenta_grupo_id: number;

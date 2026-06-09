@@ -20,6 +20,19 @@
             placeholder="Seleccione fecha final"
           />
         </div>
+
+        <div class="col-12 col-md-3 col-lg-3">
+          <label class="form-label">Cuenta grupo</label>
+          <app-comun-grupos
+            [iniciarFocusInputBusqueda]="false"
+            [style]="'height: 3.4rem;'"
+            [grupoCodigo]="grupoCodigo()"
+            [grupoNombre]="grupoNombre()"
+            (emitirArrGrupos)="agregarGrupoSeleccionado($event)"
+            (emitirLineaVacia)="limpiarGrupo()"            
+          ></app-comun-grupos>
+        </div>
+
       </div>
     </form>
   </section>
