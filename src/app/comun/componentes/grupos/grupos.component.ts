@@ -21,14 +21,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { asyncScheduler, tap, throttleTime } from 'rxjs';
 
 @Component({
-  selector: 'app-comun-cuenta-grupos',
+  selector: 'app-comun-grupos',
   standalone: true,
   imports: [CommonModule, TranslateModule, NgbDropdownModule, NgFor],
-  templateUrl: './cuenta-grupos.component.html',
-  styleUrls: ['./cuenta-grupos.component.css'],
+  templateUrl: './grupos.component.html',
+  styleUrls: ['./grupos.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CuentaGruposComponent
+export class GruposComponent
   extends General
   implements AfterViewInit, OnChanges
 {
@@ -87,7 +87,7 @@ export class CuentaGruposComponent
     const valorBusqueda = valor.split(' ')?.[0] || '';
     this._generalService
       .consultaApi<RegistroAutocompletarConGrupo[]>(
-        'contabilidad/cuenta_grupo/seleccionar/',
+        'contabilidad/grupo/seleccionar/',
         {
           codigo__startswith: valorBusqueda
         },
@@ -131,7 +131,7 @@ export class CuentaGruposComponent
 
     this._generalService
       .consultaApi<RegistroAutocompletarConGrupo>(
-        'contabilidad/cuenta_grupo/seleccionar/',
+        'contabilidad/grupo/seleccionar/',
         filtros,
       )
       .pipe(

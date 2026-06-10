@@ -17,14 +17,13 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { MovimientoBalancePruebaTercero, MovimientoEstadoResultados } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoEstadoResultados } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
 import { CuentaGruposComponent } from '@comun/componentes/cuenta-grupo/cuenta-grupos.component';
+import { GruposComponent } from '@comun/componentes/grupos/grupos.component';
 
 @Component({
   selector: 'app-base',
@@ -36,8 +35,7 @@ import { CuentaGruposComponent } from '@comun/componentes/cuenta-grupo/cuenta-gr
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
-    CuentasComponent,
-    ContactosComponent,
+    GruposComponent,
     CuentaGruposComponent,
   ],
   templateUrl: './estado-resultados.component.html',
@@ -92,7 +90,7 @@ export class EstadoResultadosComponent extends General implements OnInit {
         cuenta_codigo_desde: [''],
         cuenta_codigo_hasta: [''],
         contacto_id: [''],
-        cuenta_grupo_id: [''],
+        grupo_id: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -156,13 +154,14 @@ export class EstadoResultadosComponent extends General implements OnInit {
   agregarGrupoSeleccionado(grupo: {
     id: number;
     nombre: string;
+    codigo: string;
   }) {
-    this.formularioFiltros.get('cuenta_grupo_id')?.setValue(grupo.id);
+    this.formularioFiltros.get('grupo_id')?.setValue(grupo.id);
     this.grupoNombre.set(grupo.nombre);
   }
   
   limpiarGrupo() {
-    this.formularioFiltros.get('cuenta_grupo_id')?.setValue('');
+    this.formularioFiltros.get('grupo_id')?.setValue('');
     this.grupoNombre.set('');
     this.grupoCodigo.set('');
   }  
