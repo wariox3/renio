@@ -1,0 +1,50 @@
+<div class="">
+  <div ngbDropdown #ItemDropdown="ngbDropdown"
+  container="body"
+  class="p-0">
+    <div>
+      <input
+        [style]="style"
+        #inputItem
+        type="text"
+        formControlName="grupos"
+        ngbDropdownAnchor
+        class="cursor-pointer form-select form-select-sm w-100"
+        (focus)="consultarGrupos($event); ItemDropdown.open()"
+        (keyup)="aplicarFiltrosGrupos($event); ItemDropdown.open()"
+        [disabled]="documentoEnlazado"
+        [readonly]="documentoEnlazado"
+        [ngClass]="{ 'disabled-cursor': documentoEnlazado }"
+        [value]="construirNombre()"
+        [ngClass]="{
+          'is-invalid': campoInvalido,
+          'is-valid': grupoSeleccionada !== null
+        }"
+      />
+      <div
+        ngbDropdownMenu
+        aria-labelledby="dropdownBasic1"
+        class="dropdown-menu"
+      >
+      @if (arrGruposLista.length) {
+        <ng-container *ngFor="let grupo of arrGruposLista">
+          <button (click)="agregarGrupo(grupo)" type="button" ngbDropdownItem>
+            {{ grupo.codigo }} {{ grupo.nombre }}
+          </button>
+        </ng-container>
+      } @else {
+        <button ngbDropdownItem type="button">
+          No se encontraron resultados.
+        </button>
+      }
+      </div>
+    </div>
+  </div>
+  <div class="fv-plugins-message-container" *ngIf="campoInvalido">
+    <div class="fv-help-block">
+      <span role="alert"
+        >{{ "FORMULARIOS.VALIDACIONES.COMUNES.REQUERIDO" | translate }}
+      </span>
+    </div>
+  </div>
+</div>

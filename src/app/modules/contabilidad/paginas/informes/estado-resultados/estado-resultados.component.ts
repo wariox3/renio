@@ -17,13 +17,13 @@ import {
 import { General } from '@comun/clases/general';
 import { BtnExportarComponent } from '@comun/componentes/btn-exportar/btn-exportar.component';
 import { CardComponent } from '@comun/componentes/card/card.component';
-import { CuentasComponent } from '@comun/componentes/cuentas/cuentas.component';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
-import { MovimientoBalancePruebaTercero, MovimientoEstadoResultados } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
+import { MovimientoEstadoResultados } from '@modulos/contabilidad/interfaces/contabilidad-balance.interface';
 import { ContabilidadInformesService } from '@modulos/contabilidad/servicios/contabilidad-informes.service';
 import { NgbAccordionModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateModule } from '@ngx-translate/core';
-import { ContactosComponent } from '../../../../../comun/componentes/contactos/contactos.component';
+import { CuentaGruposComponent } from '@comun/componentes/cuenta-grupo/cuenta-grupos.component';
+import { GruposComponent } from '@comun/componentes/grupos/grupos.component';
 
 @Component({
   selector: 'app-base',
@@ -35,8 +35,8 @@ import { ContactosComponent } from '../../../../../comun/componentes/contactos/c
     ReactiveFormsModule,
     TranslateModule,
     BtnExportarComponent,
-    CuentasComponent,
-    ContactosComponent,
+    GruposComponent,
+    CuentaGruposComponent,
   ],
   templateUrl: './estado-resultados.component.html',
   styleUrl: './estado-resultados.component.scss',
@@ -54,6 +54,8 @@ export class EstadoResultadosComponent extends General implements OnInit {
   public cuentaHastaCodigo = signal<string>('');
   public cuentaDesdeNombre = signal<string>('');
   public contactoNombreCorto = signal<string>('');
+  public grupoCodigo = signal<string>('');
+  public grupoNombre = signal<string>('');
 
   constructor() {
     super();
@@ -88,6 +90,7 @@ export class EstadoResultadosComponent extends General implements OnInit {
         cuenta_codigo_desde: [''],
         cuenta_codigo_hasta: [''],
         contacto_id: [''],
+        grupo_id: [''],
       },
       {
         validator: this.fechaDesdeMenorQueFechaHasta(
@@ -148,6 +151,21 @@ export class EstadoResultadosComponent extends General implements OnInit {
     this.cuentaDesdeCodigo.set(cuenta.codigo);
   }
 
+  agregarGrupoSeleccionado(grupo: {
+    id: number;
+    nombre: string;
+    codigo: string;
+  }) {
+    this.formularioFiltros.get('grupo_id')?.setValue(grupo.id);
+    this.grupoNombre.set(grupo.nombre);
+  }
+  
+  limpiarGrupo() {
+    this.formularioFiltros.get('grupo_id')?.setValue('');
+    this.grupoNombre.set('');
+    this.grupoCodigo.set('');
+  }  
+
   agregarCuentaHastaSeleccionado(cuenta: {
     id: number;
     nombre: string;
@@ -165,6 +183,7 @@ export class EstadoResultadosComponent extends General implements OnInit {
     this.cuentaDesdeNombre.set('');
     this.cuentaDesdeCodigo.set('');
   }
+  
 
   limpiarCuentaHasta() {
     this.formularioFiltros.get('cuenta_hasta')?.setValue('');
