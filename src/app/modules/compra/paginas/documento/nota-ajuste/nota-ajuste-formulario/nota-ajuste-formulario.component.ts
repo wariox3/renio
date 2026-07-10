@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, signal, ViewChild } from '@angular/core';
 import { FormArray, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { General } from '@comun/clases/general';
 import { BuscarAvanzadoComponent } from '@comun/componentes/buscar-avanzado/buscar-avanzado.component';
@@ -86,6 +86,7 @@ export default class FacturaDetalleComponent
   public campoListaDocReferencia = DOCUMENTO_REFERENCIA_LISTA_BUSCAR_AVANZADO;
   public filtrosPermanentesNotaAjuste =
     NOTA_AJUSTE_DOCUMENTO_REFERENCIA_FILTRO_PERMANENTE;
+  public habilitarCargar = signal(false);
 
   constructor(
     private facturaService: FacturaService,
@@ -203,6 +204,7 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
+        this.habilitarCargar.set(true);
     }
     this.formularioFactura?.markAsDirty();
     this.formularioFactura?.markAsTouched();
@@ -288,6 +290,7 @@ export default class FacturaDetalleComponent
       this.formularioFactura
         .get('documento_referencia_numero')
         ?.setValue(dato.numero);
+      this.habilitarCargar.set(true);
     }
     this.changeDetectorRef.detectChanges();
   }
@@ -395,5 +398,25 @@ export default class FacturaDetalleComponent
 
   onSeleccionarGrupoChange(id: number) {
     this.formularioFactura.get('grupo_contabilidad')?.setValue(id);
+  }
+
+  cargarDocumentoReferencia() {
+    const documentoRef = this.formularioFactura.get(
+      'documento_referencia',
+    )?.value;
+    if (this.habilitarCargar()) {
+      this.facturaService
+        .consultarDetalle(documentoRef)
+        .subscribe((respuesta) => {
+          this._formularioFacturaService.cargarPagos(respuesta.documento);
+          this._formularioFacturaService.poblarDocumentoDetalle(
+            respuesta.documento.detalles,
+            false,
+          );
+
+          this.changeDetectorRef.detectChanges();
+        });
+      this.habilitarCargar.set(false);
+    }
   }
 }
