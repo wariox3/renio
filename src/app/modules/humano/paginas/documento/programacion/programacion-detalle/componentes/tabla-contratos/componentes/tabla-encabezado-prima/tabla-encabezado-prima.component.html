@@ -146,12 +146,13 @@
         </td>
         <td class="w-45px">
           @if(!programacion.estado_generado){
-          <app-modal-programacion-detalle-editar-contrato
+          <app-modal-programacion-detalle-editar-primas
             [programacionDetalleId]="programacionDetalle.id"
             [programacionId]="programacion.id"
+            [pagoTipoId]="programacion.pago_tipo_id"
             (emitirConsultarLista)="consultarDatos()"
           >
-          </app-modal-programacion-detalle-editar-contrato>
+          </app-modal-programacion-detalle-editar-primas>
           }
         </td>
         <td class="w-45px">

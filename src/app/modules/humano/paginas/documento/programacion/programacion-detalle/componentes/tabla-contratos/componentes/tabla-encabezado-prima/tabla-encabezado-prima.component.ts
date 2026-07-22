@@ -9,6 +9,7 @@ import { ModalProgramacionDetalleEditarContratoComponent } from '../../../modal-
 import { ModalProgramacionDetalleNominaResumenComponent } from '../../../modal-programacion-detalle-nomina-resumen/modal-programacion-detalle-nomina-resumen.component';
 import { TablaContratosService } from '../../services/tabla-contratos.service';
 import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
+import { ModalProgramacionDetalleEditarCesantiasComponent } from "../../../modal-programacion-detalle-editar-primas/modal-programacion-detalle-editar-primas.component";
 
 @Component({
   selector: 'app-tabla-encabezado-prima',
@@ -19,7 +20,8 @@ import { ParametrosApi } from 'src/app/core/interfaces/api.interface';
     CommonModule,
     ModalProgramacionDetalleNominaResumenComponent,
     ModalProgramacionDetalleEditarContratoComponent,
-  ],
+    ModalProgramacionDetalleEditarCesantiasComponent
+],
   templateUrl: './tabla-encabezado-prima.component.html',
   styleUrl: './tabla-encabezado-prima.component.scss',
 })
