@@ -327,6 +327,9 @@ export default class ContratoFormularioComponent
       ),
       this._generalService.consultaApi<RegistroAutocompletarHumCargo[]>(
         'humano/cargo/seleccionar/',
+          {
+            limit: 100
+          }
         ),
       this._generalService.consultaApi<RegistroAutocompletarHumEntidad[]>(
         'humano/entidad/seleccionar/',
