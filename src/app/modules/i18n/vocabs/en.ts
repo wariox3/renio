@@ -672,6 +672,7 @@ export const locale = {
           FACTOR: 'Factor',
           AUXILIOTRANSPORTE: 'Transportation Allowance',
           SALARIOMINIMO: 'Minimum Wage',
+          LICENCIANOREMUNERADAAFECTAPENSION: 'Unpaid Leave Affects Pension',
           CONCEPTO: 'Concept',
         },
         CONFIGURACIONGENREAL: {

@@ -91,6 +91,7 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
         '',
         Validators.compose([Validators.required, Validators.maxLength(20)]),
       ],
+      hum_licencia_no_remunerada_afecta_pension: [false],
     });
   }
 
@@ -102,6 +103,8 @@ export class ConfiguracionHumanoComponent extends General implements OnInit {
           hum_factor: respuesta.hum_factor,
           hum_salario_minimo: parseInt(respuesta.hum_salario_minimo),
           hum_auxilio_transporte: parseInt(respuesta.hum_auxilio_transporte),
+          hum_licencia_no_remunerada_afecta_pension:
+            respuesta.hum_licencia_no_remunerada_afecta_pension,
           hum_entidad_riesgo: respuesta.hum_entidad_riesgo,
         });
       });

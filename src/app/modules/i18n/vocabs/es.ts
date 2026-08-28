@@ -849,6 +849,8 @@ export const locale = {
           FACTOR: 'Factor',
           AUXILIOTRANSPORTE: 'Auxilio transporte',
           SALARIOMINIMO: 'Salario mínimo',
+          LICENCIANOREMUNERADAAFECTAPENSION:
+            'Licencia no remunerada afecta pensión',
           CONCEPTO: 'Concepto',
         },
         CONFIGURACIONGENREAL: {
