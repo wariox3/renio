@@ -8,5 +8,6 @@ export interface ConfiguracionEmpresa {
   gen_uvt: string;
   hum_factor: string;
   hum_salario_minimo: string;
+  hum_licencia_no_remunerada_afecta_pension: boolean;
   hum_auxilio_transporte: string;
 }
