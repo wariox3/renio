@@ -259,9 +259,12 @@
         },
       }"
       [configuracionDescargarEjemplo]="{
-        modelo: 'HumProgramacionDetalle',
-        serializador: 'ImportarHoras',
-        filtros: [{ propiedad: 'programacion_id', valor1: programacion.id }],
+        endpoint: 'humano/programacion_detalle',
+        queries: {
+          serializador: 'importar_horas',
+          excel_masivo: 'True',
+          programacion_id: programacion.id,
+        },
       }"
     />
   </div>

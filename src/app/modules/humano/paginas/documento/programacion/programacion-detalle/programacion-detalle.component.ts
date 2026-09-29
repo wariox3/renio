@@ -975,43 +975,28 @@ export default class ProgramacionDetalleComponent
   }
 
   descargarExcelNomina() {
-    const modelo = 'GenDocumento';
-    const params = {
-      modelo,
-      serializador: 'NominaExcel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'programacion_detalle__programacion_id',
-          operador: 'exact',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 10000,
+    const params: ParametrosApi = {
+      serializador: 'informe_nomina',
+      excel_informe: 'True',
+      programacion_detalle__programacion_id: this.programacion.id,
     };
 
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this._descargarArchivosService.exportarExcel('general/documento', params);
     this.dropdown.close();
     this.changeDetectorRef.detectChanges();
   }
 
   descargarExcelNominaDetalle() {
-    const modelo = 'GenDocumentoDetalle';
-    const params = {
-      modelo,
-      serializador: 'NominaExcel',
-      excel: true,
-      filtros: [
-        {
-          propiedad: 'documento__programacion_detalle__programacion_id',
-          operador: 'exact',
-          valor1: this.programacion.id,
-        },
-      ],
-      limite: 10000,
+    const params: ParametrosApi = {
+      serializador: 'informe_nomina_detalle',
+      excel_informe: 'True',
+      documento__programacion_detalle__programacion_id: this.programacion.id,
     };
 
-    this._descargarArchivosService.descargarExcelAdminsitrador(modelo, params);
+    this._descargarArchivosService.exportarExcel(
+      'general/documento_detalle',
+      params,
+    );
     this.dropdown.close();
     this.changeDetectorRef.detectChanges();
   }

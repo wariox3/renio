@@ -12,7 +12,6 @@ import { AnimationFadeInLeftDirective } from '@comun/directive/animation-fade-in
 import { AnimationFadeInUpDirective } from '@comun/directive/animation-fade-in-up.directive';
 import { DescargarArchivosService } from '@comun/services/descargar-archivos.service';
 import { HttpService } from '@comun/services/http.service';
-import { Filtros } from '@interfaces/comunes/componentes/filtros/filtros.interface';
 import { ImportarDetallesErrores } from '@interfaces/comunes/importar/importar-detalles-errores.interface';
 import { ImportarDetalles } from '@interfaces/comunes/importar/importar-detalles.interface';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -63,10 +62,8 @@ export class ImportarPersonalizadoComponent
     datosOpcionalesPayload?: object;
   };
   @Input() configuracionDescargarEjemplo: {
-    modelo: string;
-    serializador: string;
-    filtros: Filtros[];
-    ordenamientos?: string[];
+    endpoint: string;
+    queries: { [key: string]: any };
   };
 
   @Output() emitirPeticionCompletada: EventEmitter<any> = new EventEmitter();
@@ -154,20 +151,10 @@ export class ImportarPersonalizadoComponent
   }
 
   descargarEjemplo() {
-    this.activatedRoute.queryParams
-      .subscribe(() => {
-        this.descargarArchivosService.descargarExcelAdminsitrador(
-          this.configuracionDescargarEjemplo.modelo,
-          {
-            modelo: this.configuracionDescargarEjemplo.modelo,
-            serializador: this.configuracionDescargarEjemplo.serializador,
-            excel: true,
-            filtros: [...this.configuracionDescargarEjemplo.filtros],
-            ordenamientos: this.configuracionDescargarEjemplo.ordenamientos,
-          }
-        );
-      })
-      .unsubscribe();
+    this.descargarArchivosService.exportarExcel(
+      this.configuracionDescargarEjemplo.endpoint,
+      this.configuracionDescargarEjemplo.queries,
+    );
   }
 
   ngOnDestroy(): void {
@@ -178,7 +165,7 @@ export class ImportarPersonalizadoComponent
   descargarExcelError() {
     this.activatedRoute.queryParams
       .subscribe((parametro) => {
-        let nombreArchivo = `errores_${this.configuracionDescargarEjemplo.modelo}.xlsx`;
+        let nombreArchivo = `errores_${this.configuracionDescargarEjemplo.endpoint.split('/').pop()}.xlsx`;
 
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
           this.errorImportar
