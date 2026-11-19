@@ -1,0 +1,52 @@
+<ng-template #modalCertificado let-modal>
+  <div class="modal-body text-center p-10">
+    <i
+      class="ki-duotone ki-shield-cross fs-5tx mb-5"
+      [ngClass]="diasRestantes < 0 ? 'text-danger' : 'text-warning'"
+    >
+      <span class="path1"></span><span class="path2"></span
+      ><span class="path3"></span>
+    </i>
+
+    <h2 class="fw-bold mb-5">Certificado de firma digital</h2>
+
+    <p class="fs-5 text-gray-700 mb-8">
+      <ng-container [ngSwitch]="true">
+        <ng-container *ngSwitchCase="diasRestantes < 0">
+          Su certificado de firma digital <strong class="text-danger">ha vencido</strong>.
+        </ng-container>
+        <ng-container *ngSwitchCase="diasRestantes === 0">
+          Su certificado de firma digital <strong class="text-danger">vence hoy</strong>.
+        </ng-container>
+        <ng-container *ngSwitchDefault>
+          Su certificado de firma digital vence en
+          <strong class="text-warning"
+            >{{ diasRestantes }} {{ diasRestantes === 1 ? "día" : "días" }}</strong
+          >.
+        </ng-container>
+      </ng-container>
+      Para seguir disfrutando de sus servicios de facturación electrónica, por
+      favor contacte a nuestro equipo de soporte técnico
+      <a [href]="'tel:' + config.telefonoSoporte" class="fw-bold">{{
+        telefonoFormateado
+      }}</a
+      >.
+    </p>
+
+    <div class="d-flex justify-content-center gap-3">
+      <a
+        class="btn btn-success"
+        target="_blank"
+        rel="noopener"
+        [href]="'https://wa.me/57' + config.telefonoSoporte"
+      >
+        <i class="ki-duotone ki-whatsapp fs-2"
+          ><span class="path1"></span><span class="path2"></span></i>
+        Escribir por WhatsApp
+      </a>
+      <button type="button" class="btn btn-primary" (click)="modal.close()">
+        Entendido
+      </button>
+    </div>
+  </div>
+</ng-template>
