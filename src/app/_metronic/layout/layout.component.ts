@@ -28,6 +28,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { NgIf, NgClass } from '@angular/common';
+import { AlertaCertificadoComponent } from '@comun/componentes/alerta-certificado/alerta-certificado.component';
 
 @Component({
     selector: 'app-layout',
@@ -48,6 +49,7 @@ import { NgIf, NgClass } from '@angular/common';
         MessengerDrawerComponent,
         EngagesComponent,
         MainModalComponent,
+        AlertaCertificadoComponent,
         InviteUsersModalComponent,
         UpgradePlanModalComponent,
     ],
